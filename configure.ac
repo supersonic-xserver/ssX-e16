@@ -166,9 +166,9 @@ AC_ARG_ENABLE(sm,
   AC_HELP_STRING([--enable-sm], [compile with session management support @<:@default=yes@:>@]),,
   enable_sm=yes)
 if test "x$enable_sm" = "xyes"; then
-  AC_CHECK_HEADERS(X11/SM/SMlib.h,, enable_sm=no)
-  AC_CHECK_LIB(SM, SmcOpenConnection, SM_LIBS="-lSM -lICE", enable_sm=no)
-  AC_SUBST(SM_LIBS)
+  PKG_CHECK_MODULES(SM, sm ice, ,
+    enable_sm=no
+    AC_MSG_WARN([Session management support was requested but not found]) )
 fi
 if test "x$enable_sm" = "xyes"; then
   AC_DEFINE(USE_SM, 1, [Session management support])
@@ -197,23 +197,17 @@ if test "x$enable_xi2" = "xyes"; then
   PKG_CHECK_MODULES(XI, xi >= 1.3, AC_DEFINE(USE_XI2, 1, [XI2 support]), enable_xi2=no)
 fi
 
-# Is this reasonably correct?
 AC_ARG_ENABLE(glx,
   AC_HELP_STRING([--enable-glx], [compile with GLX support (experimental) @<:@default=no@:>@]),,
   enable_glx=no)
 if test "x$enable_glx" = "xyes"; then
-  AC_CHECK_HEADERS(GL/gl.h GL/glu.h GL/glx.h, , AC_MSG_ERROR([Cannot find GLX headers]))
-  AC_CHECK_LIB(GL, glXCreateNewContext,
-    [
-      AC_DEFINE(USE_GLX, 1, [GLX support])
-      GLX_LIBS="-lGL -lGLU"
-    ],[
-      AC_MSG_ERROR([Cannot find GLX libraries])
-    ])
-  AC_CHECK_LIB(GL, glXBindTexImageEXT,
+  PKG_CHECK_MODULES(GLX, gl glu,
+    AC_DEFINE(USE_GLX, 1, [GLX support])
+    AC_CHECK_LIB(GL, glXBindTexImageEXT,
       AC_DEFINE(HAVE_GLX_glXBindTexImageEXT, 1, [glXBindTexImageEXT is available]),
-      GLX_LIBS="$GLX_LIBS -ldl")
-  AC_SUBST(GLX_LIBS)
+      GLX_LIBS="$GLX_LIBS -ldl"),
+    enable_glx=no
+    AC_MSG_WARN([GL support was requested but not found]) )
 fi
 AM_CONDITIONAL(ENABLE_GLX, test "x$enable_glx" = "xyes")
 
@@ -221,19 +215,6 @@ AC_CHECK_LIB(Xext, XShapeQueryExtension,
   E_X_LIBS="-lXext $E_X_LIBS",
   AC_MSG_ERROR([Shape support is required but was not found]),
   -lX11)
-
-AC_ARG_ENABLE(xinerama,
-  AC_HELP_STRING([--enable-xinerama], [compile with xinerama support @<:@default=yes@:>@]),,
-  enable_xinerama=yes)
-if test "x$enable_xinerama" = "xyes"; then
-  AC_CHECK_LIB(Xinerama, XineramaQueryExtension,
-    AC_DEFINE(USE_XINERAMA, 1, [Xinerama support])
-    XINERAMA_LIBS="-lXinerama",
-    enable_xinerama=no
-    AC_MSG_WARN([Xinerama support was requested but not found]),
-    -lXext -lX11)
-fi
-AC_SUBST(XINERAMA_LIBS)
 
 AC_ARG_ENABLE(xsync,
   AC_HELP_STRING([--enable-xsync], [compile with SYNC support @<:@default=yes@:>@]),,
@@ -246,17 +227,25 @@ if test "x$enable_xsync" = "xyes"; then
     -lX11)
 fi
 
+AC_ARG_ENABLE(xinerama,
+  AC_HELP_STRING([--enable-xinerama], [compile with xinerama support @<:@default=yes@:>@]),,
+  enable_xinerama=yes)
+if test "x$enable_xinerama" = "xyes"; then
+  PKG_CHECK_MODULES(XINERAMA, xinerama,
+    AC_DEFINE(USE_XINERAMA, 1, [Xinerama support]),
+    enable_xinerama=no
+    AC_MSG_WARN([Xinerama support was requested but not found]) )
+fi
+
 AC_ARG_ENABLE(xscrnsaver,
   AC_HELP_STRING([--enable-xscrnsaver],
                  [compile with ScreenSaver support (experimental/not useful) @<:@default=no@:>@]),,
   enable_xscrnsaver=no)
 if test "x$enable_xscrnsaver" = "xyes"; then
-  AC_CHECK_LIB(Xss, XScreenSaverQueryExtension,
-    AC_DEFINE(USE_XSCREENSAVER, 1, [ScreenSaver support])
-    E_X_LIBS="-lXss $E_X_LIBS",
+  PKG_CHECK_MODULES(XSCREENSAVER, xscrnsaver,
+    AC_DEFINE(USE_XSCREENSAVER, 1, [ScreenSaver support]),
     enable_xscrnsaver=no
-    AC_MSG_WARN([ScreenSaver support was requested but not found]),
-    -lXext -lX11)
+    AC_MSG_WARN([ScreenSaver support was requested but not found]) )
 fi
 
 AC_ARG_ENABLE(xrandr,
@@ -277,30 +266,23 @@ AC_ARG_ENABLE(xrender,
   AC_HELP_STRING([--enable-xrender], [compile with Render support @<:@default=yes@:>@]),,
   enable_xrender=yes)
 if test "x$enable_xrender" = "xyes"; then
-  AC_CHECK_LIB(Xrender, XRenderQueryExtension,
-    AC_DEFINE(USE_XRENDER, 1, [Render support])
-    E_X_LIBS="-lXrender $E_X_LIBS",
+  PKG_CHECK_MODULES(XRENDER, xrender,
+    AC_DEFINE(USE_XRENDER, 1, [Render support]),
     enable_xrender=no
-    AC_MSG_WARN([Render support was requested but not found]),
-    -lX11)
-  AC_CHECK_HEADERS(X11/extensions/Xrender.h,,,[#include <X11/Xlib.h>])
+    AC_MSG_WARN([Render support was requested but not found]) )
 fi
 
-# FIXME - Do this properly
 AC_ARG_ENABLE(composite,
   AC_HELP_STRING([--enable-composite], [compile with Composite support @<:@default=yes@:>@]),,
   enable_composite=yes)
 if test "x$enable_xrender" != "xyes"; then enable_composite=no; fi
 if test "x$enable_composite" = "xyes"; then
-  AC_CHECK_LIB(Xcomposite, XCompositeQueryExtension,
+  PKG_CHECK_MODULES(XCOMPOSITE, xcomposite,, enable_composite=no)
+  PKG_CHECK_MODULES(XDAMAGE, xdamage,, enable_composite=no)
+  PKG_CHECK_MODULES(XFIXES, xfixes,, enable_composite=no)
+  if test "x$enable_composite" = "xyes"; then
     AC_DEFINE(USE_COMPOSITE, 1, [Composite support])
-    E_X_LIBS="-lXcomposite -lXdamage -lXfixes $E_X_LIBS",
-    enable_composite=no,
-    -lXext -lX11)
-  AC_CHECK_HEADERS(X11/extensions/Xcomposite.h ,, enable_composite=no, [#include <X11/Xlib.h>])
-  AC_CHECK_HEADERS(X11/extensions/Xdamage.h    ,, enable_composite=no, [#include <X11/Xlib.h>])
-  AC_CHECK_HEADERS(X11/extensions/Xfixes.h     ,, enable_composite=no, [#include <X11/Xlib.h>])
-  if test "x$enable_composite" != "xyes"; then
+  else
     AC_MSG_WARN([Composite support was requested but required component was not found])
   fi
 fi
@@ -327,13 +309,11 @@ if test "x$enable_zoom" = "xyes"; then
   fi
 fi
 if test "x$enable_zoom" = "xxf86vm"; then
-  AC_CHECK_LIB(Xxf86vm, XF86VidModeQueryExtension,
+  PKG_CHECK_MODULES(XXF86VM, xxf86vm,
     AC_DEFINE(ENABLE_ZOOM, 1, [Zoom Support])
-    AC_DEFINE(USE_ZOOM_XF86VM, 1, [Use xf86vm for zooming (deprecated)])
-    E_X_LIBS="-lXxf86vm $E_X_LIBS",
+    AC_DEFINE(USE_ZOOM_XF86VM, 1, [Use xf86vm for zooming (deprecated)]),
     enable_zoom=no
-    AC_MSG_WARN([Zoom support was requested but not found]),
-    -lXext -lX11)
+    AC_MSG_WARN([Zoom support was requested but not found]) )
 fi
 if test "x$enable_zoom" = "xxrandr"; then
   if test "x$have_randr_13" = "xy"; then

@@ -144,12 +144,18 @@ LDADD = \
 	$(IMLIB2_LIBS)		\
 	$(MODULE_LIBS)		\
 	$(GLX_LIBS)		\
+	$(XCOMPOSITE_LIBS)	\
+	$(XDAMAGE_LIBS)		\
+	$(XFIXES_LIBS)		\
+	$(XRENDER_LIBS)		\
 	$(XI_LIBS)		\
 	$(XRANDR_LIBS)		\
 	$(XPRESENT_LIBS)	\
 	$(X_LIBS)		\
 	$(SM_LIBS)		\
 	$(XINERAMA_LIBS)	\
+	$(XSCREENSAVER_LIBS)	\
+	$(XXF86VM_LIBS)		\
 	$(X_EXTRA_LIBS)		\
 	$(E_X_LIBS)		\
 	$(DBUS_LIBS)		\
