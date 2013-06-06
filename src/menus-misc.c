@@ -458,6 +458,7 @@ MenuCreateFromBorders(const char *name, MenuStyle * ms)
    Border            **lst;
    int                 i, num;
    MenuItem           *mi;
+   const char         *bname;
 
    m = MenuCreate(name, _("Border"), NULL, ms);
 
@@ -467,13 +468,13 @@ MenuCreateFromBorders(const char *name, MenuStyle * ms)
 
    for (i = 0; i < num; i++)
      {
+	bname = BorderGetName(lst[i]);
+	if (*bname == '_')
+	   continue;
 	/* if its not internal (ie doesnt start with _ ) */
-	if (lst[i]->name[0] != '_')
-	  {
-	     Esnprintf(s, sizeof(s), "wop * bo %s", lst[i]->name);
-	     mi = MenuItemCreate(lst[i]->name, NULL, s, NULL);
-	     MenuAddItem(m, mi);
-	  }
+	Esnprintf(s, sizeof(s), "wop * bo %s", bname);
+	mi = MenuItemCreate(bname, NULL, s, NULL);
+	MenuAddItem(m, mi);
      }
    Efree(lst);
 

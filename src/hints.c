@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2015 Kim Woelders
+ * Copyright (C) 2003-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -385,7 +385,7 @@ EHintsSetInfo(const EWin * ewin)
 			     (unsigned int *)c, ENL_DATA_ITEMS);
 
    ex_window_prop_string_set(EwinGetClientXwin(ewin), E16_ATOM_WIN_BORDER,
-			     ewin->normal_border->name);
+			     BorderGetName(ewin->normal_border));
 
    if (EDebug(EDBUG_TYPE_SNAPS))
       Eprintf("Snap set einf  %#x: %4d+%4d %4dx%4d: %s\n",
