@@ -26,69 +26,17 @@
 
 #include "eimage.h"
 #include "etypes.h"
-#include "list.h"
 #include "xtypes.h"
 
-typedef struct {
-   int                 min, max;
-} WinLimit;
-
-typedef struct {
-   int                 originbox;
-   struct {
-      int                 percent;
-      int                 absolute;
-   } x                , y;
-} WinPoint;
-
-typedef struct {
-   WinLimit            width, height;
-   WinPoint            topleft, bottomright;
-} Geometry;
-
-typedef struct {
-   Geometry            geom;
-   ImageClass         *iclass;
-   ActionClass        *aclass;
-   TextClass          *tclass;
-   ECursor            *ec;
-   signed char         ontop;
-   int                 flags;
-   char                keep_for_shade;
-} WinPart;
-
-struct _border {
-   dlist_t             list;
-   char               *name;
-   char               *group_border_name;
-   EImageBorder        border;
-   int                 num_winparts;
-   WinPart            *part;
-   char                no_extent;
-   char                changes_shape;
-   char                shadedir;
-   char                throwaway;
-   unsigned int        ref_count;
-   ActionClass        *aclass;
-};
-
-struct _ewinbit {
-   EWin               *ewin;	/* Belongs to */
-   Win                 win;
-   int                 x, y, w, h;
-   int                 cx, cy, cw, ch;
-   char                state;
-   char                expose;
-   char                left;
-   ImageState         *is;
-   TextState          *ts;
-};
-
-/* borders.c */
 Border             *BorderFind(const char *name);
 const char         *BorderGetName(const Border * b);
 int                 BorderCanShade(const Border * b);
+const EImageBorder *BorderGetSize(const Border * b);
+int                 BorderGetShadedir(const Border * b);
+ActionClass        *BorderGetAclass(const Border * b);
+
 int                 BorderConfigLoad(FILE * fs);
+
 void                EwinBorderSelect(EWin * ewin);
 void                EwinBorderDetach(EWin * ewin);
 void                EwinBorderSetTo(EWin * ewin, const Border * b);
@@ -98,8 +46,10 @@ void                EwinBorderMinShadeSize(const EWin * ewin, int *mw, int *mh);
 void                EwinBorderUpdateInfo(EWin * ewin);
 void                EwinBorderChange(EWin * ewin, const Border * b, int normal);
 void                EwinBorderSetInitially(EWin * ewin, const char *name);
+const Border       *EwinBorderGetGroupBorder(const EWin * ewin);
 int                 BorderWinpartIndex(EWin * ewin, Win win);
 void                BorderCheckState(EWin * ewin, XEvent * ev);
+
 Border             *BorderCreateFiller(int w, int h, int sw, int sh);
 Border            **BordersGetList(int *pnum);
 

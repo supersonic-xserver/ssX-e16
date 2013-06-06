@@ -49,6 +49,61 @@
 #define EWIN_BORDER_TITLE_EVENT_MASK \
   (EWIN_BORDER_PART_EVENT_MASK)
 
+typedef struct {
+   int                 min, max;
+} WinLimit;
+
+typedef struct {
+   int                 originbox;
+   struct {
+      int                 percent;
+      int                 absolute;
+   } x                , y;
+} WinPoint;
+
+typedef struct {
+   WinLimit            width, height;
+   WinPoint            topleft, bottomright;
+} Geometry;
+
+typedef struct {
+   Geometry            geom;
+   ImageClass         *iclass;
+   ActionClass        *aclass;
+   TextClass          *tclass;
+   ECursor            *ec;
+   signed char         ontop;
+   int                 flags;
+   char                keep_for_shade;
+} WinPart;
+
+struct _border {
+   dlist_t             list;
+   char               *name;
+   char               *group_border_name;
+   EImageBorder        border;
+   int                 num_winparts;
+   WinPart            *part;
+   char                no_extent;
+   char                changes_shape;
+   char                shadedir;
+   char                throwaway;
+   unsigned int        ref_count;
+   ActionClass        *aclass;
+};
+
+struct _ewinbit {
+   EWin               *ewin;	/* Belongs to */
+   Win                 win;
+   int                 x, y, w, h;
+   int                 cx, cy, cw, ch;
+   char                state;
+   char                expose;
+   char                left;
+   ImageState         *is;
+   TextState          *ts;
+};
+
 static              LIST_HEAD(border_list);
 
 static void         _BorderDestroy(Border * b);
@@ -485,6 +540,24 @@ BorderCanShade(const Border * b)
    return !b->no_extent;
 }
 
+const EImageBorder *
+BorderGetSize(const Border * b)
+{
+   return &b->border;
+}
+
+int
+BorderGetShadedir(const Border * b)
+{
+   return b->shadedir;
+}
+
+ActionClass        *
+BorderGetAclass(const Border * b)
+{
+   return b->aclass;
+}
+
 void
 EwinBorderSelect(EWin * ewin)
 {
@@ -668,6 +741,12 @@ void
 EwinBorderSetInitially(EWin * ewin, const char *name)
 {
    _EwinBorderAssign(ewin, BorderFind(name));
+}
+
+const Border       *
+EwinBorderGetGroupBorder(const EWin * ewin)
+{
+   return BorderFind(ewin->border->group_border_name);
 }
 
 static Border      *

@@ -336,18 +336,21 @@ MenuShow(Menu * m, char noshow)
 	if (b)
 	  {
 	     int                 sx, sy, sw, sh;
+	     const EImageBorder *pad;
+
+	     pad = BorderGetSize(b);
 
 	     head_num = ScreenGetGeometryByPointer(&sx, &sy, &sw, &sh);
 
-	     if (wx > sx + sw - mw - b->border.right)
-		wx = sx + sw - mw - b->border.right;
-	     if (wx < sx + b->border.left)
-		wx = sx + b->border.left;
+	     if (wx > sx + sw - mw - pad->right)
+		wx = sx + sw - mw - pad->right;
+	     if (wx < sx + pad->left)
+		wx = sx + pad->left;
 
-	     if (wy > sy + sh - mh - b->border.bottom)
-		wy = sy + sh - mh - b->border.bottom;
-	     if (wy < sy + b->border.top)
-		wy = sy + b->border.top;
+	     if (wy > sy + sh - mh - pad->bottom)
+		wy = sy + sh - mh - pad->bottom;
+	     if (wy < sy + pad->top)
+		wy = sy + pad->top;
 	  }
      }
 

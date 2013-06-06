@@ -535,7 +535,7 @@ _EwinGroupsShowHide(EWin * ewin, int group_index, char onoff)
    for (i = 0; i < num; i++)
      {
 	if (onoff == SET_ON)
-	   b = BorderFind(gwins[i]->border->group_border_name);
+	   b = EwinBorderGetGroupBorder(gwins[i]);
 	else
 	   b = gwins[i]->normal_border;
 

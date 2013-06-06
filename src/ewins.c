@@ -313,22 +313,22 @@ EwinManage(EWin * ewin)
 static void
 EwinSetGeometry(EWin * ewin)
 {
-   int                 x, y, l, r, t, b;
+   int                 x, y;
    int                 grav;
+   const EImageBorder *pad;
 
    grav = (ewin->state.identified) ? StaticGravity : ewin->icccm.grav;
 
    EwinGetPosition(ewin, ewin->client.x, ewin->client.y, grav, &x, &y);
 
-   l = ewin->border->border.left;
-   r = ewin->border->border.right;
-   t = ewin->border->border.top;
-   b = ewin->border->border.bottom;
+   pad = BorderGetSize(ewin->border);
 
-   ewin->client.x = x + l;
-   ewin->client.y = y + t;
+   ewin->client.x = x + pad->left;
+   ewin->client.y = y + pad->top;
 
-   EoMoveResize(ewin, x, y, ewin->client.w + l + r, ewin->client.h + t + b);
+   EoMoveResize(ewin, x, y,
+		ewin->client.w + pad->left + pad->right,
+		ewin->client.h + pad->top + pad->bottom);
 }
 
 static void
@@ -570,10 +570,13 @@ void
 EwinGetPosition(const EWin * ewin, int x, int y, int grav, int *px, int *py)
 {
    int                 bw, bd_lr, bd_tb;
+   const EImageBorder *pad;
 
    bw = ewin->client.bw;
-   bd_lr = ewin->border->border.left + ewin->border->border.right;
-   bd_tb = ewin->border->border.top + ewin->border->border.bottom;
+
+   pad = BorderGetSize(ewin->border);
+   bd_lr = pad->left + pad->right;
+   bd_tb = pad->top + pad->bottom;
 
    if (grav == 0)
       grav = ewin->icccm.grav;
@@ -596,7 +599,7 @@ EwinGetPosition(const EWin * ewin, int x, int y, int grav, int *px, int *py)
 	x -= bd_lr - bw;
 	break;
      case StaticGravity:
-	x -= ewin->border->border.left;
+	x -= pad->left;
 	break;
      default:
 	break;
@@ -620,7 +623,7 @@ EwinGetPosition(const EWin * ewin, int x, int y, int grav, int *px, int *py)
 	y -= bd_tb - bw;
 	break;
      case StaticGravity:
-	y -= ewin->border->border.top;
+	y -= pad->top;
 	break;
      default:
 	break;
@@ -1116,12 +1119,13 @@ EwinWithdraw(EWin * ewin, Win to)
 
    if (xwin == EwinGetContainerXwin(ewin))
      {
+	const EImageBorder *pad = BorderGetSize(ewin->border);
+
 	/* Park the client window on the new root */
 	x = ewin->client.x;
 	y = ewin->client.y;
 	ETranslateCoordinates(EwinGetClientWin(ewin), VROOT,
-			      -ewin->border->border.left,
-			      -ewin->border->border.top, &x, &y, NULL);
+			      -pad->left, -pad->top, &x, &y, NULL);
 	EReparentWindow(EwinGetClientWin(ewin), to, x, y);
 	HintsDelWindowHints(ewin);
      }
@@ -1659,18 +1663,18 @@ EwinBorderGetName(const EWin * ewin)
 void
 EwinBorderGetSize(const EWin * ewin, int *bl, int *br, int *bt, int *bb)
 {
-   const Border       *b = ewin->border;
+   const EImageBorder *pad = BorderGetSize(ewin->border);
 
-   if (!b)
+   if (!pad)
      {
 	*bl = *br = *bt = *bb = 0;
 	return;
      }
 
-   *bl = b->border.left;
-   *br = b->border.right;
-   *bt = b->border.top;
-   *bb = b->border.bottom;
+   *bl = pad->left;
+   *br = pad->right;
+   *bt = pad->top;
+   *bb = pad->bottom;
 }
 
 void
@@ -2523,8 +2527,8 @@ EwinHandleEventsClient(Win win __UNUSED__, XEvent * ev, void *prm)
      case FocusOut:
 	if (ev->xfocus.detail == NotifyInferior)
 	   break;
-	if (ewin->border->aclass)
-	   ActionclassEvent(ewin->border->aclass, ev, ewin);
+	if (BorderGetAclass(ewin->border))
+	   ActionclassEvent(BorderGetAclass(ewin->border), ev, ewin);
 	FocusHandleChange(ewin, ev);
 	break;
 
