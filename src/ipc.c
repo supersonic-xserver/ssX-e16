@@ -27,7 +27,7 @@
 
 #include "E.h"
 #include "aclass.h"
-#include "borders.h"		/* FIXME - Should not be here */
+#include "borders.h"
 #include "desktops.h"
 #include "emodule.h"
 #include "eobj.h"
@@ -35,7 +35,7 @@
 #include "ewin-ops.h"
 #include "focus.h"
 #include "grabs.h"
-#include "hints.h"		/* FIXME - Should not be here */
+#include "hints.h"
 #include "screen.h"
 #include "session.h"
 #include "settings.h"
@@ -579,8 +579,7 @@ IpcWinop(const WinOp * wop, EWin * ewin, const char *prm)
 	else if (!strcmp(param1, "??"))
 	  {
 	     IpcPrintf("client location: %d %d\n",
-		       EoGetX(ewin) + ewin->border->border.left,
-		       EoGetY(ewin) + ewin->border->border.top);
+		       ewin->client.x, ewin->client.y);
 	  }
 	else
 	  {
