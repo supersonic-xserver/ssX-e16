@@ -25,6 +25,10 @@
 
 #include <math.h>
 #include <X11/Xlib.h>
+#if USE_XRENDER
+#define FX_USE_RENDER 1
+#include <X11/extensions/Xrender.h>
+#endif
 
 #include "E.h"
 #include "animation.h"
@@ -59,7 +63,15 @@ typedef struct {
    EX_Pixmap           above;
    int                 count;
    float               incv, inch, incx;
+#if FX_USE_RENDER
+   EX_Picture          pict_buf;
+   EX_Picture          pict_win;
+#if USE_COMPOSITE
+   EX_Picture          pict_win_clip;
+#endif
+#else
    GC                  gc1;
+#endif
 } FXData;
 
 static void
@@ -80,16 +92,32 @@ _FxSetup(FXData * d, unsigned int height)
 	   d->root = EobjGetXwin(bgeo);
 	d->above = ECreatePixmap(d->win, WinGetW(VROOT), height, 0);
 
+#if FX_USE_RENDER
+	XRenderPictureAttributes pa;
+
+	d->pict_buf = EPictureCreate(NULL, d->above);
+	d->pict_win = EPictureCreate(NULL, d->root);
+#if USE_COMPOSITE
+	d->pict_win_clip = EPictureCreate(NULL, d->root);
+#endif
+	pa.subwindow_mode = ClipByChildren;
+	XRenderChangePicture(disp, d->pict_win, CPSubwindowMode, &pa);
+#else
 	XGCValues           xgcv;
 
 	xgcv.subwindow_mode = ClipByChildren;
 	if (!d->gc1)
 	   d->gc1 = EXCreateGC(d->root, GCSubwindowMode, &xgcv);
+#endif
      }
 
 #if USE_COMPOSITE
+#if FX_USE_RENDER
+   EPictureSetClip(d->pict_win_clip, ECompMgrChildClipRegion());
+#else
    /* As of composite 0.4 we need to set the clip region */
    EGCSetClip(d->gc1, ECompMgrChildClipRegion());
+#endif
 #endif
 }
 
@@ -104,7 +132,15 @@ _FxCleanup(FXData * d, int h)
      }
    else
      {
+#if FX_USE_RENDER
+	EPictureDestroy(d->pict_buf);
+	EPictureDestroy(d->pict_win);
+#if USE_COMPOSITE
+	EPictureDestroy(d->pict_win_clip);
+#endif
+#else
 	EXFreeGC(d->gc1);
+#endif
 
 	EClearArea(d->win, 0, WinGetH(VROOT) - h, WinGetW(VROOT), h);
 #if USE_COMPOSITE
@@ -119,6 +155,25 @@ _FxCopyArea(FXData * d, int out, int src_x, int src_y, int dst_x, int dst_y,
 {
    EX_ID               src, dst;
 
+#if FX_USE_RENDER
+   if (out)
+     {
+	src = d->pict_buf;
+#if USE_COMPOSITE
+	dst = d->pict_win_clip;
+#else
+	dst = d->pict_win;
+#endif
+     }
+   else
+     {
+	src = d->pict_win;
+	dst = d->pict_buf;
+     }
+
+   XRenderComposite(disp, PictOpSrc, src, NoXID, dst,
+		    src_x, src_y, 0, 0, dst_x, dst_y, width, height);
+#else
    if (out)
      {
 	src = d->above;
@@ -134,6 +189,7 @@ _FxCopyArea(FXData * d, int out, int src_x, int src_y, int dst_x, int dst_y,
 
 	EXCopyArea(src, dst, src_x, src_y, width, height, dst_x, dst_y);
      }
+#endif
 }
 
 /****************************** RIPPLES *************************************/
