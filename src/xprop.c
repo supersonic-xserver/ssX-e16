@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -133,7 +133,7 @@ static int
 _ex_window_prop32_list_get(EX_Window win, EX_Atom atom,
 			   EX_Atom type, unsigned int **val, int num)
 {
-   unsigned char      *prop_ret;
+   unsigned long      *prop_ret;
    Atom                type_ret;
    unsigned long       bytes_after, num_ret;
    int                 format_ret;
@@ -143,7 +143,7 @@ _ex_window_prop32_list_get(EX_Window win, EX_Atom atom,
    prop_ret = NULL;
    if (XGetWindowProperty(_ex_disp, win, atom, 0, 0x7fffffff, False,
 			  type, &type_ret, &format_ret, &num_ret,
-			  &bytes_after, &prop_ret) != Success)
+			  &bytes_after, (unsigned char **)&prop_ret) != Success)
       return -1;
 
    if (type_ret != type || format_ret != 32)
@@ -172,7 +172,7 @@ _ex_window_prop32_list_get(EX_Window win, EX_Atom atom,
 		return 0;
 	  }
 	for (i = 0; i < num; i++)
-	   lst[i] = ((unsigned long *)prop_ret)[i];
+	   lst[i] = prop_ret[i];
      }
    if (prop_ret)
       XFree(prop_ret);

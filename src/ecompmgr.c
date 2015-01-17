@@ -475,8 +475,8 @@ make_gaussian_map(int r)
    int                 x, y;
    float               t, g;
 
-#ifdef __clang_analyzer__
-   c = malloc(sizeof(conv) + size * size * sizeof(float));
+#if 1				/* Avoid cast-align warnings */
+   c = (conv *) malloc(sizeof(conv) + size * size * sizeof(float));
 #else
    c = (conv *) EMALLOC(char, sizeof(conv) + size * size * sizeof(float));
 #endif

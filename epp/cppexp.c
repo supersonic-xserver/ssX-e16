@@ -1,6 +1,6 @@
 /* Parse C expressions for CCCP.
  * Copyright (C) 1987, 1992, 1994, 1995 Free Software Foundation.
- * Copyright (C) 2003-2011 Kim Woelders
+ * Copyright (C) 2003-2023 Kim Woelders
  * 
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -1056,8 +1056,8 @@ cpp_parse_expr(cpp_reader * pfile)
 		  memcpy((char *)new_stack, (char *)stack, old_size);
 	       }
 	     stack = new_stack;
-	     top = (struct operation *)((char *)new_stack + old_size);
-	     limit = (struct operation *)((char *)new_stack + new_size);
+	     top = (struct operation *)(void *)((char *)new_stack + old_size);
+	     limit = (struct operation *)(void *)((char *)new_stack + new_size);
 	  }
 	top->flags = flags;
 	top->rprio = rprio;

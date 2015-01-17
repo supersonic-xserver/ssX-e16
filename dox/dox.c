@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2007-2020 Kim Woelders
+ * Copyright (C) 2007-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -70,7 +70,7 @@ FindRootWindow(Display * dpy)
    Atom                a, at;
    int                 format_ret;
    unsigned long       bytes_after, num_ret;
-   unsigned char      *retval;
+   unsigned long      *retval;
 
    root_win = DefaultRootWindow(dpy);
 
@@ -82,17 +82,19 @@ FindRootWindow(Display * dpy)
    a = XInternAtom(dpy, "_NET_SUPPORTING_WM_CHECK", True);
 
    XGetWindowProperty(dpy, win1, a, 0, 1, False, XA_WINDOW, &at,
-		      &format_ret, &num_ret, &bytes_after, &retval);
+		      &format_ret, &num_ret, &bytes_after,
+		      (unsigned char **)&retval);
    if (!retval)
       goto done;
-   win2 = *((Window *) retval);
+   win2 = retval[0];
    XFree(retval);
 
    XGetWindowProperty(dpy, win2, a, 0, 1, False, XA_WINDOW, &at,
-		      &format_ret, &num_ret, &bytes_after, &retval);
+		      &format_ret, &num_ret, &bytes_after,
+		      (unsigned char **)&retval);
    if (!retval)
       goto done;
-   win3 = *((Window *) retval);
+   win3 = retval[0];
    XFree(retval);
 
    if (win2 != win3)
