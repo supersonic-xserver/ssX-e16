@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2017 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -74,30 +74,39 @@ FocusEnable(int on)
 static int
 FocusEwinValid(EWin * ewin, int want_on_screen, int click, int want_visible)
 {
+   int                 ok;
+
    if (!ewin)
       return 0;
 
-#if 0
-   Eprintf("%s: %#x %s: st=%d sh=%d inh=%d cl=%d(%d) vis=%d(%d)\n", __func__,
-	   EwinGetClientXwin(ewin), EwinGetTitle(ewin),
-	   ewin->state.state, EoIsShown(ewin), ewin->state.inhibit_focus,
-	   click, ewin->props.focusclick, want_visible, ewin->state.visibility);
-#endif
-
    if (ewin->state.inhibit_focus)
-      return 0;
+      ok = 0;
 
-   if (!EoIsMapped(ewin) || !EoIsShown(ewin) ||
-       ewin->state.state != EWIN_STATE_MAPPED)
-      return 0;
+   else if (!EoIsMapped(ewin) || !EoIsShown(ewin) ||
+	    ewin->state.state != EWIN_STATE_MAPPED)
+      ok = 0;
 
-   if (ewin->props.focusclick && !click)
-      return 0;
+   else if (ewin->props.focusclick && !click)
+      ok = 0;
 
-   if (want_visible && ewin->state.visibility == VisibilityFullyObscured)
-      return 0;
+   else if (want_visible && ewin->state.visibility == VisibilityFullyObscured)
+      ok = 0;
 
-   return !want_on_screen || EwinIsOnScreen(ewin);
+   else if (want_on_screen && !EwinIsOnScreen(ewin))
+      ok = 0;
+
+   else
+      ok = 1;
+
+#if 0
+   Eprintf
+      ("%s: %#x %s: st=%d sh=%d inh=%d ons=%d(%d) cl=%d(%d) vis=%d(%d): Ok=%d\n",
+       __func__, EwinGetClientXwin(ewin), EwinGetTitle(ewin),
+       ewin->state.state, EoIsShown(ewin), ewin->state.inhibit_focus,
+       want_on_screen, EwinIsOnScreen(ewin), click, ewin->props.focusclick,
+       want_visible, ewin->state.visibility, ok);
+#endif
+   return ok;
 }
 
 /*
