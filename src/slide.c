@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Kim Woelders
+ * Copyright (C) 2013-2017 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -83,7 +83,7 @@ typedef struct {
    int                 fx, fy, fw, fh;
    int                 tx, ty, tw, th;
    int                 mode;
-   char                warp;
+   int                 flags;
    char                firstlast;
 } ewin_slide_params;
 
@@ -113,10 +113,14 @@ _EwinSlideSizeTo(EObj * eo, int remaining, void *state)
 	   DrawEwinShape(ewin, p->mode, p->tx, p->ty,
 			 ewin->client.w, ewin->client.h, 2, 0);
 	EwinMove(ewin, p->tx, p->ty, MRF_NOCHECK_ONSCREEN | MRF_KEEP_MAXIMIZED);
-	if (p->warp)
+	if (p->flags & SLIDE_WARP)
 	  {
 	     EwinWarpTo(ewin, 1);
 	     FocusToEWin(ewin, FOCUS_SET);
+	  }
+	else if (p->flags & SLIDE_FOCUS)
+	  {
+	     FocusToEWin(ewin, FOCUS_EWIN_NEW);
 	  }
      }
 
@@ -151,6 +155,8 @@ EwinSlideSizeTo(EWin * ewin, int tx, int ty, int tw, int th,
 	  }
 	return NULL;
      }
+   if (!warp)
+      flags &= ~SLIDE_WARP;
 
    ewin->state.sliding = 1;
 
@@ -164,7 +170,7 @@ EwinSlideSizeTo(EWin * ewin, int tx, int ty, int tw, int th,
    p.th = th;
    p.mode = DrawEwinShapeNeedsGrab(mode) ? MR_OPAQUE : mode;
    p.firstlast = 0;
-   p.warp = warp;
+   p.flags = flags;
 
    if (speed < SPEED_MIN)
       speed = SPEED_MIN;
