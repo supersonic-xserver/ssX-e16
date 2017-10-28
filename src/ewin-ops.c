@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2017 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1012,7 +1012,7 @@ _EwinUnshadeStart(_ewin_shade_data * esd)
      {
      default:
      case SHADE_LEFT:
-	att.win_gravity = EastGravity;
+	att.win_gravity = NorthEastGravity;
 	esd->a = ewin->border->border.left + ewin->border->border.right;
 	esd->b = ewin->client.w + esd->a;
 	esd->c = 0;		/* Not used */
@@ -1021,7 +1021,7 @@ _EwinUnshadeStart(_ewin_shade_data * esd)
 	clx = -ewin->client.w;
 	break;
      case SHADE_RIGHT:
-	att.win_gravity = WestGravity;
+	att.win_gravity = NorthWestGravity;
 	esd->a = ewin->border->border.left + ewin->border->border.right;
 	esd->b = ewin->client.w + esd->a;
 	esd->c = esd->start.x + esd->start.w;	/* NB! w != a is possible */
@@ -1030,7 +1030,7 @@ _EwinUnshadeStart(_ewin_shade_data * esd)
 	cow = 1;
 	break;
      case SHADE_UP:
-	att.win_gravity = SouthGravity;
+	att.win_gravity = SouthEastGravity;
 	esd->a = ewin->border->border.top + ewin->border->border.bottom;
 	esd->b = ewin->client.h + esd->a;
 	esd->c = 0;		/* Not used */
@@ -1039,7 +1039,7 @@ _EwinUnshadeStart(_ewin_shade_data * esd)
 	cly = 1 - ewin->client.h;
 	break;
      case SHADE_DOWN:
-	att.win_gravity = SouthGravity;
+	att.win_gravity = SouthEastGravity;
 	esd->a = ewin->border->border.top + ewin->border->border.bottom;
 	esd->b = ewin->client.h + esd->a;
 	esd->c = esd->start.y + esd->start.h;	/* NB! h != a is possible */
