@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2017-04-16 15:27+0200\n"
+"POT-Creation-Date: 2017-11-18 21:24+0100\n"
 "PO-Revision-Date: 2009-11-09 14:47+0000\n"
 "Last-Translator: Bernt Holmberg <Unknown>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -463,7 +463,7 @@ msgstr "Båda sidor"
 msgid "End"
 msgstr "Slut"
 
-#: src/container.c:1651 src/focus.c:986
+#: src/container.c:1651 src/focus.c:995
 msgid "None"
 msgstr "Ingen"
 
@@ -701,116 +701,116 @@ msgstr ""
 "Din Xserver är troligen för gammal eller felkonfigurerad.\n"
 "Avslutar.\n"
 
-#: src/focus.c:827
+#: src/focus.c:836
 msgid "Focus follows pointer"
 msgstr "Fokus följer pekaren"
 
-#: src/focus.c:833
+#: src/focus.c:842
 msgid "Focus follows pointer sloppily"
 msgstr "Fokus följer pekaren slafsigt"
 
-#: src/focus.c:839
+#: src/focus.c:848
 msgid "Focus follows mouse clicks"
 msgstr "Fokus följer musklick"
 
-#: src/focus.c:849
+#: src/focus.c:858
 msgid "Clicking in a window always raises it"
 msgstr "Musklick i fönster lägger alltid överst"
 
-#: src/focus.c:857
+#: src/focus.c:866
 msgid "All new windows first get the focus"
 msgstr "Alla nya fönster får fokus först"
 
-#: src/focus.c:864
+#: src/focus.c:873
 msgid "New windows get the focus if their window group is focused"
 msgstr ""
 
-#: src/focus.c:869
+#: src/focus.c:878
 msgid "Only new dialog windows get the focus"
 msgstr "Bara nya dialogfönster får fokus"
 
-#: src/focus.c:876
+#: src/focus.c:885
 msgid "Only new dialogs whose owner is focused get the focus"
 msgstr "Bara nya dialoger vars ägare är fokuserade får fokus"
 
-#: src/focus.c:881
+#: src/focus.c:890
 msgid "Raise windows while switching focus"
 msgstr ""
 
-#: src/focus.c:887
+#: src/focus.c:896
 msgid "Send mouse pointer to window while switching focus"
 msgstr ""
 
-#: src/focus.c:893
+#: src/focus.c:902
 msgid "Always send mouse pointer to window on focus switch"
 msgstr ""
 
-#: src/focus.c:901
+#: src/focus.c:910
 msgid "Raise windows automatically"
 msgstr "Lägg fönster överst automatiskt"
 
-#: src/focus.c:907
+#: src/focus.c:916
 msgid "Autoraise delay:"
 msgstr "Lägga fönster överst fördröjning:"
 
-#: src/focus.c:920
+#: src/focus.c:929
 msgid "Display and use focus list"
 msgstr "Visa och använd fokuslista"
 
-#: src/focus.c:925
+#: src/focus.c:934
 msgid "Include sticky windows in focus list"
 msgstr "Ta med klibbiga fönster i fokuslistan"
 
-#: src/focus.c:930
+#: src/focus.c:939
 msgid "Include shaded windows in focus list"
 msgstr "Ta med skymda fönster i fokuslistan"
 
-#: src/focus.c:935
+#: src/focus.c:944
 msgid "Include iconified windows in focus list"
 msgstr "Ta med ikonifierade fönster i fokuslistan"
 
-#: src/focus.c:940
+#: src/focus.c:949
 msgid "Include windows on other desks in focus list"
 msgstr ""
 
-#: src/focus.c:945
+#: src/focus.c:954
 msgid "Focus windows while switching"
 msgstr "Fokusera fönster vid växling"
 
-#: src/focus.c:950
+#: src/focus.c:959
 #, fuzzy
 msgid "Outline windows while switching"
 msgstr "Fokusera fönster vid växling"
 
-#: src/focus.c:955
+#: src/focus.c:964
 msgid "Raise windows after focus switch"
 msgstr "Fönster överst efter fokusväxling"
 
-#: src/focus.c:960
+#: src/focus.c:969
 msgid "Send mouse pointer to window after focus switch"
 msgstr "Muspekaren flyttas till fönster efter fokusväxling"
 
-#: src/focus.c:970
+#: src/focus.c:979
 msgid "Focuslist image display policy (if one operation fails, try the next):"
 msgstr ""
 
-#: src/focus.c:974
+#: src/focus.c:983
 msgid "First E Icon, then App Icon"
 msgstr ""
 
-#: src/focus.c:980
+#: src/focus.c:989
 msgid "First App Icon, then E Icon"
 msgstr ""
 
-#: src/focus.c:994
+#: src/focus.c:1003
 msgid "Focus"
 msgstr ""
 
-#: src/focus.c:994
+#: src/focus.c:1003
 msgid "Focus Settings"
 msgstr "Fokusinställningar"
 
-#: src/focus.c:998
+#: src/focus.c:1007
 msgid ""
 "Enlightenment Focus\n"
 "Settings Dialog"
@@ -1100,30 +1100,30 @@ msgstr ""
 msgid "sound"
 msgstr ""
 
-#: src/ipc.c:1821
+#: src/ipc.c:1822
 msgid "Enlightenment IPC Commands Help\n"
 msgstr ""
 
-#: src/ipc.c:1825
+#: src/ipc.c:1826
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
 "\n"
 msgstr ""
 
-#: src/ipc.c:1827 src/ipc.c:1847 src/ipc.c:1859
+#: src/ipc.c:1828 src/ipc.c:1848 src/ipc.c:1860
 msgid "Commands currently available:\n"
 msgstr ""
 
-#: src/ipc.c:1845
+#: src/ipc.c:1846
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr ""
 
-#: src/ipc.c:1846
+#: src/ipc.c:1847
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr ""
 
-#: src/ipc.c:1848 src/ipc.c:1860
+#: src/ipc.c:1849 src/ipc.c:1861
 msgid "         <command>     : <description>\n"
 msgstr ""
 

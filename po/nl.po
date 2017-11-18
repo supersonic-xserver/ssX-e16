@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2017-04-16 15:27+0200\n"
+"POT-Creation-Date: 2017-11-18 21:24+0100\n"
 "PO-Revision-Date: 2009-11-09 14:39+0000\n"
 "Last-Translator: Yentl <y.v.t@scarlet.be>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -498,7 +498,7 @@ msgstr "Beide zijden"
 msgid "End"
 msgstr "Einde"
 
-#: src/container.c:1651 src/focus.c:986
+#: src/container.c:1651 src/focus.c:995
 msgid "None"
 msgstr "Geen"
 
@@ -742,120 +742,120 @@ msgstr ""
 "\n"
 "Applicatie wordt afgesloten.\n"
 
-#: src/focus.c:827
+#: src/focus.c:836
 msgid "Focus follows pointer"
 msgstr "Invoer volgt de muis"
 
-#: src/focus.c:833
+#: src/focus.c:842
 msgid "Focus follows pointer sloppily"
 msgstr "Invoer volgt de muis slordig"
 
-#: src/focus.c:839
+#: src/focus.c:848
 msgid "Focus follows mouse clicks"
 msgstr "Invoer volgt muis klikken"
 
-#: src/focus.c:849
+#: src/focus.c:858
 msgid "Clicking in a window always raises it"
 msgstr "Klikken in een venster brengt het altijd naar boven"
 
-#: src/focus.c:857
+#: src/focus.c:866
 msgid "All new windows first get the focus"
 msgstr "Alle niewe vensters krijgen de invoer"
 
-#: src/focus.c:864
+#: src/focus.c:873
 msgid "New windows get the focus if their window group is focused"
 msgstr ""
 
-#: src/focus.c:869
+#: src/focus.c:878
 msgid "Only new dialog windows get the focus"
 msgstr "Alleen nieuwe dialoog vensters krijgen de invoer"
 
-#: src/focus.c:876
+#: src/focus.c:885
 msgid "Only new dialogs whose owner is focused get the focus"
 msgstr ""
 "Alleen nieuwe dialoog vensters waarvan de eigenaar de invoer heeft krijgen "
 "de invoer"
 
-#: src/focus.c:881
+#: src/focus.c:890
 msgid "Raise windows while switching focus"
 msgstr "Venster naar voorgrond brengen bij het wisselen van focus"
 
-#: src/focus.c:887
+#: src/focus.c:896
 msgid "Send mouse pointer to window while switching focus"
 msgstr "Cursor verplaatsen naar het venster bij het wisselen van focus"
 
-#: src/focus.c:893
+#: src/focus.c:902
 msgid "Always send mouse pointer to window on focus switch"
 msgstr "Altijd cursor verplaatsen naar het venster bij wisselen van focus"
 
-#: src/focus.c:901
+#: src/focus.c:910
 msgid "Raise windows automatically"
 msgstr "Breng vensters automatisch naar voren"
 
-#: src/focus.c:907
+#: src/focus.c:916
 msgid "Autoraise delay:"
 msgstr "Wacht voor omhoogbrengen:"
 
-#: src/focus.c:920
+#: src/focus.c:929
 msgid "Display and use focus list"
 msgstr "Toon en gebruik een venster lijst"
 
-#: src/focus.c:925
+#: src/focus.c:934
 msgid "Include sticky windows in focus list"
 msgstr "Sticky vensters toevoegen aan focuslijst"
 
-#: src/focus.c:930
+#: src/focus.c:939
 msgid "Include shaded windows in focus list"
 msgstr "Schaduwvensters toevoegen aan focuslijst"
 
-#: src/focus.c:935
+#: src/focus.c:944
 msgid "Include iconified windows in focus list"
 msgstr "Geiconiseerde vensters toevoegen aan focuslijst"
 
-#: src/focus.c:940
+#: src/focus.c:949
 msgid "Include windows on other desks in focus list"
 msgstr "Vensters op andere bureaubladen toevoegen aan focuslijst"
 
-#: src/focus.c:945
+#: src/focus.c:954
 msgid "Focus windows while switching"
 msgstr "Focus vensters bij wisselen"
 
-#: src/focus.c:950
+#: src/focus.c:959
 #, fuzzy
 msgid "Outline windows while switching"
 msgstr "Focus vensters bij wisselen"
 
-#: src/focus.c:955
+#: src/focus.c:964
 msgid "Raise windows after focus switch"
 msgstr "Breng vensters naar voren na een invoer wisseling"
 
-#: src/focus.c:960
+#: src/focus.c:969
 msgid "Send mouse pointer to window after focus switch"
 msgstr "Stuur de muis naar het vester na een invoer wisseling"
 
-#: src/focus.c:970
+#: src/focus.c:979
 msgid "Focuslist image display policy (if one operation fails, try the next):"
 msgstr ""
 "Focuslijst afbeelding weergave beleid (als één operatie faalt, probeer de "
 "volgende):"
 
-#: src/focus.c:974
+#: src/focus.c:983
 msgid "First E Icon, then App Icon"
 msgstr "Eerst E Icoon, dan App Icoon"
 
-#: src/focus.c:980
+#: src/focus.c:989
 msgid "First App Icon, then E Icon"
 msgstr "Eerst App Icoon, dan E Icoon"
 
-#: src/focus.c:994
+#: src/focus.c:1003
 msgid "Focus"
 msgstr "Focus"
 
-#: src/focus.c:994
+#: src/focus.c:1003
 msgid "Focus Settings"
 msgstr "Invoer instellingen"
 
-#: src/focus.c:998
+#: src/focus.c:1007
 msgid ""
 "Enlightenment Focus\n"
 "Settings Dialog"
@@ -1146,11 +1146,11 @@ msgstr "composiet"
 msgid "sound"
 msgstr "geluid"
 
-#: src/ipc.c:1821
+#: src/ipc.c:1822
 msgid "Enlightenment IPC Commands Help\n"
 msgstr "Enlightenment IPC Commando's hulp\n"
 
-#: src/ipc.c:1825
+#: src/ipc.c:1826
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
@@ -1160,20 +1160,20 @@ msgstr ""
 "Gebruik \"help <commando>\" voor een individuele beschrijving\n"
 "\n"
 
-#: src/ipc.c:1827 src/ipc.c:1847 src/ipc.c:1859
+#: src/ipc.c:1828 src/ipc.c:1848 src/ipc.c:1860
 msgid "Commands currently available:\n"
 msgstr "Commando's momenteel beschikbaar:\n"
 
-#: src/ipc.c:1845
+#: src/ipc.c:1846
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr ""
 "Gebruik \"help full\" voor een volledige beschrijving van elk commando\n"
 
-#: src/ipc.c:1846
+#: src/ipc.c:1847
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr "Gebruik \"help <commando>\" voor een individuele beschrijving\n"
 
-#: src/ipc.c:1848 src/ipc.c:1860
+#: src/ipc.c:1849 src/ipc.c:1861
 msgid "         <command>     : <description>\n"
 msgstr "         <commando>     : <beschrijving>\n"
 

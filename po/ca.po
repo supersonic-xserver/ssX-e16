@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enlightenment\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2017-04-16 15:27+0200\n"
+"POT-Creation-Date: 2017-11-18 21:24+0100\n"
 "PO-Revision-Date: 2015-03-29 14:25+0000\n"
 "Last-Translator: JoanColl <Unknown>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -497,7 +497,7 @@ msgstr "Ambdós extrems"
 msgid "End"
 msgstr "Fi"
 
-#: src/container.c:1651 src/focus.c:986
+#: src/container.c:1651 src/focus.c:995
 msgid "None"
 msgstr "Cap"
 
@@ -743,117 +743,117 @@ msgstr ""
 "\n"
 "Sortint.\n"
 
-#: src/focus.c:827
+#: src/focus.c:836
 msgid "Focus follows pointer"
 msgstr "El punter segueix el focus"
 
-#: src/focus.c:833
+#: src/focus.c:842
 msgid "Focus follows pointer sloppily"
 msgstr "El focus segueix el punter de forma no precisa"
 
-#: src/focus.c:839
+#: src/focus.c:848
 msgid "Focus follows mouse clicks"
 msgstr "El focus segueix el clic de ratolí"
 
-#: src/focus.c:849
+#: src/focus.c:858
 msgid "Clicking in a window always raises it"
 msgstr "En fer clic a una finestra apareix"
 
-#: src/focus.c:857
+#: src/focus.c:866
 msgid "All new windows first get the focus"
 msgstr "Totes les noves finestres obtenen focus primer"
 
-#: src/focus.c:864
+#: src/focus.c:873
 msgid "New windows get the focus if their window group is focused"
 msgstr ""
 "Les noves finestres obtenen focus si el grup al que pertanyen està enfocat"
 
-#: src/focus.c:869
+#: src/focus.c:878
 msgid "Only new dialog windows get the focus"
 msgstr "Només obtenen focus les noves finestres de diàleg"
 
-#: src/focus.c:876
+#: src/focus.c:885
 msgid "Only new dialogs whose owner is focused get the focus"
 msgstr "Obtenen focus només els nous diàlegs on el propietari té el focus"
 
-#: src/focus.c:881
+#: src/focus.c:890
 msgid "Raise windows while switching focus"
 msgstr "Eleva finestres quan es canvia el focus"
 
-#: src/focus.c:887
+#: src/focus.c:896
 msgid "Send mouse pointer to window while switching focus"
 msgstr "Enviar punter del ratolí a la finestra mentre es canvia el focus"
 
-#: src/focus.c:893
+#: src/focus.c:902
 msgid "Always send mouse pointer to window on focus switch"
 msgstr "Envia sempre el punter de ratolí a la finestra quan en canvia el focus"
 
-#: src/focus.c:901
+#: src/focus.c:910
 msgid "Raise windows automatically"
 msgstr "Eleva la finestra automàticament"
 
-#: src/focus.c:907
+#: src/focus.c:916
 msgid "Autoraise delay:"
 msgstr "Retard d'elevació:"
 
-#: src/focus.c:920
+#: src/focus.c:929
 msgid "Display and use focus list"
 msgstr "Mostra i utilitza llista de focus"
 
-#: src/focus.c:925
+#: src/focus.c:934
 msgid "Include sticky windows in focus list"
 msgstr "Inclou finestres enganxoses a la llista de focus"
 
-#: src/focus.c:930
+#: src/focus.c:939
 msgid "Include shaded windows in focus list"
 msgstr "Inclou finestres ombrejades a la llista de focus"
 
-#: src/focus.c:935
+#: src/focus.c:944
 msgid "Include iconified windows in focus list"
 msgstr "Inclou finestres minimitzades a la llista de focus"
 
-#: src/focus.c:940
+#: src/focus.c:949
 msgid "Include windows on other desks in focus list"
 msgstr "Inclou finestres en altres escriptoris a la llista de focus"
 
-#: src/focus.c:945
+#: src/focus.c:954
 msgid "Focus windows while switching"
 msgstr "Focalitza finestres quan es canviïn"
 
-#: src/focus.c:950
+#: src/focus.c:959
 msgid "Outline windows while switching"
 msgstr "Esquema de finestres quan es canviïn"
 
-#: src/focus.c:955
+#: src/focus.c:964
 msgid "Raise windows after focus switch"
 msgstr "Eleva finestra després de canviar el focus"
 
-#: src/focus.c:960
+#: src/focus.c:969
 msgid "Send mouse pointer to window after focus switch"
 msgstr "Envia punter de ratolí a la finestra després de canviar el focus"
 
-#: src/focus.c:970
+#: src/focus.c:979
 msgid "Focuslist image display policy (if one operation fails, try the next):"
 msgstr ""
 "Política al mostrar imatges Focuslist (si una operació falla, prova això):"
 
-#: src/focus.c:974
+#: src/focus.c:983
 msgid "First E Icon, then App Icon"
 msgstr "Primer icona E, després icona App"
 
-#: src/focus.c:980
+#: src/focus.c:989
 msgid "First App Icon, then E Icon"
 msgstr "Primer icona App, després icona E"
 
-#: src/focus.c:994
+#: src/focus.c:1003
 msgid "Focus"
 msgstr "Focus"
 
-#: src/focus.c:994
+#: src/focus.c:1003
 msgid "Focus Settings"
 msgstr "Configuració de focus"
 
-#: src/focus.c:998
+#: src/focus.c:1007
 msgid ""
 "Enlightenment Focus\n"
 "Settings Dialog"
@@ -1142,11 +1142,11 @@ msgstr "composició"
 msgid "sound"
 msgstr "so"
 
-#: src/ipc.c:1821
+#: src/ipc.c:1822
 msgid "Enlightenment IPC Commands Help\n"
 msgstr "Ajuda de les ordres IPC d'Enlightenment\n"
 
-#: src/ipc.c:1825
+#: src/ipc.c:1826
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
@@ -1157,19 +1157,19 @@ msgstr ""
 "Utilitzeu \"help <ordre>\" per a una descripció d'una ordre individual\n"
 "\n"
 
-#: src/ipc.c:1827 src/ipc.c:1847 src/ipc.c:1859
+#: src/ipc.c:1828 src/ipc.c:1848 src/ipc.c:1860
 msgid "Commands currently available:\n"
 msgstr "Ordres actualment disponibles:\n"
 
-#: src/ipc.c:1845
+#: src/ipc.c:1846
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr "Utilitzeu \"help full\" per a descripcions completes de cada ordre\n"
 
-#: src/ipc.c:1846
+#: src/ipc.c:1847
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr "Utilitzeu \"help <ordre>\" per a descripció individual\n"
 
-#: src/ipc.c:1848 src/ipc.c:1860
+#: src/ipc.c:1849 src/ipc.c:1861
 msgid "         <command>     : <description>\n"
 msgstr "         <ordre>     : <descripció>\n"
 

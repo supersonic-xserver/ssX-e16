@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16 svn-rev69488\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2017-04-16 15:27+0200\n"
+"POT-Creation-Date: 2017-11-18 21:24+0100\n"
 "PO-Revision-Date: 2013-04-25 05:08+0000\n"
 "Last-Translator: Eliovir <Unknown>\n"
 "Language-Team: French\n"
@@ -499,7 +499,7 @@ msgstr "2 cotés"
 msgid "End"
 msgstr "Fin"
 
-#: src/container.c:1651 src/focus.c:986
+#: src/container.c:1651 src/focus.c:995
 msgid "None"
 msgstr "Aucune"
 
@@ -740,119 +740,119 @@ msgstr ""
 "\n"
 "Sortie.\n"
 
-#: src/focus.c:827
+#: src/focus.c:836
 msgid "Focus follows pointer"
 msgstr "Le focus suit le pointeur de la souris"
 
-#: src/focus.c:833
+#: src/focus.c:842
 msgid "Focus follows pointer sloppily"
 msgstr ""
 "Le focus suit le pointeur de la souris (sauf sur une zone vide du bureau)"
 
-#: src/focus.c:839
+#: src/focus.c:848
 msgid "Focus follows mouse clicks"
 msgstr "Le focus suit les clics de la souris"
 
-#: src/focus.c:849
+#: src/focus.c:858
 msgid "Clicking in a window always raises it"
 msgstr "Toujours élever une fenêtre qui reçoit un clic"
 
-#: src/focus.c:857
+#: src/focus.c:866
 msgid "All new windows first get the focus"
 msgstr "Toutes les nouvelles fenêtres obtiennent le focus"
 
-#: src/focus.c:864
+#: src/focus.c:873
 msgid "New windows get the focus if their window group is focused"
 msgstr "Les nouvelles fenêtres obtiennent le focus si leur groupe a le focus"
 
-#: src/focus.c:869
+#: src/focus.c:878
 msgid "Only new dialog windows get the focus"
 msgstr "Seules les nouvelles fenêtres de dialogue obtiennent le focus"
 
-#: src/focus.c:876
+#: src/focus.c:885
 msgid "Only new dialogs whose owner is focused get the focus"
 msgstr ""
 "Seules les nouvelles fenêtres de dialogue dont le parent a le\n"
 "focus obtiennent le focus."
 
-#: src/focus.c:881
+#: src/focus.c:890
 msgid "Raise windows while switching focus"
 msgstr "Élever les fenêtres pendant le changement de focus"
 
-#: src/focus.c:887
+#: src/focus.c:896
 msgid "Send mouse pointer to window while switching focus"
 msgstr "Envoyer la souris sur la fenêtre pendant le changement de focus"
 
-#: src/focus.c:893
+#: src/focus.c:902
 msgid "Always send mouse pointer to window on focus switch"
 msgstr "Toujours placer la souris sur la fenêtre qui obtient le focus"
 
-#: src/focus.c:901
+#: src/focus.c:910
 msgid "Raise windows automatically"
 msgstr "Élever les fenêtres automatiquement"
 
-#: src/focus.c:907
+#: src/focus.c:916
 msgid "Autoraise delay:"
 msgstr "Délai d'Auto-élévation:"
 
-#: src/focus.c:920
+#: src/focus.c:929
 msgid "Display and use focus list"
 msgstr "Afficher et utiliser la liste de fenêtres"
 
-#: src/focus.c:925
+#: src/focus.c:934
 msgid "Include sticky windows in focus list"
 msgstr "Inclure les fenêtres collées dans la liste de fenêtres"
 
-#: src/focus.c:930
+#: src/focus.c:939
 msgid "Include shaded windows in focus list"
 msgstr "Inclure les fenêtres enroulées dans la liste de fenêtres"
 
-#: src/focus.c:935
+#: src/focus.c:944
 msgid "Include iconified windows in focus list"
 msgstr "Inclure les fenêtres icônifiées dans la liste de fenêtres"
 
-#: src/focus.c:940
+#: src/focus.c:949
 msgid "Include windows on other desks in focus list"
 msgstr "Inclure les fenêtres des autres bureaux dans la liste de fenêtres"
 
-#: src/focus.c:945
+#: src/focus.c:954
 msgid "Focus windows while switching"
 msgstr "Mettre le focus sur la fenêtre sélectionnée dans la liste de fenêtres"
 
-#: src/focus.c:950
+#: src/focus.c:959
 msgid "Outline windows while switching"
 msgstr ""
 "Surligner les bordures de la fenêtre sélectionnée dans la liste de fenêtres"
 
-#: src/focus.c:955
+#: src/focus.c:964
 msgid "Raise windows after focus switch"
 msgstr "Élever les fenêtres après l'obtention du focus"
 
-#: src/focus.c:960
+#: src/focus.c:969
 msgid "Send mouse pointer to window after focus switch"
 msgstr "Placer le pointeur de souris sur la fenêtre après obtention du focus"
 
-#: src/focus.c:970
+#: src/focus.c:979
 msgid "Focuslist image display policy (if one operation fails, try the next):"
 msgstr "Afficher les icônes dans la liste de fenêtres dans l'ordre suivant:"
 
-#: src/focus.c:974
+#: src/focus.c:983
 msgid "First E Icon, then App Icon"
 msgstr "Icône E16 en premier, puis Icône de l'Application"
 
-#: src/focus.c:980
+#: src/focus.c:989
 msgid "First App Icon, then E Icon"
 msgstr "Icône de l'Application en premier, puis Icône E16"
 
-#: src/focus.c:994
+#: src/focus.c:1003
 msgid "Focus"
 msgstr "Focus"
 
-#: src/focus.c:994
+#: src/focus.c:1003
 msgid "Focus Settings"
 msgstr "Paramètres du Focus"
 
-#: src/focus.c:998
+#: src/focus.c:1007
 msgid ""
 "Enlightenment Focus\n"
 "Settings Dialog"
@@ -1138,11 +1138,11 @@ msgstr "Extension Composite"
 msgid "sound"
 msgstr "Système Son"
 
-#: src/ipc.c:1821
+#: src/ipc.c:1822
 msgid "Enlightenment IPC Commands Help\n"
 msgstr "Aide des commandes IPC\n"
 
-#: src/ipc.c:1825
+#: src/ipc.c:1826
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
@@ -1152,19 +1152,19 @@ msgstr ""
 "Tapez \"help <commande>\" pour une description individuelle\n"
 "\n"
 
-#: src/ipc.c:1827 src/ipc.c:1847 src/ipc.c:1859
+#: src/ipc.c:1828 src/ipc.c:1848 src/ipc.c:1860
 msgid "Commands currently available:\n"
 msgstr "Commandes disponibles actuellement:\n"
 
-#: src/ipc.c:1845
+#: src/ipc.c:1846
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr "Tapez \"help full\" pour une description de toutes les commandes\n"
 
-#: src/ipc.c:1846
+#: src/ipc.c:1847
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr "Tapez \"help <commande>\" pour une description individuelle\n"
 
-#: src/ipc.c:1848 src/ipc.c:1860
+#: src/ipc.c:1849 src/ipc.c:1861
 msgid "         <command>     : <description>\n"
 msgstr "         <commande>   : <description>\n"
 
