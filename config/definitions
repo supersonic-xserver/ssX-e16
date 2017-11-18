@@ -953,4 +953,158 @@ __END
 #define ADD_BACKGROUND_SCALED_RETAIN_ASPECT_ALIGN_BOTTOM(file)\
   __BACKGROUND_LAYER file 0 1 512 1024 1024 0
 
+/*********** Border creation macros *******************************/
+#define BEGIN_BORDER(name, left, right, top, bottom) \
+__BORDER __BGN; \
+  __NAME name; \
+  __BORDER_SIZE_LEFT left; \
+  __BORDER_SIZE_RIGHT right; \
+  __BORDER_SIZE_TOP top; \
+  __BORDER_SIZE_BOTTOM bottom
+
+#define BORDER_CHANGES_SHAPE(shape) \
+  __CHANGES_SHAPE shape
+
+#define BORDER_SHADE_DIRECTION(direction) \
+  __SHADE_DIRECTION direction
+
+#define BORDER_SHADE_UP \
+  __SHADE_DIRECTION __UP
+
+#define BEGIN_BORDER_PART(iclass, min_width, max_width, min_height, max_height) \
+__BORDER_PART __BGN; \
+  __ICLASS iclass; \
+  __MIN_WIDTH min_width; \
+  __MAX_WIDTH max_width; \
+  __MIN_HEIGHT min_height; \
+  __MAX_HEIGHT max_height
+
+#define BORDER_PART_KEEP_WHEN_SHADED \
+  __KEEP_WHEN_SHADED __ON
+
+#define BORDER_PART_ACTION(aclass) \
+  __ACLASS aclass
+
+#define BORDER_PART_CURSOR(cursor) \
+  __CURSOR cursor
+
+#define BORDER_PART_TITLE(tclass) \
+  __TCLASS tclass; \
+  __FLAGS __FLAG_TITLE
+
+#define BORDER_PART_TITLE_AND_ICON(tclass) \
+  __TCLASS tclass; \
+  __FLAGS __FLAG_TITLE_AND_ICON
+
+#define BORDER_PART_MINI_ICON \
+  __FLAGS __FLAG_MINI_ICON
+
+#define BORDER_PART_REGION(x1p, x1, y1p, y1, x2p, x2, y2p, y2) \
+  __TOPLEFT_ORIGIN -1; \
+  __TOPLEFT_X_PERCENTAGE x1p; \
+  __TOPLEFT_X_ABSOLUTE x1; \
+  __TOPLEFT_Y_PERCENTAGE y1p; \
+  __TOPLEFT_Y_ABSOLUTE y1; \
+  __BOTTOMRIGHT_ORIGIN -1; \
+  __BOTTOMRIGHT_X_PERCENTAGE x2p; \
+  __BOTTOMRIGHT_X_ABSOLUTE x2; \
+  __BOTTOMRIGHT_Y_PERCENTAGE y2p; \
+  __BOTTOMRIGHT_Y_ABSOLUTE y2
+
+#define END_BORDER_PART \
+  __END
+
+#define END_BORDER \
+__END
+
+/*********** Image creation macros ********************************/
+#define BEGIN_IMAGE(name) \
+__ICLASS __BGN; \
+  __NAME name
+
+#define IMAGE_NORMAL(file, fill, l, r, t, b) \
+  __NORMAL file; \
+  __FILLRULE fill; \
+  __EDGE_SCALING l r t b
+
+#define IMAGE_HILITED(file, fill, l, r, t, b) \
+  __HILITED file; \
+  __FILLRULE fill; \
+  __EDGE_SCALING l r t b
+
+#define IMAGE_CLICKED(file, fill, l, r, t, b) \
+  __CLICKED file; \
+  __FILLRULE fill; \
+  __EDGE_SCALING l r t b
+
+#define IMAGE_NORMAL_ACTIVE(file, fill, l, r, t, b) \
+  __NORMAL_ACTIVE file; \
+  __FILLRULE fill; \
+  __EDGE_SCALING l r t b
+
+#define IMAGE_HILITED_ACTIVE(file, fill, l, r, t, b) \
+  __HILITED_ACTIVE file; \
+  __FILLRULE fill; \
+  __EDGE_SCALING l r t b
+
+#define IMAGE_CLICKED_ACTIVE(file, fill, l, r, t, b) \
+  __CLICKED_ACTIVE file; \
+  __FILLRULE fill; \
+  __EDGE_SCALING l r t b
+
+#define IMAGE_NORMAL_STICKY(file, fill, l, r, t, b) \
+  __NORMAL_STICKY file; \
+  __FILLRULE fill; \
+  __EDGE_SCALING l r t b
+
+#define IMAGE_HILITED_STICKY(file, fill, l, r, t, b) \
+  __HILITED_STICKY file; \
+  __FILLRULE fill; \
+  __EDGE_SCALING l r t b
+
+#define IMAGE_CLICKED_STICKY(file, fill, l, r, t, b) \
+  __CLICKED_STICKY file; \
+  __FILLRULE fill; \
+  __EDGE_SCALING l r t b
+
+#define IMAGE_NORMAL_ACTIVE_STICKY(file, fill, l, r, t, b) \
+  __NORMAL_ACTIVE_STICKY file; \
+  __FILLRULE fill; \
+  __EDGE_SCALING l r t b
+
+#define IMAGE_NORMAL_ACTIVE_HILITED(file, fill, l, r, t, b) \
+  __NORMAL_ACTIVE_HILITED file; \
+  __FILLRULE fill; \
+  __EDGE_SCALING l r t b
+
+#define IMAGE_NORMAL_ACTIVE_CLICKED(file, fill, l, r, t, b) \
+  __NORMAL_ACTIVE_CLICKED file; \
+  __FILLRULE fill; \
+  __EDGE_SCALING l r t b
+
+#define IMAGE_HILITED_ACTIVE_STICKY(file, fill, l, r, t, b) \
+  __HILITED_ACTIVE_STICKY file; \
+  __FILLRULE fill; \
+  __EDGE_SCALING l r t b
+
+#define IMAGE_CLICKED_ACTIVE_STICKY(file, fill, l, r, t, b) \
+  __CLICKED_ACTIVE_STICKY file; \
+  __FILLRULE fill; \
+  __EDGE_SCALING l r t b
+
+#define IMAGE_PADDING(l, r, t, b) \
+  __PADDING l, r, t, b
+
+#define IMAGE_BEVEL(bevel) \
+  __BEVEL bevel
+
+#define IMAGE_ROTATE(rotate) \
+  __ROTATE rotate
+
+#define IMAGE_FLIP(flip) \
+  __FLIP flip
+
+#define END_IMAGE \
+__END
+
 #endif /* __E16_DEFINITIONS__ */
