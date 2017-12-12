@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2017 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -80,16 +80,17 @@ struct _menustyle {
 
 struct _menuitem {
    Menu               *menu;
-   ImageClass         *icon_iclass;
    char               *text;
+   char               *icon;
    char               *params;
    Menu               *child;
    char                state;
    PmapMask            pmm[3];
    Win                 win;
-   Win                 icon_win;
    short               icon_w;
    short               icon_h;
+   short               icon_x;
+   short               icon_y;
    short               text_w;
    short               text_h;
    short               text_x;
@@ -411,15 +412,15 @@ MenuStyleCreate(const char *name)
 }
 
 MenuItem           *
-MenuItemCreate(const char *text, ImageClass * iclass,
+MenuItemCreate(const char *text, const char *icon,
 	       const char *action_params, Menu * child)
 {
    MenuItem           *mi;
 
    mi = ECALLOC(MenuItem, 1);
 
-   mi->icon_iclass = iclass;
    mi->text = (text) ? Estrdup((text[0]) ? text : "?!?") : NULL;
+   mi->icon = Estrdup(icon);
    mi->params = Estrdup(action_params);
    mi->child = child;
    if (child)
@@ -625,6 +626,7 @@ MenuEmpty(Menu * m, int destroying)
 	     MenuDestroy(mi->child);
 	  }
 	Efree(mi->text);
+	Efree(mi->icon);
 	Efree(mi->params);
 	for (j = 0; j < 3; j++)
 	   PmapMaskFree(&(mi->pmm[j]));
@@ -632,7 +634,6 @@ MenuEmpty(Menu * m, int destroying)
 	   EDestroyWindow(mi->win);
 	else
 	   EventCallbackUnregister(mi->win, MenuItemHandleEvents, mi);
-	ImageclassFree(mi->icon_iclass);
 	Efree(mi);
      }
    Efree(m->items);
@@ -740,9 +741,9 @@ MenuRealize(Menu * m)
 	     m->items[i]->text_w = w;
 	     m->items[i]->text_h = h;
 	  }
-	if (m->items[i]->icon_iclass && Conf.menus.show_icons)
+	if (m->items[i]->icon && Conf.menus.show_icons)
 	  {
-	     im = ImageclassGetImage(m->items[i]->icon_iclass, 0, 0, 0);
+	     im = EImageLoad(m->items[i]->icon);
 	     if (im)
 	       {
 		  w = h = 0;
@@ -754,9 +755,6 @@ MenuRealize(Menu * m)
 		     EImageGetSize(im, &w, &h);
 		  m->items[i]->icon_w = w;
 		  m->items[i]->icon_h = h;
-		  m->items[i]->icon_win =
-		     ECreateWindow(m->items[i]->win, 0, 0, w, h, 0);
-		  EMapWindow(m->items[i]->icon_win);
 		  if (h > maxh)
 		     maxh = h;
 		  if (w > maxx2)
@@ -764,7 +762,10 @@ MenuRealize(Menu * m)
 		  EImageFree(im);
 	       }
 	     else
-		m->items[i]->icon_iclass = NULL;
+	       {
+		  Efree(m->items[i]->icon);
+		  m->items[i]->icon = NULL;
+	       }
 	  }
      }
 
@@ -831,27 +832,18 @@ MenuRealize(Menu * m)
 	     m->items[i]->text_x = pad_item->left + maxx2;
 	     m->items[i]->text_w = maxx1;
 	     m->items[i]->text_y = (maxh - m->items[i]->text_h) / 2;
-	     if (m->items[i]->icon_win)
-		EMoveWindow(m->items[i]->icon_win,
-			    pad_item->left +
-			    ((maxx2 - m->items[i]->icon_w) / 2),
-			    ((maxh - m->items[i]->icon_h) / 2));
+	     m->items[i]->icon_x = pad_item->left +
+		(maxx2 - m->items[i]->icon_w) / 2;
+	     m->items[i]->icon_y = (maxh - m->items[i]->icon_h) / 2;
 	  }
 	else
 	  {
 	     m->items[i]->text_x = pad_item->left;
 	     m->items[i]->text_w = maxx1;
 	     m->items[i]->text_y = (maxh - m->items[i]->text_h) / 2;
-	     if (m->items[i]->icon_win)
-		EMoveWindow(m->items[i]->icon_win,
-			    maxw - pad_item->right - maxx2 +
-			    ((maxx2 - m->items[i]->icon_w) / 2),
-			    ((maxh - m->items[i]->icon_h) / 2));
-	  }
-	if (m->items[i]->icon_iclass && Conf.menus.show_icons)
-	  {
-	     ImageclassApply(m->items[i]->icon_iclass, m->items[i]->icon_win,
-			     0, 0, STATE_NORMAL, ST_MENU_ITEM);
+	     m->items[i]->icon_x = maxw - pad_item->right - maxx2 +
+		(maxx2 - m->items[i]->icon_w) / 2;
+	     m->items[i]->icon_y = (maxh - m->items[i]->icon_h) / 2;
 	  }
 	if (x + maxw > mmw)
 	   mmw = x + maxw;
@@ -953,6 +945,7 @@ MenuDrawItem(Menu * m, MenuItem * mi, char shape, int state)
 	int                 item_type;
 	ImageClass         *ic;
 	PmapMask            pmm;
+	EImage             *im;
 
 	EGetGeometry(mi->win, NULL, &x, &y, &w, &h, NULL, NULL);
 
@@ -990,6 +983,14 @@ MenuDrawItem(Menu * m, MenuItem * mi, char shape, int state)
 		      _(mi->text), mi->text_x, mi->text_y, mi->text_w,
 		      mi->text_h, 17,
 		      TextclassGetJustification(m->style->tclass));
+	  }
+	if (mi->icon && Conf.menus.show_icons)
+	  {
+	     im = EImageLoad(mi->icon);
+	     EImageRenderOnDrawable(im, mi->win, mi_pmm->pmap, EIMAGE_BLEND,
+				    mi->icon_x, mi->icon_y,
+				    mi->icon_w, mi->icon_h);
+	     EImageFree(im);
 	  }
      }
 
@@ -1750,11 +1751,11 @@ MenuConfigLoad(FILE * fs)
    char                s5[FILEPATH_LEN_MAX];
    char               *p2, *p3;
    char               *txt = NULL;
+   char               *icon = NULL;
    const char         *params;
    int                 i1, i2, len;
    Menu               *m = NULL, *mm;
    MenuItem           *mi;
-   ImageClass         *ic = NULL;
 
    while (GetLine(s, sizeof(s), fs))
      {
@@ -1773,8 +1774,8 @@ MenuConfigLoad(FILE * fs)
 	     if (i2 != CONFIG_OPEN)
 		goto done;
 	     m = NULL;
-	     ic = NULL;
 	     _EFREE(txt);
+	     _EFREE(icon);
 	     continue;
 	  case CONFIG_CLOSE:
 	     err = 0;
@@ -1801,10 +1802,10 @@ MenuConfigLoad(FILE * fs)
 	     continue;
 
 	  case MENU_ITEM:
-	     ic = NULL;
-	     if (strcmp("NULL", s2))
-		ic = ImageclassFind(s2, 0);
 	     _EFREE(txt);
+	     _EFREE(icon);
+	     if (strcmp("NULL", s2))
+		icon = Estrdup(s2);
 	     if (p3 && *p3)
 		txt = Estrdup(p3);
 	     continue;
@@ -1826,7 +1827,7 @@ MenuConfigLoad(FILE * fs)
 	     MenuSetTitle(m, p2);
 	     break;
 	  case MENU_ACTION:
-	     if ((txt) || (ic))
+	     if (txt || icon)
 	       {
 		  char                ok = 1;
 
@@ -1839,21 +1840,21 @@ MenuConfigLoad(FILE * fs)
 		    }
 		  if (ok)
 		    {
-		       mi = MenuItemCreate(txt, ic, p2, NULL);
+		       mi = MenuItemCreate(txt, icon, p2, NULL);
 		       MenuAddItem(m, mi);
 		    }
-		  ic = NULL;
 		  _EFREE(txt);
+		  _EFREE(icon);
 	       }
 	     break;
 	  case MENU_SUBMENU:
 	     len = 0;
 	     sscanf(p3, "%s %n", s3, &len);
-	     ic = NULL;
+	     _EFREE(icon);
 	     if (strcmp("NULL", s3))
-		ic = ImageclassFind(s3, 1);
+		icon = Estrdup(s3);
 	     mm = MenuFind(s2, NULL);
-	     mi = MenuItemCreate(p3 + len, ic, NULL, mm);
+	     mi = MenuItemCreate(p3 + len, icon, NULL, mm);
 	     MenuAddItem(m, mi);
 	     break;
 	  default:

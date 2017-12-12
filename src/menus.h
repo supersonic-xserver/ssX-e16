@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2007 Kim Woelders
+ * Copyright (C) 2004-2017 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -42,7 +42,7 @@ Menu               *MenuCreate(const char *name, const char *title,
 void                MenuEmpty(Menu * m, int destroying);
 int                 MenuLoad(Menu * m);
 Menu               *MenuFind(const char *name, const char *param);
-MenuItem           *MenuItemCreate(const char *text, ImageClass * ic,
+MenuItem           *MenuItemCreate(const char *text, const char *icon,
 				   const char *action_params, Menu * child);
 void                MenuSetInternal(Menu * m);
 void                MenuSetDynamic(Menu * m);

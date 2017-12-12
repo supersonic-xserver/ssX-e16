@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2017 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -33,7 +33,6 @@
 #include "ewins.h"
 #include "file.h"
 #include "groups.h"
-#include "iclass.h"
 #include "menus.h"
 #include "parse.h"
 #include "progress.h"
@@ -49,18 +48,15 @@ MenuItemCreateFromBackground(const char *bgid, const char *file)
 {
    MenuItem           *mi;
    Background         *bg;
-   ImageClass         *ic;
    char                thumb[1024], buf[1024];
 
    bg = BrackgroundCreateFromImage(bgid, file, thumb, sizeof(thumb));
    if (!bg)
       return NULL;
 
-   ic = ImageclassCreateSimple("`", thumb);
-
    Esnprintf(buf, sizeof(buf), "bg use %s", bgid);
 
-   mi = MenuItemCreate(NULL, ic, buf, NULL);
+   mi = MenuItemCreate(NULL, thumb, buf, NULL);
 
    return mi;
 }
@@ -309,7 +305,6 @@ FillFlatFileMenu(Menu * m, const char *file)
 	     char               *txt, *icon, *act, *params;
 	     char                wd[4096];
 	     MenuItem           *mi;
-	     ImageClass         *icc = NULL;
 	     Menu               *mm;
 
 	     txt = icon = act = params = NULL;
@@ -318,21 +313,14 @@ FillFlatFileMenu(Menu * m, const char *file)
 
 	     if (icon)
 		icon = FindFile(icon, NULL, FILE_TYPE_ICON);
-	     if (icon)
-	       {
-		  Esnprintf(wd, sizeof(wd), "__FM.%s", icon);
-		  icc = ImageclassFind(wd, 0);
-		  if (!icc)
-		     icc = ImageclassCreateSimple(wd, icon);
-		  Efree(icon);
-	       }
+
 	     if ((act) && (!strcmp(act, "exec")) && (params))
 	       {
 		  sscanf(params, "%4000s", wd);
 		  if (path_canexec(wd))
 		    {
 		       Esnprintf(wd, sizeof(wd), "exec %s", params);
-		       mi = MenuItemCreate(txt, icc, wd, NULL);
+		       mi = MenuItemCreate(txt, icon, wd, NULL);
 		       MenuAddItem(m, mi);
 		    }
 	       }
@@ -341,15 +329,17 @@ FillFlatFileMenu(Menu * m, const char *file)
 		  mm = MenuFind(params, NULL);
 		  if (mm)
 		    {
-		       mi = MenuItemCreate(txt, icc, NULL, mm);
+		       mi = MenuItemCreate(txt, icon, NULL, mm);
 		       MenuAddItem(m, mi);
 		    }
 	       }
 	     else if (act)
 	       {
-		  mi = MenuItemCreate(txt, icc, act, NULL);
+		  mi = MenuItemCreate(txt, icon, act, NULL);
 		  MenuAddItem(m, mi);
 	       }
+
+	     Efree(icon);
 	  }
      }
    fclose(f);
