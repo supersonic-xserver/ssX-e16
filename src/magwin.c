@@ -91,7 +91,7 @@ MagwinGetPixel(EX_Drawable draw, unsigned int x, unsigned int y)
    EImage             *im;
    unsigned int       *pd, pixel = 0;
 
-   im = EImageGrabDrawable(draw, NoXID, x, y, 1, 1, 0);
+   im = EImageGrabDrawableScaled(NULL, draw, NoXID, x, y, 1, 1, 1, 1, 0, 0);
    if (im)
      {
 	pd = (unsigned int *)EImageGetData(im);
