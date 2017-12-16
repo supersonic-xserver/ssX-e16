@@ -592,9 +592,8 @@ EDrawableDumpImage(EX_Drawable draw, const char *txt)
    EXGetGeometry(draw, NULL, NULL, NULL, &w, &h, NULL, NULL);
    if (w <= 0 || h <= 0)
       return;
-   imlib_context_set_drawable(draw);
-   im =
-      imlib_create_image_from_drawable(NoXID, 0, 0, w, h, !EServerIsGrabbed());
+   im = EImageGrabDrawableScaled(ELookupXwin(draw), draw, NoXID,
+				 0, 0, w, h, w, h, 0, 0);
    imlib_context_set_image(im);
    imlib_image_set_format("png");
    sprintf(buf, "%s-%#x-%d.png", txt, draw, seqn++);
