@@ -1061,6 +1061,14 @@ IPC_Debug(const char *params)
 	     IpcPrintf("Sync off\n");
 	  }
      }
+#if 0
+   else if (!strncmp(param, "dump", 2))
+     {
+	l = 0;
+	sscanf(p, "%i", &l);
+	EDrawableDumpImage(l, "dump");
+     }
+#endif
 }
 
 static void
