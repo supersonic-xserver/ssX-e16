@@ -3,7 +3,7 @@
 /*****************************************************************************/
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2016 Kim Woelders
+ * Copyright (C) 2004-2017 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -462,7 +462,7 @@ void                About(void);
 void                Eexec(const char *cmd);
 int                 EspawnApplication(const char *params, int flags);
 void                Espawn(const char *cmd);
-int                 Esystem(const char *cmd);
+int __PRINTF__      Esystem(const char *fmt, ...);
 
 /* config.c */
 #define FILE_TYPE_CONFIG     0

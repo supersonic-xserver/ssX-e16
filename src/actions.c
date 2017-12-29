@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2014 Kim Woelders
+ * Copyright (C) 2004-2017 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -222,7 +222,14 @@ Espawn(const char *cmd)
 }
 
 int
-Esystem(const char *cmd)
+Esystem(const char *fmt, ...)
 {
-   return system(cmd);
+   va_list             args;
+   char                buf[FILEPATH_LEN_MAX];
+
+   va_start(args, fmt);
+   vsnprintf(buf, sizeof(buf), fmt, args);
+   va_end(args);
+
+   return system(buf);
 }

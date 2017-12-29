@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2014 Kim Woelders
+ * Copyright (C) 2004-2017 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -711,21 +711,9 @@ SessionExit(int mode, const char *param)
 static void
 SessionRunProg(const char *prog, const char *params)
 {
-   char                buf[4096];
-   const char         *s;
-
-   if (params)
-     {
-	Esnprintf(buf, sizeof(buf), "%s %s", prog, params);
-	s = buf;
-     }
-   else
-     {
-	s = prog;
-     }
    if (EDebug(EDBUG_TYPE_SESSION))
-      Eprintf("%s: %s\n", __func__, s);
-   Esystem(s);
+      Eprintf("%s: %s %s\n", __func__, prog, params);
+   Esystem("%s %s", prog, params);
 }
 
 void

@@ -232,7 +232,6 @@ ConfigAlertLoad(const char *txt)
 static int
 ConfigFilePreparse(const char *src, const char *dst, const char *themepath)
 {
-   char                execline[FILEPATH_LEN_MAX];
    const char         *variant;
 
    if (EDebug(EDBUG_TYPE_CONFIG))
@@ -244,22 +243,21 @@ ConfigFilePreparse(const char *src, const char *dst, const char *themepath)
       themepath = Mode.theme.path;
    variant = (Mode.theme.variant) ? Mode.theme.variant : "";
 
-   Esnprintf(execline, sizeof(execline), "%s/epp " "-P " "-nostdinc " "-undef "
-	     "-include %s/config/definitions " "-I%s " "-I%s/config "
-	     "-D ENLIGHTENMENT_VERSION=%s " "-D ENLIGHTENMENT_ROOT=%s "
-	     "-D ENLIGHTENMENT_BIN=%s "
-	     "-D ENLIGHTENMENT_THEME=%s " "-D VARIANT=%s "
-	     "-D ECONFDIR=%s " "-D ECACHEDIR=%s "
-	     "-D SCREEN_RESOLUTION_%ix%i=1 "
-	     "-D SCREEN_WIDTH_%i=1 " "-D SCREEN_HEIGHT_%i=1 "
-	     "-D SCREEN_DEPTH_%i=1 "
-	     "%s %s",
-	     EDirBin(), EDirRoot(), themepath, EDirRoot(),
-	     e_wm_version, EDirRoot(), EDirBin(), themepath, variant,
-	     EDirUser(), EDirUserCache(),
-	     WinGetW(VROOT), WinGetH(VROOT), WinGetW(VROOT), WinGetH(VROOT),
-	     WinGetDepth(VROOT), src, dst);
-   Esystem(execline);
+   Esystem("%s/epp " "-P " "-nostdinc " "-undef "
+	   "-include %s/config/definitions " "-I%s " "-I%s/config "
+	   "-D ENLIGHTENMENT_VERSION=%s " "-D ENLIGHTENMENT_ROOT=%s "
+	   "-D ENLIGHTENMENT_BIN=%s "
+	   "-D ENLIGHTENMENT_THEME=%s " "-D VARIANT=%s "
+	   "-D ECONFDIR=%s " "-D ECACHEDIR=%s "
+	   "-D SCREEN_RESOLUTION_%ix%i=1 "
+	   "-D SCREEN_WIDTH_%i=1 " "-D SCREEN_HEIGHT_%i=1 "
+	   "-D SCREEN_DEPTH_%i=1 "
+	   "%s %s",
+	   EDirBin(), EDirRoot(), themepath, EDirRoot(),
+	   e_wm_version, EDirRoot(), EDirBin(), themepath, variant,
+	   EDirUser(), EDirUserCache(),
+	   WinGetW(VROOT), WinGetH(VROOT), WinGetW(VROOT), WinGetH(VROOT),
+	   WinGetDepth(VROOT), src, dst);
 
    return exists(dst) ? 0 : 1;
 }
