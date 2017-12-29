@@ -63,6 +63,18 @@ _ThemeCheckDir(const char *path)
    return 1;
 }
 
+static char        *
+_ThemeCheckPath(const char *path)
+{
+   if (!isdir(path))
+      return NULL;
+
+   if (_ThemeCheckDir(path))
+      return Estrdup(path);
+
+   return NULL;
+}
+
 char               *
 ThemePathName(const char *path)
 {
@@ -172,15 +184,6 @@ _ThemeExtract(const char *path)
    size_t              ret;
    char               *name;
 
-   /* its a directory - just use it "as is" */
-   if (isdir(path))
-     {
-	goto done;
-     }
-
-   if (!isfile(path))
-      return NULL;
-
    /* its a file - check its type */
    f = fopen(path, "r");
    if (!f)
@@ -204,7 +207,7 @@ _ThemeExtract(const char *path)
 	    (buf[259] == 't') && (buf[260] == 'a') && (buf[261] == 'r'))
      {
 	/* vanilla tarball */
-	Esnprintf(s, sizeof(s), "(cd %s ; tar -xf %s)", th, path);
+	Esnprintf(s, sizeof(s), "cat %s | (cd %s ; tar -xf -)", path, th);
      }
    else
       return NULL;
@@ -215,7 +218,6 @@ _ThemeExtract(const char *path)
    /* exec the untar if tarred */
    Esystem(s);
 
- done:
    if (_ThemeCheckDir(path))
       return Estrdup(path);
 
@@ -245,12 +247,15 @@ ThemeFind(const char *theme)
      {
 	return NULL;
      }
-   else if (isabspath(theme))
+   else if (strchr(theme, '/') || strchr(theme, '.'))
      {
-	path = _ThemeExtract(theme);
+	if (isdir(theme))
+	   path = _ThemeCheckPath(theme);
+	else if (isfile(theme))
+	   path = _ThemeExtract(theme);
 	if (path)
 	   return path;
-	theme = NULL;
+	theme = NULL;		/* Lookup default */
      }
 
    lst = StrlistFromString(Mode.theme.paths, ':', &num);
@@ -263,12 +268,12 @@ ThemeFind(const char *theme)
 	for (j = 0; j < num; j++)
 	  {
 	     Esnprintf(tdir, sizeof(tdir), "%s/%s", lst[j], theme);
-	     path = _ThemeExtract(tdir);
+	     path = _ThemeCheckPath(tdir);
 	     if (path)
 		goto done;
 
 	     Esnprintf(tdir, sizeof(tdir), "%s/%s/e16", lst[j], theme);
-	     path = _ThemeExtract(tdir);
+	     path = _ThemeCheckPath(tdir);
 	     if (path)
 		goto done;
 	  }
