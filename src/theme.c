@@ -29,7 +29,7 @@
 
 /* Update Mode.theme.paths (theme path list) */
 static void
-ThemePathsUpdate(void)
+_ThemePathsUpdate(void)
 {
    char                paths[4096];
 
@@ -40,7 +40,7 @@ ThemePathsUpdate(void)
 
 /* Check if this is a theme dir */
 static const char  *
-ThemeCheckPath(const char *path)
+_ThemeCheckPath(const char *path)
 {
    static const char  *const theme_files[] = {
       "init.cfg",
@@ -89,7 +89,7 @@ ThemePathName(const char *path)
 }
 
 static void
-append_merge_dir(char *dir, char ***list, int *count)
+_append_merge_dir(char *dir, char ***list, int *count)
 {
    char                ss[FILEPATH_LEN_MAX], s1[FILEPATH_LEN_MAX];
    char              **str, *s;
@@ -108,10 +108,10 @@ append_merge_dir(char *dir, char ***list, int *count)
 
 	if (isdir(ss))
 	  {
-	     if (ThemeCheckPath(ss))
+	     if (_ThemeCheckPath(ss))
 		goto got_one;
 	     Esnprintf(ss, sizeof(ss), "%s/%s/e16", dir, str[i]);
-	     if (ThemeCheckPath(ss))
+	     if (_ThemeCheckPath(ss))
 		goto got_one;
 	     continue;
 	  }
@@ -148,13 +148,13 @@ ThemesList(int *number)
    char              **lst, **list;
    int                 i, num, count;
 
-   ThemePathsUpdate();
+   _ThemePathsUpdate();
    lst = StrlistFromString(Mode.theme.paths, ':', &num);
 
    count = 0;
    list = NULL;
    for (i = 0; i < num; i++)
-      append_merge_dir(lst[i], &list, &count);
+      _append_merge_dir(lst[i], &list, &count);
 
    StrlistFree(lst, num);
 
@@ -163,7 +163,7 @@ ThemesList(int *number)
 }
 
 static char        *
-ThemeExtract(const char *path)
+_ThemeExtract(const char *path)
 {
    char                s[FILEPATH_LEN_MAX];
    char                th[FILEPATH_LEN_MAX];
@@ -216,7 +216,7 @@ ThemeExtract(const char *path)
    Esystem(s);
 
  done:
-   if (ThemeCheckPath(path))
+   if (_ThemeCheckPath(path))
       return Estrdup(path);
 
    /* failed */
@@ -233,7 +233,7 @@ ThemeFind(const char *theme)
    char              **lst;
    int                 i, j, num;
 
-   ThemePathsUpdate();
+   _ThemePathsUpdate();
 
    path = NULL;
 
@@ -247,7 +247,7 @@ ThemeFind(const char *theme)
      }
    else if (isabspath(theme))
      {
-	path = ThemeExtract(theme);
+	path = _ThemeExtract(theme);
 	if (path)
 	   return path;
 	theme = NULL;
@@ -263,12 +263,12 @@ ThemeFind(const char *theme)
 	for (j = 0; j < num; j++)
 	  {
 	     Esnprintf(tdir, sizeof(tdir), "%s/%s", lst[j], theme);
-	     path = ThemeExtract(tdir);
+	     path = _ThemeExtract(tdir);
 	     if (path)
 		goto done;
 
 	     Esnprintf(tdir, sizeof(tdir), "%s/%s/e16", lst[j], theme);
-	     path = ThemeExtract(tdir);
+	     path = _ThemeExtract(tdir);
 	     if (path)
 		goto done;
 	  }
