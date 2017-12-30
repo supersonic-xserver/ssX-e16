@@ -53,6 +53,9 @@ _ThemeCheckDir(const char *path)
    int                 i;
    char                s[FILEPATH_LEN_MAX];
 
+   if (EDebug(EDBUG_TYPE_CONFIG))
+      Eprintf("%s: %s\n", __func__, path);
+
    for (i = 0; (tf = theme_files[i]); i++)
      {
 	Esnprintf(s, sizeof(s), "%s/%s", path, tf);
@@ -66,6 +69,9 @@ _ThemeCheckDir(const char *path)
 static char        *
 _ThemeCheckPath(const char *path)
 {
+   if (EDebug(EDBUG_TYPE_CONFIG))
+      Eprintf("%s: %s\n", __func__, path);
+
    if (!isdir(path))
       return NULL;
 
@@ -184,6 +190,9 @@ _ThemeExtract(const char *path)
    size_t              ret;
    char               *name;
 
+   if (EDebug(EDBUG_TYPE_CONFIG))
+      Eprintf("%s: %s\n", __func__, path);
+
    /* its a file - check its type */
    f = fopen(path, "r");
    if (!f)
@@ -234,6 +243,9 @@ ThemeFind(const char *theme)
    char                tdir[FILEPATH_LEN_MAX], *path;
    char              **lst;
    int                 i, j, num;
+
+   if (EDebug(EDBUG_TYPE_CONFIG))
+      Eprintf("%s: %s\n", __func__, theme);
 
    _ThemePathsUpdate();
 
