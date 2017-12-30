@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2014 Kim Woelders
+ * Copyright (C) 2004-2017 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -162,36 +162,6 @@ ThemesList(int *number)
    return list;
 }
 
-static const char  *
-ThemeGetPath(const char *path, char *buf, unsigned int len)
-{
-   const char         *s;
-   char                s1[FILEPATH_LEN_MAX];
-   int                 l;
-
-   /* We only attempt to dereference a DEFAULT link */
-   s = strstr(path, "/DEFAULT");
-   if (!s)
-      return path;
-
-   l = readlink(path, s1, sizeof(s1) - 1);
-   if (l < 0)
-      return path;
-   s1[l] = '\0';
-
-   if (isabspath(s1))
-     {
-	Esnprintf(buf, len, "%s", s1);
-	return buf;
-     }
-
-   Esnprintf(buf, len, "%s", path);	/* Copy path */
-   l = s + 1 - path;
-   Esnprintf(buf + l, len - l, "%s", s1);	/* Substitute link */
-
-   return buf;
-}
-
 static char        *
 ThemeExtract(const char *path)
 {
@@ -205,7 +175,6 @@ ThemeExtract(const char *path)
    /* its a directory - just use it "as is" */
    if (isdir(path))
      {
-	path = ThemeGetPath(path, s, sizeof(s));
 	goto done;
      }
 
