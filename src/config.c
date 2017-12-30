@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2017 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -246,7 +246,7 @@ ConfigFilePreparse(const char *src, const char *dst, const char *themepath)
 	   "-D ENLIGHTENMENT_ROOT=%s "
 	   "-D ENLIGHTENMENT_BIN=%s "
 	   "-D ENLIGHTENMENT_THEME=%s "
-	   "-D VARIANT=%s "
+	   "-D THEME_VARIANT_%s=1 "
 	   "-D ECONFDIR=%s "
 	   "-D ECACHEDIR=%s "
 	   "-D SCREEN_RESOLUTION_%ix%i=1 "
