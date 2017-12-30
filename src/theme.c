@@ -199,7 +199,6 @@ ThemesList(int *number)
 static char        *
 _ThemeExtract(const char *path)
 {
-   char                s[FILEPATH_LEN_MAX];
    char                th[FILEPATH_LEN_MAX];
    FILE               *f;
    unsigned char       buf[262];
@@ -239,23 +238,18 @@ _ThemeExtract(const char *path)
    if ((buf[0] == 31) && (buf[1] == 139))
      {
 	/* gzipped tarball */
-	Esnprintf(s, sizeof(s),
-		  "gzip -d -c < %s | (cd %s ; tar -xf -)", path, th);
+	E_md(th);
+	Esystem("gzip -d -c < %s | (cd %s ; tar -xf -)", path, th);
      }
    else if ((buf[257] == 'u') && (buf[258] == 's') &&
 	    (buf[259] == 't') && (buf[260] == 'a') && (buf[261] == 'r'))
      {
 	/* vanilla tarball */
-	Esnprintf(s, sizeof(s), "cat %s | (cd %s ; tar -xf -)", path, th);
+	E_md(th);
+	Esystem("cat %s | (cd %s ; tar -xf -)", path, th);
      }
    else
       return NULL;
-
-   E_md(th);
-   path = th;
-
-   /* exec the untar if tarred */
-   Esystem(s);
 
    return _ThemeCheckPath(th);
 }
