@@ -24,6 +24,7 @@
 #include "E.h"
 #include "emodule.h"
 #include "file.h"
+#include "user.h"
 #include "util.h"
 #include "session.h"
 
@@ -33,8 +34,9 @@ _ThemePathsUpdate(void)
 {
    char                paths[FILEPATH_LEN_MAX];
 
-   Esnprintf(paths, sizeof(paths), "%s/themes:%s/themes:%s", EDirUser(),
-	     EDirRoot(), (Conf.theme.extra_path) ? Conf.theme.extra_path : "");
+   Esnprintf(paths, sizeof(paths), "%s/themes:%s/.themes:%s/themes:%s",
+	     EDirUser(), userhome(), EDirRoot(),
+	     (Conf.theme.extra_path) ? Conf.theme.extra_path : "");
    _EFDUP(Mode.theme.paths, paths);
 }
 
@@ -202,7 +204,8 @@ _ThemeExtract(const char *path)
    FILE               *f;
    unsigned char       buf[262];
    size_t              ret;
-   char               *name;
+   const char         *p;
+   char                name[128], *type;
 
    if (EDebug(EDBUG_TYPE_CONFIG))
       Eprintf("%s: %s\n", __func__, path);
@@ -215,9 +218,22 @@ _ThemeExtract(const char *path)
    memset(buf + ret, 0, sizeof(buf) - ret);
    fclose(f);
 
-   name = fileof(path);
-   Esnprintf(th, sizeof(th), "%s/themes/%s", EDirUser(), name);
-   Efree(name);
+   p = strrchr(path, '/');
+   p = (p) ? p + 1 : path;
+   Esnprintf(name, sizeof(name), "%s", p);
+   type = strchr(name, '.');
+   if (type)
+      *type++ = '\0';
+
+   if (type && strcmp(type, "theme") == 0)
+     {
+	Esnprintf(th, sizeof(th), "%s/.themes", userhome());
+	if (!isdir(th))
+	   E_md(th);
+	Esnprintf(th, sizeof(th), "%s/.themes/%s", userhome(), name);
+     }
+   else
+      Esnprintf(th, sizeof(th), "%s/themes/%s", EDirUser(), name);
 
    /* check magic numbers */
    if ((buf[0] == 31) && (buf[1] == 139))
