@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16 svn-rev69488\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2017-11-18 21:24+0100\n"
+"POT-Creation-Date: 2017-12-30 19:25+0100\n"
 "PO-Revision-Date: 2013-04-25 05:08+0000\n"
 "Last-Translator: Eliovir <Unknown>\n"
 "Language-Team: French\n"
@@ -331,17 +331,17 @@ msgstr ""
 "\n"
 "%s\n"
 
-#: src/config.c:202 src/config.c:294
+#: src/config.c:199 src/config.c:293
 #, c-format
 msgid "CONFIG: ignoring extra data in \"%s\""
 msgstr "CONFIG: Omission de donnée superflue dans \"%s\""
 
-#: src/config.c:210 src/config.c:301
+#: src/config.c:207 src/config.c:300
 #, c-format
 msgid "CONFIG: missing required data in \"%s\""
 msgstr "CONFIG: Absence de donnée requise dans \"%s\""
 
-#: src/config.c:220
+#: src/config.c:217
 #, c-format
 msgid ""
 "Warning: unable to determine what to do with\n"
@@ -354,7 +354,7 @@ msgstr ""
 "%s\n"
 "Ignoré, on continue...\n"
 
-#: src/config.c:228
+#: src/config.c:225
 #, c-format
 msgid ""
 "Warning:  Configuration error in %s block.\n"
@@ -363,19 +363,19 @@ msgstr ""
 "Attention: Erreur de configuration dans le bloc %s.\n"
 "Ce n'est pas bon signe.\n"
 
-#: src/config.c:310
+#: src/config.c:309
 msgid "Theme versioning ERROR"
 msgstr "ERREUR de version de thème"
 
-#: src/config.c:311
+#: src/config.c:310
 msgid "Restart with Defaults"
 msgstr "Redémarrer avec les réglages par défaut"
 
-#: src/config.c:312
+#: src/config.c:311
 msgid "Abort and Exit"
 msgstr "Interrompre et Sortir"
 
-#: src/config.c:313
+#: src/config.c:312
 #, c-format
 msgid ""
 "ERROR:\n"
@@ -413,7 +413,7 @@ msgstr ""
 "prend avantage de nouvelles fonctionnalités\n"
 "d'Enlightenment.\n"
 
-#: src/config.c:615
+#: src/config.c:614
 msgid "Enlightenment Starting..."
 msgstr "Démarrage d'Enlightenment..."
 
@@ -430,7 +430,7 @@ msgstr "Fermer"
 msgid "Create New Iconbox"
 msgstr "Créer une nouvelle Boîte à icônes"
 
-#: src/container.c:1505 src/container.c:1577 src/menus.c:1969
+#: src/container.c:1505 src/container.c:1577 src/menus.c:1970
 #, c-format
 msgid "Icon size: %2d"
 msgstr "Taille des icônes: %2d"
@@ -644,7 +644,7 @@ msgstr "Gauche"
 msgid "Right"
 msgstr "Droit"
 
-#: src/desktops.c:2577 src/menus-misc.c:578
+#: src/desktops.c:2577 src/menus-misc.c:568
 msgid "Desks"
 msgstr "Bureaux multiples"
 
@@ -1008,7 +1008,7 @@ msgstr "Réglages généraux:"
 msgid "Swap Window Locations"
 msgstr "Mettre en cache la position des fenêtres"
 
-#: src/groups.c:1040 src/menus-misc.c:638 config/strings.c:138
+#: src/groups.c:1040 src/menus-misc.c:628 config/strings.c:138
 msgid "Groups"
 msgstr "Groupes"
 
@@ -1121,28 +1121,28 @@ msgstr "Options de la Boîte à icônes"
 msgid "Iconbox Settings"
 msgstr "Paramètres de la Boîte à icônes"
 
-#: src/ipc.c:199 src/ipc.c:1470 src/ipc.c:1477 src/theme.c:377
+#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:384
 msgid "Message"
 msgstr "Message"
 
-#: src/ipc.c:1470 src/ipc.c:1477
+#: src/ipc.c:1478 src/ipc.c:1485
 #, c-format
 msgid "e16 was built without %s support"
 msgstr "Enlightenment a été compilé sans prise en charge de : %s"
 
-#: src/ipc.c:1471
+#: src/ipc.c:1479
 msgid "composite"
 msgstr "Extension Composite"
 
-#: src/ipc.c:1478
+#: src/ipc.c:1486
 msgid "sound"
 msgstr "Système Son"
 
-#: src/ipc.c:1822
+#: src/ipc.c:1830
 msgid "Enlightenment IPC Commands Help\n"
 msgstr "Aide des commandes IPC\n"
 
-#: src/ipc.c:1826
+#: src/ipc.c:1834
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
@@ -1152,19 +1152,19 @@ msgstr ""
 "Tapez \"help <commande>\" pour une description individuelle\n"
 "\n"
 
-#: src/ipc.c:1828 src/ipc.c:1848 src/ipc.c:1860
+#: src/ipc.c:1836 src/ipc.c:1856 src/ipc.c:1868
 msgid "Commands currently available:\n"
 msgstr "Commandes disponibles actuellement:\n"
 
-#: src/ipc.c:1846
+#: src/ipc.c:1854
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr "Tapez \"help full\" pour une description de toutes les commandes\n"
 
-#: src/ipc.c:1847
+#: src/ipc.c:1855
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr "Tapez \"help <commande>\" pour une description individuelle\n"
 
-#: src/ipc.c:1849 src/ipc.c:1861
+#: src/ipc.c:1857 src/ipc.c:1869
 msgid "         <command>     : <description>\n"
 msgstr "         <commande>   : <description>\n"
 
@@ -1231,65 +1231,65 @@ msgstr ""
 msgid "Magnifier"
 msgstr "Loupe"
 
-#: src/menus-misc.c:419 config/strings.c:79
+#: src/menus-misc.c:409 config/strings.c:79
 msgid "Backgrounds"
 msgstr "Fond d'écran"
 
-#: src/menus-misc.c:458 config/strings.c:91 config/strings.c:113
+#: src/menus-misc.c:448 config/strings.c:91 config/strings.c:113
 msgid "Themes"
 msgstr "Thèmes"
 
-#: src/menus-misc.c:475
+#: src/menus-misc.c:465
 msgid "Border"
 msgstr "Bordures"
 
-#: src/menus-misc.c:538
+#: src/menus-misc.c:528
 msgid "Window List"
 msgstr "Liste des fenêtres"
 
-#: src/menus-misc.c:560
+#: src/menus-misc.c:550
 msgid "Go to this Desktop"
 msgstr "Aller vers ce Bureau"
 
-#: src/menus-misc.c:564 src/menus-misc.c:660
+#: src/menus-misc.c:554 src/menus-misc.c:650
 #, c-format
 msgid "Desktop %i"
 msgstr "Bureau %i"
 
-#: src/menus-misc.c:607
+#: src/menus-misc.c:597
 msgid "Show/Hide this group"
 msgstr "Afficher/Masquer ce groupe"
 
-#: src/menus-misc.c:612
+#: src/menus-misc.c:602
 msgid "Iconify this group"
 msgstr "Icônifier ce groupe"
 
-#: src/menus-misc.c:623
+#: src/menus-misc.c:613
 #, c-format
 msgid "Group %i"
 msgstr "Groupe %i"
 
-#: src/menus.c:1988
+#: src/menus.c:1989
 msgid "Animated display of menus"
 msgstr "Animer l'affichage des menus"
 
-#: src/menus.c:1993
+#: src/menus.c:1994
 msgid "Always pop up menus on screen"
 msgstr "Toujours afficher les menus sur l'écran"
 
-#: src/menus.c:1998
+#: src/menus.c:1999
 msgid "Warp pointer after moving menus"
 msgstr "Distorsion du curseur après déplacement des menus"
 
-#: src/menus.c:2015
+#: src/menus.c:2016
 msgid "Menus"
 msgstr "Menus"
 
-#: src/menus.c:2015
+#: src/menus.c:2016
 msgid "Menu Settings"
 msgstr "Paramètres des Menus"
 
-#: src/menus.c:2019
+#: src/menus.c:2020
 msgid ""
 "Enlightenment Menu\n"
 "Settings Dialog"
@@ -1528,27 +1528,27 @@ msgstr "Oui, Quitter"
 msgid "No"
 msgstr "Non"
 
-#: src/session.c:782
+#: src/session.c:770
 msgid "Enable Session Script"
 msgstr "Activer le script de session"
 
-#: src/session.c:787
+#: src/session.c:775
 msgid "Enable Logout Dialog"
 msgstr "Activer le dialogue de fermeture de session"
 
-#: src/session.c:792
+#: src/session.c:780
 msgid "Enable Reboot/Halt on Logout"
 msgstr "Activer Rebooter/Arrêter à la fermeture de session"
 
-#: src/session.c:798
+#: src/session.c:786
 msgid "Session"
 msgstr "Session"
 
-#: src/session.c:798
+#: src/session.c:786
 msgid "Session Settings"
 msgstr "Paramètres de Session"
 
-#: src/session.c:802
+#: src/session.c:790
 msgid ""
 "Enlightenment Session\n"
 "Settings Dialog"
@@ -2104,7 +2104,7 @@ msgstr "Options de la Zone de notification"
 msgid "Systray Settings"
 msgstr "Paramètres de la Zone de notification"
 
-#: src/theme.c:348
+#: src/theme.c:355
 #, c-format
 msgid ""
 "No themes were found in the default directories:\n"
@@ -2115,32 +2115,32 @@ msgstr ""
 " %s\n"
 "Abandon, car poursuivre ne servirait à rien.\n"
 
-#: src/theme.c:377
+#: src/theme.c:384
 msgid "Changes will take effect after restart"
 msgstr "Les modifications prendront effet au redémarrage d'E16"
 
-#: src/theme.c:397
+#: src/theme.c:404
 msgid "Use theme font configuration"
 msgstr "Utiliser les réglages de police du thème"
 
-#: src/theme.c:402
+#: src/theme.c:409
 #, c-format
 msgid "Use alternate font configuration (%s)"
 msgstr "Utiliser d'autres réglages de police (%s)"
 
-#: src/theme.c:403
+#: src/theme.c:410
 msgid "Not set"
 msgstr "Non défini"
 
-#: src/theme.c:410
+#: src/theme.c:417
 msgid "Theme"
 msgstr "Thème"
 
-#: src/theme.c:410
+#: src/theme.c:417
 msgid "Theme Settings"
 msgstr "Paramètres du thème"
 
-#: src/theme.c:414
+#: src/theme.c:421
 msgid ""
 "Enlightenment Theme\n"
 "Settings Dialog"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enlightenment\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2017-11-18 21:24+0100\n"
+"POT-Creation-Date: 2017-12-30 19:25+0100\n"
 "PO-Revision-Date: 2015-03-29 14:25+0000\n"
 "Last-Translator: JoanColl <Unknown>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -330,17 +330,17 @@ msgstr ""
 "\n"
 "%s\n"
 
-#: src/config.c:202 src/config.c:294
+#: src/config.c:199 src/config.c:293
 #, c-format
 msgid "CONFIG: ignoring extra data in \"%s\""
 msgstr "CONFIG: ignorant informació extra a \"%s\""
 
-#: src/config.c:210 src/config.c:301
+#: src/config.c:207 src/config.c:300
 #, c-format
 msgid "CONFIG: missing required data in \"%s\""
 msgstr "CONFIG: manca informació necessaria a \"%s\""
 
-#: src/config.c:220
+#: src/config.c:217
 #, c-format
 msgid ""
 "Warning: unable to determine what to do with\n"
@@ -353,7 +353,7 @@ msgstr ""
 "%s\n"
 "S'ignorarà i continuarà...\n"
 
-#: src/config.c:228
+#: src/config.c:225
 #, c-format
 msgid ""
 "Warning:  Configuration error in %s block.\n"
@@ -362,19 +362,19 @@ msgstr ""
 "Avís:  Error de configuració al bloc %s.\n"
 "El resultat probablement no és bo.\n"
 
-#: src/config.c:310
+#: src/config.c:309
 msgid "Theme versioning ERROR"
 msgstr "ERROR de la versió del tema"
 
-#: src/config.c:311
+#: src/config.c:310
 msgid "Restart with Defaults"
 msgstr "Reinicia amb valors predeterminats"
 
-#: src/config.c:312
+#: src/config.c:311
 msgid "Abort and Exit"
 msgstr "Interromp i surt."
 
-#: src/config.c:313
+#: src/config.c:312
 #, c-format
 msgid ""
 "ERROR:\n"
@@ -411,7 +411,7 @@ msgstr ""
 "recentment i el tema treu partit de les noves característiques\n"
 "de les noves versions d'Enlightenment.\n"
 
-#: src/config.c:615
+#: src/config.c:614
 msgid "Enlightenment Starting..."
 msgstr "Iniciant Enlightenment..."
 
@@ -428,7 +428,7 @@ msgstr "Tanca"
 msgid "Create New Iconbox"
 msgstr "Crea nova caixa d'icona"
 
-#: src/container.c:1505 src/container.c:1577 src/menus.c:1969
+#: src/container.c:1505 src/container.c:1577 src/menus.c:1970
 #, c-format
 msgid "Icon size: %2d"
 msgstr "Tamany icona: %2d"
@@ -647,7 +647,7 @@ msgstr "Esquerra"
 msgid "Right"
 msgstr "Dreta"
 
-#: src/desktops.c:2577 src/menus-misc.c:578
+#: src/desktops.c:2577 src/menus-misc.c:568
 msgid "Desks"
 msgstr "Escriptoris"
 
@@ -1009,7 +1009,7 @@ msgstr "Configuració global:"
 msgid "Swap Window Locations"
 msgstr "Ubicacions finestra d'intercanvi"
 
-#: src/groups.c:1040 src/menus-misc.c:638 config/strings.c:138
+#: src/groups.c:1040 src/menus-misc.c:628 config/strings.c:138
 msgid "Groups"
 msgstr "Grups"
 
@@ -1125,28 +1125,28 @@ msgstr "Opcions  de la caixa d'icones"
 msgid "Iconbox Settings"
 msgstr "Configuració de la caixa d'icones"
 
-#: src/ipc.c:199 src/ipc.c:1470 src/ipc.c:1477 src/theme.c:377
+#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:384
 msgid "Message"
 msgstr "Missatge"
 
-#: src/ipc.c:1470 src/ipc.c:1477
+#: src/ipc.c:1478 src/ipc.c:1485
 #, c-format
 msgid "e16 was built without %s support"
 msgstr "e16 s'ha muntat sense suport a %s"
 
-#: src/ipc.c:1471
+#: src/ipc.c:1479
 msgid "composite"
 msgstr "composició"
 
-#: src/ipc.c:1478
+#: src/ipc.c:1486
 msgid "sound"
 msgstr "so"
 
-#: src/ipc.c:1822
+#: src/ipc.c:1830
 msgid "Enlightenment IPC Commands Help\n"
 msgstr "Ajuda de les ordres IPC d'Enlightenment\n"
 
-#: src/ipc.c:1826
+#: src/ipc.c:1834
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
@@ -1157,19 +1157,19 @@ msgstr ""
 "Utilitzeu \"help <ordre>\" per a una descripció d'una ordre individual\n"
 "\n"
 
-#: src/ipc.c:1828 src/ipc.c:1848 src/ipc.c:1860
+#: src/ipc.c:1836 src/ipc.c:1856 src/ipc.c:1868
 msgid "Commands currently available:\n"
 msgstr "Ordres actualment disponibles:\n"
 
-#: src/ipc.c:1846
+#: src/ipc.c:1854
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr "Utilitzeu \"help full\" per a descripcions completes de cada ordre\n"
 
-#: src/ipc.c:1847
+#: src/ipc.c:1855
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr "Utilitzeu \"help <ordre>\" per a descripció individual\n"
 
-#: src/ipc.c:1849 src/ipc.c:1861
+#: src/ipc.c:1857 src/ipc.c:1869
 msgid "         <command>     : <description>\n"
 msgstr "         <ordre>     : <descripció>\n"
 
@@ -1237,65 +1237,65 @@ msgstr ""
 msgid "Magnifier"
 msgstr "Ampliador"
 
-#: src/menus-misc.c:419 config/strings.c:79
+#: src/menus-misc.c:409 config/strings.c:79
 msgid "Backgrounds"
 msgstr "Fons"
 
-#: src/menus-misc.c:458 config/strings.c:91 config/strings.c:113
+#: src/menus-misc.c:448 config/strings.c:91 config/strings.c:113
 msgid "Themes"
 msgstr "Temes"
 
-#: src/menus-misc.c:475
+#: src/menus-misc.c:465
 msgid "Border"
 msgstr "Vora"
 
-#: src/menus-misc.c:538
+#: src/menus-misc.c:528
 msgid "Window List"
 msgstr "Llista de finestres"
 
-#: src/menus-misc.c:560
+#: src/menus-misc.c:550
 msgid "Go to this Desktop"
 msgstr "Vés a aquest escriptori"
 
-#: src/menus-misc.c:564 src/menus-misc.c:660
+#: src/menus-misc.c:554 src/menus-misc.c:650
 #, c-format
 msgid "Desktop %i"
 msgstr "Escriptori %i"
 
-#: src/menus-misc.c:607
+#: src/menus-misc.c:597
 msgid "Show/Hide this group"
 msgstr "Mostra/Amaga aquest grup"
 
-#: src/menus-misc.c:612
+#: src/menus-misc.c:602
 msgid "Iconify this group"
 msgstr "Minimitza aquest grup"
 
-#: src/menus-misc.c:623
+#: src/menus-misc.c:613
 #, c-format
 msgid "Group %i"
 msgstr "Grup %i"
 
-#: src/menus.c:1988
+#: src/menus.c:1989
 msgid "Animated display of menus"
 msgstr "Mostra animació dels menús"
 
-#: src/menus.c:1993
+#: src/menus.c:1994
 msgid "Always pop up menus on screen"
 msgstr "Mostra sempre els menús emergents a la pantalla"
 
-#: src/menus.c:1998
+#: src/menus.c:1999
 msgid "Warp pointer after moving menus"
 msgstr "Distorsiona el punter quan es moguin els menús"
 
-#: src/menus.c:2015
+#: src/menus.c:2016
 msgid "Menus"
 msgstr "Menús"
 
-#: src/menus.c:2015
+#: src/menus.c:2016
 msgid "Menu Settings"
 msgstr "Preferències del menú"
 
-#: src/menus.c:2019
+#: src/menus.c:2020
 msgid ""
 "Enlightenment Menu\n"
 "Settings Dialog"
@@ -1536,27 +1536,27 @@ msgstr "Sí, tanca la sessió"
 msgid "No"
 msgstr "No"
 
-#: src/session.c:782
+#: src/session.c:770
 msgid "Enable Session Script"
 msgstr "Activa l'script de sessió"
 
-#: src/session.c:787
+#: src/session.c:775
 msgid "Enable Logout Dialog"
 msgstr "Activa el diàleg de sortida"
 
-#: src/session.c:792
+#: src/session.c:780
 msgid "Enable Reboot/Halt on Logout"
 msgstr "Activa Reinicia/Atura al sortir"
 
-#: src/session.c:798
+#: src/session.c:786
 msgid "Session"
 msgstr "Sessió"
 
-#: src/session.c:798
+#: src/session.c:786
 msgid "Session Settings"
 msgstr "Paràmetres de sessió"
 
-#: src/session.c:802
+#: src/session.c:790
 msgid ""
 "Enlightenment Session\n"
 "Settings Dialog"
@@ -2113,7 +2113,7 @@ msgstr "Opcions safata de sistema"
 msgid "Systray Settings"
 msgstr "Preferències safata del sistema"
 
-#: src/theme.c:348
+#: src/theme.c:355
 #, c-format
 msgid ""
 "No themes were found in the default directories:\n"
@@ -2124,32 +2124,32 @@ msgstr ""
 " %s\n"
 "No té cap sentit iniciar des d'aquí.\n"
 
-#: src/theme.c:377
+#: src/theme.c:384
 msgid "Changes will take effect after restart"
 msgstr "Els canvis seran efectius després de reiniciar"
 
-#: src/theme.c:397
+#: src/theme.c:404
 msgid "Use theme font configuration"
 msgstr "Utilitza la configuració del tipus de lletra del tema"
 
-#: src/theme.c:402
+#: src/theme.c:409
 #, c-format
 msgid "Use alternate font configuration (%s)"
 msgstr "Utilitza la configuració alternativa del tipus de lletra del tema (%s)"
 
-#: src/theme.c:403
+#: src/theme.c:410
 msgid "Not set"
 msgstr "No establert"
 
-#: src/theme.c:410
+#: src/theme.c:417
 msgid "Theme"
 msgstr "Tema"
 
-#: src/theme.c:410
+#: src/theme.c:417
 msgid "Theme Settings"
 msgstr "Configuració tema"
 
-#: src/theme.c:414
+#: src/theme.c:421
 msgid ""
 "Enlightenment Theme\n"
 "Settings Dialog"

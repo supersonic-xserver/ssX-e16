@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2017-11-18 21:24+0100\n"
+"POT-Creation-Date: 2017-12-30 19:25+0100\n"
 "PO-Revision-Date: 2010-05-09 01:24+0000\n"
 "Last-Translator: Aron Xu <Unknown>\n"
 "Language-Team: Bulgarian\n"
@@ -318,17 +318,17 @@ msgstr ""
 "\n"
 "%s\n"
 
-#: src/config.c:202 src/config.c:294
+#: src/config.c:199 src/config.c:293
 #, c-format
 msgid "CONFIG: ignoring extra data in \"%s\""
 msgstr "CONFIG: игнорираме екстра данни в \"%s\""
 
-#: src/config.c:210 src/config.c:301
+#: src/config.c:207 src/config.c:300
 #, c-format
 msgid "CONFIG: missing required data in \"%s\""
 msgstr "CONFIG: в \"%s\" липсват нужните данни"
 
-#: src/config.c:220
+#: src/config.c:217
 #, c-format
 msgid ""
 "Warning: unable to determine what to do with\n"
@@ -337,7 +337,7 @@ msgid ""
 "Will ignore and continue...\n"
 msgstr ""
 
-#: src/config.c:228
+#: src/config.c:225
 #, c-format
 msgid ""
 "Warning:  Configuration error in %s block.\n"
@@ -346,19 +346,19 @@ msgstr ""
 "Предупреждение:  Конфигурационна грешка в %s блок.\n"
 "Резултатът е съмнителен...\n"
 
-#: src/config.c:310
+#: src/config.c:309
 msgid "Theme versioning ERROR"
 msgstr "ГРЕШКА във версията на темата"
 
-#: src/config.c:311
+#: src/config.c:310
 msgid "Restart with Defaults"
 msgstr "Рестартирайте \"по подразбиране\""
 
-#: src/config.c:312
+#: src/config.c:311
 msgid "Abort and Exit"
 msgstr "Прекъснете и излезте"
 
-#: src/config.c:313
+#: src/config.c:312
 #, c-format
 msgid ""
 "ERROR:\n"
@@ -394,7 +394,7 @@ msgstr ""
 "сигурно не сте подновявали Enlightenment наскоро, а тази тема\n"
 "се възползва от нови свойства в новата-версия.\n"
 
-#: src/config.c:615
+#: src/config.c:614
 msgid "Enlightenment Starting..."
 msgstr "Enlightenment стартира..."
 
@@ -411,7 +411,7 @@ msgstr "Затвори"
 msgid "Create New Iconbox"
 msgstr "Създай нов Iconbox"
 
-#: src/container.c:1505 src/container.c:1577 src/menus.c:1969
+#: src/container.c:1505 src/container.c:1577 src/menus.c:1970
 #, c-format
 msgid "Icon size: %2d"
 msgstr "Размер на иконата: %2d"
@@ -630,7 +630,7 @@ msgstr "Левият"
 msgid "Right"
 msgstr "Десният"
 
-#: src/desktops.c:2577 src/menus-misc.c:578
+#: src/desktops.c:2577 src/menus-misc.c:568
 msgid "Desks"
 msgstr ""
 
@@ -988,7 +988,7 @@ msgstr "Глобални настройки"
 msgid "Swap Window Locations"
 msgstr "Размени мястото на прозорците"
 
-#: src/groups.c:1040 src/menus-misc.c:638 config/strings.c:138
+#: src/groups.c:1040 src/menus-misc.c:628 config/strings.c:138
 msgid "Groups"
 msgstr ""
 
@@ -1107,28 +1107,28 @@ msgstr "Опции за Iconbox"
 msgid "Iconbox Settings"
 msgstr "Настройки за Iconbox"
 
-#: src/ipc.c:199 src/ipc.c:1470 src/ipc.c:1477 src/theme.c:377
+#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:384
 msgid "Message"
 msgstr "Съобщение"
 
-#: src/ipc.c:1470 src/ipc.c:1477
+#: src/ipc.c:1478 src/ipc.c:1485
 #, c-format
 msgid "e16 was built without %s support"
 msgstr ""
 
-#: src/ipc.c:1471
+#: src/ipc.c:1479
 msgid "composite"
 msgstr ""
 
-#: src/ipc.c:1478
+#: src/ipc.c:1486
 msgid "sound"
 msgstr ""
 
-#: src/ipc.c:1822
+#: src/ipc.c:1830
 msgid "Enlightenment IPC Commands Help\n"
 msgstr "Помощ за командите на Enlightenment IPC\n"
 
-#: src/ipc.c:1826
+#: src/ipc.c:1834
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
@@ -1138,19 +1138,19 @@ msgstr ""
 "\"help <команда>\": описание за дадена команда\n"
 "\n"
 
-#: src/ipc.c:1828 src/ipc.c:1848 src/ipc.c:1860
+#: src/ipc.c:1836 src/ipc.c:1856 src/ipc.c:1868
 msgid "Commands currently available:\n"
 msgstr "Достъпни команди:\n"
 
-#: src/ipc.c:1846
+#: src/ipc.c:1854
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr "\"help full\": пълно описания за всяка команда\n"
 
-#: src/ipc.c:1847
+#: src/ipc.c:1855
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr "\"help <команда>\": описание за дадена команда\n"
 
-#: src/ipc.c:1849 src/ipc.c:1861
+#: src/ipc.c:1857 src/ipc.c:1869
 msgid "         <command>     : <description>\n"
 msgstr "         <команда> : <описание>\n"
 
@@ -1215,65 +1215,65 @@ msgstr ""
 msgid "Magnifier"
 msgstr ""
 
-#: src/menus-misc.c:419 config/strings.c:79
+#: src/menus-misc.c:409 config/strings.c:79
 msgid "Backgrounds"
 msgstr ""
 
-#: src/menus-misc.c:458 config/strings.c:91 config/strings.c:113
+#: src/menus-misc.c:448 config/strings.c:91 config/strings.c:113
 msgid "Themes"
 msgstr ""
 
-#: src/menus-misc.c:475
+#: src/menus-misc.c:465
 msgid "Border"
 msgstr "Рамки:"
 
-#: src/menus-misc.c:538
+#: src/menus-misc.c:528
 msgid "Window List"
 msgstr ""
 
-#: src/menus-misc.c:560
+#: src/menus-misc.c:550
 msgid "Go to this Desktop"
 msgstr "Отиди на това поле"
 
-#: src/menus-misc.c:564 src/menus-misc.c:660
+#: src/menus-misc.c:554 src/menus-misc.c:650
 #, c-format
 msgid "Desktop %i"
 msgstr "Поле %i"
 
-#: src/menus-misc.c:607
+#: src/menus-misc.c:597
 msgid "Show/Hide this group"
 msgstr "Покажи/скрий тази група"
 
-#: src/menus-misc.c:612
+#: src/menus-misc.c:602
 msgid "Iconify this group"
 msgstr "Игнорирай тази група"
 
-#: src/menus-misc.c:623
+#: src/menus-misc.c:613
 #, c-format
 msgid "Group %i"
 msgstr "Група %i"
 
-#: src/menus.c:1988
+#: src/menus.c:1989
 msgid "Animated display of menus"
 msgstr "Анимирай менютата"
 
-#: src/menus.c:1993
+#: src/menus.c:1994
 msgid "Always pop up menus on screen"
 msgstr "Винаги показвай менютата върху екрана"
 
-#: src/menus.c:1998
+#: src/menus.c:1999
 msgid "Warp pointer after moving menus"
 msgstr "Застъпвай показалеца след движение на менютата"
 
-#: src/menus.c:2015
+#: src/menus.c:2016
 msgid "Menus"
 msgstr ""
 
-#: src/menus.c:2015
+#: src/menus.c:2016
 msgid "Menu Settings"
 msgstr ""
 
-#: src/menus.c:2019
+#: src/menus.c:2020
 msgid ""
 "Enlightenment Menu\n"
 "Settings Dialog"
@@ -1509,27 +1509,27 @@ msgstr "Да, излез"
 msgid "No"
 msgstr "Не"
 
-#: src/session.c:782
+#: src/session.c:770
 msgid "Enable Session Script"
 msgstr ""
 
-#: src/session.c:787
+#: src/session.c:775
 msgid "Enable Logout Dialog"
 msgstr "Разрешавай Изходен Диалог"
 
-#: src/session.c:792
+#: src/session.c:780
 msgid "Enable Reboot/Halt on Logout"
 msgstr "Разрешавай Рестартиране/Изключване при Изход"
 
-#: src/session.c:798
+#: src/session.c:786
 msgid "Session"
 msgstr ""
 
-#: src/session.c:798
+#: src/session.c:786
 msgid "Session Settings"
 msgstr ""
 
-#: src/session.c:802
+#: src/session.c:790
 msgid ""
 "Enlightenment Session\n"
 "Settings Dialog"
@@ -2076,7 +2076,7 @@ msgstr "Опции за системната табла"
 msgid "Systray Settings"
 msgstr "Настройки за системната табла"
 
-#: src/theme.c:348
+#: src/theme.c:355
 #, c-format
 msgid ""
 "No themes were found in the default directories:\n"
@@ -2084,32 +2084,32 @@ msgid ""
 "Proceeding from here is mostly pointless.\n"
 msgstr ""
 
-#: src/theme.c:377
+#: src/theme.c:384
 msgid "Changes will take effect after restart"
 msgstr ""
 
-#: src/theme.c:397
+#: src/theme.c:404
 msgid "Use theme font configuration"
 msgstr ""
 
-#: src/theme.c:402
+#: src/theme.c:409
 #, c-format
 msgid "Use alternate font configuration (%s)"
 msgstr ""
 
-#: src/theme.c:403
+#: src/theme.c:410
 msgid "Not set"
 msgstr ""
 
-#: src/theme.c:410
+#: src/theme.c:417
 msgid "Theme"
 msgstr ""
 
-#: src/theme.c:410
+#: src/theme.c:417
 msgid "Theme Settings"
 msgstr ""
 
-#: src/theme.c:414
+#: src/theme.c:421
 msgid ""
 "Enlightenment Theme\n"
 "Settings Dialog"
