@@ -31,7 +31,7 @@
 static void
 _ThemePathsUpdate(void)
 {
-   char                paths[4096];
+   char                paths[FILEPATH_LEN_MAX];
 
    Esnprintf(paths, sizeof(paths), "%s/themes:%s/themes:%s", EDirUser(),
 	     EDirRoot(), (Conf.theme.extra_path) ? Conf.theme.extra_path : "");
@@ -39,8 +39,8 @@ _ThemePathsUpdate(void)
 }
 
 /* Check if this is a theme dir */
-static const char  *
-_ThemeCheckPath(const char *path)
+static int
+_ThemeCheckDir(const char *path)
 {
    static const char  *const theme_files[] = {
       "init.cfg",
@@ -51,16 +51,16 @@ _ThemeCheckPath(const char *path)
    };
    const char         *tf;
    int                 i;
-   char                s[4096];
+   char                s[FILEPATH_LEN_MAX];
 
    for (i = 0; (tf = theme_files[i]); i++)
      {
 	Esnprintf(s, sizeof(s), "%s/%s", path, tf);
 	if (!isfile(s))
-	   return NULL;
+	   return 0;
      }
 
-   return path;
+   return 1;
 }
 
 char               *
@@ -108,10 +108,10 @@ _append_merge_dir(char *dir, char ***list, int *count)
 
 	if (isdir(ss))
 	  {
-	     if (_ThemeCheckPath(ss))
+	     if (_ThemeCheckDir(ss))
 		goto got_one;
 	     Esnprintf(ss, sizeof(ss), "%s/%s/e16", dir, str[i]);
-	     if (_ThemeCheckPath(ss))
+	     if (_ThemeCheckDir(ss))
 		goto got_one;
 	     continue;
 	  }
@@ -216,7 +216,7 @@ _ThemeExtract(const char *path)
    Esystem(s);
 
  done:
-   if (_ThemeCheckPath(path))
+   if (_ThemeCheckDir(path))
       return Estrdup(path);
 
    /* failed */
@@ -229,7 +229,7 @@ ThemeFind(const char *theme)
    static const char  *const default_themes[] = {
       "DEFAULT", "winter", "BrushedMetal-Tigert", "ShinyMetal", NULL
    };
-   char                tdir[4096], *path;
+   char                tdir[FILEPATH_LEN_MAX], *path;
    char              **lst;
    int                 i, j, num;
 
