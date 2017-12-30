@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16 0.99.99.003\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2017-12-30 19:25+0100\n"
+"POT-Creation-Date: 2017-12-30 20:11+0100\n"
 "PO-Revision-Date: 2014-01-03 14:12+0000\n"
 "Last-Translator: Eliovir <Unknown>\n"
 "Language-Team: Esperanto <translation-team-eo@lists.sourceforge.net>\n"
@@ -1060,7 +1060,7 @@ msgstr "Opcioj de piktogramkesto"
 msgid "Iconbox Settings"
 msgstr "Agordoj de piktogramkesto"
 
-#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:384
+#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:378
 msgid "Message"
 msgstr "Mesaĝo"
 
@@ -1999,7 +1999,7 @@ msgstr "Opcioj de sistempleto"
 msgid "Systray Settings"
 msgstr "Agordoj de sistempleto"
 
-#: src/theme.c:355
+#: src/theme.c:349
 #, c-format
 msgid ""
 "No themes were found in the default directories:\n"
@@ -2010,32 +2010,32 @@ msgstr ""
 " %s\n"
 "Komencado de tie estas sensenca.\n"
 
-#: src/theme.c:384
+#: src/theme.c:378
 msgid "Changes will take effect after restart"
 msgstr "Ŝanĝoj efektiviĝos post restartigo"
 
-#: src/theme.c:404
+#: src/theme.c:398
 msgid "Use theme font configuration"
 msgstr "Uzi agordojn pri tiparo de etoso"
 
-#: src/theme.c:409
+#: src/theme.c:403
 #, c-format
 msgid "Use alternate font configuration (%s)"
 msgstr "Uzi alternativajn agordojn de tiparo (%s)"
 
-#: src/theme.c:410
+#: src/theme.c:404
 msgid "Not set"
 msgstr "Nedifinita"
 
-#: src/theme.c:417
+#: src/theme.c:411
 msgid "Theme"
 msgstr "Etoso"
 
-#: src/theme.c:417
+#: src/theme.c:411
 msgid "Theme Settings"
 msgstr "Agordoj de etoso"
 
-#: src/theme.c:421
+#: src/theme.c:415
 msgid ""
 "Enlightenment Theme\n"
 "Settings Dialog"

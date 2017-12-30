@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2017-12-30 19:25+0100\n"
+"POT-Creation-Date: 2017-12-30 20:11+0100\n"
 "PO-Revision-Date: 2009-11-09 14:39+0000\n"
 "Last-Translator: Yentl <y.v.t@scarlet.be>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -1129,7 +1129,7 @@ msgstr "Icoonbox Opties"
 msgid "Iconbox Settings"
 msgstr "Icoonbox instellingen"
 
-#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:384
+#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:378
 msgid "Message"
 msgstr "Bericht"
 
@@ -2110,7 +2110,7 @@ msgstr "Systray Opties"
 msgid "Systray Settings"
 msgstr "Systray Instellingen"
 
-#: src/theme.c:355
+#: src/theme.c:349
 #, c-format
 msgid ""
 "No themes were found in the default directories:\n"
@@ -2121,32 +2121,32 @@ msgstr ""
 " %s\n"
 "Verdergaan vanaf hier is waarschijnlijk nutteloos.\n"
 
-#: src/theme.c:384
+#: src/theme.c:378
 msgid "Changes will take effect after restart"
 msgstr "Wijzigingen zullen in effect treden na heropstarten"
 
-#: src/theme.c:404
+#: src/theme.c:398
 msgid "Use theme font configuration"
 msgstr "Gebruik thema lettertype configuratie"
 
-#: src/theme.c:409
+#: src/theme.c:403
 #, c-format
 msgid "Use alternate font configuration (%s)"
 msgstr "Gebruik alternatieve lettertype configuratie (%s)"
 
-#: src/theme.c:410
+#: src/theme.c:404
 msgid "Not set"
 msgstr "Niet ingesteld"
 
-#: src/theme.c:417
+#: src/theme.c:411
 msgid "Theme"
 msgstr "Thema"
 
-#: src/theme.c:417
+#: src/theme.c:411
 msgid "Theme Settings"
 msgstr "Thema Instellingen"
 
-#: src/theme.c:421
+#: src/theme.c:415
 msgid ""
 "Enlightenment Theme\n"
 "Settings Dialog"

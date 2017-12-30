@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2017-12-30 19:25+0100\n"
+"POT-Creation-Date: 2017-12-30 20:11+0100\n"
 "PO-Revision-Date: 2011-10-11 18:12+0900\n"
 "Last-Translator: Yasufumi Haga <yasufumi.haga@nifty.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -1136,7 +1136,7 @@ msgstr "アイコンボックスオプション"
 msgid "Iconbox Settings"
 msgstr "アイコンボックスの設定"
 
-#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:384
+#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:378
 msgid "Message"
 msgstr "メッセージ"
 
@@ -2153,7 +2153,7 @@ msgstr "システムトレイオプション"
 msgid "Systray Settings"
 msgstr "システムトレイの設定"
 
-#: src/theme.c:355
+#: src/theme.c:349
 #, c-format
 msgid ""
 "No themes were found in the default directories:\n"
@@ -2164,35 +2164,35 @@ msgstr ""
 "%s\n"
 "にテーマがありません。このまま進めてもほとんど無意味です。\n"
 
-#: src/theme.c:384
+#: src/theme.c:378
 msgid "Changes will take effect after restart"
 msgstr "変更は再起動後に有効になります."
 
-#: src/theme.c:404
+#: src/theme.c:398
 msgid "Use theme font configuration"
 msgstr "テーマのフォント設定を使う"
 
-#: src/theme.c:409
+#: src/theme.c:403
 #, c-format
 msgid "Use alternate font configuration (%s)"
 msgstr "別のフォント設定を使う (%s)"
 
-#: src/theme.c:410
+#: src/theme.c:404
 msgid "Not set"
 msgstr "設定しない"
 
 #
-#: src/theme.c:417
+#: src/theme.c:411
 msgid "Theme"
 msgstr "テーマ"
 
 #
-#: src/theme.c:417
+#: src/theme.c:411
 msgid "Theme Settings"
 msgstr "テーマの設定"
 
 #
-#: src/theme.c:421
+#: src/theme.c:415
 msgid ""
 "Enlightenment Theme\n"
 "Settings Dialog"

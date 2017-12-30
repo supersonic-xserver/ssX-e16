@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2017-12-30 19:25+0100\n"
+"POT-Creation-Date: 2017-12-30 20:11+0100\n"
 "PO-Revision-Date: 2010-05-09 01:20+0000\n"
 "Last-Translator: luojie-dune <Unknown>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
@@ -1074,7 +1074,7 @@ msgstr "图标架选项"
 msgid "Iconbox Settings"
 msgstr "图标架设置"
 
-#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:384
+#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:378
 msgid "Message"
 msgstr "消息"
 
@@ -2013,7 +2013,7 @@ msgstr "系统托盘选项"
 msgid "Systray Settings"
 msgstr "系统托盘设置"
 
-#: src/theme.c:355
+#: src/theme.c:349
 #, c-format
 msgid ""
 "No themes were found in the default directories:\n"
@@ -2024,32 +2024,32 @@ msgstr ""
 " %s\n"
 "继续前进没有意义了。\n"
 
-#: src/theme.c:384
+#: src/theme.c:378
 msgid "Changes will take effect after restart"
 msgstr "改动会在重启后生效"
 
-#: src/theme.c:404
+#: src/theme.c:398
 msgid "Use theme font configuration"
 msgstr "使用主题的字体设置"
 
-#: src/theme.c:409
+#: src/theme.c:403
 #, c-format
 msgid "Use alternate font configuration (%s)"
 msgstr "使用另一种字体设置(%s)"
 
-#: src/theme.c:410
+#: src/theme.c:404
 msgid "Not set"
 msgstr "未设定"
 
-#: src/theme.c:417
+#: src/theme.c:411
 msgid "Theme"
 msgstr "主题"
 
-#: src/theme.c:417
+#: src/theme.c:411
 msgid "Theme Settings"
 msgstr "主题设置"
 
-#: src/theme.c:421
+#: src/theme.c:415
 msgid ""
 "Enlightenment Theme\n"
 "Settings Dialog"

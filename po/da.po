@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2017-12-30 19:25+0100\n"
+"POT-Creation-Date: 2017-12-30 20:11+0100\n"
 "PO-Revision-Date: 2017-11-29 02:09+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -1094,7 +1094,7 @@ msgstr "Ikonboksindstillinger"
 msgid "Iconbox Settings"
 msgstr "Ikonboksindstillinger"
 
-#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:384
+#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:378
 msgid "Message"
 msgstr "Meddelelse"
 
@@ -2059,7 +2059,7 @@ msgstr "Systrayindstillinger"
 msgid "Systray Settings"
 msgstr "Systray indstillinger"
 
-#: src/theme.c:355
+#: src/theme.c:349
 #, c-format
 msgid ""
 "No themes were found in the default directories:\n"
@@ -2070,32 +2070,32 @@ msgstr ""
 " %s\n"
 "At fortsætte herfra er for det meste formålsløst.\n"
 
-#: src/theme.c:384
+#: src/theme.c:378
 msgid "Changes will take effect after restart"
 msgstr "Ændringer træder i kraft efter genstart"
 
-#: src/theme.c:404
+#: src/theme.c:398
 msgid "Use theme font configuration"
 msgstr "Brug tema fontkonfiguration"
 
-#: src/theme.c:409
+#: src/theme.c:403
 #, c-format
 msgid "Use alternate font configuration (%s)"
 msgstr "Brug alternativ fontkonfiguration (%s)"
 
-#: src/theme.c:410
+#: src/theme.c:404
 msgid "Not set"
 msgstr "Ikke sat"
 
-#: src/theme.c:417
+#: src/theme.c:411
 msgid "Theme"
 msgstr "Tema"
 
-#: src/theme.c:417
+#: src/theme.c:411
 msgid "Theme Settings"
 msgstr "Temaindstillinger"
 
-#: src/theme.c:421
+#: src/theme.c:415
 msgid ""
 "Enlightenment Theme\n"
 "Settings Dialog"
