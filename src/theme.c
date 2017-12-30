@@ -40,7 +40,7 @@ _ThemePathsUpdate(void)
 
 /* Check if this is a theme dir */
 static int
-_ThemeCheckDir(const char *path)
+_ThemeCheckDir(const char *path, const char *px)
 {
    static const char  *const theme_files[] = {
       "init.cfg",
@@ -54,11 +54,11 @@ _ThemeCheckDir(const char *path)
    char                s[FILEPATH_LEN_MAX];
 
    if (EDebug(EDBUG_TYPE_CONFIG))
-      Eprintf("%s: %s\n", __func__, path);
+      Eprintf("%s: %s%s\n", __func__, path, px);
 
    for (i = 0; (tf = theme_files[i]); i++)
      {
-	Esnprintf(s, sizeof(s), "%s/%s", path, tf);
+	Esnprintf(s, sizeof(s), "%s%s/%s", path, px, tf);
 	if (!isfile(s))
 	   return 0;
      }
@@ -66,17 +66,34 @@ _ThemeCheckDir(const char *path)
    return 1;
 }
 
+static int
+_ThemeCheckPath1(const char *path)
+{
+   if (_ThemeCheckDir(path, ""))
+      return 1;
+
+   if (_ThemeCheckDir(path, "/e16"))
+      return 1;
+
+   return 0;
+}
+
 static char        *
 _ThemeCheckPath(const char *path)
 {
+   char                ss[FILEPATH_LEN_MAX];
+
    if (EDebug(EDBUG_TYPE_CONFIG))
       Eprintf("%s: %s\n", __func__, path);
 
-   if (!isdir(path))
-      return NULL;
-
-   if (_ThemeCheckDir(path))
+   if (_ThemeCheckDir(path, ""))
       return Estrdup(path);
+
+   if (_ThemeCheckDir(path, "/e16"))
+     {
+	Esnprintf(ss, sizeof(ss), "%s/e16", path);
+	return Estrdup(ss);
+     }
 
    return NULL;
 }
@@ -126,10 +143,7 @@ _append_merge_dir(char *dir, char ***list, int *count)
 
 	if (isdir(ss))
 	  {
-	     if (_ThemeCheckDir(ss))
-		goto got_one;
-	     Esnprintf(ss, sizeof(ss), "%s/%s/e16", dir, str[i]);
-	     if (_ThemeCheckDir(ss))
+	     if (_ThemeCheckPath1(ss))
 		goto got_one;
 	     continue;
 	  }
@@ -227,11 +241,7 @@ _ThemeExtract(const char *path)
    /* exec the untar if tarred */
    Esystem(s);
 
-   if (_ThemeCheckDir(path))
-      return Estrdup(path);
-
-   /* failed */
-   return NULL;
+   return _ThemeCheckPath(th);
 }
 
 char               *
@@ -280,11 +290,6 @@ ThemeFind(const char *theme)
 	for (j = 0; j < num; j++)
 	  {
 	     Esnprintf(tdir, sizeof(tdir), "%s/%s", lst[j], theme);
-	     path = _ThemeCheckPath(tdir);
-	     if (path)
-		goto done;
-
-	     Esnprintf(tdir, sizeof(tdir), "%s/%s/e16", lst[j], theme);
 	     path = _ThemeCheckPath(tdir);
 	     if (path)
 		goto done;
