@@ -39,9 +39,6 @@
 
 #define MAX_E_CFG_VERSION 2	/* Max. supported configuration version */
 
-static char        *ConfigFileFind(const char *name, const char *themepath,
-				   int pp);
-
 void
 SkipTillEnd(FILE * fs)
 {
@@ -243,14 +240,18 @@ ConfigFilePreparse(const char *src, const char *dst, const char *themepath)
       themepath = Mode.theme.path;
    variant = (Mode.theme.variant) ? Mode.theme.variant : "";
 
-   Esystem("%s/epp " "-P " "-nostdinc " "-undef "
-	   "-include %s/config/definitions " "-I%s " "-I%s/config "
-	   "-D ENLIGHTENMENT_VERSION=%s " "-D ENLIGHTENMENT_ROOT=%s "
+   Esystem("%s/epp -P -nostdinc -undef "
+	   "-include %s/config/definitions -I%s -I%s/config "
+	   "-D ENLIGHTENMENT_VERSION=%s "
+	   "-D ENLIGHTENMENT_ROOT=%s "
 	   "-D ENLIGHTENMENT_BIN=%s "
-	   "-D ENLIGHTENMENT_THEME=%s " "-D VARIANT=%s "
-	   "-D ECONFDIR=%s " "-D ECACHEDIR=%s "
+	   "-D ENLIGHTENMENT_THEME=%s "
+	   "-D VARIANT=%s "
+	   "-D ECONFDIR=%s "
+	   "-D ECACHEDIR=%s "
 	   "-D SCREEN_RESOLUTION_%ix%i=1 "
-	   "-D SCREEN_WIDTH_%i=1 " "-D SCREEN_HEIGHT_%i=1 "
+	   "-D SCREEN_WIDTH_%i=1 "
+	   "-D SCREEN_HEIGHT_%i=1 "
 	   "-D SCREEN_DEPTH_%i=1 "
 	   "%s %s",
 	   EDirBin(), EDirRoot(), themepath, EDirRoot(),
