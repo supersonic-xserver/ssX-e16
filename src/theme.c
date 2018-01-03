@@ -168,6 +168,17 @@ _append_merge_dir(char *dir, char ***list, int *count)
 		goto got_one;
 	  }
 
+	if (strcmp(s + 1, "theme") == 0)
+	  {
+	     Esnprintf(s1, sizeof(s1), "%s/.themes/%s", userhome(), str[i]);
+	     s = strrchr(s1, '.');
+	     if (!s)
+		continue;
+	     *s = '\0';
+	     if (!isdir(s1))
+		goto got_one;
+	  }
+
 	continue;
 
       got_one:
