@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2017 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -149,23 +149,26 @@ _append_merge_dir(char *dir, char ***list, int *count)
 		goto got_one;
 	     continue;
 	  }
-	else if (isfile(ss))
+
+	if (!isfile(ss))
+	   continue;
+
+	s = strrchr(ss, '.');
+	if (!s)
+	   continue;
+
+	if (strcmp(s + 1, "etheme") == 0)
 	  {
-	     s = strstr(str[i], ".etheme");
-	     if (!s)
-		continue;
 	     Esnprintf(s1, sizeof(s1), "%s/themes/%s", EDirUser(), str[i]);
-	     s = strstr(s1, ".etheme");
+	     s = strrchr(s1, '.');
 	     if (!s)
 		continue;
 	     *s = '\0';
-	     if (isdir(s1))
-		continue;
+	     if (!isdir(s1))
+		goto got_one;
 	  }
-	else
-	  {
-	     continue;
-	  }
+
+	continue;
 
       got_one:
 	(*count)++;
