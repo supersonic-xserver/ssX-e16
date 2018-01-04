@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2017-12-30 20:11+0100\n"
+"POT-Creation-Date: 2018-01-04 19:46+0100\n"
 "PO-Revision-Date: 2010-01-16 04:42+0000\n"
 "Last-Translator: Miro Glavić <glavicmiro@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
@@ -1047,7 +1047,7 @@ msgstr ""
 msgid "Iconbox Settings"
 msgstr ""
 
-#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:378
+#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:390
 msgid "Message"
 msgstr "Poruka"
 
@@ -1960,7 +1960,7 @@ msgstr "Systray Opcije"
 msgid "Systray Settings"
 msgstr "Systray Postavke"
 
-#: src/theme.c:349
+#: src/theme.c:361
 #, c-format
 msgid ""
 "No themes were found in the default directories:\n"
@@ -1968,32 +1968,32 @@ msgid ""
 "Proceeding from here is mostly pointless.\n"
 msgstr ""
 
-#: src/theme.c:378
+#: src/theme.c:390
 msgid "Changes will take effect after restart"
 msgstr "Promjene će uzeti efekta nakon ponovnog pokretanja"
 
-#: src/theme.c:398
+#: src/theme.c:410
 msgid "Use theme font configuration"
 msgstr "Upotrijebi tematsku konfiguraciju pisma"
 
-#: src/theme.c:403
+#: src/theme.c:415
 #, c-format
 msgid "Use alternate font configuration (%s)"
 msgstr "Upotrijebi alternativnu konfiguraciju pisma (%s)"
 
-#: src/theme.c:404
+#: src/theme.c:416
 msgid "Not set"
 msgstr "Nije postavljeno"
 
-#: src/theme.c:411
+#: src/theme.c:423
 msgid "Theme"
 msgstr "Tema"
 
-#: src/theme.c:411
+#: src/theme.c:423
 msgid "Theme Settings"
 msgstr "Postavke Tema"
 
-#: src/theme.c:415
+#: src/theme.c:427
 msgid ""
 "Enlightenment Theme\n"
 "Settings Dialog"

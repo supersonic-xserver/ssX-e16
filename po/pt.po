@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2017-12-30 20:11+0100\n"
+"POT-Creation-Date: 2018-01-04 19:46+0100\n"
 "PO-Revision-Date: 2011-04-05 11:11-0000\n"
 "Last-Translator: Sérgio Marques <smarquespt@gmail.com>\n"
 "Language-Team: \n"
@@ -1092,7 +1092,7 @@ msgstr "Opções da caixa de ícones"
 msgid "Iconbox Settings"
 msgstr "Definições da caixa de ícones"
 
-#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:378
+#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:390
 msgid "Message"
 msgstr "Mensagem"
 
@@ -2048,7 +2048,7 @@ msgstr "Opções do \"Systray\""
 msgid "Systray Settings"
 msgstr "Definições do \"Systray\""
 
-#: src/theme.c:349
+#: src/theme.c:361
 #, c-format
 msgid ""
 "No themes were found in the default directories:\n"
@@ -2059,32 +2059,32 @@ msgstr ""
 " %s\n"
 "Avançar é inútil.\n"
 
-#: src/theme.c:378
+#: src/theme.c:390
 msgid "Changes will take effect after restart"
 msgstr "As alterações serão aplicadas depois de reiniciar"
 
-#: src/theme.c:398
+#: src/theme.c:410
 msgid "Use theme font configuration"
 msgstr "Utilizar a configuração do tema"
 
-#: src/theme.c:403
+#: src/theme.c:415
 #, c-format
 msgid "Use alternate font configuration (%s)"
 msgstr "Utilizar configuração alternativa (%s)"
 
-#: src/theme.c:404
+#: src/theme.c:416
 msgid "Not set"
 msgstr "Não definido"
 
-#: src/theme.c:411
+#: src/theme.c:423
 msgid "Theme"
 msgstr "Tema"
 
-#: src/theme.c:411
+#: src/theme.c:423
 msgid "Theme Settings"
 msgstr "Definições do tema"
 
-#: src/theme.c:415
+#: src/theme.c:427
 msgid ""
 "Enlightenment Theme\n"
 "Settings Dialog"

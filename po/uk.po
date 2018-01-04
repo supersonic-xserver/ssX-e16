@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2017-12-30 20:11+0100\n"
+"POT-Creation-Date: 2018-01-04 19:46+0100\n"
 "PO-Revision-Date: 2010-01-25 00:46+0000\n"
 "Last-Translator: Sergiy Gavrylov <sergiovana@bigmir.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -1127,7 +1127,7 @@ msgstr "Параметри Iconbox"
 msgid "Iconbox Settings"
 msgstr "Налаштування Iconbox"
 
-#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:378
+#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:390
 msgid "Message"
 msgstr "Повідомлення"
 
@@ -2107,7 +2107,7 @@ msgstr "Параметри системного лотка"
 msgid "Systray Settings"
 msgstr "Налаштування системного лотка"
 
-#: src/theme.c:349
+#: src/theme.c:361
 #, c-format
 msgid ""
 "No themes were found in the default directories:\n"
@@ -2118,32 +2118,32 @@ msgstr ""
 " %s\n"
 "Шукати їх там, безглуздо.\n"
 
-#: src/theme.c:378
+#: src/theme.c:390
 msgid "Changes will take effect after restart"
 msgstr "Зміни набудуть чинності після перезапуску"
 
-#: src/theme.c:398
+#: src/theme.c:410
 msgid "Use theme font configuration"
 msgstr "Використовувати конфігурацію шрифтів з теми"
 
-#: src/theme.c:403
+#: src/theme.c:415
 #, c-format
 msgid "Use alternate font configuration (%s)"
 msgstr "Використовувати алтернативну конфігурацію шрифтів (%s)"
 
-#: src/theme.c:404
+#: src/theme.c:416
 msgid "Not set"
 msgstr "Не встановлено"
 
-#: src/theme.c:411
+#: src/theme.c:423
 msgid "Theme"
 msgstr "Теми"
 
-#: src/theme.c:411
+#: src/theme.c:423
 msgid "Theme Settings"
 msgstr "Налаштування теми"
 
-#: src/theme.c:415
+#: src/theme.c:427
 msgid ""
 "Enlightenment Theme\n"
 "Settings Dialog"

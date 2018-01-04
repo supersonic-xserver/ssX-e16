@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2017-12-30 20:11+0100\n"
+"POT-Creation-Date: 2018-01-04 19:46+0100\n"
 "PO-Revision-Date: 2014-05-24 08:31+0000\n"
 "Last-Translator: Eliovir <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -1124,7 +1124,7 @@ msgstr "Simge Kutusu Seçenekleri"
 msgid "Iconbox Settings"
 msgstr "Simge Kutusu Ayarlarý"
 
-#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:378
+#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:390
 msgid "Message"
 msgstr "Ýleti"
 
@@ -2102,7 +2102,7 @@ msgstr "Sistem çekmecesi seçenekleri"
 msgid "Systray Settings"
 msgstr "Sistem Çekmecesi Ayarlarý"
 
-#: src/theme.c:349
+#: src/theme.c:361
 #, c-format
 msgid ""
 "No themes were found in the default directories:\n"
@@ -2113,32 +2113,32 @@ msgstr ""
 " %s\n"
 "Buradan devam etmek çoðunlukla anlamsýzdýr.\n"
 
-#: src/theme.c:378
+#: src/theme.c:390
 msgid "Changes will take effect after restart"
 msgstr "Deðiþiklikler yeniden baþlatmadan sonra etkili olacaktýr."
 
-#: src/theme.c:398
+#: src/theme.c:410
 msgid "Use theme font configuration"
 msgstr "Tema yazýtipi yapýlandýrmasýný kullan"
 
-#: src/theme.c:403
+#: src/theme.c:415
 #, c-format
 msgid "Use alternate font configuration (%s)"
 msgstr "Alternatif yazýtipi yapýlandýrmasýný kullan (%s)"
 
-#: src/theme.c:404
+#: src/theme.c:416
 msgid "Not set"
 msgstr "Ayarlanmamýþ"
 
-#: src/theme.c:411
+#: src/theme.c:423
 msgid "Theme"
 msgstr "Tema"
 
-#: src/theme.c:411
+#: src/theme.c:423
 msgid "Theme Settings"
 msgstr "Tema Ayarlarý"
 
-#: src/theme.c:415
+#: src/theme.c:427
 msgid ""
 "Enlightenment Theme\n"
 "Settings Dialog"

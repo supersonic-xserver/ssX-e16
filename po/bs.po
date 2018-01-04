@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2017-12-30 20:11+0100\n"
+"POT-Creation-Date: 2018-01-04 19:46+0100\n"
 "PO-Revision-Date: 2010-05-09 01:27+0000\n"
 "Last-Translator: Kemal Sanjta <Unknown>\n"
 "Language-Team: Bosnian <lokal@linux.org.ba>\n"
@@ -1087,7 +1087,7 @@ msgstr "Iconbox opcije"
 msgid "Iconbox Settings"
 msgstr "Iconbox Osobine"
 
-#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:378
+#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:390
 msgid "Message"
 msgstr "Poruka"
 
@@ -2050,7 +2050,7 @@ msgstr ""
 msgid "Systray Settings"
 msgstr ""
 
-#: src/theme.c:349
+#: src/theme.c:361
 #, c-format
 msgid ""
 "No themes were found in the default directories:\n"
@@ -2058,32 +2058,32 @@ msgid ""
 "Proceeding from here is mostly pointless.\n"
 msgstr ""
 
-#: src/theme.c:378
+#: src/theme.c:390
 msgid "Changes will take effect after restart"
 msgstr "Promjene će imati efekat nakon ponovog pokretanja"
 
-#: src/theme.c:398
+#: src/theme.c:410
 msgid "Use theme font configuration"
 msgstr ""
 
-#: src/theme.c:403
+#: src/theme.c:415
 #, c-format
 msgid "Use alternate font configuration (%s)"
 msgstr ""
 
-#: src/theme.c:404
+#: src/theme.c:416
 msgid "Not set"
 msgstr ""
 
-#: src/theme.c:411
+#: src/theme.c:423
 msgid "Theme"
 msgstr "Tema"
 
-#: src/theme.c:411
+#: src/theme.c:423
 msgid "Theme Settings"
 msgstr "Postavke Teme"
 
-#: src/theme.c:415
+#: src/theme.c:427
 msgid ""
 "Enlightenment Theme\n"
 "Settings Dialog"
