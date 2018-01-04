@@ -274,7 +274,7 @@ ThemeFind(const char *theme)
    static const char  *const default_themes[] = {
       "DEFAULT", "winter", "BrushedMetal-Tigert", "ShinyMetal", NULL
    };
-   char                tdir[FILEPATH_LEN_MAX], *path;
+   char                tpbuf[FILEPATH_LEN_MAX], *path;
    char              **lst;
    int                 i, j, num;
 
@@ -286,23 +286,11 @@ ThemeFind(const char *theme)
    path = NULL;
 
    if (!theme || !theme[0])
-     {
-	theme = NULL;
-     }
+      theme = NULL;		/* Lookup default */
    else if (!strcmp(theme, "-"))	/* Use fallbacks */
-     {
-	return NULL;
-     }
-   else if (strchr(theme, '/') || strchr(theme, '.'))
-     {
-	if (isdir(theme))
-	   path = _ThemeCheckPath(theme);
-	else if (isfile(theme))
-	   path = _ThemeExtract(theme);
-	if (path)
-	   return path;
-	theme = NULL;		/* Lookup default */
-     }
+      return NULL;
+   else if (exists(theme))
+      goto check;
 
    lst = StrlistFromString(Mode.theme.paths, ':', &num);
 
@@ -313,10 +301,12 @@ ThemeFind(const char *theme)
 	   goto next;
 	for (j = 0; j < num; j++)
 	  {
-	     Esnprintf(tdir, sizeof(tdir), "%s/%s", lst[j], theme);
-	     path = _ThemeCheckPath(tdir);
-	     if (path)
-		goto done;
+	     Esnprintf(tpbuf, sizeof(tpbuf), "%s/%s", lst[j], theme);
+	     if (exists(tpbuf))
+	       {
+		  theme = tpbuf;
+		  goto done;
+	       }
 	  }
       next:
 	theme = default_themes[i++];
@@ -326,8 +316,16 @@ ThemeFind(const char *theme)
  done:
    StrlistFree(lst, num);
 
-   if (path)
-      return path;
+ check:
+   if (theme)
+     {
+	if (isdir(theme))
+	   path = _ThemeCheckPath(theme);
+	else if (isfile(theme))
+	   path = _ThemeExtract(theme);
+	if (path)
+	   return path;
+     }
 
    /* No theme found yet, just find any theme */
    lst = ThemesList(&num);
