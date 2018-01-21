@@ -343,6 +343,9 @@ ThemeFind(const char *theme)
    const char         *p;
    char               *path, *s;
 
+   if (EDebug(EDBUG_TYPE_CONFIG))
+      Eprintf("%s: %s\n", __func__, theme);
+
    name[0] = '\0';
    p = (theme) ? theme : Conf.theme.name;
    if (p)
