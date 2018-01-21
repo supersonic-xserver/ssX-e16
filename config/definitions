@@ -1107,4 +1107,98 @@ __ICLASS __BGN; \
 #define END_IMAGE \
 __END
 
+#define BEGIN_TEXT(name) \
+__TCLASS __BGN; \
+  __NAME name
+
+#define TEXT_NORMAL(font, effect, fr, fg, fb, br, bg, bb) \
+  __NORMAL font; \
+  __DRAWING_EFFECT effect; \
+  __FORGROUND_COLOR fr fg fb; \
+  __BACKGROUND_COLOR br bg bb
+
+#define TEXT_CLICKED(font, effect, fr, fg, fb, br, bg, bb) \
+  __CLICKED font; \
+  __DRAWING_EFFECT effect; \
+  __FORGROUND_COLOR fr fg fb; \
+  __BACKGROUND_COLOR br bg bb
+
+#define TEXT_HILITED(font, effect, fr, fg, fb, br, bg, bb) \
+  __HILITED font; \
+  __DRAWING_EFFECT effect; \
+  __FORGROUND_COLOR fr fg fb; \
+  __BACKGROUND_COLOR br bg bb
+
+#define TEXT_NORMAL_ACTIVE(font, effect, fr, fg, fb, br, bg, bb) \
+  __NORMAL_ACTIVE font; \
+  __DRAWING_EFFECT effect; \
+  __FORGROUND_COLOR fr fg fb; \
+  __BACKGROUND_COLOR br bg bb
+
+#define TEXT_CLICKED_ACTIVE(font, effect, fr, fg, fb, br, bg, bb) \
+  __CLICKED_ACTIVE font; \
+  __DRAWING_EFFECT effect; \
+  __FORGROUND_COLOR fr fg fb; \
+  __BACKGROUND_COLOR br bg bb
+
+#define TEXT_HILITED_ACTIVE(font, effect, fr, fg, fb, br, bg, bb) \
+  __HILITED_ACTIVE font; \
+  __DRAWING_EFFECT effect; \
+  __FORGROUND_COLOR fr fg fb; \
+  __BACKGROUND_COLOR br bg bb
+
+#define TEXT_NORMAL_STICKY(font, effect, fr, fg, fb, br, bg, bb) \
+  __NORMAL_STICKY font; \
+  __DRAWING_EFFECT effect; \
+  __FORGROUND_COLOR fr fg fb; \
+  __BACKGROUND_COLOR br bg bb
+
+#define TEXT_CLICKED_STICKY(font, effect, fr, fg, fb, br, bg, bb) \
+  __CLICKED_STICKY font; \
+  __DRAWING_EFFECT effect; \
+  __FORGROUND_COLOR fr fg fb; \
+  __BACKGROUND_COLOR br bg bb
+
+#define TEXT_HILITED_STICKY(font, effect, fr, fg, fb, br, bg, bb) \
+  __HILITED_STICKY font; \
+  __DRAWING_EFFECT effect; \
+  __FORGROUND_COLOR fr fg fb; \
+  __BACKGROUND_COLOR br bg bb
+
+#define TEXT_NORMAL_ACTIVE_STICKY(font, effect, fr, fg, fb, br, bg, bb) \
+  __NORMAL_ACTIVE_STICKY font; \
+  __DRAWING_EFFECT effect; \
+  __FORGROUND_COLOR fr fg fb; \
+  __BACKGROUND_COLOR br bg bb
+
+#define TEXT_NORMAL_ACTIVE_CLICKED(font, effect, fr, fg, fb, br, bg, bb) \
+  __NORMAL_ACTIVE_CLICKED font; \
+  __DRAWING_EFFECT effect; \
+  __FORGROUND_COLOR fr fg fb; \
+  __BACKGROUND_COLOR br bg bb
+
+#define TEXT_NORMAL_ACTIVE_HILITED(font, effect, fr, fg, fb, br, bg, bb) \
+  __NORMAL_ACTIVE_HILITED font; \
+  __DRAWING_EFFECT effect; \
+  __FORGROUND_COLOR fr fg fb; \
+  __BACKGROUND_COLOR br bg bb
+
+#define TEXT_JUSTIFY_LEFT \
+  __JUSTIFICATION 0
+
+#define TEXT_JUSTIFY_CENTER \
+  __JUSTIFICATION 512
+
+#define TEXT_JUSTIFY_RIGHT \
+  __JUSTIFICATION 1024
+
+#define END_TEXT \
+__END
+
+#define BEGIN_FONTS \
+__FONTS __BGN
+
+#define END_FONTS \
+__END
+
 #endif /* __E16_DEFINITIONS__ */
