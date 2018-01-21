@@ -551,7 +551,7 @@ void                StartupBackgroundsDestroy(void);
 /* theme.c */
 char               *ThemePathFind(const char *theme);
 char               *ThemePathName(const char *path);
-void                ThemeFind(void);
+void                ThemeFind(const char *theme);
 char              **ThemesList(int *num);
 
 /*

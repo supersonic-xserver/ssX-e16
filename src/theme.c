@@ -337,16 +337,18 @@ ThemePathFind(const char *theme)
 }
 
 void
-ThemeFind(void)
+ThemeFind(const char *theme)
 {
-   char               *name, *path, *s;
+   char                name[FILEPATH_LEN_MAX];
+   const char         *p;
+   char               *path, *s;
 
-   /*
-    * Conf.theme.name is read from the configuration.
-    * Mode.theme.path may be assigned on the command line.
-    */
-   name = (Mode.theme.path) ? Mode.theme.path : Conf.theme.name;
-   s = (name) ? strchr(name, '=') : NULL;
+   name[0] = '\0';
+   p = (theme) ? theme : Conf.theme.name;
+   if (p)
+      snprintf(name, sizeof(name), "%s", p);
+
+   s = strchr(name, '=');
    if (s)
      {
 	*s++ = '\0';
@@ -356,7 +358,7 @@ ThemeFind(void)
 
    path = ThemePathFind(name);
 
-   if (!path && (!name || strcmp(name, "-")))
+   if (!path && strcmp(name, "-"))
      {
 	Alert(_("No themes were found in the default directories:\n"
 		" %s\n"

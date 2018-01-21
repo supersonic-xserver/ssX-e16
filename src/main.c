@@ -96,6 +96,7 @@ main(int argc, char **argv)
    int                 ch, i, loop;
    struct utsname      ubuf;
    const char         *str, *dstr;
+   char               *theme;
 
    /* This function runs all the setup for startup, and then 
     * proceeds into the primary event loop at the end.
@@ -146,7 +147,7 @@ main(int argc, char **argv)
     * understand.
     */
 
-   Mode.theme.path = NULL;
+   theme = NULL;
    dstr = NULL;
 
    for (loop = 1; loop;)
@@ -194,7 +195,7 @@ main(int argc, char **argv)
 	     SetSMID(eoptarg);
 	     break;
 	  case 't':
-	     Mode.theme.path = Estrdup(eoptarg);
+	     theme = Estrdup(eoptarg);
 	     break;
 	  case 'V':
 	     printf("%s %s\n", e_wm_name, e_wm_version);
@@ -240,7 +241,8 @@ main(int argc, char **argv)
    LangInit();
 
    /* The theme path must now be available for config file loading. */
-   ThemeFind();
+   ThemeFind(theme);
+   Efree(theme);
 
    /* Set the Environment variables */
    Esetenv("EVERSION", e_wm_version);
