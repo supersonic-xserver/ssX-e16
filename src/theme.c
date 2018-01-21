@@ -348,7 +348,7 @@ ThemeFind(const char *theme)
    if (p)
       snprintf(name, sizeof(name), "%s", p);
 
-   s = strchr(name, '=');
+   s = strchr(name, ':');
    if (s)
      {
 	*s++ = '\0';
@@ -366,8 +366,14 @@ ThemeFind(const char *theme)
 	      Mode.theme.paths);
      }
 
-   Efree(Conf.theme.name);
-   Conf.theme.name = ThemePathName(path);
+   if (theme)
+     {
+	Efree(Conf.theme.name);
+	if (isfile(theme))
+	   Conf.theme.name = ThemePathName(path);
+	else
+	   Conf.theme.name = Estrdup(theme);
+     }
 
    Efree(Mode.theme.path);
    Mode.theme.path = (path) ? path : Estrdup("-");
