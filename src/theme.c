@@ -269,7 +269,7 @@ _ThemeExtract(const char *path)
 }
 
 char               *
-ThemeFind(const char *theme)
+ThemePathFind(const char *theme)
 {
    static const char  *const default_themes[] = {
       "DEFAULT", "winter", "BrushedMetal-Tigert", "ShinyMetal", NULL
@@ -337,7 +337,7 @@ ThemeFind(const char *theme)
 }
 
 void
-ThemePathFind(void)
+ThemeFind(void)
 {
    char               *name, *path, *s;
 
@@ -354,7 +354,7 @@ ThemePathFind(void)
 	Mode.theme.variant = Estrdup(s);
      }
 
-   path = ThemeFind(name);
+   path = ThemePathFind(name);
 
    if (!path && (!name || strcmp(name, "-")))
      {
@@ -456,7 +456,7 @@ ThemesIpc(const char *params)
 
 	IpcPrintf("Name: %s\n", (Conf.theme.name) ? Conf.theme.name : "-");
 	IpcPrintf("Full: %s\n", Mode.theme.path);
-	path = ThemeFind(NULL);
+	path = ThemePathFind(NULL);
 	IpcPrintf("Default: %s\n", path);
 	Efree(path);
 	IpcPrintf("Path: %s\n", Mode.theme.paths);

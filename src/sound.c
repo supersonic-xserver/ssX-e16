@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2014 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -374,7 +374,7 @@ _SoundConfigLoad(void)
 
    Efree(Mode_sound.theme_path);
    if (Conf_sound.theme)
-      Mode_sound.theme_path = ThemeFind(Conf_sound.theme);
+      Mode_sound.theme_path = ThemePathFind(Conf_sound.theme);
    else
       Mode_sound.theme_path = NULL;
 

@@ -549,9 +549,9 @@ void                StartupWindowsOpen(void);
 void                StartupBackgroundsDestroy(void);
 
 /* theme.c */
-char               *ThemeFind(const char *theme);
+char               *ThemePathFind(const char *theme);
 char               *ThemePathName(const char *path);
-void                ThemePathFind(void);
+void                ThemeFind(void);
 char              **ThemesList(int *num);
 
 /*
