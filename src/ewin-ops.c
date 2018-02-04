@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2017 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -421,9 +421,6 @@ doEwinMoveResize(EWin * ewin, Desk * dsk, int x, int y, int w, int h, int flags)
 
    if (Mode.mode == MODE_NONE)
      {
-	if (TransparencyUpdateNeeded())
-	   EwinBorderDraw(ewin, resize, 1);	/* Update the border */
-
 	SnapshotEwinUpdate(ewin, SNAP_USE_POS | SNAP_USE_SIZE);
 
 	if (EoIsShown(ewin))

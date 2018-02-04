@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -252,7 +252,7 @@ _ContainerEwinMoveResize(EWin * ewin, int resize)
 {
    Container          *ct = (Container *) ewin->data;
 
-   if (!resize && !ct->do_update && !TransparencyUpdateNeeded())
+   if (!resize && !ct->do_update)
       return;
 
    ct->w = ewin->client.w;

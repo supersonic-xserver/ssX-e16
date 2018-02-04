@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -613,7 +613,7 @@ BackgroundRealize(Background * bg, Win win, EX_Drawable draw,
      }
 
    if (is_win && hasbg && !hasfg && x == 0 && y == 0 &&
-       ((w == rw && h == rh) || (bg->bg_tile && !TransparencyEnabled())))
+       ((w == rw && h == rh) || (bg->bg_tile)))
      {
 	/* Window, no fg, no offset, and scale to 100%, or tiled, no trans */
 	pmap = BackgroundCreatePixmap(win, w, h);

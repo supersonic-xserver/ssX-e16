@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2017 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -235,9 +235,6 @@ _MenuEwinMoveResize(EWin * ewin, int resize __UNUSED__)
 
    if (Mode.mode != MODE_NONE && !m->redraw)
       return;
-
-   if (TransparencyUpdateNeeded())
-      m->redraw = 1;
 
    if ((!m->style->use_item_bg && m->pmm.pmap == 0) || m->redraw)
      {

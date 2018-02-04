@@ -70,10 +70,6 @@
 /* iclass.c */
 int                 ImageclassConfigLoad(FILE * fs);
 
-#define TransparencyEnabled() 0
-#define TransparencyUpdateNeeded() 0
-#define ImageclassIsTransparent(ic) 0
-
 ImageClass         *ImageclassFind(const char *name, int fallback);
 ImageClass         *ImageclassAlloc(const char *name, int fallback);
 void                ImageclassFree(ImageClass * ic);
