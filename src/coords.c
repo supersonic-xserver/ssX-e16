@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2006-2013 Kim Woelders
+ * Copyright (C) 2006-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -142,8 +142,7 @@ _CoordsShow(EWin * ewin, int mode)
 	EobjMap(eo, 0);
      }
 
-   ITApply(EobjGetWin(eo), ic, NULL, STATE_NORMAL, 1, 0, ST_SOLID, tc, NULL, s,
-	   1);
+   ITApply(EobjGetWin(eo), ic, NULL, STATE_NORMAL, 1, 0, tc, NULL, s, 1);
 
    if (md)			/* Assuming that shape change only happens when size changes too */
       EobjShapeUpdate(eo, 0);

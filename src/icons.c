@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2014 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -230,8 +230,7 @@ IB_GetFallbackIcon(EWin * ewin, int size)
    IB_IconGetSize(ww, hh, size, 1, &w, &h);
 
    ic = ImageclassFind("ICONBOX_HORIZONTAL", 1);
-   im = ImageclassGetImageBlended(ic, EoGetWin(ewin), w, h, 0, 0,
-				  STATE_NORMAL, ST_SOLID);
+   im = ImageclassGetImageBlended(ic, EoGetWin(ewin), w, h, 0, 0, STATE_NORMAL);
 
    return im;
 }

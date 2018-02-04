@@ -642,8 +642,7 @@ ImageclassGetImage(ImageClass * ic, int active, int sticky, int state)
 
 EImage             *
 ImageclassGetImageBlended(ImageClass * ic, Win win __UNUSED__, int w, int h,
-			  int active, int sticky, int state,
-			  int image_type __UNUSED__)
+			  int active, int sticky, int state)
 {
    ImageState         *is;
    EImage             *im, *bg;
@@ -693,8 +692,7 @@ ImageclassGetImageBlended(ImageClass * ic, Win win __UNUSED__, int w, int h,
 
 static void
 ImagestateMakePmapMask(ImageState * is, Win win, PmapMask * pmm,
-		       int pmapflags __UNUSED__, int w, int h,
-		       int image_type __UNUSED__)
+		       int pmapflags __UNUSED__, int w, int h)
 {
    if (is->pixmapfillstyle == FILL_STRETCH)
      {
@@ -865,7 +863,7 @@ ImagestateDrawNoImg(ImageState * is, EX_Drawable draw, int x, int y, int w,
 
 void
 ITApply(Win win, ImageClass * ic, ImageState * is,
-	int state, int active, int sticky, int image_type,
+	int state, int active, int sticky,
 	TextClass * tc, TextState * ts, const char *text, int flags)
 {
    int                 w, h;
@@ -897,8 +895,7 @@ ITApply(Win win, ImageClass * ic, ImageState * is,
      {
 	PmapMask            pmm;
 
-	ImagestateMakePmapMask(is, win, &pmm, IC_FLAG_MAKE_MASK, w, h,
-			       image_type);
+	ImagestateMakePmapMask(is, win, &pmm, IC_FLAG_MAKE_MASK, w, h);
 
 	if (pmm.pmap)
 	  {
@@ -966,11 +963,9 @@ ITApply(Win win, ImageClass * ic, ImageState * is,
 }
 
 void
-ImageclassApply(ImageClass * ic, Win win, int active, int sticky, int state,
-		int image_type)
+ImageclassApply(ImageClass * ic, Win win, int active, int sticky, int state)
 {
-   ITApply(win, ic, NULL, state, active, sticky, image_type, NULL, NULL, NULL,
-	   0);
+   ITApply(win, ic, NULL, state, active, sticky, NULL, NULL, NULL, 0);
 }
 
 static void
@@ -1000,7 +995,7 @@ PmapMaskTile(PmapMask * pmm, Win win, unsigned int w, unsigned int h)
 void
 ImageclassApplyCopy(ImageClass * ic, Win win, int w, int h,
 		    int active, int sticky, int state,
-		    PmapMask * pmm, int pmapflags, int image_type)
+		    PmapMask * pmm, int pmapflags)
 {
    ImageState         *is;
 
@@ -1023,7 +1018,7 @@ ImageclassApplyCopy(ImageClass * ic, Win win, int w, int h,
    /* Imlib2 will not render pixmaps with dimensions > 8192 */
    if (is->im && w <= 8192 && h <= 8192)
      {
-	ImagestateMakePmapMask(is, win, pmm, pmapflags, w, h, image_type);
+	ImagestateMakePmapMask(is, win, pmm, pmapflags, w, h);
 
 	if ((pmapflags & IC_FLAG_FULL_SIZE) && pmm->pmap &&
 	    (pmm->w != w || pmm->h != h))
@@ -1232,7 +1227,7 @@ ImageclassIpc(const char *params)
 	else
 	   st = STATE_NORMAL;
 
-	ImageclassApply(ic, win, 0, 0, st, ST_SOLID);
+	ImageclassApply(ic, win, 0, 0, st);
 	EDestroyWin(win);
      }
    else if (!strcmp(param2, "apply_copy"))
@@ -1271,7 +1266,7 @@ ImageclassIpc(const char *params)
 	  }
 
 	ImageclassApplyCopy(ic, win, w, h, 0, 0, st, &pmm,
-			    IC_FLAG_MAKE_MASK | IC_FLAG_FULL_SIZE, ST_SOLID);
+			    IC_FLAG_MAKE_MASK | IC_FLAG_FULL_SIZE);
 	IpcPrintf("0x%08x 0x%08x\n", pmm.pmap, pmm.mask);
 	EDestroyWin(win);
      }

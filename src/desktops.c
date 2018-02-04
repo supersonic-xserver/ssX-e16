@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -2398,7 +2398,7 @@ CB_DesktopDisplayRedraw(Dialog * d, int val, void *data)
    if (!dd->initialised)
      {
 	ic = ImageclassFind("SETTINGS_DESKTOP_AREA", 1);
-	ImageclassApply(ic, win, 0, 0, STATE_NORMAL, ST_SOLID);
+	ImageclassApply(ic, win, 0, 0, STATE_NORMAL);
 	dd->initialised = 1;
      }
 
@@ -2426,8 +2426,7 @@ CB_DesktopDisplayRedraw(Dialog * d, int val, void *data)
 	     else
 	       {
 		  ic = ImageclassFind("SETTINGS_DESKTOP_AREA", 1);
-		  ImageclassApply(ic, dd->wins[i], 0, 0, STATE_NORMAL,
-				  ST_SOLID);
+		  ImageclassApply(ic, dd->wins[i], 0, 0, STATE_NORMAL);
 	       }
 	  }
      }
@@ -2633,7 +2632,7 @@ CB_AreaDisplayRedraw(Dialog * d, int val, void *data)
 	EX_Pixmap           pmap;
 
 	ic = ImageclassFind("SETTINGS_AREA_AREA", 1);
-	ImageclassApply(ic, win, 0, 0, STATE_NORMAL, ST_SOLID);
+	ImageclassApply(ic, win, 0, 0, STATE_NORMAL);
 
 	/* Note: awin is destroyed when the dialog is destroyed */
 	dd->awin = ECreateWindow(win, 0, 0, 18, 14, 0);

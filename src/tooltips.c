@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -423,7 +423,7 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 	iy = (h - ih) / 2;
 	EMoveResizeWindow(tt->iwin, ix, iy, iw, ih);
 	EMapWindow(tt->iwin);
-	ImageclassApply(tt->tooltippic, tt->iwin, 0, 0, STATE_NORMAL, ST_SOLID);
+	ImageclassApply(tt->tooltippic, tt->iwin, 0, 0, STATE_NORMAL);
      }
    else
       EUnmapWindow(tt->iwin);
@@ -556,8 +556,7 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 	eo = tt->win[i];
 	if (!eo)
 	   continue;
-	ImageclassApply(tt->iclass[i], EobjGetWin(eo), 0, 0, STATE_NORMAL,
-			ST_TOOLTIP);
+	ImageclassApply(tt->iclass[i], EobjGetWin(eo), 0, 0, STATE_NORMAL);
 	EobjShapeUpdate(eo, 0);
 	EobjMap(eo, 0);
      }

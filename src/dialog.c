@@ -330,7 +330,7 @@ DialogRedraw(Dialog * d)
 
    PmapMaskFree(&d->pmm_bg);
    ImageclassApplyCopy(d->iclass, d->win, d->w, d->h, 0, 0, STATE_NORMAL,
-		       &(d->pmm_bg), IC_FLAG_FULL_SIZE, ST_DIALOG);
+		       &(d->pmm_bg), IC_FLAG_FULL_SIZE);
    if (d->pmm_bg.pmap == NoXID)
       return;
 
@@ -1339,8 +1339,7 @@ DialogDrawItem(Dialog * d, DItem * di)
 			     di->item.slider.knob_w, di->item.slider.knob_h);
 	if (di->item.slider.base_win)
 	   ImageclassApply(di->item.slider.ic_base,
-			   di->item.slider.base_win,
-			   0, 0, STATE_NORMAL, ST_WIDGET);
+			   di->item.slider.base_win, 0, 0, STATE_NORMAL);
 	state = STATE_NORMAL;
 	if ((di->hilited) && (di->clicked))
 	   state = STATE_CLICKED;
@@ -1350,7 +1349,7 @@ DialogDrawItem(Dialog * d, DItem * di)
 	   state = STATE_CLICKED;
 	if (di->item.slider.knob_win)
 	   ImageclassApply(di->item.slider.ic_knob,
-			   di->item.slider.knob_win, 0, 0, state, ST_WIDGET);
+			   di->item.slider.knob_win, 0, 0, state);
 	break;
 
      case DITEM_BUTTON:
@@ -1362,13 +1361,13 @@ DialogDrawItem(Dialog * d, DItem * di)
 	else if (!(di->hilited) && (di->clicked))
 	   state = STATE_CLICKED;
 	ITApply(di->win, di->iclass, NULL, state, 0, 0,
-		ST_WIDGET, di->tclass, NULL, di->text, 0);
+		di->tclass, NULL, di->text, 0);
 	break;
 
      case DITEM_AREA:
 	if (!d->redraw)
 	   break;
-	ImageclassApply(di->iclass, di->win, 0, 0, STATE_NORMAL, ST_DIALOG);
+	ImageclassApply(di->iclass, di->win, 0, 0, STATE_NORMAL);
 	if (di->item.area.init_func)
 	   di->item.area.init_func(di, 0, NULL);
 	break;
@@ -1377,9 +1376,9 @@ DialogDrawItem(Dialog * d, DItem * di)
 	if (!d->redraw)
 	   break;
 	if (di->item.separator.horizontal)
-	   ImageclassApply(di->iclass, di->win, 0, 0, STATE_NORMAL, ST_WIDGET);
+	   ImageclassApply(di->iclass, di->win, 0, 0, STATE_NORMAL);
 	else
-	   ImageclassApply(di->iclass, di->win, 0, 0, STATE_CLICKED, ST_WIDGET);
+	   ImageclassApply(di->iclass, di->win, 0, 0, STATE_CLICKED);
 	break;
 
      case DITEM_TEXT:
@@ -1408,7 +1407,7 @@ DialogDrawItem(Dialog * d, DItem * di)
 	else if (!(di->hilited) && (di->clicked))
 	   state = STATE_CLICKED;
 	ImageclassApply(di->iclass, di->item.check_button.check_win,
-			DialogItemCheckButtonGetState(di), 0, state, ST_WIDGET);
+			DialogItemCheckButtonGetState(di), 0, state);
 	if (!d->redraw &&
 	    (TextclassGetTextState(di->tclass, di->state, 0, 0) ==
 	     TextclassGetTextState(di->tclass, state, 0, 0)))
@@ -1427,7 +1426,7 @@ DialogDrawItem(Dialog * d, DItem * di)
 	else if (!(di->hilited) && (di->clicked))
 	   state = STATE_CLICKED;
 	ImageclassApply(di->iclass, di->item.radio_button.radio_win,
-			di->item.radio_button.onoff, 0, state, ST_WIDGET);
+			di->item.radio_button.onoff, 0, state);
 	if (!d->redraw &&
 	    (TextclassGetTextState(di->tclass, di->state, 0, 0) ==
 	     TextclassGetTextState(di->tclass, state, 0, 0)))

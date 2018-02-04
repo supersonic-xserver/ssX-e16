@@ -43,20 +43,6 @@
 #define FILL_INT_TILE_H         4
 #define FILL_INT_TILE_V         8
 
-/* Selective Transparency item types */
-#define ST_SOLID 	0
-#define ST_BORDER	1
-#define ST_WIDGET	2
-#define ST_ICONBOX	3
-#define ST_MENU		4
-#define ST_MENU_ITEM	5
-#define ST_TOOLTIP	6
-#define ST_DIALOG	7
-#define ST_HILIGHT	8
-#define ST_PAGER	9
-#define ST_WARPLIST	10
-#define ST_BUTTON	11
-
 /* ImageclassApplyCopy flags */
 #define IC_FLAG_NONE            0x00	/* No flags */
 #define IC_FLAG_WRITABLE        0x01	/* Provide writable pixmaps */
@@ -85,18 +71,16 @@ void                ImageclassApplySimple(ImageClass * ic, Win win,
 					  EX_Drawable draw, int state, int x,
 					  int y, int w, int h);
 void                ImageclassApply(ImageClass * ic, Win win,
-				    int active, int sticky, int state,
-				    int image_type);
+				    int active, int sticky, int state);
 void                ImageclassApplyCopy(ImageClass * ic, Win win, int w,
 					int h, int active, int sticky,
 					int state, PmapMask * pmm,
-					int pmapflags, int image_type);
+					int pmapflags);
 EImage             *ImageclassGetImageBlended(ImageClass * ic, Win win,
 					      int w, int h, int active,
-					      int sticky, int state,
-					      int image_type);
+					      int sticky, int state);
 void                ITApply(Win win, ImageClass * ic, ImageState * is,
-			    int state, int active, int sticky, int image_type,
+			    int state, int active, int sticky,
 			    TextClass * tc, TextState * ts, const char *text,
 			    int flags);
 

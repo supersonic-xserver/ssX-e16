@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2013 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -100,8 +100,8 @@ StartupWindowsCreate(void)
 	EMapRaised(b1);
 	EMapRaised(b2);
 
-	ImageclassApply(ic, b1, 0, 0, 0, ST_SOLID);
-	ImageclassApply(ic, b2, 0, 0, 0, ST_SOLID);
+	ImageclassApply(ic, b1, 0, 0, 0);
+	ImageclassApply(ic, b2, 0, 0, 0);
      }
 
    BackgroundSet(bg, win1, WinGetW(VROOT), WinGetH(VROOT));

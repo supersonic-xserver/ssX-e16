@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2006-2013 Kim Woelders
+ * Copyright (C) 2006-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -150,7 +150,7 @@ ProgressbarSet(Progressbar * p, int progress)
    Esnprintf(s, sizeof(s), "%i%%", p->value);
 
    EobjResize(p->p_win, w, p->h);
-   ImageclassApply(p->ic, EobjGetWin(p->p_win), 1, 0, STATE_NORMAL, ST_SOLID);
+   ImageclassApply(p->ic, EobjGetWin(p->p_win), 1, 0, STATE_NORMAL);
    EobjShapeUpdate(p->p_win, 0);
 
    pad = ImageclassGetPadding(p->ic);
@@ -169,9 +169,9 @@ ProgressbarShow(Progressbar * p)
 {
    EImageBorder       *pad;
 
-   ImageclassApply(p->ic, EobjGetWin(p->win), 0, 0, STATE_NORMAL, ST_SOLID);
-   ImageclassApply(p->ic, EobjGetWin(p->n_win), 0, 0, STATE_CLICKED, ST_SOLID);
-   ImageclassApply(p->ic, EobjGetWin(p->p_win), 1, 0, STATE_NORMAL, ST_SOLID);
+   ImageclassApply(p->ic, EobjGetWin(p->win), 0, 0, STATE_NORMAL);
+   ImageclassApply(p->ic, EobjGetWin(p->n_win), 0, 0, STATE_CLICKED);
+   ImageclassApply(p->ic, EobjGetWin(p->p_win), 1, 0, STATE_NORMAL);
 
    EobjMap(p->win, 0);
    EobjMap(p->n_win, 0);

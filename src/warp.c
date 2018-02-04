@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2016 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -258,7 +258,7 @@ WarpFocusWinPaint(WarpFocusWin * fw)
 
 	state = (i == warpFocusIndex) ? STATE_CLICKED : STATE_NORMAL;
 
-	ImageclassApply(fw->ic, wi->win, 0, 0, state, ST_WARPLIST);
+	ImageclassApply(fw->ic, wi->win, 0, 0, state);
 
 	iw = 0;
 	if (Conf.warplist.icon_mode != 0)

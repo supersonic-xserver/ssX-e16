@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -148,5 +148,5 @@ DockIt(EWin * ewin)
 	XMapWindow(disp, ewin->icccm.icon_win);
      }
 
-   ImageclassApply(ic, EoGetWin(ewin), 0, 0, STATE_NORMAL, ST_BUTTON);
+   ImageclassApply(ic, EoGetWin(ewin), 0, 0, STATE_NORMAL);
 }

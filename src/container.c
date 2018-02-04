@@ -907,19 +907,16 @@ ContainerDrawScroll(Container * ct)
 	  }
      }
 
-   ImageclassApply(ic_base, ct->scroll_win, 0, 0, STATE_NORMAL, ST_ICONBOX);
-   ImageclassApply(ic_knob, ct->scrollbar_win, 0, 0, ST(ct->scrollbar_state),
-		   ST_ICONBOX);
+   ImageclassApply(ic_base, ct->scroll_win, 0, 0, STATE_NORMAL);
+   ImageclassApply(ic_knob, ct->scrollbar_win, 0, 0, ST(ct->scrollbar_state));
    if (WinIsMapped(ct->scrollbarknob_win))
       ImageclassApply(ic_snob, ct->scrollbarknob_win, 0, 0,
-		      ST(ct->scrollbar_state), ST_ICONBOX);
+		      ST(ct->scrollbar_state));
 
    if (WinIsMapped(ct->arrow1_win))
      {
-	ImageclassApply(ic_arr1, ct->arrow1_win, 0, 0, ST(ct->arrow1_state),
-			ST_ICONBOX);
-	ImageclassApply(ic_arr2, ct->arrow2_win, 0, 0, ST(ct->arrow2_state),
-			ST_ICONBOX);
+	ImageclassApply(ic_arr1, ct->arrow1_win, 0, 0, ST(ct->arrow1_state));
+	ImageclassApply(ic_arr2, ct->arrow2_win, 0, 0, ST(ct->arrow2_state));
      }
 }
 
@@ -1082,8 +1079,7 @@ ContainerDraw(Container * ct)
      {
 	EMoveResizeWindow(ct->cover_win, ib_xlt, ib_ylt, ib_ww, ib_hh);
 	EMapWindow(ct->cover_win);
-	ImageclassApply(ib_ic_cover, ct->cover_win, 0, 0, STATE_NORMAL,
-			ST_ICONBOX);
+	ImageclassApply(ib_ic_cover, ct->cover_win, 0, 0, STATE_NORMAL);
      }
    else
      {
@@ -1100,7 +1096,7 @@ ContainerDraw(Container * ct)
      {
 	/* Start out with iconbox image class image */
 	im = ImageclassGetImageBlended(ct->ic_box, ct->icon_win, ib_w0, ib_h0,
-				       0, 0, STATE_NORMAL, ST_ICONBOX);
+				       0, 0, STATE_NORMAL);
      }
    else
      {

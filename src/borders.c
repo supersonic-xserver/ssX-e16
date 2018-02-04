@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2017 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -121,9 +121,8 @@ BorderWinpartITclassApply(EWin * ewin, int i, int force)
    ewb->is = is;
    ewb->ts = ts;
 
-   ITApply(ewb->win, ebp->iclass, is, ewb->state,
-	   ewin->state.active, EoIsSticky(ewin), ST_BORDER,
-	   ebp->tclass, ts, txt, flags);
+   ITApply(ewb->win, ebp->iclass, is, ewb->state, ewin->state.active,
+	   EoIsSticky(ewin), ebp->tclass, ts, txt, flags);
 
    if (ebp->flags & FLAG_MINIICON)
      {

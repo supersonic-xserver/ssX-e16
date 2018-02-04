@@ -907,8 +907,7 @@ MenuRedraw(Menu * m)
      {
 	PmapMaskFree(&m->pmm);
 	ImageclassApplyCopy(m->style->bg_iclass, m->win, m->w, m->h, 0,
-			    0, STATE_NORMAL, &m->pmm, IC_FLAG_MAKE_MASK,
-			    ST_MENU);
+			    0, STATE_NORMAL, &m->pmm, IC_FLAG_MAKE_MASK);
 	EGetWindowBackgroundPixmap(m->win);
 	EXCopyAreaTiled(m->pmm.pmap, NoXID, WinGetPmap(m->win),
 			0, 0, m->w, m->h, 0, 0);
@@ -939,7 +938,6 @@ MenuDrawItem(Menu * m, MenuItem * mi, char shape, int state)
    if (!mi_pmm->pmap)
      {
 	int                 x, y, w, h;
-	int                 item_type;
 	ImageClass         *ic;
 	PmapMask            pmm;
 	EImage             *im;
@@ -951,7 +949,6 @@ MenuDrawItem(Menu * m, MenuItem * mi, char shape, int state)
 	mi_pmm->mask = NoXID;
 
 	ic = (mi->child) ? m->style->sub_iclass : m->style->item_iclass;
-	item_type = (mi->state != STATE_NORMAL) ? ST_MENU_ITEM : ST_MENU;
 
 	if (!m->style->use_item_bg)
 	  {
@@ -959,7 +956,7 @@ MenuDrawItem(Menu * m, MenuItem * mi, char shape, int state)
 	     if ((mi->state != STATE_NORMAL) || (mi->child))
 	       {
 		  ImageclassApplyCopy(ic, mi->win, w, h, 0, 0, mi->state, &pmm,
-				      IC_FLAG_MAKE_MASK, item_type);
+				      IC_FLAG_MAKE_MASK);
 		  EXCopyAreaTiled(pmm.pmap, pmm.mask, mi_pmm->pmap,
 				  0, 0, w, h, 0, 0);
 		  PmapMaskFree(&pmm);
@@ -968,7 +965,7 @@ MenuDrawItem(Menu * m, MenuItem * mi, char shape, int state)
 	else
 	  {
 	     ImageclassApplyCopy(ic, mi->win, w, h, 0, 0, mi->state, &pmm,
-				 IC_FLAG_MAKE_MASK, item_type);
+				 IC_FLAG_MAKE_MASK);
 	     EXCopyAreaTiled(pmm.pmap, pmm.mask, mi_pmm->pmap,
 			     0, 0, w, h, 0, 0);
 	     PmapMaskFree(&pmm);
