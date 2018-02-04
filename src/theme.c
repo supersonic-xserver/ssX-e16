@@ -283,8 +283,6 @@ ThemeFind(const char *theme)
 
    _ThemePathsUpdate();
 
-   path = NULL;
-
    if (!theme || !theme[0])
       theme = NULL;		/* Lookup default */
    else if (!strcmp(theme, "-"))	/* Use fallbacks */
@@ -319,6 +317,7 @@ ThemeFind(const char *theme)
  check:
    if (theme)
      {
+	path = NULL;
 	if (isdir(theme))
 	   path = _ThemeCheckPath(theme);
 	else if (isfile(theme))
@@ -350,10 +349,11 @@ ThemePathFind(void)
    s = (name) ? strchr(name, '=') : NULL;
    if (s)
      {
-	*s = 0;
+	*s++ = '\0';
 	Efree(Mode.theme.variant);
-	Mode.theme.variant = Estrdup(s + 1);
+	Mode.theme.variant = Estrdup(s);
      }
+
    path = ThemeFind(name);
 
    if (!path && (!name || strcmp(name, "-")))
