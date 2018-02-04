@@ -686,6 +686,7 @@ MenuRealize(Menu * m)
 {
    int                 i, maxh, maxw, nmaxy;
    int                 maxx1, maxx2, w, h, x, y, r, mmw, mmh;
+   char               *s;
    EImage             *im;
    EImageBorder       *pad, *pad_item, *pad_sub;
    char                has_i, has_s;
@@ -741,6 +742,16 @@ MenuRealize(Menu * m)
 	if (m->items[i]->icon && Conf.menus.show_icons)
 	  {
 	     im = EImageLoad(m->items[i]->icon);
+	     if (!im)
+	       {
+		  s = ImageclassGetFile(ImageclassFind(m->items[i]->icon, 0));
+		  im = EImageLoad(s);
+		  if (im)
+		    {
+		       Efree(m->items[i]->icon);
+		       m->items[i]->icon = s;
+		    }
+	       }
 	     if (im)
 	       {
 		  w = h = 0;

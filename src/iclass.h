@@ -65,6 +65,7 @@ ImageState         *ImageclassGetImageState(ImageClass * ic, int state,
 					    int active, int sticky);
 ImageClass         *ImageclassCreateSimple(const char *name, const char *image);
 ImageClass         *ImageclassGetBlack(void);
+char               *ImageclassGetFile(ImageClass * ic);
 EImage             *ImageclassGetImage(ImageClass * ic, int active, int sticky,
 				       int state);
 void                ImageclassApplySimple(ImageClass * ic, Win win,

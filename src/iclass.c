@@ -640,6 +640,21 @@ ImageclassGetImage(ImageClass * ic, int active, int sticky, int state)
    return im;
 }
 
+char               *
+ImageclassGetFile(ImageClass * ic)
+{
+   ImageState         *is;
+
+   if (!ic)
+      return NULL;
+
+   is = ImageclassGetImageState(ic, STATE_NORMAL, 0, 0);
+   if (!is || !is->im_file)
+      return NULL;
+
+   return ThemeFileFind(is->im_file, FILE_TYPE_IMAGE);
+}
+
 EImage             *
 ImageclassGetImageBlended(ImageClass * ic, Win win __UNUSED__, int w, int h,
 			  int active, int sticky, int state)
