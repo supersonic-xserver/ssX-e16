@@ -592,14 +592,11 @@ ThemeConfigLoad(void)
       "tooltips.cfg",
       "menustyles.cfg",
    };
-   char                s[FILEPATH_LEN_MAX];
    Progressbar        *p = NULL;
    int                 i;
 
    /* Font mappings */
    FontConfigLoad();
-
-   Esnprintf(s, sizeof(s), "%s/", Mode.theme.path);
 
    for (i = 0; i < (int)(sizeof(config_files) / sizeof(char *)); i++)
 
