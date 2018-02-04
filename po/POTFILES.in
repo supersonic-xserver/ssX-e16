@@ -27,7 +27,6 @@ src/main.c
 src/magwin.c
 src/menus-misc.c
 src/menus.c
-src/mod-trans.c
 src/pager.c
 src/session.c
 src/settings.c
