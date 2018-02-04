@@ -1304,20 +1304,6 @@ tooltips.showroottooltip = 1
 # [int] Tooltip delay
 tooltips.delay = 1500
 
-# [int] Theme transparency(0-255)
-transparency.alpha = 0
-# [int] Item transparencies (0: off, 1: background, 2: glass)
-transparency.menu = 1
-transparency.menu_item = 1
-transparency.tooltip = 2
-transparency.widget = 1
-transparency.hilight = 0
-transparency.border = 1
-transparency.iconbox = 1
-transparency.dialog = 1
-transparency.pager = 1
-transparency.warplist = 1
-
 # [bool] Enable focus list (alt-tab)
 warplist.enable = 1
 # [bool] Show sticky windows

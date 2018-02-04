@@ -411,15 +411,6 @@ if test "x$enable_dialogs" = "xyes"; then
   AC_DEFINE(ENABLE_DIALOGS, 1, [Configuration dialog support])
 fi
 
-AC_ARG_ENABLE(pseudotrans,
-  AC_HELP_STRING([--enable-pseudotrans],
-                 [enable support for pseudo-transparency @<:@default=no@:>@]),,
-  enable_pseudotrans=no)
-if test "x$enable_pseudotrans" = "xyes"; then
-  AC_DEFINE(ENABLE_TRANSPARENCY,       1, [Enable pseudotransparency])
-  AC_DEFINE(ENABLE_THEME_TRANSPARENCY, 1, [Enable adjusting theme element pseudotransparency])
-fi
-
 AC_ARG_ENABLE(container,
   AC_HELP_STRING([--enable-container],
                  [use container window (experimental) @<:@default=yes@:>@]),,
@@ -510,7 +501,6 @@ echo "  Modules ...................... $enable_modules"
 echo "  Visibility hiding ............ $enable_visibility_hiding (only useful with modules)"
 echo "  Window mode helper library ... $enable_libhack"
 echo "  Dialogs ...................... $enable_dialogs"
-echo "  Pseudo-transparency .......... $enable_pseudotrans"
 echo
 echo "Experimental options - DO NOT USE unless you know what you are doing"
 echo "  GLX .......................... $enable_glx"

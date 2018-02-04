@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2014 Kim Woelders
+ * Copyright (C) 2003-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -64,9 +64,6 @@ extern const EModule ModTextclass;
 extern const EModule ModTheme;
 extern const EModule ModTooltips;
 
-#ifdef ENABLE_THEME_TRANSPARENCY
-extern const EModule ModTransparency;
-#endif
 extern const EModule ModWarplist;
 extern const EModule ModWindowMatch;
 
@@ -100,9 +97,6 @@ const EModule      *const p_modules[] = {
    &ModTextclass,
    &ModTheme,
    &ModTooltips,
-#ifdef ENABLE_THEME_TRANSPARENCY
-   &ModTransparency,
-#endif
    &ModWarplist,
    &ModWindowMatch,
 };

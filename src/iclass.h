@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2014 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -57,12 +57,6 @@
 #define ST_WARPLIST	10
 #define ST_BUTTON	11
 
-#define ICLASS_ATTR_OPAQUE      0x00	/* No transparency */
-#define ICLASS_ATTR_BG          0x01	/* Background transparency */
-#define ICLASS_ATTR_GLASS       0x02	/* Glass transparency */
-#define ICLASS_ATTR_NO_CLIP     0x04	/* Don't apply clip mask */
-#define ICLASS_ATTR_USE_CM      0x08	/* Use colormodifier */
-
 /* ImageclassApplyCopy flags */
 #define IC_FLAG_NONE            0x00	/* No flags */
 #define IC_FLAG_WRITABLE        0x01	/* Provide writable pixmaps */
@@ -76,16 +70,9 @@
 /* iclass.c */
 int                 ImageclassConfigLoad(FILE * fs);
 
-#ifdef ENABLE_THEME_TRANSPARENCY
-void                TransparencySet(int transparency);
-int                 TransparencyEnabled(void);
-int                 TransparencyUpdateNeeded(void);
-int                 ImageclassIsTransparent(ImageClass * ic);
-#else
 #define TransparencyEnabled() 0
 #define TransparencyUpdateNeeded() 0
 #define ImageclassIsTransparent(ic) 0
-#endif
 
 ImageClass         *ImageclassFind(const char *name, int fallback);
 ImageClass         *ImageclassAlloc(const char *name, int fallback);

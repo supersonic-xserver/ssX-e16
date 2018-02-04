@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -71,84 +71,6 @@ struct _imageclass {
 static              LIST_HEAD(iclass_list);
 
 static ImageClass  *ImageclassGetFallback(void);
-
-#ifdef ENABLE_THEME_TRANSPARENCY
-
-static EImageColorModifier *icm = NULL;
-
-static int          prev_alpha = -1;
-
-int
-TransparencyEnabled(void)
-{
-   return Conf.trans.alpha;
-}
-
-int
-TransparencyUpdateNeeded(void)
-{
-   return Conf.trans.alpha || prev_alpha;
-}
-
-static void
-TransparencyMakeColorModifier(void)
-{
-   int                 i;
-   unsigned char       gray[256];
-   unsigned char       alpha[256];
-
-   for (i = 0; i < 256; i++)
-     {
-	gray[i] = i;
-	alpha[i] = 255 - Conf.trans.alpha;
-     }
-
-   if (!icm)
-      icm = EImageColorModifierCreate();
-   EImageColorModifierSetTables(icm, gray, gray, gray, alpha);
-}
-
-void
-TransparencySet(int transparency)
-{
-   int                 changed;
-
-   if (transparency < 0)
-      transparency = 0;
-   else if (transparency > 255)
-      transparency = 255;
-
-   /*  This will render the initial startup stuff correctly since !changed  */
-   if (prev_alpha == -1)
-     {
-	prev_alpha = Conf.trans.alpha = transparency;
-	changed = -1;
-     }
-   else
-     {
-	changed = Conf.trans.alpha != transparency;
-	prev_alpha = Conf.trans.alpha;
-	Conf.trans.alpha = transparency;
-     }
-
-   if (!changed)
-      return;
-
-   /* Generate the color modifier tables */
-   TransparencyMakeColorModifier();
-
-   if (changed < 0)
-      return;
-
-   if (prev_alpha == 0)
-     {
-	/* Hack to get tiled backgrounds regenerated at full size */
-	BackgroundsInvalidate(1);
-     }
-   ModulesSignal(ESIGNAL_THEME_TRANS_CHANGE, NULL);
-}
-
-#endif /* ENABLE_THEME_TRANSPARENCY */
 
 EImage             *
 ThemeImageLoad(const char *file)
@@ -644,14 +566,6 @@ ImageclassCreateSimple(const char *name, const char *image)
    return ic;
 }
 
-#ifdef ENABLE_THEME_TRANSPARENCY
-int
-ImageclassIsTransparent(ImageClass * ic)
-{
-   return ic && ic->norm.normal && ic->norm.normal->transparent;
-}
-#endif
-
 static ImageState  *
 ImageclassGetImageState1(ImageStateArray * pisa, int state)
 {
@@ -726,100 +640,11 @@ ImageclassGetImage(ImageClass * ic, int active, int sticky, int state)
    return im;
 }
 
-#ifdef ENABLE_TRANSPARENCY
-static int
-pt_type_to_flags(int image_type)
-{
-   int                 flags;
-
-   if (Conf.trans.alpha == 0)
-      return ICLASS_ATTR_OPAQUE;
-
-   switch (image_type)
-     {
-     default:
-     case ST_SOLID:
-     case ST_BUTTON:
-	flags = ICLASS_ATTR_OPAQUE;
-	break;
-     case ST_BORDER:
-	flags = Conf.trans.border;
-	break;
-     case ST_WIDGET:
-	flags = Conf.trans.widget;
-	break;
-     case ST_ICONBOX:
-	flags = Conf.trans.iconbox;
-	break;
-     case ST_MENU:
-	flags = Conf.trans.menu;
-	break;
-     case ST_MENU_ITEM:
-	flags = Conf.trans.menu_item;
-	break;
-     case ST_TOOLTIP:
-	flags = Conf.trans.tooltip;
-	break;
-     case ST_DIALOG:
-	flags = Conf.trans.dialog;
-	break;
-     case ST_HILIGHT:
-	flags = Conf.trans.hilight;
-	break;
-     case ST_PAGER:
-	flags = Conf.trans.pager;
-	break;
-     case ST_WARPLIST:
-	flags = Conf.trans.warplist;
-	break;
-     }
-   if (flags != ICLASS_ATTR_OPAQUE)
-      flags |= ICLASS_ATTR_USE_CM;
-
-   return flags;
-}
-
-static EImage      *
-pt_get_bg_image(Win win, int w, int h, int use_root)
-{
-   EImage             *ii = NULL;
-   Win                 cr;
-   EX_Drawable         bg;
-   int                 xx, yy;
-
-   bg = DeskGetBackgroundPixmap(DesksGetCurrent());
-   if (use_root || bg == NoXID)
-     {
-	cr = VROOT;
-	bg = WinGetXwin(VROOT);
-     }
-   else
-     {
-	cr = EoGetWin(DesksGetCurrent());
-     }
-   ETranslateCoordinates(win, cr, 0, 0, &xx, &yy, NULL);
-#if 0
-   Eprintf("%s: %#x %d %d %d %d\n", __func__, WinGetXwin(win), xx, yy, w, h);
-#endif
-   if (xx < WinGetW(VROOT) && yy < WinGetH(VROOT) && xx + w >= 0 && yy + h >= 0)
-     {
-	/* Create the background base image */
-	ii = EImageGrabDrawable(bg, NoXID, xx, yy, w, h, !EServerIsGrabbed());
-     }
-
-   return ii;
-}
-
-#endif
-
 EImage             *
 ImageclassGetImageBlended(ImageClass * ic, Win win __UNUSED__, int w, int h,
 			  int active, int sticky, int state,
 			  int image_type __UNUSED__)
 {
-#ifdef ENABLE_TRANSPARENCY
-   int                 flags;
-#endif
    ImageState         *is;
    EImage             *im, *bg;
 
@@ -835,20 +660,6 @@ ImageclassGetImageBlended(ImageClass * ic, Win win __UNUSED__, int w, int h,
    im = is->im;
    if (!im)
       return NULL;
-
-#ifdef ENABLE_TRANSPARENCY
-   flags = pt_type_to_flags(image_type);
-   if (flags != ICLASS_ATTR_OPAQUE)
-     {
-	bg = pt_get_bg_image(win, w, h, flags & ICLASS_ATTR_GLASS);
-	if (bg)
-	  {
-	     /* FIXME - Tiling not implemented */
-	     EImageBlendCM(bg, im, (flags & ICLASS_ATTR_USE_CM) ? icm : NULL);
-	     goto done;
-	  }
-     }
-#endif
 
    if (is->pixmapfillstyle == FILL_STRETCH)
      {
@@ -871,9 +682,6 @@ ImageclassGetImageBlended(ImageClass * ic, Win win __UNUSED__, int w, int h,
 	EImageTile(bg, im, 0, tw, th, 0, 0, w, h, 0, 0);
      }
 
-#ifdef ENABLE_TRANSPARENCY
- done:
-#endif
    if ((is->unloadable) || (Conf.memory_paranoia))
      {
 	EImageFree(is->im);
@@ -888,62 +696,6 @@ ImagestateMakePmapMask(ImageState * is, Win win, PmapMask * pmm,
 		       int pmapflags __UNUSED__, int w, int h,
 		       int image_type __UNUSED__)
 {
-#ifdef ENABLE_TRANSPARENCY
-   EImage             *ii = NULL;
-   int                 flags;
-   EX_Pixmap           pmap, mask;
-
-   flags = pt_type_to_flags(image_type);
-
-   /*
-    * is->transparent flags:
-    *   0x01: Use desktop background pixmap as base
-    *   0x02: Use root window as base (use only for transients, if at all)
-    *   0x04: Don't apply image mask to result
-    */
-   if (is->transparent && EImageHasAlpha(is->im))
-      flags = is->transparent;
-
-   if (flags != ICLASS_ATTR_OPAQUE)
-     {
-	ii = pt_get_bg_image(win, w, h, flags & ICLASS_ATTR_GLASS);
-     }
-   else
-     {
-#if 0
-	Eprintf("%s: %#x %d %d\n", __func__, WinGetXwin(win), w, h);
-#endif
-     }
-
-   if (ii)
-     {
-	EImageBlendCM(ii, is->im, (flags & ICLASS_ATTR_USE_CM) ? icm : NULL);
-
-	pmm->type = 0;
-	pmm->pmap = pmap = ECreatePixmap(win, w, h, 0);
-	pmm->mask = NoXID;
-	pmm->w = w;
-	pmm->h = h;
-	EImageRenderOnDrawable(ii, win, pmap, 0, 0, 0, w, h);
-
-	if ((pmapflags & IC_FLAG_MAKE_MASK) && !(flags & ICLASS_ATTR_NO_CLIP))
-	  {
-	     if (EImageHasAlpha(is->im))
-	       {
-		  /* Make the scaled clip mask to be used */
-		  EImageRenderPixmaps(is->im, win, EIMAGE_ANTI_ALIAS, &pmap,
-				      &mask, w, h);
-
-		  /* Replace the mask with the correct one */
-		  pmm->mask = EXCreatePixmapCopy(mask, w, h, 1);
-
-		  EImagePixmapsFree(pmap, mask);
-	       }
-	  }
-	EImageDecache(ii);
-     }
-   else
-#endif /* ENABLE_TRANSPARENCY */
    if (is->pixmapfillstyle == FILL_STRETCH)
      {
 	pmm->type = 1;

@@ -77,7 +77,6 @@ e16_SOURCES = \
 	menus-misc.c		\
 	misc.c			\
 	mod-misc.c		\
-	mod-trans.c		\
 	moveresize.c		\
 	mwm.c			\
 	pager.c                 \
