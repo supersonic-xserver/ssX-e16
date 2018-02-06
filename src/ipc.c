@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1821,7 +1821,7 @@ ipccmp(const void *p1, const void *p2)
 static void
 IPC_Help(const char *params)
 {
-   int                 i, num;
+   int                 i, j, k, num, nr;
    const IpcItem     **lst, *ipc;
    const char         *nick;
 
@@ -1837,16 +1837,20 @@ IPC_Help(const char *params)
 
 	qsort(lst, num, sizeof(IpcItem *), ipccmp);
 
-	for (i = 0; i < num; i++)
+	nr = (num + 2) / 3;
+	for (i = 0; i < nr; i++)
 	  {
-	     ipc = lst[i];
-	     nick = (ipc->nick) ? ipc->nick : "";
-	     IpcPrintf("  %-16s %-4s ", ipc->name, nick);
-	     if ((i % 3) == 2)
-		IpcPrintf("\n");
+	     for (j = 0; j < 3; j++)
+	       {
+		  k = i + j * nr;
+		  if (k >= num)
+		     break;
+		  ipc = lst[k];
+		  nick = (ipc->nick) ? ipc->nick : "";
+		  IpcPrintf("  %-14s %-10s", ipc->name, nick);
+	       }
+	     IpcPrintf("\n");
 	  }
-	if (i % 3)
-	   IpcPrintf("\n");
      }
    else if (!strcmp(params, "all"))
      {
