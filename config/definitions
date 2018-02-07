@@ -1111,77 +1111,77 @@ __END
 __TCLASS __BGN; \
   __NAME name
 
-#define TEXT_NORMAL(font, effect, fr, fg, fb, br, bg, bb) \
+#define TEXT_NORMAL(font, effect, fgcolor, bgcolor) \
   __NORMAL font; \
   __DRAWING_EFFECT effect; \
-  __FORGROUND_COLOR fr fg fb; \
-  __BACKGROUND_COLOR br bg bb
+  __FORGROUND_COLOR fgcolor; \
+  __BACKGROUND_COLOR bgcolor
 
-#define TEXT_CLICKED(font, effect, fr, fg, fb, br, bg, bb) \
+#define TEXT_CLICKED(font, effect, fgcolor, bgcolor) \
   __CLICKED font; \
   __DRAWING_EFFECT effect; \
-  __FORGROUND_COLOR fr fg fb; \
-  __BACKGROUND_COLOR br bg bb
+  __FORGROUND_COLOR fgcolor; \
+  __BACKGROUND_COLOR bgcolor
 
-#define TEXT_HILITED(font, effect, fr, fg, fb, br, bg, bb) \
+#define TEXT_HILITED(font, effect, fgcolor, bgcolor) \
   __HILITED font; \
   __DRAWING_EFFECT effect; \
-  __FORGROUND_COLOR fr fg fb; \
-  __BACKGROUND_COLOR br bg bb
+  __FORGROUND_COLOR fgcolor; \
+  __BACKGROUND_COLOR bgcolor
 
-#define TEXT_NORMAL_ACTIVE(font, effect, fr, fg, fb, br, bg, bb) \
+#define TEXT_NORMAL_ACTIVE(font, effect, fgcolor, bgcolor) \
   __NORMAL_ACTIVE font; \
   __DRAWING_EFFECT effect; \
-  __FORGROUND_COLOR fr fg fb; \
-  __BACKGROUND_COLOR br bg bb
+  __FORGROUND_COLOR fgcolor; \
+  __BACKGROUND_COLOR bgcolor
 
-#define TEXT_CLICKED_ACTIVE(font, effect, fr, fg, fb, br, bg, bb) \
+#define TEXT_CLICKED_ACTIVE(font, effect, fgcolor, bgcolor) \
   __CLICKED_ACTIVE font; \
   __DRAWING_EFFECT effect; \
-  __FORGROUND_COLOR fr fg fb; \
-  __BACKGROUND_COLOR br bg bb
+  __FORGROUND_COLOR fgcolor; \
+  __BACKGROUND_COLOR bgcolor
 
-#define TEXT_HILITED_ACTIVE(font, effect, fr, fg, fb, br, bg, bb) \
+#define TEXT_HILITED_ACTIVE(font, effect, fgcolor, bgcolor) \
   __HILITED_ACTIVE font; \
   __DRAWING_EFFECT effect; \
-  __FORGROUND_COLOR fr fg fb; \
-  __BACKGROUND_COLOR br bg bb
+  __FORGROUND_COLOR fgcolor; \
+  __BACKGROUND_COLOR bgcolor
 
-#define TEXT_NORMAL_STICKY(font, effect, fr, fg, fb, br, bg, bb) \
+#define TEXT_NORMAL_STICKY(font, effect, fgcolor, bgcolor) \
   __NORMAL_STICKY font; \
   __DRAWING_EFFECT effect; \
-  __FORGROUND_COLOR fr fg fb; \
-  __BACKGROUND_COLOR br bg bb
+  __FORGROUND_COLOR fgcolor; \
+  __BACKGROUND_COLOR bgcolor
 
-#define TEXT_CLICKED_STICKY(font, effect, fr, fg, fb, br, bg, bb) \
+#define TEXT_CLICKED_STICKY(font, effect, fgcolor, bgcolor) \
   __CLICKED_STICKY font; \
   __DRAWING_EFFECT effect; \
-  __FORGROUND_COLOR fr fg fb; \
-  __BACKGROUND_COLOR br bg bb
+  __FORGROUND_COLOR fgcolor; \
+  __BACKGROUND_COLOR bgcolor
 
-#define TEXT_HILITED_STICKY(font, effect, fr, fg, fb, br, bg, bb) \
+#define TEXT_HILITED_STICKY(font, effect, fgcolor, bgcolor) \
   __HILITED_STICKY font; \
   __DRAWING_EFFECT effect; \
-  __FORGROUND_COLOR fr fg fb; \
-  __BACKGROUND_COLOR br bg bb
+  __FORGROUND_COLOR fgcolor; \
+  __BACKGROUND_COLOR bgcolor
 
-#define TEXT_NORMAL_ACTIVE_STICKY(font, effect, fr, fg, fb, br, bg, bb) \
+#define TEXT_NORMAL_ACTIVE_STICKY(font, effect, fgcolor, bgcolor) \
   __NORMAL_ACTIVE_STICKY font; \
   __DRAWING_EFFECT effect; \
-  __FORGROUND_COLOR fr fg fb; \
-  __BACKGROUND_COLOR br bg bb
+  __FORGROUND_COLOR fgcolor; \
+  __BACKGROUND_COLOR bgcolor
 
-#define TEXT_NORMAL_ACTIVE_CLICKED(font, effect, fr, fg, fb, br, bg, bb) \
+#define TEXT_NORMAL_ACTIVE_CLICKED(font, effect, fgcolor, bgcolor) \
   __NORMAL_ACTIVE_CLICKED font; \
   __DRAWING_EFFECT effect; \
-  __FORGROUND_COLOR fr fg fb; \
-  __BACKGROUND_COLOR br bg bb
+  __FORGROUND_COLOR fgcolor; \
+  __BACKGROUND_COLOR bgcolor
 
-#define TEXT_NORMAL_ACTIVE_HILITED(font, effect, fr, fg, fb, br, bg, bb) \
+#define TEXT_NORMAL_ACTIVE_HILITED(font, effect, fgcolor, bgcolor) \
   __NORMAL_ACTIVE_HILITED font; \
   __DRAWING_EFFECT effect; \
-  __FORGROUND_COLOR fr fg fb; \
-  __BACKGROUND_COLOR br bg bb
+  __FORGROUND_COLOR fgcolor; \
+  __BACKGROUND_COLOR bgcolor
 
 #define TEXT_JUSTIFY_LEFT \
   __JUSTIFICATION 0
