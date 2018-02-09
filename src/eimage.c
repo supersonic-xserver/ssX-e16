@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -211,6 +211,20 @@ EImageSetBorder(EImage * im, EImageBorder * border)
    ib.bottom = border->bottom;
    imlib_context_set_image(im);
    imlib_image_set_border(&ib);
+
+   if (EDebug(1))
+     {
+	int                 l;
+
+	l = imlib_image_get_width();
+	if ((l < ib.left + ib.right) || (ib.left < 0) || (ib.left < 0))
+	   Eprintf("%s: %s: Image W = %d < border L+R = %d+%d\n", __func__,
+		   imlib_image_get_filename(), l, ib.left, ib.right);
+	l = imlib_image_get_height();
+	if ((l < ib.top + ib.bottom) || (ib.top < 0) || (ib.bottom < 0))
+	   Eprintf("%s: %s: Image H = %d < border T+B = %d+%d\n", __func__,
+		   imlib_image_get_filename(), l, ib.top, ib.bottom);
+     }
 }
 
 int
