@@ -301,6 +301,7 @@ typedef struct {
       char                argb_clients;
       char                argb_clients_inherit_attr;
       int                 image_cache_size;
+      int                 ximage_cache_count;
       int                 mask_alpha_threshold;
       char                enable_startup_id;
       char                use_render_for_scaling;

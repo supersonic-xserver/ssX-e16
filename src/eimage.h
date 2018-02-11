@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2014 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -32,6 +32,19 @@ typedef struct {
    int                 left, right, top, bottom;
 } EImageBorder;
 
+typedef struct {
+   struct {
+      int                 max_mem;
+      int                 used_mem;
+   } img;
+   struct {
+      int                 max_mem;
+      int                 used_mem;
+      int                 max_cnt;
+      int                 used_cnt;
+   } xim;
+} ECacheInfo;
+
 #define EIMAGE_BLEND            0x0001
 #define EIMAGE_ANTI_ALIAS       0x0002
 #define EIMAGE_HIGH_MASK_THR    0x0004
@@ -39,7 +52,9 @@ typedef struct {
 
 void                EImageInit(void);
 void                EImageExit(int quit);
-int                 EImageSetCacheSize(int size);
+void                EImageSetCacheSize(int size);
+void                EImageSetXImageCacheSize(int count, int size);
+void                EImageGetCacheInfo(ECacheInfo * ci);
 
 EImage             *EImageCreate(int w, int h);
 EImage             *EImageCreateFromData(int w, int h, unsigned int *data);

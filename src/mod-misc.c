@@ -117,14 +117,19 @@ MiscSighan(int sig, void *prm __UNUSED__)
 static void
 _CfgImageCacheSize(void *item __UNUSED__, const char *value)
 {
-   int                 size_old, size_new;
-
    if (!value || !value[0])
       return;
 
-   size_new = atoi(value);
-   size_old = EImageSetCacheSize(size_new);
-   IpcPrintf("Image cache size %u->%u byte\n", size_old, size_new);
+   EImageSetCacheSize(atoi(value));
+}
+
+static void
+_CfgXImageCacheCount(void *item __UNUSED__, const char *value)
+{
+   if (!value || !value[0])
+      return;
+
+   EImageSetXImageCacheSize(atoi(value), -1);
 }
 
 static const CfgItem MiscCfgItems[] = {
@@ -203,6 +208,7 @@ static const CfgItem MiscCfgItems[] = {
    CFG_ITEM_BOOL(Conf, testing.argb_clients, 0),
    CFG_ITEM_BOOL(Conf, testing.argb_clients_inherit_attr, 0),
    CFG_FUNC_INT(Conf, testing.image_cache_size, -1, _CfgImageCacheSize),
+   CFG_FUNC_INT(Conf, testing.ximage_cache_count, -1, _CfgXImageCacheCount),
    CFG_ITEM_INT(Conf, testing.mask_alpha_threshold, 8),
    CFG_ITEM_BOOL(Conf, testing.enable_startup_id, 1),
    CFG_ITEM_BOOL(Conf, testing.use_render_for_scaling, 0),

@@ -1061,6 +1061,20 @@ IPC_Debug(const char *params)
 	     IpcPrintf("Sync off\n");
 	  }
      }
+   else if (!strncmp(param, "cache", 2))
+     {
+	ECacheInfo          ci;
+
+	EImageGetCacheInfo(&ci);
+	IpcPrintf("Cache         %10s %10s\n"
+		  "Image  bytes: %10d %10d\n"
+		  "Ximage bytes: %10d %10d\n"
+		  "Ximage count: %10d %10d\n",
+		  "Max", "Used",
+		  ci.img.max_mem, ci.img.used_mem,
+		  ci.xim.max_mem, ci.xim.used_mem,
+		  ci.xim.max_cnt, ci.xim.used_cnt);
+     }
 #if 0
    else if (!strncmp(param, "dump", 2))
      {

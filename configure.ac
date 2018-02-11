@@ -153,6 +153,10 @@ AC_CHECK_LIB(Imlib2, imlib_context_disconnect_display,
   AC_DEFINE(HAVE_IMLIB_CONTEXT_DISCONNECT_DISPLAY, 1,
             [Imlib2 has imlib_context_disconnect_display]),,
   $IMLIB2_LIBS)
+AC_CHECK_LIB(Imlib2, imlib_set_ximage_cache_count_max,
+  AC_DEFINE(HAVE_IMLIB_XIMAGE_CACHE_CONTROL, 1,
+            [Imlib2 has XImage cache control functions]),,
+  $IMLIB2_LIBS)
 
 AC_ARG_ENABLE(sm,
   AC_HELP_STRING([--enable-sm], [compile with session management support @<:@default=yes@:>@]),,

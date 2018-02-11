@@ -32,10 +32,14 @@
 #include "eimage.h"
 #include "xwin.h"
 
+#define IMG_CACHE_DEFAULT_SIZE          (2 * 1024 * 1024)
+#define XIM_CACHE_DEFAULT_COUNT         0
+
 void
 EImageInit(void)
 {
-   imlib_set_cache_size(2048 * 1024);
+   EImageSetCacheSize(Conf.testing.image_cache_size);
+   EImageSetXImageCacheSize(Conf.testing.ximage_cache_count, -1);
    imlib_set_font_cache_size(512 * 1024);
 
    imlib_set_color_usage(128);
@@ -60,15 +64,38 @@ EImageExit(int quit __UNUSED__)
 #endif
 }
 
-int
+void
 EImageSetCacheSize(int size)
 {
-   int                 size_old;
-
-   size_old = imlib_get_cache_size();
+   Conf.testing.image_cache_size = size;
+   if (size < 0)
+      size = IMG_CACHE_DEFAULT_SIZE;
    imlib_set_cache_size(size);
+}
 
-   return size_old;
+void
+EImageSetXImageCacheSize(int count, int size __UNUSED__)
+{
+   Conf.testing.ximage_cache_count = count;
+#if HAVE_IMLIB_XIMAGE_CACHE_CONTROL
+   if (count < 0)
+      count = XIM_CACHE_DEFAULT_COUNT;
+   imlib_set_ximage_cache_count_max(count);
+#endif
+}
+
+void
+EImageGetCacheInfo(ECacheInfo * ci)
+{
+   memset(ci, 0, sizeof(ECacheInfo));
+   ci->img.max_mem = imlib_get_cache_size();
+#if HAVE_IMLIB_XIMAGE_CACHE_CONTROL
+   ci->img.used_mem = imlib_get_cache_used();
+   ci->xim.max_mem = imlib_get_ximage_cache_size_max();
+   ci->xim.used_mem = imlib_get_ximage_cache_size_used();
+   ci->xim.max_cnt = imlib_get_ximage_cache_count_max();
+   ci->xim.used_cnt = imlib_get_ximage_cache_count_used();
+#endif
 }
 
 static void
