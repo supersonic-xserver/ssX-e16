@@ -34,6 +34,7 @@
 
 #include "E.h"
 #include "eimage.h"
+#include "events.h"
 #include "xprop.h"
 #include "xwin.h"
 
@@ -78,7 +79,7 @@ _eiw_render_loop(EX_Window win, EImage * im, EiwData * d)
    EImageGetSize(im, &w, &h);
 
    pictfmt = XRenderFindStandardFormat(disp, PictStandardARGB32);
-   pmap = XCreatePixmap(disp, WinGetXwin(VROOT), w, h, 32);
+   pmap = XCreatePixmap(disp, WinGetXwin(RROOT), w, h, 32);
    imlib_context_set_image(im);
    imlib_context_set_drawable(pmap);
    imlib_render_image_on_drawable(0, 0);
@@ -105,10 +106,10 @@ _eiw_window_init(EX_Window win, EiwData * d)
    EX_Pixmap           pmap, mask;
    XColor              cl;
 
-   d->cwin = XCreateWindow(disp, win, 0, 0, 32, 32, 0, CopyFromParent,
-			   InputOutput, CopyFromParent,
-			   CWOverrideRedirect | CWBackingStore | CWColormap |
-			   CWBackPixel | CWBorderPixel, &d->attr);
+   d->cwin = XCreateWindow(disp, win, 0, 0, 32, 32, 0,
+			   CopyFromParent, InputOutput, CopyFromParent,
+			   CWOverrideRedirect | CWBackingStore | CWBackPixel,
+			   &d->attr);
 
    pmap = XCreatePixmap(disp, d->cwin, 16, 16, 1);
    EXFillAreaSolid(pmap, 0, 0, 16, 16, 0);
@@ -153,6 +154,7 @@ ExtInitWinMain(void)
    EX_Atom             a;
    EiwData             eiwd;
    EiwLoopFunc        *eiwc_loop_func;
+   unsigned int        wclass, vmask;
 
    if (EDebug(EDBUG_TYPE_SESSION))
       Eprintf("%s: enter\n", __func__);
@@ -161,32 +163,41 @@ ExtInitWinMain(void)
    if (err)
       return NoXID;
 
+   EDisplaySetErrorHandlers(EventShowError, NULL);
+
    EGrabServer();
 
    EImageInit();
 
-   eiwd.attr.backing_store = NotUseful;
    eiwd.attr.override_redirect = True;
-   eiwd.attr.colormap = WinGetCmap(VROOT);
-   eiwd.attr.border_pixel = 0;
-   eiwd.attr.background_pixel = 0;
+   eiwd.attr.background_pixmap = NoXID;
+   eiwd.attr.backing_store = NotUseful;
    eiwd.attr.save_under = True;
-   win = XCreateWindow(disp, WinGetXwin(VROOT),
-		       0, 0, WinGetW(VROOT), WinGetH(VROOT),
-		       0, CopyFromParent, InputOutput, CopyFromParent,
-		       CWOverrideRedirect | CWSaveUnder | CWBackingStore |
-		       CWColormap | CWBackPixel | CWBorderPixel, &eiwd.attr);
+   eiwd.attr.background_pixel = 0;	/* Not used */
+   wclass = InputOnly;
+   vmask = CWOverrideRedirect;
+   if (!Mode.wm.window)
+     {
+	pmap = ECreatePixmap(RROOT, WinGetW(RROOT), WinGetH(RROOT), 0);
+	EXCopyArea(WinGetXwin(RROOT), pmap, 0, 0,
+		   WinGetW(RROOT), WinGetH(RROOT), 0, 0);
+	eiwd.attr.background_pixmap = pmap;
+	wclass = InputOutput;
+	vmask |= CWBackPixmap | CWBackingStore | CWSaveUnder;
+     }
+   win = XCreateWindow(disp, WinGetXwin(RROOT),
+		       0, 0, WinGetW(RROOT), WinGetH(RROOT),
+		       0, CopyFromParent, wclass, CopyFromParent,
+		       vmask, &eiwd.attr);
+   if (!Mode.wm.window)
+     {
+	EFreePixmap(eiwd.attr.background_pixmap);
+     }
 
-   pmap = XCreatePixmap(disp, win,
-			WinGetW(VROOT), WinGetH(VROOT), WinGetDepth(VROOT));
-   EXCopyArea(WinGetXwin(VROOT), pmap,
-	      0, 0, WinGetW(VROOT), WinGetH(VROOT), 0, 0);
-   XSetWindowBackgroundPixmap(disp, win, pmap);
    XMapRaised(disp, win);
-   XFreePixmap(disp, pmap);
 
    a = ex_atom_get("ENLIGHTENMENT_RESTART_SCREEN");
-   ex_window_prop_window_set(WinGetXwin(VROOT), a, &win, 1);
+   ex_window_prop_window_set(WinGetXwin(RROOT), a, &win, 1);
 
    XSelectInput(disp, win, StructureNotifyMask);
 
@@ -279,7 +290,7 @@ ExtInitWinCreate(void)
 	     sleep(1);
 
 	     if (ex_window_prop_window_get
-		 (WinGetXwin(VROOT), a, &win_ex, 1) > 0)
+		 (WinGetXwin(RROOT), a, &win_ex, 1) > 0)
 		break;
 	  }
 

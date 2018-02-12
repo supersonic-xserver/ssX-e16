@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2017 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -530,7 +530,7 @@ doSMExit(int mode, const char *params)
      case EEXIT_RESTART:
 	SoundPlay(SOUND_WAIT);
 #ifdef USE_EXT_INIT_WIN
-	if (disp && !Mode.wm.window)
+	if (disp)
 	   new_init_win_ext = ExtInitWinCreate();
 #endif
 	EDisplayClose();
