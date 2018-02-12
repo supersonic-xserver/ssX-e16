@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -216,9 +216,13 @@ ExtInitWinMain(void)
 	      i = 1;
 
 	   /* If we get unmapped we are done */
-	   XGetWindowAttributes(disp, win, &xwa);
-	   if (xwa.map_state == IsUnmapped)
-	      break;
+	   if (!XGetWindowAttributes(disp, win, &xwa) ||
+	       (xwa.map_state == IsUnmapped))
+	     {
+		if (EDebug(EDBUG_TYPE_SESSION))
+		   Eprintf("%s: child done\n", __func__);
+		break;
+	     }
 
 	   Esnprintf(s, sizeof(s), "pix/wait%i.png", i);
 	   if (EDebug(EDBUG_TYPE_SESSION) > 1)
@@ -231,16 +235,17 @@ ExtInitWinMain(void)
 		EImageFree(im);
 	     }
 	   ESync(0);
-	   SleepUs(50000);
+	   SleepUs(50 * 1000);
 
-	   /* If we still are here after 5 sec something is wrong. */
-	   if (loop > 100)
-	      break;
+	   /* If we still are here after 60 sec something is wrong. */
+	   if (loop > 60000 / 50)
+	     {
+		if (EDebug(EDBUG_TYPE_SESSION))
+		   Eprintf("%s: child timeout\n", __func__);
+		break;
+	     }
 	}
    }
-
-   if (EDebug(EDBUG_TYPE_SESSION))
-      Eprintf("%s: exit\n", __func__);
 
    EDisplayClose();
 
