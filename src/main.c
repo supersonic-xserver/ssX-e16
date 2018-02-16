@@ -500,23 +500,20 @@ RunInitPrograms(void)
 static void
 EConfNameSet(const char *name)
 {
-   Efree(Mode.conf.name);
-   Mode.conf.name = Estrdup(name);
+   EFREE_DUP(Mode.conf.name, name);
    Esetenv("ECONFNAME", Mode.conf.name);
 }
 
 static void
 EDirUserSet(const char *dir)
 {
-   Efree(Mode.conf.dir);
-   Mode.conf.dir = Estrdup(dir);
+   EFREE_DUP(Mode.conf.dir, dir);
 }
 
 static void
 EDirUserCacheSet(const char *dir)
 {
-   Efree(Mode.conf.cache_dir);
-   Mode.conf.cache_dir = Estrdup(dir);
+   EFREE_DUP(Mode.conf.cache_dir, dir);
 }
 
 void

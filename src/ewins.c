@@ -1624,8 +1624,8 @@ EwinSetTitle(EWin * ewin, const char *title)
 {
    HintsSetWindowName(EwinGetClientWin(ewin), title);
 
-   _EFDUP(ewin->o.icccm.wm_name, title);
-   _EFDUP(ewin->ewmh.wm_name, title);
+   EFREE_DUP(ewin->o.icccm.wm_name, title);
+   EFREE_DUP(ewin->ewmh.wm_name, title);
 }
 
 void
@@ -1633,8 +1633,8 @@ EwinSetClass(EWin * ewin, const char *name, const char *clss)
 {
    HintsSetWindowClass(EwinGetClientWin(ewin), name, clss);
 
-   _EFDUP(ewin->o.icccm.wm_res_name, name);
-   _EFDUP(ewin->o.icccm.wm_res_class, clss);
+   EFREE_DUP(ewin->o.icccm.wm_res_name, name);
+   EFREE_DUP(ewin->o.icccm.wm_res_class, clss);
 }
 
 const char         *

@@ -532,8 +532,7 @@ EwinBorderDetach(EWin * ewin)
 	if (ewin->bits[i].win)
 	   EDestroyWindow(ewin->bits[i].win);
      }
-   Efree(ewin->bits);
-   ewin->bits = NULL;
+   EFREE_NULL(ewin->bits);
    BorderDecRefcount(b);
 
    ewin->border = NULL;

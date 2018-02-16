@@ -63,8 +63,7 @@ IpcPrintInit(void)
 static void
 IpcPrintDone(void)
 {
-   Efree(ipc_bufptr);
-   ipc_bufptr = NULL;
+   EFREE_NULL(ipc_bufptr);
    ipc_bufsiz = 0;
    ipc_active = 0;
 }

@@ -1096,8 +1096,7 @@ EventsMain(void)
 	     if ((evq_ptr) && ((evq_alloc - evq_fetch) > 64))
 	       {
 		  evq_alloc = 0;
-		  Efree(evq_ptr);
-		  evq_ptr = NULL;
+		  EFREE_NULL(evq_ptr);
 	       }
 	  }
 

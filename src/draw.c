@@ -288,8 +288,7 @@ DrawEwinShape(EWin * ewin, int md, int x, int y, int w, int h,
 	if (firstlast == 2)
 	  {
 	     CoordsHide();
-	     Efree(ewin->shape_data);
-	     ewin->shape_data = NULL;
+	     EFREE_NULL(ewin->shape_data);
 	  }
      }
 }

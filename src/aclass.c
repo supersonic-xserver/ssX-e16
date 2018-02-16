@@ -207,8 +207,8 @@ ActionclassEmpty(ActionClass * ac)
    for (i = 0; i < ac->num; i++)
       ActionDestroy(ac->actions[i]);
    ac->num = 0;
-   _EFREE(ac->actions);
-   _EFREE(ac->tooltipstring);
+   EFREE_NULL(ac->actions);
+   EFREE_NULL(ac->tooltipstring);
 }
 
 static void
@@ -464,8 +464,7 @@ AclassConfigLoad(FILE * fs)
 		  aa = ActionCreate(event, anymod, mod, anybut, but, anykey,
 				    key, action_tooltipstring);
 		  /* the correct place to grab an action key */
-		  Efree(action_tooltipstring);
-		  action_tooltipstring = NULL;
+		  EFREE_NULL(action_tooltipstring);
 		  key[0] = '\0';
 		  if (global)
 		     GrabActionKey(aa);
@@ -887,7 +886,7 @@ BindingsSave(void)
 void
 ActionclassSetTooltipString(ActionClass * ac, const char *tts)
 {
-   _EFDUP(ac->tooltipstring, tts);
+   EFREE_DUP(ac->tooltipstring, tts);
 }
 
 ActionClass        *

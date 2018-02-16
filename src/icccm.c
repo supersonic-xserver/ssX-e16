@@ -92,7 +92,7 @@ ICCCM_ProcessRootClientMessage(XClientMessageEvent * event)
 void
 ICCCM_GetTitle(EWin * ewin)
 {
-   _EFREE(EwinGetIcccmName(ewin));
+   EFREE_NULL(EwinGetIcccmName(ewin));
 
    EwinGetIcccmName(ewin) = ex_icccm_title_get(EwinGetClientXwin(ewin));
 
@@ -555,8 +555,8 @@ ICCCM_GetGeoms(EWin * ewin)
 static void
 ICCCM_GetWmClass(EWin * ewin)
 {
-   _EFREE(EwinGetIcccmCName(ewin));
-   _EFREE(EwinGetIcccmClass(ewin));
+   EFREE_NULL(EwinGetIcccmCName(ewin));
+   EFREE_NULL(EwinGetIcccmClass(ewin));
 
    ex_icccm_name_class_get(EwinGetClientXwin(ewin),
 			   &EwinGetIcccmCName(ewin), &EwinGetIcccmClass(ewin));
@@ -572,7 +572,7 @@ ICCCM_GetWmCommand(EWin * ewin)
    int                 argc;
    char              **argv, s[4096], *ss;
 
-   _EFREE(ewin->icccm.wm_command);
+   EFREE_NULL(ewin->icccm.wm_command);
 
    argc = ex_window_prop_string_list_get(EwinGetClientXwin(ewin),
 					 EX_ATOM_WM_COMMAND, &argv);
@@ -588,7 +588,7 @@ ICCCM_GetWmCommand(EWin * ewin)
 static void
 ICCCM_GetWmClientMachine(EWin * ewin)
 {
-   _EFREE(ewin->icccm.wm_machine);
+   EFREE_NULL(ewin->icccm.wm_machine);
 
    ewin->icccm.wm_machine =
       ex_window_prop_string_get(EwinGetClientXwin(ewin),
@@ -602,7 +602,7 @@ ICCCM_GetWmClientMachine(EWin * ewin)
 static void
 ICCCM_GetWmIconName(EWin * ewin)
 {
-   _EFREE(ewin->icccm.wm_icon_name);
+   EFREE_NULL(ewin->icccm.wm_icon_name);
 
    ewin->icccm.wm_icon_name =
       ex_window_prop_string_get(EwinGetClientXwin(ewin), EX_ATOM_WM_ICON_NAME);
@@ -614,7 +614,7 @@ ICCCM_GetWmIconName(EWin * ewin)
 static void
 ICCCM_GetWmWindowRole(EWin * ewin)
 {
-   _EFREE(ewin->icccm.wm_role);
+   EFREE_NULL(ewin->icccm.wm_role);
    ewin->icccm.wm_role =
       ex_window_prop_string_get(EwinGetClientXwin(ewin),
 				EX_ATOM_WM_WINDOW_ROLE);

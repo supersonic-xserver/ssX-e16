@@ -352,8 +352,7 @@ ContainerObjectDel(Container * ct, void *obj)
       ct->objs = EREALLOC(ContainerObject, ct->objs, ct->num_objs);
    else
      {
-	Efree(ct->objs);
-	ct->objs = NULL;
+	EFREE_NULL(ct->objs);
      }
 
    return 0;			/* Success */

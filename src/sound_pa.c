@@ -197,8 +197,8 @@ _sound_pa_Destroy(Sample * s)
      }
    D2printf("%s end\n", __func__);
 
-   _EFREE(s->name);
-   _EFREE(s->ssd.data);
+   EFREE_NULL(s->name);
+   EFREE_NULL(s->ssd.data);
    Efree(s);
 }
 
@@ -254,7 +254,7 @@ _sound_pa_Load(const char *file)
    if (err)
       goto bail_out;
 
-   _EFREE(s->ssd.data);
+   EFREE_NULL(s->ssd.data);
 
    return s;
 

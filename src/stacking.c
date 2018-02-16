@@ -149,8 +149,7 @@ EobjListDel(EobjList * ewl, EObj * eo)
    else if (ewl->nwins <= 0)
      {
 	/* Enables autocleanup at shutdown, if ever implemented */
-	Efree(ewl->list);
-	ewl->list = NULL;
+	EFREE_NULL(ewl->list);
 	ewl->nalloc = 0;
      }
 

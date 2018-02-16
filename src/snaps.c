@@ -306,8 +306,7 @@ _SnapEwinGet(EWin * ewin, unsigned int match_flags)
 static void
 _SnapUpdateEwinBorder(Snapshot * sn, const EWin * ewin)
 {
-   Efree(sn->border_name);
-   sn->border_name = Estrdup(BorderGetName(ewin->normal_border));
+   EFREE_DUP(sn->border_name, BorderGetName(ewin->normal_border));
 }
 
 static void
@@ -379,8 +378,7 @@ _SnapUpdateEwinCmd(Snapshot * sn, const EWin * ewin)
        strcmp(ewin->icccm.wm_machine, Mode.wm.machine_name))
       return;
 
-   Efree(sn->cmd);
-   sn->cmd = Estrdup(ewin->icccm.wm_command);
+   EFREE_DUP(sn->cmd, ewin->icccm.wm_command);
 }
 
 static void
@@ -395,8 +393,7 @@ _SnapUpdateEwinGroups(Snapshot * sn, const EWin * ewin, char onoff)
 
    if (!ewin->groups)
      {
-	Efree(sn->groups);
-	sn->groups = NULL;
+	EFREE_NULL(sn->groups);
 	sn->num_groups = 0;
 	return;
      }
@@ -418,8 +415,7 @@ _SnapUpdateEwinGroups(Snapshot * sn, const EWin * ewin, char onoff)
 		continue;
 
 	     sn->num_groups = num_groups;
-	     Efree(sn->groups);
-	     sn->groups = EMALLOC(int, num_groups);
+	     EFREE_SET(sn->groups, EMALLOC(int, num_groups));
 
 	     for (j = 0; j < num_groups; j++)
 	       {
@@ -434,8 +430,7 @@ _SnapUpdateEwinGroups(Snapshot * sn, const EWin * ewin, char onoff)
 		  sn = gwins[i]->snap;
 		  if (sn)
 		    {
-		       Efree(sn->groups);
-		       sn->groups = NULL;
+		       EFREE_NULL(sn->groups);
 		       sn->num_groups = 0;
 		    }
 	       }
@@ -960,8 +955,7 @@ _DlgApplyRemember(Dialog * d __UNUSED__,
 static void
 _DlgExitRemember(Dialog * d __UNUSED__)
 {
-   Efree(rd_ewin_list);
-   rd_ewin_list = NULL;
+   EFREE_NULL(rd_ewin_list);
 }
 
 static void

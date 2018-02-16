@@ -83,8 +83,7 @@ _BackgroundGetFile(char **ptr)
    path = ThemeFileFind(path, FILE_TYPE_BACKGROUND);
    if (!path)
       goto done;
-   Efree(*ptr);
-   *ptr = path;
+   EFREE_SET(*ptr, path);
  done:
    return path;
 }
@@ -236,11 +235,8 @@ BackgroundImagesKeep(Background * bg, int onoff)
 static void
 BackgroundFilesRemove(Background * bg)
 {
-   Efree(bg->bg.file);
-   bg->bg.file = NULL;
-
-   Efree(bg->top.file);
-   bg->top.file = NULL;
+   EFREE_NULL(bg->bg.file);
+   EFREE_NULL(bg->top.file);
 
    BackgroundImagesFree(bg);
 
@@ -435,8 +431,7 @@ BackgroundModify(Background * bg, unsigned int solid, const char *bgn,
      }
    else
       updated = 1;
-   Efree(bg->bg.file);
-   bg->bg.file = (bgn && bgn[0]) ? Estrdup(bgn) : NULL;
+   EFREE_SET(bg->bg.file, (bgn && bgn[0]) ? Estrdup(bgn) : NULL);
    if ((int)tile != bg->bg_tile)
       updated = 1;
    if ((int)keep_aspect != bg->bg.keep_aspect)
@@ -463,8 +458,7 @@ BackgroundModify(Background * bg, unsigned int solid, const char *bgn,
      }
    else
       updated = 1;
-   Efree(bg->top.file);
-   bg->top.file = (top && top[0]) ? Estrdup(top) : NULL;
+   EFREE_SET(bg->top.file, (top && top[0]) ? Estrdup(top) : NULL);
    if ((int)tkeep_aspect != bg->top.keep_aspect)
       updated = 1;
    if (txjust != bg->top.xjust)
@@ -1163,8 +1157,7 @@ BackgroundsConfigLoad(FILE * fs)
 	     break;
 
 	  case BG_BG_FILE:
-	     Efree(bg1);
-	     bg1 = Estrdup(p2);
+	     EFREE_DUP(bg1, p2);
 	     break;
 
 	  case BG_BG_PARAM:
@@ -1174,14 +1167,12 @@ BackgroundsConfigLoad(FILE * fs)
 #if 1				/* Obsolete - backward compatibility */
 	  case BG_BG1:
 	     sscanf(p3, "%d %d %d %d %d %d", &i1, &i2, &i3, &i4, &i5, &i6);
-	     Efree(bg1);
-	     bg1 = Estrdup(s2);
+	     EFREE_DUP(bg1, s2);
 	     break;
 #endif
 
 	  case BG_TOP_FILE:
-	     Efree(bg2);
-	     bg2 = Estrdup(p2);
+	     EFREE_DUP(bg2, p2);
 	     break;
 
 	  case BG_TOP_PARAM:
@@ -1191,8 +1182,7 @@ BackgroundsConfigLoad(FILE * fs)
 #if 1				/* Obsolete - backward compatibility */
 	  case BG_BG2:
 	     sscanf(p3, "%d %d %d %d %d", &j1, &j2, &j3, &j4, &j5);
-	     Efree(bg2);
-	     bg2 = Estrdup(s2);
+	     EFREE_DUP(bg2, s2);
 	     break;
 #endif
 
@@ -2278,8 +2268,7 @@ BackgroundSet1(const char *name, const char *params)
      }
    else if (!strcmp(type, "bg.file"))
      {
-	Efree(bg->bg.file);
-	bg->bg.file = Estrdup(p);
+	EFREE_DUP(bg->bg.file, p);
      }
    else if (!strcmp(type, "bg.tile"))
      {
@@ -2307,8 +2296,7 @@ BackgroundSet1(const char *name, const char *params)
      }
    else if (!strcmp(type, "top.file"))
      {
-	Efree(bg->top.file);
-	bg->top.file = Estrdup(p);
+	EFREE_DUP(bg->top.file, p);
      }
    else if (!strcmp(type, "top.keep_aspect"))
      {

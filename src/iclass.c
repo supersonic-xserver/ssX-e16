@@ -220,13 +220,11 @@ ImagestateRealize(ImageState * is)
 	Eprintf
 	   ("%s: Hmmm... is->im is NULL (im_file=%s real_file=%s)\n", __func__,
 	    S(is->im_file), S(is->real_file));
-	Efree(is->real_file);
-	is->real_file = NULL;
+	EFREE_NULL(is->real_file);
 	return;
      }
 
-   Efree(is->im_file);		/* We no longer need the file */
-   is->im_file = NULL;
+   EFREE_NULL(is->im_file);
 
    EImageCheckAlpha(is->im);
 

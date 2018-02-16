@@ -709,7 +709,7 @@ ButtonsConfigLoad(FILE * fs)
 	     else if (pbt)
 	       {
 		  if (label[0])
-		     _EFDUP(pbt->label, label);
+		     EFREE_DUP(pbt->label, label);
 		  EoSetLayer(pbt, ontop);
 		  EoSetSticky(pbt, sticky);
 		  ButtonMoveToDesktop(pbt, DeskGet(desk));

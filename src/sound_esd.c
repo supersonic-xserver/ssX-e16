@@ -85,9 +85,9 @@ _sound_esd_Load(const char *file)
      }
 
  done:
-   _EFREE(s->ssd.data);
+   EFREE_NULL(s->ssd.data);
    if (s->id <= 0)
-      _EFREE(s);
+      EFREE_NULL(s);
 
    return s;
 }
@@ -105,7 +105,7 @@ _sound_esd_Destroy(Sample * s)
 /*      esd_sample_kill(sound_fd,s->id); */
 	esd_sample_free(sound_fd, s->id);
      }
-   _EFREE(s->ssd.data);
+   EFREE_NULL(s->ssd.data);
    Efree(s);
 }
 

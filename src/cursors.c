@@ -159,7 +159,7 @@ ECursorRealize(ECursor * ec)
    if (ec->file)
      {
 	img = ThemeFileFind(ec->file, FILE_TYPE_CURSOR);
-	_EFREE(ec->file);	/* Ok or not - we never need file again */
+	EFREE_NULL(ec->file);	/* Ok or not - we never need file again */
 	if (!img)
 	   goto done;
 

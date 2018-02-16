@@ -376,8 +376,7 @@ RemoveEwinFromGroup(EWin * ewin, Group * g)
 		g->members = EREALLOC(EWin *, g->members, g->num_members);
 	     else if (g->save)
 	       {
-		  Efree(g->members);
-		  g->members = NULL;
+		  EFREE_NULL(g->members);
 	       }
 	     else
 	       {
@@ -390,8 +389,7 @@ RemoveEwinFromGroup(EWin * ewin, Group * g)
 	     ewin->num_groups--;
 	     if (ewin->num_groups <= 0)
 	       {
-		  Efree(ewin->groups);
-		  ewin->groups = NULL;
+		  EFREE_NULL(ewin->groups);
 		  ewin->num_groups = 0;
 	       }
 	     else

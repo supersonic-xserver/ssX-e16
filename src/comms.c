@@ -99,13 +99,11 @@ ClientConfigure(Client * c, const char *str)
 
    if (!strcmp(param, "clientname"))
      {
-	Efree(c->clientname);
-	c->clientname = Estrdup(value);
+	EFREE_DUP(c->clientname, value);
      }
    else if (!strcmp(param, "version"))
      {
-	Efree(c->version);
-	c->version = Estrdup(value);
+	EFREE_DUP(c->version, value);
      }
    else if (!strcmp(param, "author"))
      {
@@ -121,8 +119,7 @@ ClientConfigure(Client * c, const char *str)
      }
    else if (!strcmp(param, "info"))
      {
-	Efree(c->info);
-	c->info = Estrdup(value);
+	EFREE_DUP(c->info, value);
      }
    else if (!strcmp(param, "pixmap"))
      {

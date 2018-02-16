@@ -123,7 +123,7 @@ ProgressbarDestroy(Progressbar * p)
    if (pnum <= 0)
      {
 	pnum = 0;
-	_EFREE(plist);
+	EFREE_NULL(plist);
      }
    else
      {

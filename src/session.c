@@ -434,7 +434,7 @@ SessionGetInfo(EWin * ewin __UNUSED__)
 #if USE_SM
    if (atom_sm_client_id == NoXID)
       return;
-   _EFREE(ewin->session_id);
+   EFREE_NULL(ewin->session_id);
    if (ewin->icccm.client_leader != NoXID)
       ewin->session_id =
 	 ex_window_prop_string_get(ewin->icccm.client_leader,

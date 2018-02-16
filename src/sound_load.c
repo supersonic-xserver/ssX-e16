@@ -67,7 +67,7 @@ SoundSampleGetData(const char *file, SoundSampleData * ssd)
    if (frames_read <= 0)
      {
 	ssd->size = 0;
-	_EFREE(ssd->data);
+	EFREE_NULL(ssd->data);
 	return -1;
      }
 
@@ -111,7 +111,7 @@ SoundSampleGetData(const char *file, SoundSampleData * ssd)
    if (frames_read <= 0)
      {
 	ssd->size = 0;
-	_EFREE(ssd->data);
+	EFREE_NULL(ssd->data);
 	return -1;
      }
 

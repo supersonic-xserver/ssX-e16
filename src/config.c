@@ -151,8 +151,7 @@ GetLine(char *s, int size, FILE * f)
    if (!si)
      {
 	/* EOF */
-	Efree(buffer);
-	buffer = NULL;
+	EFREE_NULL(buffer);
 	if (so == s)
 	   return NULL;
      }
@@ -537,8 +536,7 @@ ConfigFileFind(const char *name, const char *themepath, int pp)
    err = ConfigFilePreparse(fullname, ppfile, themepath);
    if (err)
      {
-	Efree(ppfile);
-	ppfile = NULL;
+	EFREE_NULL(ppfile);
      }
 
  done:

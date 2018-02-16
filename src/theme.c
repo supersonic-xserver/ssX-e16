@@ -37,7 +37,7 @@ _ThemePathsUpdate(void)
    Esnprintf(paths, sizeof(paths), "%s/themes:%s/.themes:%s/themes:%s",
 	     EDirUser(), userhome(), EDirRoot(),
 	     (Conf.theme.extra_path) ? Conf.theme.extra_path : "");
-   _EFDUP(Mode.theme.paths, paths);
+   EFREE_DUP(Mode.theme.paths, paths);
 }
 
 /* Check if this is a theme dir */
@@ -357,7 +357,7 @@ ThemeFind(const char *theme)
       *s++ = '\0';
 
    p = (theme && *theme == ':') ? theme + 1 : s;
-   _EFDUP(Mode.theme.variant, p);
+   EFREE_DUP(Mode.theme.variant, p);
 
    path = ThemePathFind(name);
 
@@ -385,8 +385,7 @@ ThemeFind(const char *theme)
 	  }
      }
 
-   Efree(Mode.theme.path);
-   Mode.theme.path = (path) ? path : Estrdup("-");
+   EFREE_SET(Mode.theme.path, (path) ? path : Estrdup("-"));
 }
 
 #if ENABLE_DIALOGS

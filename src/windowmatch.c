@@ -653,8 +653,7 @@ WindowMatchEwinOpsAction(EWin * ewin, int op, const char *args)
 	return;
 
      case EWIN_OP_TITLE:
-	Efree(EwinGetIcccmName(ewin));
-	EwinGetIcccmName(ewin) = Estrdup(args);
+	EFREE_DUP(EwinGetIcccmName(ewin), args);
 	break;
 
      case EWIN_OP_ICONIFY:

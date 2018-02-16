@@ -216,8 +216,7 @@ DialogBindKey(Dialog * d, const char *key, DialogCallbackFunc * func, int val,
 void
 DialogKeybindingsDestroy(Dialog * d)
 {
-   Efree(d->keybindings);
-   d->keybindings = NULL;
+   EFREE_NULL(d->keybindings);
    d->num_bindings = 0;
 }
 
@@ -278,8 +277,7 @@ DialogFind(const char *name)
 void
 DialogSetTitle(Dialog * d, const char *title)
 {
-   Efree(d->title);
-   d->title = Estrdup(title);
+   EFREE_DUP(d->title, title);
    d->set_title = 1;
 }
 
@@ -1513,8 +1511,7 @@ DialogItemsRealize(Dialog * d)
 void
 DialogItemSetText(DItem * di, const char *text)
 {
-   Efree(di->text);
-   di->text = Estrdup(text);
+   EFREE_DUP(di->text, text);
 
    if (di->realized)
       DialogDrawItems(di->dlg, di, di->x, di->y, di->w, di->h);
@@ -1591,8 +1588,7 @@ DialogItemSeparatorSetOrientation(DItem * di, char horizontal)
 void
 DialogItemImageSetFile(DItem * di, const char *image)
 {
-   Efree(di->item.image.image);
-   di->item.image.image = Estrdup(image);
+   EFREE_DUP(di->item.image.image, image);
    di->fill_h = 0;
    di->fill_v = 0;
 }
@@ -1725,8 +1721,7 @@ DialogItemTableEmpty(DItem * di)
    for (i = 0; i < di->item.table.num_items; i++)
       DialogItemDestroy(di->item.table.items[i], 1);
 
-   Efree(di->item.table.items);
-   di->item.table.items = NULL;
+   EFREE_NULL(di->item.table.items);
    di->item.table.num_items = 0;
 }
 

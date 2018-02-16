@@ -292,8 +292,7 @@ EobjWindowCreate(int type, int x, int y, int w, int h, int su, const char *name)
    EobjInit(eo, type, EobjGetWin(eo), x, y, w, h, su, name);
    if (!eo->win)
      {
-	Efree(eo);
-	eo = NULL;
+	EFREE_NULL(eo);
      }
 
    return eo;

@@ -439,7 +439,7 @@ LangCfgChange(void *item __UNUSED__, const char *locale)
    if (*locale == '\0')
       locale = NULL;
    LangExit();
-   _EFDUP(Conf_locale.internal, locale);
+   EFREE_DUP(Conf_locale.internal, locale);
    LangInit();
 }
 

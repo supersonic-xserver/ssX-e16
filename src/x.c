@@ -243,8 +243,7 @@ EventCallbackUnregister(Win win, EventCallbackFunc * func, void *prm)
 	     }
 	   else
 	     {
-		Efree(win->cbl.lst);
-		win->cbl.lst = NULL;
+		EFREE_NULL(win->cbl.lst);
 	     }
 	   return;
 	}

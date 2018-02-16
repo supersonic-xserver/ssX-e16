@@ -483,7 +483,7 @@ EWMH_GetWindowName(EWin * ewin)
 {
    char               *val;
 
-   _EFREE(ewin->ewmh.wm_name);
+   EFREE_NULL(ewin->ewmh.wm_name);
 
    ex_netwm_name_get(EwinGetClientXwin(ewin), &val);
    if (!val)
@@ -499,7 +499,7 @@ EWMH_GetWindowIconName(EWin * ewin)
 {
    char               *val;
 
-   _EFREE(ewin->ewmh.wm_icon_name);
+   EFREE_NULL(ewin->ewmh.wm_icon_name);
 
    ex_netwm_icon_name_get(EwinGetClientXwin(ewin), &val);
    if (!val)
@@ -634,8 +634,7 @@ EWMH_GetWindowIcons(EWin * ewin)
    unsigned int       *val;
    int                 num;
 
-   Efree(ewin->ewmh.wm_icon);
-   ewin->ewmh.wm_icon = NULL;
+   EFREE_NULL(ewin->ewmh.wm_icon);
 
    num = ex_window_prop_card32_list_get(EwinGetClientXwin(ewin),
 					EX_ATOM_NET_WM_ICON, &val);

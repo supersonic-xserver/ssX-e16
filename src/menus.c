@@ -479,19 +479,19 @@ MenuSetTransient(Menu * m)
 void
 MenuSetName(Menu * m, const char *name)
 {
-   _EFDUP(m->name, name);
+   EFREE_DUP(m->name, name);
 }
 
 void
 MenuSetAlias(Menu * m, const char *alias)
 {
-   _EFDUP(m->alias, alias);
+   EFREE_DUP(m->alias, alias);
 }
 
 void
 MenuSetTitle(Menu * m, const char *title)
 {
-   _EFDUP(m->title, title);
+   EFREE_DUP(m->title, title);
 }
 
 void
@@ -505,8 +505,7 @@ MenuSetIconSize(Menu * m, int size)
 void
 MenuSetData(Menu * m, char *data)
 {
-   Efree(m->data);
-   m->data = data;
+   EFREE_SET(m->data, data);
 }
 
 void
@@ -633,8 +632,7 @@ MenuEmpty(Menu * m, int destroying)
 	   EventCallbackUnregister(mi->win, MenuItemHandleEvents, mi);
 	Efree(mi);
      }
-   Efree(m->items);
-   m->items = NULL;
+   EFREE_NULL(m->items);
    m->num = 0;
    m->sel_item = NULL;
 
@@ -748,8 +746,7 @@ MenuRealize(Menu * m)
 		  im = EImageLoad(s);
 		  if (im)
 		    {
-		       Efree(m->items[i]->icon);
-		       m->items[i]->icon = s;
+		       EFREE_SET(m->items[i]->icon, s);
 		    }
 	       }
 	     if (im)
@@ -771,8 +768,7 @@ MenuRealize(Menu * m)
 	       }
 	     else
 	       {
-		  Efree(m->items[i]->icon);
-		  m->items[i]->icon = NULL;
+		  EFREE_NULL(m->items[i]->icon);
 	       }
 	  }
      }
@@ -1733,7 +1729,7 @@ MenuStyleConfigLoad(FILE * fs)
 	     ms->maxy = atoi(s2);
 	     break;
 	  case CONFIG_BORDER:
-	     _EFDUP(ms->border_name, s2);
+	     EFREE_DUP(ms->border_name, s2);
 	     break;
 	  default:
 	     break;
@@ -1779,8 +1775,8 @@ MenuConfigLoad(FILE * fs)
 	     if (i2 != CONFIG_OPEN)
 		goto done;
 	     m = NULL;
-	     _EFREE(txt);
-	     _EFREE(icon);
+	     EFREE_NULL(txt);
+	     EFREE_NULL(icon);
 	     continue;
 	  case CONFIG_CLOSE:
 	     err = 0;
@@ -1807,8 +1803,8 @@ MenuConfigLoad(FILE * fs)
 	     continue;
 
 	  case MENU_ITEM:
-	     _EFREE(txt);
-	     _EFREE(icon);
+	     EFREE_NULL(txt);
+	     EFREE_NULL(icon);
 	     if (strcmp("NULL", s2))
 		icon = Estrdup(s2);
 	     if (p3 && *p3)
@@ -1848,14 +1844,14 @@ MenuConfigLoad(FILE * fs)
 		       mi = MenuItemCreate(txt, icon, p2, NULL);
 		       MenuAddItem(m, mi);
 		    }
-		  _EFREE(txt);
-		  _EFREE(icon);
+		  EFREE_NULL(txt);
+		  EFREE_NULL(icon);
 	       }
 	     break;
 	  case MENU_SUBMENU:
 	     len = 0;
 	     sscanf(p3, "%s %n", s3, &len);
-	     _EFREE(icon);
+	     EFREE_NULL(icon);
 	     if (strcmp("NULL", s3))
 		icon = Estrdup(s3);
 	     mm = MenuFind(s2, NULL);
@@ -1870,7 +1866,7 @@ MenuConfigLoad(FILE * fs)
  done:
    if (err)
       ConfigAlertLoad("Menu");
-   _EFREE(txt);
+   EFREE_NULL(txt);
 
    return err;
 }

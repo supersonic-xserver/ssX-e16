@@ -1326,8 +1326,8 @@ PagerEwinGroupSet(void)
 static void
 PagerEwinGroupUnset(void)
 {
-   _EFREE(gwin_px);
-   _EFREE(gwin_py);
+   EFREE_NULL(gwin_px);
+   EFREE_NULL(gwin_py);
 }
 
 static void
