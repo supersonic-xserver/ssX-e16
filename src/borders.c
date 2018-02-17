@@ -347,7 +347,7 @@ BorderWinpartCalc(const EWin * ewin, int i, int ww, int hh)
 	max += pad->left + pad->right;
 	if (h > max)
 	  {
-	     y = y + (((h - max) * TextclassGetJustification(tclass)) >> 10);
+	     y += ((h - max) * TextclassGetJustification(tclass)) >> 10;
 	     h = max;
 	  }
 	if (h < min)
@@ -396,8 +396,7 @@ BorderWinpartCalc(const EWin * ewin, int i, int ww, int hh)
 
 	     if (w > max)
 	       {
-		  x = x +
-		     (((w - max) * TextclassGetJustification(tclass)) >> 10);
+		  x += ((w - max) * TextclassGetJustification(tclass)) >> 10;
 		  w = max;
 	       }
 	  }

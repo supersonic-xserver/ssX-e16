@@ -1746,7 +1746,7 @@ CB_BGAreaEvent(DItem * di, int val __UNUSED__, void *data)
 	     num = LIST_GET_COUNT(&bg_list);
 	     x = (num * (mini_w + 8) - w) * dd->bg_sel_sliderval / (4 * num) +
 		ev->xbutton.x;
-	     x = x / (mini_w + 8);
+	     x /= mini_w + 8;
 	     bg = LIST_GET_BY_INDEX(Background, &bg_list, x);
 	     if (!bg || bg == DeskBackgroundGet(DesksGetCurrent()))
 		break;

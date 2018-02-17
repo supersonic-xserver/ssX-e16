@@ -456,7 +456,7 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 	     ady = 1;
 	  }
 	dist = tt->dist;
-	ady = ady / dy;
+	ady /= dy;
 
 	if (tt->win[0])
 	  {
@@ -510,7 +510,7 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 	     adx = 1;
 	  }
 	dist = tt->dist;
-	adx = adx / dx;
+	adx /= dx;
 
 	if (tt->win[0])
 	  {
