@@ -83,9 +83,13 @@ const char         *Estrcasestr(const char *haystack, const char *needle);
 #define EMALLOC(type, num) (type*)Emalloc((num)*sizeof(type))
 #define EREALLOC(type, ptr, num) (type*)Erealloc(ptr, (num)*sizeof(type))
 
-#define EFREE_NULL(p)   do { Efree(p); p = NULL; } while (0)
-#define EFREE_SET(p, s) do { Efree(p); p = s; } while (0)
-#define EFREE_DUP(p, s) do { Efree(p); p = Estrdup(s); } while (0)
+void                EfreeNull(void **p);
+void                EfreeSet(void **p, void *s);
+void                EfreeDup(char **p, const char *s);
+
+#define EFREE_NULL(p)   EfreeNull((void**)(&p))
+#define EFREE_SET(p, s) EfreeSet((void**)(&p), s)
+#define EFREE_DUP(p, s) EfreeDup(&p, s)
 
 #define STRCPY(dst, src) do { src[sizeof(dst)-1] = '\0'; strcpy(dst, src); } while(0)
 
