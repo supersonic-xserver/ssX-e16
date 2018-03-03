@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -2320,8 +2320,11 @@ EwinsSetFree(void)
 
 	/* This makes E determine the client window stacking at exit */
 	EwinInstantUnShade(ewin);
-	EReparentWindow(EwinGetClientWin(ewin), RROOT,
-			ewin->client.x, ewin->client.y);
+	if (Mode.wm.window)
+	   ICCCM_Delete(ewin);
+	else
+	   EReparentWindow(EwinGetClientWin(ewin), RROOT,
+			   ewin->client.x, ewin->client.y);
      }
 }
 
