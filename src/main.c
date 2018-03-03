@@ -44,10 +44,11 @@
 #include "session.h"
 #include "snaps.h"
 #include "user.h"
+#include "version.h"
 #include "xwin.h"
 
 const char          e_wm_name[] = "e16";
-const char          e_wm_version[] = VERSION;
+const char          e_wm_version[] = E16_VERSION;
 
 EConf               Conf;
 EMode               Mode;

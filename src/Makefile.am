@@ -132,6 +132,7 @@ AM_CPPFLAGS = \
 
 e16_CPPFLAGS = \
 	$(AM_CPPFLAGS) \
+	-I$(top_srcdir) \
 	-I$(top_builddir) \
 	$(MODULE_CFLAGS) \
 	$(IMLIB2_CFLAGS) \
