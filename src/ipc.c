@@ -1610,7 +1610,7 @@ static const IpcItem IPCArray[] = {
     "  win_op <windowid> focused_opacity [+|-]<0-100(0=follow opacity, 100=opaque)>\n"
 #endif
     "  win_op <windowid> snap <what>\n"
-    "         <what>: all, none, border, command, desktop, dialog, group, icon,\n"
+    "         <what>: all, none, auto, border, command, desktop, dialog, group, icon,\n"
     "                 layer, location, opacity, shade, shadow, size, sticky\n"
     "  win_op <windowid> <focusclick/never_use_area/no_button_grabs/skiplists>\n"
     "  win_op <windowid> <no_app_focus/move/size>\n"
