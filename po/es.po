@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2018-02-04 17:24+0100\n"
+"POT-Creation-Date: 2018-03-03 14:29+0100\n"
 "PO-Revision-Date: 2010-04-23 21:20+0000\n"
 "Last-Translator: Fernando Muñoz <munozferna@gmail.com>\n"
 "Language-Team: \n"
@@ -1136,28 +1136,28 @@ msgstr "Opciones del Portaíconos"
 msgid "Iconbox Settings"
 msgstr "Configurar Portaíconos"
 
-#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:398
+#: src/ipc.c:199 src/ipc.c:1492 src/ipc.c:1499 src/theme.c:401
 msgid "Message"
 msgstr "Mensaje"
 
-#: src/ipc.c:1478 src/ipc.c:1485
+#: src/ipc.c:1492 src/ipc.c:1499
 #, c-format
 msgid "e16 was built without %s support"
 msgstr "e16 se construyó sin soporte para %s"
 
-#: src/ipc.c:1479
+#: src/ipc.c:1493
 msgid "composite"
 msgstr "composición"
 
-#: src/ipc.c:1486
+#: src/ipc.c:1500
 msgid "sound"
 msgstr "sonido"
 
-#: src/ipc.c:1830
+#: src/ipc.c:1844
 msgid "Enlightenment IPC Commands Help\n"
 msgstr "Ayuda de los Comandos IPC de Enlightenment\n"
 
-#: src/ipc.c:1834
+#: src/ipc.c:1848
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
@@ -1167,19 +1167,19 @@ msgstr ""
 "Use \"Ayuda <comando>\" para obtener descripciones individuales\n"
 "\n"
 
-#: src/ipc.c:1836 src/ipc.c:1856 src/ipc.c:1868
+#: src/ipc.c:1850 src/ipc.c:1874 src/ipc.c:1886
 msgid "Commands currently available:\n"
 msgstr "Comandos disponibles:\n"
 
-#: src/ipc.c:1854
+#: src/ipc.c:1872
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr "Use \"help full\" para descripciones totales de cada comando\n"
 
-#: src/ipc.c:1855
+#: src/ipc.c:1873
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr "Use \"Ayuda <comando>\" para obtener una descripción individual\n"
 
-#: src/ipc.c:1857 src/ipc.c:1869
+#: src/ipc.c:1875 src/ipc.c:1887
 msgid "         <command>     : <description>\n"
 msgstr "         <comando>   : <descripción>\n"
 
@@ -2066,7 +2066,7 @@ msgstr "Opciones de Bandeja de Sistema"
 msgid "Systray Settings"
 msgstr "Configurar Bandeja de Sistema"
 
-#: src/theme.c:363
+#: src/theme.c:366
 #, c-format
 msgid ""
 "No themes were found in the default directories:\n"
@@ -2077,32 +2077,32 @@ msgstr ""
 " %s\n"
 "Continuar desde aquí no tiene sentido.\n"
 
-#: src/theme.c:398
+#: src/theme.c:401
 msgid "Changes will take effect after restart"
 msgstr "Los cambios tendrán efecto después de reiniciar"
 
-#: src/theme.c:418
+#: src/theme.c:421
 msgid "Use theme font configuration"
 msgstr "Usar la configuración de las tipografías de tema"
 
-#: src/theme.c:423
+#: src/theme.c:426
 #, c-format
 msgid "Use alternate font configuration (%s)"
 msgstr "Usar configuración alternativa de las tipografías (%s)"
 
-#: src/theme.c:424
+#: src/theme.c:427
 msgid "Not set"
 msgstr "No establecido"
 
-#: src/theme.c:431
+#: src/theme.c:434
 msgid "Theme"
 msgstr "Tema"
 
-#: src/theme.c:431
+#: src/theme.c:434
 msgid "Theme Settings"
 msgstr "Configuración del Tema"
 
-#: src/theme.c:435
+#: src/theme.c:438
 msgid ""
 "Enlightenment Theme\n"
 "Settings Dialog"

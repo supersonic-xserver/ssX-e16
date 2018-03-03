@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16 0.99.99.003\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2018-02-04 17:24+0100\n"
+"POT-Creation-Date: 2018-03-03 14:29+0100\n"
 "PO-Revision-Date: 2014-01-03 14:12+0000\n"
 "Last-Translator: Eliovir <Unknown>\n"
 "Language-Team: Esperanto <translation-team-eo@lists.sourceforge.net>\n"
@@ -1060,28 +1060,28 @@ msgstr "Opcioj de piktogramkesto"
 msgid "Iconbox Settings"
 msgstr "Agordoj de piktogramkesto"
 
-#: src/ipc.c:199 src/ipc.c:1478 src/ipc.c:1485 src/theme.c:398
+#: src/ipc.c:199 src/ipc.c:1492 src/ipc.c:1499 src/theme.c:401
 msgid "Message"
 msgstr "Mesaĝo"
 
-#: src/ipc.c:1478 src/ipc.c:1485
+#: src/ipc.c:1492 src/ipc.c:1499
 #, c-format
 msgid "e16 was built without %s support"
 msgstr "e16 estis konstruita sen subteno de %s"
 
-#: src/ipc.c:1479
+#: src/ipc.c:1493
 msgid "composite"
 msgstr "kunmeto"
 
-#: src/ipc.c:1486
+#: src/ipc.c:1500
 msgid "sound"
 msgstr "sono"
 
-#: src/ipc.c:1830
+#: src/ipc.c:1844
 msgid "Enlightenment IPC Commands Help\n"
 msgstr "Helpo por IPC-komandoj de Enlightenment\n"
 
-#: src/ipc.c:1834
+#: src/ipc.c:1848
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
@@ -1091,19 +1091,19 @@ msgstr ""
 "Uzu \"help <komando>\" por unuopa priskribo\n"
 "\n"
 
-#: src/ipc.c:1836 src/ipc.c:1856 src/ipc.c:1868
+#: src/ipc.c:1850 src/ipc.c:1874 src/ipc.c:1886
 msgid "Commands currently available:\n"
 msgstr "Aktuale disponeblaj komandoj:\n"
 
-#: src/ipc.c:1854
+#: src/ipc.c:1872
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr "Uzu \"help all\" por priskriboj de ĉiuj komandoj\n"
 
-#: src/ipc.c:1855
+#: src/ipc.c:1873
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr "Uzu \"help <komando>\" por unuopa priskribo\n"
 
-#: src/ipc.c:1857 src/ipc.c:1869
+#: src/ipc.c:1875 src/ipc.c:1887
 msgid "         <command>     : <description>\n"
 msgstr "         <komando>     : <priskribo>\n"
 
@@ -1946,7 +1946,7 @@ msgstr "Opcioj de sistempleto"
 msgid "Systray Settings"
 msgstr "Agordoj de sistempleto"
 
-#: src/theme.c:363
+#: src/theme.c:366
 #, c-format
 msgid ""
 "No themes were found in the default directories:\n"
@@ -1957,32 +1957,32 @@ msgstr ""
 " %s\n"
 "Komencado de tie estas sensenca.\n"
 
-#: src/theme.c:398
+#: src/theme.c:401
 msgid "Changes will take effect after restart"
 msgstr "Ŝanĝoj efektiviĝos post restartigo"
 
-#: src/theme.c:418
+#: src/theme.c:421
 msgid "Use theme font configuration"
 msgstr "Uzi agordojn pri tiparo de etoso"
 
-#: src/theme.c:423
+#: src/theme.c:426
 #, c-format
 msgid "Use alternate font configuration (%s)"
 msgstr "Uzi alternativajn agordojn de tiparo (%s)"
 
-#: src/theme.c:424
+#: src/theme.c:427
 msgid "Not set"
 msgstr "Nedifinita"
 
-#: src/theme.c:431
+#: src/theme.c:434
 msgid "Theme"
 msgstr "Etoso"
 
-#: src/theme.c:431
+#: src/theme.c:434
 msgid "Theme Settings"
 msgstr "Agordoj de etoso"
 
-#: src/theme.c:435
+#: src/theme.c:438
 msgid ""
 "Enlightenment Theme\n"
 "Settings Dialog"
