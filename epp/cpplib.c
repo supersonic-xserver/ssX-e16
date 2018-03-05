@@ -4512,7 +4512,8 @@ cpp_get_token(cpp_reader * pfile)
 {
    int                 c, c2, c3;
    long                old_written = 0;
-   long                start_line, start_column;
+   long                start_line = 0, start_column = 0;
+   long                newlines = 0;
    enum cpp_token      token;
    struct cpp_options *opts = CPP_OPTIONS(pfile);
 
@@ -4553,7 +4554,6 @@ cpp_get_token(cpp_reader * pfile)
      {
 	switch (c)
 	  {
-	     long                newlines;
 	     struct parse_marker start_mark;
 
 	  case '/':
