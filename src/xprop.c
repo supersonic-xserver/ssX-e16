@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -434,6 +434,7 @@ ex_window_prop_xid_list_change(EX_Window win, EX_Atom atom,
    EX_ID              *lst, *lst_r;
    int                 i, num;
 
+   lst = NULL;
    num = ex_window_prop_xid_list_get(win, atom, type, &lst);
    if (num < 0)
       return;			/* Error - assuming invalid window */
