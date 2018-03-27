@@ -367,6 +367,9 @@ doFocusToEwin(EWin * ewin, int why)
 	    EwinGetWindowGroup(ewin) == EwinGetWindowGroup(Mode.focuswin))
 	   goto check_focus_new;
 
+	if (Conf.focus.mode != MODE_FOCUS_CLICK && ewin == Mode.mouse_over_ewin)
+	   goto check_focus_new;
+
 	if (EwinIsTransient(ewin))
 	  {
 	     if (Conf.focus.new_transients_get_focus)
@@ -485,8 +488,6 @@ FocusToEWin(EWin * ewin, int why)
    switch (why)
      {
      case FOCUS_EWIN_NEW:
-	if (!Conf.focus.all_new_windows_get_focus)
-	   return;
 	if (!FocusEwinValid(ewin, 0, 0, 0))
 	   break;
 	focus_pending_new = ewin;
