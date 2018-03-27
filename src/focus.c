@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2017 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -353,20 +353,19 @@ doFocusToEwin(EWin * ewin, int why)
 	break;
 
      case FOCUS_EWIN_NEW:
-	if (Conf.focus.all_new_windows_get_focus)
-	   goto check_focus_new;
-
 	if (Mode.place.doing_manual)
 	   goto check_focus_new;
 
 	if (ewin->props.focus_when_mapped)
 	   goto check_focus_new;
 
-	if (Conf.focus.new_windows_get_focus_if_group_focused && Mode.focuswin)
-	  {
-	     if (EwinGetWindowGroup(ewin) == EwinGetWindowGroup(Mode.focuswin))
-		goto check_focus_new;
-	  }
+	if (Conf.focus.all_new_windows_get_focus)
+	   goto check_focus_new;
+
+	if (Conf.focus.new_windows_get_focus_if_group_focused &&
+	    Mode.focuswin &&
+	    EwinGetWindowGroup(ewin) == EwinGetWindowGroup(Mode.focuswin))
+	   goto check_focus_new;
 
 	if (EwinIsTransient(ewin))
 	  {
