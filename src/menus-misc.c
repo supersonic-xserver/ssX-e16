@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2017 Kim Woelders
+ * Copyright (C) 2004-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -125,7 +125,7 @@ MenuLoadFromDirectory(Menu * m)
 	   return 1;
 	while (fgets(s, sizeof(s), f))
 	  {
-	     char                s2[4096];
+	     char                s2[1024];
 
 	     s[strlen(s) - 1] = 0;
 	     len = 0;

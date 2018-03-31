@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2007-2011 Kim Woelders
+ * Copyright (C) 2007-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -47,7 +47,8 @@ TextGetLines(const char *text, int *count)
 	list = EREALLOC(char *, list, k);
 	list[k - 1] = EMALLOC(char, j - i + 1);
 
-	strncpy(list[k - 1], &(text[i]), (j - i));
+	if (j > i)
+	   strncpy(list[k - 1], &(text[i]), (j - i));
 	list[k - 1][j - i] = 0;
 	i = j;
 	if (text[i] == '\n')
