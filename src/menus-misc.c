@@ -48,7 +48,7 @@ MenuItemCreateFromBackground(const char *bgid, const char *file)
 {
    MenuItem           *mi;
    Background         *bg;
-   char                thumb[1024], buf[1024];
+   char                thumb[1024], buf[1048];
 
    bg = BrackgroundCreateFromImage(bgid, file, thumb, sizeof(thumb));
    if (!bg)

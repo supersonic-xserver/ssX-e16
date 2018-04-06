@@ -128,7 +128,7 @@ ThemePathName(const char *path)
 static void
 _append_merge_dir(char *dir, char ***list, int *count)
 {
-   char                ss[FILEPATH_LEN_MAX], s1[FILEPATH_LEN_MAX];
+   char                ss[2048], s1[FILEPATH_LEN_MAX];
    char              **str, *s;
    int                 i, num;
 
@@ -213,7 +213,7 @@ ThemesList(int *number)
 static char        *
 _ThemeExtract(const char *path)
 {
-   char                th[FILEPATH_LEN_MAX];
+   char                th[2048];
    FILE               *f;
    unsigned char       buf[262];
    size_t              ret;
