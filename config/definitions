@@ -971,6 +971,9 @@ __BORDER __BGN; \
 #define BORDER_SHADE_UP \
   __SHADE_DIRECTION __UP
 
+#define BORDER_GROUP_NAME(name) \
+  __BORDER_GROUP_NAME name
+
 #define BEGIN_BORDER_PART(iclass, min_width, max_width, min_height, max_height) \
 __BORDER_PART __BGN; \
   __ICLASS iclass; \
@@ -1191,6 +1194,9 @@ __TCLASS __BGN; \
 
 #define TEXT_JUSTIFY_RIGHT \
   __JUSTIFICATION 1024
+
+#define TEXT_ORIENTATION(direction) \
+  __ORIENTATION direction
 
 #define END_TEXT \
 __END
