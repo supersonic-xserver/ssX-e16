@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16 0.99.99.003\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2018-03-03 14:29+0100\n"
+"POT-Creation-Date: 2018-05-18 14:16+0200\n"
 "PO-Revision-Date: 2014-01-03 14:12+0000\n"
 "Last-Translator: Eliovir <Unknown>\n"
 "Language-Team: Esperanto <translation-team-eo@lists.sourceforge.net>\n"
@@ -47,7 +47,7 @@ msgstr ""
 "Mandrake - mandrake@mandrake.net\n"
 "Kim WOELDERS - kim@woelders.dk\n"
 
-#: src/aclass.c:222 src/backgrounds.c:260 src/borders.c:697 src/buttons.c:190
+#: src/aclass.c:222 src/backgrounds.c:260 src/borders.c:696 src/buttons.c:190
 #: src/cursors.c:139 src/iclass.c:282 src/tclass.c:119 src/tooltips.c:136
 #, c-format
 msgid "%u references remain"
