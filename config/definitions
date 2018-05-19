@@ -962,8 +962,8 @@ __BORDER __BGN; \
   __BORDER_SIZE_TOP top; \
   __BORDER_SIZE_BOTTOM bottom
 
-#define BORDER_CHANGES_SHAPE(shape) \
-  __CHANGES_SHAPE shape
+#define BORDER_CHANGES_SHAPE \
+  __CHANGES_SHAPE __ON
 
 #define BORDER_SHADE_DIRECTION(direction) \
   __SHADE_DIRECTION direction
@@ -985,6 +985,9 @@ __BORDER_PART __BGN; \
 #define BORDER_PART_KEEP_WHEN_SHADED \
   __KEEP_WHEN_SHADED __ON
 
+#define BORDER_PART_KEEP_ON_TOP \
+  __KEEP_ON_TOP __ON
+
 #define BORDER_PART_ACTION(aclass) \
   __ACLASS aclass
 
@@ -1002,13 +1005,13 @@ __BORDER_PART __BGN; \
 #define BORDER_PART_MINI_ICON \
   __FLAGS __FLAG_MINI_ICON
 
-#define BORDER_PART_REGION(x1p, x1, y1p, y1, x2p, x2, y2p, y2) \
-  __TOPLEFT_ORIGIN -1; \
+#define BORDER_PART_REGION(o1, x1p, x1, y1p, y1, o2, x2p, x2, y2p, y2) \
+  __TOPLEFT_ORIGIN o1; \
   __TOPLEFT_X_PERCENTAGE x1p; \
   __TOPLEFT_X_ABSOLUTE x1; \
   __TOPLEFT_Y_PERCENTAGE y1p; \
   __TOPLEFT_Y_ABSOLUTE y1; \
-  __BOTTOMRIGHT_ORIGIN -1; \
+  __BOTTOMRIGHT_ORIGIN o2; \
   __BOTTOMRIGHT_X_PERCENTAGE x2p; \
   __BOTTOMRIGHT_X_ABSOLUTE x2; \
   __BOTTOMRIGHT_Y_PERCENTAGE y2p; \
@@ -1096,7 +1099,7 @@ __ICLASS __BGN; \
   __EDGE_SCALING l r t b
 
 #define IMAGE_PADDING(l, r, t, b) \
-  __PADDING l, r, t, b
+  __PADDING l r t b
 
 #define IMAGE_BEVEL(bevel) \
   __BEVEL bevel
