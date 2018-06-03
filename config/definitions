@@ -848,6 +848,49 @@ __TOOLTIP __BGN;\
   __DISTANCE distance;\
 __END
 
+#define TOOLTIP(name, main_iclass, cloud1_iclass, cloud2_iclass, cloud3_iclass, cloud4_iclass, tclass, distance) \
+__TOOLTIP __BGN;\
+  __NAME name;\
+  __ICLASS main_iclass;\
+  __BUBBLE1_ICLASS cloud1_iclass;\
+  __BUBBLE2_ICLASS cloud2_iclass;\
+  __BUBBLE3_ICLASS cloud3_iclass;\
+  __BUBBLE4_ICLASS cloud4_iclass;\
+  __TOOLTIP_HELP_ICON "DO_HELP_BUTTON";\
+  __TCLASS tclass;\
+  __DISTANCE distance;\
+__END
+
+#define TOOLTIP_WITH_LOGO(name, main_iclass, cloud1_iclass, cloud2_iclass, cloud3_iclass, cloud4_iclass, tclass, distance, logo) \
+__TOOLTIP __BGN;\
+  __NAME name;\
+  __ICLASS main_iclass;\
+  __BUBBLE1_ICLASS cloud1_iclass;\
+  __BUBBLE2_ICLASS cloud2_iclass;\
+  __BUBBLE3_ICLASS cloud3_iclass;\
+  __BUBBLE4_ICLASS cloud4_iclass;\
+  __TOOLTIP_HELP_ICON logo;\
+  __TCLASS tclass;\
+  __DISTANCE distance;\
+__END
+
+#define TOOLTIP_SIMPLE(name, iclass, tclass, distance) \
+__TOOLTIP __BGN;\
+  __NAME name;\
+  __ICLASS iclass;\
+  __TCLASS tclass;\
+  __DISTANCE distance;\
+__END
+
+#define TOOLTIP_SIMPLE_WITH_LOGO(name, iclass, tclass, distance, logo) \
+__TOOLTIP __BGN;\
+  __NAME name;\
+  __ICLASS iclass;\
+  __TCLASS tclass;\
+  __TOOLTIP_HELP_ICON logo;\
+  __DISTANCE distance;\
+__END
+
 /*********** Sound creation macros *******************************/
 #define BEGIN_SOUND \
 __SOUND __BGN
@@ -855,11 +898,99 @@ __SOUND __BGN
 #define END_SOUND \
 __END
 
-/*********** Sound creation macros *******************************/
+/*********** Action macros ***************************************/
+#define BEGIN_ACLASS(name, type) \
+__ACLASS __BGN; \
+  __NAME name; \
+  __TYPE type
+
+#define ACLASS_TOOLTIP(tooltip) \
+  __TOOLTIP_TEXT tooltip
+
+#define ACLASS_ACTION(action, event) \
+  __EVENT event; \
+  __ACTION action
+
+#define ACLASS_ACTION_WITH_TOOLTIP(action, event, tooltip) \
+  __TOOLTIP_ACTION_TEXT tooltip; \
+  __ACTION action; \
+  __EVENT event
+
+#define ACLASS_BUTTON(button, modifier) \
+  __BUTTON button; \
+  __MODIFIER_KEY modifier
+
+#define ACLASS_KEY(key, mod) \
+  __KEY key; \
+  __MODIFIER_KEY mod
+
+#define ACLASS_ALLOW_ANY_BUTTON \
+  __ALLOW_ANY_BUTTON __ON
+
+#define ACLASS_ALLOW_ANY_MODIFIER_KEYS \
+  __ALLOW_ANY_MODIFIER_KEYS __ON
+
+#define ACLASS_ALLOW_ANY_KEY \
+  __ALLOW_ANY_KEY __ON
+
+#define ACLASS_NEXT_ACTION \
+  __NEXT_ACTION
+
+#define END_ACLASS \
+__END
+
+/*********** Cursor macros ***************************************/
+#define CURSOR(name, fg, bg, file) \
+__CURSOR __BGN; \
+  __NAME name; \
+  __FG_COLOR fg; \
+  __BG_COLOR bg; \
+  __XBM_FILE file; \
+__END
+
+/*********** Slideout and button macros **************************/
+#define BEGIN_BUTTON(name, iclass, aclass) \
+__BUTTON __BGN; \
+  __NAME name; \
+  __ICLASS iclass; \
+  __ACLASS aclass
+
+#define BUTTON_CURSOR(cursor) \
+  __CURSOR cursor
+
+#define IS_INTERNAL \
+  __IS_INTERNAL __ON
+
+#define SHOW_BY_DEFAULT \
+  __SHOW_BY_DEFAULT __ON
+
+#define USE_SIZE_OF_IMAGE \
+  __USE_SIZE_OF_IMAGE __ON
+
+#define MAKE_STICKY \
+  __MAKE_STICKY __ON
+
+#define PUT_ON_DESKTOP(num) \
+  __PUT_ON_DESKTOP num
+
+#define BUTTON_LOCATION(xo, xp, xa, yo, yp, ya) \
+  __X_ORIGIN x; \
+  __X_PERCENTAGE xp; \
+  __X_ABSOLUTE xa; \
+  __Y_ORIGIN y; \
+  __Y_PERCENTAGE yp; \
+  __Y_ABSOLUTE ya
+
+#define END_BUTTON \
+__END
+
 #define BEGIN_SLIDEOUT(name, direction) \
 __SLIDEOUT __BGN;\
   __NAME name;\
   __SLIDE_DIRECTION direction
+
+#define SLIDEOUT_BUTTON(name) \
+  __BUTTON name
 
 #define ADD_BUTTON_TO_SLIDEOUT(name) \
   __BUTTON name
