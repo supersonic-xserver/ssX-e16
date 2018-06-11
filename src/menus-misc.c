@@ -444,8 +444,7 @@ MenuCreateFromThemes(const char *name, MenuStyle * ms)
 {
    Menu               *m;
 
-   m = MenuCreate(name, NULL, NULL, ms);
-   MenuSetTitle(m, _("Themes"));
+   m = MenuCreate(name, _("Themes"), NULL, ms);
    MenuSetInternal(m);
    MenuSetLoader(m, MenuLoadFromThemes);
 
@@ -461,8 +460,7 @@ MenuCreateFromBorders(const char *name, MenuStyle * ms)
    int                 i, num;
    MenuItem           *mi;
 
-   m = MenuCreate(name, NULL, NULL, ms);
-   MenuSetTitle(m, _("Border"));
+   m = MenuCreate(name, _("Border"), NULL, ms);
 
    lst = BordersGetList(&num);
    if (!lst)
@@ -524,8 +522,7 @@ MenuCreateFromAllEWins(const char *name, MenuStyle * ms)
 {
    Menu               *m;
 
-   m = MenuCreate(name, NULL, NULL, ms);
-   MenuSetTitle(m, _("Window List"));
+   m = MenuCreate(name,  _("Window List"), NULL, ms);
    MenuSetInternal(m);
    MenuSetDynamic(m);
    MenuSetLoader(m, MenuLoadFromAllEwins);
@@ -564,8 +561,7 @@ MenuCreateFromDesktops(const char *name, MenuStyle * ms)
 {
    Menu               *m;
 
-   m = MenuCreate(name, NULL, NULL, ms);
-   MenuSetTitle(m, _("Desks"));
+   m = MenuCreate(name, _("Desks"), NULL, ms);
    MenuSetInternal(m);
    MenuSetDynamic(m);
    MenuSetLoader(m, MenuLoadFromDesktops);
@@ -624,8 +620,7 @@ MenuCreateFromGroups(const char *name, MenuStyle * ms)
 {
    Menu               *m;
 
-   m = MenuCreate(name, NULL, NULL, ms);
-   MenuSetTitle(m, _("Groups"));
+   m = MenuCreate(name, _("Groups"), NULL, ms);
    MenuSetInternal(m);
    MenuSetDynamic(m);
    MenuSetLoader(m, MenuLoadFromGroups);
