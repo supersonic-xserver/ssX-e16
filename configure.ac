@@ -138,6 +138,10 @@ if test "x$enable_sound" = "xesound"; then
 fi
 AM_CONDITIONAL(USE_LIBESD, test "x$enable_sound" = "xesound")
 
+if test "x$enable_sound" != "xno" -a "x$with_sndldr" = "xnone"; then
+  AC_MSG_ERROR([Sound support requires a sound loader])
+fi
+
 # Save CPPFLAGS/LDFLAGS and add X_... to each
 SAVE_CPPFLAGS="$CPPFLAGS"
 SAVE_LDFLAGS="$LDFLAGS"
