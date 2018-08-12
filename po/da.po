@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2018-05-18 14:16+0200\n"
+"POT-Creation-Date: 2018-08-12 12:52+0200\n"
 "PO-Revision-Date: 2017-11-29 02:09+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -628,7 +628,7 @@ msgstr "Venstre"
 msgid "Right"
 msgstr "Højre"
 
-#: src/desktops.c:2576 src/menus-misc.c:568
+#: src/desktops.c:2576 src/menus-misc.c:564
 msgid "Desks"
 msgstr "Skriveborde"
 
@@ -979,7 +979,7 @@ msgstr "Globale indstillinger:"
 msgid "Swap Window Locations"
 msgstr "Ombyt vinduesplacering"
 
-#: src/groups.c:1040 src/menus-misc.c:628 config/strings.c:138
+#: src/groups.c:1040 src/menus-misc.c:623 config/strings.c:138
 msgid "Groups"
 msgstr "Grupper"
 
@@ -1208,36 +1208,36 @@ msgstr "Forstørrelsesglas"
 msgid "Backgrounds"
 msgstr "Baggrunde"
 
-#: src/menus-misc.c:448 config/strings.c:91 config/strings.c:113
+#: src/menus-misc.c:447 config/strings.c:91 config/strings.c:113
 msgid "Themes"
 msgstr "Tema"
 
-#: src/menus-misc.c:465
+#: src/menus-misc.c:463
 msgid "Border"
 msgstr "Ramme"
 
-#: src/menus-misc.c:528
+#: src/menus-misc.c:525
 msgid "Window List"
 msgstr "Vinduesliste"
 
-#: src/menus-misc.c:550
+#: src/menus-misc.c:547
 msgid "Go to this Desktop"
 msgstr "Gå til dette skrivebord"
 
-#: src/menus-misc.c:554 src/menus-misc.c:650
+#: src/menus-misc.c:551 src/menus-misc.c:645
 #, c-format
 msgid "Desktop %i"
 msgstr "Skrivebord %i"
 
-#: src/menus-misc.c:597
+#: src/menus-misc.c:593
 msgid "Show/Hide this group"
 msgstr "Vis/skjul denne gruppe"
 
-#: src/menus-misc.c:602
+#: src/menus-misc.c:598
 msgid "Iconify this group"
 msgstr "Ikonificér denne gruppe"
 
-#: src/menus-misc.c:613
+#: src/menus-misc.c:609
 #, c-format
 msgid "Group %i"
 msgstr "Gruppe %i"

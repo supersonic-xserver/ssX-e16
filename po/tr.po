@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2018-05-18 14:16+0200\n"
+"POT-Creation-Date: 2018-08-12 12:52+0200\n"
 "PO-Revision-Date: 2014-05-24 08:31+0000\n"
 "Last-Translator: Eliovir <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -646,7 +646,7 @@ msgstr "Sol"
 msgid "Right"
 msgstr "Sað"
 
-#: src/desktops.c:2576 src/menus-misc.c:568
+#: src/desktops.c:2576 src/menus-misc.c:564
 msgid "Desks"
 msgstr "Masaüstleri"
 
@@ -1008,7 +1008,7 @@ msgstr "Genel ayarlar :"
 msgid "Swap Window Locations"
 msgstr "Pencere Konumlarýný Yerdeðiþtir"
 
-#: src/groups.c:1040 src/menus-misc.c:628 config/strings.c:138
+#: src/groups.c:1040 src/menus-misc.c:623 config/strings.c:138
 msgid "Groups"
 msgstr "Gruplar"
 
@@ -1236,36 +1236,36 @@ msgstr "Büyüteç"
 msgid "Backgrounds"
 msgstr "Arka planlar"
 
-#: src/menus-misc.c:448 config/strings.c:91 config/strings.c:113
+#: src/menus-misc.c:447 config/strings.c:91 config/strings.c:113
 msgid "Themes"
 msgstr "Temalar"
 
-#: src/menus-misc.c:465
+#: src/menus-misc.c:463
 msgid "Border"
 msgstr "Kenarlýk"
 
-#: src/menus-misc.c:528
+#: src/menus-misc.c:525
 msgid "Window List"
 msgstr "Pencere Listesi"
 
-#: src/menus-misc.c:550
+#: src/menus-misc.c:547
 msgid "Go to this Desktop"
 msgstr "Bu masaüstüne git"
 
-#: src/menus-misc.c:554 src/menus-misc.c:650
+#: src/menus-misc.c:551 src/menus-misc.c:645
 #, c-format
 msgid "Desktop %i"
 msgstr "Masaüstü %i"
 
-#: src/menus-misc.c:597
+#: src/menus-misc.c:593
 msgid "Show/Hide this group"
 msgstr "Bu grubu Göster/Gizle"
 
-#: src/menus-misc.c:602
+#: src/menus-misc.c:598
 msgid "Iconify this group"
 msgstr "Bu grubu simgeleþtir"
 
-#: src/menus-misc.c:613
+#: src/menus-misc.c:609
 #, c-format
 msgid "Group %i"
 msgstr "Grup %i"

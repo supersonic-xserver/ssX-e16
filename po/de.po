@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2018-05-18 14:16+0200\n"
+"POT-Creation-Date: 2018-08-12 12:52+0200\n"
 "PO-Revision-Date: 2010-05-09 01:21+0000\n"
 "Last-Translator: Peter Wehrfritz <Unknown>\n"
 "Language-Team: Enlightenment l10n <enlightenment-intl@lists.sourceforge."
@@ -772,7 +772,7 @@ msgid "Right"
 msgstr "Rechts"
 
 # src/snaps.c:453
-#: src/desktops.c:2576 src/menus-misc.c:568
+#: src/desktops.c:2576 src/menus-misc.c:564
 msgid "Desks"
 msgstr "Desktops"
 
@@ -1200,7 +1200,7 @@ msgid "Swap Window Locations"
 msgstr "Fensterpositionen vertauschen"
 
 # src/menus.c:2044
-#: src/groups.c:1040 src/menus-misc.c:628 config/strings.c:138
+#: src/groups.c:1040 src/menus-misc.c:623 config/strings.c:138
 msgid "Groups"
 msgstr "Gruppen"
 
@@ -1454,43 +1454,43 @@ msgid "Backgrounds"
 msgstr "Hintergründe"
 
 # src/theme.c:354
-#: src/menus-misc.c:448 config/strings.c:91 config/strings.c:113
+#: src/menus-misc.c:447 config/strings.c:91 config/strings.c:113
 msgid "Themes"
 msgstr "Themen"
 
 # src/snaps.c:437
-#: src/menus-misc.c:465
+#: src/menus-misc.c:463
 msgid "Border"
 msgstr "Rahmen"
 
 # src/snaps.c:485
-#: src/menus-misc.c:528
+#: src/menus-misc.c:525
 msgid "Window List"
 msgstr "Fensterliste"
 
 # src/menus.c:1947
-#: src/menus-misc.c:550
+#: src/menus-misc.c:547
 msgid "Go to this Desktop"
 msgstr "Zu diesem Desktop gehen"
 
 # src/menus.c:1964
-#: src/menus-misc.c:554 src/menus-misc.c:650
+#: src/menus-misc.c:551 src/menus-misc.c:645
 #, c-format
 msgid "Desktop %i"
 msgstr "Desktop %i"
 
 # src/menus.c:2027
-#: src/menus-misc.c:597
+#: src/menus-misc.c:593
 msgid "Show/Hide this group"
 msgstr "Diese Gruppe zeigen/verbergen"
 
 # src/menus.c:2031
-#: src/menus-misc.c:602
+#: src/menus-misc.c:598
 msgid "Iconify this group"
 msgstr "Diese Gruppe minimieren"
 
 # src/menus.c:2044
-#: src/menus-misc.c:613
+#: src/menus-misc.c:609
 #, c-format
 msgid "Group %i"
 msgstr "Gruppe %i"

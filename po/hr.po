@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2018-05-18 14:16+0200\n"
+"POT-Creation-Date: 2018-08-12 12:52+0200\n"
 "PO-Revision-Date: 2010-01-16 04:42+0000\n"
 "Last-Translator: Miro Glavić <glavicmiro@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
@@ -621,7 +621,7 @@ msgstr "Lijevo"
 msgid "Right"
 msgstr "Desno"
 
-#: src/desktops.c:2576 src/menus-misc.c:568
+#: src/desktops.c:2576 src/menus-misc.c:564
 msgid "Desks"
 msgstr "Radni stolovi"
 
@@ -964,7 +964,7 @@ msgstr "Globalne postavke:"
 msgid "Swap Window Locations"
 msgstr "Zamijeni Lokacije Prozora"
 
-#: src/groups.c:1040 src/menus-misc.c:628 config/strings.c:138
+#: src/groups.c:1040 src/menus-misc.c:623 config/strings.c:138
 msgid "Groups"
 msgstr "Grupe"
 
@@ -1139,36 +1139,36 @@ msgstr "Povećalo"
 msgid "Backgrounds"
 msgstr "Pozadine"
 
-#: src/menus-misc.c:448 config/strings.c:91 config/strings.c:113
+#: src/menus-misc.c:447 config/strings.c:91 config/strings.c:113
 msgid "Themes"
 msgstr "Teme"
 
-#: src/menus-misc.c:465
+#: src/menus-misc.c:463
 msgid "Border"
 msgstr "Bordura"
 
-#: src/menus-misc.c:528
+#: src/menus-misc.c:525
 msgid "Window List"
 msgstr "Lista Prozora"
 
-#: src/menus-misc.c:550
+#: src/menus-misc.c:547
 msgid "Go to this Desktop"
 msgstr "Idi na ovu Radnu Površinu"
 
-#: src/menus-misc.c:554 src/menus-misc.c:650
+#: src/menus-misc.c:551 src/menus-misc.c:645
 #, c-format
 msgid "Desktop %i"
 msgstr "Radna Površina %i"
 
-#: src/menus-misc.c:597
+#: src/menus-misc.c:593
 msgid "Show/Hide this group"
 msgstr "Prikaži/Sakrij ovu grupu"
 
-#: src/menus-misc.c:602
+#: src/menus-misc.c:598
 msgid "Iconify this group"
 msgstr ""
 
-#: src/menus-misc.c:613
+#: src/menus-misc.c:609
 #, c-format
 msgid "Group %i"
 msgstr "Grupa %i"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2018-05-18 14:16+0200\n"
+"POT-Creation-Date: 2018-08-12 12:52+0200\n"
 "PO-Revision-Date: 2009-11-15 19:33+0000\n"
 "Last-Translator: Kuvaly [LCT] <kuvaly@seznam.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -546,7 +546,7 @@ msgstr ""
 msgid "Right"
 msgstr ""
 
-#: src/desktops.c:2576 src/menus-misc.c:568
+#: src/desktops.c:2576 src/menus-misc.c:564
 msgid "Desks"
 msgstr ""
 
@@ -874,7 +874,7 @@ msgstr ""
 msgid "Swap Window Locations"
 msgstr ""
 
-#: src/groups.c:1040 src/menus-misc.c:628 config/strings.c:138
+#: src/groups.c:1040 src/menus-misc.c:623 config/strings.c:138
 msgid "Groups"
 msgstr ""
 
@@ -1044,36 +1044,36 @@ msgstr ""
 msgid "Backgrounds"
 msgstr ""
 
-#: src/menus-misc.c:448 config/strings.c:91 config/strings.c:113
+#: src/menus-misc.c:447 config/strings.c:91 config/strings.c:113
 msgid "Themes"
 msgstr ""
 
-#: src/menus-misc.c:465
+#: src/menus-misc.c:463
 msgid "Border"
 msgstr ""
 
-#: src/menus-misc.c:528
+#: src/menus-misc.c:525
 msgid "Window List"
 msgstr ""
 
-#: src/menus-misc.c:550
+#: src/menus-misc.c:547
 msgid "Go to this Desktop"
 msgstr ""
 
-#: src/menus-misc.c:554 src/menus-misc.c:650
+#: src/menus-misc.c:551 src/menus-misc.c:645
 #, c-format
 msgid "Desktop %i"
 msgstr ""
 
-#: src/menus-misc.c:597
+#: src/menus-misc.c:593
 msgid "Show/Hide this group"
 msgstr ""
 
-#: src/menus-misc.c:602
+#: src/menus-misc.c:598
 msgid "Iconify this group"
 msgstr ""
 
-#: src/menus-misc.c:613
+#: src/menus-misc.c:609
 #, c-format
 msgid "Group %i"
 msgstr ""

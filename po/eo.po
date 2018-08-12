@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16 0.99.99.003\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2018-05-18 14:16+0200\n"
+"POT-Creation-Date: 2018-08-12 12:52+0200\n"
 "PO-Revision-Date: 2014-01-03 14:12+0000\n"
 "Last-Translator: Eliovir <Unknown>\n"
 "Language-Team: Esperanto <translation-team-eo@lists.sourceforge.net>\n"
@@ -623,7 +623,7 @@ msgstr "Maldekstre"
 msgid "Right"
 msgstr "Dekstre"
 
-#: src/desktops.c:2576 src/menus-misc.c:568
+#: src/desktops.c:2576 src/menus-misc.c:564
 msgid "Desks"
 msgstr "Labortabloj"
 
@@ -977,7 +977,7 @@ msgstr "Cieaj agordoj:"
 msgid "Swap Window Locations"
 msgstr ""
 
-#: src/groups.c:1040 src/menus-misc.c:628 config/strings.c:138
+#: src/groups.c:1040 src/menus-misc.c:623 config/strings.c:138
 msgid "Groups"
 msgstr "Grupoj"
 
@@ -1154,36 +1154,36 @@ msgstr "Pligrandigilo"
 msgid "Backgrounds"
 msgstr "Fonoj"
 
-#: src/menus-misc.c:448 config/strings.c:91 config/strings.c:113
+#: src/menus-misc.c:447 config/strings.c:91 config/strings.c:113
 msgid "Themes"
 msgstr "Etosoj"
 
-#: src/menus-misc.c:465
+#: src/menus-misc.c:463
 msgid "Border"
 msgstr "Rando"
 
-#: src/menus-misc.c:528
+#: src/menus-misc.c:525
 msgid "Window List"
 msgstr "Listo de fenestroj"
 
-#: src/menus-misc.c:550
+#: src/menus-misc.c:547
 msgid "Go to this Desktop"
 msgstr "Iri al ĉi tiu labortablo"
 
-#: src/menus-misc.c:554 src/menus-misc.c:650
+#: src/menus-misc.c:551 src/menus-misc.c:645
 #, c-format
 msgid "Desktop %i"
 msgstr "Labortablo %i"
 
-#: src/menus-misc.c:597
+#: src/menus-misc.c:593
 msgid "Show/Hide this group"
 msgstr "Montri/kaŝi ĉi tiun grupon"
 
-#: src/menus-misc.c:602
+#: src/menus-misc.c:598
 msgid "Iconify this group"
 msgstr "Piktogramigi ĉi tiun grupon"
 
-#: src/menus-misc.c:613
+#: src/menus-misc.c:609
 #, c-format
 msgid "Group %i"
 msgstr "Grupo %i"
