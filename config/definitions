@@ -958,19 +958,19 @@ __BUTTON __BGN; \
 #define BUTTON_CURSOR(cursor) \
   __CURSOR cursor
 
-#define IS_INTERNAL \
+#define BUTTON_IS_INTERNAL \
   __IS_INTERNAL __ON
 
-#define SHOW_BY_DEFAULT \
+#define BUTTON_SHOW_BY_DEFAULT \
   __SHOW_BY_DEFAULT __ON
 
-#define USE_SIZE_OF_IMAGE \
+#define BUTTON_USE_SIZE_OF_IMAGE \
   __USE_SIZE_OF_IMAGE __ON
 
-#define MAKE_STICKY \
+#define BUTTON_MAKE_STICKY \
   __MAKE_STICKY __ON
 
-#define PUT_ON_DESKTOP(num) \
+#define BUTTON_PUT_ON_DESKTOP(num) \
   __PUT_ON_DESKTOP num
 
 #define BUTTON_LOCATION(xo, xp, xa, yo, yp, ya) \
@@ -1113,8 +1113,8 @@ __BORDER_PART __BGN; \
   __MIN_HEIGHT min_height; \
   __MAX_HEIGHT max_height
 
-#define BORDER_PART_KEEP_WHEN_SHADED \
-  __KEEP_WHEN_SHADED __ON
+#define BORDER_PART_KEEP_WHEN_SHADED(value) \
+  __KEEP_WHEN_SHADED value;
 
 #define BORDER_PART_KEEP_ON_TOP \
   __KEEP_ON_TOP __ON
