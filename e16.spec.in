@@ -1,21 +1,18 @@
-Summary: The Enlightenment window manager, DR16.
-Name: @PACKAGE@
-Version: @VERSION@
-Release: @E_RPM_REVISION@%{?_rpm_pkg_ext:%{_rpm_pkg_ext}}%{?_vendorsuffix:.%{_vendorsuffix}}
-License: BSD
-Group: User Interface/Desktops
-URL: http://www.enlightenment.org/
-Source: http://prdownloads.sourceforge.net/enlightenment/%{name}-%{version}.tar.gz
-Packager: %{?_packager:%{_packager}}%{!?_packager:Michael Jennings <mej@eterm.org>}
-Vendor: %{?_vendorinfo:%{_vendorinfo}}%{!?_vendorinfo:The Enlightenment Project (http://www.enlightenment.org/)}
-Distribution: %{?_distribution:%{_distribution}}%{!?_distribution:%{_vendor}}
-Prefix: %{_prefix}
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-BuildRequires: imlib2-devel freetype-devel
-#BuildSuggests: esound-devel
-Obsoletes: enlightenment < 0.16.8
-Requires: imlib2 >= 1.2.0
-Provides: e16-edox = @VERSION@
+Summary:	The Enlightenment window manager, DR16.
+Name:		@PACKAGE@
+Version:	@VERSION@
+Release:	@E_RPM_REVISION@%{?_rpm_pkg_ext:%{_rpm_pkg_ext}}%{?_vendorsuffix:.%{_vendorsuffix}}
+License:	BSD
+Group:		User Interface/Desktops
+URL:		http://www.enlightenment.org/
+Source:		http://prdownloads.sourceforge.net/enlightenment/%{name}-%{version}.tar.gz
+Vendor:		The Enlightenment Project (http://www.enlightenment.org/)
+BuildRoot:	%{_tmppath}/%{name}-%{version}-root
+BuildRequires:	imlib2-devel freetype-devel
+#BuildSuggests:	esound-devel
+Obsoletes:	enlightenment < 0.16.8
+Requires:	imlib2 >= 1.2.0
+Provides:	e16-edox = @VERSION@
 
 %description
 Enlightenment is a window manager for the X Window System that
@@ -34,12 +31,12 @@ This package will install the Enlightenment window manager.
 %setup -q
 
 %build
-%{configure} %{?acflags}
-%{__make} %{?_smp_mflags} %{?mflags}
+%configure
+make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__make} install DESTDIR=$RPM_BUILD_ROOT %{?mflags_install}
+make install DESTDIR=$RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT/usr/share/doc
 mkdir -p $RPM_BUILD_ROOT/etc/X11/xinit/Xclients.d
 cp $RPM_BUILD_ROOT/usr/share/e16/misc/Xclients.* $RPM_BUILD_ROOT/etc/X11/xinit/Xclients.d/
@@ -48,7 +45,6 @@ cp $RPM_BUILD_ROOT/usr/share/e16/misc/Xclients.* $RPM_BUILD_ROOT/etc/X11/xinit/X
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-, root, root)
 %doc AUTHORS COPYING ChangeLog docs/e16.html
 %{_bindir}/*
 %{_libdir}/%{name}
