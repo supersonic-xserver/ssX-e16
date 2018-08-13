@@ -5944,3 +5944,57 @@ Window list: Show windows on same head as pointer first.
 Drop incomplete HAVE_STDARG_H stuff.
 Fix warning with recent pango.
 Warning fixes for gcc 7.
+
+-------------------------------------------------------------------------------
+
+Mon Aug 13 19:28:19 CEST 2018
+
+--- 1.0.19 ---
+Add toggle_size half_X feature
+Tweak some (disabled) focus debug stuff.
+Fix focus after slide-in.
+Fix issue with initially shaded windows in certain cases.
+Add new macros for theming in 'definitions'
+Update the restart cursor, which looked a bit dated.
+Updating danish translation
+Do proper rendering of transparent icons in menus
+Fix magnifier pixel value display
+Fix EDrawableDumpImage()
+Add (disabled) window/pixmap dump commnd
+Make Esystem() take argumments
+Drop special handling of DEFAULT theme link.
+theme.c: Mark some static functions as such
+theme.c: Cosmetics
+Some refactoring in theme look-up
+theme.c: Add debug
+Correct various theme path checks
+Handle ".theme files"
+config.c: Cosmetics
+theme.c: Fix warning and simplify
+theme.c: Tweak theme listing
+theme.c: List .theme files too
+theme.c: Fix theme file extraction
+Remove pseudotransparency support
+Enable using ImageClass as menu icon
+Tweak theme variant setting
+Swap ThemeFind() and ThemePathFind() names
+Avoid confusing dual use of Mode.theme.path
+Fix theme variant handling
+A bit of startup/theme debug
+Sort IPC help in columns instead of rows
+Print messages for problematic borders (if EDEBUG 1)
+Restart cursor: Increase timeout + debug tweaks
+Restart cursor: Use in window mode too
+Add some image cache control
+On window mode exit close/kill windows instead of reparent to root
+Minor win_op help update
+epp/cpplib.c: Fix warnings found with -O3
+xprop.c: Fix warnings found with -O3
+Trivial cleanups
+focus.c: Cosmetics
+Fix focus-if-group-focused cases
+Warning fixes for gcc 8
+Avoid unnecesary use of MenuSetTitle()
+If sound is enabled check that we have a sound loader
+Spec file cleanups
+Simplify autogen.sh
