@@ -31,7 +31,7 @@ This package will install the Enlightenment window manager.
 %setup -q
 
 %build
-%configure
+%configure %{?acflags}
 make %{?_smp_mflags}
 
 %install
