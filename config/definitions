@@ -948,6 +948,14 @@ __CURSOR __BGN; \
   __XBM_FILE file; \
 __END
 
+#define NATIVE_CURSOR(name, fg, bg, id) \
+__CURSOR __BGN; \
+  __NAME name; \
+  __FG_COLOR fg; \
+  __BG_COLOR bg; \
+  __NATIVE_ID id; \
+__END
+
 /*********** Slideout and button macros **************************/
 #define BEGIN_BUTTON(name, iclass, aclass) \
 __BUTTON __BGN; \
@@ -955,8 +963,14 @@ __BUTTON __BGN; \
   __ICLASS iclass; \
   __ACLASS aclass
 
+#define BUTTON_LABEL(label) \
+  __LABEL label
+
 #define BUTTON_CURSOR(cursor) \
   __CURSOR cursor
+
+#define BUTTON_TEXT(text) \
+  __TCLASS text
 
 #define BUTTON_IS_INTERNAL \
   __IS_INTERNAL __ON
@@ -970,14 +984,17 @@ __BUTTON __BGN; \
 #define BUTTON_MAKE_STICKY \
   __MAKE_STICKY __ON
 
+#define BUTTON_KEEP_ON_TOP \
+  __KEEP_ON_TOP __ON
+
 #define BUTTON_PUT_ON_DESKTOP(num) \
   __PUT_ON_DESKTOP num
 
 #define BUTTON_LOCATION(xo, xp, xa, yo, yp, ya) \
-  __X_ORIGIN x; \
+  __X_ORIGIN xo; \
   __X_PERCENTAGE xp; \
   __X_ABSOLUTE xa; \
-  __Y_ORIGIN y; \
+  __Y_ORIGIN yo; \
   __Y_PERCENTAGE yp; \
   __Y_ABSOLUTE ya
 
