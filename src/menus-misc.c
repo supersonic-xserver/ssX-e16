@@ -522,7 +522,7 @@ MenuCreateFromAllEWins(const char *name, MenuStyle * ms)
 {
    Menu               *m;
 
-   m = MenuCreate(name,  _("Window List"), NULL, ms);
+   m = MenuCreate(name, _("Window List"), NULL, ms);
    MenuSetInternal(m);
    MenuSetDynamic(m);
    MenuSetLoader(m, MenuLoadFromAllEwins);
