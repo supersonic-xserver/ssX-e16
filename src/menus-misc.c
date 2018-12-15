@@ -378,7 +378,7 @@ MenuCreateFromFlatFile(const char *name, Menu * parent, MenuStyle * ms,
    if (!file)
       file = name;
 
-   ff = FindFile(file, NULL, FILE_TYPE_MENU);
+   ff = FindFile(file, Mode.theme.path, FILE_TYPE_MENU);
    if (!ff)
       goto done;
 

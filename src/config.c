@@ -439,7 +439,7 @@ static const struct {
 } fprm[] = {
    { "utE",  "config" },
    { "ute",   NULL    },
-   { "UuE",  "menus"  },
+   { "UuEt", "menus"  },
    { "UuE",  "icons"  }
 };
 /* *INDENT-ON* */
