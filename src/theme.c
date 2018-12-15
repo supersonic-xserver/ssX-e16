@@ -339,7 +339,8 @@ ThemePathFind(const char *theme)
 void
 ThemeFind(const char *theme)
 {
-   char                name[FILEPATH_LEN_MAX];
+   char                name[2048];
+   char                namx[FILEPATH_LEN_MAX];
    const char         *p;
    char               *path, *s;
 
@@ -347,17 +348,16 @@ ThemeFind(const char *theme)
       Eprintf("%s: %s\n", __func__, theme);
 
    name[0] = '\0';
-   p = (theme) ? theme : Conf.theme.name;
+   p = (theme && *theme != ':') ? theme : Conf.theme.name;
    if (p)
       snprintf(name, sizeof(name), "%s", p);
 
    s = strchr(name, ':');
    if (s)
-     {
-	*s++ = '\0';
-	Efree(Mode.theme.variant);
-	Mode.theme.variant = Estrdup(s);
-     }
+      *s++ = '\0';
+
+   p = (theme && *theme == ':') ? theme + 1 : s;
+   _EFDUP(Mode.theme.variant, p);
 
    path = ThemePathFind(name);
 
@@ -375,7 +375,14 @@ ThemeFind(const char *theme)
 	if (isfile(theme))
 	   Conf.theme.name = ThemePathName(path);
 	else
-	   Conf.theme.name = Estrdup(theme);
+	  {
+	     s = namx;
+	     if (Mode.theme.variant)
+		snprintf(namx, sizeof(namx), "%s:%s", name, Mode.theme.variant);
+	     else
+		s = name;
+	     Conf.theme.name = Estrdup(s);
+	  }
      }
 
    Efree(Mode.theme.path);
