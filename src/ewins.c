@@ -743,7 +743,7 @@ AddToFamily(EWin * ewin, EX_Window xwin, XWindowAttributes * pxwa, int startup)
    XWindowAttributes   attr;
    EWin               *ewin2;
    EWin              **lst;
-   int                 i, k, num, fx, fy, x, y;
+   int                 i, k, num, fx, fy, x, y, flags;
    char                doslide, manplace;
    Desk               *dsk;
 
@@ -841,6 +841,7 @@ AddToFamily(EWin * ewin, EX_Window xwin, XWindowAttributes * pxwa, int startup)
 
    x = EoGetX(ewin);
    y = EoGetY(ewin);
+   flags = 0;
 
    doslide = manplace = 0;
    if (Mode.place.enable_features > 0 && !ewin->state.snapstarted)
@@ -853,36 +854,6 @@ AddToFamily(EWin * ewin, EX_Window xwin, XWindowAttributes * pxwa, int startup)
 	if (Conf.place.manual && !Mode.place.doing_manual &&
 	    !ewin->state.placed && !ewin->icccm.transient)
 	   manplace = 1;
-     }
-
-   if (ewin->icccm.transient && Conf.focus.transientsfollowleader)
-     {
-	EWin               *const *lst2;
-
-	if (!ewin2)
-	   ewin2 = EwinFindByClient(ewin->icccm.group);
-
-	if (!ewin2)
-	  {
-	     lst2 = EwinListGetAll(&num);
-	     for (i = 0; i < num; i++)
-	       {
-		  if ((lst2[i]->state.iconified) ||
-		      (ewin->icccm.group != lst2[i]->icccm.group))
-		     continue;
-
-		  ewin2 = lst2[i];
-		  break;
-	       }
-	  }
-
-	if (ewin2)
-	  {
-	     dsk = EoGetDesk(ewin2);
-	     if (!Mode.wm.startup && Conf.focus.switchfortransientmap &&
-		 !ewin->state.iconified)
-		DeskGotoByEwin(ewin2);
-	  }
      }
 
    if (ewin->state.fullscreen)
@@ -963,6 +934,8 @@ AddToFamily(EWin * ewin, EX_Window xwin, XWindowAttributes * pxwa, int startup)
 	     ewin2 = NULL;
 	     if (EwinGetTransientFor(ewin) != NoXID)
 		ewin2 = EwinFindByClient(EwinGetTransientFor(ewin));
+	     if (ewin2)
+		dsk = EoGetDesk(ewin2);
 	     parent = (ewin2) ? EoGetWin(ewin2) : VROOT;
 
 	     cx = WinGetX(parent);
@@ -970,19 +943,14 @@ AddToFamily(EWin * ewin, EX_Window xwin, XWindowAttributes * pxwa, int startup)
 	     x = cx + (WinGetW(parent) - EoGetW(ewin)) / 2;
 	     y = cy + (WinGetH(parent) - EoGetH(ewin)) / 2;
 
-	     ScreenGetAvailableArea(cx, cy, &sx, &sy, &sw, &sh,
-				    Conf.place.ignore_struts);
-
-	     /* keep it all on this screen if possible */
-	     x = MIN(x, sx + sw - EoGetW(ewin));
-	     y = MIN(y, sy + sh - EoGetH(ewin));
-	     x = MAX(x, sx);
-	     y = MAX(y, sy);
+	     flags = MRF_NOCHECK_ONSCREEN;
+	     doslide = 0;	/* Don't slide transient (?) */
 	  }
 	else
 	  {
 	     ArrangeEwinXY(ewin, &x, &y);
 	  }
+
 	ewin->state.placed = 1;
      }
 
@@ -1043,8 +1011,38 @@ AddToFamily(EWin * ewin, EX_Window xwin, XWindowAttributes * pxwa, int startup)
      }
    else
      {
-	EwinMoveToDesktopAt(ewin, dsk, x, y);
+	EwinMoveToDesktopAtExt(ewin, dsk, x, y, flags);
 	EwinShow(ewin);
+     }
+
+   if (ewin->icccm.transient && Conf.focus.transientsfollowleader)
+     {
+	EWin               *const *lst2;
+
+	if (!ewin2)
+	   ewin2 = EwinFindByClient(ewin->icccm.group);
+
+	if (!ewin2)
+	  {
+	     lst2 = EwinListGetAll(&num);
+	     for (i = 0; i < num; i++)
+	       {
+		  if ((lst2[i]->state.iconified) ||
+		      (ewin->icccm.group != lst2[i]->icccm.group))
+		     continue;
+
+		  ewin2 = lst2[i];
+		  break;
+	       }
+	  }
+
+	if (ewin2)
+	  {
+	     dsk = EoGetDesk(ewin2);
+	     if (!Mode.wm.startup && Conf.focus.switchfortransientmap &&
+		 !ewin->state.iconified)
+		DeskGotoByEwin(ewin2);
+	  }
      }
 
  done:
