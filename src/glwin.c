@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2015 Kim Woelders
+ * Copyright (C) 2007-2019 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -518,7 +518,11 @@ GlwinKeyPress(GLWindow * gw, EX_KeySym keysym)
 	   glEnable(GL_LIGHTING);
 	break;
 
-     case XK_R:
+     case XK_R:		/* Reset */
+	rot_x = rot_y = 0.0f;
+	/* FALLTHROUGH */
+
+     case XK_S:		/* Stop */
 	bg_z = -2.0f;
 	speed_x = 0.0f;
 	speed_y = 0.0f;
