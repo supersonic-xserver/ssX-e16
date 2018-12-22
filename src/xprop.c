@@ -114,7 +114,7 @@ _ex_window_prop32_set(EX_Window win, EX_Atom atom,
    unsigned long      *pl;
    int                 i;
 
-   pl = (unsigned long *)Emalloc(num * sizeof(long));
+   pl = EMALLOC(unsigned long, num);
    if (!pl)
       return;
    for (i = 0; i < num; i++)
@@ -169,7 +169,7 @@ _ex_window_prop32_list_get(EX_Window win, EX_Atom atom,
 	else
 	  {
 	     num = (int)num_ret;
-	     lst = (unsigned int *)Emalloc(num * sizeof(unsigned int));
+	     lst = EMALLOC(unsigned int, num);
 	     *val = lst;
 	     if (!lst)
 		return 0;
@@ -270,7 +270,7 @@ ex_window_prop_string_list_get(EX_Window win, EX_Atom atom, char ***plst)
 	  {
 	     if (items > 0)
 	       {
-		  pstr = (char **)Emalloc(items * sizeof(char *));
+		  pstr = EMALLOC(char *, items);
 		  if (!pstr)
 		     goto done;
 		  for (i = 0; i < items; i++)
@@ -285,7 +285,7 @@ ex_window_prop_string_list_get(EX_Window win, EX_Atom atom, char ***plst)
 
    /* Bad format or XmbTextPropertyToTextList failed - Now what? */
    items = 1;
-   pstr = (char **)Emalloc(sizeof(char *));
+   pstr = EMALLOC(char *, 1);
    if (!pstr)
       goto done;
    pstr[0] = (xtp.value) ? Estrdup((char *)xtp.value) : NULL;
@@ -371,7 +371,7 @@ _ex_window_prop_string_utf8_get(EX_Window win, EX_Atom atom)
 		      &format_ret, &num_ret, &bytes_after, &prop_ret);
    if (prop_ret && num_ret > 0 && format_ret == 8)
      {
-	str = (char *)Emalloc(num_ret + 1);
+	str = EMALLOC(char, num_ret + 1);
 	if (str)
 	  {
 	     memcpy(str, prop_ret, num_ret);
@@ -463,7 +463,7 @@ ex_window_prop_xid_list_change(EX_Window win, EX_Atom atom,
 	   goto done;
 	/* Add it */
 	num++;
-	lst_r = (EX_ID *) realloc(lst, num * sizeof(EX_ID));
+	lst_r = EREALLOC(EX_ID, lst, num);
 	if (!lst_r)
 	   goto done;
 	lst = lst_r;
@@ -875,7 +875,7 @@ ex_netwm_desk_names_set(EX_Window root, const char **names,
 	  }
 
 	l = strlen(s) + 1;
-	buf_r = (char *)realloc(buf, len + l);
+	buf_r = EREALLOC(char, buf, len + l);
 	if (!buf_r)
 	   goto done;
 	buf = buf_r;

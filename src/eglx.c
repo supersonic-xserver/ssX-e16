@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2015 Kim Woelders
+ * Copyright (C) 2007-2018 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -343,7 +343,7 @@ EGlTextureFromImage(EImage * im, int mode)
    if (!im)
       return NULL;
 
-   et = Ecalloc(1, sizeof(ETexture));
+   et = ECALLOC(ETexture, 1);
    if (!et)
       return NULL;
 
@@ -428,7 +428,7 @@ EGlTextureFromDrawable(EX_Drawable draw, int mode)
    if (draw == NoXID)
       return NULL;
 
-   et = Ecalloc(1, sizeof(ETexture));
+   et = ECALLOC(ETexture, 1);
    if (!et)
       return NULL;
 
