@@ -1007,7 +1007,6 @@ AddToFamily(EWin * ewin, EX_Window xwin, XWindowAttributes * pxwa, int startup)
 	EwinShow(ewin);
 	Mode.place.doing_manual = 1;
 	MoveResizeMoveStart(ewin, 0, 0, 0);
-	goto done;
      }
    else if (doslide)
      {
