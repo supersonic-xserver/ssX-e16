@@ -913,8 +913,12 @@ __ACLASS __BGN; \
 
 #define ACLASS_ACTION_WITH_TOOLTIP(action, event, tooltip) \
   __TOOLTIP_ACTION_TEXT tooltip; \
-  __ACTION action; \
-  __EVENT event
+  __EVENT event; \
+  __ACTION action
+
+#define ACLASS_SHOW_MENU(menuname, event) \
+  __EVENT event; \
+  __ACTION __A_SHOW_MENU named menuname
 
 #define ACLASS_BUTTON(button, modifier) \
   __BUTTON button; \
