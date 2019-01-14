@@ -541,6 +541,47 @@
 /*******************************************************************/
 
 /*********** Window match convenience macros ***********************/
+#define BEGIN_BORDER_MATCH(name, border) \
+__MATCH_WINDOW __BGN;\
+  __NAME "name";\
+  __USE_BORDER border
+
+#define HAS_NAME(name) \
+  __HAS_NAME name
+
+#define HAS_CLASS(class) \
+  __HAS_CLASS class
+
+#define HAS_TITLE(title) \
+  __HAS_TITLE title
+
+#define IS_IN_WIDTH_RANGE(min, max) \
+  __IS_IN_WIDTH_RANGE min max
+
+#define IS_IN_HEIGHT_RANGE(min, max) \
+  __IS_IN_HEIGHT_RANGE min max
+
+#define CANNOT_RESIZE_HORIZONTALLY \
+  __CANNOT_RESIZE_HORIZONTALLY __ON
+
+#define CANNOT_RESIZE_VERTICALLY \
+  __CANNOT_RESIZE_VERTICALLY __ON
+
+#define MAKE_WINDOW_STICKY \
+  __MAKE_WINDOW_STICKY __ON
+
+#define IS_TRANSIENT \
+  __IS_TRANSIENT __ON
+
+#define IS_SHAPED \
+  __IS_SHAPED __ON
+
+#define USE_ICON(iclass) \
+  __USE_ICON iclass
+
+#define END_BORDER_MATCH \
+__END
+
 #define USE_BORDER_FOR_CLIENT_WITH_TITLE(title, border) \
 __MATCH_WINDOW __BGN;\
   __NAME border"_MATCH";\
@@ -658,7 +699,7 @@ __ICLASS __BGN;\
   __HILITED image2;\
   __CLICKED image3;\
 __END;\
-  __MATCH_WINDOW __BGN;\
+__MATCH_WINDOW __BGN;\
   __NAME image"_MATCH";\
   __USE_ICON image"_ICLASS";\
   __HAS_NAME name;\
