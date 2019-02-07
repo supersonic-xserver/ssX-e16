@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2019 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -233,7 +233,7 @@ _ThemeExtract(const char *path)
 
    p = strrchr(path, '/');
    p = (p) ? p + 1 : path;
-   Esnprintf(name, sizeof(name), "%s", p);
+   Esnprintf(name, sizeof(name), "%.127s", p);
    type = strchr(name, '.');
    if (type)
       *type++ = '\0';
