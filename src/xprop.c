@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2019 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -115,6 +115,7 @@ _ex_window_prop32_set(EX_Window win, EX_Atom atom,
    int                 i;
 
    pl = EMALLOC(unsigned long, num);
+
    if (!pl)
       return;
    for (i = 0; i < num; i++)
@@ -170,6 +171,7 @@ _ex_window_prop32_list_get(EX_Window win, EX_Atom atom,
 	  {
 	     num = (int)num_ret;
 	     lst = EMALLOC(unsigned int, num);
+
 	     *val = lst;
 	     if (!lst)
 		return 0;
@@ -271,6 +273,7 @@ ex_window_prop_string_list_get(EX_Window win, EX_Atom atom, char ***plst)
 	     if (items > 0)
 	       {
 		  pstr = EMALLOC(char *, items);
+
 		  if (!pstr)
 		     goto done;
 		  for (i = 0; i < items; i++)
@@ -286,6 +289,7 @@ ex_window_prop_string_list_get(EX_Window win, EX_Atom atom, char ***plst)
    /* Bad format or XmbTextPropertyToTextList failed - Now what? */
    items = 1;
    pstr = EMALLOC(char *, 1);
+
    if (!pstr)
       goto done;
    pstr[0] = (xtp.value) ? Estrdup((char *)xtp.value) : NULL;
@@ -372,6 +376,7 @@ _ex_window_prop_string_utf8_get(EX_Window win, EX_Atom atom)
    if (prop_ret && num_ret > 0 && format_ret == 8)
      {
 	str = EMALLOC(char, num_ret + 1);
+
 	if (str)
 	  {
 	     memcpy(str, prop_ret, num_ret);
@@ -876,6 +881,7 @@ ex_netwm_desk_names_set(EX_Window root, const char **names,
 
 	l = strlen(s) + 1;
 	buf_r = EREALLOC(char, buf, len + l);
+
 	if (!buf_r)
 	   goto done;
 	buf = buf_r;
