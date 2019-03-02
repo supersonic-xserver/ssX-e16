@@ -478,12 +478,6 @@ EwinMoveToDesktopAt(EWin * ewin, Desk * dsk, int x, int y)
 }
 
 void
-EwinMoveToDesktopAtExt(EWin * ewin, Desk * dsk, int x, int y, int flags)
-{
-   doEwinMoveResize(ewin, dsk, x, y, 0, 0, MRF_DESK | MRF_MOVE | flags);
-}
-
-void
 EwinOpMove(EWin * ewin, int source, int x, int y)
 {
    Mode.op_source = source;

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2014 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -420,8 +420,6 @@ void                EwinMoveResizeWithGravity(EWin * ewin, int x, int y, int w,
 					      int h, int grav);
 void                EwinMoveToDesktop(EWin * ewin, Desk * d);
 void                EwinMoveToDesktopAt(EWin * ewin, Desk * d, int x, int y);
-void                EwinMoveToDesktopAtExt(EWin * ewin, Desk * d, int x, int y,
-					   int flags);
 void                EwinIconify(EWin * ewin);
 void                EwinAlone(EWin * ewin);
 void                EwinDeIconify(EWin * ewin);
