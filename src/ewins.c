@@ -946,9 +946,9 @@ AddToFamily(EWin * ewin, EX_Window xwin, XWindowAttributes * pxwa, int startup)
 	     x = MAX(x, sx);
 	     y = MAX(y, sy);
 	  }
-	else if (ewin->ewmh.type.b.dialog)
+	else if (ewin->icccm.transient)
 	  {
-	     /* Center unplaced dialogs on parent(if transient) or root */
+	     /* Center unplaced transients on parent (or root) */
 	     Win                 parent;
 
 	     ewin2 = NULL;
@@ -969,6 +969,11 @@ AddToFamily(EWin * ewin, EX_Window xwin, XWindowAttributes * pxwa, int startup)
 	     y = MIN(y, sy + sh - EoGetH(ewin));
 	     x = MAX(x, sx);
 	     y = MAX(y, sy);
+	  }
+	else if (ewin->ewmh.type.b.dialog)
+	  {
+	     /* Center unplaced (non-transient) dialogs on root */
+	     ArrangeEwinCenteredXY(ewin, &x, &y);
 	  }
 	else
 	  {
