@@ -857,15 +857,22 @@ AddToFamily(EWin * ewin, EX_Window xwin, XWindowAttributes * pxwa, int startup)
 
    if (ewin->icccm.transient && Conf.focus.transientsfollowleader)
      {
+	/* Place transient on desk where transient-for or
+	 * group leader or other member is */
+
+	/* ewin2 is the transient-for ewin (if any) */
 	if (!ewin2)
 	   ewin2 = EwinFindGroupMember(ewin);
 
 	if (ewin2)
 	  {
-	     dsk = EoGetDesk(ewin2);
+	     dsk = EoGetDesk(ewin2);	/* The destination desk */
 	     if (!Mode.wm.startup && Conf.focus.switchfortransientmap &&
 		 !ewin->state.iconified)
-		DeskGotoByEwin(ewin2, 0);
+	       {
+		  /* Goto desk/area where transient-for or group resides */
+		  DeskGotoByEwin(ewin2, 1);
+	       }
 	  }
      }
 
