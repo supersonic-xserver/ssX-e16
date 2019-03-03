@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2019 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -881,7 +881,7 @@ AddToFamily(EWin * ewin, EX_Window xwin, XWindowAttributes * pxwa, int startup)
 	     dsk = EoGetDesk(ewin2);
 	     if (!Mode.wm.startup && Conf.focus.switchfortransientmap &&
 		 !ewin->state.iconified)
-		DeskGotoByEwin(ewin2);
+		DeskGotoByEwin(ewin2, 0);
 	  }
      }
 

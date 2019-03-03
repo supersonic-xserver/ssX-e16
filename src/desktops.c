@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2019 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1504,13 +1504,21 @@ DeskRestack(Desk * dsk)
 }
 
 void
-DeskGotoByEwin(EWin * ewin)
+DeskGotoByEwin(EWin * ewin, int now)
 {
+   int                 slide;
+
    if (EoIsSticky(ewin) || EoIsFloating(ewin))
       return;
 
+   slide = Conf.desks.slidein;
+   if (now)
+      Conf.desks.slidein = 0;
+
    DeskGoto(EoGetDesk(ewin));
    DeskCurrentGotoArea(ewin->area_x, ewin->area_y);
+
+   Conf.desks.slidein = slide;
 }
 
 /*

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2014 Kim Woelders
+ * Copyright (C) 2004-2019 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -82,7 +82,7 @@ void                DeskCurrentGetArea(int *ax, int *ay);
 void                DeskCurrentGotoArea(int ax, int ay);
 void                DeskCurrentMoveAreaBy(int ax, int ay);
 
-void                DeskGotoByEwin(EWin * ewin);
+void                DeskGotoByEwin(EWin * ewin, int now);
 
 unsigned int        DesksGetNumber(void);
 Desk               *DesksGetCurrent(void);
