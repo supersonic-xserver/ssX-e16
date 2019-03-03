@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2008-2015 Kim Woelders
+ * Copyright (C) 2008-2019 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -58,6 +58,32 @@ EwinFindByClient(EX_Window win)
 	if (win == EwinGetClientXwin(ewins[i]))
 	   return ewins[i];
      }
+   return NULL;
+}
+
+EWin               *
+EwinFindGroupMember(EWin * ewin)
+{
+   EWin               *ewin2;
+   EWin               *const *ewins;
+   int                 i, num;
+
+   ewin2 = EwinFindByClient(ewin->icccm.group);
+   if (ewin2 && ewin2 != ewin)
+      return ewin2;
+
+   ewins = EwinListGetAll(&num);
+   for (i = 0; i < num; i++)
+     {
+	ewin2 = ewins[i];
+	if (ewin2 == ewin)
+	   continue;
+	if (ewin2->state.iconified)
+	   continue;
+	if (ewin2->icccm.group == ewin->icccm.group)
+	   return ewin2;
+     }
+
    return NULL;
 }
 

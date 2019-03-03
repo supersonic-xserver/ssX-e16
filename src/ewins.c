@@ -857,24 +857,8 @@ AddToFamily(EWin * ewin, EX_Window xwin, XWindowAttributes * pxwa, int startup)
 
    if (ewin->icccm.transient && Conf.focus.transientsfollowleader)
      {
-	EWin               *const *lst2;
-
 	if (!ewin2)
-	   ewin2 = EwinFindByClient(ewin->icccm.group);
-
-	if (!ewin2)
-	  {
-	     lst2 = EwinListGetAll(&num);
-	     for (i = 0; i < num; i++)
-	       {
-		  if ((lst2[i]->state.iconified) ||
-		      (ewin->icccm.group != lst2[i]->icccm.group))
-		     continue;
-
-		  ewin2 = lst2[i];
-		  break;
-	       }
-	  }
+	   ewin2 = EwinFindGroupMember(ewin);
 
 	if (ewin2)
 	  {
