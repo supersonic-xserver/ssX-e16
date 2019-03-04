@@ -922,7 +922,7 @@ AddToFamily(EWin * ewin, EX_Window xwin, XWindowAttributes * pxwa, int startup)
    /* if it hasn't been placed yet.... find a spot for it */
    if ((!ewin->state.placed) && (!manplace))
      {
-	int                 cx, cy, sx, sy, sw, sh;
+	int                 cx, cy;
 
 	/* Place the window below the mouse pointer */
 	if (Conf.place.manual_mouse_pointer)
@@ -933,18 +933,9 @@ AddToFamily(EWin * ewin, EX_Window xwin, XWindowAttributes * pxwa, int startup)
 	     DeskGoto(dsk);
 
 	     EventsUpdateXY(&cx, &cy);
-	     ScreenGetAvailableArea(cx, cy, &sx, &sy, &sw, &sh,
-				    Conf.place.ignore_struts);
 
 	     /* try to center the window on the mouse pointer */
-	     x = cx - EoGetW(ewin) / 2;
-	     y = cy - EoGetH(ewin) / 2;
-
-	     /* keep it all on this screen if possible */
-	     x = MIN(x, sx + sw - EoGetW(ewin));
-	     y = MIN(y, sy + sh - EoGetH(ewin));
-	     x = MAX(x, sx);
-	     y = MAX(y, sy);
+	     ArrangeEwinCenteredOn(ewin, cx, cy, 0, 0, &x, &y);
 	  }
 	else if (ewin->icccm.transient)
 	  {
@@ -956,19 +947,8 @@ AddToFamily(EWin * ewin, EX_Window xwin, XWindowAttributes * pxwa, int startup)
 		ewin2 = EwinFindByClient(EwinGetTransientFor(ewin));
 	     parent = (ewin2) ? EoGetWin(ewin2) : VROOT;
 
-	     cx = WinGetX(parent);
-	     cy = WinGetY(parent);
-	     x = cx + (WinGetW(parent) - EoGetW(ewin)) / 2;
-	     y = cy + (WinGetH(parent) - EoGetH(ewin)) / 2;
-
-	     ScreenGetAvailableArea(cx, cy, &sx, &sy, &sw, &sh,
-				    Conf.place.ignore_struts);
-
-	     /* keep it all on this screen if possible */
-	     x = MIN(x, sx + sw - EoGetW(ewin));
-	     y = MIN(y, sy + sh - EoGetH(ewin));
-	     x = MAX(x, sx);
-	     y = MAX(y, sy);
+	     ArrangeEwinCenteredOn(ewin, WinGetX(parent), WinGetY(parent),
+				   WinGetW(parent), WinGetH(parent), &x, &y);
 	  }
 	else if (ewin->ewmh.type.b.dialog)
 	  {

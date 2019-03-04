@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2013 Kim Woelders
+ * Copyright (C) 2004-2019 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -907,6 +907,26 @@ ArrangeEwinCenteredXY(EWin * ewin, int *px, int *py)
    ScreenGetAvailableAreaByPointer(&x, &y, &w, &h, Conf.place.ignore_struts);
    *px = (w - EoGetW(ewin)) / 2 + x;
    *py = (h - EoGetH(ewin)) / 2 + y;
+}
+
+void
+ArrangeEwinCenteredOn(EWin * ewin, int x, int y, int w, int h, int *px, int *py)
+{
+   int                 sx, sy, sw, sh;
+
+   x += (w - EoGetW(ewin)) / 2;
+   y += (h - EoGetH(ewin)) / 2;
+
+   ScreenGetAvailableArea(x, y, &sx, &sy, &sw, &sh, Conf.place.ignore_struts);
+
+   /* keep it all on this screen if possible */
+   x = MIN(x, sx + sw - EoGetW(ewin));
+   y = MIN(y, sy + sh - EoGetH(ewin));
+   x = MAX(x, sx);
+   y = MAX(y, sy);
+
+   *px = x;
+   *py = y;
 }
 
 void

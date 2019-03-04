@@ -328,6 +328,8 @@ void                ArrangeEwin(EWin * ewin);
 void                ArrangeEwinCentered(EWin * ewin);
 void                ArrangeEwinXY(EWin * ewin, int *px, int *py);
 void                ArrangeEwinCenteredXY(EWin * ewin, int *px, int *py);
+void                ArrangeEwinCenteredOn(EWin * ewin, int x, int y, int w,
+					  int h, int *px, int *py);
 
 void                ArrangeEwins(const char *params);
 
