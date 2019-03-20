@@ -134,8 +134,8 @@ stream_state_callback(pa_stream * pas, void *userdata __UNUSED__)
 static void
 stream_write_callback(pa_stream * pas, size_t length, void *userdata)
 {
-   D2printf("%s: state=%d length=%d\n", __func__, pa_stream_get_state(pas),
-	    length);
+   D2printf("%s: state=%d length=%u\n", __func__, pa_stream_get_state(pas),
+	    (unsigned int)length);
    Sample             *s = (Sample *) userdata;
    unsigned int        left;
 
