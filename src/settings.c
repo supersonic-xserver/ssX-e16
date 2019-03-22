@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2019 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -475,7 +475,6 @@ typedef struct {
    char                dialog_headers;
    char                button_image;
    char                animate_startup;
-   char                saveunders;
    int                 magwin_zoom_res;
 } MiscDlgData;
 
@@ -487,7 +486,6 @@ _DlgApplyMisc(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
    Conf.dialogs.headers = dd->dialog_headers;
    Conf.dialogs.button_image = dd->button_image;
    Conf.startup.animate = dd->animate_startup;
-   Conf.save_under = dd->saveunders;
    Conf.magwin.zoom_res = dd->magwin_zoom_res;
 
    autosave();
@@ -502,7 +500,6 @@ _DlgFillMisc(Dialog * d, DItem * table, void *data __UNUSED__)
    dd->dialog_headers = Conf.dialogs.headers;
    dd->button_image = Conf.dialogs.button_image;
    dd->animate_startup = Conf.startup.animate;
-   dd->saveunders = Conf.save_under;
    dd->magwin_zoom_res = Conf.magwin.zoom_res;
 
    DialogItemTableSetOptions(table, 2, 0, 0, 0);
@@ -529,11 +526,6 @@ _DlgFillMisc(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_SEPARATOR);
    DialogItemSetColSpan(di, 2);
-
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Use saveunders to reduce window exposures"));
-   DialogItemCheckButtonSetPtr(di, &dd->saveunders);
 
    di = DialogAddItem(table, DITEM_SEPARATOR);
    DialogItemSetColSpan(di, 2);
