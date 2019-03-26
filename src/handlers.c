@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2019 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -61,6 +61,7 @@ SignalHandler(int sig)
 	break;
 
      case SIGILL:
+	Mode.wm.exit_now = 1;
 	Alert(_("Enlightenment performed an Illegal Instruction.\n" "\n"
 		"This most likely is due to you having installed an run a\n"
 		"binary of Enlightenment that was compiled for a make or model\n"
@@ -71,6 +72,7 @@ SignalHandler(int sig)
 	goto do_abort;
 
      case SIGFPE:
+	Mode.wm.exit_now = 1;
 	Alert(_("Enlightenment caused a Floating Point Exception.\n" "\n"
 		"This means that Enlightenment or support library routines it calls\n"
 		"have performed an illegal mathematical operation (most likely\n"
@@ -83,6 +85,7 @@ SignalHandler(int sig)
 	goto do_abort;
 
      case SIGSEGV:
+	Mode.wm.exit_now = 1;
 	Alert(_("Enlightenment caused Segment Violation (Segfault)\n" "\n"
 		"This means that Enlightenment or support library routines it calls\n"
 		"have accessed areas of your system's memory that they are not\n"
@@ -95,6 +98,7 @@ SignalHandler(int sig)
 	goto do_abort;
 
      case SIGBUS:
+	Mode.wm.exit_now = 1;
 	Alert(_("Enlightenment caused Bus Error.\n" "\n"
 		"It is suggested you check your hardware and OS installation.\n"
 		"It is highly unusual to cause Bus Errors on operational\n"
@@ -108,7 +112,6 @@ SignalHandler(int sig)
 #if 0				/* Avoid X-ops? */
 	disp = NULL;
 #endif
-	Mode.wm.exit_now = 1;
 	SessionExit(EEXIT_ERROR, NULL);
 	abort();
 	break;
