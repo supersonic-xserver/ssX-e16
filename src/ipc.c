@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2019 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -702,7 +702,15 @@ IpcWinop(const WinOp * wop, EWin * ewin, const char *prm)
 	b = a;
 	sscanf(param1, "%i", &b);
 	if ((param1[0] == '+') || (param1[0] == '-'))
-	   b += a;
+	  {
+	     if (a == 0)
+		a = OpacityToPercent(EoGetOpacity(ewin));
+	     b += a;
+	     if (b < 10)
+		b = 10;
+	     else if (b > 100)
+		b = 0;
+	  }
 	a = (b < 0) ? 1 : (b > 100) ? 100 : b;
 	EwinOpSetOpacity(ewin, OPSRC_USER, a);
 	if (a && ewin->state.active)
@@ -726,7 +734,15 @@ IpcWinop(const WinOp * wop, EWin * ewin, const char *prm)
 	b = a;
 	sscanf(param1, "%i", &b);
 	if ((param1[0] == '+') || (param1[0] == '-'))
-	   b += a;
+	  {
+	     if (a == 0)
+		a = OpacityToPercent(EoGetOpacity(ewin));
+	     b += a;
+	     if (b < 10)
+		b = 10;
+	     else if (b > 100)
+		b = 0;
+	  }
 	a = (b < 0) ? 0 : (b > 100) ? 100 : b;
 	EwinOpSetFocusedOpacity(ewin, OPSRC_USER, a);
 	if (ewin->state.in_action)
