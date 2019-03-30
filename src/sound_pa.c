@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2018 Kim Woelders
+ * Copyright (C) 2008-2019 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -52,8 +52,6 @@ static pa_mainloop *pa_mloop = NULL;
 static pa_mainloop_api *mainloop_api = NULL;
 static pa_context  *pa_ctx = NULL;
 
-static pa_stream   *sample_stream = NULL;
-static size_t       sample_length = 0;
 static int          pa_block = 0;
 
 static void         _sound_pa_Exit(void);
@@ -207,6 +205,7 @@ _sound_pa_Load(const char *file)
 {
    Sample             *s;
    pa_sample_spec      sample_spec;
+   pa_stream          *sample_stream = NULL;
    int                 err;
    char               *p;
 
@@ -241,24 +240,26 @@ _sound_pa_Load(const char *file)
      }
    sample_spec.rate = s->ssd.rate;
    sample_spec.channels = s->ssd.channels;
-   sample_length = s->ssd.size;
 
    sample_stream = pa_stream_new(pa_ctx, s->name, &sample_spec, NULL);
    if (!sample_stream)
       goto bail_out;
    pa_stream_set_state_callback(sample_stream, stream_state_callback, NULL);
    pa_stream_set_write_callback(sample_stream, stream_write_callback, s);
-   pa_stream_connect_upload(sample_stream, sample_length);
+   pa_stream_connect_upload(sample_stream, s->ssd.size);
 
    err = dispatch(-1);
    if (err)
       goto bail_out;
 
    EFREE_NULL(s->ssd.data);
+   pa_stream_unref(sample_stream);
 
    return s;
 
  bail_out:
+   if (sample_stream)
+      pa_stream_unref(sample_stream);
    _sound_pa_Destroy(s);
    return NULL;
 }
