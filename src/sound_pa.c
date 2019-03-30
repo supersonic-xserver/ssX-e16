@@ -67,8 +67,9 @@ dispatch(int block)
    for (;;)
      {
 	err = pa_mainloop_iterate(pa_mloop, pa_block, &rc);
-	D4printf("%s: run err=%d rc=%d\n", __func__, err, rc);
-	if (err <= 0)
+	D4printf("%s: run err=%d rc=%d block=%d\n", __func__,
+		 err, rc, pa_block);
+	if (err < 0 || (err == 0 && !pa_block))
 	   break;
      }
 
