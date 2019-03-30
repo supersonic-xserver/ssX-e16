@@ -2,7 +2,7 @@
 ##############################################################################
 # generates a file.menu format for Enlightenment out of menu hierarchies
 #
-# Copyright (C) 2003-2008 Kim Woelders
+# Copyright (C) 2003-2019 Kim Woelders
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to
@@ -38,7 +38,7 @@ $AppDirs = MkDirList($Prefixes, "/share/applications:/share/applications/kde:/sh
 
 $IconDirs = MkDirList($Prefixes, "/share/pixmaps:/share/icons");
 $IconDirs2 = MkDirList($Prefixes, "/share/icons");
-$Themes = "default.kde:gnome:hicolor";
+$Themes = "default.kde:gnome:hicolor:Adwaita";
 $IconCats = "apps:filesystems:actions:devices:categories:places";
 
 # Where to look for GNOME1 apps
@@ -101,17 +101,16 @@ $DoIconv = `which iconv`;
 	"x:XTerm:xterm",
 	"x:rxvt:rxvt",
 	"x:urxvt:urxvt",
-	"x:Seamonkey:seamonkey",
 	"x:Firefox:firefox",
-	"x:Galeon:galeon",
-	"x:Opera:opera",
+	"x:Thunderbird:thunderbird",
+	"x:Seamonkey:seamonkey",
+	"x:Shotwell:shotwell",
+	"x:Pidgin:pidgin",
 	"x:Gmplayer:gmplayer",
 	"x:Xine:xine",
 	"x:The GIMP:gimp",
-	"x:GQView:gqview",
+	"x:Geeqie:geeqie",
 	"x:XV:xv",
-	"x:Gaim:gaim",
-	"x:Xchat:xchat",
 	"x:XMag:xmag",
 	"x:Grip:grip",
 	"x:Audacious:audacious",
