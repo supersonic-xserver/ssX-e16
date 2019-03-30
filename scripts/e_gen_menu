@@ -39,7 +39,7 @@ $AppDirs = MkDirList($Prefixes, "/share/applications:/share/applications/kde:/sh
 $IconDirs = MkDirList($Prefixes, "/share/pixmaps:/share/icons");
 $IconDirs2 = MkDirList($Prefixes, "/share/icons");
 $Themes = "default.kde:gnome:hicolor:Adwaita";
-$IconCats = "apps:filesystems:actions:devices:categories:places";
+$IconCats = "apps:filesystems:actions:devices:categories:places:mimetypes";
 
 # Where to look for GNOME1 apps
 $OldGnomeDirs = MkDirList($Prefixes, "/share/gnome/apps");
@@ -59,7 +59,7 @@ $loc3 =~ s/_.*//;
 $loc1 = "" if ($loc1 eq $loc2);
 
 $EdirUser = "$ENV{'HOME'}/.e16" unless $EdirUser;
-$EdirRoot = "/usr/share/enlightenment" unless $EdirRoot;
+$EdirRoot = "/usr/share/e16" unless $EdirRoot;
 $EdirBin  = "/usr/bin" unless $EdirBin;
 
 $EdirMenus = "$EdirUser/menus";
@@ -279,6 +279,7 @@ sub ProcessFile {
 	$Type{$Namx} = $Type;
 }
 
+my %seen;
 # Process all .desktop files in a directory
 sub ProcessDir {
 	local $d = shift;
@@ -289,6 +290,8 @@ sub ProcessDir {
 
 	@l = grep /\.desktop$/, ReadDir($d);
 	foreach $f (@l) {
+		next if ($seen{$f});
+		$seen{$f} = 1;
 		$f = "$d/$f";
 		print "- File $f\n" if $dbg ge 2;
 		ProcessFile("$f", "$dx", "$t");
