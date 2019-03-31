@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2019 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1018,11 +1018,11 @@ ActionclassEvent(ActionClass * ac, XEvent * ev, EWin * ewin)
 	mouse = 0;
 	break;
      case ButtonPress:
-	if (Mode.events.double_click)
+	button = ev->xbutton.button;
+	if (Mode.events.double_click && !(button == 4 || button == 5))
 	   type = EVENT_DOUBLE_DOWN;
 	else
 	   type = EVENT_MOUSE_DOWN;
-	button = ev->xbutton.button;
 	modifiers = ev->xbutton.state & mask;
 	mouse = 1;
 	break;
