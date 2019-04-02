@@ -645,6 +645,7 @@ DeskBackgroundRefresh(Desk * dsk, int why)
 	pmap = (Mode.root.ext_pmap_valid) ? Mode.root.ext_pmap : NoXID;
 	pixel = 0;
 	changed = pmap != dsk->bg.pmap_set;
+	dsk->bg.seq_no = 0;
      }
 
  done:
