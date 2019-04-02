@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2019 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1384,6 +1384,7 @@ typedef struct {
    DItem              *di[10];	/* Various dialog items */
 
    Background         *bg;	/* The background being configured */
+   Background         *bg_set;	/* The background last applied */
    int                 bg_sel_sliderval;
    int                 bg_sel_sliderval_old;
    int                 bg_r;
@@ -1430,6 +1431,8 @@ _DlgApplyBG(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
    BackgroundCacheMini(dd->bg, 0, 1);
    BG_RedrawView(d);
 
+   dd->bg_set = dd->bg;
+
    autosave();
 }
 
@@ -1437,6 +1440,9 @@ static void
 _DlgBGExit(Dialog * d)
 {
    BgDlgData          *dd = DLG_DATA_GET(d, BgDlgData);
+
+   if (dd->bg != dd->bg_set)
+      DeskBackgroundSet(DesksGetCurrent(), dd->bg_set);
 
    BackgroundImagesKeep(dd->bg, 0);
 }
@@ -1956,6 +1962,7 @@ _DlgFillBackground(Dialog * d, DItem * table, void *data)
    if (!bg)
       bg = BackgroundFind("NONE");
    dd->bg = bg;
+   dd->bg_set = bg;
 
    dd->bg_image = (dd->bg->bg.file) ? 1 : 0;
 
