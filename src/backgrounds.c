@@ -30,6 +30,7 @@
 #include "backgrounds.h"
 #include "desktops.h"
 #include "dialog.h"
+#include "ecompmgr.h"
 #include "eimage.h"
 #include "emodule.h"
 #include "file.h"
@@ -607,7 +608,7 @@ BackgroundRealize(Background * bg, Win win, EX_Drawable draw,
      }
 
    if (is_win && hasbg && !hasfg && x == 0 && y == 0 &&
-       ((w == rw && h == rh) || (bg->bg_tile)))
+       ((w == rw && h == rh) || (bg->bg_tile && !ECompMgrIsActive())))
      {
 	/* Window, no fg, no offset, and scale to 100%, or tiled, no trans */
 	pmap = BackgroundCreatePixmap(win, w, h);
