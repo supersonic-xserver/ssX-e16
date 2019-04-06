@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2018-12-22 11:44+0100\n"
+"POT-Creation-Date: 2019-04-25 09:03+0200\n"
 "PO-Revision-Date: 2009-11-09 14:39+0000\n"
 "Last-Translator: Yentl <y.v.t@scarlet.be>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -45,7 +45,7 @@ msgstr ""
 "Mandrake - mandrake@mandrake.net\n"
 "Kim Woelders - kim@woelders.dk\n"
 
-#: src/aclass.c:222 src/backgrounds.c:256 src/borders.c:695 src/buttons.c:190
+#: src/aclass.c:222 src/backgrounds.c:257 src/borders.c:695 src/buttons.c:190
 #: src/cursors.c:139 src/iclass.c:280 src/tclass.c:119 src/tooltips.c:136
 #, c-format
 msgid "%u references remain"
@@ -150,36 +150,36 @@ msgstr ""
 "Er was een fout bij het uitvoeren van het programma:\n"
 "%s"
 
-#: src/alert.c:218
+#: src/alert.c:217
 msgid "Enlightenment Error"
 msgstr "Enlightenment fout"
 
-#: src/alert.c:571
+#: src/alert.c:570
 msgid "Enlightenment Message Dialog"
 msgstr "Enlightenment Bericht Dialoog"
 
-#: src/alert.c:571
+#: src/alert.c:570
 msgid "Ignore this"
 msgstr "Negeer dit"
 
-#: src/alert.c:572
+#: src/alert.c:571
 msgid "Restart Enlightenment"
 msgstr "Herstart Enlightenment"
 
-#: src/alert.c:572 src/setup.c:184
+#: src/alert.c:571 src/setup.c:184
 msgid "Quit Enlightenment"
 msgstr "Stop Enlightenment"
 
-#: src/alert.c:582
+#: src/alert.c:581
 msgid "Attention !!!"
 msgstr "Attentie !!!!"
 
-#: src/alert.c:582 src/dialog.c:679 src/dialog.c:1814 src/events.c:103
+#: src/alert.c:581 src/dialog.c:679 src/dialog.c:1814 src/events.c:103
 #: src/setup.c:163 src/setup.c:176 src/sound.c:309
 msgid "OK"
 msgstr "OK"
 
-#: src/backgrounds.c:1490
+#: src/backgrounds.c:1497
 #, c-format
 msgid ""
 "Background definition information:\n"
@@ -190,11 +190,11 @@ msgstr ""
 "Naam    : %s\n"
 "Bestand : %s"
 
-#: src/backgrounds.c:1491
+#: src/backgrounds.c:1498
 msgid "-NONE-"
 msgstr "-GEEN-"
 
-#: src/backgrounds.c:1666 src/backgrounds.c:1668
+#: src/backgrounds.c:1673 src/backgrounds.c:1675
 msgid ""
 "No\n"
 "Background"
@@ -202,40 +202,40 @@ msgstr ""
 "Nee\n"
 "Achtergrond"
 
-#: src/backgrounds.c:1768 src/backgrounds.c:2198
+#: src/backgrounds.c:1775 src/backgrounds.c:2206
 #, c-format
 msgid "Unused backgrounds freed after %2i:%02i:%02i"
 msgstr "Ongebruikte achtergronden verwijderd na %2i:%02i:%02i"
 
-#: src/backgrounds.c:1987
+#: src/backgrounds.c:1995
 msgid "Use background image"
 msgstr "Gebruik achtergrond plaatje"
 
-#: src/backgrounds.c:1991
+#: src/backgrounds.c:1999
 msgid "Keep aspect on scale"
 msgstr "Bewaar verhoudingen bij schalen"
 
-#: src/backgrounds.c:1995
+#: src/backgrounds.c:2003
 msgid "Tile image across background"
 msgstr "Plaats plaatjes naast elkaar op achtergrond"
 
-#: src/backgrounds.c:2004
+#: src/backgrounds.c:2012
 msgid "Move to Front"
 msgstr "Verplaats naar voren"
 
-#: src/backgrounds.c:2009
+#: src/backgrounds.c:2017
 msgid "Duplicate"
 msgstr "Dupliceer"
 
-#: src/backgrounds.c:2013
+#: src/backgrounds.c:2021
 msgid "Unlist"
 msgstr "Haal uit de lijst"
 
-#: src/backgrounds.c:2018
+#: src/backgrounds.c:2026
 msgid "Delete File"
 msgstr "Verwijder bestand"
 
-#: src/backgrounds.c:2029
+#: src/backgrounds.c:2037
 msgid ""
 "Background\n"
 "Image\n"
@@ -249,59 +249,59 @@ msgstr ""
 "en\n"
 "Plaatsing\n"
 
-#: src/backgrounds.c:2083
+#: src/backgrounds.c:2091
 msgid "BG Colour"
 msgstr "Achtergrond kleur"
 
-#: src/backgrounds.c:2088
+#: src/backgrounds.c:2096
 msgid "Red:"
 msgstr "Rood:"
 
-#: src/backgrounds.c:2099
+#: src/backgrounds.c:2107
 msgid "Green:"
 msgstr "Groen:"
 
-#: src/backgrounds.c:2110
+#: src/backgrounds.c:2118
 msgid "Blue:"
 msgstr "Blauw:"
 
-#: src/backgrounds.c:2143
+#: src/backgrounds.c:2151
 msgid "Pre-scan BG's"
 msgstr "Prescan Achtergronden"
 
-#: src/backgrounds.c:2151
+#: src/backgrounds.c:2159
 msgid "Sort by File"
 msgstr "Sorteer op bestand"
 
-#: src/backgrounds.c:2156
+#: src/backgrounds.c:2164
 msgid "Sort by Attr."
 msgstr "Sorteer op attribuut"
 
-#: src/backgrounds.c:2162
+#: src/backgrounds.c:2170
 msgid "Sort by Image"
 msgstr "Sorteer op plaatje"
 
-#: src/backgrounds.c:2182
+#: src/backgrounds.c:2190
 msgid "Use dithering in Hi-Colour"
 msgstr "Gebruik dithering in Hi-Color"
 
-#: src/backgrounds.c:2186
+#: src/backgrounds.c:2194
 msgid "Background overrides theme"
 msgstr "Achtergrond overruled thema"
 
-#: src/backgrounds.c:2191
+#: src/backgrounds.c:2199
 msgid "Enable background transparency compatibility mode"
 msgstr "Achtergrondtransparantie compabiliteitsmodus inschakelen"
 
-#: src/backgrounds.c:2215
+#: src/backgrounds.c:2223
 msgid "Background"
 msgstr "Achtergrond"
 
-#: src/backgrounds.c:2215
+#: src/backgrounds.c:2223
 msgid "Desktop Background Settings"
 msgstr "Desktop Achtergrond Instellingen"
 
-#: src/backgrounds.c:2219
+#: src/backgrounds.c:2227
 msgid ""
 "Enlightenment Desktop\n"
 "Background Settings Dialog"
@@ -510,7 +510,7 @@ msgstr "Toon icoon namen"
 msgid "Animation mode:"
 msgstr ""
 
-#: src/container.c:1668 src/desktops.c:2720
+#: src/container.c:1668 src/desktops.c:2729
 msgid "Off"
 msgstr "Uitgeschakeld"
 
@@ -606,55 +606,55 @@ msgstr ""
 "Klik hier om deze desktop naar\n"
 "beneden te brengen"
 
-#: src/desktops.c:2486
+#: src/desktops.c:2495
 msgid "Number of virtual desktops:"
 msgstr "Aantal virtuele desktops:"
 
-#: src/desktops.c:2512
+#: src/desktops.c:2521
 msgid "Slide desktops around when changing"
 msgstr "Schuif desktops bij veranderen"
 
-#: src/desktops.c:2518
+#: src/desktops.c:2527
 msgid "Desktop Slide speed:"
 msgstr "Bureaublad Glijsnelheid:"
 
-#: src/desktops.c:2532
+#: src/desktops.c:2541
 msgid "Wrap desktops around"
 msgstr "Bureaubladen rondwikkelen"
 
-#: src/desktops.c:2540
+#: src/desktops.c:2549
 msgid "Display desktop dragbar"
 msgstr "Toon de desktop sleurstrip"
 
-#: src/desktops.c:2546
+#: src/desktops.c:2555
 msgid "Drag bar position:"
 msgstr "Sleurstrip positie:"
 
-#: src/desktops.c:2550
+#: src/desktops.c:2559
 msgid "Top"
 msgstr "Boven"
 
-#: src/desktops.c:2556
+#: src/desktops.c:2565
 msgid "Bottom"
 msgstr "Onder"
 
-#: src/desktops.c:2562 src/pager.c:1898 src/pager.c:1923 src/pager.c:1948
+#: src/desktops.c:2571 src/pager.c:1898 src/pager.c:1923 src/pager.c:1948
 msgid "Left"
 msgstr "Links"
 
-#: src/desktops.c:2568 src/pager.c:1910 src/pager.c:1935 src/pager.c:1960
+#: src/desktops.c:2577 src/pager.c:1910 src/pager.c:1935 src/pager.c:1960
 msgid "Right"
 msgstr "Rechts"
 
-#: src/desktops.c:2576 src/menus-misc.c:564
+#: src/desktops.c:2585 src/menus-misc.c:564
 msgid "Desks"
 msgstr "Bureau's"
 
-#: src/desktops.c:2576
+#: src/desktops.c:2585
 msgid "Multiple Desktop Settings"
 msgstr "Meerdere Desktop Instellingen"
 
-#: src/desktops.c:2580
+#: src/desktops.c:2589
 msgid ""
 "Enlightenment Multiple Desktop\n"
 "Settings Dialog"
@@ -662,39 +662,39 @@ msgstr ""
 "Enlightenment Meerdere Bureaubladen\n"
 "Instellingendialoog"
 
-#: src/desktops.c:2674
+#: src/desktops.c:2683
 msgid "Virtual Desktop size:"
 msgstr "Virtuele Desktop grootte:"
 
-#: src/desktops.c:2710
+#: src/desktops.c:2719
 msgid "Wrap virtual desktops around"
 msgstr "Wikkel virtuele bureaubladen rond"
 
-#: src/desktops.c:2717
+#: src/desktops.c:2726
 msgid "Edge Flip Mode:"
 msgstr "Rand Flip Mode:"
 
-#: src/desktops.c:2725
+#: src/desktops.c:2734
 msgid "On"
 msgstr "Ingeschakeld"
 
-#: src/desktops.c:2730
+#: src/desktops.c:2739
 msgid "Only when moving window"
 msgstr "Enkel bij het verplaatsen van een venster"
 
-#: src/desktops.c:2736
+#: src/desktops.c:2745
 msgid "Resistance at edge of screen:"
 msgstr "Weerstand aan de rand van het scherm:"
 
-#: src/desktops.c:2748
+#: src/desktops.c:2757
 msgid "Areas"
 msgstr "Gebieden"
 
-#: src/desktops.c:2748
+#: src/desktops.c:2757
 msgid "Virtual Desktop Settings"
 msgstr "Virtuele Dektop Instellingen"
 
-#: src/desktops.c:2752
+#: src/desktops.c:2761
 msgid ""
 "Enlightenment Virtual Desktop\n"
 "Settings Dialog"
@@ -1028,7 +1028,7 @@ msgstr ""
 "Enlightenment Standaard\n"
 "Groepcontrole instellingendialoog"
 
-#: src/handlers.c:64
+#: src/handlers.c:65
 #, c-format
 msgid ""
 "Enlightenment performed an Illegal Instruction.\n"
@@ -1050,7 +1050,7 @@ msgstr ""
 "en mogelijk elke ondersteuningsbibliotheek die meegeleverd\n"
 "zat in het binaire bestand van Enlightenment.\n"
 
-#: src/handlers.c:74
+#: src/handlers.c:76
 msgid ""
 "Enlightenment caused a Floating Point Exception.\n"
 "\n"
@@ -1074,7 +1074,7 @@ msgstr ""
 "waar het deze instructie uitvoerde en dit doorsturen in de vorm van een\n"
 "bruikbaar bugrapport met backtrace informatie en variabele dumps etc.\n"
 
-#: src/handlers.c:86
+#: src/handlers.c:89
 msgid ""
 "Enlightenment caused Segment Violation (Segfault)\n"
 "\n"
@@ -1098,7 +1098,7 @@ msgstr ""
 "waar het deze instructie uitvoerde en dit doorsturen in de vorm van een\n"
 "bruikbaar bugrapport met backtrace informatie en variabele dumps etc.\n"
 
-#: src/handlers.c:98
+#: src/handlers.c:102
 msgid ""
 "Enlightenment caused Bus Error.\n"
 "\n"
@@ -1129,28 +1129,28 @@ msgstr "Icoonbox Opties"
 msgid "Iconbox Settings"
 msgstr "Icoonbox instellingen"
 
-#: src/ipc.c:198 src/ipc.c:1491 src/ipc.c:1498 src/theme.c:407
+#: src/ipc.c:198 src/ipc.c:1507 src/ipc.c:1514 src/theme.c:407
 msgid "Message"
 msgstr "Bericht"
 
-#: src/ipc.c:1491 src/ipc.c:1498
+#: src/ipc.c:1507 src/ipc.c:1514
 #, c-format
 msgid "e16 was built without %s support"
 msgstr "e16 is gebouwd zonder %s ondersteuning"
 
-#: src/ipc.c:1492
+#: src/ipc.c:1508
 msgid "composite"
 msgstr "composiet"
 
-#: src/ipc.c:1499
+#: src/ipc.c:1515
 msgid "sound"
 msgstr "geluid"
 
-#: src/ipc.c:1843
+#: src/ipc.c:1859
 msgid "Enlightenment IPC Commands Help\n"
 msgstr "Enlightenment IPC Commando's hulp\n"
 
-#: src/ipc.c:1847
+#: src/ipc.c:1863
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
@@ -1160,20 +1160,20 @@ msgstr ""
 "Gebruik \"help <commando>\" voor een individuele beschrijving\n"
 "\n"
 
-#: src/ipc.c:1849 src/ipc.c:1873 src/ipc.c:1885
+#: src/ipc.c:1865 src/ipc.c:1889 src/ipc.c:1901
 msgid "Commands currently available:\n"
 msgstr "Commando's momenteel beschikbaar:\n"
 
-#: src/ipc.c:1871
+#: src/ipc.c:1887
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr ""
 "Gebruik \"help full\" voor een volledige beschrijving van elk commando\n"
 
-#: src/ipc.c:1872
+#: src/ipc.c:1888
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr "Gebruik \"help <commando>\" voor een individuele beschrijving\n"
 
-#: src/ipc.c:1874 src/ipc.c:1886
+#: src/ipc.c:1890 src/ipc.c:1902
 msgid "         <command>     : <description>\n"
 msgstr "         <commando>     : <beschrijving>\n"
 
@@ -1685,35 +1685,31 @@ msgstr ""
 "Enlightenment Vensterplaatsing\n"
 "Instellingendialoog"
 
-#: src/settings.c:512
+#: src/settings.c:509
 msgid "Enable Dialog Headers"
 msgstr "Dialoog headers inschakelen"
 
-#: src/settings.c:518
+#: src/settings.c:515
 msgid "Enable Button Images"
 msgstr "Knopafbeeldingen inschakelen"
 
-#: src/settings.c:527
+#: src/settings.c:524
 msgid "Enable sliding startup windows"
 msgstr "Schuivende opstartvensters inschakelen"
 
-#: src/settings.c:535
-msgid "Use saveunders to reduce window exposures"
-msgstr "Gebruik saveunders om vensters minder te tonen"
-
-#: src/settings.c:544
+#: src/settings.c:536
 msgid "Magwin zoom resolution"
 msgstr ""
 
-#: src/settings.c:556 config/strings.c:136 config/strings.c:152
+#: src/settings.c:548 config/strings.c:136 config/strings.c:152
 msgid "Miscellaneous"
 msgstr "Allerlei"
 
-#: src/settings.c:556
+#: src/settings.c:548
 msgid "Miscellaneous Settings"
 msgstr "Overige Instellingen"
 
-#: src/settings.c:560
+#: src/settings.c:552
 msgid ""
 "Enlightenment Miscellaneous\n"
 "Settings Dialog"
@@ -1721,55 +1717,55 @@ msgstr ""
 "Enlightenment Overige\n"
 "Instelingendialoog"
 
-#: src/settings.c:596
+#: src/settings.c:588
 msgid "Enable Composite"
 msgstr "Composiet inschakelen"
 
-#: src/settings.c:604
+#: src/settings.c:596
 msgid "Enable Fading"
 msgstr "Fading Inschakelen"
 
-#: src/settings.c:610
+#: src/settings.c:602
 msgid "Fading Speed:"
 msgstr "Fading Snelheid:"
 
-#: src/settings.c:623
+#: src/settings.c:615
 msgid "Shadows Off"
 msgstr "Schaduw Uit"
 
-#: src/settings.c:629
+#: src/settings.c:621
 msgid "Shadows Sharp"
 msgstr "Schaduw Scherpte"
 
-#: src/settings.c:635
+#: src/settings.c:627
 msgid "Shadows Sharp2"
 msgstr "Schaduw Scherpte2"
 
-#: src/settings.c:641
+#: src/settings.c:633
 msgid "Shadows Blurred"
 msgstr "Schaduw Wazig"
 
-#: src/settings.c:652
+#: src/settings.c:644
 msgid "Default focused window opacity:"
 msgstr "Standaard focusvenster opaciteit:"
 
-#: src/settings.c:663
+#: src/settings.c:655
 msgid "Default unfocused window opacity:"
 msgstr "Standaard niet-focusvenster opaciteit:"
 
-#: src/settings.c:674
+#: src/settings.c:666
 msgid "Default pop-up window opacity:"
 msgstr "Standaard pop-up venster opaciteit:"
 
-#: src/settings.c:685
+#: src/settings.c:677
 msgid "Composite"
 msgstr "Composiet"
 
-#: src/settings.c:685
+#: src/settings.c:677
 msgid "Composite Settings"
 msgstr "Composietinstellingen"
 
-#: src/settings.c:689
+#: src/settings.c:681
 msgid ""
 "Enlightenment Composite\n"
 "Settings Dialog"
@@ -1777,7 +1773,7 @@ msgstr ""
 "Enlightenment Composiet\n"
 "Instellingendialoog"
 
-#: src/settings.c:770
+#: src/settings.c:762
 msgid "Enlightenment Settings"
 msgstr "Enlightenment Instellingen"
 
@@ -2649,6 +2645,9 @@ msgstr "Gebruiker Applicatielijst"
 #: config/strings.c:192
 msgid "Epplets"
 msgstr "Epplets"
+
+#~ msgid "Use saveunders to reduce window exposures"
+#~ msgstr "Gebruik saveunders om vensters minder te tonen"
 
 #~ msgid "Theme transparency: %2d"
 #~ msgstr "Thema Doorzichtigheid: %2d"

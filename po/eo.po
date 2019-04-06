@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16 0.99.99.003\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2018-12-22 11:44+0100\n"
+"POT-Creation-Date: 2019-04-25 09:03+0200\n"
 "PO-Revision-Date: 2014-01-03 14:12+0000\n"
 "Last-Translator: Eliovir <Unknown>\n"
 "Language-Team: Esperanto <translation-team-eo@lists.sourceforge.net>\n"
@@ -47,7 +47,7 @@ msgstr ""
 "Mandrake - mandrake@mandrake.net\n"
 "Kim WOELDERS - kim@woelders.dk\n"
 
-#: src/aclass.c:222 src/backgrounds.c:256 src/borders.c:695 src/buttons.c:190
+#: src/aclass.c:222 src/backgrounds.c:257 src/borders.c:695 src/buttons.c:190
 #: src/cursors.c:139 src/iclass.c:280 src/tclass.c:119 src/tooltips.c:136
 #, c-format
 msgid "%u references remain"
@@ -152,36 +152,36 @@ msgstr ""
 "Eraro okazis dum rulado de la programaro:\n"
 "%s"
 
-#: src/alert.c:218
+#: src/alert.c:217
 msgid "Enlightenment Error"
 msgstr "Eraro de Enlightenment"
 
-#: src/alert.c:571
+#: src/alert.c:570
 msgid "Enlightenment Message Dialog"
 msgstr "Mesaĝdialogo de Enlightenment"
 
-#: src/alert.c:571
+#: src/alert.c:570
 msgid "Ignore this"
 msgstr "Ignori ĉi tion"
 
-#: src/alert.c:572
+#: src/alert.c:571
 msgid "Restart Enlightenment"
 msgstr "Restartigi Enlightenment"
 
-#: src/alert.c:572 src/setup.c:184
+#: src/alert.c:571 src/setup.c:184
 msgid "Quit Enlightenment"
 msgstr "Eliri Enlightenment"
 
-#: src/alert.c:582
+#: src/alert.c:581
 msgid "Attention !!!"
 msgstr "Atentu!!!"
 
-#: src/alert.c:582 src/dialog.c:679 src/dialog.c:1814 src/events.c:103
+#: src/alert.c:581 src/dialog.c:679 src/dialog.c:1814 src/events.c:103
 #: src/setup.c:163 src/setup.c:176 src/sound.c:309
 msgid "OK"
 msgstr "Bone"
 
-#: src/backgrounds.c:1490
+#: src/backgrounds.c:1497
 #, c-format
 msgid ""
 "Background definition information:\n"
@@ -192,11 +192,11 @@ msgstr ""
 "Nomo: %s\n"
 "Dosiero: %s"
 
-#: src/backgrounds.c:1491
+#: src/backgrounds.c:1498
 msgid "-NONE-"
 msgstr "-NENIU-"
 
-#: src/backgrounds.c:1666 src/backgrounds.c:1668
+#: src/backgrounds.c:1673 src/backgrounds.c:1675
 msgid ""
 "No\n"
 "Background"
@@ -204,40 +204,40 @@ msgstr ""
 "Neniu\n"
 "Fono"
 
-#: src/backgrounds.c:1768 src/backgrounds.c:2198
+#: src/backgrounds.c:1775 src/backgrounds.c:2206
 #, c-format
 msgid "Unused backgrounds freed after %2i:%02i:%02i"
 msgstr "Neuzataj fonoj liberigitaj post %2i:%02i:%02i"
 
-#: src/backgrounds.c:1987
+#: src/backgrounds.c:1995
 msgid "Use background image"
 msgstr "Uzi fonbildon"
 
-#: src/backgrounds.c:1991
+#: src/backgrounds.c:1999
 msgid "Keep aspect on scale"
 msgstr "Manteni aspekton dum skalado"
 
-#: src/backgrounds.c:1995
+#: src/backgrounds.c:2003
 msgid "Tile image across background"
 msgstr "Kaheligi bildon trans ekranfono"
 
-#: src/backgrounds.c:2004
+#: src/backgrounds.c:2012
 msgid "Move to Front"
 msgstr "Movi antaŭen"
 
-#: src/backgrounds.c:2009
+#: src/backgrounds.c:2017
 msgid "Duplicate"
 msgstr "Duobligi"
 
-#: src/backgrounds.c:2013
+#: src/backgrounds.c:2021
 msgid "Unlist"
 msgstr "Mallistigi"
 
-#: src/backgrounds.c:2018
+#: src/backgrounds.c:2026
 msgid "Delete File"
 msgstr "Forigi dosieron"
 
-#: src/backgrounds.c:2029
+#: src/backgrounds.c:2037
 msgid ""
 "Background\n"
 "Image\n"
@@ -251,59 +251,59 @@ msgstr ""
 "kaj\n"
 "laŭliniiĝo\n"
 
-#: src/backgrounds.c:2083
+#: src/backgrounds.c:2091
 msgid "BG Colour"
 msgstr "Fonkoloro"
 
-#: src/backgrounds.c:2088
+#: src/backgrounds.c:2096
 msgid "Red:"
 msgstr "Ruĝo:"
 
-#: src/backgrounds.c:2099
+#: src/backgrounds.c:2107
 msgid "Green:"
 msgstr "Verdo:"
 
-#: src/backgrounds.c:2110
+#: src/backgrounds.c:2118
 msgid "Blue:"
 msgstr "Bluo:"
 
-#: src/backgrounds.c:2143
+#: src/backgrounds.c:2151
 msgid "Pre-scan BG's"
 msgstr "Antaŭskani ekranfonojn"
 
-#: src/backgrounds.c:2151
+#: src/backgrounds.c:2159
 msgid "Sort by File"
 msgstr "Ordigi laŭ dosiernomo"
 
-#: src/backgrounds.c:2156
+#: src/backgrounds.c:2164
 msgid "Sort by Attr."
 msgstr "Ordigi laŭ ecoj"
 
-#: src/backgrounds.c:2162
+#: src/backgrounds.c:2170
 msgid "Sort by Image"
 msgstr "Ordigi laŭ bildo"
 
-#: src/backgrounds.c:2182
+#: src/backgrounds.c:2190
 msgid "Use dithering in Hi-Colour"
 msgstr ""
 
-#: src/backgrounds.c:2186
+#: src/backgrounds.c:2194
 msgid "Background overrides theme"
 msgstr "Fono anstataŭigas etoson"
 
-#: src/backgrounds.c:2191
+#: src/backgrounds.c:2199
 msgid "Enable background transparency compatibility mode"
 msgstr "Enŝalti la reĝimon de kongruo por travidebla ekranfono"
 
-#: src/backgrounds.c:2215
+#: src/backgrounds.c:2223
 msgid "Background"
 msgstr "Fono"
 
-#: src/backgrounds.c:2215
+#: src/backgrounds.c:2223
 msgid "Desktop Background Settings"
 msgstr "Agordoj pri fono de labortablo"
 
-#: src/backgrounds.c:2219
+#: src/backgrounds.c:2227
 msgid ""
 "Enlightenment Desktop\n"
 "Background Settings Dialog"
@@ -495,7 +495,7 @@ msgstr "Montri nomojn de piktogramoj"
 msgid "Animation mode:"
 msgstr "Animacia reĝimo:"
 
-#: src/container.c:1668 src/desktops.c:2720
+#: src/container.c:1668 src/desktops.c:2729
 msgid "Off"
 msgstr "Malŝaltita"
 
@@ -583,55 +583,55 @@ msgstr ""
 "Alklaku ĉi tie por mallevi ĉi tiun labortablon\n"
 "al la malsupro."
 
-#: src/desktops.c:2486
+#: src/desktops.c:2495
 msgid "Number of virtual desktops:"
 msgstr "Nombro da virtualaj labortabloj:"
 
-#: src/desktops.c:2512
+#: src/desktops.c:2521
 msgid "Slide desktops around when changing"
 msgstr "Ŝovi labortablojn ĉirkaŭ dum ŝanĝoj"
 
-#: src/desktops.c:2518
+#: src/desktops.c:2527
 msgid "Desktop Slide speed:"
 msgstr "Rapido de labortabla ŝovo"
 
-#: src/desktops.c:2532
+#: src/desktops.c:2541
 msgid "Wrap desktops around"
 msgstr "Ĉirkaŭflui labortablojn"
 
-#: src/desktops.c:2540
+#: src/desktops.c:2549
 msgid "Display desktop dragbar"
 msgstr ""
 
-#: src/desktops.c:2546
+#: src/desktops.c:2555
 msgid "Drag bar position:"
 msgstr ""
 
-#: src/desktops.c:2550
+#: src/desktops.c:2559
 msgid "Top"
 msgstr "Supre"
 
-#: src/desktops.c:2556
+#: src/desktops.c:2565
 msgid "Bottom"
 msgstr "Malsupre"
 
-#: src/desktops.c:2562 src/pager.c:1898 src/pager.c:1923 src/pager.c:1948
+#: src/desktops.c:2571 src/pager.c:1898 src/pager.c:1923 src/pager.c:1948
 msgid "Left"
 msgstr "Maldekstre"
 
-#: src/desktops.c:2568 src/pager.c:1910 src/pager.c:1935 src/pager.c:1960
+#: src/desktops.c:2577 src/pager.c:1910 src/pager.c:1935 src/pager.c:1960
 msgid "Right"
 msgstr "Dekstre"
 
-#: src/desktops.c:2576 src/menus-misc.c:564
+#: src/desktops.c:2585 src/menus-misc.c:564
 msgid "Desks"
 msgstr "Labortabloj"
 
-#: src/desktops.c:2576
+#: src/desktops.c:2585
 msgid "Multiple Desktop Settings"
 msgstr "Agordoj de pluropaj labortabloj"
 
-#: src/desktops.c:2580
+#: src/desktops.c:2589
 msgid ""
 "Enlightenment Multiple Desktop\n"
 "Settings Dialog"
@@ -639,39 +639,39 @@ msgstr ""
 "Pluropaj labortabloj de Enlightenment\n"
 "Dialogo de agordoj"
 
-#: src/desktops.c:2674
+#: src/desktops.c:2683
 msgid "Virtual Desktop size:"
 msgstr "Grando de virtualaj labortabloj:"
 
-#: src/desktops.c:2710
+#: src/desktops.c:2719
 msgid "Wrap virtual desktops around"
 msgstr "Ĉirkaŭflui virtualajn labortablojn"
 
-#: src/desktops.c:2717
+#: src/desktops.c:2726
 msgid "Edge Flip Mode:"
 msgstr ""
 
-#: src/desktops.c:2725
+#: src/desktops.c:2734
 msgid "On"
 msgstr "Enŝaltita"
 
-#: src/desktops.c:2730
+#: src/desktops.c:2739
 msgid "Only when moving window"
 msgstr "Nur dum movado de fenestro"
 
-#: src/desktops.c:2736
+#: src/desktops.c:2745
 msgid "Resistance at edge of screen:"
 msgstr "Rezisto ĉe borderoj de erano"
 
-#: src/desktops.c:2748
+#: src/desktops.c:2757
 msgid "Areas"
 msgstr "Areoj"
 
-#: src/desktops.c:2748
+#: src/desktops.c:2757
 msgid "Virtual Desktop Settings"
 msgstr "Agordoj de virtuala labortablo"
 
-#: src/desktops.c:2752
+#: src/desktops.c:2761
 msgid ""
 "Enlightenment Virtual Desktop\n"
 "Settings Dialog"
@@ -993,7 +993,7 @@ msgstr ""
 "Aprioroj de Enlightenment\n"
 "Dialogo de agordoj pri la kontrolo de grupoj"
 
-#: src/handlers.c:64
+#: src/handlers.c:65
 #, c-format
 msgid ""
 "Enlightenment performed an Illegal Instruction.\n"
@@ -1006,7 +1006,7 @@ msgid ""
 "that you got in binary format to run Enlightenment.\n"
 msgstr ""
 
-#: src/handlers.c:74
+#: src/handlers.c:76
 msgid ""
 "Enlightenment caused a Floating Point Exception.\n"
 "\n"
@@ -1020,7 +1020,7 @@ msgid ""
 "dumps etc.\n"
 msgstr ""
 
-#: src/handlers.c:86
+#: src/handlers.c:89
 msgid ""
 "Enlightenment caused Segment Violation (Segfault)\n"
 "\n"
@@ -1034,7 +1034,7 @@ msgid ""
 "dumps etc.\n"
 msgstr ""
 
-#: src/handlers.c:98
+#: src/handlers.c:102
 msgid ""
 "Enlightenment caused Bus Error.\n"
 "\n"
@@ -1060,28 +1060,28 @@ msgstr "Opcioj de piktogramkesto"
 msgid "Iconbox Settings"
 msgstr "Agordoj de piktogramkesto"
 
-#: src/ipc.c:198 src/ipc.c:1491 src/ipc.c:1498 src/theme.c:407
+#: src/ipc.c:198 src/ipc.c:1507 src/ipc.c:1514 src/theme.c:407
 msgid "Message"
 msgstr "Mesaĝo"
 
-#: src/ipc.c:1491 src/ipc.c:1498
+#: src/ipc.c:1507 src/ipc.c:1514
 #, c-format
 msgid "e16 was built without %s support"
 msgstr "e16 estis konstruita sen subteno de %s"
 
-#: src/ipc.c:1492
+#: src/ipc.c:1508
 msgid "composite"
 msgstr "kunmeto"
 
-#: src/ipc.c:1499
+#: src/ipc.c:1515
 msgid "sound"
 msgstr "sono"
 
-#: src/ipc.c:1843
+#: src/ipc.c:1859
 msgid "Enlightenment IPC Commands Help\n"
 msgstr "Helpo por IPC-komandoj de Enlightenment\n"
 
-#: src/ipc.c:1847
+#: src/ipc.c:1863
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
@@ -1091,19 +1091,19 @@ msgstr ""
 "Uzu \"help <komando>\" por unuopa priskribo\n"
 "\n"
 
-#: src/ipc.c:1849 src/ipc.c:1873 src/ipc.c:1885
+#: src/ipc.c:1865 src/ipc.c:1889 src/ipc.c:1901
 msgid "Commands currently available:\n"
 msgstr "Aktuale disponeblaj komandoj:\n"
 
-#: src/ipc.c:1871
+#: src/ipc.c:1887
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr "Uzu \"help all\" por priskriboj de ĉiuj komandoj\n"
 
-#: src/ipc.c:1872
+#: src/ipc.c:1888
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr "Uzu \"help <komando>\" por unuopa priskribo\n"
 
-#: src/ipc.c:1874 src/ipc.c:1886
+#: src/ipc.c:1890 src/ipc.c:1902
 msgid "         <command>     : <description>\n"
 msgstr "         <komando>     : <priskribo>\n"
 
@@ -1583,35 +1583,31 @@ msgstr ""
 "Lokado de fenestroj de Enlightenment\n"
 "Dialogo de agordoj"
 
-#: src/settings.c:512
+#: src/settings.c:509
 msgid "Enable Dialog Headers"
 msgstr ""
 
-#: src/settings.c:518
+#: src/settings.c:515
 msgid "Enable Button Images"
 msgstr "Enŝalti bildojn de butonoj"
 
-#: src/settings.c:527
+#: src/settings.c:524
 msgid "Enable sliding startup windows"
 msgstr ""
 
-#: src/settings.c:535
-msgid "Use saveunders to reduce window exposures"
-msgstr ""
-
-#: src/settings.c:544
+#: src/settings.c:536
 msgid "Magwin zoom resolution"
 msgstr ""
 
-#: src/settings.c:556 config/strings.c:136 config/strings.c:152
+#: src/settings.c:548 config/strings.c:136 config/strings.c:152
 msgid "Miscellaneous"
 msgstr "Diversaĵoj"
 
-#: src/settings.c:556
+#: src/settings.c:548
 msgid "Miscellaneous Settings"
 msgstr "Agordoj pri diversaĵoj"
 
-#: src/settings.c:560
+#: src/settings.c:552
 msgid ""
 "Enlightenment Miscellaneous\n"
 "Settings Dialog"
@@ -1619,55 +1615,55 @@ msgstr ""
 "Diversaĵoj de Enlightenment\n"
 "Dialogo de agordoj"
 
-#: src/settings.c:596
+#: src/settings.c:588
 msgid "Enable Composite"
 msgstr "Enŝalti kunmeton"
 
-#: src/settings.c:604
+#: src/settings.c:596
 msgid "Enable Fading"
 msgstr ""
 
-#: src/settings.c:610
+#: src/settings.c:602
 msgid "Fading Speed:"
 msgstr ""
 
-#: src/settings.c:623
+#: src/settings.c:615
 msgid "Shadows Off"
 msgstr "Malŝaltitaj ombrojn"
 
-#: src/settings.c:629
+#: src/settings.c:621
 msgid "Shadows Sharp"
 msgstr ""
 
-#: src/settings.c:635
+#: src/settings.c:627
 msgid "Shadows Sharp2"
 msgstr ""
 
-#: src/settings.c:641
+#: src/settings.c:633
 msgid "Shadows Blurred"
 msgstr ""
 
-#: src/settings.c:652
+#: src/settings.c:644
 msgid "Default focused window opacity:"
 msgstr "Apriora fokusita fenestra opakeco:"
 
-#: src/settings.c:663
+#: src/settings.c:655
 msgid "Default unfocused window opacity:"
 msgstr "Apriora malfokusita fenestra opakeco:"
 
-#: src/settings.c:674
+#: src/settings.c:666
 msgid "Default pop-up window opacity:"
 msgstr "Apriora ŝprucfenestra opakeco:"
 
-#: src/settings.c:685
+#: src/settings.c:677
 msgid "Composite"
 msgstr "Kunmeto"
 
-#: src/settings.c:685
+#: src/settings.c:677
 msgid "Composite Settings"
 msgstr "Agordoj pri kunmeto"
 
-#: src/settings.c:689
+#: src/settings.c:681
 msgid ""
 "Enlightenment Composite\n"
 "Settings Dialog"
@@ -1675,7 +1671,7 @@ msgstr ""
 "Kunmeto de Enlightenment\n"
 "Dialogo de agordoj"
 
-#: src/settings.c:770
+#: src/settings.c:762
 msgid "Enlightenment Settings"
 msgstr "Agordoj de Enlightenment"
 

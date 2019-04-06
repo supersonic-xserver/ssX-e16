@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2018-12-22 11:44+0100\n"
+"POT-Creation-Date: 2019-04-25 09:03+0200\n"
 "PO-Revision-Date: 2011-10-11 18:12+0900\n"
 "Last-Translator: Yasufumi Haga <yasufumi.haga@nifty.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -48,7 +48,7 @@ msgstr ""
 "Mandrake - mandrake@mandrake.net\n"
 "Kim Woelders - kim@woelders.dk\n"
 
-#: src/aclass.c:222 src/backgrounds.c:256 src/borders.c:695 src/buttons.c:190
+#: src/aclass.c:222 src/backgrounds.c:257 src/borders.c:695 src/buttons.c:190
 #: src/cursors.c:139 src/iclass.c:280 src/tclass.c:119 src/tooltips.c:136
 #, c-format
 msgid "%u references remain"
@@ -153,36 +153,36 @@ msgstr ""
 "以下のプログラムの実行中にエラーが生じました。\n"
 "%s"
 
-#: src/alert.c:218
+#: src/alert.c:217
 msgid "Enlightenment Error"
 msgstr "Enlightenment エラー"
 
-#: src/alert.c:571
+#: src/alert.c:570
 msgid "Enlightenment Message Dialog"
 msgstr "Enlightenment メッセージダイアログ"
 
-#: src/alert.c:571
+#: src/alert.c:570
 msgid "Ignore this"
 msgstr "無視する"
 
-#: src/alert.c:572
+#: src/alert.c:571
 msgid "Restart Enlightenment"
 msgstr "Enlightenment 再起動"
 
-#: src/alert.c:572 src/setup.c:184
+#: src/alert.c:571 src/setup.c:184
 msgid "Quit Enlightenment"
 msgstr "Enlightenment 終了"
 
-#: src/alert.c:582
+#: src/alert.c:581
 msgid "Attention !!!"
 msgstr "注意 !!!"
 
-#: src/alert.c:582 src/dialog.c:679 src/dialog.c:1814 src/events.c:103
+#: src/alert.c:581 src/dialog.c:679 src/dialog.c:1814 src/events.c:103
 #: src/setup.c:163 src/setup.c:176 src/sound.c:309
 msgid "OK"
 msgstr "了解"
 
-#: src/backgrounds.c:1490
+#: src/backgrounds.c:1497
 #, c-format
 msgid ""
 "Background definition information:\n"
@@ -193,11 +193,11 @@ msgstr ""
 "名前: %s\n"
 "ファイル: %s"
 
-#: src/backgrounds.c:1491
+#: src/backgrounds.c:1498
 msgid "-NONE-"
 msgstr "なし"
 
-#: src/backgrounds.c:1666 src/backgrounds.c:1668
+#: src/backgrounds.c:1673 src/backgrounds.c:1675
 msgid ""
 "No\n"
 "Background"
@@ -205,40 +205,40 @@ msgstr ""
 "背景\n"
 "なし"
 
-#: src/backgrounds.c:1768 src/backgrounds.c:2198
+#: src/backgrounds.c:1775 src/backgrounds.c:2206
 #, c-format
 msgid "Unused backgrounds freed after %2i:%02i:%02i"
 msgstr "%2i:%02i:%02i 後に使用されていない背景を解放する"
 
-#: src/backgrounds.c:1987
+#: src/backgrounds.c:1995
 msgid "Use background image"
 msgstr "背景に画像を使用する"
 
-#: src/backgrounds.c:1991
+#: src/backgrounds.c:1999
 msgid "Keep aspect on scale"
 msgstr "縦横のサイズ比を保つ"
 
-#: src/backgrounds.c:1995
+#: src/backgrounds.c:2003
 msgid "Tile image across background"
 msgstr "背景画像をタイル状に配置"
 
-#: src/backgrounds.c:2004
+#: src/backgrounds.c:2012
 msgid "Move to Front"
 msgstr "先頭へ移動"
 
-#: src/backgrounds.c:2009
+#: src/backgrounds.c:2017
 msgid "Duplicate"
 msgstr "コピー"
 
-#: src/backgrounds.c:2013
+#: src/backgrounds.c:2021
 msgid "Unlist"
 msgstr "背景リストから消去"
 
-#: src/backgrounds.c:2018
+#: src/backgrounds.c:2026
 msgid "Delete File"
 msgstr "背景ファイルを削除"
 
-#: src/backgrounds.c:2029
+#: src/backgrounds.c:2037
 msgid ""
 "Background\n"
 "Image\n"
@@ -252,62 +252,62 @@ msgstr ""
 "\n"
 "方向\n"
 
-#: src/backgrounds.c:2083
+#: src/backgrounds.c:2091
 msgid "BG Colour"
 msgstr "背景の色"
 
-#: src/backgrounds.c:2088
+#: src/backgrounds.c:2096
 msgid "Red:"
 msgstr "赤:"
 
-#: src/backgrounds.c:2099
+#: src/backgrounds.c:2107
 msgid "Green:"
 msgstr "緑:"
 
-#: src/backgrounds.c:2110
+#: src/backgrounds.c:2118
 msgid "Blue:"
 msgstr "青:"
 
-#: src/backgrounds.c:2143
+#: src/backgrounds.c:2151
 msgid "Pre-scan BG's"
 msgstr "背景をスキャン"
 
-#: src/backgrounds.c:2151
+#: src/backgrounds.c:2159
 msgid "Sort by File"
 msgstr "ファイル名でソート"
 
-#: src/backgrounds.c:2156
+#: src/backgrounds.c:2164
 msgid "Sort by Attr."
 msgstr "属性でソート"
 
-#: src/backgrounds.c:2162
+#: src/backgrounds.c:2170
 msgid "Sort by Image"
 msgstr "画像名でソート"
 
-#: src/backgrounds.c:2182
+#: src/backgrounds.c:2190
 msgid "Use dithering in Hi-Colour"
 msgstr "ハイカラー時にディザリングする"
 
-#: src/backgrounds.c:2186
+#: src/backgrounds.c:2194
 msgid "Background overrides theme"
 msgstr "背景はテーマを上書きする"
 
-#: src/backgrounds.c:2191
+#: src/backgrounds.c:2199
 msgid "Enable background transparency compatibility mode"
 msgstr ""
 "一般の背景透過手法に合わせてE16の背景透過機能を補正する (速度低下の可能性あ"
 "り)"
 
 #
-#: src/backgrounds.c:2215
+#: src/backgrounds.c:2223
 msgid "Background"
 msgstr "背景"
 
-#: src/backgrounds.c:2215
+#: src/backgrounds.c:2223
 msgid "Desktop Background Settings"
 msgstr "デスクトップ背景の設定"
 
-#: src/backgrounds.c:2219
+#: src/backgrounds.c:2227
 msgid ""
 "Enlightenment Desktop\n"
 "Background Settings Dialog"
@@ -512,7 +512,7 @@ msgstr "アイコンの名前を表示する"
 msgid "Animation mode:"
 msgstr "アニメーションモード"
 
-#: src/container.c:1668 src/desktops.c:2720
+#: src/container.c:1668 src/desktops.c:2729
 msgid "Off"
 msgstr "無効"
 
@@ -611,58 +611,58 @@ msgstr ""
 "ここをクリックするとこのデスクトップが\n"
 "下に移ります。"
 
-#: src/desktops.c:2486
+#: src/desktops.c:2495
 msgid "Number of virtual desktops:"
 msgstr "仮想デスクトップの枚数:"
 
-#: src/desktops.c:2512
+#: src/desktops.c:2521
 msgid "Slide desktops around when changing"
 msgstr "デスクトップ間を移動する時にスライドする"
 
 #
-#: src/desktops.c:2518
+#: src/desktops.c:2527
 msgid "Desktop Slide speed:"
 msgstr "デスクトップのスライド速度"
 
 #
-#: src/desktops.c:2532
+#: src/desktops.c:2541
 msgid "Wrap desktops around"
 msgstr "仮想デスクトップの上下左右をつなげる"
 
-#: src/desktops.c:2540
+#: src/desktops.c:2549
 msgid "Display desktop dragbar"
 msgstr "デスクトップにドラッグバーを表示する"
 
-#: src/desktops.c:2546
+#: src/desktops.c:2555
 msgid "Drag bar position:"
 msgstr "ドラッグバーの位置"
 
-#: src/desktops.c:2550
+#: src/desktops.c:2559
 msgid "Top"
 msgstr "上"
 
-#: src/desktops.c:2556
+#: src/desktops.c:2565
 msgid "Bottom"
 msgstr "下"
 
-#: src/desktops.c:2562 src/pager.c:1898 src/pager.c:1923 src/pager.c:1948
+#: src/desktops.c:2571 src/pager.c:1898 src/pager.c:1923 src/pager.c:1948
 msgid "Left"
 msgstr "左"
 
-#: src/desktops.c:2568 src/pager.c:1910 src/pager.c:1935 src/pager.c:1960
+#: src/desktops.c:2577 src/pager.c:1910 src/pager.c:1935 src/pager.c:1960
 msgid "Right"
 msgstr "右"
 
 #
-#: src/desktops.c:2576 src/menus-misc.c:564
+#: src/desktops.c:2585 src/menus-misc.c:564
 msgid "Desks"
 msgstr "マルチデスクトップ"
 
-#: src/desktops.c:2576
+#: src/desktops.c:2585
 msgid "Multiple Desktop Settings"
 msgstr "マルチデスクトップの設定"
 
-#: src/desktops.c:2580
+#: src/desktops.c:2589
 msgid ""
 "Enlightenment Multiple Desktop\n"
 "Settings Dialog"
@@ -670,39 +670,39 @@ msgstr ""
 "Enlightenment マルチデスクトップ\n"
 "設定ダイアログ"
 
-#: src/desktops.c:2674
+#: src/desktops.c:2683
 msgid "Virtual Desktop size:"
 msgstr "仮想デスクトップの大きさ"
 
-#: src/desktops.c:2710
+#: src/desktops.c:2719
 msgid "Wrap virtual desktops around"
 msgstr "仮想デスクトップの上下左右をつなげる"
 
-#: src/desktops.c:2717
+#: src/desktops.c:2726
 msgid "Edge Flip Mode:"
 msgstr "マウスカーソルによるデスクトップの切り替え"
 
-#: src/desktops.c:2725
+#: src/desktops.c:2734
 msgid "On"
 msgstr "有効"
 
-#: src/desktops.c:2730
+#: src/desktops.c:2739
 msgid "Only when moving window"
 msgstr "ウィンドウ移動時のみ切り替える"
 
-#: src/desktops.c:2736
+#: src/desktops.c:2745
 msgid "Resistance at edge of screen:"
 msgstr "画面の端に達した時の移動抵抗値"
 
-#: src/desktops.c:2748
+#: src/desktops.c:2757
 msgid "Areas"
 msgstr "デスクトップサイズ"
 
-#: src/desktops.c:2748
+#: src/desktops.c:2757
 msgid "Virtual Desktop Settings"
 msgstr "仮想デスクトップ設定"
 
-#: src/desktops.c:2752
+#: src/desktops.c:2761
 msgid ""
 "Enlightenment Virtual Desktop\n"
 "Settings Dialog"
@@ -1036,7 +1036,7 @@ msgstr ""
 "Enlightenment グループ管理の\n"
 "デフォルト設定ダイアログ"
 
-#: src/handlers.c:64
+#: src/handlers.c:65
 #, c-format
 msgid ""
 "Enlightenment performed an Illegal Instruction.\n"
@@ -1057,7 +1057,7 @@ msgstr ""
 "ためにバイナリフォーマットで入手したサポートライブラリも再コンパイルが必要\n"
 "になる場合があります。\n"
 
-#: src/handlers.c:74
+#: src/handlers.c:76
 msgid ""
 "Enlightenment caused a Floating Point Exception.\n"
 "\n"
@@ -1081,7 +1081,7 @@ msgstr ""
 "それから、バックトレース情報や変数ダンプなどを添付した詳細なバグ報告\n"
 "にして送付して下さい。\n"
 
-#: src/handlers.c:86
+#: src/handlers.c:89
 msgid ""
 "Enlightenment caused Segment Violation (Segfault)\n"
 "\n"
@@ -1105,7 +1105,7 @@ msgstr ""
 "ます。それから、バックトレース情報や変数ダンプなどを添付した詳細な\n"
 "バグ報告にして送付して下さい。\n"
 
-#: src/handlers.c:98
+#: src/handlers.c:102
 msgid ""
 "Enlightenment caused Bus Error.\n"
 "\n"
@@ -1136,30 +1136,30 @@ msgstr "アイコンボックスオプション"
 msgid "Iconbox Settings"
 msgstr "アイコンボックスの設定"
 
-#: src/ipc.c:198 src/ipc.c:1491 src/ipc.c:1498 src/theme.c:407
+#: src/ipc.c:198 src/ipc.c:1507 src/ipc.c:1514 src/theme.c:407
 msgid "Message"
 msgstr "メッセージ"
 
-#: src/ipc.c:1491 src/ipc.c:1498
+#: src/ipc.c:1507 src/ipc.c:1514
 #, c-format
 msgid "e16 was built without %s support"
 msgstr "このe16は %s に対応していません"
 
-#: src/ipc.c:1492
+#: src/ipc.c:1508
 msgid "composite"
 msgstr "コンポジット"
 
-#: src/ipc.c:1499
+#: src/ipc.c:1515
 msgid "sound"
 msgstr "サウンド"
 
 #
-#: src/ipc.c:1843
+#: src/ipc.c:1859
 msgid "Enlightenment IPC Commands Help\n"
 msgstr "Enlightenment IPC コマンド ヘルプ\n"
 
 #
-#: src/ipc.c:1847
+#: src/ipc.c:1863
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
@@ -1170,22 +1170,22 @@ msgstr ""
 "\n"
 
 #
-#: src/ipc.c:1849 src/ipc.c:1873 src/ipc.c:1885
+#: src/ipc.c:1865 src/ipc.c:1889 src/ipc.c:1901
 msgid "Commands currently available:\n"
 msgstr "現在利用可能なコマンド:\n"
 
-#: src/ipc.c:1871
+#: src/ipc.c:1887
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr ""
 "\"help full\" ですべてのコマンドについて各々詳しい説明が表示されます。\n"
 
 #
-#: src/ipc.c:1872
+#: src/ipc.c:1888
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr "\"help <コマンド>\" で指定されたコマンドの説明が表示されます。\n"
 
 #
-#: src/ipc.c:1874 src/ipc.c:1886
+#: src/ipc.c:1890 src/ipc.c:1902
 msgid "         <command>     : <description>\n"
 msgstr "<コマンド> : <説明>\n"
 
@@ -1714,36 +1714,32 @@ msgstr ""
 "Enlightenment ウィンドウ配置\n"
 "設定ダイアログ"
 
-#: src/settings.c:512
+#: src/settings.c:509
 msgid "Enable Dialog Headers"
 msgstr "ダイアログヘッダを有効にする"
 
 #
-#: src/settings.c:518
+#: src/settings.c:515
 msgid "Enable Button Images"
 msgstr "ボタン画像を有効にする"
 
-#: src/settings.c:527
+#: src/settings.c:524
 msgid "Enable sliding startup windows"
 msgstr "ログイン後、上下にスライドする初期画面を出す"
 
-#: src/settings.c:535
-msgid "Use saveunders to reduce window exposures"
-msgstr "セーブアンダー機能を使いウィンドウ再描画時の処理を減らす"
-
-#: src/settings.c:544
+#: src/settings.c:536
 msgid "Magwin zoom resolution"
 msgstr "拡大ツールのズーム解像度"
 
-#: src/settings.c:556 config/strings.c:136 config/strings.c:152
+#: src/settings.c:548 config/strings.c:136 config/strings.c:152
 msgid "Miscellaneous"
 msgstr "その他"
 
-#: src/settings.c:556
+#: src/settings.c:548
 msgid "Miscellaneous Settings"
 msgstr "その他の設定"
 
-#: src/settings.c:560
+#: src/settings.c:552
 msgid ""
 "Enlightenment Miscellaneous\n"
 "Settings Dialog"
@@ -1751,55 +1747,55 @@ msgstr ""
 "Enlightenment その他の\n"
 "設定ダイアログ"
 
-#: src/settings.c:596
+#: src/settings.c:588
 msgid "Enable Composite"
 msgstr "コンポジットを有効にする"
 
-#: src/settings.c:604
+#: src/settings.c:596
 msgid "Enable Fading"
 msgstr "フェーディングを有効にする"
 
-#: src/settings.c:610
+#: src/settings.c:602
 msgid "Fading Speed:"
 msgstr "フェーディング速度"
 
-#: src/settings.c:623
+#: src/settings.c:615
 msgid "Shadows Off"
 msgstr "影を付けない"
 
-#: src/settings.c:629
+#: src/settings.c:621
 msgid "Shadows Sharp"
 msgstr "影を明瞭にする"
 
-#: src/settings.c:635
+#: src/settings.c:627
 msgid "Shadows Sharp2"
 msgstr "影を明瞭にする2"
 
-#: src/settings.c:641
+#: src/settings.c:633
 msgid "Shadows Blurred"
 msgstr "影をぼかす"
 
-#: src/settings.c:652
+#: src/settings.c:644
 msgid "Default focused window opacity:"
 msgstr "フォーカスがあるウィンドウのデフォルトの不透明度"
 
-#: src/settings.c:663
+#: src/settings.c:655
 msgid "Default unfocused window opacity:"
 msgstr "フォーカスがないウィンドウのデフォルトの不透明度"
 
-#: src/settings.c:674
+#: src/settings.c:666
 msgid "Default pop-up window opacity:"
 msgstr "ポップアップウィンドウのデフォルトの不透明度"
 
-#: src/settings.c:685
+#: src/settings.c:677
 msgid "Composite"
 msgstr "コンポジット"
 
-#: src/settings.c:685
+#: src/settings.c:677
 msgid "Composite Settings"
 msgstr "コンポジットの設定"
 
-#: src/settings.c:689
+#: src/settings.c:681
 msgid ""
 "Enlightenment Composite\n"
 "Settings Dialog"
@@ -1807,7 +1803,7 @@ msgstr ""
 "Enlightenment コンポジットの\n"
 "設定ダイアログ"
 
-#: src/settings.c:770
+#: src/settings.c:762
 msgid "Enlightenment Settings"
 msgstr "Enlightenment の設定"
 
@@ -2726,6 +2722,9 @@ msgstr "アプリケーション"
 #: config/strings.c:192
 msgid "Epplets"
 msgstr ""
+
+#~ msgid "Use saveunders to reduce window exposures"
+#~ msgstr "セーブアンダー機能を使いウィンドウ再描画時の処理を減らす"
 
 #~ msgid "Theme transparency: %2d"
 #~ msgstr "テーマの透明度: %2d"
