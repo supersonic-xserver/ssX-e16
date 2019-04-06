@@ -32,7 +32,6 @@
 #include "borders.h"
 #include "cursors.h"
 #include "desktops.h"
-#include "ecompmgr.h"
 #include "emodule.h"
 #include "eobj.h"
 #include "events.h"
