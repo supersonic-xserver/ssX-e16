@@ -40,7 +40,7 @@ LT_INIT([dlopen])
 AC_PATH_X
 AC_PATH_XTRA
 
-AC_CHECK_HEADERS(alloca.h locale.h wctype.h)
+AC_CHECK_HEADERS(alloca.h locale.h)
 
 AC_C_BIGENDIAN
 AC_C_CONST
