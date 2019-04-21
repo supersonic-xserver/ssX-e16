@@ -95,6 +95,7 @@ TimerAdd(int dt_ms, int (*func) (void *data), void *data)
    timer->at_time = GetTimeMs() + dt_ms;
    timer->func = func;
    timer->data = data;
+   timer->again = 1;
 
    if (EDebug(EDBUG_TYPE_TIMERS))
       Eprintf("%s %p: func=%p data=%p: %8d\n", __func__, timer,
