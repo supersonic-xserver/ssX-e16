@@ -89,8 +89,9 @@ _ScreenInitXrandr(void)
 	if (!pci)
 	   break;
 	if (pci->width == 0 || pci->height == 0 || pci->noutput == 0)
-	   continue;
+	   goto next;
 	_ScreenAdd(0, i, pci->x, pci->y, pci->width, pci->height);
+      next:
 	XRRFreeCrtcInfo(pci);
      }
 
