@@ -314,6 +314,8 @@ ShowAlert(const char *title,
    XGrabPointer(dd, win, False, ButtonPressMask | ButtonReleaseMask,
 		GrabModeAsync, GrabModeAsync, None, None, CurrentTime);
    XGrabKeyboard(dd, win, False, GrabModeAsync, GrabModeAsync, CurrentTime);
+   XGrabKey(dd, AnyKey, AnyModifier, win, False, GrabModeAsync, GrabModeAsync);
+
    XSetInputFocus(dd, win, RevertToPointerRoot, CurrentTime);
 
    XSync(dd, False);
