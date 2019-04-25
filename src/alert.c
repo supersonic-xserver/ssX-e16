@@ -183,7 +183,6 @@ ShowAlert(const char *title,
    Colormap            cmap;
    int                 cnum, fh, x, y, ww, hh, bw, bh;
    char               *str1, *str2, *str3, *p;
-   KeyCode             keycode;
    int                 button;
    char              **missing_charset_list_return, *def_string_return;
    int                 missing_charset_count_return;
@@ -387,11 +386,11 @@ ShowAlert(const char *title,
    for (; button == 0;)
      {
 	XNextEvent(dd, &ev);
+
 	switch (ev.type)
 	  {
 	  case KeyPress:
-	     keycode = XKeysymToKeycode(dd, XK_F1);
-	     if (keycode == ev.xkey.keycode)
+	     if (str1 && ev.xkey.keycode == XKeysymToKeycode(dd, XK_F1))
 	       {
 		  DRAW_BOX_IN(dd, gc, b1, 0, 0, bw, bh);
 		  XSync(dd, False);
@@ -400,8 +399,7 @@ ShowAlert(const char *title,
 		  button = 1;
 		  goto do_sync;
 	       }
-	     keycode = XKeysymToKeycode(dd, XK_F2);
-	     if (keycode == ev.xkey.keycode)
+	     if (str2 && ev.xkey.keycode == XKeysymToKeycode(dd, XK_F2))
 	       {
 		  DRAW_BOX_IN(dd, gc, b2, 0, 0, bw, bh);
 		  XSync(dd, False);
@@ -410,8 +408,7 @@ ShowAlert(const char *title,
 		  button = 2;
 		  goto do_sync;
 	       }
-	     keycode = XKeysymToKeycode(dd, XK_F3);
-	     if (keycode == ev.xkey.keycode)
+	     if (str3 && ev.xkey.keycode == XKeysymToKeycode(dd, XK_F3))
 	       {
 		  DRAW_BOX_IN(dd, gc, b3, 0, 0, bw, bh);
 		  XSync(dd, False);
