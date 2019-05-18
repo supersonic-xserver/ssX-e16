@@ -2613,6 +2613,7 @@ _DlgApplyAreas(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
    if (dd->edge_resist < 1)
       dd->edge_resist = 1;
    Conf.desks.edge_flip_resistance = dd->edge_resist;
+   EdgeWindowsShow();
 
    autosave();
 }
