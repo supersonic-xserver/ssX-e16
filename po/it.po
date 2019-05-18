@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2019-04-25 09:03+0200\n"
+"POT-Creation-Date: 2019-05-18 07:11+0200\n"
 "PO-Revision-Date: 2012-12-07 19:51+0100\n"
 "Last-Translator: Massimo Maiurana <Unknown>\n"
 "Language-Team: none\n"
@@ -511,7 +511,7 @@ msgstr "Mostra nome icone"
 msgid "Animation mode:"
 msgstr "Modalità animazione:"
 
-#: src/container.c:1668 src/desktops.c:2729
+#: src/container.c:1668 src/desktops.c:2730
 msgid "Off"
 msgstr "Disattivato"
 
@@ -663,39 +663,39 @@ msgstr ""
 "Finestra configurazione desktop\n"
 "multipli di Enlightenment"
 
-#: src/desktops.c:2683
+#: src/desktops.c:2684
 msgid "Virtual Desktop size:"
 msgstr "Dimensione desktop virtuale:"
 
-#: src/desktops.c:2719
+#: src/desktops.c:2720
 msgid "Wrap virtual desktops around"
 msgstr "Concatena desktop virtuali estremi"
 
-#: src/desktops.c:2726
+#: src/desktops.c:2727
 msgid "Edge Flip Mode:"
 msgstr "Cambio desktop con puntatore al confine:"
 
-#: src/desktops.c:2734
+#: src/desktops.c:2735
 msgid "On"
 msgstr "Attivato"
 
-#: src/desktops.c:2739
+#: src/desktops.c:2740
 msgid "Only when moving window"
 msgstr "Solo trascinando finestre"
 
-#: src/desktops.c:2745
+#: src/desktops.c:2746
 msgid "Resistance at edge of screen:"
 msgstr "Resistenza al confine dello schermo:"
 
-#: src/desktops.c:2757
+#: src/desktops.c:2758
 msgid "Areas"
 msgstr "Aree"
 
-#: src/desktops.c:2757
+#: src/desktops.c:2758
 msgid "Virtual Desktop Settings"
 msgstr "Impostazione desktop virtuali"
 
-#: src/desktops.c:2761
+#: src/desktops.c:2762
 msgid ""
 "Enlightenment Virtual Desktop\n"
 "Settings Dialog"

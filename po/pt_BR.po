@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2019-04-25 09:03+0200\n"
+"POT-Creation-Date: 2019-05-18 07:11+0200\n"
 "PO-Revision-Date: 2010-02-14 04:53+0000\n"
 "Last-Translator: Teylo Laundos Aguiar <teylo.aguiar@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -485,7 +485,7 @@ msgstr "Exibir nomes dos ícones"
 msgid "Animation mode:"
 msgstr ""
 
-#: src/container.c:1668 src/desktops.c:2729
+#: src/container.c:1668 src/desktops.c:2730
 msgid "Off"
 msgstr "Desligado"
 
@@ -640,39 +640,39 @@ msgstr ""
 "Múltiplas áreas de trabalho do Enlightenment\n"
 "Dálogo de configuração"
 
-#: src/desktops.c:2683
+#: src/desktops.c:2684
 msgid "Virtual Desktop size:"
 msgstr "Tamanho da Área de Trabalho Virtual:"
 
-#: src/desktops.c:2719
+#: src/desktops.c:2720
 msgid "Wrap virtual desktops around"
 msgstr "Dar a volta em áreas de trabalho virtuais"
 
-#: src/desktops.c:2726
+#: src/desktops.c:2727
 msgid "Edge Flip Mode:"
 msgstr ""
 
-#: src/desktops.c:2734
+#: src/desktops.c:2735
 msgid "On"
 msgstr "Ligado"
 
-#: src/desktops.c:2739
+#: src/desktops.c:2740
 msgid "Only when moving window"
 msgstr "Somente ao mover janela"
 
-#: src/desktops.c:2745
+#: src/desktops.c:2746
 msgid "Resistance at edge of screen:"
 msgstr "Resistência na borda da tela:"
 
-#: src/desktops.c:2757
+#: src/desktops.c:2758
 msgid "Areas"
 msgstr "Áreas"
 
-#: src/desktops.c:2757
+#: src/desktops.c:2758
 msgid "Virtual Desktop Settings"
 msgstr "Configurações Área de Trabalho Virtual"
 
-#: src/desktops.c:2761
+#: src/desktops.c:2762
 msgid ""
 "Enlightenment Virtual Desktop\n"
 "Settings Dialog"

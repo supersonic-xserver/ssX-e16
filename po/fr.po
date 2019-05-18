@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16 svn-rev69488\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2019-04-25 09:03+0200\n"
+"POT-Creation-Date: 2019-05-18 07:11+0200\n"
 "PO-Revision-Date: 2013-04-25 05:08+0000\n"
 "Last-Translator: Eliovir <Unknown>\n"
 "Language-Team: French\n"
@@ -511,7 +511,7 @@ msgstr "Afficher les noms des icônes"
 msgid "Animation mode:"
 msgstr "Type d'animation:"
 
-#: src/container.c:1668 src/desktops.c:2729
+#: src/container.c:1668 src/desktops.c:2730
 msgid "Off"
 msgstr "Aucune"
 
@@ -660,39 +660,39 @@ msgstr ""
 "Dialogue de paramétrage des\n"
 "Bureaux multiples"
 
-#: src/desktops.c:2683
+#: src/desktops.c:2684
 msgid "Virtual Desktop size:"
 msgstr "Nombre de bureaux virtuels:"
 
-#: src/desktops.c:2719
+#: src/desktops.c:2720
 msgid "Wrap virtual desktops around"
 msgstr "Placer les bureaux virtuels en boucle"
 
-#: src/desktops.c:2726
+#: src/desktops.c:2727
 msgid "Edge Flip Mode:"
 msgstr "Bords sensitifs et mode de glissement:"
 
-#: src/desktops.c:2734
+#: src/desktops.c:2735
 msgid "On"
 msgstr "Glissement activé"
 
-#: src/desktops.c:2739
+#: src/desktops.c:2740
 msgid "Only when moving window"
 msgstr "Seulement lors des déplacements de fenêtre"
 
-#: src/desktops.c:2745
+#: src/desktops.c:2746
 msgid "Resistance at edge of screen:"
 msgstr "Résistance des bords de l'écran:"
 
-#: src/desktops.c:2757
+#: src/desktops.c:2758
 msgid "Areas"
 msgstr "Bureaux virtuels"
 
-#: src/desktops.c:2757
+#: src/desktops.c:2758
 msgid "Virtual Desktop Settings"
 msgstr "Paramètres des Bureaux virtuels"
 
-#: src/desktops.c:2761
+#: src/desktops.c:2762
 msgid ""
 "Enlightenment Virtual Desktop\n"
 "Settings Dialog"

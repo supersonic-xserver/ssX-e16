@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2019-04-25 09:03+0200\n"
+"POT-Creation-Date: 2019-05-18 07:11+0200\n"
 "PO-Revision-Date: 2017-11-29 02:09+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -497,7 +497,7 @@ msgstr "Vis ikonnavne"
 msgid "Animation mode:"
 msgstr "Animationsmodus:"
 
-#: src/container.c:1668 src/desktops.c:2729
+#: src/container.c:1668 src/desktops.c:2730
 msgid "Off"
 msgstr "Deaktiveret"
 
@@ -644,39 +644,39 @@ msgstr ""
 "Indstillinger for\n"
 "multiple skriveborde"
 
-#: src/desktops.c:2683
+#: src/desktops.c:2684
 msgid "Virtual Desktop size:"
 msgstr "Virtuel skrivebordsstørrelse:"
 
-#: src/desktops.c:2719
+#: src/desktops.c:2720
 msgid "Wrap virtual desktops around"
 msgstr "Virtuelle skriveborde wrapper rundt"
 
-#: src/desktops.c:2726
+#: src/desktops.c:2727
 msgid "Edge Flip Mode:"
 msgstr "Kantflipmodus:"
 
-#: src/desktops.c:2734
+#: src/desktops.c:2735
 msgid "On"
 msgstr "Aktiveret"
 
-#: src/desktops.c:2739
+#: src/desktops.c:2740
 msgid "Only when moving window"
 msgstr "Kun når et vindue flyttes"
 
-#: src/desktops.c:2745
+#: src/desktops.c:2746
 msgid "Resistance at edge of screen:"
 msgstr "Modstand ved kanten af skærmen:"
 
-#: src/desktops.c:2757
+#: src/desktops.c:2758
 msgid "Areas"
 msgstr "Virtuelle skriveborde"
 
-#: src/desktops.c:2757
+#: src/desktops.c:2758
 msgid "Virtual Desktop Settings"
 msgstr "Indstillinger for virtuelle skriveborde"
 
-#: src/desktops.c:2761
+#: src/desktops.c:2762
 msgid ""
 "Enlightenment Virtual Desktop\n"
 "Settings Dialog"

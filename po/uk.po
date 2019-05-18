@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2019-04-25 09:03+0200\n"
+"POT-Creation-Date: 2019-05-18 07:11+0200\n"
 "PO-Revision-Date: 2010-01-25 00:46+0000\n"
 "Last-Translator: Sergiy Gavrylov <sergiovana@bigmir.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -511,7 +511,7 @@ msgstr "Показувати назви піктограм"
 msgid "Animation mode:"
 msgstr ""
 
-#: src/container.c:1668 src/desktops.c:2729
+#: src/container.c:1668 src/desktops.c:2730
 msgid "Off"
 msgstr "Вимкнено"
 
@@ -664,39 +664,39 @@ msgstr ""
 "Діалог параметрів складених\n"
 "стільниць Enlightenment"
 
-#: src/desktops.c:2683
+#: src/desktops.c:2684
 msgid "Virtual Desktop size:"
 msgstr "Розмір віртуальної стільниці:"
 
-#: src/desktops.c:2719
+#: src/desktops.c:2720
 msgid "Wrap virtual desktops around"
 msgstr "Переміщення віртуальних стільниць по колу"
 
-#: src/desktops.c:2726
+#: src/desktops.c:2727
 msgid "Edge Flip Mode:"
 msgstr "Режим перегортання з вказівником біля краю:"
 
-#: src/desktops.c:2734
+#: src/desktops.c:2735
 msgid "On"
 msgstr "Увімкнено"
 
-#: src/desktops.c:2739
+#: src/desktops.c:2740
 msgid "Only when moving window"
 msgstr "Лише під час переміщення вікна"
 
-#: src/desktops.c:2745
+#: src/desktops.c:2746
 msgid "Resistance at edge of screen:"
 msgstr "Протидія біля краю екрана:"
 
-#: src/desktops.c:2757
+#: src/desktops.c:2758
 msgid "Areas"
 msgstr "Області"
 
-#: src/desktops.c:2757
+#: src/desktops.c:2758
 msgid "Virtual Desktop Settings"
 msgstr "Параметри віртуальних стільниць"
 
-#: src/desktops.c:2761
+#: src/desktops.c:2762
 msgid ""
 "Enlightenment Virtual Desktop\n"
 "Settings Dialog"
