@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2019 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -664,7 +664,7 @@ SessionExit(int mode, const char *param)
 
    if (EDebug(EDBUG_TYPE_SESSION))
       Eprintf("%s: mode=%d(%d) prm=%s\n", __func__, mode, Mode.wm.exit_mode,
-	      param);
+	      param ? param : "(none)");
 
    if (Mode.wm.exiting)
       return;
