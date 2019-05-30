@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2014 Kim Woelders
+ * Copyright (C) 2004-2019 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -128,6 +128,7 @@ struct _eobj {
 #define EoGetNoRedirect(eo)     (EoObj(eo)->noredir)
 #define EoGetSerial(eo)         (EoObj(eo)->serial)
 #else
+#define EoGetOpacity(eo)        0xffffffff
 #define EoGetSerial(eo)         0
 #endif
 
