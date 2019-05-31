@@ -5998,3 +5998,43 @@ Avoid unnecesary use of MenuSetTitle()
 If sound is enabled check that we have a sound loader
 Spec file cleanups
 Simplify autogen.sh
+
+-------------------------------------------------------------------------------
+
+Thu 30 May 2019 04:18:15 PM CEST
+
+--- 1.0.20 ---
+Reintroduce acflags for configuration of rpmbuilds
+Update 'definitions'
+Enable changing only theme variant
+Add theme defined menu
+Refactor/rename/use _EFREE type macros
+Change EFREE_... macros to functions
+Consistently use *ALLOC() macros
+Warning fix for gcc 9
+Optionally don't slide in DeskGotoByEwin()
+Introduce EwinFindGroupMember()
+Fix transient placement involving desk/area change
+Split unplaced transient and dialog handling
+Introduxe ArrangeEwinCenteredOn()
+Remove saveunders option from Miscellaneous Settings dialog
+Fix restart after choosing Restart in GSOD on e.g. segv
+Tweak winop opacity delta mode
+Don't do double-clicks on scroll wheel events
+Correct refresh when switching away from background "None"
+Restore background to last set if quitting background selector
+e_gen_menu: Somewhat random menu generator changes
+e_gen_menu: Various corrections and tweaks
+Fix memory leak in pulseaudio sound loader
+Fix potential segv in pulseaudio sound handler
+Fix compositing glitches with tiled backgrounds
+configure.ac: Drop check for unused wctype.h
+Use pkg-config some more
+Fix potential memory leak in _ScreenInitXrandr()
+Fix timer havoc in obscure situations
+GSOD: Better keyboard grab
+GSOD: Only react to shown buttons
+Make config dialog edge flip mode changes take effect immediately
+Add gobject-2.0 dependency in case pango doesn't include it
+Fix build without composite
+Fix potential gcc9 warning
