@@ -91,12 +91,12 @@ AM_CONDITIONAL(ENABLE_GNOME, test "x$enable_hints_gnome" = "xyes")
 
 AC_ARG_ENABLE(sound,
   AC_HELP_STRING([--enable-sound],
-                 [compile with sound support (pulseaudio/esound/no)@<:@default=pulseaudio@:>@]),,
+                 [compile with sound support (pulseaudio/esound/sndio/no)@<:@default=pulseaudio@:>@]),,
   enable_sound=pulseaudio)
 case x$enable_sound in
 xyes)
   enable_sound=pulseaudio;;
-xpulseaudio|xesound)
+xpulseaudio|xesound|xsndio)
   ;;
 *)
   enable_sound=no;;
@@ -137,6 +137,19 @@ if test "x$enable_sound" = "xesound"; then
   fi
 fi
 AM_CONDITIONAL(USE_LIBESD, test "x$enable_sound" = "xesound")
+
+if test "x$enable_sound" = "xsndio"; then
+  AC_CHECK_HEADERS(sndio.h,, enable_sound=no
+    AC_MSG_WARN([sndio sound support was requested but not found.]))
+  AC_CHECK_LIB(sndio, sio_open, SNDIO_LIBS="-lsndio", enable_sound=no)
+  AC_SUBST(SNDIO_LIBS)
+  if test "x$enable_sound" = "xsndio"; then
+    AC_DEFINE(HAVE_SOUND, 1, [Sound support])
+    AC_DEFINE(HAVE_SOUND_SNDIO, 1, [Sndio sound support])
+    enable_sound=sndio
+  fi
+fi
+AM_CONDITIONAL(USE_LIBSNDIO, test "x$enable_sound" = "xsndio")
 
 if test "x$enable_sound" != "xno" -a "x$with_sndldr" = "xnone"; then
   AC_MSG_ERROR([Sound support requires a sound loader])

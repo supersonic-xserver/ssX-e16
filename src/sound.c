@@ -34,6 +34,8 @@
 #define SOUND_SERVER_NAME "esd"
 #elif HAVE_SOUND_PA
 #define SOUND_SERVER_NAME "pulseaudio"
+#elif HAVE_SOUND_SNDIO
+#define SOUND_SERVER_NAME "sndio"
 #else
 #error Invalid sound configuration
 #endif
@@ -73,6 +75,9 @@ static const SoundOps *ops = &SoundOps_esd;
 #elif HAVE_SOUND_PA
 extern const SoundOps SoundOps_pa;
 static const SoundOps *ops = &SoundOps_pa;
+#elif HAVE_SOUND_SNDIO
+extern const SoundOps SoundOps_sndio;
+static const SoundOps *ops = &SoundOps_sndio;
 #endif
 #endif
 
