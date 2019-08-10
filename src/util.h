@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2019 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -83,7 +83,7 @@ const char         *Estrcasestr(const char *haystack, const char *needle);
 #define EMALLOC(type, num) (type*)Emalloc((num)*sizeof(type))
 #define EREALLOC(type, ptr, num) (type*)Erealloc(ptr, (num)*sizeof(type))
 
-void                EfreeNull(void **p);
+__EXPORT__ void     EfreeNull(void **p);
 void                EfreeSet(void **p, void *s);
 void                EfreeDup(char **p, const char *s);
 
@@ -100,12 +100,12 @@ char               *Estrndup(const char *s, size_t n);
 char               *Estrdupcat2(char *ss, const char *s1, const char *s2);
 
 char              **StrlistDup(char **lst, int num);
-__EXPORT__ void     StrlistFree(char **lst, int num);
+void                StrlistFree(char **lst, int num);
 char               *StrlistJoin(char **lst, int num);
 char               *StrlistEncodeEscaped(char *buf, int len, char **lst,
 					 int num);
 char              **StrlistDecodeEscaped(const char *str, int *pnum);
-__EXPORT__ char   **StrlistFromString(const char *str, int delim, int *num);
+char              **StrlistFromString(const char *str, int delim, int *num);
 
 void                StrlistSort(char **lst, int num);
 
