@@ -55,9 +55,9 @@ static struct {
    Idler              *idler;
    unsigned int        time_ms;	/* Just use Mode.events.time_ms? */
    unsigned int        seqn;
-} Mode_anim =
-{
-NULL, NULL, 0, 0};
+} Mode_anim = {
+   NULL, NULL, 0, 0
+};
 
 static int
 _AnimatorsTimer(void *timer_call)

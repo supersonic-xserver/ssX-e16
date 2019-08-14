@@ -751,7 +751,7 @@ PagerShow(Pager * p)
 
 typedef struct {
    Desk               *dsk;
-   void                (*func) (Pager * p, void *prm);
+   void                (*func)(Pager * p, void *prm);
    void               *prm;
 } pager_foreach_data;
 
@@ -767,7 +767,7 @@ _PagersForeachFunc(void *item, void *prm)
 }
 
 static void
-PagersForeach(Desk * dsk, void (*func) (Pager * p, void *prm), void *prm)
+PagersForeach(Desk * dsk, void (*func)(Pager * p, void *prm), void *prm)
 {
    pager_foreach_data  data;
 

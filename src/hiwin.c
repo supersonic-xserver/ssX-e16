@@ -42,16 +42,16 @@ struct _hiwin {
    EWin               *ewin;
    int                 zoom;
    int                 xo, yo, wo, ho;
-   void                (*evcb) (Win win, XEvent * ev, void *data);
+   void                (*evcb)(Win win, XEvent * ev, void *data);
    void               *data;
    char                animate;
    EImage             *im;
 };
 
 typedef struct {
-   void                (*init) (Hiwin * phi);
-   void                (*draw) (Hiwin * phi);
-   void                (*fini) (Hiwin * phi, int shown);
+   void                (*init)(Hiwin * phi);
+   void                (*draw)(Hiwin * phi);
+   void                (*fini)(Hiwin * phi, int shown);
 } HiwinRender;
 
 static ImageClass  *hiwin_ic = NULL;
@@ -298,7 +298,7 @@ HiwinInit(Hiwin * phi, EWin * ewin, EObj * parent)
 }
 
 void
-HiwinSetCallback(Hiwin * phi, void (*func) (Win win, XEvent * ev, void *data),
+HiwinSetCallback(Hiwin * phi, void (*func)(Win win, XEvent * ev, void *data),
 		 void *data)
 {
    phi->evcb = func;

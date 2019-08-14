@@ -47,8 +47,8 @@
 
 typedef struct {
    const char         *name;
-   void                (*init_func) (const char *name);
-   void                (*ops_func) (int op);
+   void                (*init_func)(const char *name);
+   void                (*ops_func)(int op);
    char                enabled;
    char                active;
 } FXHandler;

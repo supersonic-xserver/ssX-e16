@@ -45,18 +45,18 @@
 #endif
 
 typedef struct {
-   int                 (*Load) (TextState * ts, const char *name);
-   void                (*Destroy) (TextState * ts);
-   void                (*TextSize) (TextState * ts, const char *text, int len,
-				    int *width, int *height, int *ascent);
-   void                (*TextFit) (TextState * ts, char **ptext,
-				   int *pwidth, int textwidth_limit);
-   void                (*TextDraw) (TextState * ts, int x, int y,
-				    const char *text, int len);
-   int                 (*FdcInit) (TextState * ts, Win win, EX_Drawable draw);
-   void                (*FdcFini) (TextState * ts);
-   void                (*FdcSetDrawable) (TextState * ts, unsigned long draw);
-   void                (*FdcSetColor) (TextState * ts, unsigned int color);
+   int                 (*Load)(TextState * ts, const char *name);
+   void                (*Destroy)(TextState * ts);
+   void                (*TextSize)(TextState * ts, const char *text, int len,
+				   int *width, int *height, int *ascent);
+   void                (*TextFit)(TextState * ts, char **ptext,
+				  int *pwidth, int textwidth_limit);
+   void                (*TextDraw)(TextState * ts, int x, int y,
+				   const char *text, int len);
+   int                 (*FdcInit)(TextState * ts, Win win, EX_Drawable draw);
+   void                (*FdcFini)(TextState * ts);
+   void                (*FdcSetDrawable)(TextState * ts, unsigned long draw);
+   void                (*FdcSetColor)(TextState * ts, unsigned int color);
 } FontOps;
 
 struct _textstate {

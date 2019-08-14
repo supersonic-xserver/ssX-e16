@@ -61,9 +61,9 @@ static              LIST_HEAD(slideout_list);
 
 static struct {
    Slideout           *active;
-} Mode_slideouts =
-{
-NULL};
+} Mode_slideouts = {
+   NULL
+};
 
 static void         SlideoutHandleEvent(Win win, XEvent * ev, void *prm);
 

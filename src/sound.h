@@ -34,11 +34,11 @@ typedef struct {
 typedef struct _sample Sample;
 
 typedef struct {
-   int                 (*Init) (void);
-   void                (*Exit) (void);
-   Sample             *(*SampleLoad) (const char *file);
-   void                (*SampleDestroy) (Sample * s);
-   void                (*SamplePlay) (Sample * s);
+   int                 (*Init)(void);
+   void                (*Exit)(void);
+   Sample             *(*SampleLoad)(const char *file);
+   void                (*SampleDestroy)(Sample * s);
+   void                (*SamplePlay)(Sample * s);
 } SoundOps;
 
 int                 SoundSampleGetData(const char *file, SoundSampleData * ssd);

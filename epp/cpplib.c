@@ -166,8 +166,8 @@ static const char  *predefs = "";
 
 struct directive {
    int                 length;
-   int                 (*func) (cpp_reader * pfile, struct directive * keyword,
-				unsigned char *buf, unsigned char *limit);
+   int                 (*func)(cpp_reader * pfile, struct directive * keyword,
+			       unsigned char *buf, unsigned char *limit);
    const char         *name;
    enum node_type      type;
    char                command_reads_line;
@@ -398,55 +398,54 @@ static struct default_include {
    = INCLUDE_DEFAULTS;
 
 #else
-   =
-{
+   = {
    /* Pick up GNU C++ specific include files.  */
    {
-   GPLUSPLUS_INCLUDE_DIR, 1, 1}
+    GPLUSPLUS_INCLUDE_DIR, 1, 1}
    ,
 #ifdef CROSS_COMPILE
-      /* This is the dir for fixincludes.  Put it just before
-       * the files that we fix.  */
+   /* This is the dir for fixincludes.  Put it just before
+    * the files that we fix.  */
    {
-   GCC_INCLUDE_DIR, 0, 0}
+    GCC_INCLUDE_DIR, 0, 0}
    ,
-      /* For cross-compilation, this dir name is generated
-       * automatically in Makefile.in.  */
+   /* For cross-compilation, this dir name is generated
+    * automatically in Makefile.in.  */
    {
-   CROSS_INCLUDE_DIR, 0, 0}
+    CROSS_INCLUDE_DIR, 0, 0}
    ,
-      /* This is another place that the target system's headers might be.  */
+   /* This is another place that the target system's headers might be.  */
    {
-   TOOL_INCLUDE_DIR, 0, 1}
+    TOOL_INCLUDE_DIR, 0, 1}
    ,
 #else /* not CROSS_COMPILE */
-      /* This should be /usr/local/include and should come before
-       * the fixincludes-fixed header files.  */
+   /* This should be /usr/local/include and should come before
+    * the fixincludes-fixed header files.  */
    {
-   LOCAL_INCLUDE_DIR, 0, 1}
+    LOCAL_INCLUDE_DIR, 0, 1}
    ,
-      /* This is here ahead of GCC_INCLUDE_DIR because assert.h goes here.
-       * Likewise, behind LOCAL_INCLUDE_DIR, where glibc puts its assert.h.  */
+   /* This is here ahead of GCC_INCLUDE_DIR because assert.h goes here.
+    * Likewise, behind LOCAL_INCLUDE_DIR, where glibc puts its assert.h.  */
    {
-   TOOL_INCLUDE_DIR, 0, 1}
+    TOOL_INCLUDE_DIR, 0, 1}
    ,
-      /* This is the dir for fixincludes.  Put it just before
-       * the files that we fix.  */
+   /* This is the dir for fixincludes.  Put it just before
+    * the files that we fix.  */
    {
-   GCC_INCLUDE_DIR, 0, 0}
+    GCC_INCLUDE_DIR, 0, 0}
    ,
-      /* Some systems have an extra dir of include files.  */
+   /* Some systems have an extra dir of include files.  */
 #ifdef SYSTEM_INCLUDE_DIR
    {
-   SYSTEM_INCLUDE_DIR, 0, 0}
+    SYSTEM_INCLUDE_DIR, 0, 0}
    ,
 #endif
    {
-   STANDARD_INCLUDE_DIR, 0, 0}
+    STANDARD_INCLUDE_DIR, 0, 0}
    ,
 #endif /* not CROSS_COMPILE */
    {
-   0, 0, 0}
+    0, 0, 0}
 };
 
 #endif /* no INCLUDE_DEFAULTS */

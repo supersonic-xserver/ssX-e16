@@ -83,8 +83,8 @@ typedef struct {
 typedef struct {
    const char         *name;
    unsigned int        ix;
-   int                 (*query_ver) (Display * dpy, int *major, int *minor);
-   void                (*init) (int avaliable);
+   int                 (*query_ver)(Display * dpy, int *major, int *minor);
+   void                (*init)(int avaliable);
 } EServerExt;
 
 static EServerExtData ExtData[12];
@@ -348,7 +348,7 @@ struct _EventFdDesc {
    const char         *name;
 #endif
    int                 fd;
-   void                (*handler) (void);
+   void                (*handler)(void);
 };
 
 static int          nfds = 0;

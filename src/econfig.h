@@ -28,7 +28,7 @@ typedef struct {
    void               *ptr;
    char                type;
    int                 dflt;
-   void                (*func) (void *item, const char *value);
+   void                (*func)(void *item, const char *value);
 } CfgItem;
 
 typedef struct {

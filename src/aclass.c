@@ -813,7 +813,7 @@ AclassConfigLoadConfig(const char *name)
 }
 
 static void
-AclassConfigWrite(const ActionClass * ac, void (*prf) (const char *fmt, ...))
+AclassConfigWrite(const ActionClass * ac, void (*prf)(const char *fmt, ...))
 {
    char                s[FILEPATH_LEN_MAX];
    Action             *aa;

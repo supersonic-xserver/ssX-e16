@@ -28,7 +28,7 @@
 #include "util.h"
 
 typedef struct {
-   void                (*func) (const char *line);
+   void                (*func)(const char *line);
    const char         *name;
    const char         *nick;
    const char         *help_text;

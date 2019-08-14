@@ -26,7 +26,7 @@
 
 #include "etypes.h"
 
-Timer              *TimerAdd(int dt_ms, int (*func) (void *data), void *data);
+Timer              *TimerAdd(int dt_ms, int (*func)(void *data), void *data);
 void                TimerDel(Timer * timer);
 void                TimerSetInterval(Timer * timer, int dt_ms);
 void                TimersRun(unsigned int t_ms);
@@ -39,7 +39,7 @@ int                 TimersRunNextIn(unsigned int t_ms);
 #define TIMER_DEL(timer) \
    if (timer) { TimerDel(timer); timer = NULL; }
 
-Idler              *IdlerAdd(void (*func) (void *data), void *data);
+Idler              *IdlerAdd(void (*func)(void *data), void *data);
 void                IdlerDel(Idler * id);
 void                IdlersRun(void);
 

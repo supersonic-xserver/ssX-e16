@@ -29,7 +29,7 @@ struct _timer {
    unsigned int        in_time;
    unsigned int        at_time;
    struct _timer      *next;
-   int                 (*func) (void *data);
+   int                 (*func)(void *data);
    void               *data;
    char                again;
 };
@@ -83,7 +83,7 @@ _TimerDel(Timer * timer)
 }
 
 Timer              *
-TimerAdd(int dt_ms, int (*func) (void *data), void *data)
+TimerAdd(int dt_ms, int (*func)(void *data), void *data)
 {
    Timer              *timer;
 

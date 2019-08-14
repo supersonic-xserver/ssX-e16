@@ -466,7 +466,7 @@ void                ConfigAlertLoad(const char *txt);
 char               *FindFile(const char *file, const char *themepath, int type);
 char               *ThemeFileFind(const char *file, int type);
 int                 ConfigFileLoad(const char *name, const char *themepath,
-				   int (*parse) (FILE * fs), int preparse);
+				   int (*parse)(FILE * fs), int preparse);
 int                 ConfigFileRead(FILE * fs);
 int                 ThemeConfigLoad(void);
 

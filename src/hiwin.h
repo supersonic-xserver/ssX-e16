@@ -32,8 +32,8 @@ Hiwin              *HiwinCreate(void);
 void                HiwinSetGeom(Hiwin * phi, int x, int y, int w, int h);
 void                HiwinInit(Hiwin * phi, EWin * ewin, EObj * parent);
 void                HiwinSetCallback(Hiwin * phi,
-				     void (*func) (Win win, XEvent * ev,
-						   void *data), void *data);
+				     void (*func)(Win win, XEvent * ev,
+						  void *data), void *data);
 void                HiwinGetXY(Hiwin * phi, int *x, int *y);
 void                HiwinMove(Hiwin * phi, int x, int y);
 EWin               *HiwinGetEwin(Hiwin * phi, int check);

@@ -216,7 +216,7 @@ EwcClose(void)
 }
 
 int
-EwcStrToWcs(const char *str, int len, wchar_t * wcs, int wcl)
+EwcStrToWcs(const char *str, int len, wchar_t *wcs, int wcl)
 {
 #if HAVE_ICONV
    ICONV_CONST char   *pi;
@@ -232,7 +232,7 @@ EwcStrToWcs(const char *str, int len, wchar_t * wcs, int wcl)
 	no = 4096;
 	po = buf;
 	rc = iconv(iconv_cd_str2wcs, &pi, &ni, &po, &no);
-	if (rc == (size_t) (-1) || no == 0)
+	if (rc == (size_t)(-1) || no == 0)
 	   return -1;
 	wcl = (4096 - no) / sizeof(wchar_t);
 	return wcl;
@@ -241,7 +241,7 @@ EwcStrToWcs(const char *str, int len, wchar_t * wcs, int wcl)
    po = (char *)wcs;
    no = wcl * sizeof(wchar_t);
    rc = iconv(iconv_cd_str2wcs, &pi, &ni, &po, &no);
-   if (rc == (size_t) (-1))
+   if (rc == (size_t)(-1))
       return 0;
    return wcl - no / sizeof(wchar_t);
 #else
@@ -249,7 +249,7 @@ EwcStrToWcs(const char *str, int len, wchar_t * wcs, int wcl)
       return mbstowcs(NULL, str, 0);
 
    mbstowcs(wcs, str, wcl);
-   wcs[wcl] = (wchar_t) '\0';
+   wcs[wcl] = (wchar_t)'\0';
 
    len = 0;
    return wcl;
@@ -257,7 +257,7 @@ EwcStrToWcs(const char *str, int len, wchar_t * wcs, int wcl)
 }
 
 int
-EwcWcsToStr(const wchar_t * wcs, int wcl, char *str, int len)
+EwcWcsToStr(const wchar_t *wcs, int wcl, char *str, int len)
 {
 #if HAVE_ICONV
    ICONV_CONST char   *pi;
@@ -267,7 +267,7 @@ EwcWcsToStr(const wchar_t * wcs, int wcl, char *str, int len)
    ni = wcl * sizeof(wchar_t);
    no = len;
    rc = iconv(iconv_cd_wcs2str, &pi, &ni, &str, &no);
-   if (rc == (size_t) (-1))
+   if (rc == (size_t)(-1))
       return 0;
    return len - no;
 #else
@@ -294,9 +294,9 @@ EwcWcsToStr(const wchar_t * wcs, int wcl, char *str, int len)
 static struct {
    char               *internal;
    char               *exported;
-} Conf_locale =
-{
-NULL, NULL};
+} Conf_locale = {
+   NULL, NULL
+};
 
 static struct {
    char                init;

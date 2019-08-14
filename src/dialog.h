@@ -70,7 +70,7 @@ typedef struct {
    short               sound;
    const char         *header_image;
    const char         *header_text;
-   void                (*fill) (Dialog * d, DItem * table, void *data);
+   void                (*fill)(Dialog * d, DItem * table, void *data);
    int                 flags;
    DialogCallbackFunc *func_apply;
    DialogExitFunc     *func_exit;

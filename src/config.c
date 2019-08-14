@@ -547,7 +547,7 @@ ConfigFileFind(const char *name, const char *themepath, int pp)
 
 int
 ConfigFileLoad(const char *name, const char *themepath,
-	       int (*parse) (FILE * fs), int preparse)
+	       int (*parse)(FILE * fs), int preparse)
 {
    int                 err = -1;
    char               *file;

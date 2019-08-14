@@ -57,11 +57,11 @@ typedef union {
 #define EwinInhSetWM(ewin, item, on)   ewin->inh_wm.b.item = (on)
 
 typedef struct {
-   void                (*Init) (EWin * ewin);
-   void                (*Layout) (EWin * ewin, int *px, int *py, int *pw,
-				  int *ph);
-   void                (*MoveResize) (EWin * ewin, int resize);
-   void                (*Close) (EWin * ewin);
+   void                (*Init)(EWin * ewin);
+   void                (*Layout)(EWin * ewin, int *px, int *py, int *pw,
+				 int *ph);
+   void                (*MoveResize)(EWin * ewin, int resize);
+   void                (*Close)(EWin * ewin);
 } EWinOps;
 
 struct _ewin {

@@ -490,7 +490,7 @@ MenuCheckShowEwinDesk(EWin * ewin, void *prm)
 }
 
 static void
-MenuLoadFromEwins(Menu * m, int (*f) (EWin * ewin, void *prm), void *prm)
+MenuLoadFromEwins(Menu * m, int (*f)(EWin * ewin, void *prm), void *prm)
 {
    EWin               *const *lst;
    int                 i, num;

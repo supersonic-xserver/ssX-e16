@@ -1516,7 +1516,7 @@ ECompMgrWinDamage(EObj * eo, XEvent * ev)
 static void
 ECompMgrWinDumpInfo(const char *txt, EObj * eo, EX_SrvRegion rgn, int ipc)
 {
-   void                (*prf) (const char *fmt, ...);
+   void                (*prf)(const char *fmt, ...);
    ECmWinInfo         *cw = eo->cmhook;
 
    prf = (ipc) ? IpcPrintf : Eprintf;

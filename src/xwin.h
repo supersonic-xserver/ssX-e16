@@ -349,7 +349,7 @@ void                ERegionUnionOffset(EX_SrvRegion dst, int dx, int dy,
 int                 ERegionIsEmpty(EX_SrvRegion rgn);
 #endif
 void                ERegionShow(const char *txt, EX_SrvRegion rgn,
-				void (*prf) (const char *fmt, ...));
+				void (*prf)(const char *fmt, ...));
 
 void                EPictureSetClip(EX_Picture pict, EX_SrvRegion clip);
 

@@ -448,7 +448,7 @@ ButtonDragEnd(Button * b)
 }
 
 void
-ButtonsForeach(int id, Desk * dsk, void (*func) (Button * b))
+ButtonsForeach(int id, Desk * dsk, void (*func)(Button * b))
 {
    Button             *b, *tmp;
 

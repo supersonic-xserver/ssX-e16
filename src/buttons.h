@@ -52,7 +52,7 @@ int                 ButtonEmbedWindow(Button * ButtonToUse,
 				      EX_Window WindowToEmbed);
 
 void                ButtonsForeach(int id, Desk * dsk,
-				   void (*func) (Button * b));
+				   void (*func)(Button * b));
 void                ButtonsMoveStickyToDesk(Desk * d);
 int                 ButtonsConfigLoad(FILE * fs);
 

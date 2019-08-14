@@ -696,11 +696,11 @@ _DlgFillSnap(Dialog * d, DItem * table, void *data)
 	  {
 	     sd->match.name = 1;
 	     sd->match.clss = 1;
-	     sd->match.role = ! !ewin->icccm.wm_role;
+	     sd->match.role = !!ewin->icccm.wm_role;
 	  }
 	else
 	  {
-	     sd->match.title = ! !EwinGetIcccmName(ewin);
+	     sd->match.title = !!EwinGetIcccmName(ewin);
 	  }
      }
 
@@ -1599,7 +1599,7 @@ static void
 _SnapShow(void *data, void *prm)
 {
    Snapshot           *sn = (Snapshot *) data;
-   int                 full = ! !prm;
+   int                 full = !!prm;
    char                buf[FILEPATH_LEN_MAX];
    const char         *name;
 

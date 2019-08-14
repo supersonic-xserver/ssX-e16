@@ -29,7 +29,7 @@
 typedef struct {
    const char         *name;
    const char         *nick;
-   void                (*Signal) (int sig, void *prm);
+   void                (*Signal)(int sig, void *prm);
    IpcItemList         ipc;
    CfgItemList         cfg;
 } EModule;

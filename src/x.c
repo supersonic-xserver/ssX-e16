@@ -2401,7 +2401,7 @@ ERegionIsEmpty(EX_SrvRegion rgn)
 
 void
 ERegionShow(const char *txt, EX_SrvRegion rgn,
-	    void (*prf) (const char *fmt, ...))
+	    void (*prf)(const char *fmt, ...))
 {
    int                 i, nr;
    XRectangle         *pr;

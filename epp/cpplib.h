@@ -65,7 +65,7 @@ enum cpp_token {
 };
 
 typedef enum cpp_token (*parse_underflow_t) (cpp_reader *);
-typedef int         (*parse_cleanup_t) (cpp_buffer *, cpp_reader *);
+typedef int         (*parse_cleanup_t)(cpp_buffer *, cpp_reader *);
 
 /* A parse_marker indicates a previous position,
    which we can backtrack to. */

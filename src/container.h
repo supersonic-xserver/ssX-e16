@@ -43,13 +43,13 @@ typedef struct {
 } ContainerObject;
 
 typedef struct {
-   void                (*Init) (Container * ct);
-   void                (*Exit) (Container * ct, int wm_exit);
-   void                (*Signal) (Container * ct, int signal, void *prm);
-   void                (*Event) (Container * ct, XEvent * ev);
-   void                (*ObjSizeCalc) (Container * ct, ContainerObject * cto);
-   void                (*ObjPlace) (Container * ct, ContainerObject * cto,
-				    EImage * im);
+   void                (*Init)(Container * ct);
+   void                (*Exit)(Container * ct, int wm_exit);
+   void                (*Signal)(Container * ct, int signal, void *prm);
+   void                (*Event)(Container * ct, XEvent * ev);
+   void                (*ObjSizeCalc)(Container * ct, ContainerObject * cto);
+   void                (*ObjPlace)(Container * ct, ContainerObject * cto,
+				   EImage * im);
 } ContainerOps;
 
 struct _container {

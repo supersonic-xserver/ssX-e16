@@ -63,14 +63,14 @@
 #include <dlfcn.h>
 
 /* GL functions and helper */
-typedef void        (*glXBindTexImageEXT_func) (Display * dpy,
-						GLXDrawable drawable,
-						int buffer,
-						const int *attrib_list);
-typedef void        (*glXReleaseTexImageEXT_func) (Display * dpy,
-						   GLXDrawable drawable,
-						   int buffer);
-typedef void        (*glXFuncPtr) (void);
+typedef void        (*glXBindTexImageEXT_func)(Display * dpy,
+					       GLXDrawable drawable,
+					       int buffer,
+					       const int *attrib_list);
+typedef void        (*glXReleaseTexImageEXT_func)(Display * dpy,
+						  GLXDrawable drawable,
+						  int buffer);
+typedef void        (*glXFuncPtr)(void);
 typedef             glXFuncPtr(*glXGetProcAddress_func) (const GLubyte *);
 
 static glXBindTexImageEXT_func _glXBindTexImageEXT;

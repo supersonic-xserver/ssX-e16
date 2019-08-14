@@ -576,8 +576,8 @@ BackgroundRealize(Background * bg, Win win, EX_Drawable draw,
    if (!draw)
       draw = WinGetXwin(win);
 
-   hasbg = ! !bg->bg.im;
-   hasfg = ! !bg->top.im;
+   hasbg = !!bg->bg.im;
+   hasfg = !!bg->top.im;
 
    if (!hasbg && !hasfg)
      {
