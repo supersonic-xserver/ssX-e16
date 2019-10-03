@@ -199,14 +199,28 @@ sub ProcessFile {
 		if (/^\[(\w+)\s+(\w+)/) {
 			# Note: This breaks if [Desktop Entry] is not the first
 			last if (($1 ne "Desktop") or ($2 ne "Entry"));
-		} elsif (/^Name=(.*)$/) {
-			$Name = $1;
-		} elsif ($loc1 && /^Name\[$loc1\]=(.*)$/) {
-			$Nam1 = $1;
-		} elsif ($loc2 && /^Name\[$loc2\]=(.*)$/) {	
-			$Nam2 = $1;
-		} elsif ($loc3 && /^Name\[$loc3\]=(.*)$/) {	
-			$Nam3 = $1;
+		}
+
+		# skip early for the unneeded ones (important optimization):
+		next if (/^(#|Comment|GenericName|Keywords|TryExec|Icon\[|StartupNotify|MimeType|NotShowIn|DBusActivatable|X-|Version|TargetEnvironment|MultipleArgs|Encoding|Actions)/);
+
+		if (/^Name/) {
+			if (/^Name=(.*)$/) {
+				$Name = $1;
+			} elsif ($loc1 && /^Name\[$loc1\]=(.*)$/) {
+				$Nam1 = $1;
+			} elsif ($loc2 && /^Name\[$loc2\]=(.*)$/) {
+				$Nam2 = $1;
+			} elsif ($loc3 && /^Name\[$loc3\]=(.*)$/) {
+				$Nam3 = $1;
+			}
+			if ($Nam1 || $Nam2 || $Nam3) {
+				if    ($Nam1) { $Name = $Nam1; }
+				elsif ($Nam2) { $Name = $Nam2; }
+				else          { $Name = $Nam3; }
+				$Name = `echo "$Name" | iconv -f UTF-8` if $DoIconv;
+				chomp($Name);
+			}
 		} elsif (/^Exec=(.*)$/) {
 			$Exec = $1;
 		} elsif (/^Icon=(.*)$/) {
@@ -232,13 +246,6 @@ sub ProcessFile {
 			}
 		} elsif (/^NoDisplay=(.*)$/) {
 			$Ndis = $1;
-		}
-		if ($Nam1 || $Nam2 || $Nam3) {
-			if    ($Nam1) { $Name = $Nam1; }
-			elsif ($Nam2) { $Name = $Nam2; }
-			else          { $Name = $Nam3; }
-			$Name = `echo "$Name" | iconv -f UTF-8` if $DoIconv;
-			chomp($Name);
 		}
 	}
 	close FI;
