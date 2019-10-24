@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2019-05-18 07:11+0200\n"
+"POT-Creation-Date: 2019-10-23 19:06+0200\n"
 "PO-Revision-Date: 2010-01-25 00:46+0000\n"
 "Last-Translator: Sergiy Gavrylov <sergiovana@bigmir.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -176,8 +176,8 @@ msgstr "Вийти з Enlightenment"
 msgid "Attention !!!"
 msgstr "Увага !!!"
 
-#: src/alert.c:581 src/dialog.c:679 src/dialog.c:1814 src/events.c:103
-#: src/setup.c:163 src/setup.c:176 src/sound.c:309
+#: src/alert.c:581 src/dialog.c:679 src/dialog.c:1814 src/events.c:104
+#: src/setup.c:163 src/setup.c:176 src/sound.c:314
 msgid "OK"
 msgstr "Гаразд"
 
@@ -720,11 +720,11 @@ msgstr ""
 "завантаження розширень Composite, Damage,\n"
 "Fixes та Render."
 
-#: src/events.c:103
+#: src/events.c:104
 msgid "X server setup error"
 msgstr "Помилка установки X-сервера"
 
-#: src/events.c:104
+#: src/events.c:105
 msgid ""
 "FATAL ERROR:\n"
 "\n"
@@ -1972,11 +1972,11 @@ msgstr ""
 msgid "Error saving snaps file"
 msgstr "Помилка збереження snaps файла"
 
-#: src/sound.c:212
+#: src/sound.c:217
 msgid "Error finding sound file"
 msgstr "Помилка виявлення звукового файла"
 
-#: src/sound.c:213
+#: src/sound.c:218
 #, c-format
 msgid ""
 "Warning!  Enlightenment was unable to load the\n"
@@ -1991,11 +1991,11 @@ msgstr ""
 "Enlightenment продовжуватиме працювати, але вам\n"
 "слід перевірити налаштування конфігурації.\n"
 
-#: src/sound.c:309
+#: src/sound.c:314
 msgid "Error initialising sound"
 msgstr "Помилка ініціалізації звуку"
 
-#: src/sound.c:310
+#: src/sound.c:315
 #, c-format
 msgid ""
 "Audio was enabled for Enlightenment but there was an error\n"
@@ -2006,19 +2006,19 @@ msgstr ""
 "помилка з'єднання з аудіо-сервером (%s).\n"
 "Звук зараз, буде вимкнений.\n"
 
-#: src/sound.c:463
+#: src/sound.c:468
 msgid "Enable sounds"
 msgstr "Ввімкнути підтримку звуку"
 
-#: src/sound.c:469
+#: src/sound.c:474
 msgid "Sound"
 msgstr "Звук"
 
-#: src/sound.c:469
+#: src/sound.c:474
 msgid "Audio Settings"
 msgstr "Налаштування звуку"
 
-#: src/sound.c:473
+#: src/sound.c:478
 msgid ""
 "Enlightenment Audio\n"
 "Settings Dialog"

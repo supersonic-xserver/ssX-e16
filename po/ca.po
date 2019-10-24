@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enlightenment\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2019-05-18 07:11+0200\n"
+"POT-Creation-Date: 2019-10-23 19:06+0200\n"
 "PO-Revision-Date: 2015-03-29 14:25+0000\n"
 "Last-Translator: JoanColl <Unknown>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -174,8 +174,8 @@ msgstr "Surt d'Enlightenment"
 msgid "Attention !!!"
 msgstr "Atenció !!!"
 
-#: src/alert.c:581 src/dialog.c:679 src/dialog.c:1814 src/events.c:103
-#: src/setup.c:163 src/setup.c:176 src/sound.c:309
+#: src/alert.c:581 src/dialog.c:679 src/dialog.c:1814 src/events.c:104
+#: src/setup.c:163 src/setup.c:176 src/sound.c:314
 msgid "OK"
 msgstr "Accepta"
 
@@ -719,11 +719,11 @@ msgstr ""
 "les extensions Composite, Damage, Fixes,\n"
 "i Render estiguin carregades."
 
-#: src/events.c:103
+#: src/events.c:104
 msgid "X server setup error"
 msgstr "Error de configuració del  Xserver"
 
-#: src/events.c:104
+#: src/events.c:105
 msgid ""
 "FATAL ERROR:\n"
 "\n"
@@ -1977,11 +1977,11 @@ msgstr ""
 msgid "Error saving snaps file"
 msgstr "Error desant el fitxer d'ajustaments"
 
-#: src/sound.c:212
+#: src/sound.c:217
 msgid "Error finding sound file"
 msgstr "Error cercant el fitxer de so"
 
-#: src/sound.c:213
+#: src/sound.c:218
 #, c-format
 msgid ""
 "Warning!  Enlightenment was unable to load the\n"
@@ -1997,11 +1997,11 @@ msgstr ""
 "potser voleu comprovar els paràmetres de\n"
 "configuració.\n"
 
-#: src/sound.c:309
+#: src/sound.c:314
 msgid "Error initialising sound"
 msgstr "Error inicialitzant el so"
 
-#: src/sound.c:310
+#: src/sound.c:315
 #, c-format
 msgid ""
 "Audio was enabled for Enlightenment but there was an error\n"
@@ -2012,19 +2012,19 @@ msgstr ""
 "comunicant amb el servidor d'àudio (%s).\n"
 "L'àudio es desactivarà a partir d'ara.\n"
 
-#: src/sound.c:463
+#: src/sound.c:468
 msgid "Enable sounds"
 msgstr "Activa els sons"
 
-#: src/sound.c:469
+#: src/sound.c:474
 msgid "Sound"
 msgstr "So"
 
-#: src/sound.c:469
+#: src/sound.c:474
 msgid "Audio Settings"
 msgstr "Paràmetres d'àudio"
 
-#: src/sound.c:473
+#: src/sound.c:478
 msgid ""
 "Enlightenment Audio\n"
 "Settings Dialog"

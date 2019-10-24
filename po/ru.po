@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2019-05-18 07:11+0200\n"
+"POT-Creation-Date: 2019-10-23 19:06+0200\n"
 "PO-Revision-Date: 2010-05-09 01:23+0000\n"
 "Last-Translator: sda00 <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -177,8 +177,8 @@ msgstr "Выйти из Enlightenment"
 msgid "Attention !!!"
 msgstr "Внимание !!!"
 
-#: src/alert.c:581 src/dialog.c:679 src/dialog.c:1814 src/events.c:103
-#: src/setup.c:163 src/setup.c:176 src/sound.c:309
+#: src/alert.c:581 src/dialog.c:679 src/dialog.c:1814 src/events.c:104
+#: src/setup.c:163 src/setup.c:176 src/sound.c:314
 msgid "OK"
 msgstr "ОК"
 
@@ -725,11 +725,11 @@ msgstr ""
 "Composite, Damage, Fixes, и Render\n"
 "загруженных расширений X-сервера."
 
-#: src/events.c:103
+#: src/events.c:104
 msgid "X server setup error"
 msgstr "Ошибка установки X-сервера"
 
-#: src/events.c:104
+#: src/events.c:105
 msgid ""
 "FATAL ERROR:\n"
 "\n"
@@ -1979,11 +1979,11 @@ msgstr ""
 msgid "Error saving snaps file"
 msgstr "Ошибка сохранения сессионного файла"
 
-#: src/sound.c:212
+#: src/sound.c:217
 msgid "Error finding sound file"
 msgstr "Ошибка: звуковой файл не найден"
 
-#: src/sound.c:213
+#: src/sound.c:218
 #, c-format
 msgid ""
 "Warning!  Enlightenment was unable to load the\n"
@@ -1998,11 +1998,11 @@ msgstr ""
 "Enlightenment продолжит работу, однако, возможно,\n"
 "Вам следует проверить установки конфигурации.\n"
 
-#: src/sound.c:309
+#: src/sound.c:314
 msgid "Error initialising sound"
 msgstr "Ошибка инициализации звука"
 
-#: src/sound.c:310
+#: src/sound.c:315
 #, c-format
 msgid ""
 "Audio was enabled for Enlightenment but there was an error\n"
@@ -2013,19 +2013,19 @@ msgstr ""
 "ошибка при установлении соединения с Esound (%s). Поддержка звука\n"
 "будет сейчас отключена.\n"
 
-#: src/sound.c:463
+#: src/sound.c:468
 msgid "Enable sounds"
 msgstr "Включить поддержку звука"
 
-#: src/sound.c:469
+#: src/sound.c:474
 msgid "Sound"
 msgstr "Звук"
 
-#: src/sound.c:469
+#: src/sound.c:474
 msgid "Audio Settings"
 msgstr "Установки звука"
 
-#: src/sound.c:473
+#: src/sound.c:478
 msgid ""
 "Enlightenment Audio\n"
 "Settings Dialog"

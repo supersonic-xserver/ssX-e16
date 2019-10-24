@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2019-05-18 07:11+0200\n"
+"POT-Creation-Date: 2019-10-23 19:06+0200\n"
 "PO-Revision-Date: 2010-05-09 01:21+0000\n"
 "Last-Translator: Peter Wehrfritz <Unknown>\n"
 "Language-Team: Enlightenment l10n <enlightenment-intl@lists.sourceforge."
@@ -206,8 +206,8 @@ msgstr "Achtung!"
 # src/settings.c:1460 src/settings.c:1522 src/settings.c:1610
 # src/settings.c:2012 src/settings.c:3405 src/settings.c:3750
 # src/settings.c:4048 src/settings.c:4186 src/snaps.c:547 src/sound.c:262
-#: src/alert.c:581 src/dialog.c:679 src/dialog.c:1814 src/events.c:103
-#: src/setup.c:163 src/setup.c:176 src/sound.c:309
+#: src/alert.c:581 src/dialog.c:679 src/dialog.c:1814 src/events.c:104
+#: src/setup.c:163 src/setup.c:176 src/sound.c:314
 msgid "OK"
 msgstr "OK"
 
@@ -857,12 +857,12 @@ msgstr ""
 "Render-Erweiterungen geladen sind."
 
 # src/setup.c:294 src/setup.c:340
-#: src/events.c:103
+#: src/events.c:104
 msgid "X server setup error"
 msgstr "Einstellungsfehler im X-Server"
 
 # src/setup.c:296
-#: src/events.c:104
+#: src/events.c:105
 msgid ""
 "FATAL ERROR:\n"
 "\n"
@@ -2292,12 +2292,12 @@ msgid "Error saving snaps file"
 msgstr "Fehler beim Speichern der snaps-Datei"
 
 # src/sound.c:53
-#: src/sound.c:212
+#: src/sound.c:217
 msgid "Error finding sound file"
 msgstr "Fehler beim Suchen nach Audiodatei"
 
 # src/sound.c:55
-#: src/sound.c:213
+#: src/sound.c:218
 #, c-format
 msgid ""
 "Warning!  Enlightenment was unable to load the\n"
@@ -2313,12 +2313,12 @@ msgstr ""
 "vielleicht Ihre Konfiguration überprüfen.\n"
 
 # src/sound.c:262
-#: src/sound.c:309
+#: src/sound.c:314
 msgid "Error initialising sound"
 msgstr "Fehler beim Initialisieren des Sounds"
 
 # src/sound.c:264
-#: src/sound.c:310
+#: src/sound.c:315
 #, c-format
 msgid ""
 "Audio was enabled for Enlightenment but there was an error\n"
@@ -2330,21 +2330,21 @@ msgstr ""
 "Der Ton wird darum wieder ausgeschaltet.\n"
 
 # src/settings.c:1591
-#: src/sound.c:463
+#: src/sound.c:468
 msgid "Enable sounds"
 msgstr "Klänge verwenden"
 
-#: src/sound.c:469
+#: src/sound.c:474
 msgid "Sound"
 msgstr "Klänge"
 
 # src/settings.c:1566
-#: src/sound.c:469
+#: src/sound.c:474
 msgid "Audio Settings"
 msgstr "Klang-Einstellungen"
 
 # src/main.c:89
-#: src/sound.c:473
+#: src/sound.c:478
 msgid ""
 "Enlightenment Audio\n"
 "Settings Dialog"

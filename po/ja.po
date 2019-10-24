@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2019-05-18 07:11+0200\n"
+"POT-Creation-Date: 2019-10-23 19:06+0200\n"
 "PO-Revision-Date: 2011-10-11 18:12+0900\n"
 "Last-Translator: Yasufumi Haga <yasufumi.haga@nifty.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -177,8 +177,8 @@ msgstr "Enlightenment 終了"
 msgid "Attention !!!"
 msgstr "注意 !!!"
 
-#: src/alert.c:581 src/dialog.c:679 src/dialog.c:1814 src/events.c:103
-#: src/setup.c:163 src/setup.c:176 src/sound.c:309
+#: src/alert.c:581 src/dialog.c:679 src/dialog.c:1814 src/events.c:104
+#: src/setup.c:163 src/setup.c:176 src/sound.c:314
 msgid "OK"
 msgstr "了解"
 
@@ -725,11 +725,11 @@ msgstr ""
 "Composite, Damage, Fixes, Render の各拡張機能が\n"
 "ロードされていることを xdpyinfo を使って確認してください."
 
-#: src/events.c:103
+#: src/events.c:104
 msgid "X server setup error"
 msgstr "X サーバーの設定エラー"
 
-#: src/events.c:104
+#: src/events.c:105
 msgid ""
 "FATAL ERROR:\n"
 "\n"
@@ -2010,11 +2010,11 @@ msgstr ""
 msgid "Error saving snaps file"
 msgstr "スナップファイルの保存時にエラーが起きました。"
 
-#: src/sound.c:212
+#: src/sound.c:217
 msgid "Error finding sound file"
 msgstr "サウンドファイルがみつかりません。"
 
-#: src/sound.c:213
+#: src/sound.c:218
 #, c-format
 msgid ""
 "Warning!  Enlightenment was unable to load the\n"
@@ -2028,11 +2028,11 @@ msgstr ""
 "%s\n"
 "処理は継続されますが、設定を確認した方がいいと思います。\n"
 
-#: src/sound.c:309
+#: src/sound.c:314
 msgid "Error initialising sound"
 msgstr "サウンドの初期化中にエラーが起きました。"
 
-#: src/sound.c:310
+#: src/sound.c:315
 #, c-format
 msgid ""
 "Audio was enabled for Enlightenment but there was an error\n"
@@ -2043,19 +2043,19 @@ msgstr ""
 "オーディオサーバー (%s) との通信中にエラーが起きました。\n"
 "オーディオを無効にします。\n"
 
-#: src/sound.c:463
+#: src/sound.c:468
 msgid "Enable sounds"
 msgstr "音響機能を有効にする"
 
-#: src/sound.c:469
+#: src/sound.c:474
 msgid "Sound"
 msgstr "サウンド"
 
-#: src/sound.c:469
+#: src/sound.c:474
 msgid "Audio Settings"
 msgstr "オーディオ設定"
 
-#: src/sound.c:473
+#: src/sound.c:478
 msgid ""
 "Enlightenment Audio\n"
 "Settings Dialog"

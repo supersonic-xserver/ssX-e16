@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2019-05-18 07:11+0200\n"
+"POT-Creation-Date: 2019-10-23 19:06+0200\n"
 "PO-Revision-Date: 2010-05-09 01:20+0000\n"
 "Last-Translator: luojie-dune <Unknown>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
@@ -174,8 +174,8 @@ msgstr "退出 Enlightenment"
 msgid "Attention !!!"
 msgstr "注意！！！"
 
-#: src/alert.c:581 src/dialog.c:679 src/dialog.c:1814 src/events.c:103
-#: src/setup.c:163 src/setup.c:176 src/sound.c:309
+#: src/alert.c:581 src/dialog.c:679 src/dialog.c:1814 src/events.c:104
+#: src/setup.c:163 src/setup.c:176 src/sound.c:314
 msgid "OK"
 msgstr "确定"
 
@@ -704,11 +704,11 @@ msgstr ""
 "上海，修复以及渲染扩展\n"
 "的装载情况。"
 
-#: src/events.c:103
+#: src/events.c:104
 msgid "X server setup error"
 msgstr "X 服务设置错误"
 
-#: src/events.c:104
+#: src/events.c:105
 msgid ""
 "FATAL ERROR:\n"
 "\n"
@@ -1879,11 +1879,11 @@ msgstr ""
 msgid "Error saving snaps file"
 msgstr "保存快照文件出错"
 
-#: src/sound.c:212
+#: src/sound.c:217
 msgid "Error finding sound file"
 msgstr "查找声音文件出错"
 
-#: src/sound.c:213
+#: src/sound.c:218
 #, c-format
 msgid ""
 "Warning!  Enlightenment was unable to load the\n"
@@ -1898,11 +1898,11 @@ msgstr ""
 "Enlightenment 会继续工作，但您或许想要\n"
 "检查当前设定。\n"
 
-#: src/sound.c:309
+#: src/sound.c:314
 msgid "Error initialising sound"
 msgstr "初始化声音出错"
 
-#: src/sound.c:310
+#: src/sound.c:315
 #, c-format
 msgid ""
 "Audio was enabled for Enlightenment but there was an error\n"
@@ -1912,19 +1912,19 @@ msgstr ""
 "对应 Enlightenlment 的音频开启了不过联系\n"
 "音频服务器(%s)出现错误，因而禁止音频。\n"
 
-#: src/sound.c:463
+#: src/sound.c:468
 msgid "Enable sounds"
 msgstr "启用声音"
 
-#: src/sound.c:469
+#: src/sound.c:474
 msgid "Sound"
 msgstr "声音"
 
-#: src/sound.c:469
+#: src/sound.c:474
 msgid "Audio Settings"
 msgstr "音频设置"
 
-#: src/sound.c:473
+#: src/sound.c:478
 msgid ""
 "Enlightenment Audio\n"
 "Settings Dialog"

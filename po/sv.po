@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2019-05-18 07:11+0200\n"
+"POT-Creation-Date: 2019-10-23 19:06+0200\n"
 "PO-Revision-Date: 2009-11-09 14:47+0000\n"
 "Last-Translator: Bernt Holmberg <Unknown>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -163,8 +163,8 @@ msgstr "Avsluta Enlightenment"
 msgid "Attention !!!"
 msgstr "Uppmärksamhet!!!"
 
-#: src/alert.c:581 src/dialog.c:679 src/dialog.c:1814 src/events.c:103
-#: src/setup.c:163 src/setup.c:176 src/sound.c:309
+#: src/alert.c:581 src/dialog.c:679 src/dialog.c:1814 src/events.c:104
+#: src/setup.c:163 src/setup.c:176 src/sound.c:314
 msgid "OK"
 msgstr "Ok"
 
@@ -678,11 +678,11 @@ msgid ""
 "extensions are loaded."
 msgstr ""
 
-#: src/events.c:103
+#: src/events.c:104
 msgid "X server setup error"
 msgstr "X server installationsfel"
 
-#: src/events.c:104
+#: src/events.c:105
 msgid ""
 "FATAL ERROR:\n"
 "\n"
@@ -1906,11 +1906,11 @@ msgstr ""
 msgid "Error saving snaps file"
 msgstr "Fel vid sparande av snaps fil"
 
-#: src/sound.c:212
+#: src/sound.c:217
 msgid "Error finding sound file"
 msgstr "Fel vid sökning efter ljudfil"
 
-#: src/sound.c:213
+#: src/sound.c:218
 #, c-format
 msgid ""
 "Warning!  Enlightenment was unable to load the\n"
@@ -1925,11 +1925,11 @@ msgstr ""
 "Enlightenment kommer att fortsätta fungera, men du kanske\n"
 "vill kontrollera dina konfigureringsinställningar.\n"
 
-#: src/sound.c:309
+#: src/sound.c:314
 msgid "Error initialising sound"
 msgstr "Fel vid initiering av ljud"
 
-#: src/sound.c:310
+#: src/sound.c:315
 #, c-format
 msgid ""
 "Audio was enabled for Enlightenment but there was an error\n"
@@ -1937,19 +1937,19 @@ msgid ""
 "Audio will now be disabled.\n"
 msgstr ""
 
-#: src/sound.c:463
+#: src/sound.c:468
 msgid "Enable sounds"
 msgstr "Möjliggör ljud"
 
-#: src/sound.c:469
+#: src/sound.c:474
 msgid "Sound"
 msgstr ""
 
-#: src/sound.c:469
+#: src/sound.c:474
 msgid "Audio Settings"
 msgstr "Ljudinställningar"
 
-#: src/sound.c:473
+#: src/sound.c:478
 msgid ""
 "Enlightenment Audio\n"
 "Settings Dialog"
