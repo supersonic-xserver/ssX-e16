@@ -6038,3 +6038,14 @@ Make config dialog edge flip mode changes take effect immediately
 Add gobject-2.0 dependency in case pango doesn't include it
 Fix build without composite
 Fix potential gcc9 warning
+
+-------------------------------------------------------------------------------
+
+Thu 24 Oct 2019 06:52:44 PM CEST
+
+--- 1.0.21 ---
+Include potentially missing sys/select.h (Ingo Feinerer)
+Explicitly include sys/select.h where needed
+Fix using sound in modular build
+Add sndio sound back end (Ingo Feinerer/Jonathan Armani)
+e_gen_menu: menu generation speedups (Thanatermesis)
