@@ -74,6 +74,7 @@ $ENV{'PATH'} = "$EdirBin:$ENV{'PATH'}";
 $DoIconv = `which iconv`;
 
 @CatsRemove = (
+	"ConsoleOnly",
 	"Qt",
 	"QT",
 	"GTK",
