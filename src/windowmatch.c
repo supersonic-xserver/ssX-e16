@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2005-2018 Kim Woelders
+ * Copyright (C) 2005-2019 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -244,15 +244,10 @@ WindowMatchConfigLoad(FILE * fs)
 	     break;
 
 	  case WINDOWMATCH_ICON:
-#if 0				/* This has not been active since at least 0.16.5 */
 	     if (!wm)
 		break;
-	     wm->icon = ImageclassFind(s2, 0);
-	     if (!wm->icon)
-		break;
+	     wm->args = Estrdup(s2);
 	     wm->op = MATCH_OP_ICON;
-	     wm->icon->ref_count++;
-#endif
 	     break;
 
 	  case WINDOWMATCH_DESKTOP:
