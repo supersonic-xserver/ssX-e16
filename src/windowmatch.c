@@ -268,6 +268,7 @@ WindowMatchConfigLoad(FILE * fs)
 	     if (!wm)
 		break;
 	     wm->args = Estrdupcat2(wm->args, ":", "stick");
+	     wm->op = MATCH_OP_WINOP;
 	     break;
 
 	  default:
