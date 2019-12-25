@@ -234,7 +234,6 @@ WindowMatchConfigLoad(FILE * fs)
 	     wm->qual = !atoi(s2);
 	     break;
 
-	  case CONFIG_BORDER:
 	  case WINDOWMATCH_USEBORDER:
 	     if (!wm)
 		break;
@@ -245,7 +244,6 @@ WindowMatchConfigLoad(FILE * fs)
 	     break;
 
 	  case WINDOWMATCH_ICON:
-	  case CONFIG_ICONBOX:
 #if 0				/* This has not been active since at least 0.16.5 */
 	     if (!wm)
 		break;
@@ -258,7 +256,6 @@ WindowMatchConfigLoad(FILE * fs)
 	     break;
 
 	  case WINDOWMATCH_DESKTOP:
-	  case CONFIG_DESKTOP:
 #if 0				/* This has not been active since at least 0.16.5 */
 	     wm->desk = atoi(s2);
 #endif
