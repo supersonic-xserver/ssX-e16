@@ -155,7 +155,10 @@ WindowMatchConfigLoad(FILE * fs)
 	     if (wm)
 	       {
 		  if (!wm->match || !wm->op)
-		     WindowMatchDestroy(wm);
+		    {
+		       Eprintf("%s: Skip invalid '%s'\n", __func__, wm->name);
+		       WindowMatchDestroy(wm);
+		    }
 		  wm = NULL;
 		  err = 0;
 	       }
