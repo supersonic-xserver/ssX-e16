@@ -625,27 +625,6 @@ __MATCH_WINDOW __BGN;\
   __IS_SHAPED __ON;\
 __END
 
-#define USE_ICON_IMAGECLASS_FOR_CLIENT_TITLE(title, iclass) \
-__MATCH_WINDOW __BGN;\
-  __NAME iclass"_MATCH";\
-  __USE_ICON iclass;\
-  __HAS_TITLE title;\
-__END
-
-#define USE_ICON_IMAGECLASS_FOR_CLIENT_NAME(name, iclass) \
-__MATCH_WINDOW __BGN;\
-  __NAME iclass"_MATCH";\
-  __USE_ICON iclass;\
-  __HAS_NAME name;\
-__END
-
-#define USE_ICON_IMAGECLASS_FOR_CLIENT_CLASS(class, iclass) \
-__MATCH_WINDOW __BGN;\
-  __NAME iclass"_MATCH";\
-  __USE_ICON iclass;\
-  __HAS_CLASS class;\
-__END
-
 #define USE_ICON_IMAGE_FOR_CLIENT_TITLE(title, image) \
 __ICLASS __BGN;\
   __NAME image"_ICLASS";\
@@ -679,32 +658,6 @@ __MATCH_WINDOW __BGN;\
   __HAS_CLASS class;\
 __END
 
-#define USE_ICON_IMAGES_FOR_CLIENT_TITLE(title, image, image2, image3) \
-__ICLASS __BGN;\
-  __NAME image"_ICLASS";\
-  __NORMAL image;\
-  __HILITED image2;\
-  __CLICKED image3;\
-__END;\
-__MATCH_WINDOW __BGN;\
-  __NAME image"_MATCH";\
-  __USE_ICON image"_ICLASS";\
-  __HAS_TITLE title;\
-__END
-
-#define USE_ICON_IMAGES_FOR_CLIENT_NAME(name, image, image2, image3) \
-__ICLASS __BGN;\
-  __NAME image"_ICLASS";\
-  __NORMAL image;\
-  __HILITED image2;\
-  __CLICKED image3;\
-__END;\
-__MATCH_WINDOW __BGN;\
-  __NAME image"_MATCH";\
-  __USE_ICON image"_ICLASS";\
-  __HAS_NAME name;\
-__END
-
 #define MAKE_WINDOW_STICKY_BY_TITLE(title) \
 __MATCH_WINDOW __BGN;\
   __NAME title_"STICKYTITLE";\
@@ -726,26 +679,17 @@ __MATCH_WINDOW __BGN;\
   __HAS_NAME name;\
 __END
 
-#define WINDOW_ON_DESK_BY_NAME(name,desk) \
-__MATCH_WINDOW __BGN;\
-  __NAME name"_DESKNAME";\
-  __DESKTOP desk;\
-  __HAS_NAME name;\
-__END
+/* Obsolete windowmatch macros */
+#define USE_ICON_IMAGECLASS_FOR_CLIENT_TITLE(title, iclass)
+#define USE_ICON_IMAGECLASS_FOR_CLIENT_NAME(name, iclass)
+#define USE_ICON_IMAGECLASS_FOR_CLIENT_CLASS(class, iclass)
 
-#define WINDOW_ON_DESK_BY_TITLE(title,desk) \
-__MATCH_WINDOW __BGN;\
-  __NAME title"_DESKTITLE";\
-  __DESKTOP desk;\
-  __HAS_TITLE title;\
-__END
+#define USE_ICON_IMAGES_FOR_CLIENT_TITLE(title, image, image2, image3)
+#define USE_ICON_IMAGES_FOR_CLIENT_NAME(name, image, image2, image3)
 
-#define WINDOW_ON_DESK_BY_CLASS(class,desk) \
-__MATCH_WINDOW __BGN;\
-  __NAME class"_DESKCLASS";\
-  __DESKTOP desk;\
-  __HAS_TITLE class;\
-__END
+#define WINDOW_ON_DESK_BY_NAME(name,desk)
+#define WINDOW_ON_DESK_BY_TITLE(title,desk)
+#define WINDOW_ON_DESK_BY_CLASS(class,desk)
 
 /*********** Menu creation macros **********************************/
 #define BEGIN_NEW_DIRSCAN_MENU(name, style, directory) \
