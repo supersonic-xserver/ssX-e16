@@ -929,12 +929,6 @@ WindowMatchSighan(int sig, void *prm __UNUSED__)
 		       WindowMatchConfigLoad, 1);
 #endif
 	ConfigFileLoad("matches.cfg", NULL, WindowMatchConfigLoad2, 0);
-#if 0
-	WindowMatchConfigLoadUser();
-#endif
-#if 0
-	IcondefChecker(0, NULL);
-#endif
 	break;
      }
 }
