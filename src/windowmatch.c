@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2005-2019 Kim Woelders
+ * Copyright (C) 2005-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -135,11 +135,12 @@ WindowMatchConfigLoad(FILE * fs)
    WindowMatch        *wm = 0;
    char                s[FILEPATH_LEN_MAX];
    char                s2[FILEPATH_LEN_MAX];
+   char               *p2;
    int                 i1;
 
    while (GetLine(s, sizeof(s), fs))
      {
-	i1 = ConfigParseline1(s, s2, NULL, NULL);
+	i1 = ConfigParseline1(s, s2, &p2, NULL);
 	switch (i1)
 	  {
 	  case CONFIG_VERSION:
@@ -168,19 +169,19 @@ WindowMatchConfigLoad(FILE * fs)
 	     if (!wm)
 		break;
 	     wm->match = MATCH_TYPE_TITLE;
-	     wm->value = Estrdup(s2);
+	     wm->value = Estrdup(p2);
 	     break;
 	  case WINDOWMATCH_MATCHNAME:
 	     if (!wm)
 		break;
 	     wm->match = MATCH_TYPE_WM_NAME;
-	     wm->value = Estrdup(s2);
+	     wm->value = Estrdup(p2);
 	     break;
 	  case WINDOWMATCH_MATCHCLASS:
 	     if (!wm)
 		break;
 	     wm->match = MATCH_TYPE_WM_CLASS;
-	     wm->value = Estrdup(s2);
+	     wm->value = Estrdup(p2);
 	     break;
 
 	  case WINDOWMATCH_WIDTH:
