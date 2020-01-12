@@ -1,4 +1,4 @@
-.TH e16 1 %VERSION%
+.TH e16 1 @VERSION@
 .SH NAME
 e16 \- The Enlightenment DR16 window manager
 
@@ -43,7 +43,7 @@ Print e16 version and exit.
 Start e16 running within a window. Mostly for debugging.
 
 .SH "SEE ALSO"
-%DOCDIR%/e16.html
+@DOCDIR@/e16.html
 .\".br
 .\"eesh(1)
 

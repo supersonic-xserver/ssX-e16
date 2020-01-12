@@ -41,7 +41,7 @@ CLEANFILES = $(DESKTOPS_APP) $(XSESSION_MISC) $(XSESSION_GNOME2) starte16
 starte16: $(srcdir)/starte16.in Makefile
 
 starte16:
-	sed -e "s=%bindir%=${bindir}=" $(srcdir)/$@.in > $@
+	sed -e "s=\@bindir\@=${bindir}=" $(srcdir)/$@.in > $@
 
 e16.desktop: $(srcdir)/e16.desktop.in Makefile
 e16-gnome.desktop: $(srcdir)/e16-gnome.desktop.in Makefile

@@ -6,8 +6,8 @@ CLEANFILES = e16.1
 MAINTAINERCLEANFILES = e16.html
 
 MANSUBST = \
-	-e "s=%VERSION%=${VERSION}=" \
-	-e "s=%DOCDIR%=$(e16docdir)="
+	-e "s=\@VERSION\@=${VERSION}=" \
+	-e "s=\@DOCDIR\@=$(e16docdir)="
 
 e16.1: e16.man.in
 	sed $(MANSUBST) $< > $@
