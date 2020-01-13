@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2015 Kim Woelders
+ * Copyright (C) 2011-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -22,9 +22,8 @@
  */
 #include "config.h"
 
-#if USE_MONOTONIC_CLOCK
 #include <time.h>
-#else
+#if !USE_MONOTONIC_CLOCK
 #include <sys/time.h>
 #endif
 

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2019 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -128,7 +128,7 @@ ThemePathName(const char *path)
 static void
 _append_merge_dir(char *dir, char ***list, int *count)
 {
-   char                ss[2048], s1[FILEPATH_LEN_MAX];
+   char                ss[4000], s1[FILEPATH_LEN_MAX];
    char              **str, *s;
    int                 i, num;
 
@@ -213,7 +213,7 @@ ThemesList(int *number)
 static char        *
 _ThemeExtract(const char *path)
 {
-   char                th[2048];
+   char                th[4000];
    FILE               *f;
    unsigned char       buf[262];
    size_t              ret;
@@ -274,7 +274,7 @@ ThemePathFind(const char *theme)
    static const char  *const default_themes[] = {
       "DEFAULT", "winter", "BrushedMetal-Tigert", "ShinyMetal", NULL
    };
-   char                tpbuf[FILEPATH_LEN_MAX], *path;
+   char                tpbuf[4000], *path;
    char              **lst;
    int                 i, j, num;
 
@@ -339,7 +339,7 @@ ThemePathFind(const char *theme)
 void
 ThemeFind(const char *theme)
 {
-   char                name[2048];
+   char                name[4000];
    char                namx[FILEPATH_LEN_MAX];
    const char         *p;
    char               *path, *s;

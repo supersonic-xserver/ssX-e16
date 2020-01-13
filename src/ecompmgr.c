@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -440,10 +440,10 @@ gaussian(float r, float x, float y)
 }
 
 static conv        *
-make_gaussian_map(float r)
+make_gaussian_map(int r)
 {
    conv               *c;
-   int                 size = ((int)ceilf((r * 3)) + 1) & ~1;
+   int                 size = (r * 3 + 1) & ~1;
    int                 center = size / 2;
    int                 x, y;
    float               t, g;
@@ -737,8 +737,7 @@ ECompMgrWinSetExtents(EObj * eo)
 
 	if (!gaussianMap)
 	  {
-	     gaussianMap =
-		make_gaussian_map((float)Conf_compmgr.shadows.blur.radius);
+	     gaussianMap = make_gaussian_map(Conf_compmgr.shadows.blur.radius);
 	     if (!gaussianMap)
 		goto skip_shadow;
 	  }

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2007 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -256,7 +256,7 @@ Estrdup(const char *s)
       return NULL;
    sz = strlen(s);
    ss = EMALLOC(char, sz + 1);
-   strncpy(ss, s, sz + 1);
+   memcpy(ss, s, sz + 1);
 
    return ss;
 }

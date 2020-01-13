@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2018 Kim Woelders
+ * Copyright (C) 2007-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -353,7 +353,7 @@ EGlTextureFromImage(EImage * im, int mode)
    glBindTexture(et->target, et->texture);
 
    EImageGetSize(im, &w, &h);
-   data = EImageGetData(im);
+   data = (unsigned char *)EImageGetData(im);
 
    switch (mode)
      {

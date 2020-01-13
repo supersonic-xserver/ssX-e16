@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2019 Kim Woelders
+ * Copyright (C) 2007-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -770,6 +770,8 @@ static const CfgItem GlwinCfgItems[] = {
 /*
  * Module descriptor
  */
+extern const EModule ModGlwin;
+
 const EModule       ModGlwin = {
    "glwin", NULL,
    GlwinSighan,
