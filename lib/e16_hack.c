@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2005-2007 Carsten Haitzler
- * Copyright (C) 2006-2010 Kim Woelders
+ * Copyright (C) 2006-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -141,4 +141,23 @@ XReparentWindow(Display * display, Window window, Window parent, int x, int y)
       parent = MyRoot(display);
 
    return (*func) (display, window, parent, x, y);
+}
+
+typedef int         (SEF) (Display * display, Window window, Bool propagate,
+			   long event_mask, XEvent * event_send);
+
+/* XSendEvent intercept hack */
+__EXPORT__ int
+XSendEvent(Display * display, Window window, Bool propagate,
+	   long event_mask, XEvent * event_send)
+{
+   static SEF         *func = NULL;
+
+   if (!func)
+      func = (SEF *) GetFunc("XSendEvent");
+
+   if (window == DefaultRootWindow(display))
+      window = MyRoot(display);
+
+   return (*func) (display, window, propagate, event_mask, event_send);
 }
