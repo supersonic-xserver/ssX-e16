@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2018 Kim Woelders
+ * Copyright (C) 2003-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -975,8 +975,9 @@ EWMH_ProcessClientClientMessage(EWin * ewin, XClientMessageEvent * ev)
 		  maxh = do_set(maxh, action);
 	       }
 
-	     if ((ewin->state.maximized_horz != maxh) ||
-		 (ewin->state.maximized_vert != maxv))
+	     maxh = ewin->state.maximized_horz != maxh;
+	     maxv = ewin->state.maximized_vert != maxv;
+	     if (maxh || maxv)
 	       {
 		  MaxSizeHV(ewin, "available", maxh, maxv);
 		  EWMH_SetWindowState(ewin);
