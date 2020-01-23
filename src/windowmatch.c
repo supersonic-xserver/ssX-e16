@@ -408,7 +408,7 @@ WindowMatchDecode(const char *line)
 }
 
 static char        *
-WindowMatchEncode(WindowMatch * wm, char *buf, int len)
+WindowMatchEncode(const WindowMatch * wm, char *buf, int len)
 {
    char                s[1024];
    const char         *qual, *value, *args;
@@ -576,8 +576,8 @@ typedef struct {
 static int
 WindowMatchTypeMatch(const void *data, const void *match)
 {
-   const WindowMatch  *wm = (WindowMatch *) data;
-   const wmatch_type_data *wmtd = (wmatch_type_data *) match;
+   const WindowMatch  *wm = (const WindowMatch *)data;
+   const wmatch_type_data *wmtd = (const wmatch_type_data *)match;
 
    return !(wm->op == wmtd->type && WindowMatchEwinTest(wm, wmtd->ewin));
 }
@@ -872,9 +872,9 @@ WindowMatchEobjOpsParse(EObj * eo, const char *ops)
 }
 
 static void
-_WindowMatchEwinFunc(void *_wm, void *_ew)
+_WindowMatchEwinFunc(const void *_wm, void *_ew)
 {
-   const WindowMatch  *wm = (WindowMatch *) _wm;
+   const WindowMatch  *wm = (const WindowMatch *)_wm;
    EWin               *ew = (EWin *) _ew;
 
    if (wm->op != MATCH_OP_WINOP || !WindowMatchEwinTest(wm, ew))
@@ -887,7 +887,7 @@ _WindowMatchEwinFunc(void *_wm, void *_ew)
 void
 WindowMatchEwinOps(EWin * ew)
 {
-   WindowMatch        *wm;
+   const WindowMatch  *wm;
 
    LIST_FOR_EACH(WindowMatch, &wm_list, wm) _WindowMatchEwinFunc(wm, ew);
 }
