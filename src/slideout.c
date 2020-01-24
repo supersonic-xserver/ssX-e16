@@ -60,8 +60,6 @@ typedef struct {
 #define DIR_UP          2
 #define DIR_DOWN        3
 
-static void         SlideoutCalcSize(Slideout * s);
-
 static              LIST_HEAD(slideout_list);
 
 static struct {
@@ -93,6 +91,80 @@ SlideoutCreate(const char *name, char dir)
 }
 
 static void
+SlideoutCalcSize(Slideout * s)
+{
+   int                 i;
+   int                 sw, sh, bw, bh;
+
+   sw = sh = 0;
+   for (i = 0; i < s->num_objs; i++)
+     {
+	bw = EobjGetW(s->objs[i]);
+	bh = EobjGetH(s->objs[i]);
+
+	switch (s->direction)
+	  {
+	  case DIR_UP:
+	  case DIR_DOWN:
+	     if (bw > sw)
+		sw = bw;
+	     sh += bh;
+	     break;
+	  case DIR_LEFT:
+	  case DIR_RIGHT:
+	     if (bh > sh)
+		sh = bh;
+	     sw += bw;
+	     break;
+	  default:
+	     break;
+	  }
+     }
+
+   EoResize(s, sw, sh);
+}
+
+static void
+SlideoutArrange(Slideout * s)
+{
+   int                 i, x, y;
+   int                 sw, sh, bw, bh;
+
+   x = y = 0;
+   sw = EoGetW(s);
+   sh = EoGetH(s);
+
+   for (i = 0; i < s->num_objs; i++)
+     {
+	bw = EobjGetW(s->objs[i]);
+	bh = EobjGetH(s->objs[i]);
+
+	switch (s->direction)
+	  {
+	  case DIR_UP:
+	     y += bh;
+	     EMoveWindow(EobjGetWin(s->objs[i]), (sw - bw) >> 1, sh - y);
+	     break;
+	  case DIR_DOWN:
+	     EMoveWindow(EobjGetWin(s->objs[i]), (sw - bw) >> 1, y);
+	     y += bh;
+	     break;
+	  case DIR_LEFT:
+	     x += bw;
+	     EMoveWindow(EobjGetWin(s->objs[i]), sw - x, (sh - bh) >> 1);
+	     break;
+	  case DIR_RIGHT:
+	     EMoveWindow(EobjGetWin(s->objs[i]), x, (sh - bh) >> 1);
+	     x += bw;
+	     break;
+	  default:
+	     break;
+	  }
+     }
+   EShapePropagate(EoGetWin(s));
+}
+
+static void
 SlideoutShow(Slideout * s, EWin * ewin, Win win)
 {
    int                 x, y, i, xx, yy, sw, sh;
@@ -106,6 +178,7 @@ SlideoutShow(Slideout * s, EWin * ewin, Win win)
       return;
 
    SlideoutCalcSize(s);
+   SlideoutArrange(s);
    EGetGeometry(win, NULL, NULL, NULL, &w, &h, NULL, NULL);
    ETranslateCoordinates(win, VROOT, 0, 0, &x, &y, NULL);
 
@@ -263,75 +336,6 @@ SlideoutHide(Slideout * s)
 }
 
 static void
-SlideoutCalcSize(Slideout * s)
-{
-   int                 i, x, y;
-   int                 sw, sh, bw, bh;
-
-   if (!s)
-      return;
-
-   sw = 0;
-   sh = 0;
-   x = 0;
-   y = 0;
-   for (i = 0; i < s->num_objs; i++)
-     {
-	bw = EobjGetW(s->objs[i]);
-	bh = EobjGetH(s->objs[i]);
-
-	switch (s->direction)
-	  {
-	  case DIR_UP:
-	  case DIR_DOWN:
-	     if (bw > sw)
-		sw = bw;
-	     sh += bh;
-	     break;
-	  case DIR_LEFT:
-	  case DIR_RIGHT:
-	     if (bh > sh)
-		sh = bh;
-	     sw += bw;
-	     break;
-	  default:
-	     break;
-	  }
-     }
-
-   EoResize(s, sw, sh);
-
-   for (i = 0; i < s->num_objs; i++)
-     {
-	bw = EobjGetW(s->objs[i]);
-	bh = EobjGetH(s->objs[i]);
-
-	switch (s->direction)
-	  {
-	  case DIR_UP:
-	     y += bh;
-	     EMoveWindow(EobjGetWin(s->objs[i]), (sw - bw) >> 1, sh - y);
-	     break;
-	  case DIR_DOWN:
-	     EMoveWindow(EobjGetWin(s->objs[i]), (sw - bw) >> 1, y);
-	     y += bh;
-	     break;
-	  case DIR_LEFT:
-	     x += bw;
-	     EMoveWindow(EobjGetWin(s->objs[i]), sw - x, (sh - bh) >> 1);
-	     break;
-	  case DIR_RIGHT:
-	     EMoveWindow(EobjGetWin(s->objs[i]), x, (sh - bh) >> 1);
-	     x += bw;
-	     break;
-	  default:
-	     break;
-	  }
-     }
-   EShapePropagate(EoGetWin(s));
-}
-
-static void
 SlideoutButtonCallback(void *prm, XEvent * ev, ActionClass * ac)
 {
    Slideout           *s = (Slideout *) prm;
@@ -360,7 +364,6 @@ SlideoutAddButton(Slideout * s, const char *bname)
    s->objs = EREALLOC(EObj *, s->objs, s->num_objs);
    s->objs[s->num_objs - 1] = ButtonSwallowInto(b, EoObj(s));
    ButtonSetCallback(b, SlideoutButtonCallback, s);
-   SlideoutCalcSize(s);
 }
 
 #if 0
