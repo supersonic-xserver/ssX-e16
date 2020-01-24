@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -54,6 +54,11 @@ typedef struct {
    unsigned int        ref_count;
    EWin               *context_ewin;
 } Slideout;
+
+#define DIR_LEFT        0
+#define DIR_RIGHT       1
+#define DIR_UP          2
+#define DIR_DOWN        3
 
 static void         SlideoutCalcSize(Slideout * s);
 
@@ -110,49 +115,49 @@ SlideoutShow(Slideout * s, EWin * ewin, Win win)
    yy = 0;
    switch (s->direction)
      {
-     case 2:
+     case DIR_UP:
 	xx = x + ((w - sw) >> 1);
 	yy = y - sh;
 	if ((yy < 0) && (sh < WinGetH(VROOT)))
 	  {
 	     pdir = s->direction;
-	     s->direction = 1;
+	     s->direction = DIR_DOWN;
 	     SlideoutShow(s, ewin, win);
 	     s->direction = pdir;
 	     return;
 	  }
 	break;
-     case 3:
+     case DIR_DOWN:
 	xx = x + ((w - sw) >> 1);
 	yy = y + h;
 	if (((yy + sh) > WinGetH(VROOT)) && (sh < WinGetH(VROOT)))
 	  {
 	     pdir = s->direction;
-	     s->direction = 0;
+	     s->direction = DIR_UP;
 	     SlideoutShow(s, ewin, win);
 	     s->direction = pdir;
 	     return;
 	  }
 	break;
-     case 0:
+     case DIR_LEFT:
 	xx = x - sw;
 	yy = y + ((h - sh) >> 1);
 	if ((xx < 0) && (sw < WinGetW(VROOT)))
 	  {
 	     pdir = s->direction;
-	     s->direction = 1;
+	     s->direction = DIR_RIGHT;
 	     SlideoutShow(s, ewin, win);
 	     s->direction = pdir;
 	     return;
 	  }
 	break;
-     case 1:
+     case DIR_RIGHT:
 	xx = x + w;
 	yy = y + ((h - sh) >> 1);
 	if (((xx + sw) > WinGetW(VROOT)) && (sw < WinGetW(VROOT)))
 	  {
 	     pdir = s->direction;
-	     s->direction = 0;
+	     s->direction = DIR_LEFT;
 	     SlideoutShow(s, ewin, win);
 	     s->direction = pdir;
 	     return;
@@ -185,7 +190,7 @@ SlideoutShow(Slideout * s, EWin * ewin, Win win)
 
    switch (s->direction)
      {
-     case 0:
+     case DIR_LEFT:
 	att.win_gravity = SouthEastGravity;
 	EChangeWindowAttributes(EoGetWin(s), CWWinGravity, &att);
 	att.win_gravity = NorthWestGravity;
@@ -197,7 +202,7 @@ SlideoutShow(Slideout * s, EWin * ewin, Win win)
 	EobjSlideSizeTo(EoObj(s), xx + sw, yy, xx, yy, 1, sh, sw, sh,
 			Conf.shading.speed);
 	break;
-     case 1:
+     case DIR_RIGHT:
 	att.win_gravity = NorthWestGravity;
 	EChangeWindowAttributes(EoGetWin(s), CWWinGravity, &att);
 	att.win_gravity = SouthEastGravity;
@@ -209,7 +214,7 @@ SlideoutShow(Slideout * s, EWin * ewin, Win win)
 	EobjSlideSizeTo(EoObj(s), xx, yy, xx, yy, 1, sh, sw, sh,
 			Conf.shading.speed);
 	break;
-     case 2:
+     case DIR_UP:
 	att.win_gravity = SouthEastGravity;
 	EChangeWindowAttributes(EoGetWin(s), CWWinGravity, &att);
 	att.win_gravity = NorthWestGravity;
@@ -221,7 +226,7 @@ SlideoutShow(Slideout * s, EWin * ewin, Win win)
 	EobjSlideSizeTo(EoObj(s), xx, yy + sh, xx, yy, sw, 1, sw, sh,
 			Conf.shading.speed);
 	break;
-     case 3:
+     case DIR_DOWN:
 	att.win_gravity = NorthWestGravity;
 	EChangeWindowAttributes(EoGetWin(s), CWWinGravity, &att);
 	att.win_gravity = SouthEastGravity;
@@ -277,14 +282,14 @@ SlideoutCalcSize(Slideout * s)
 
 	switch (s->direction)
 	  {
-	  case 2:
-	  case 3:
+	  case DIR_UP:
+	  case DIR_DOWN:
 	     if (bw > sw)
 		sw = bw;
 	     sh += bh;
 	     break;
-	  case 0:
-	  case 1:
+	  case DIR_LEFT:
+	  case DIR_RIGHT:
 	     if (bh > sh)
 		sh = bh;
 	     sw += bw;
@@ -303,19 +308,19 @@ SlideoutCalcSize(Slideout * s)
 
 	switch (s->direction)
 	  {
-	  case 2:
+	  case DIR_UP:
 	     y += bh;
 	     EMoveWindow(EobjGetWin(s->objs[i]), (sw - bw) >> 1, sh - y);
 	     break;
-	  case 3:
+	  case DIR_DOWN:
 	     EMoveWindow(EobjGetWin(s->objs[i]), (sw - bw) >> 1, y);
 	     y += bh;
 	     break;
-	  case 0:
+	  case DIR_LEFT:
 	     x += bw;
 	     EMoveWindow(EobjGetWin(s->objs[i]), sw - x, (sh - bh) >> 1);
 	     break;
-	  case 1:
+	  case DIR_RIGHT:
 	     EMoveWindow(EobjGetWin(s->objs[i]), x, (sh - bh) >> 1);
 	     x += bw;
 	     break;
