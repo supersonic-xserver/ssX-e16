@@ -125,7 +125,7 @@ SlideoutCalcSize(Slideout * s)
 }
 
 static void
-SlideoutArrange(Slideout * s)
+SlideoutArrange(Slideout * s, int dir)
 {
    int                 i, x, y;
    int                 sw, sh, bw, bh;
@@ -139,7 +139,7 @@ SlideoutArrange(Slideout * s)
 	bw = EobjGetW(s->objs[i]);
 	bh = EobjGetH(s->objs[i]);
 
-	switch (s->direction)
+	switch (dir)
 	  {
 	  case DIR_UP:
 	     y += bh;
@@ -168,7 +168,7 @@ static void
 SlideoutShow(Slideout * s, EWin * ewin, Win win)
 {
    int                 x, y, i, xx, yy, sw, sh;
-   char                pdir;
+   int                 dir;
    XSetWindowAttributes att;
    int                 w, h;
    Desk               *dsk;
@@ -178,7 +178,6 @@ SlideoutShow(Slideout * s, EWin * ewin, Win win)
       return;
 
    SlideoutCalcSize(s);
-   SlideoutArrange(s);
    EGetGeometry(win, NULL, NULL, NULL, &w, &h, NULL, NULL);
    ETranslateCoordinates(win, VROOT, 0, 0, &x, &y, NULL);
 
@@ -186,59 +185,51 @@ SlideoutShow(Slideout * s, EWin * ewin, Win win)
    sh = EoGetH(s);
    xx = 0;
    yy = 0;
-   switch (s->direction)
+
+   dir = s->direction;
+   switch (dir)
      {
      case DIR_UP:
 	xx = x + ((w - sw) >> 1);
 	yy = y - sh;
-	if ((yy < 0) && (sh < WinGetH(VROOT)))
+	if (yy < 0 && WinGetH(VROOT) - (y + h) > y)
 	  {
-	     pdir = s->direction;
-	     s->direction = DIR_DOWN;
-	     SlideoutShow(s, ewin, win);
-	     s->direction = pdir;
-	     return;
+	     dir = DIR_DOWN;
+	     yy = y + h;
 	  }
 	break;
      case DIR_DOWN:
 	xx = x + ((w - sw) >> 1);
 	yy = y + h;
-	if (((yy + sh) > WinGetH(VROOT)) && (sh < WinGetH(VROOT)))
+	if (yy + sh > WinGetH(VROOT) && WinGetH(VROOT) - (y + h) < y)
 	  {
-	     pdir = s->direction;
-	     s->direction = DIR_UP;
-	     SlideoutShow(s, ewin, win);
-	     s->direction = pdir;
-	     return;
+	     dir = DIR_UP;
+	     yy = y - sh;
 	  }
 	break;
      case DIR_LEFT:
 	xx = x - sw;
 	yy = y + ((h - sh) >> 1);
-	if ((xx < 0) && (sw < WinGetW(VROOT)))
+	if (xx < 0 && WinGetW(VROOT) - (x + w) > x)
 	  {
-	     pdir = s->direction;
-	     s->direction = DIR_RIGHT;
-	     SlideoutShow(s, ewin, win);
-	     s->direction = pdir;
-	     return;
+	     dir = DIR_RIGHT;
+	     xx = x + w;
 	  }
 	break;
      case DIR_RIGHT:
 	xx = x + w;
 	yy = y + ((h - sh) >> 1);
-	if (((xx + sw) > WinGetW(VROOT)) && (sw < WinGetW(VROOT)))
+	if (xx + sw > WinGetW(VROOT) && WinGetW(VROOT) - (x + w) < x)
 	  {
-	     pdir = s->direction;
-	     s->direction = DIR_LEFT;
-	     SlideoutShow(s, ewin, win);
-	     s->direction = pdir;
-	     return;
+	     dir = DIR_LEFT;
+	     xx = x - sw;
 	  }
 	break;
      default:
 	break;
      }
+
+   SlideoutArrange(s, dir);
 
    if (ewin)
      {
@@ -261,7 +252,7 @@ SlideoutShow(Slideout * s, EWin * ewin, Win win)
      }
    EoReparent(s, EoObj(dsk), xx, yy);
 
-   switch (s->direction)
+   switch (dir)
      {
      case DIR_LEFT:
 	att.win_gravity = SouthEastGravity;
