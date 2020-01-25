@@ -95,6 +95,10 @@ main(int argc, char **argv)
    mode = 0;
    display_name = NULL;
    command = NULL;
+#ifdef __clang_analyzer__
+   /* Seems not to understand asm FD_ZERO() */
+   memset(&fd, 0, sizeof(fd));
+#endif
 
    for (i = 1; i < argc; i++)
      {
@@ -105,16 +109,10 @@ main(int argc, char **argv)
 	if (!strcmp(argv[i], "-e"))
 	  {
 	     mode = -1;
-	     if (i != (argc - 1))
-	       {
-		  command = argv[++i];
-	       }
 	  }
 	else if (!strcmp(argv[i], "-ewait"))
 	  {
 	     mode = 1;
-	     if (i != (argc - 1))
-		command = argv[++i];
 	  }
 	else if (!strcmp(argv[i], "-display"))
 	  {
@@ -241,6 +239,7 @@ main(int argc, char **argv)
  done:
    ClientDestroy(e);
    ClientDestroy(me);
+   free(command);
 
    return 0;
 }
