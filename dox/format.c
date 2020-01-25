@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2007-2011 Kim Woelders
+ * Copyright (C) 2007-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -115,7 +115,7 @@ AddPage(Object * obj)
    page[num_pages - 1].linkg = DEFAULT_LINKCOLOR_G;
    page[num_pages - 1].linkb = DEFAULT_LINKCOLOR_B;
 
-   if ((obj) && (obj->type == PAGE))
+   if ((obj) && (obj->type == PAGE) && (obj->object))
      {
 	Page               *pg;
 
@@ -153,7 +153,8 @@ BuildObj(Object * obj, char *var, char *param)
    switch (obj->type)
      {
      case IMG:
-	if (!obj->object)
+	img = obj->object;
+	if (!img)
 	  {
 	     img = EMALLOC(Img_, 1);
 	     obj->object = img;
@@ -182,7 +183,8 @@ BuildObj(Object * obj, char *var, char *param)
      case BR:
 	break;
      case FONT:
-	if (!obj->object)
+	fn = obj->object;
+	if (!fn)
 	  {
 	     fn = EMALLOC(Font_, 1);
 	     obj->object = fn;
@@ -212,7 +214,8 @@ BuildObj(Object * obj, char *var, char *param)
 	  }
 	break;
      case P:
-	if (!obj->object)
+	p = obj->object;
+	if (!p)
 	  {
 	     p = EMALLOC(P_, 1);
 	     obj->object = p;
@@ -228,7 +231,8 @@ BuildObj(Object * obj, char *var, char *param)
      case TEXT:
 	break;
      case PAGE:
-	if (!obj->object)
+	pg = obj->object;
+	if (!pg)
 	  {
 	     pg = EMALLOC(Page, 1);
 	     obj->object = pg;
@@ -456,6 +460,7 @@ GetObjects(FILE * f)
 	in_para = 0;
      }
 
+   obj.type = P;
    obj.object = NULL;
    for (;;)
      {
@@ -465,6 +470,7 @@ GetObjects(FILE * f)
 	     if (txt)
 	       {
 		  obj.type = TEXT;
+		  free(obj.object);
 		  obj.object = (void *)txt;
 	       }
 	     else
@@ -551,7 +557,6 @@ CalcOffset(Page * pg, int col_w, int x, int y, int th, int *pxspace, int *poff)
    Img_               *img;
    int                 j;
 
-   xspace = col_w;
    off = 0;
    sx = x + off;
    sy = y;
@@ -731,15 +736,13 @@ RenderPage(Window win, int page_num, int w, int h)
 		  int                 spaceflag, oldwc = 0, linkwc;
 
 		  wd[0] = 0;
+		  spaceflag = 1;
 #ifdef USE_WORD_MB
 		  if (MB_CUR_MAX > 1)	/* If multibyte locale,... */
 		     word_mb(txt, wc, wd, &spaceflag);
 		  else
 #endif
-		    {
-		       word(txt, wc, wd);
-		       spaceflag = 1;
-		    }
+		     word(txt, wc, wd);
 		  if (!wd[0])
 		     eol = 1;
 
@@ -768,14 +771,12 @@ RenderPage(Window win, int page_num, int w, int h)
 			    islink = 0;
 			    wc = oldwc;
 #ifdef USE_WORD_MB
+			    spaceflag = 1;
 			    if (MB_CUR_MAX > 1)
 			       word_mb(txt, wc - 1, wd, &spaceflag);
 			    else
 #endif
-			      {
-				 word(txt, wc - 1, wd);
-				 spaceflag = 1;
-			      }
+			       word(txt, wc - 1, wd);
 			 }
 		       else
 			 {

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2007-2018 Kim Woelders
+ * Copyright (C) 2007-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -224,15 +224,14 @@ TextDraw(TextState * ts, Window win, char *text,
    XGCValues           gcv;
    static GC           gc = 0;
 
+   if (!ts)
+      return;
+
    lines = TextGetLines(text, &num_lines);
    if (!lines)
       return;
 
-   if (!ts)
-      return;
-
    TextStateLoadFont(ts);
-   xx = x;
    yy = y;
 
    if (!gc)
