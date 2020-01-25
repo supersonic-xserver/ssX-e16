@@ -707,7 +707,7 @@ AclassConfigLineParse(char *s, ActionClass ** pac, Action ** paa)
       return;
    s[len] = '\0';
 
-   prm3[0] = '\0';
+   prm2[0] = prm3[0] = '\0';
    len2 = 0;
    len = sscanf(s, "%16s %n%127s %16s", prm1, &len2, prm2, prm3);
    if (len < 2)
