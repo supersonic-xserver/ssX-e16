@@ -448,7 +448,11 @@ make_gaussian_map(int r)
    int                 x, y;
    float               t, g;
 
+#ifdef __clang_analyzer__
+   c = malloc(sizeof(conv) + size * size * sizeof(float));
+#else
    c = (conv *) EMALLOC(char, sizeof(conv) + size * size * sizeof(float));
+#endif
 
    c->size = size;
    c->data = (float *)(c + 1);
@@ -631,6 +635,9 @@ make_shadow(float opacity, int width, int height)
 	  }
      }
 
+#ifdef __clang_analyzer__
+   free(data);
+#endif
    return ximage;
 }
 

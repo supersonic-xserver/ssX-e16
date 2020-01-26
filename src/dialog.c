@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1125,13 +1125,16 @@ DialogRealizeItem(Dialog * d, DItem * di)
 		c += dii->col_span;
 		if (c >= cols)
 		  {
+		     int                *pi;
+
 		     c = 0;
 		     r++;
 		     rows++;
-		     row_size = EREALLOC(int, row_size, rows);
 
-		     if (!row_size)
+		     pi = EREALLOC(int, row_size, rows);
+		     if (!pi)
 			goto bail_out;
+		     row_size = pi;
 
 		     row_size[rows - 1] = 0;
 		  }

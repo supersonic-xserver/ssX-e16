@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -427,6 +427,23 @@ MenuItemCreate(const char *text, const char *icon,
    return mi;
 }
 
+static void
+MenuItemDestroy(MenuItem * mi, int destroying)
+{
+   int                 i;
+
+   Efree(mi->text);
+   Efree(mi->icon);
+   Efree(mi->params);
+   for (i = 0; i < 3; i++)
+      PmapMaskFree(&(mi->pmm[i]));
+   if (!destroying && mi->win)
+      EDestroyWindow(mi->win);
+   else
+      EventCallbackUnregister(mi->win, MenuItemHandleEvents, mi);
+   Efree(mi);
+}
+
 static int
 _MenuStyleMatchName(const void *data, const void *match)
 {
@@ -609,7 +626,7 @@ MenuDestroy(Menu * m)
 void
 MenuEmpty(Menu * m, int destroying)
 {
-   int                 i, j;
+   int                 i;
    MenuItem           *mi;
 
    for (i = 0; i < m->num; i++)
@@ -621,16 +638,7 @@ MenuEmpty(Menu * m, int destroying)
 	     mi->child->ref_count--;
 	     MenuDestroy(mi->child);
 	  }
-	Efree(mi->text);
-	Efree(mi->icon);
-	Efree(mi->params);
-	for (j = 0; j < 3; j++)
-	   PmapMaskFree(&(mi->pmm[j]));
-	if (!destroying && mi->win)
-	   EDestroyWindow(mi->win);
-	else
-	   EventCallbackUnregister(mi->win, MenuItemHandleEvents, mi);
-	Efree(mi);
+	MenuItemDestroy(mi, destroying);
      }
    EFREE_NULL(m->items);
    m->num = 0;
@@ -672,7 +680,10 @@ MenuAddItem(Menu * m, MenuItem * item)
 
    items = EREALLOC(MenuItem *, m->items, m->num + 1);
    if (!items)
-      return;
+     {
+	MenuItemDestroy(item, 1);
+	return;
+     }
 
    items[m->num] = item;
    m->items = items;

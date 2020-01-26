@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -256,6 +256,7 @@ EobjListFind(const EobjList * ewl, EX_Window win)
    return NULL;
 }
 
+#if 0
 static int
 EobjListTypeCount(const EobjList * ewl, int type)
 {
@@ -267,6 +268,7 @@ EobjListTypeCount(const EobjList * ewl, int type)
 
    return n;
 }
+#endif
 
 /*
  * The global object/client lists
@@ -348,22 +350,22 @@ EwinListStackGet(int *num)
    static EWin       **lst = NULL;
    static int          nalloc = 0;
    const EobjList     *ewl;
-   int                 i, j, newins;
+   int                 i, j;
    EObj               *eo;
 
    ewl = &EwinListStack;
-   newins = EobjListTypeCount(ewl, EOBJ_TYPE_EWIN);
-   if (nalloc < newins)
-     {
-	nalloc = (newins + 16) & ~0xf;	/* 16 at the time */
-	lst = EREALLOC(EWin *, lst, nalloc);
-     }
 
    for (i = j = 0; i < ewl->nwins; i++)
      {
 	eo = ewl->list[i];
 	if (eo->type != EOBJ_TYPE_EWIN)
 	   continue;
+
+	if (nalloc <= j)
+	  {
+	     nalloc += 16;	/* 16 at the time */
+	     lst = EREALLOC(EWin *, lst, nalloc);
+	  }
 
 	lst[j++] = (EWin *) eo;
      }
@@ -384,23 +386,22 @@ EwinListGetForDesk(int *num, Desk * dsk)
    static EWin       **lst = NULL;
    static int          nalloc = 0;
    const EobjList     *ewl;
-   int                 i, j, newins;
+   int                 i, j;
    EObj               *eo;
 
    ewl = &EwinListStack;
-   newins = EobjListTypeCount(ewl, EOBJ_TYPE_EWIN);
-   /* Too many - who cares. */
-   if (nalloc < newins)
-     {
-	nalloc = (newins + 16) & ~0xf;	/* 16 at the time */
-	lst = EREALLOC(EWin *, lst, nalloc);
-     }
 
    for (i = j = 0; i < ewl->nwins; i++)
      {
 	eo = ewl->list[i];
 	if (eo->type != EOBJ_TYPE_EWIN || eo->desk != dsk)
 	   continue;
+
+	if (nalloc <= j)
+	  {
+	     nalloc += 16;	/* 16 at the time */
+	     lst = EREALLOC(EWin *, lst, nalloc);
+	  }
 
 	lst[j++] = (EWin *) eo;
      }

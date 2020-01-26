@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2019 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -396,7 +396,8 @@ ArrangeRects(const RectBox * fixed, int fixed_count, RectBox * floating,
       goto done;
 
    /* copy "fixed" rects into the sorted list */
-   memcpy(sorted, fixed, fixed_count * sizeof(RectBox));
+   if (fixed)
+      memcpy(sorted, fixed, fixed_count * sizeof(RectBox));
    num_sorted = fixed_count;
 
    /* go through each floating rect in order and "fit" it in */
@@ -405,6 +406,9 @@ ArrangeRects(const RectBox * fixed, int fixed_count, RectBox * floating,
 	ArrangeMakeXYArrays(tx1, tx2, ty1, ty2, floating[i].w, floating[i].h,
 			    sorted, num_sorted, xarray, &xsize, yarray, &ysize);
 	num_spaces = xsize * ysize;
+	if (num_spaces <= 0)
+	   continue;
+
 	if (alloc_spaces < num_spaces)
 	  {
 	     unsigned char      *ptr_f;
@@ -427,6 +431,8 @@ ArrangeRects(const RectBox * fixed, int fixed_count, RectBox * floating,
 	/* create list of all "spaces" */
 	ArrangeFindSpaces(xarray, xsize, yarray, ysize, filled,
 			  spaces, alloc_spaces, &num_spaces, floating + i);
+	if (num_spaces <= 0)
+	   continue;
 
 	/* find the first space that fits */
 	k = 0;

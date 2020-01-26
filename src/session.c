@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2019 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -554,7 +554,7 @@ doSMExit(int mode, const char *params)
 	   l += Esnprintf(s + l, sizeof(s) - l, " -X %#x", new_init_win_ext);
 #endif
 	if (ss)
-	   l += Esnprintf(s + l, sizeof(s) - l, " -t %s", ss);
+	   Esnprintf(s + l, sizeof(s) - l, " -t %s", ss);
 
 	if (EDebug(EDBUG_TYPE_SESSION))
 	   Eprintf("%s: exec %s\n", __func__, s);

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1116,14 +1116,6 @@ PagerHiwinInit(Pager * p, EWin * ewin)
    Hiwin              *phi = hiwin;
    int                 wx, wy, ww, wh, px, py;
 
-   if (!phi)
-     {
-	phi = HiwinCreate();
-	if (!phi)
-	   return;
-	hiwin = phi;
-     }
-
    wx = (EwinGetVX(ewin) * p->dw) / WinGetW(VROOT);
    wy = (EwinGetVY(ewin) * p->dh) / WinGetH(VROOT);
    ww = (EoGetW(ewin) * p->dw) / WinGetW(VROOT);
@@ -1151,13 +1143,18 @@ PagerHiwinShow(Pager * p, EWin * ewin, int zoom, int confine)
    if (MenusActive())		/* Don't show HiWin when menu is up */
       return;
 
-   if (!phi || ewin)
+   Dprintf("%s\n", __func__);
+
+   if (!phi)
      {
-	PagerHiwinInit(p, ewin);
-	phi = hiwin;
+	phi = HiwinCreate();
 	if (!phi)
 	   return;
+	hiwin = phi;
      }
+
+   if (ewin)
+      PagerHiwinInit(p, ewin);
 
    HiwinShow(phi, ewin, zoom, confine);
 }

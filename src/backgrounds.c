@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2019 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1306,7 +1306,9 @@ BackgroundsCheckDups(void)
 	   Eprintf("Remove duplicate background %s (==%s)\n", bgx->name,
 		   bg->name);
 #endif
+#ifndef __clang_analyzer__
 	   BackgroundDestroy(bgx);
+#endif
 	}
    }
 }
@@ -1789,6 +1791,8 @@ BGSettingsGoTo(Dialog * d, Background * bg)
       return;
 
    num = LIST_GET_COUNT(&bg_list);
+   if (num <= 0)
+      return;
    i = LIST_GET_INDEX(Background, &bg_list, bg);
    if (i < 0)
       return;

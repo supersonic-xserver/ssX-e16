@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -89,6 +89,8 @@ static const EOpt   Eopts[] = {
    {'w', 1, "window", "WxH", "Run in window"},
    {'X', 1, NULL, NULL, NULL},
 };
+
+#define Strtoi(s, base) ((s) ? strtol(s, NULL, base) : 0)
 
 int
 main(int argc, char **argv)
@@ -189,7 +191,7 @@ main(int argc, char **argv)
 	     break;
 	  case 's':
 	     Mode.wm.single = 1;
-	     Dpy.screen = strtoul(eoptarg, NULL, 10);
+	     Dpy.screen = Strtoi(eoptarg, 10);
 	     break;
 	  case 'S':
 	     SetSMID(eoptarg);
@@ -212,13 +214,13 @@ main(int argc, char **argv)
 	     break;
 #ifdef USE_EXT_INIT_WIN
 	  case 'X':
-	     ExtInitWinSet(strtoul(eoptarg, NULL, 0));
+	     ExtInitWinSet(Strtoi(eoptarg, 0));
 	     Mode.wm.restart = 1;
 	     break;
 #endif
 	  case 'm':
 	     Mode.wm.master = 0;
-	     Mode.wm.master_screen = strtoul(eoptarg, NULL, 10);
+	     Mode.wm.master_screen = Strtoi(eoptarg, 10);
 	     break;
 	  }
      }
