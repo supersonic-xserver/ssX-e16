@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2013 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -23,12 +23,8 @@
  */
 #ifndef _GROUPS_H_
 #define _GROUPS_H_
-#include "ewins.h"
-#include "list.h"
 
-#define GROUP_SELECT_ALL             0
-#define GROUP_SELECT_EWIN_ONLY       1
-#define GROUP_SELECT_ALL_EXCEPT_EWIN 2
+#include "etypes.h"
 
 /* For window group listing */
 #define GROUP_ACTION_ANY                     0
@@ -40,30 +36,15 @@
 #define GROUP_ACTION_SHADE                   6
 #define GROUP_ACTION_SET_WINDOW_BORDER       7
 
-typedef struct _groupconfig {
-   char                iconify;
-   char                kill;
-   char                move;
-   char                raise;
-   char                set_border;
-   char                shade;
-   char                stick;
-} GroupConfig;
-
-struct _group {
-   dlist_t             list;
-   int                 index;
-   EWin              **members;
-   int                 num_members;
-   GroupConfig         cfg;
-   char                save;	/* Used in snapshot - must save */
-};
-
 /* finders.c */
 EWin              **ListWinGroupMembersForEwin(const EWin * ewin, int action,
 					       char nogroup, int *num);
 
 /* groups.c */
+int                 GroupMatchAction(const Group * g, int action);
+int                 GroupRemember(Group * g);
+void                GroupRememberByGid(int gid);
+EWin               *const *GroupGetMembers(const Group * g, int *num);
 Group              *const *EwinGetGroups(const EWin * ewin, int *num);
 Group              *EwinsInGroup(const EWin * ewin1, const EWin * ewin2);
 void                GroupsEwinAdd(EWin * ewin, const int *pgid, int ngid);
@@ -72,6 +53,5 @@ void                GroupsLoad(void);
 void                GroupsSave(void);
 Group             **GroupsGetList(int *pnum);
 int                 GroupsGetSwapmove(void);
-void                GroupRemember(int gid);
 
 #endif /* _GROUPS_H_ */

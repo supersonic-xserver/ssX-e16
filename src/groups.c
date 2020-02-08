@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -40,9 +40,32 @@
 
 #define USE_GROUP_SHOWHIDE 1	/* Enable group borders */
 
+#define GROUP_SELECT_ALL             0
+#define GROUP_SELECT_EWIN_ONLY       1
+#define GROUP_SELECT_ALL_EXCEPT_EWIN 2
+
 #define SET_OFF    0
 #define SET_ON     1
 #define SET_TOGGLE 2
+
+typedef struct _groupconfig {
+   char                iconify;
+   char                kill;
+   char                move;
+   char                raise;
+   char                set_border;
+   char                shade;
+   char                stick;
+} GroupConfig;
+
+struct _group {
+   dlist_t             list;
+   int                 index;
+   EWin              **members;
+   int                 num_members;
+   GroupConfig         cfg;
+   char                save;	/* Used in snapshot - must save */
+};
 
 static              LIST_HEAD(group_list);
 
@@ -126,8 +149,22 @@ GroupFind(int gid)
    return LIST_FIND(Group, &group_list, GroupMatchId, INT2PTR(gid));
 }
 
+EWin               *const *
+GroupGetMembers(const Group * g, int *num)
+{
+   *num = g->num_members;
+   return g->members;
+}
+
+int
+GroupRemember(Group * g)
+{
+   g->save = 1;
+   return g->index;
+}
+
 void
-GroupRemember(int gid)
+GroupRememberByGid(int gid)
 {
    Group              *g;
 
@@ -136,6 +173,42 @@ GroupRemember(int gid)
       return;
 
    g->save = 1;
+}
+
+int
+GroupMatchAction(const Group * g, int action)
+{
+   int                 match;
+
+   switch (action)
+     {
+     default:
+	match = 0;
+	break;
+     case GROUP_ACTION_SET_WINDOW_BORDER:
+	match = g->cfg.set_border;
+	break;
+     case GROUP_ACTION_ICONIFY:
+	match = g->cfg.iconify;
+	break;
+     case GROUP_ACTION_MOVE:
+	match = g->cfg.move;
+	break;
+     case GROUP_ACTION_STACKING:
+	match = g->cfg.raise;
+	break;
+     case GROUP_ACTION_STICK:
+	match = g->cfg.stick;
+	break;
+     case GROUP_ACTION_SHADE:
+	match = g->cfg.shade;
+	break;
+     case GROUP_ACTION_KILL:
+	match = g->cfg.kill;
+	break;
+     }
+
+   return match;
 }
 
 static Group       *

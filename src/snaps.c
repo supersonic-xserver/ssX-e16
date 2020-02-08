@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -418,10 +418,7 @@ _SnapUpdateEwinGroups(Snapshot * sn, const EWin * ewin, char onoff)
 	     EFREE_SET(sn->groups, EMALLOC(int, num_groups));
 
 	     for (j = 0; j < num_groups; j++)
-	       {
-		  sn->groups[j] = groups[j]->index;
-		  groups[j]->save = 1;
-	       }
+		sn->groups[j] = GroupRemember(groups[j]);
 	  }
 	else
 	  {
@@ -1355,7 +1352,7 @@ _SnapshotsLoad(FILE * fs)
 		  sn->groups = EREALLOC(int, sn->groups, sn->num_groups);
 
 		  sn->groups[sn->num_groups - 1] = atoi(s);
-		  GroupRemember(sn->groups[sn->num_groups - 1]);
+		  GroupRememberByGid(sn->groups[sn->num_groups - 1]);
 	       }
 #if USE_COMPOSITE
 	     else if (!strcmp(buf, "OPACITY"))

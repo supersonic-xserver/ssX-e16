@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2008-2019 Kim Woelders
+ * Copyright (C) 2008-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -259,39 +259,8 @@ ListWinGroupMembersForEwin(const EWin * ewin, int action, char nogroup,
 	if (!grp)
 	   continue;
 
-	switch (action)
-	  {
-	  case GROUP_ACTION_SET_WINDOW_BORDER:
-	     if (!grp->cfg.set_border)
-		continue;
-	     break;
-	  case GROUP_ACTION_ICONIFY:
-	     if (!grp->cfg.iconify)
-		continue;
-	     break;
-	  case GROUP_ACTION_MOVE:
-	     if (!grp->cfg.move)
-		continue;
-	     break;
-	  case GROUP_ACTION_STACKING:
-	     if (!grp->cfg.raise)
-		continue;
-	     break;
-	  case GROUP_ACTION_STICK:
-	     if (!grp->cfg.stick)
-		continue;
-	     break;
-	  case GROUP_ACTION_SHADE:
-	     if (!grp->cfg.shade)
-		continue;
-	     break;
-	  case GROUP_ACTION_KILL:
-	     if (!grp->cfg.kill)
-		continue;
-	     break;
-	  default:
-	     break;
-	  }
+	if (!GroupMatchAction(grp, action))
+	   continue;
 
       do_add:
 	gwins = EREALLOC(EWin *, gwins, gwcnt + 1);
