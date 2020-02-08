@@ -20,7 +20,6 @@ AC_DEFUN([EC_C___ATTRIBUTE__],
       AC_LANG_PROGRAM(
       [[
 #include <stdlib.h>
-      ]], [[
 int foo(int x __attribute__ ((unused))) { exit(1); }
       ]])
     ],
