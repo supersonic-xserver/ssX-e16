@@ -234,7 +234,7 @@ BreakWindowGroup(EWin * ewin, Group * g)
    EWin               *ewin2;
    Group              *g2;
 
-   Dprintf("ewin=%p group=%p gid=%d\n", ewin, g, g->index);
+   Dprintf("ewin=%p group=%p gid=%d\n", ewin, g, g ? g->index : 0);
    if (!ewin || !ewin->groups)
       return;
 
