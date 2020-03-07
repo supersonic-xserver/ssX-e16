@@ -11,14 +11,6 @@ AC_CONFIG_MACRO_DIR([m4])
 
 AC_SUBST(E_RPM_REVISION, [rpm_revision])
 
-# reasonable guesses for where stuff is installed
-if test "x$prefix" = "xNONE"; then
-  prefix=$ac_default_prefix
-fi
-if test "x$exec_prefix" = "xNONE"; then
-  exec_prefix=$prefix
-fi
-
 AC_USE_SYSTEM_EXTENSIONS
 
 AC_PROG_CC
