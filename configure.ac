@@ -1,7 +1,6 @@
 m4_define([pkg_version],  [1.0.21])
 m4_define([pkg_revision], [000])
 m4_define([pkg_version],  m4_ifdef([pkg_revision], [pkg_version.pkg_revision], [pkg_version]))
-m4_define([rpm_revision], m4_ifdef([pkg_revision], ["0.%(date '+%y%m%d')"], [1]))
 
 AC_INIT([e16],[pkg_version],[enlightenment-devel@lists.sourceforge.net])
 AM_INIT_AUTOMAKE([foreign dist-xz])
@@ -9,7 +8,7 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 AC_CONFIG_MACRO_DIR([m4])
 
-AC_SUBST(E_RPM_REVISION, [rpm_revision])
+AM_CONDITIONAL(SRC_IS_GIT, m4_ifdef([pkg_revision], [test -d $srcdir/.git], [false]))
 
 AC_USE_SYSTEM_EXTENSIONS
 
@@ -460,7 +459,6 @@ scripts/Makefile
 misc/Makefile
 docs/Makefile
 po/Makefile.in
-e16.spec
 ])
 AC_OUTPUT
 
