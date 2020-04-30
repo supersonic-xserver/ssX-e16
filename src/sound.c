@@ -30,12 +30,16 @@
 #include "sound.h"
 #include "sounds.h"
 
+#define HAVE_SOUND_OPS	1
+
 #if USE_SOUND_ESD
 #define SOUND_SERVER_NAME "esd"
 #elif USE_SOUND_PULSE
 #define SOUND_SERVER_NAME "pulseaudio"
 #elif USE_SOUND_SNDIO
 #define SOUND_SERVER_NAME "sndio"
+#elif USE_SOUND_PLAYER
+#undef HAVE_SOUND_OPS
 #else
 #error Invalid sound configuration
 #endif
@@ -153,8 +157,10 @@ _SclassSampleDestroy(void *data, void *user_data __UNUSED__)
    if (!sclass || !sclass->sample)
       return;
 
+#if HAVE_SOUND_OPS
    if (ops)
       ops->SampleDestroy(sclass->sample);
+#endif
    sclass->sample = NULL;
 }
 
@@ -196,12 +202,29 @@ _SclassDestroy(void *data, void *user_data __UNUSED__)
    SclassDestroy((SoundClass *) data);
 }
 
+#if USE_SOUND_PLAYER
+static void
+_SclassPlayAplay(SoundClass * sclass)
+{
+   char               *file;
+
+   file = FindFile(sclass->file, SOUND_THEME_PATH, FILE_TYPE_SOUND);
+   if (!file)
+      return;
+   Espawn(SOUND_PLAYER_FMT, file);
+   Efree(file);
+}
+#endif
+
 static void
 SclassApply(SoundClass * sclass)
 {
    if (!sclass || !Conf_sound.enable)
       return;
 
+#if USE_SOUND_PLAYER
+   _SclassPlayAplay(sclass);
+#else
    if (!sclass->sample)
      {
 	char               *file;
@@ -226,6 +249,7 @@ SclassApply(SoundClass * sclass)
      }
 
    ops->SamplePlay(sclass->sample);
+#endif
 }
 
 static int
@@ -291,12 +315,11 @@ SoundFree(const char *name)
 static void
 SoundInit(void)
 {
-   int                 err;
-
    if (!Conf_sound.enable)
       return;
 
-   err = -1;
+#if HAVE_SOUND_OPS
+
 #if USE_MODULES
    if (!ops)
 #if USE_SOUND_ESD
@@ -304,11 +327,9 @@ SoundInit(void)
 #elif USE_SOUND_PULSE
       ops = ModLoadSym("sound", "SoundOps", "pa");
 #endif
-#endif
-   if (ops && ops->Init)
-      err = ops->Init();
+#endif /* USE_MODULES */
 
-   if (err)
+   if (!ops || ops->Init())
      {
 	Conf_sound.enable = 0;
 	AlertX(_("Error initialising sound"), _("OK"), NULL, NULL,
@@ -316,6 +337,8 @@ SoundInit(void)
 		 "communicating with the audio server (%s).\n"
 		 "Audio will now be disabled.\n"), SOUND_SERVER_NAME);
      }
+
+#endif /* HAVE_SOUND_OPS */
 
    _SoundConfigLoad();
 }
@@ -327,8 +350,10 @@ SoundExit(void)
 
    LIST_FOR_EACH(SoundClass, &sound_list, sc) _SclassSampleDestroy(sc, NULL);
 
+#if HAVE_SOUND_OPS
    if (ops)
       ops->Exit();
+#endif
 
    Conf_sound.enable = 0;
 }

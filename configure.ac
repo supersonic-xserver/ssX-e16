@@ -92,6 +92,9 @@ xyes)
   enable_sound=pulseaudio;;
 xpulseaudio|xesound|xsndio)
   ;;
+xplayer)
+  with_sndldr=none
+  ;;
 *)
   enable_sound=no;;
 esac
@@ -141,11 +144,23 @@ if test "x$enable_sound" = "xsndio"; then
 fi
 AM_CONDITIONAL(USE_LIBSNDIO, test "x$enable_sound" = "xsndio")
 
+if test "x$enable_sound" = "xplayer"; then
+  AC_DEFINE(USE_SOUND_PLAYER, 1, [Play sounds using audio player])
+  AC_ARG_WITH(sndplayer,
+    AC_HELP_STRING([--with-sndplayer],
+                   [select sound player @<:@default="/usr/bin/aplay -q %s"@:>@]),,
+    with_sndplayer="/usr/bin/aplay -q %s")
+    AC_DEFINE_UNQUOTED(SOUND_PLAYER_FMT, "$with_sndplayer", [Audio player]),
+fi
+
 case x$enable_sound in
 xpulseaudio|xesound|xsndio)
   if test "x$with_sndldr" = "xnone"; then
     AC_MSG_ERROR([Sound support requires a sound loader])
   fi
+  AC_DEFINE(ENABLE_SOUND, 1, [Sound support])
+  ;;
+xplayer)
   AC_DEFINE(ENABLE_SOUND, 1, [Sound support])
   ;;
 esac
