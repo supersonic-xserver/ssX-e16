@@ -42,6 +42,9 @@
 #elif USE_SOUND_SNDIO
 #define SOUND_SERVER_NAME "sndio"
 #define SOUND_MODULE_NAME "sndio"
+#elif USE_SOUND_ALSA
+#define SOUND_SERVER_NAME "ALSA"
+#define SOUND_MODULE_NAME "alsa"
 #elif USE_SOUND_PLAYER
 #undef HAVE_SOUND_OPS
 #else
@@ -86,6 +89,9 @@ static const SoundOps *ops = &SoundOps_pa;
 #elif USE_SOUND_SNDIO
 extern const SoundOps SoundOps_sndio;
 static const SoundOps *ops = &SoundOps_sndio;
+#elif USE_SOUND_ALSA
+extern const SoundOps SoundOps_alsa;
+static const SoundOps *ops = &SoundOps_alsa;
 #endif
 #endif
 

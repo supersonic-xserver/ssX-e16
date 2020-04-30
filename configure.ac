@@ -85,12 +85,12 @@ AM_CONDITIONAL(ENABLE_GNOME, test "x$enable_hints_gnome" = "xyes")
 
 AC_ARG_ENABLE(sound,
   AC_HELP_STRING([--enable-sound],
-                 [compile with sound support (pulseaudio/esound/sndio/player/no)@<:@default=pulseaudio@:>@]),,
+                 [compile with sound support (pulseaudio/esound/sndio/alsa/player/no)@<:@default=pulseaudio@:>@]),,
   enable_sound=pulseaudio)
 case x$enable_sound in
 xyes)
   enable_sound=pulseaudio;;
-xpulseaudio|xesound|xsndio)
+xpulseaudio|xesound|xsndio|xalsa)
   ;;
 xplayer)
   with_sndldr=none
@@ -153,8 +153,15 @@ if test "x$enable_sound" = "xplayer"; then
     AC_DEFINE_UNQUOTED(SOUND_PLAYER_FMT, "$with_sndplayer", [Audio player]),
 fi
 
+if test "x$enable_sound" = "xalsa"; then
+  PKG_CHECK_MODULES(ALSA, alsa,
+    AC_DEFINE(USE_SOUND_ALSA, 1, [ALSA sound support]),
+    enable_sound=no)
+fi
+AM_CONDITIONAL(USE_LIBALSA, test "x$enable_sound" = "xalsa")
+
 case x$enable_sound in
-xpulseaudio|xesound|xsndio)
+xpulseaudio|xesound|xsndio|xalsa)
   if test "x$with_sndldr" = "xnone"; then
     AC_MSG_ERROR([Sound support requires a sound loader])
   fi
