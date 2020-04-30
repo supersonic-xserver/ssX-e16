@@ -392,7 +392,7 @@ GetTextUntilTag(void)
    return NULL;
 }
 
-int
+void
 GetObjects(FILE * f)
 {
    static char         have_font = 0;
@@ -476,19 +476,13 @@ GetObjects(FILE * f)
 	     else
 	       {
 		  if (!GetNextTag(&obj))
-		    {
-		       Efree(fdat);
-		       return 0;
-		    }
+		     break;
 	       }
 	  }
 	else
 	  {
 	     if (!GetNextTag(&obj))
-	       {
-		  Efree(fdat);
-		  return 0;
-	       }
+		break;
 	  }
 	if (obj.type == PAGE)
 	  {

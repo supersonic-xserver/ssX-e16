@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2007-2011 Kim Woelders
+ * Copyright (C) 2007-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -96,7 +96,7 @@ void                freestrlist(char **l, int num);
 void                word(char *s, int num, char *wd);
 
 /* format.c */
-int                 GetObjects(FILE * f);
+void                GetObjects(FILE * f);
 int                 FixPage(int p);
 int                 GetPage(char *name);
 void                GetLinkColors(int page_num, int *r, int *g, int *b);
