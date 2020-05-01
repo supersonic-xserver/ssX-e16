@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2010 Kim Woelders
+ * Copyright (C) 2008-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -89,7 +89,7 @@ typedef enum {
    SOUND_NOT_USED
 } esound_e;
 
-#if HAVE_SOUND
+#if ENABLE_SOUND
 
 void                SoundPlay(int sound);
 

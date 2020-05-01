@@ -114,8 +114,7 @@ fi
 
 if test "x$enable_sound" = "xpulseaudio"; then
   PKG_CHECK_MODULES(PA, libpulse,
-    AC_DEFINE(HAVE_SOUND, 1, [Sound support])
-    AC_DEFINE(HAVE_SOUND_PA, 1, [PulseAudio sound support]),
+    AC_DEFINE(USE_SOUND_PULSE, 1, [PulseAudio sound support]),
     enable_sound=no)
 fi
 AM_CONDITIONAL(USE_LIBPA, test "x$enable_sound" = "xpulseaudio")
@@ -126,8 +125,7 @@ if test "x$enable_sound" = "xesound"; then
     AC_MSG_WARN([EsounD sound support was requested but not found.])
   ])
   if test "x$enable_sound" = "xesound"; then
-    AC_DEFINE(HAVE_SOUND, 1, [Sound support])
-    AC_DEFINE(HAVE_SOUND_ESD, 1, [EsounD sound support])
+    AC_DEFINE(USE_SOUND_ESD, 1, [EsounD sound support])
   fi
 fi
 AM_CONDITIONAL(USE_LIBESD, test "x$enable_sound" = "xesound")
@@ -138,16 +136,19 @@ if test "x$enable_sound" = "xsndio"; then
   AC_CHECK_LIB(sndio, sio_open, SNDIO_LIBS="-lsndio", enable_sound=no)
   AC_SUBST(SNDIO_LIBS)
   if test "x$enable_sound" = "xsndio"; then
-    AC_DEFINE(HAVE_SOUND, 1, [Sound support])
-    AC_DEFINE(HAVE_SOUND_SNDIO, 1, [Sndio sound support])
-    enable_sound=sndio
+    AC_DEFINE(USE_SOUND_SNDIO, 1, [Sndio sound support])
   fi
 fi
 AM_CONDITIONAL(USE_LIBSNDIO, test "x$enable_sound" = "xsndio")
 
-if test "x$enable_sound" != "xno" -a "x$with_sndldr" = "xnone"; then
-  AC_MSG_ERROR([Sound support requires a sound loader])
-fi
+case x$enable_sound in
+xpulseaudio|xesound|xsndio)
+  if test "x$with_sndldr" = "xnone"; then
+    AC_MSG_ERROR([Sound support requires a sound loader])
+  fi
+  AC_DEFINE(ENABLE_SOUND, 1, [Sound support])
+  ;;
+esac
 
 # Save CPPFLAGS/LDFLAGS and add X_... to each
 SAVE_CPPFLAGS="$CPPFLAGS"

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2012 Jonathan Armani <armani@openbsd.org>
+ * Copyright (C) 2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -22,7 +23,7 @@
  */
 
 #include "E.h"
-#if defined(HAVE_SOUND) && defined(HAVE_SOUND_SNDIO)
+#if defined(ENABLE_SOUND) && defined(USE_SOUND_SNDIO)
 #include "sound.h"
 #include <sndio.h>
 
@@ -125,4 +126,4 @@ const SoundOps      SoundOps_sndio = {
    _sound_sndio_Destroy, _sound_sndio_Play,
 };
 
-#endif /* HAVE_SOUND && HAVE_SOUND_SNDIO */
+#endif /* ENABLE_SOUND && USE_SOUND_SNDIO */

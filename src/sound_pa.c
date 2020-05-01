@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2019 Kim Woelders
+ * Copyright (C) 2008-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -21,7 +21,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #include "E.h"
-#if defined(HAVE_SOUND) && defined(HAVE_SOUND_PA)
+#if defined(ENABLE_SOUND) && defined(USE_SOUND_PULSE)
 #include "sound.h"
 #include <fcntl.h>
 #include <pulse/pulseaudio.h>
@@ -354,4 +354,4 @@ const SoundOps      SoundOps_pa = {
    _sound_pa_Play,
 };
 
-#endif /* HAVE_SOUND && HAVE_SOUND_PA */
+#endif /* ENABLE_SOUND && USE_SOUND_PULSE */

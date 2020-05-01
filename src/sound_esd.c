@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -22,7 +22,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #include "E.h"
-#if defined(HAVE_SOUND) && defined(HAVE_SOUND_ESD)
+#if defined(ENABLE_SOUND) && defined(USE_SOUND_ESD)
 #include "sound.h"
 #include <esd.h>
 
@@ -147,4 +147,4 @@ const SoundOps      SoundOps_esd = {
    _sound_esd_Play,
 };
 
-#endif /* HAVE_SOUND && HAVE_SOUND_ESD */
+#endif /* ENABLE_SOUND && USE_SOUND_ESD */

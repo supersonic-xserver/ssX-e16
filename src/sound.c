@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -22,7 +22,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #include "E.h"
-#if HAVE_SOUND
+#if ENABLE_SOUND
 #include "dialog.h"
 #include "emodule.h"
 #include "list.h"
@@ -30,11 +30,11 @@
 #include "sound.h"
 #include "sounds.h"
 
-#if HAVE_SOUND_ESD
+#if USE_SOUND_ESD
 #define SOUND_SERVER_NAME "esd"
-#elif HAVE_SOUND_PA
+#elif USE_SOUND_PULSE
 #define SOUND_SERVER_NAME "pulseaudio"
-#elif HAVE_SOUND_SNDIO
+#elif USE_SOUND_SNDIO
 #define SOUND_SERVER_NAME "sndio"
 #else
 #error Invalid sound configuration
@@ -69,13 +69,13 @@ static              LIST_HEAD(sound_list);
 #if USE_MODULES
 static const SoundOps *ops = NULL;
 #else
-#if HAVE_SOUND_ESD
+#if USE_SOUND_ESD
 extern const SoundOps SoundOps_esd;
 static const SoundOps *ops = &SoundOps_esd;
-#elif HAVE_SOUND_PA
+#elif USE_SOUND_PULSE
 extern const SoundOps SoundOps_pa;
 static const SoundOps *ops = &SoundOps_pa;
-#elif HAVE_SOUND_SNDIO
+#elif USE_SOUND_SNDIO
 extern const SoundOps SoundOps_sndio;
 static const SoundOps *ops = &SoundOps_sndio;
 #endif
@@ -299,9 +299,9 @@ SoundInit(void)
    err = -1;
 #if USE_MODULES
    if (!ops)
-#if HAVE_SOUND_ESD
+#if USE_SOUND_ESD
       ops = ModLoadSym("sound", "SoundOps", "esd");
-#elif HAVE_SOUND_PA
+#elif USE_SOUND_PULSE
       ops = ModLoadSym("sound", "SoundOps", "pa");
 #endif
 #endif
@@ -565,4 +565,4 @@ const EModule       ModSound = {
    {N_CFG_ITEMS, SoundCfgItems}
 };
 
-#endif /* HAVE_SOUND */
+#endif /* ENABLE_SOUND */

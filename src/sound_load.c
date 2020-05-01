@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -23,7 +23,7 @@
  */
 #include "E.h"
 
-#if HAVE_SOUND
+#if ENABLE_SOUND
 #include "sound.h"
 
 #if USE_SOUND_LOADER_AUDIOFILE
@@ -122,4 +122,4 @@ SoundSampleGetData(const char *file, SoundSampleData * ssd)
 
 #endif /* USE_SOUND_LOADER_SNDFILE */
 
-#endif /* HAVE_SOUND */
+#endif /* ENABLE_SOUND */
