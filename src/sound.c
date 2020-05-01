@@ -25,6 +25,7 @@
 #if ENABLE_SOUND
 #include "dialog.h"
 #include "emodule.h"
+#include "file.h"
 #include "list.h"
 #include "settings.h"
 #include "sound.h"
@@ -332,10 +333,22 @@ SoundInit(void)
    if (!ops || ops->Init())
      {
 	Conf_sound.enable = 0;
-	AlertX(_("Error initialising sound"), _("OK"), NULL, NULL,
-	       _("Audio was enabled for Enlightenment but there was an error\n"
-		 "communicating with the audio server (%s).\n"
-		 "Audio will now be disabled.\n"), SOUND_SERVER_NAME);
+	DialogOK(_("Error initialising sound"),
+		 _
+		 ("Audio was enabled for Enlightenment but there was an error\n"
+		  "communicating with the audio server (%s).\n"
+		  "Audio will now be disabled.\n"), SOUND_SERVER_NAME);
+     }
+
+#elif USE_SOUND_PLAYER
+
+   if (!path_canexec0(SOUND_PLAYER_FMT))
+     {
+	Conf_sound.enable = 0;
+	DialogOK(_("Error initialising sound"),
+		 _
+		 ("The sound player is not executable (%s).\n"
+		  "Audio will now be disabled.\n"), SOUND_PLAYER_FMT);
      }
 
 #endif /* HAVE_SOUND_OPS */

@@ -85,7 +85,7 @@ AM_CONDITIONAL(ENABLE_GNOME, test "x$enable_hints_gnome" = "xyes")
 
 AC_ARG_ENABLE(sound,
   AC_HELP_STRING([--enable-sound],
-                 [compile with sound support (pulseaudio/esound/sndio/no)@<:@default=pulseaudio@:>@]),,
+                 [compile with sound support (pulseaudio/esound/sndio/player/no)@<:@default=pulseaudio@:>@]),,
   enable_sound=pulseaudio)
 case x$enable_sound in
 xyes)
