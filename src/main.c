@@ -471,17 +471,13 @@ RunDocBrowser(void)
    if (!canread(buf))
       return;
 
-   Esnprintf(buf, sizeof(buf), "%s/edox %s/E-docs", EDirBin(), EDirRoot());
-   Espawn(buf);
+   Espawn("%s/edox %s/E-docs", EDirBin(), EDirRoot());
 }
 
 static void
 RunMenuGen(void)
 {
-   char                buf[FILEPATH_LEN_MAX];
-
-   Esnprintf(buf, sizeof(buf), "%s/scripts/e_gen_menu", EDirRoot());
-   Espawn(buf);
+   Espawn("%s/scripts/e_gen_menu", EDirRoot());
 }
 
 static void

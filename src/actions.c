@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2017 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -211,12 +211,18 @@ _Espawn(int argc __UNUSED__, char **argv)
 }
 
 void
-Espawn(const char *cmd)
+Espawn(const char *fmt, ...)
 {
+   va_list             args;
+   char                buf[FILEPATH_LEN_MAX];
    int                 argc;
    char              **argv;
 
-   argv = StrlistDecodeEscaped(cmd, &argc);
+   va_start(args, fmt);
+   vsnprintf(buf, sizeof(buf), fmt, args);
+   va_end(args);
+
+   argv = StrlistDecodeEscaped(buf, &argc);
    _Espawn(argc, argv);
    StrlistFree(argv, argc);
 }
