@@ -35,10 +35,13 @@
 
 #if USE_SOUND_ESD
 #define SOUND_SERVER_NAME "esd"
+#define SOUND_MODULE_NAME "esd"
 #elif USE_SOUND_PULSE
 #define SOUND_SERVER_NAME "pulseaudio"
+#define SOUND_MODULE_NAME "pa"
 #elif USE_SOUND_SNDIO
 #define SOUND_SERVER_NAME "sndio"
+#define SOUND_MODULE_NAME "sndio"
 #elif USE_SOUND_PLAYER
 #undef HAVE_SOUND_OPS
 #else
@@ -323,12 +326,8 @@ SoundInit(void)
 
 #if USE_MODULES
    if (!ops)
-#if USE_SOUND_ESD
-      ops = ModLoadSym("sound", "SoundOps", "esd");
-#elif USE_SOUND_PULSE
-      ops = ModLoadSym("sound", "SoundOps", "pa");
+      ops = ModLoadSym("sound", "SoundOps", SOUND_MODULE_NAME);
 #endif
-#endif /* USE_MODULES */
 
    if (!ops || ops->Init())
      {
@@ -338,6 +337,7 @@ SoundInit(void)
 		 ("Audio was enabled for Enlightenment but there was an error\n"
 		  "communicating with the audio server (%s).\n"
 		  "Audio will now be disabled.\n"), SOUND_SERVER_NAME);
+	return;
      }
 
 #elif USE_SOUND_PLAYER
@@ -349,6 +349,7 @@ SoundInit(void)
 		 _
 		 ("The sound player is not executable (%s).\n"
 		  "Audio will now be disabled.\n"), SOUND_PLAYER_FMT);
+	return;
      }
 
 #endif /* HAVE_SOUND_OPS */
@@ -369,6 +370,19 @@ SoundExit(void)
 #endif
 
    Conf_sound.enable = 0;
+}
+
+static void
+_SoundConfigure(int enable)
+{
+   if (Conf_sound.enable == enable)
+      return;
+   Conf_sound.enable = enable;
+
+   if (Conf_sound.enable)
+      SoundInit();
+   else
+      SoundExit();
 }
 
 /*
@@ -436,6 +450,12 @@ _SoundConfigUnload(void)
 }
 
 static void
+_SoundEnableChange(void *item __UNUSED__, const char *sval)
+{
+   _SoundConfigure(!!atoi(sval));
+}
+
+static void
 _SoundThemeChange(void *item __UNUSED__, const char *theme)
 {
    if (*theme == '\0')
@@ -483,12 +503,7 @@ static void
 _Dlg_ApplySound(Dialog * d __UNUSED__, int val __UNUSED__,
 		void *data __UNUSED__)
 {
-   Conf_sound.enable = tmp_audio;
-   if (Conf_sound.enable)
-      SoundInit();
-   else
-      SoundExit();
-
+   _SoundConfigure(tmp_audio);
    autosave();
 }
 
@@ -554,13 +569,12 @@ SoundIpc(const char *params)
      }
    else if (!strncmp(cmd, "off", 2))
      {
-	SoundExit();
+	_SoundConfigure(0);
 	autosave();
      }
    else if (!strncmp(cmd, "on", 2))
      {
-	Conf_sound.enable = 1;
-	SoundInit();
+	_SoundConfigure(1);
 	autosave();
      }
    else if (!strncmp(cmd, "play", 2))
@@ -584,7 +598,7 @@ static const IpcItem SoundIpcArray[] = {
 #define N_IPC_FUNCS (sizeof(SoundIpcArray)/sizeof(IpcItem))
 
 static const CfgItem SoundCfgItems[] = {
-   CFG_ITEM_BOOL(Conf_sound, enable, 0),
+   CFG_FUNC_BOOL(Conf_sound, enable, 0, _SoundEnableChange),
    CFG_FUNC_STR(Conf_sound, theme, _SoundThemeChange),
    CFG_ITEM_HEX(Conf_sound, mask1, 0),
    CFG_ITEM_HEX(Conf_sound, mask2, 0),
