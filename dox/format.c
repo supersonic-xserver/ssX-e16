@@ -153,7 +153,7 @@ BuildObj(Object * obj, char *var, char *param)
    switch (obj->type)
      {
      case IMG:
-	img = obj->object;
+	img = (Img_ *) obj->object;
 	if (!img)
 	  {
 	     img = EMALLOC(Img_, 1);
@@ -183,7 +183,7 @@ BuildObj(Object * obj, char *var, char *param)
      case BR:
 	break;
      case FONT:
-	fn = obj->object;
+	fn = (Font_ *) obj->object;
 	if (!fn)
 	  {
 	     fn = EMALLOC(Font_, 1);
@@ -214,7 +214,7 @@ BuildObj(Object * obj, char *var, char *param)
 	  }
 	break;
      case P:
-	p = obj->object;
+	p = (P_ *) obj->object;
 	if (!p)
 	  {
 	     p = EMALLOC(P_, 1);
@@ -231,7 +231,7 @@ BuildObj(Object * obj, char *var, char *param)
      case TEXT:
 	break;
      case PAGE:
-	pg = obj->object;
+	pg = (Page *) obj->object;
 	if (!pg)
 	  {
 	     pg = EMALLOC(Page, 1);
