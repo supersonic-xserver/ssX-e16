@@ -505,6 +505,8 @@ DialogFill(Dialog * d, DItem * parent, const DialogDef * dd, void *data)
       DialogAddFooter(d, parent, dd->flags, dd->func_apply);
 
    DialogSetExitFunction(d, dd->func_exit);
+
+   SoundPlay(dd->sound);
 }
 
 void
@@ -520,7 +522,6 @@ DialogShowSimpleWithName(const DialogDef * dd, const char *name, void *data)
 	DialogShow(d);
 	return;
      }
-   SoundPlay(dd->sound);
 
    d = DialogCreate(name);
    if (!d)
