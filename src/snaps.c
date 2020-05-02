@@ -384,9 +384,8 @@ _SnapUpdateEwinCmd(Snapshot * sn, const EWin * ewin)
 static void
 _SnapUpdateEwinGroups(Snapshot * sn, const EWin * ewin, char onoff)
 {
-   EWin              **gwins;
-   Group              *const *groups;
-   int                 i, j, num, num_groups;
+   EWin              **gwins, *ewin2;
+   int                 i, j, num;
 
    if (!ewin)
       return;
@@ -402,29 +401,30 @@ _SnapUpdateEwinGroups(Snapshot * sn, const EWin * ewin, char onoff)
       ListWinGroupMembersForEwin(ewin, GROUP_ACTION_ANY, Mode.nogroup, &num);
    for (i = 0; i < num; i++)
      {
+	ewin2 = gwins[i];
+
 	if (onoff)
 	  {
-	     groups = EwinGetGroups(gwins[i], &num_groups);
-	     if (!groups)
+	     if (!ewin2->groups)
 		continue;
 
-	     sn = gwins[i]->snap;
+	     sn = ewin2->snap;
 	     if (!sn)
-		sn = _SnapEwinGet(gwins[i], SNAP_MATCH_DEFAULT);
+		sn = _SnapEwinGet(ewin2, SNAP_MATCH_DEFAULT);
 	     if (!sn)
 		continue;
 
-	     sn->num_groups = num_groups;
-	     EFREE_SET(sn->groups, EMALLOC(int, num_groups));
+	     sn->num_groups = ewin2->num_groups;
+	     EFREE_SET(sn->groups, EMALLOC(int, ewin2->num_groups));
 
-	     for (j = 0; j < num_groups; j++)
-		sn->groups[j] = GroupRemember(groups[j]);
+	     for (j = 0; j < ewin2->num_groups; j++)
+		sn->groups[j] = GroupRemember(ewin2->groups[j]);
 	  }
 	else
 	  {
 	     if (ewin->snap)
 	       {
-		  sn = gwins[i]->snap;
+		  sn = ewin2->snap;
 		  if (sn)
 		    {
 		       EFREE_NULL(sn->groups);

@@ -45,7 +45,6 @@ int                 GroupMatchAction(const Group * g, int action);
 int                 GroupRemember(Group * g);
 void                GroupRememberByGid(int gid);
 EWin               *const *GroupGetMembers(const Group * g, int *num);
-Group              *const *EwinGetGroups(const EWin * ewin, int *num);
 Group              *EwinsInGroup(const EWin * ewin1, const EWin * ewin2);
 void                GroupsEwinAdd(EWin * ewin, const int *pgid, int ngid);
 void                GroupsEwinRemove(EWin * ewin);

@@ -271,13 +271,6 @@ GroupsGetList(int *pnum)
    return LIST_GET_ITEMS(Group, &group_list, pnum);
 }
 
-Group              *const *
-EwinGetGroups(const EWin * ewin, int *num)
-{
-   *num = ewin->num_groups;
-   return ewin->groups;
-}
-
 #if ENABLE_DIALOGS
 static Group      **
 ListWinGroups(const EWin * ewin, char group_select, int *num)
