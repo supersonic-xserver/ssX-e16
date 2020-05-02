@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2019 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -277,7 +277,10 @@ ShowAlert(const char *title,
      {
 	root = DefaultRootWindow(dd);
      }
-   win = XCreateWindow(dd, root, -100, -100, 1, 1, 0,
+
+   x = y = -100;
+   ww = hh = 1;
+   win = XCreateWindow(dd, root, x, y, ww, hh, 0,
 		       CopyFromParent, InputOutput, CopyFromParent, mask, &att);
 
    gc = XCreateGC(dd, win, 0, &gcv);
@@ -530,6 +533,16 @@ ShowAlert(const char *title,
    XFreeFontSet(dd, xfs);
  done:
    XUngrabServer(dd);
+#if USE_COMPOSITE_OVERLAY_WINDOW
+   /* Force damage on root window where GSOD is/was rendered */
+   if (root != DefaultRootWindow(dd))
+     {
+	XReparentWindow(dd, win, DefaultRootWindow(dd), x, y);
+	XUnmapWindow(dd, win);
+	XSync(dd, False);
+	SleepUs(20000);
+     }
+#endif
    XDestroyWindow(dd, win);
    XFreeGC(dd, gc);
    if (cnum > 0)
