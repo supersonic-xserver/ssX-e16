@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2007-2015 Kim Woelders
+ * Copyright (C) 2007-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -320,4 +320,14 @@ path_canexec(const char *file)
       return 0;
    Efree(s);
    return 1;
+}
+
+int
+path_canexec0(const char *cmd)
+{
+   char                exe[4096];
+
+   sscanf(cmd, "%4000s", exe);
+
+   return path_canexec(exe);
 }

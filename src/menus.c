@@ -1846,10 +1846,7 @@ MenuConfigLoad(FILE * fs)
 		  /* if its an execute line then check to see if the exec is 
 		   * on your system before adding the menu entry */
 		  if (!strcmp(s2, "exec"))
-		    {
-		       sscanf(p3, "%1000s", s3);
-		       ok = path_canexec(s3);
-		    }
+		     ok = path_canexec0(p3);
 		  if (ok)
 		    {
 		       mi = MenuItemCreate(txt, icon, p2, NULL);

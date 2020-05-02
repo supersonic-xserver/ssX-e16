@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2007 Kim Woelders
+ * Copyright (C) 2007-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -60,5 +60,6 @@ const char         *fullfileof(const char *s);
 
 char               *path_test(const char *file, unsigned int test);
 int                 path_canexec(const char *file);
+int                 path_canexec0(const char *cmd);
 
 #endif /* _FILE_H_ */

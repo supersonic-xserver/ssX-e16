@@ -316,8 +316,7 @@ FillFlatFileMenu(Menu * m, const char *file)
 
 	     if ((act) && (!strcmp(act, "exec")) && (params))
 	       {
-		  sscanf(params, "%4000s", wd);
-		  if (path_canexec(wd))
+		  if (path_canexec0(params))
 		    {
 		       Esnprintf(wd, sizeof(wd), "exec %s", params);
 		       mi = MenuItemCreate(txt, icon, wd, NULL);
