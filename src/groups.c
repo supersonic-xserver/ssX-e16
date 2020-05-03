@@ -1168,26 +1168,6 @@ _GroupShow(Group * g)
 }
 
 static void
-IPC_GroupInfo(const char *params)
-{
-   Group              *group;
-
-   if (params)
-     {
-	group = _GroupFind2(params);
-	if (group)
-	   _GroupShow(group);
-	else
-	   IpcPrintf("Error: no such group: %s\n", params);
-     }
-   else
-     {
-	IpcPrintf("Number of groups: %d\n", LIST_GET_COUNT(&group_list));
-	LIST_FOR_EACH(Group, &group_list, group) _GroupShow(group);
-     }
-}
-
-static void
 IPC_GroupOps(const char *params)
 {
    Group              *group;
@@ -1270,12 +1250,19 @@ IPC_Group(const char *params)
 
    if (!params)
      {
-	IpcPrintf("Error: no group specified\n");
+	IpcPrintf("Error: no operation specified\n");
 	return;
      }
 
    groupid[0] = operation[0] = param1[0] = '\0';
    sscanf(params, "%100s %100s %100s", groupid, operation, param1);
+
+   if (!strcmp(groupid, "info"))
+     {
+	IpcPrintf("Number of groups: %d\n", LIST_GET_COUNT(&group_list));
+	LIST_FOR_EACH(Group, &group_list, group) _GroupShow(group);
+	return;
+     }
 
    if (!operation[0])
      {
@@ -1287,6 +1274,12 @@ IPC_Group(const char *params)
    if (!group)
      {
 	IpcPrintf("Error: no such group: %s\n", groupid);
+	return;
+     }
+
+   if (!strcmp(operation, "info"))
+     {
+	_GroupShow(group);
 	return;
      }
 
@@ -1305,11 +1298,6 @@ IPC_Group(const char *params)
    if (onoff == -1 && strcmp(param1, "?"))
      {
 	IpcPrintf("Error: unknown mode specified\n");
-     }
-   else if (!strcmp(operation, "num_members"))
-     {
-	IpcPrintf("num_members: %d\n", group->num_members);
-	onoff = -1;
      }
    else if (!strcmp(operation, "iconify"))
      {
@@ -1408,12 +1396,6 @@ static const IpcItem GroupsIpcArray[] = {
     "  groups cfg           Configure groups\n"}
    ,
    {
-    IPC_GroupInfo,
-    "group_info", "gl",
-    "Retrieve some info on groups",
-    "use \"group_info [group_index]\"\n"}
-   ,
-   {
     IPC_GroupOps,
     "group_op", "gop",
     "Group operations",
@@ -1431,9 +1413,11 @@ static const IpcItem GroupsIpcArray[] = {
     "Group commands",
     "use \"group <groupid> <property> <value>\" to set group properties.\n"
     "Available group commands are:\n"
-    "  group <groupid> num_members <on/off/?>\n"
+    "  group info\n"
+    "  group <groupid> info\n"
     "  group <groupid> iconify <on/off/?>\n"
-    "  group <groupid> kill <on/off/?>\n" "  group <groupid> move <on/off/?>\n"
+    "  group <groupid> kill <on/off/?>\n"
+    "  group <groupid> move <on/off/?>\n"
     "  group <groupid> raise <on/off/?>\n"
     "  group <groupid> set_border <on/off/?>\n"
     "  group <groupid> stick <on/off/?>\n"
