@@ -436,10 +436,7 @@ GroupsEwinAdd(EWin * ewin, const int *pgid, int ngid)
 void
 GroupsEwinRemove(EWin * ewin)
 {
-   int                 num, i;
-
-   num = ewin->num_groups;
-   for (i = 0; i < num; i++)
+   while (ewin->num_groups > 0)
       _GroupEwinRemove(ewin->groups[0], ewin);
 }
 
