@@ -224,14 +224,35 @@ _GroupFind2(const char *groupid)
    return _GroupFind(gid);
 }
 
-static void
-_GroupAddEwin(Group * g, EWin * ewin)
+static int
+_EwinGroupIndex(const EWin * ewin, const Group * g)
 {
    int                 i;
 
    for (i = 0; i < ewin->num_groups; i++)
       if (ewin->groups[i] == g)
-	 return;
+	 return i;
+
+   return -1;
+}
+
+static int
+_GroupEwinIndex(const Group * g, const EWin * ewin)
+{
+   int                 i;
+
+   for (i = 0; i < g->num_members; i++)
+      if (g->members[i] == ewin)
+	 return i;
+
+   return -1;
+}
+
+static void
+_GroupAddEwin(Group * g, EWin * ewin)
+{
+   if (_EwinGroupIndex(ewin, g) >= 0)
+      return;			/* Already there */
 
    ewin->num_groups++;
    ewin->groups = EREALLOC(Group *, ewin->groups, ewin->num_groups);
@@ -254,54 +275,55 @@ _GroupEwinAdd(Group * g, EWin * ewin)
 static void
 _GroupEwinRemove(Group * g, EWin * ewin)
 {
-   int                 i, j, k, i2;
+   int                 i, ie, ig;
 
    if (!ewin || !g)
       return;
 
-   for (k = 0; k < ewin->num_groups; k++)
+   ie = _EwinGroupIndex(ewin, g);
+   if (ie < 0)
      {
-	/* is the window actually part of the given group */
-	if (ewin->groups[k] != g)
-	   continue;
-
-	for (i = 0; i < g->num_members; i++)
-	  {
-	     if (g->members[i] != ewin)
-		continue;
-
-	     /* remove it from the group */
-	     for (j = i; j < g->num_members - 1; j++)
-		g->members[j] = g->members[j + 1];
-	     g->num_members--;
-	     if (g->num_members > 0)
-		g->members = EREALLOC(EWin *, g->members, g->num_members);
-	     else if (g->save)
-	       {
-		  EFREE_NULL(g->members);
-	       }
-	     else
-	       {
-		  _GroupDestroy(g);
-	       }
-
-	     /* and remove the group from the groups that the window is in */
-	     for (i2 = k; i2 < ewin->num_groups - 1; i2++)
-		ewin->groups[i2] = ewin->groups[i2 + 1];
-	     ewin->num_groups--;
-	     if (ewin->num_groups <= 0)
-	       {
-		  EFREE_NULL(ewin->groups);
-		  ewin->num_groups = 0;
-	       }
-	     else
-		ewin->groups =
-		   EREALLOC(Group *, ewin->groups, ewin->num_groups);
-
-	     GroupsSave();
-	     return;
-	  }
+	/* Should not happen */
+	Dprintf("%s: g=%p gid=%8d: %s: Group not found?!?\n", __func__,
+		g, g->index, EoGetName(ewin));
+	return;
      }
+
+   ig = _GroupEwinIndex(g, ewin);
+   if (ig < 0)
+     {
+	/* Should not happen */
+	Dprintf("%s: g=%p gid=%8d: %s: Ewin not found?!?\n", __func__,
+		g, g->index, EoGetName(ewin));
+	return;
+     }
+
+   Dprintf("%s: gid=%8d index=%d/%d: %s\n", __func__,
+	   g->index, ie, ig, EoGetName(ewin));
+
+   /* remove it from the group */
+   g->num_members--;
+   for (i = ig; i < g->num_members; i++)
+      g->members[i] = g->members[i + 1];
+
+   if (g->num_members > 0)
+      g->members = EREALLOC(EWin *, g->members, g->num_members);
+   else if (g->save)
+      EFREE_NULL(g->members);
+   else
+      _GroupDestroy(g);
+
+   /* and remove the group from the groups that the window is in */
+   ewin->num_groups--;
+   for (i = ie; i < ewin->num_groups; i++)
+      ewin->groups[i] = ewin->groups[i + 1];
+
+   if (ewin->num_groups > 0)
+      ewin->groups = EREALLOC(Group *, ewin->groups, ewin->num_groups);
+   else
+      EFREE_NULL(ewin->groups);
+
+   GroupsSave();
 }
 
 static void
