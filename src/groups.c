@@ -1354,20 +1354,19 @@ IPC_Group(const char *params)
       IpcPrintf("%s: off\n", operation);
 }
 
-#if ENABLE_DIALOGS
 static void
-GroupsIpc(const char *params)
+IPC_GroupsConfig(const char *params)
 {
    const char         *p;
-   char                cmd[128], prm[128];
+   char                cmd[128];
    int                 len;
 
-   cmd[0] = prm[0] = '\0';
+   cmd[0] = '\0';
    p = params;
    if (p)
      {
 	len = 0;
-	sscanf(p, "%100s %100s %n", cmd, prm, &len);
+	sscanf(p, "%100s %n", cmd, &len);
 	p += len;
      }
 
@@ -1375,22 +1374,21 @@ GroupsIpc(const char *params)
      {
 	/* Show groups */
      }
-   else if (!strncmp(cmd, "cfg", 2))
+#if ENABLE_DIALOGS
+   else if (!strcmp(cmd, "cfg"))
      {
-	GroupsConfigure(prm);
+	GroupsConfigure(p);
      }
+#endif
 }
-#endif /* ENABLE_DIALOGS */
 
 static const IpcItem GroupsIpcArray[] = {
-#if ENABLE_DIALOGS
    {
-    GroupsIpc,
+    IPC_GroupsConfig,
     "groups", "grp",
     "Configure window groups",
     "  groups cfg           Configure groups\n"}
    ,
-#endif /* ENABLE_DIALOGS */
    {
     IPC_GroupInfo,
     "group_info", "gl",
