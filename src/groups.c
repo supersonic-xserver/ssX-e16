@@ -85,7 +85,7 @@ GroupsGetSwapmove(void)
 }
 
 static Group       *
-GroupCreate(int gid)
+_GroupCreate(int gid)
 {
    Group              *g;
 
@@ -119,7 +119,7 @@ GroupCreate(int gid)
 }
 
 static void
-GroupDestroy(Group * g)
+_GroupDestroy(Group * g)
 {
    if (!g)
       return;
@@ -135,15 +135,15 @@ GroupDestroy(Group * g)
 }
 
 static int
-GroupMatchId(const void *data, const void *match)
+_GroupMatchId(const void *data, const void *match)
 {
    return ((const Group *)data)->index != PTR2INT(match);
 }
 
 static Group       *
-GroupFind(int gid)
+_GroupFind(int gid)
 {
-   return LIST_FIND(Group, &group_list, GroupMatchId, INT2PTR(gid));
+   return LIST_FIND(Group, &group_list, _GroupMatchId, INT2PTR(gid));
 }
 
 EWin               *const *
@@ -165,7 +165,7 @@ GroupRememberByGid(int gid)
 {
    Group              *g;
 
-   g = GroupFind(gid);
+   g = _GroupFind(gid);
    if (!g)
       return;
 
@@ -209,7 +209,7 @@ GroupMatchAction(const Group * g, int action)
 }
 
 static Group       *
-GroupFind2(const char *groupid)
+_GroupFind2(const char *groupid)
 {
    int                 gid;
 
@@ -221,7 +221,7 @@ GroupFind2(const char *groupid)
    if (gid <= 0)
       return NULL;
 
-   return GroupFind(gid);
+   return _GroupFind(gid);
 }
 
 static void
@@ -242,7 +242,7 @@ _GroupAddEwin(Group * g, EWin * ewin)
 }
 
 static void
-AddEwinToGroup(EWin * ewin, Group * g)
+_GroupEwinAdd(Group * g, EWin * ewin)
 {
    if (!ewin || !g)
       return;
@@ -252,7 +252,7 @@ AddEwinToGroup(EWin * ewin, Group * g)
 }
 
 static void
-RemoveEwinFromGroup(EWin * ewin, Group * g)
+_GroupEwinRemove(Group * g, EWin * ewin)
 {
    int                 i, j, k, i2;
 
@@ -282,7 +282,7 @@ RemoveEwinFromGroup(EWin * ewin, Group * g)
 	       }
 	     else
 	       {
-		  GroupDestroy(g);
+		  _GroupDestroy(g);
 	       }
 
 	     /* and remove the group from the groups that the window is in */
@@ -305,7 +305,7 @@ RemoveEwinFromGroup(EWin * ewin, Group * g)
 }
 
 static void
-BreakWindowGroup(EWin * ewin, Group * g)
+_GroupEwinDestroy(Group * g, EWin * ewin)
 {
    int                 i, j;
    EWin               *ewin2;
@@ -324,7 +324,7 @@ BreakWindowGroup(EWin * ewin, Group * g)
 	for (i = 0; i < g2->num_members; i++)
 	  {
 	     ewin2 = g2->members[0];
-	     RemoveEwinFromGroup(ewin2, g2);
+	     _GroupEwinRemove(g2, ewin2);
 	     SnapshotEwinUpdate(ewin2, SNAP_USE_GROUPS);
 	  }
      }
@@ -338,7 +338,7 @@ GroupsGetList(int *pnum)
 
 #if ENABLE_DIALOGS
 static Group      **
-ListWinGroups(const EWin * ewin, char group_select, int *num)
+_EwinListGroups(const EWin * ewin, char group_select, int *num)
 {
    Group             **groups;
    Group             **groups2;
@@ -406,12 +406,12 @@ GroupsEwinAdd(EWin * ewin, const int *pgid, int ngid)
    for (i = 0; i < ngid; i++)
      {
 	gid = pgid[i];
-	g = GroupFind(gid);
+	g = _GroupFind(gid);
 	Dprintf("ewin=%p gid=%d grp=%p\n", ewin, gid, g);
 	if (!g)
 	  {
 	     /* This should not happen, but may if group/snap configs are corrupted */
-	     g = GroupCreate(gid);
+	     g = _GroupCreate(gid);
 	  }
 	_GroupAddEwin(g, ewin);
      }
@@ -425,11 +425,11 @@ GroupsEwinRemove(EWin * ewin)
 
    num = ewin->num_groups;
    for (i = 0; i < num; i++)
-      RemoveEwinFromGroup(ewin, ewin->groups[0]);
+      _GroupEwinRemove(ewin->groups[0], ewin);
 }
 
 static int
-EwinInGroup(const EWin * ewin, const Group * g)
+_EwinInGroup(const EWin * ewin, const Group * g)
 {
    int                 i;
 
@@ -453,7 +453,7 @@ EwinsInGroup(const EWin * ewin1, const EWin * ewin2)
      {
 	for (i = 0; i < ewin1->num_groups; i++)
 	  {
-	     if (EwinInGroup(ewin2, ewin1->groups[i]))
+	     if (_EwinInGroup(ewin2, ewin1->groups[i]))
 		return ewin1->groups[i];
 	  }
      }
@@ -462,7 +462,7 @@ EwinsInGroup(const EWin * ewin1, const EWin * ewin2)
 
 #if ENABLE_DIALOGS
 static char       **
-GetWinGroupMemberNames(Group ** groups, int num)
+_GrouplistMemberNames(Group ** groups, int num)
 {
    int                 i, j, len;
    char              **group_member_strings;
@@ -499,7 +499,7 @@ GetWinGroupMemberNames(Group ** groups, int num)
 
 #if USE_GROUP_SHOWHIDE
 static void
-ShowHideWinGroups(EWin * ewin, int group_index, char onoff)
+_EwinGroupsShowHide(EWin * ewin, int group_index, char onoff)
 {
    EWin              **gwins;
    int                 i, num;
@@ -535,7 +535,7 @@ ShowHideWinGroups(EWin * ewin, int group_index, char onoff)
 }
 #else
 
-#define ShowHideWinGroups(ewin, group_index, onoff)
+#define _EwinGroupsShowHide(ewin, group_index, onoff)
 
 #endif /* USE_GROUP_SHOWHIDE */
 
@@ -590,7 +590,7 @@ _GroupsLoad(FILE * fs)
 
 	if (!strcmp(ss, "NEW:"))
 	  {
-	     g = GroupCreate(ii);
+	     g = _GroupCreate(ii);
 	     continue;
 	  }
 	if (!g)
@@ -666,13 +666,13 @@ _DlgApplyGroupChoose(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
    switch (dd->action)
      {
      case GROUP_OP_ADD:
-	AddEwinToGroup(dd->ewin, dd->groups[dd->cur_grp]);
+	_GroupEwinAdd(dd->groups[dd->cur_grp], dd->ewin);
 	break;
      case GROUP_OP_DEL:
-	RemoveEwinFromGroup(dd->ewin, dd->groups[dd->cur_grp]);
+	_GroupEwinRemove(dd->groups[dd->cur_grp], dd->ewin);
 	break;
      case GROUP_OP_BREAK:
-	BreakWindowGroup(dd->ewin, dd->groups[dd->cur_grp]);
+	_GroupEwinDestroy(dd->groups[dd->cur_grp], dd->ewin);
 	break;
      default:
 	break;
@@ -688,18 +688,18 @@ _DlgExitGroupChoose(Dialog * d)
 
    if (!dd->groups)
       return;
-   ShowHideWinGroups(dd->ewin, dd->cur_grp, SET_OFF);
+   _EwinGroupsShowHide(dd->ewin, dd->cur_grp, SET_OFF);
    Efree(dd->groups);
 }
 
 static void
-GroupCallback(Dialog * d, int val, void *data __UNUSED__)
+_DlgSelectCbGroupChoose(Dialog * d, int val, void *data __UNUSED__)
 {
    GroupSelDlgData    *dd = DLG_DATA_GET(d, GroupSelDlgData);
 
    /* val is equal to dd->cur_grp */
-   ShowHideWinGroups(dd->ewin, dd->prv_grp, SET_OFF);
-   ShowHideWinGroups(dd->ewin, val, SET_ON);
+   _EwinGroupsShowHide(dd->ewin, dd->prv_grp, SET_OFF);
+   _EwinGroupsShowHide(dd->ewin, val, SET_ON);
    dd->prv_grp = val;
 }
 
@@ -721,7 +721,7 @@ _DlgFillGroupChoose(Dialog * d, DItem * table, void *data)
    DialogItemSetText(di, dd->message);
 
    num_groups = dd->group_num;
-   group_member_strings = GetWinGroupMemberNames(dd->groups, num_groups);
+   group_member_strings = _GrouplistMemberNames(dd->groups, num_groups);
    if (!group_member_strings)
       return;			/* Silence clang - It should not be possible to go here */
 
@@ -732,7 +732,7 @@ _DlgFillGroupChoose(Dialog * d, DItem * table, void *data)
 	if (i == 0)
 	   radio = di;
 	DialogItemSetColSpan(di, 2);
-	DialogItemSetCallback(di, GroupCallback, i, NULL);
+	DialogItemSetCallback(di, _DlgSelectCbGroupChoose, i, NULL);
 	DialogItemSetText(di, group_member_strings[i]);
 	DialogItemRadioButtonSetFirst(di, radio);
 	DialogItemRadioButtonGroupSetVal(di, i);
@@ -754,7 +754,7 @@ static const DialogDef DlgGroupChoose = {
 };
 
 static void
-ChooseGroupDialog(int action)
+_EwinGroupChooseDialog(int action)
 {
    int                 group_sel;
    GroupSelDlgData     gsdd, *dd = &gsdd;
@@ -784,7 +784,7 @@ ChooseGroupDialog(int action)
 	break;
      }
 
-   dd->groups = ListWinGroups(dd->ewin, group_sel, &dd->group_num);
+   dd->groups = _EwinListGroups(dd->ewin, group_sel, &dd->group_num);
 
    if (!dd->groups)
      {
@@ -813,7 +813,7 @@ ChooseGroupDialog(int action)
 	return;
      }
 
-   ShowHideWinGroups(dd->ewin, 0, SET_ON);
+   _EwinGroupsShowHide(dd->ewin, 0, SET_ON);
 
    DialogShowSimple(&DlgGroupChoose, dd);
 }
@@ -856,13 +856,13 @@ _DlgExitGroups(Dialog * d)
    EWin               *ewin;
 
    ewin = EwinFindByPtr(dd->ewin);
-   ShowHideWinGroups(ewin, dd->cur_grp, SET_OFF);
+   _EwinGroupsShowHide(ewin, dd->cur_grp, SET_OFF);
 
    Efree(dd->cfgs);
 }
 
 static void
-GroupSelectCallback(Dialog * d, int val, void *data __UNUSED__)
+_DlgSelectCbGroups(Dialog * d, int val, void *data __UNUSED__)
 {
    EwinGroupDlgData   *dd = DLG_DATA_GET(d, EwinGroupDlgData);
 
@@ -870,8 +870,8 @@ GroupSelectCallback(Dialog * d, int val, void *data __UNUSED__)
    dd->cfgs[dd->prv_grp] = dd->cfg;
    dd->cfg = dd->cfgs[val];
    DialogRedraw(d);
-   ShowHideWinGroups(dd->ewin, dd->prv_grp, SET_OFF);
-   ShowHideWinGroups(dd->ewin, val, SET_ON);
+   _EwinGroupsShowHide(dd->ewin, dd->prv_grp, SET_OFF);
+   _EwinGroupsShowHide(dd->ewin, val, SET_ON);
    dd->prv_grp = val;
 }
 
@@ -892,7 +892,7 @@ _DlgFillGroups(Dialog * d, DItem * table, void *data)
       dd->cfgs[i] = ewin->groups[i]->cfg;
    dd->cfg = dd->cfgs[0];
 
-   ShowHideWinGroups(ewin, 0, SET_ON);
+   _EwinGroupsShowHide(ewin, 0, SET_ON);
 
    DialogItemTableSetOptions(table, 2, 0, 0, 0);
 
@@ -901,8 +901,7 @@ _DlgFillGroups(Dialog * d, DItem * table, void *data)
    DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Pick the group to configure:"));
 
-   group_member_strings =
-      GetWinGroupMemberNames(ewin->groups, ewin->num_groups);
+   group_member_strings = _GrouplistMemberNames(ewin->groups, ewin->num_groups);
    if (!group_member_strings)
       return;			/* Silence clang - It should not be possible to go here */
 
@@ -913,7 +912,7 @@ _DlgFillGroups(Dialog * d, DItem * table, void *data)
 	if (i == 0)
 	   radio = di;
 	DialogItemSetColSpan(di, 2);
-	DialogItemSetCallback(di, GroupSelectCallback, i, d);
+	DialogItemSetCallback(di, _DlgSelectCbGroups, i, d);
 	DialogItemSetText(di, group_member_strings[i]);
 	DialogItemRadioButtonSetFirst(di, radio);
 	DialogItemRadioButtonGroupSetVal(di, i);
@@ -979,7 +978,7 @@ static const DialogDef DlgGroups = {
 };
 
 static void
-SettingsGroups(void)
+_EwinGroupsConfig(void)
 {
    EWin               *ewin;
 
@@ -1093,7 +1092,7 @@ const DialogDef     DlgGroupDefaults = {
 };
 
 static void
-GroupsConfigure(const char *params)
+_GroupsConfigure(const char *params)
 {
    char                s[128];
    const char         *p;
@@ -1106,19 +1105,19 @@ GroupsConfigure(const char *params)
 
    if (!strcmp(s, "group"))
      {
-	SettingsGroups();
+	_EwinGroupsConfig();
      }
    else if (!strcmp(s, "add"))
      {
-	ChooseGroupDialog(GROUP_OP_ADD);
+	_EwinGroupChooseDialog(GROUP_OP_ADD);
      }
    else if (!strcmp(s, "del"))
      {
-	ChooseGroupDialog(GROUP_OP_DEL);
+	_EwinGroupChooseDialog(GROUP_OP_DEL);
      }
    else if (!strcmp(s, "break"))
      {
-	ChooseGroupDialog(GROUP_OP_BREAK);
+	_EwinGroupChooseDialog(GROUP_OP_BREAK);
      }
 }
 #endif /* ENABLE_DIALOGS */
@@ -1128,7 +1127,7 @@ GroupsConfigure(const char *params)
  */
 
 static void
-GroupShow(Group * g)
+_GroupShow(Group * g)
 {
    int                 j;
 
@@ -1153,16 +1152,16 @@ IPC_GroupInfo(const char *params)
 
    if (params)
      {
-	group = GroupFind2(params);
+	group = _GroupFind2(params);
 	if (group)
-	   GroupShow(group);
+	   _GroupShow(group);
 	else
 	   IpcPrintf("Error: no such group: %s\n", params);
      }
    else
      {
 	IpcPrintf("Number of groups: %d\n", LIST_GET_COUNT(&group_list));
-	LIST_FOR_EACH(Group, &group_list, group) GroupShow(group);
+	LIST_FOR_EACH(Group, &group_list, group) _GroupShow(group);
      }
 }
 
@@ -1202,32 +1201,32 @@ IPC_GroupOps(const char *params)
 
    if (!strcmp(operation, "start"))
      {
-	group = GroupCreate(-1);
+	group = _GroupCreate(-1);
 	Mode_groups.current = group;
-	AddEwinToGroup(ewin, group);
+	_GroupEwinAdd(group, ewin);
 	IpcPrintf("start %8x\n", win);
      }
    else if (!strcmp(operation, "add"))
      {
-	group = GroupFind2(groupid);
-	AddEwinToGroup(ewin, group);
+	group = _GroupFind2(groupid);
+	_GroupEwinAdd(group, ewin);
 	IpcPrintf("add %8x\n", win);
      }
    else if (!strcmp(operation, "del"))
      {
-	group = GroupFind2(groupid);
-	RemoveEwinFromGroup(ewin, group);
+	group = _GroupFind2(groupid);
+	_GroupEwinRemove(group, ewin);
 	IpcPrintf("del %8x\n", win);
      }
    else if (!strcmp(operation, "break"))
      {
-	group = GroupFind2(groupid);
-	BreakWindowGroup(ewin, group);
+	group = _GroupFind2(groupid);
+	_GroupEwinDestroy(group, ewin);
 	IpcPrintf("break %8x\n", win);
      }
    else if (!strcmp(operation, "showhide"))
      {
-	ShowHideWinGroups(ewin, -1, SET_TOGGLE);
+	_EwinGroupsShowHide(ewin, -1, SET_TOGGLE);
 	IpcPrintf("showhide %8x\n", win);
      }
    else
@@ -1262,7 +1261,7 @@ IPC_Group(const char *params)
 	return;
      }
 
-   group = GroupFind2(groupid);
+   group = _GroupFind2(groupid);
    if (!group)
      {
 	IpcPrintf("Error: no such group: %s\n", groupid);
@@ -1374,7 +1373,7 @@ IPC_GroupsConfig(const char *params)
 #if ENABLE_DIALOGS
    else if (!strcmp(cmd, "cfg"))
      {
-	GroupsConfigure(p);
+	_GroupsConfigure(p);
      }
 #endif
 }
