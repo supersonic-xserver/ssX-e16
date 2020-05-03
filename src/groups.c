@@ -253,18 +253,6 @@ BreakWindowGroup(EWin * ewin, Group * g)
      }
 }
 
-static void
-BuildWindowGroup(EWin ** ewins, int num, int gid)
-{
-   int                 i;
-   Group              *group;
-
-   Mode_groups.current = group = GroupCreate(gid);
-
-   for (i = 0; i < num; i++)
-      AddEwinToGroup(ewins[i], group);
-}
-
 Group             **
 GroupsGetList(int *pnum)
 {
@@ -373,12 +361,9 @@ GroupsEwinAdd(EWin * ewin, const int *pgid, int ngid)
 	if (!g)
 	  {
 	     /* This should not happen, but may if group/snap configs are corrupted */
-	     BuildWindowGroup(&ewin, 1, gid);
+	     g = GroupCreate(gid);
 	  }
-	else
-	  {
-	     _GroupAddEwin(g, ewin);
-	  }
+	_GroupAddEwin(g, ewin);
      }
    SnapshotEwinUpdate(ewin, SNAP_USE_GROUPS);
 }
@@ -1220,7 +1205,9 @@ IPC_GroupOps(const char *params)
 
    if (!strcmp(operation, "start"))
      {
-	BuildWindowGroup(&ewin, 1, -1);
+	group = GroupCreate(-1);
+	Mode_groups.current = group;
+	AddEwinToGroup(ewin, group);
 	IpcPrintf("start %8x\n", win);
      }
    else if (!strcmp(operation, "add"))
