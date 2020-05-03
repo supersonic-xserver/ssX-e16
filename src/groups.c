@@ -78,9 +78,6 @@ static struct {
    Group              *current;
 } Mode_groups;
 
-static void         AddEwinToGroup(EWin * ewin, Group * g);
-static void         RemoveEwinFromGroup(EWin * ewin, Group * g);
-
 int
 GroupsGetSwapmove(void)
 {
@@ -228,6 +225,86 @@ GroupFind2(const char *groupid)
 }
 
 static void
+_GroupAddEwin(Group * g, EWin * ewin)
+{
+   int                 i;
+
+   for (i = 0; i < ewin->num_groups; i++)
+      if (ewin->groups[i] == g)
+	 return;
+
+   ewin->num_groups++;
+   ewin->groups = EREALLOC(Group *, ewin->groups, ewin->num_groups);
+   ewin->groups[ewin->num_groups - 1] = g;
+   g->num_members++;
+   g->members = EREALLOC(EWin *, g->members, g->num_members);
+   g->members[g->num_members - 1] = ewin;
+}
+
+static void
+AddEwinToGroup(EWin * ewin, Group * g)
+{
+   if (!ewin || !g)
+      return;
+
+   _GroupAddEwin(g, ewin);
+   SnapshotEwinUpdate(ewin, SNAP_USE_GROUPS);
+}
+
+static void
+RemoveEwinFromGroup(EWin * ewin, Group * g)
+{
+   int                 i, j, k, i2;
+
+   if (!ewin || !g)
+      return;
+
+   for (k = 0; k < ewin->num_groups; k++)
+     {
+	/* is the window actually part of the given group */
+	if (ewin->groups[k] != g)
+	   continue;
+
+	for (i = 0; i < g->num_members; i++)
+	  {
+	     if (g->members[i] != ewin)
+		continue;
+
+	     /* remove it from the group */
+	     for (j = i; j < g->num_members - 1; j++)
+		g->members[j] = g->members[j + 1];
+	     g->num_members--;
+	     if (g->num_members > 0)
+		g->members = EREALLOC(EWin *, g->members, g->num_members);
+	     else if (g->save)
+	       {
+		  EFREE_NULL(g->members);
+	       }
+	     else
+	       {
+		  GroupDestroy(g);
+	       }
+
+	     /* and remove the group from the groups that the window is in */
+	     for (i2 = k; i2 < ewin->num_groups - 1; i2++)
+		ewin->groups[i2] = ewin->groups[i2 + 1];
+	     ewin->num_groups--;
+	     if (ewin->num_groups <= 0)
+	       {
+		  EFREE_NULL(ewin->groups);
+		  ewin->num_groups = 0;
+	       }
+	     else
+		ewin->groups =
+		   EREALLOC(Group *, ewin->groups, ewin->num_groups);
+
+	     GroupsSave();
+	     return;
+	  }
+     }
+}
+
+static void
 BreakWindowGroup(EWin * ewin, Group * g)
 {
    int                 i, j;
@@ -320,33 +397,6 @@ ListWinGroups(const EWin * ewin, char group_select, int *num)
 }
 #endif /* ENABLE_DIALOGS */
 
-static void
-_GroupAddEwin(Group * g, EWin * ewin)
-{
-   int                 i;
-
-   for (i = 0; i < ewin->num_groups; i++)
-      if (ewin->groups[i] == g)
-	 return;
-
-   ewin->num_groups++;
-   ewin->groups = EREALLOC(Group *, ewin->groups, ewin->num_groups);
-   ewin->groups[ewin->num_groups - 1] = g;
-   g->num_members++;
-   g->members = EREALLOC(EWin *, g->members, g->num_members);
-   g->members[g->num_members - 1] = ewin;
-}
-
-static void
-AddEwinToGroup(EWin * ewin, Group * g)
-{
-   if (!ewin || !g)
-      return;
-
-   _GroupAddEwin(g, ewin);
-   SnapshotEwinUpdate(ewin, SNAP_USE_GROUPS);
-}
-
 void
 GroupsEwinAdd(EWin * ewin, const int *pgid, int ngid)
 {
@@ -366,6 +416,16 @@ GroupsEwinAdd(EWin * ewin, const int *pgid, int ngid)
 	_GroupAddEwin(g, ewin);
      }
    SnapshotEwinUpdate(ewin, SNAP_USE_GROUPS);
+}
+
+void
+GroupsEwinRemove(EWin * ewin)
+{
+   int                 num, i;
+
+   num = ewin->num_groups;
+   for (i = 0; i < num; i++)
+      RemoveEwinFromGroup(ewin, ewin->groups[0]);
 }
 
 static int
@@ -398,69 +458,6 @@ EwinsInGroup(const EWin * ewin1, const EWin * ewin2)
 	  }
      }
    return NULL;
-}
-
-static void
-RemoveEwinFromGroup(EWin * ewin, Group * g)
-{
-   int                 i, j, k, i2;
-
-   if (!ewin || !g)
-      return;
-
-   for (k = 0; k < ewin->num_groups; k++)
-     {
-	/* is the window actually part of the given group */
-	if (ewin->groups[k] != g)
-	   continue;
-
-	for (i = 0; i < g->num_members; i++)
-	  {
-	     if (g->members[i] != ewin)
-		continue;
-
-	     /* remove it from the group */
-	     for (j = i; j < g->num_members - 1; j++)
-		g->members[j] = g->members[j + 1];
-	     g->num_members--;
-	     if (g->num_members > 0)
-		g->members = EREALLOC(EWin *, g->members, g->num_members);
-	     else if (g->save)
-	       {
-		  EFREE_NULL(g->members);
-	       }
-	     else
-	       {
-		  GroupDestroy(g);
-	       }
-
-	     /* and remove the group from the groups that the window is in */
-	     for (i2 = k; i2 < ewin->num_groups - 1; i2++)
-		ewin->groups[i2] = ewin->groups[i2 + 1];
-	     ewin->num_groups--;
-	     if (ewin->num_groups <= 0)
-	       {
-		  EFREE_NULL(ewin->groups);
-		  ewin->num_groups = 0;
-	       }
-	     else
-		ewin->groups =
-		   EREALLOC(Group *, ewin->groups, ewin->num_groups);
-
-	     GroupsSave();
-	     return;
-	  }
-     }
-}
-
-void
-GroupsEwinRemove(EWin * ewin)
-{
-   int                 num, i;
-
-   num = ewin->num_groups;
-   for (i = 0; i < num; i++)
-      RemoveEwinFromGroup(ewin, ewin->groups[0]);
 }
 
 #if ENABLE_DIALOGS
