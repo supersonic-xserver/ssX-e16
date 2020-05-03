@@ -776,14 +776,14 @@ static const DialogDef DlgGroupChoose = {
 };
 
 static void
-_EwinGroupChooseDialog(int action)
+_EwinGroupChooseDialog(EWin * ewin, int action)
 {
    int                 group_sel;
    GroupSelDlgData     gsdd, *dd = &gsdd;
 
-   dd->ewin = GetContextEwin();
-   if (!dd->ewin)
+   if (!ewin)
       return;
+   dd->ewin = ewin;
 
    dd->action = action;
    dd->cur_grp = dd->prv_grp = 0;
@@ -1000,11 +1000,8 @@ static const DialogDef DlgGroups = {
 };
 
 static void
-_EwinGroupsConfig(void)
+_EwinGroupsConfig(EWin * ewin)
 {
-   EWin               *ewin;
-
-   ewin = GetContextEwin();
    if (!ewin)
       return;
 
@@ -1119,27 +1116,40 @@ _GroupsConfigure(const char *params)
    char                s[128];
    const char         *p;
    int                 l;
+   EWin               *ewin;
 
    p = params;
    l = 0;
    s[0] = '\0';
    sscanf(p, "%100s %n", s, &l);
+   p += l;
+
+   ewin = GetContextEwin();
+   if (*p)
+     {
+	ewin = EwinFindByExpr(p);
+	if (!ewin)
+	  {
+	     IpcPrintf("Error: no such window: %s\n", p);
+	     return;
+	  }
+     }
 
    if (!strcmp(s, "group"))
      {
-	_EwinGroupsConfig();
+	_EwinGroupsConfig(ewin);
      }
    else if (!strcmp(s, "add"))
      {
-	_EwinGroupChooseDialog(GROUP_OP_ADD);
+	_EwinGroupChooseDialog(ewin, GROUP_OP_ADD);
      }
    else if (!strcmp(s, "del"))
      {
-	_EwinGroupChooseDialog(GROUP_OP_DEL);
+	_EwinGroupChooseDialog(ewin, GROUP_OP_DEL);
      }
    else if (!strcmp(s, "break"))
      {
-	_EwinGroupChooseDialog(GROUP_OP_BREAK);
+	_EwinGroupChooseDialog(ewin, GROUP_OP_BREAK);
      }
 }
 #endif /* ENABLE_DIALOGS */
@@ -1393,7 +1403,10 @@ static const IpcItem GroupsIpcArray[] = {
     IPC_GroupsConfig,
     "groups", "grp",
     "Configure window groups",
-    "  groups cfg           Configure groups\n"}
+    "  groups cfg group <windowid>  Configure windows groups\n"
+    "  groups cfg add   <windowid>  Add window to group\n"
+    "  groups cfg del   <windowid>  Remove window from group\n"
+    "  groups cfg break <windowid>  Destroy one of the windows groups\n"}
    ,
    {
     IPC_GroupOps,
