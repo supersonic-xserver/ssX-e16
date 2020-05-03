@@ -327,28 +327,21 @@ _GroupEwinRemove(Group * g, EWin * ewin)
 }
 
 static void
-_GroupEwinDestroy(Group * g, EWin * ewin)
+_GroupDelete(Group * g)
 {
-   int                 i, j;
-   EWin               *ewin2;
-   Group              *g2;
+   int                 i;
+   EWin               *ewin;
 
-   Dprintf("ewin=%p group=%p gid=%d\n", ewin, g, g ? g->index : 0);
-   if (!ewin || !ewin->groups)
+   if (!g)
       return;
 
-   for (j = 0; j < ewin->num_groups; j++)
-     {
-	g2 = ewin->groups[j];
-	if (g && g != g2)
-	   continue;
+   Dprintf("group=%p gid=%d\n", g, g->index);
 
-	for (i = 0; i < g2->num_members; i++)
-	  {
-	     ewin2 = g2->members[0];
-	     _GroupEwinRemove(g2, ewin2);
-	     SnapshotEwinUpdate(ewin2, SNAP_USE_GROUPS);
-	  }
+   for (i = 0; i < g->num_members; i++)
+     {
+	ewin = g->members[0];
+	_GroupEwinRemove(g, ewin);
+	SnapshotEwinUpdate(ewin, SNAP_USE_GROUPS);
      }
 }
 
@@ -694,7 +687,7 @@ _DlgApplyGroupChoose(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
 	_GroupEwinRemove(dd->groups[dd->cur_grp], dd->ewin);
 	break;
      case GROUP_OP_BREAK:
-	_GroupEwinDestroy(dd->groups[dd->cur_grp], dd->ewin);
+	_GroupDelete(dd->groups[dd->cur_grp]);
 	break;
      default:
 	break;
@@ -1233,7 +1226,7 @@ IPC_GroupOps(const char *params)
    else if (!strcmp(operation, "break"))
      {
 	group = _GroupFind2(groupid);
-	_GroupEwinDestroy(group, ewin);
+	_GroupDelete(group);
 	IpcPrintf("break %8x\n", win);
      }
    else if (!strcmp(operation, "showhide"))
