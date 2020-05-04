@@ -114,7 +114,8 @@ _GroupCreate(int gid)
    g->cfg.stick = Conf_groups.dflt.stick;
    g->cfg.shade = Conf_groups.dflt.shade;
 
-   Dprintf("grp=%p gid=%d\n", g, g->index);
+   Dprintf("%s: grp=%p gid=%d\n", __func__, g, g->index);
+
    return g;
 }
 
@@ -124,13 +125,14 @@ _GroupDestroy(Group * g)
    if (!g)
       return;
 
-   Dprintf("grp=%p gid=%d\n", g, g->index);
+   Dprintf("%s: grp=%p gid=%d\n", __func__, g, g->index);
+
    LIST_REMOVE(Group, &group_list, g);
 
    if (g == Mode_groups.current)
       Mode_groups.current = NULL;
-   Efree(g->members);
 
+   Efree(g->members);
    Efree(g);
 }
 
@@ -254,6 +256,8 @@ _GroupAddEwin(Group * g, EWin * ewin)
    if (_EwinGroupIndex(ewin, g) >= 0)
       return;			/* Already there */
 
+   Dprintf("%s: gid=%8d: %s\n", __func__, g->index, EoGetName(ewin));
+
    ewin->num_groups++;
    ewin->groups = EREALLOC(Group *, ewin->groups, ewin->num_groups);
    ewin->groups[ewin->num_groups - 1] = g;
@@ -279,6 +283,8 @@ _GroupEwinRemove(Group * g, EWin * ewin)
 
    if (!ewin || !g)
       return;
+
+   Dprintf("%s: gid=%8d: %s\n", __func__, g->index, EoGetName(ewin));
 
    ie = _EwinGroupIndex(ewin, g);
    if (ie < 0)
@@ -334,7 +340,7 @@ _GroupDelete(Group * g)
    if (!g)
       return;
 
-   Dprintf("group=%p gid=%d\n", g, g->index);
+   Dprintf("%s: gid=%d\n", __func__, g->index);
 
    g->save = 1;
    while (g->num_members > 0)
@@ -564,6 +570,8 @@ GroupsSave(void)
    if (LIST_IS_EMPTY(&group_list))
       return;
 
+   Dprintf("%s\n", __func__);
+
    Esnprintf(s, sizeof(s), "%s.groups", EGetSavePrefix());
    f = fopen(s, "w");
    if (!f)
@@ -648,6 +656,8 @@ void
 GroupsLoad(void)
 {
    char                s[4096];
+
+   Dprintf("%s\n", __func__);
 
    Esnprintf(s, sizeof(s), "%s.groups", EGetSavePrefix());
 
