@@ -329,7 +329,6 @@ _GroupEwinRemove(Group * g, EWin * ewin)
 static void
 _GroupDelete(Group * g)
 {
-   int                 i;
    EWin               *ewin;
 
    if (!g)
@@ -337,12 +336,14 @@ _GroupDelete(Group * g)
 
    Dprintf("group=%p gid=%d\n", g, g->index);
 
-   for (i = 0; i < g->num_members; i++)
+   g->save = 1;
+   while (g->num_members > 0)
      {
 	ewin = g->members[0];
 	_GroupEwinRemove(g, ewin);
 	SnapshotEwinUpdate(ewin, SNAP_USE_GROUPS);
      }
+   _GroupDestroy(g);
 }
 
 Group             **
