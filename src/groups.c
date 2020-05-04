@@ -503,6 +503,8 @@ _GrouplistMemberNames(Group ** groups, int num)
 	     if (len >= 1024)
 		break;
 	  }
+	if (len == 0)
+	   snprintf(group_member_strings[i], 1024, "(empty)");
      }
 
    return group_member_strings;
