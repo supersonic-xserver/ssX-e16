@@ -418,7 +418,7 @@ _SnapUpdateEwinGroups(Snapshot * sn, const EWin * ewin, char onoff)
 	     EFREE_SET(sn->groups, EMALLOC(int, ewin2->num_groups));
 
 	     for (j = 0; j < ewin2->num_groups; j++)
-		sn->groups[j] = GroupRemember(ewin2->groups[j]);
+		sn->groups[j] = GroupGetIndex(ewin2->groups[j]);
 	  }
 	else
 	  {
@@ -1155,8 +1155,6 @@ SnapshotsSaveReal(void)
    if (!isfile(buf))
       Alert(_("Error saving snaps file"));
 
-   GroupsSave();
-
  done:
    TIMER_DEL(ss_timer);
 }
@@ -1359,7 +1357,7 @@ _SnapshotsLoad(FILE * fs)
 		       sn->num_groups++;
 		       sn->groups = EREALLOC(int, sn->groups, sn->num_groups);
 		       sn->groups[sn->num_groups - 1] = a;
-		       GroupRememberByGid(a);
+		       GroupSetUsed(a);
 		    }
 	       }
 #if USE_COMPOSITE
@@ -1396,6 +1394,9 @@ SnapshotsLoad(void)
    Esnprintf(s, sizeof(s), "%s.snapshots", EGetSavePrefix());
 
    ConfigFileLoad(s, NULL, _SnapshotsLoad, 0);
+
+   /* Remove groups not referenced by snapshots */
+   GroupsPrune();
 }
 
 /* make a client window conform to snapshot info */

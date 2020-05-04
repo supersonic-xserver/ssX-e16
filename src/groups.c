@@ -64,7 +64,8 @@ struct _group {
    EWin              **members;
    int                 num_members;
    GroupConfig         cfg;
-   char                save;	/* Used in snapshot - must save */
+   char                keep;	/* Don't destroy when empty */
+   char                used;	/* Don't discard when saving */
 };
 
 static              LIST_HEAD(group_list);
@@ -78,6 +79,8 @@ static struct {
    Group              *current;
 } Mode_groups;
 
+static void         _GroupsSave(void);
+
 int
 GroupsGetSwapmove(void)
 {
@@ -85,7 +88,7 @@ GroupsGetSwapmove(void)
 }
 
 static Group       *
-_GroupCreate(int gid)
+_GroupCreate(int gid, int cfg_update)
 {
    Group              *g;
 
@@ -116,11 +119,14 @@ _GroupCreate(int gid)
 
    Dprintf("%s: grp=%p gid=%d\n", __func__, g, g->index);
 
+   if (cfg_update)
+      _GroupsSave();
+
    return g;
 }
 
 static void
-_GroupDestroy(Group * g)
+_GroupDestroy(Group * g, int cfg_update)
 {
    if (!g)
       return;
@@ -134,6 +140,9 @@ _GroupDestroy(Group * g)
 
    Efree(g->members);
    Efree(g);
+
+   if (cfg_update)
+      _GroupsSave();
 }
 
 static int
@@ -156,14 +165,13 @@ GroupGetMembers(const Group * g, int *num)
 }
 
 int
-GroupRemember(Group * g)
+GroupGetIndex(const Group * g)
 {
-   g->save = 1;
    return g->index;
 }
 
 void
-GroupRememberByGid(int gid)
+GroupSetUsed(int gid)
 {
    Group              *g;
 
@@ -171,7 +179,7 @@ GroupRememberByGid(int gid)
    if (!g)
       return;
 
-   g->save = 1;
+   g->used = 1;
 }
 
 int
@@ -310,10 +318,10 @@ _GroupEwinRemove(Group * g, EWin * ewin, int snap_update)
 
    if (g->num_members > 0)
       g->members = EREALLOC(EWin *, g->members, g->num_members);
-   else if (g->save)
+   else if (g->keep)
       EFREE_NULL(g->members);
    else
-      _GroupDestroy(g);
+      _GroupDestroy(g, snap_update);
 
    /* and remove the group from the groups that the window is in */
    ewin->num_groups--;
@@ -327,8 +335,6 @@ _GroupEwinRemove(Group * g, EWin * ewin, int snap_update)
 
    if (snap_update)
       SnapshotEwinUpdate(ewin, SNAP_USE_GROUPS);
-
-   GroupsSave();
 }
 
 static void
@@ -341,13 +347,13 @@ _GroupDelete(Group * g)
 
    Dprintf("%s: gid=%d\n", __func__, g->index);
 
-   g->save = 1;
+   g->keep = 1;
    while (g->num_members > 0)
      {
 	ewin = g->members[0];
 	_GroupEwinRemove(g, ewin, 1);
      }
-   _GroupDestroy(g);
+   _GroupDestroy(g, 1);
 }
 
 Group             **
@@ -432,7 +438,7 @@ GroupsEwinAdd(EWin * ewin, const int *pgid, int ngid)
 	if (!g)
 	  {
 	     /* This should not happen, but may if group/snap configs are corrupted */
-	     g = _GroupCreate(gid);
+	     g = _GroupCreate(gid, 1);
 	  }
 	_GroupEwinAdd(g, ewin, 0);
      }
@@ -559,15 +565,12 @@ _EwinGroupsShowHide(EWin * ewin, int group_index, char onoff)
 
 #endif /* USE_GROUP_SHOWHIDE */
 
-void
-GroupsSave(void)
+static void
+_GroupsSave(void)
 {
    Group              *g;
    FILE               *f;
    char                s[1024];
-
-   if (LIST_IS_EMPTY(&group_list))
-      return;
 
    Dprintf("%s\n", __func__);
 
@@ -578,9 +581,6 @@ GroupsSave(void)
 
    LIST_FOR_EACH(Group, &group_list, g)
    {
-      if (!g->save)
-	 continue;
-
       fprintf(f, "NEW: %i\n", g->index);
       fprintf(f, "ICONIFY: %i\n", g->cfg.iconify);
       fprintf(f, "KILL: %i\n", g->cfg.kill);
@@ -592,6 +592,30 @@ GroupsSave(void)
    }
 
    fclose(f);
+}
+
+void
+GroupsPrune(void)
+{
+   Group              *g, *tmp;
+   int                 pruned;
+
+   pruned = 0;
+
+   LIST_FOR_EACH_SAFE(Group, &group_list, g, tmp)
+   {
+      if (g->used)
+	 continue;
+      if (g->members)
+	 continue;
+      _GroupDestroy(g, 0);
+      pruned += 1;
+   }
+
+   Dprintf("%s: Pruned=%d\n", __func__, pruned);
+
+   if (pruned)
+      _GroupsSave();
 }
 
 static int
@@ -612,7 +636,7 @@ _GroupsLoad(FILE * fs)
 
 	if (!strcmp(ss, "NEW:"))
 	  {
-	     g = _GroupCreate(ii);
+	     g = _GroupCreate(ii, 0);
 	     continue;
 	  }
 	if (!g)
@@ -701,8 +725,6 @@ _DlgApplyGroupChoose(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
      default:
 	break;
      }
-
-   GroupsSave();
 }
 
 static void
@@ -870,7 +892,7 @@ _DlgApplyGroups(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
 	   ewin->groups[i]->cfg = dd->cfgs[i];
      }
 
-   autosave();
+   _GroupsSave();
 }
 
 static void
@@ -1215,7 +1237,7 @@ IPC_GroupOps(const char *params)
 
    if (!strcmp(operation, "start"))
      {
-	group = _GroupCreate(-1);
+	group = _GroupCreate(-1, 1);
 	Mode_groups.current = group;
 	_GroupEwinAdd(group, ewin, 1);
 	IpcPrintf("start %8x\n", win);
@@ -1248,7 +1270,6 @@ IPC_GroupOps(const char *params)
 	IpcPrintf("Error: no such operation: %s\n", operation);
 	return;
      }
-   GroupsSave();
 }
 
 static void
@@ -1375,6 +1396,9 @@ IPC_Group(const char *params)
       IpcPrintf("%s: on\n", operation);
    else if (onoff == 0)
       IpcPrintf("%s: off\n", operation);
+
+   if (onoff >= 0)
+      _GroupsSave();
 }
 
 static void

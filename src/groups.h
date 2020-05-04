@@ -42,14 +42,14 @@ EWin              **ListWinGroupMembersForEwin(const EWin * ewin, int action,
 
 /* groups.c */
 int                 GroupMatchAction(const Group * g, int action);
-int                 GroupRemember(Group * g);
-void                GroupRememberByGid(int gid);
+int                 GroupGetIndex(const Group * g);
+void                GroupSetUsed(int gid);
 EWin               *const *GroupGetMembers(const Group * g, int *num);
 Group              *EwinsInGroup(const EWin * ewin1, const EWin * ewin2);
 void                GroupsEwinAdd(EWin * ewin, const int *pgid, int ngid);
 void                GroupsEwinRemove(EWin * ewin);
 void                GroupsLoad(void);
-void                GroupsSave(void);
+void                GroupsPrune(void);
 Group             **GroupsGetList(int *pnum);
 int                 GroupsGetSwapmove(void);
 
