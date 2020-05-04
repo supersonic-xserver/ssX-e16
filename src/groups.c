@@ -1284,6 +1284,11 @@ IPC_Group(const char *params)
 	_GroupShow(group);
 	return;
      }
+   else if (!strcmp(operation, "del"))
+     {
+	_GroupDelete(group);
+	return;
+     }
 
    if (!param1[0])
      {
@@ -1420,6 +1425,7 @@ static const IpcItem GroupsIpcArray[] = {
     "Available group commands are:\n"
     "  group info\n"
     "  group <groupid> info\n"
+    "  group <groupid> del\n"
     "  group <groupid> iconify <on/off/?>\n"
     "  group <groupid> kill <on/off/?>\n"
     "  group <groupid> move <on/off/?>\n"
