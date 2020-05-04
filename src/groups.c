@@ -251,8 +251,11 @@ _GroupEwinIndex(const Group * g, const EWin * ewin)
 }
 
 static void
-_GroupAddEwin(Group * g, EWin * ewin)
+_GroupEwinAdd(Group * g, EWin * ewin, int snap_update)
 {
+   if (!ewin || !g)
+      return;
+
    if (_EwinGroupIndex(ewin, g) >= 0)
       return;			/* Already there */
 
@@ -264,20 +267,13 @@ _GroupAddEwin(Group * g, EWin * ewin)
    g->num_members++;
    g->members = EREALLOC(EWin *, g->members, g->num_members);
    g->members[g->num_members - 1] = ewin;
+
+   if (snap_update)
+      SnapshotEwinUpdate(ewin, SNAP_USE_GROUPS);
 }
 
 static void
-_GroupEwinAdd(Group * g, EWin * ewin)
-{
-   if (!ewin || !g)
-      return;
-
-   _GroupAddEwin(g, ewin);
-   SnapshotEwinUpdate(ewin, SNAP_USE_GROUPS);
-}
-
-static void
-_GroupEwinRemove(Group * g, EWin * ewin)
+_GroupEwinRemove(Group * g, EWin * ewin, int snap_update)
 {
    int                 i, ie, ig;
 
@@ -329,6 +325,9 @@ _GroupEwinRemove(Group * g, EWin * ewin)
    else
       EFREE_NULL(ewin->groups);
 
+   if (snap_update)
+      SnapshotEwinUpdate(ewin, SNAP_USE_GROUPS);
+
    GroupsSave();
 }
 
@@ -346,8 +345,7 @@ _GroupDelete(Group * g)
    while (g->num_members > 0)
      {
 	ewin = g->members[0];
-	_GroupEwinRemove(g, ewin);
-	SnapshotEwinUpdate(ewin, SNAP_USE_GROUPS);
+	_GroupEwinRemove(g, ewin, 1);
      }
    _GroupDestroy(g);
 }
@@ -419,6 +417,7 @@ _EwinListGroups(const EWin * ewin, char group_select, int *num)
 }
 #endif /* ENABLE_DIALOGS */
 
+/* Update groups on snapped window appearance */
 void
 GroupsEwinAdd(EWin * ewin, const int *pgid, int ngid)
 {
@@ -435,16 +434,16 @@ GroupsEwinAdd(EWin * ewin, const int *pgid, int ngid)
 	     /* This should not happen, but may if group/snap configs are corrupted */
 	     g = _GroupCreate(gid);
 	  }
-	_GroupAddEwin(g, ewin);
+	_GroupEwinAdd(g, ewin, 0);
      }
-   SnapshotEwinUpdate(ewin, SNAP_USE_GROUPS);
 }
 
+/* Update groups on snapped window disappearance */
 void
 GroupsEwinRemove(EWin * ewin)
 {
    while (ewin->num_groups > 0)
-      _GroupEwinRemove(ewin->groups[0], ewin);
+      _GroupEwinRemove(ewin->groups[0], ewin, 0);
 }
 
 static int
@@ -691,10 +690,10 @@ _DlgApplyGroupChoose(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
    switch (dd->action)
      {
      case GROUP_OP_ADD:
-	_GroupEwinAdd(dd->groups[dd->cur_grp], dd->ewin);
+	_GroupEwinAdd(dd->groups[dd->cur_grp], dd->ewin, 1);
 	break;
      case GROUP_OP_DEL:
-	_GroupEwinRemove(dd->groups[dd->cur_grp], dd->ewin);
+	_GroupEwinRemove(dd->groups[dd->cur_grp], dd->ewin, 1);
 	break;
      case GROUP_OP_BREAK:
 	_GroupDelete(dd->groups[dd->cur_grp]);
@@ -1218,19 +1217,19 @@ IPC_GroupOps(const char *params)
      {
 	group = _GroupCreate(-1);
 	Mode_groups.current = group;
-	_GroupEwinAdd(group, ewin);
+	_GroupEwinAdd(group, ewin, 1);
 	IpcPrintf("start %8x\n", win);
      }
    else if (!strcmp(operation, "add"))
      {
 	group = _GroupFind2(groupid);
-	_GroupEwinAdd(group, ewin);
+	_GroupEwinAdd(group, ewin, 1);
 	IpcPrintf("add %8x\n", win);
      }
    else if (!strcmp(operation, "del"))
      {
 	group = _GroupFind2(groupid);
-	_GroupEwinRemove(group, ewin);
+	_GroupEwinRemove(group, ewin, 1);
 	IpcPrintf("del %8x\n", win);
      }
    else if (!strcmp(operation, "break"))
