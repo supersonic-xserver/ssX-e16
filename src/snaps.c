@@ -1135,10 +1135,12 @@ SnapshotsSaveReal(void)
       if (sn->use_flags & SNAP_USE_SHADOW)
 	 fprintf(f, "SHADOW: %i\n", sn->shadow);
 #endif
-      if (sn->groups)
+      if (sn->use_flags & SNAP_USE_GROUPS)
 	{
+	   fprintf(f, "GROUP:");
 	   for (j = 0; j < sn->num_groups; j++)
-	      fprintf(f, "GROUP: %i\n", sn->groups[j]);
+	      fprintf(f, " %i", sn->groups[j]);
+	   fprintf(f, "\n");
 	}
       fprintf(f, "\n");
    }
@@ -1192,7 +1194,7 @@ _SnapshotsLoad(FILE * fs)
 	   continue;
 	*s++ = '\0';
 	s = Estrtrim(s);
-	if (!buf[0] || !s[0])
+	if (!buf[0])
 	   continue;
 	if (!strcmp(buf, "NEW"))
 	  {
@@ -1348,11 +1350,17 @@ _SnapshotsLoad(FILE * fs)
 	     else if (!strcmp(buf, "GROUP"))
 	       {
 		  sn->use_flags |= SNAP_USE_GROUPS;
-		  sn->num_groups++;
-		  sn->groups = EREALLOC(int, sn->groups, sn->num_groups);
-
-		  sn->groups[sn->num_groups - 1] = atoi(s);
-		  GroupRememberByGid(sn->groups[sn->num_groups - 1]);
+		  for (;; s += b)
+		    {
+		       b = 0;
+		       sscanf(s, "%d %n", &a, &b);
+		       if (b <= 0)
+			  break;
+		       sn->num_groups++;
+		       sn->groups = EREALLOC(int, sn->groups, sn->num_groups);
+		       sn->groups[sn->num_groups - 1] = a;
+		       GroupRememberByGid(a);
+		    }
 	       }
 #if USE_COMPOSITE
 	     else if (!strcmp(buf, "OPACITY"))
