@@ -216,9 +216,9 @@ _GroupFind2(const char *groupid)
    if (groupid[0] == '*' || groupid[0] == '\0')
       return Mode_groups.current;
 
-   gid = -1;
+   gid = 0;
    sscanf(groupid, "%d", &gid);
-   if (gid <= 0)
+   if (gid == 0)
       return NULL;
 
    return _GroupFind(gid);
