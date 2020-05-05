@@ -1162,6 +1162,35 @@ _GroupsConfigure(const char *params)
  */
 
 static void
+_GroupShowEwins(Group * g)
+{
+   int                 i;
+
+   IpcPrintf(" gid=%8d: ", g->index);
+   for (i = 0; i < g->num_members; i++)
+      IpcPrintf(" %s", EoGetName(g->members[i]));
+   IpcPrintf("\n");
+}
+
+static void
+_GroupsShowGroups(void)
+{
+   Group              *g;
+
+   IpcPrintf("%s:\n", __func__);
+   LIST_FOR_EACH(Group, &group_list, g)
+   {
+      _GroupShowEwins(g);
+   }
+}
+
+static void
+_GroupsShow(void)
+{
+   _GroupsShowGroups();
+}
+
+static void
 _GroupShow(Group * g)
 {
    int                 j;
@@ -1273,6 +1302,11 @@ IPC_Group(const char *params)
      {
 	IpcPrintf("Number of groups: %d\n", LIST_GET_COUNT(&group_list));
 	LIST_FOR_EACH(Group, &group_list, group) _GroupShow(group);
+	return;
+     }
+   else if (!strcmp(groupid, "list"))
+     {
+	_GroupsShow();
 	return;
      }
 
