@@ -63,10 +63,7 @@ _sound_sndio_Load(const char *file)
 static void
 _sound_sndio_Destroy(Sample * s)
 {
-   if (!s)
-      return;
-
-   EFREE_NULL(s->ssd.data);
+   Efree(s->ssd.data);
    Efree(s);
 }
 
@@ -75,7 +72,7 @@ _sound_sndio_Play(Sample * s)
 {
    struct sio_par      params;
 
-   if (hdl == NULL || !s)
+   if (hdl == NULL)
       return;
 
    sio_initpar(&params);

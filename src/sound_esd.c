@@ -95,9 +95,6 @@ _sound_esd_Load(const char *file)
 static void
 _sound_esd_Destroy(Sample * s)
 {
-   if (!s)
-      return;
-
    if (s->id && sound_fd >= 0)
      {
 /*      Why the hell is this symbol not in esd? */
@@ -105,14 +102,14 @@ _sound_esd_Destroy(Sample * s)
 /*      esd_sample_kill(sound_fd,s->id); */
 	esd_sample_free(sound_fd, s->id);
      }
-   EFREE_NULL(s->ssd.data);
+   Efree(s->ssd.data);
    Efree(s);
 }
 
 static void
 _sound_esd_Play(Sample * s)
 {
-   if (sound_fd < 0 || !s)
+   if (sound_fd < 0)
       return;
 
    if (s->id > 0)

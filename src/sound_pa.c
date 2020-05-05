@@ -182,9 +182,7 @@ _sound_pa_Destroy(Sample * s)
 {
    pa_operation       *op;
 
-   D2printf("%s beg: %s\n", __func__, s ? s->name : "?");
-   if (!s)
-      return;
+   D2printf("%s beg: %s\n", __func__, s->name);
 
    if (pa_ctx && s->name)
      {
@@ -196,8 +194,8 @@ _sound_pa_Destroy(Sample * s)
      }
    D2printf("%s end\n", __func__);
 
-   EFREE_NULL(s->name);
-   EFREE_NULL(s->ssd.data);
+   Efree(s->name);
+   Efree(s->ssd.data);
    Efree(s);
 }
 
@@ -270,8 +268,8 @@ _sound_pa_Play(Sample * s)
 {
    pa_operation       *op;
 
-   D2printf("%s beg: %s\n", __func__, s ? s->name : "?");
-   if (!pa_ctx || !s)
+   D2printf("%s beg: %s\n", __func__, s->name);
+   if (!pa_ctx)
       return;
 
    op = pa_context_play_sample(pa_ctx, s->name, NULL, PA_VOLUME_NORM,
