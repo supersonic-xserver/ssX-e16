@@ -447,22 +447,6 @@ GroupsEwinRemove(EWin * ewin)
       _GroupEwinRemove(ewin->groups[0], ewin, 0);
 }
 
-static int
-_EwinInGroup(const EWin * ewin, const Group * g)
-{
-   int                 i;
-
-   if (ewin && g)
-     {
-	for (i = 0; i < g->num_members; i++)
-	  {
-	     if (g->members[i] == ewin)
-		return 1;
-	  }
-     }
-   return 0;
-}
-
 Group              *
 EwinsInGroup(const EWin * ewin1, const EWin * ewin2)
 {
@@ -472,7 +456,7 @@ EwinsInGroup(const EWin * ewin1, const EWin * ewin2)
      {
 	for (i = 0; i < ewin1->num_groups; i++)
 	  {
-	     if (_EwinInGroup(ewin2, ewin1->groups[i]))
+	     if (_GroupEwinIndex(ewin1->groups[i], ewin2) >= 0)
 		return ewin1->groups[i];
 	  }
      }
