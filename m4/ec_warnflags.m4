@@ -9,7 +9,7 @@ dnl Usage: EC_C_WARNINGS([LANG])
 dnl Set LANG to 'cpp' when compiling for C++
 
 AC_DEFUN([EC_C_WARNINGS], [
-  define(ec_c_compile_cpp, ifelse([$1], [cpp], [yes], [no]))
+  m4_define([ec_c_compile_cpp], ifelse([$1], [cpp], [yes], [no]))
 
   AC_ARG_ENABLE(werror,
     [AS_HELP_STRING([--enable-werror],
@@ -20,7 +20,7 @@ AC_DEFUN([EC_C_WARNINGS], [
     CFLAGS_WARNINGS="-W -Wall -Waggregate-return -Wcast-align -Wpointer-arith -Wshadow -Wwrite-strings"
     ifelse(ec_c_compile_cpp, no, [
       CFLAGS_WARNINGS="$CFLAGS_WARNINGS -Wmissing-prototypes -Wmissing-declarations -Wstrict-prototypes"
-    ],)
+    ])
 
     if test "x$enable_werror" = "xyes"; then
       CFLAGS_WARNINGS="$CFLAGS_WARNINGS -Werror"

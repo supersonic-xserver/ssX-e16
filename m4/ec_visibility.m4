@@ -26,7 +26,7 @@ AC_DEFUN([EC_C_VISIBILITY],
 [
   AC_REQUIRE([AC_PROG_CC])
 
-  define(ec_c_vis_default, ifelse([$1], [no], [no], [yes]))
+  m4_define([ec_c_vis_default], ifelse([$1], [no], [no], [yes]))
   CFLAGS_VISIBILITY=
   HAVE_VISIBILITY=0
 
