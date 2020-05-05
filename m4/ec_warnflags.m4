@@ -12,7 +12,8 @@ AC_DEFUN([EC_C_WARNINGS], [
   define(ec_c_compile_cpp, ifelse([$1], [cpp], [yes], [no]))
 
   AC_ARG_ENABLE(werror,
-    [  --enable-werror         treat compiler warnings as errors @<:@default=no@:>@],,
+    [AS_HELP_STRING([--enable-werror],
+                    [treat compiler warnings as errors @<:@default=no@:>@])],,
     enable_werror=no)
 
   if test "x$GCC" = "xyes"; then

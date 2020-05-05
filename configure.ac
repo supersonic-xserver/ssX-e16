@@ -74,7 +74,7 @@ if test "x$have_clock_gettime" != xno; then
 fi
 
 AC_ARG_ENABLE(hints-gnome,
-  AC_HELP_STRING([--enable-hints-gnome],
+  AS_HELP_STRING([--enable-hints-gnome],
                  [compile with GNOME(<2.0) hints support @<:@default=no@:>@]),,
   enable_hints_gnome=no)
 
@@ -84,7 +84,7 @@ fi
 AM_CONDITIONAL(ENABLE_GNOME, test "x$enable_hints_gnome" = "xyes")
 
 AC_ARG_ENABLE(sound,
-  AC_HELP_STRING([--enable-sound],
+  AS_HELP_STRING([--enable-sound],
                  [compile with sound support (pulseaudio/esound/sndio/alsa/player/no)@<:@default=pulseaudio@:>@]),,
   enable_sound=pulseaudio)
 case x$enable_sound in
@@ -100,7 +100,7 @@ xplayer)
 esac
 
 AC_ARG_WITH(sndldr,
-  AC_HELP_STRING([--with-sndldr],
+  AS_HELP_STRING([--with-sndldr],
                  [select sound loader (audiofile/sndfile/none) @<:@default=sndfile@:>@]),,
   with_sndldr=sndfile)
 
@@ -147,7 +147,7 @@ AM_CONDITIONAL(USE_LIBSNDIO, test "x$enable_sound" = "xsndio")
 if test "x$enable_sound" = "xplayer"; then
   AC_DEFINE(USE_SOUND_PLAYER, 1, [Play sounds using audio player])
   AC_ARG_WITH(sndplayer,
-    AC_HELP_STRING([--with-sndplayer],
+    AS_HELP_STRING([--with-sndplayer],
                    [select sound player @<:@default="/usr/bin/aplay -q %s"@:>@]),,
     with_sndplayer="/usr/bin/aplay -q %s")
     AC_DEFINE_UNQUOTED(SOUND_PLAYER_FMT, "$with_sndplayer", [Audio player]),
@@ -193,7 +193,7 @@ AC_CHECK_LIB(Imlib2, imlib_set_ximage_cache_count_max,
   $IMLIB2_LIBS)
 
 AC_ARG_ENABLE(sm,
-  AC_HELP_STRING([--enable-sm], [compile with session management support @<:@default=yes@:>@]),,
+  AS_HELP_STRING([--enable-sm], [compile with session management support @<:@default=yes@:>@]),,
   enable_sm=yes)
 if test "x$enable_sm" = "xyes"; then
   PKG_CHECK_MODULES(SM, sm ice, ,
@@ -205,7 +205,7 @@ if test "x$enable_sm" = "xyes"; then
 fi
 
 AC_ARG_ENABLE(pango,
-  AC_HELP_STRING([--enable-pango], [compile with pango-xft support @<:@default=yes@:>@]),,
+  AS_HELP_STRING([--enable-pango], [compile with pango-xft support @<:@default=yes@:>@]),,
   enable_pango=yes)
 if test "x$enable_pango" = "xyes"; then
   PKG_CHECK_MODULES(PANGO, pangoxft gobject-2.0, AC_DEFINE(USE_PANGO, 1, [pango-xft support]), enable_pango=no)
@@ -213,7 +213,7 @@ fi
 AM_CONDITIONAL(USE_LIBPANGO, test "x$enable_pango" = "xyes")
 
 AC_ARG_ENABLE(xft,
-  AC_HELP_STRING([--enable-xft], [compile with Xft support @<:@default=yes@:>@]),,
+  AS_HELP_STRING([--enable-xft], [compile with Xft support @<:@default=yes@:>@]),,
   enable_xft=yes)
 if test "x$enable_xft" = "xyes"; then
   PKG_CHECK_MODULES(XFT, xft, AC_DEFINE(USE_XFT, 1, [Xft support]), enable_xft=no)
@@ -221,14 +221,14 @@ fi
 AM_CONDITIONAL(USE_LIBXFT, test "x$enable_xft" = "xyes")
 
 AC_ARG_ENABLE(xi2,
-  AC_HELP_STRING([--enable-xi2], [compile with XI2 support (experimental) @<:@default=no@:>@]),,
+  AS_HELP_STRING([--enable-xi2], [compile with XI2 support (experimental) @<:@default=no@:>@]),,
   enable_xi2=no)
 if test "x$enable_xi2" = "xyes"; then
   PKG_CHECK_MODULES(XI, xi >= 1.3, AC_DEFINE(USE_XI2, 1, [XI2 support]), enable_xi2=no)
 fi
 
 AC_ARG_ENABLE(glx,
-  AC_HELP_STRING([--enable-glx], [compile with GLX support (experimental) @<:@default=no@:>@]),,
+  AS_HELP_STRING([--enable-glx], [compile with GLX support (experimental) @<:@default=no@:>@]),,
   enable_glx=no)
 if test "x$enable_glx" = "xyes"; then
   PKG_CHECK_MODULES(GLX, gl glu,
@@ -247,7 +247,7 @@ AC_CHECK_LIB(Xext, XShapeQueryExtension,
   -lX11)
 
 AC_ARG_ENABLE(xsync,
-  AC_HELP_STRING([--enable-xsync], [compile with SYNC support @<:@default=yes@:>@]),,
+  AS_HELP_STRING([--enable-xsync], [compile with SYNC support @<:@default=yes@:>@]),,
   enable_xsync=yes)
 if test "x$enable_xsync" = "xyes"; then
   AC_CHECK_LIB(Xext, XSyncQueryExtension,
@@ -258,7 +258,7 @@ if test "x$enable_xsync" = "xyes"; then
 fi
 
 AC_ARG_ENABLE(xinerama,
-  AC_HELP_STRING([--enable-xinerama], [compile with xinerama support @<:@default=yes@:>@]),,
+  AS_HELP_STRING([--enable-xinerama], [compile with xinerama support @<:@default=yes@:>@]),,
   enable_xinerama=yes)
 if test "x$enable_xinerama" = "xyes"; then
   PKG_CHECK_MODULES(XINERAMA, xinerama,
@@ -268,7 +268,7 @@ if test "x$enable_xinerama" = "xyes"; then
 fi
 
 AC_ARG_ENABLE(xscrnsaver,
-  AC_HELP_STRING([--enable-xscrnsaver],
+  AS_HELP_STRING([--enable-xscrnsaver],
                  [compile with ScreenSaver support (experimental/not useful) @<:@default=no@:>@]),,
   enable_xscrnsaver=no)
 if test "x$enable_xscrnsaver" = "xyes"; then
@@ -279,7 +279,7 @@ if test "x$enable_xscrnsaver" = "xyes"; then
 fi
 
 AC_ARG_ENABLE(xrandr,
-  AC_HELP_STRING([--enable-xrandr], [compile with RandR support @<:@default=yes@:>@]),,
+  AS_HELP_STRING([--enable-xrandr], [compile with RandR support @<:@default=yes@:>@]),,
   enable_xrandr=yes)
 if test "x$enable_xrandr" = "xyes"; then
   PKG_CHECK_MODULES(XRANDR, xrandr,
@@ -293,7 +293,7 @@ if test "x$enable_xrandr" = "xyes"; then
 fi
 
 AC_ARG_ENABLE(xrender,
-  AC_HELP_STRING([--enable-xrender], [compile with Render support @<:@default=yes@:>@]),,
+  AS_HELP_STRING([--enable-xrender], [compile with Render support @<:@default=yes@:>@]),,
   enable_xrender=yes)
 if test "x$enable_xrender" = "xyes"; then
   PKG_CHECK_MODULES(XRENDER, xrender,
@@ -303,7 +303,7 @@ if test "x$enable_xrender" = "xyes"; then
 fi
 
 AC_ARG_ENABLE(composite,
-  AC_HELP_STRING([--enable-composite], [compile with Composite support @<:@default=yes@:>@]),,
+  AS_HELP_STRING([--enable-composite], [compile with Composite support @<:@default=yes@:>@]),,
   enable_composite=yes)
 if test "x$enable_xrender" != "xyes"; then enable_composite=no; fi
 if test "x$enable_composite" = "xyes"; then
@@ -319,7 +319,7 @@ fi
 AM_CONDITIONAL(ENABLE_COMPOSITE, test "x$enable_composite" = "xyes")
 
 AC_ARG_ENABLE(xpresent,
-  AC_HELP_STRING([--enable-xpresent], [compile with Present support (experimental) @<:@default=no@:>@]),,
+  AS_HELP_STRING([--enable-xpresent], [compile with Present support (experimental) @<:@default=no@:>@]),,
   enable_xpresent=no)
 if test "x$enable_xpresent" = "xyes"; then
   PKG_CHECK_MODULES(XPRESENT, xpresent,
@@ -329,7 +329,7 @@ if test "x$enable_xpresent" = "xyes"; then
 fi
 
 AC_ARG_ENABLE(zoom,
-  AC_HELP_STRING([--enable-zoom], [compile with zoom support @<:@default=yes@:>@]),,
+  AS_HELP_STRING([--enable-zoom], [compile with zoom support @<:@default=yes@:>@]),,
   enable_zoom=yes)
 if test "x$enable_zoom" = "xyes"; then
   if test "x$have_randr_13" = "xy"; then
@@ -356,7 +356,7 @@ fi
 AM_CONDITIONAL(ENABLE_ZOOM, test "x$enable_zoom" != "xno")
 
 AC_ARG_ENABLE(dbus,
-  AC_HELP_STRING([--enable-dbus], [compile with D-Bus support (experimental) @<:@default=no@:>@]),,
+  AS_HELP_STRING([--enable-dbus], [compile with D-Bus support (experimental) @<:@default=no@:>@]),,
   enable_dbus=no)
 if test "x$enable_dbus" = "xyes"; then
   PKG_CHECK_MODULES(DBUS, dbus-1, AC_DEFINE(USE_DBUS, 1, [dbus support]), enable_dbus=no)
@@ -371,7 +371,7 @@ AC_CHECK_LIB(Fridge,mass_quantities_of_any_ale,, [
 
 # GNOME session support
 AC_ARG_WITH(gnome,
-  AC_HELP_STRING([--with-gnome], [compile with gnome support @<:@default=auto@:>@]),,
+  AS_HELP_STRING([--with-gnome], [compile with gnome support @<:@default=auto@:>@]),,
   with_gnome=auto)
 if test "x$with_gnome" = "xauto"; then
   with_gnome2=yes
@@ -391,7 +391,7 @@ CPPFLAGS="$SAVE_CPPFLAGS"
 LDFLAGS="$SAVE_LDFLAGS"
 
 AC_ARG_ENABLE(libhack,
-  AC_HELP_STRING([--enable-libhack], [build window mode helper library @<:@default=yes@:>@]),,
+  AS_HELP_STRING([--enable-libhack], [build window mode helper library @<:@default=yes@:>@]),,
   enable_libhack=yes)
 if test "x$enable_libhack" = "xyes"; then
   AC_CHECK_LIB(dl, dlopen, DLOPEN_LIBS=-ldl, enable_libhack=no)
@@ -403,14 +403,14 @@ fi
 AM_CONDITIONAL(BUILD_LIBHACK, test "x$enable_libhack" = "xyes")
 
 AC_ARG_ENABLE(libtrip,
-  AC_HELP_STRING([--enable-libtrip], [build debug library @<:@default=no@:>@]),,
+  AS_HELP_STRING([--enable-libtrip], [build debug library @<:@default=no@:>@]),,
   enable_libtrip=no)
 AC_CHECK_HEADERS(execinfo.h,, enable_libtrip=no)
 AC_CHECK_FUNCS(backtrace backtrace_symbols,, enable_libtrip=no)
 AM_CONDITIONAL(BUILD_LIBTRIP, test "x$enable_libtrip" = "xyes")
 
 AC_ARG_ENABLE(modules,
-  AC_HELP_STRING([--enable-modules], [enable support for loadable modules @<:@default=no@:>@]),,
+  AS_HELP_STRING([--enable-modules], [enable support for loadable modules @<:@default=no@:>@]),,
   enable_modules=no)
 if test "x$enable_modules" = "xyes"; then
   AC_CHECK_LIB(dl, dlopen, DLOPEN_LIBS=-ldl, enable_modules=no)
@@ -422,7 +422,7 @@ fi
 AM_CONDITIONAL(BUILD_MODULES, test "x$enable_modules" = "xyes")
 
 AC_ARG_ENABLE(dialogs,
-  AC_HELP_STRING([--enable-dialogs],
+  AS_HELP_STRING([--enable-dialogs],
                  [enable support for configuration dialogs @<:@default=yes@:>@]),,
   enable_dialogs=yes)
 if test "x$enable_dialogs" = "xyes"; then
@@ -430,7 +430,7 @@ if test "x$enable_dialogs" = "xyes"; then
 fi
 
 AC_ARG_ENABLE(container,
-  AC_HELP_STRING([--enable-container],
+  AS_HELP_STRING([--enable-container],
                  [use container window (experimental) @<:@default=yes@:>@]),,
   enable_container=yes)
 if test "x$enable_container" = "xyes"; then
@@ -439,16 +439,16 @@ fi
 
 AM_MISSING_PROG(XMLTO, xmlto)
 AC_ARG_ENABLE(mans,
-  AC_HELP_STRING([--enable-mans], [install man page @<:@default=yes@:>@]),,
+  AS_HELP_STRING([--enable-mans], [install man page @<:@default=yes@:>@]),,
   enable_mans=yes)
 AM_CONDITIONAL([INSTALL_MANS], [test "x$enable_mans" = "xyes"])
 AC_ARG_ENABLE(docs,
-  AC_HELP_STRING([--enable-docs], [install html docs @<:@default=yes@:>@]),,
+  AS_HELP_STRING([--enable-docs], [install html docs @<:@default=yes@:>@]),,
   enable_docs=yes)
 AM_CONDITIONAL([INSTALL_DOCS], [test "x$enable_docs" = "xyes"])
 
 AC_ARG_ENABLE(gcc-cpp,
-  AC_HELP_STRING([--enable-gcc-cpp], [compile everything as if it were C++ @<:@default=no@:>@]),,
+  AS_HELP_STRING([--enable-gcc-cpp], [compile everything as if it were C++ @<:@default=no@:>@]),,
   enable_gcc_cpp=no)
 if test "x$enable_gcc_cpp" = "xyes"; then
   CC="g++"
