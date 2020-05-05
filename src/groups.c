@@ -226,6 +226,12 @@ _GroupFind2(const char *groupid)
    if (groupid[0] == '*' || groupid[0] == '\0')
       return Mode_groups.current;
 
+#if ENABLE_DIALOGS
+#define GROUP_CHOOSE ((Group*)1)
+   if (groupid[0] == '=')
+      return GROUP_CHOOSE;
+#endif
+
    gid = 0;
    sscanf(groupid, "%d", &gid);
    if (gid == 0)
@@ -1112,49 +1118,6 @@ const DialogDef     DlgGroupDefaults = {
    _DlgFillGroupDefaults,
    DLG_OAC, _DlgApplyGroupDefaults, NULL
 };
-
-static void
-_GroupsConfigure(const char *params)
-{
-   char                s[128];
-   const char         *p;
-   int                 l;
-   EWin               *ewin;
-
-   p = params;
-   l = 0;
-   s[0] = '\0';
-   sscanf(p, "%100s %n", s, &l);
-   p += l;
-
-   ewin = GetContextEwin();
-   if (*p)
-     {
-	ewin = EwinFindByExpr(p);
-	if (!ewin)
-	  {
-	     IpcPrintf("Error: no such window: %s\n", p);
-	     return;
-	  }
-     }
-
-   if (!strcmp(s, "group"))
-     {
-	_EwinGroupsConfig(ewin);
-     }
-   else if (!strcmp(s, "add"))
-     {
-	_EwinGroupChooseDialog(ewin, GROUP_OP_ADD);
-     }
-   else if (!strcmp(s, "del"))
-     {
-	_EwinGroupChooseDialog(ewin, GROUP_OP_DEL);
-     }
-   else if (!strcmp(s, "break"))
-     {
-	_EwinGroupChooseDialog(ewin, GROUP_OP_BREAK);
-     }
-}
 #endif /* ENABLE_DIALOGS */
 
 /*
@@ -1243,35 +1206,52 @@ IPC_GroupOps(const char *params)
 	return;
      }
 
+#if ENABLE_DIALOGS
+   if (!strcmp(operation, "cfg"))
+     {
+	_EwinGroupsConfig(ewin);
+     }
+   else
+#endif
    if (!strcmp(operation, "start"))
      {
 	group = _GroupCreate(-1, 1);
 	Mode_groups.current = group;
 	_GroupEwinAdd(group, ewin, 1);
-	IpcPrintf("start %8x\n", win);
      }
    else if (!strcmp(operation, "add"))
      {
 	group = _GroupFind2(groupid);
-	_GroupEwinAdd(group, ewin, 1);
-	IpcPrintf("add %8x\n", win);
+#if ENABLE_DIALOGS
+	if (group == GROUP_CHOOSE)
+	   _EwinGroupChooseDialog(ewin, GROUP_OP_ADD);
+	else
+	   _GroupEwinAdd(group, ewin, 1);
+#endif
      }
    else if (!strcmp(operation, "del"))
      {
 	group = _GroupFind2(groupid);
-	_GroupEwinRemove(group, ewin, 1);
-	IpcPrintf("del %8x\n", win);
+#if ENABLE_DIALOGS
+	if (group == GROUP_CHOOSE)
+	   _EwinGroupChooseDialog(ewin, GROUP_OP_DEL);
+	else
+#endif
+	   _GroupEwinRemove(group, ewin, 1);
      }
    else if (!strcmp(operation, "break"))
      {
 	group = _GroupFind2(groupid);
-	_GroupDelete(group);
-	IpcPrintf("break %8x\n", win);
+#if ENABLE_DIALOGS
+	if (group == GROUP_CHOOSE)
+	   _EwinGroupChooseDialog(ewin, GROUP_OP_BREAK);
+	else
+#endif
+	   _GroupDelete(group);
      }
    else if (!strcmp(operation, "showhide"))
      {
 	_EwinGroupsShowHide(ewin, -1, SET_TOGGLE);
-	IpcPrintf("showhide %8x\n", win);
      }
    else
      {
@@ -1414,59 +1394,24 @@ IPC_Group(const char *params)
       _GroupsSave();
 }
 
-static void
-IPC_GroupsConfig(const char *params)
-{
-   const char         *p;
-   char                cmd[128];
-   int                 len;
-
-   cmd[0] = '\0';
-   p = params;
-   if (p)
-     {
-	len = 0;
-	sscanf(p, "%100s %n", cmd, &len);
-	p += len;
-     }
-
-   if (!p || cmd[0] == '?')
-     {
-	/* Show groups */
-     }
-#if ENABLE_DIALOGS
-   else if (!strcmp(cmd, "cfg"))
-     {
-	_GroupsConfigure(p);
-     }
-#endif
-}
-
 static const IpcItem GroupsIpcArray[] = {
-   {
-    IPC_GroupsConfig,
-    "groups", "grp",
-    "Configure window groups",
-    "  groups cfg group <windowid>  Configure windows groups\n"
-    "  groups cfg add   <windowid>  Add window to group\n"
-    "  groups cfg del   <windowid>  Remove window from group\n"
-    "  groups cfg break <windowid>  Destroy one of the windows groups\n"}
-   ,
    {
     IPC_GroupOps,
     "group_op", "gop",
     "Group operations",
     "use \"group_op <windowid> <property> [<value>]\" to perform "
-    "group operations on a window.\n" "Available group_op commands are:\n"
+    "group operations on a window.\n"
+    "Available group_op commands are:\n"
+    "  group_op <windowid> cfg\n"
     "  group_op <windowid> start\n"
-    "  group_op <windowid> add [<group_index>]\n"
-    "  group_op <windowid> del [<group_index>]\n"
-    "  group_op <windowid> break [<group_index>]\n"
+    "  group_op <windowid> add [<groupid>]\n"
+    "  group_op <windowid> del [<groupid>]\n"
+    "  group_op <windowid> break [<groupid>]\n"
     "  group_op <windowid> showhide\n"}
    ,
    {
     IPC_Group,
-    "group", "gc",
+    "group", "grp",
     "Group commands",
     "use \"group <groupid> <property> <value>\" to set group properties.\n"
     "Available group commands are:\n"
