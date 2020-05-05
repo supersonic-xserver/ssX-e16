@@ -5,6 +5,8 @@ libe16_LTLIBRARIES = $(LIB_HACK) $(LIB_TRIP)
 AM_CPPFLAGS = -I$(top_srcdir)/src $(X_CFLAGS) \
 	      $(CFLAGS_WARNINGS) $(CFLAGS_VISIBILITY)
 
+AM_CFLAGS = $(CFLAGS_ASAN)
+
 if BUILD_LIBHACK
 
 LIB_HACK = libhack.la

@@ -458,6 +458,8 @@ else
   EC_C_WARNINGS()
 fi
 
+EC_C_ASAN()
+
 AC_DEFINE(USE_EXT_INIT_WIN,          1, [Use external init window during restart])
 
 AC_DEFINE(ENABLE_DESKRAY,            0, [Enable deskrays (not functional)])
