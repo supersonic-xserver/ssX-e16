@@ -340,8 +340,6 @@ _GroupEwinRemove(Group * g, EWin * ewin, int snap_update)
 static void
 _GroupDelete(Group * g)
 {
-   EWin               *ewin;
-
    if (!g)
       return;
 
@@ -349,10 +347,7 @@ _GroupDelete(Group * g)
 
    g->keep = 1;
    while (g->num_members > 0)
-     {
-	ewin = g->members[0];
-	_GroupEwinRemove(g, ewin, 1);
-     }
+      _GroupEwinRemove(g, g->members[0], 1);
    _GroupDestroy(g, 1);
 }
 
