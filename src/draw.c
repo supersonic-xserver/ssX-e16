@@ -129,7 +129,7 @@ typedef struct {
 
 static void
 _ShapeDrawNograb_tech_box(EWin * ewin, int md, int firstlast,
-			  int xn, int yn, int wn, int hn, int seqno)
+			  int xn, int yn, int wn, int hn)
 {
    ShapeData          *psd = (ShapeData *) ewin->shape_data;
 
@@ -138,8 +138,8 @@ _ShapeDrawNograb_tech_box(EWin * ewin, int md, int firstlast,
    if (!psd->shwin)
       return;
 
-   ShapewinShapeSet(psd->shwin, md, xn, yn, wn, hn, psd->bl, psd->br, psd->bt,
-		    psd->bb, seqno);
+   ShapewinShapeSet(psd->shwin, md, xn, yn, wn, hn,
+		    psd->bl, psd->br, psd->bt, psd->bb);
    EoMap(psd->shwin, 0);
 
    CoordsShow(ewin);
@@ -201,8 +201,7 @@ _ShapeDrawNontranslucent(EWin * ewin, int md, int firstlast,
 }
 
 void
-DrawEwinShape(EWin * ewin, int md, int x, int y, int w, int h,
-	      int firstlast, int seqno)
+DrawEwinShape(EWin * ewin, int md, int x, int y, int w, int h, int firstlast)
 {
    ShapeData          *psd;
    int                 dx, dy;
@@ -262,7 +261,7 @@ DrawEwinShape(EWin * ewin, int md, int x, int y, int w, int h,
    if (((md <= MR_BOX) || (md == MR_TECH_OPAQUE)) &&
        Conf.movres.avoid_server_grab)
      {
-	_ShapeDrawNograb_tech_box(ewin, md, firstlast, x, y, w, h, seqno);
+	_ShapeDrawNograb_tech_box(ewin, md, firstlast, x, y, w, h);
 	goto done;
      }
 

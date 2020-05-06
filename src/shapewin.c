@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2015 Kim Woelders
+ * Copyright (C) 2007-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -109,7 +109,7 @@ ShapewinCreate(int md)
 
 void
 ShapewinShapeSet(ShapeWin * sw, int md, int x, int y, int w, int h,
-		 int bl, int br, int bt, int bb, int seqno)
+		 int bl, int br, int bt, int bb)
 {
    int                 w2, h2;
 
@@ -123,10 +123,8 @@ ShapewinShapeSet(ShapeWin * sw, int md, int x, int y, int w, int h,
 		       0, 0, WinGetW(VROOT), WinGetH(VROOT));
 	XSetForeground(disp, sw->gc, 1);
 	do_draw_technical(sw->mask, sw->gc, x, y, w, h, bl, br, bt, bb);
-	if (seqno == 0)
-	   EShapeSetMask(EoGetWin(sw), 0, 0, sw->mask);
-	else
-	   EShapeUnionMask(EoGetWin(sw), 0, 0, sw->mask);
+
+	EShapeSetMask(EoGetWin(sw), 0, 0, sw->mask);
      }
    else
      {
@@ -137,10 +135,7 @@ ShapewinShapeSet(ShapeWin * sw, int md, int x, int y, int w, int h,
 	h = (h > 5) ? h - 2 : 3;
 	_SHAPE_SET_RECT((&rl[4]), x + bl + 1, y + bt + 1, w, h);
 
-	if (seqno == 0)
-	   EShapeSetRects(EoGetWin(sw), 0, 0, rl, 8);
-	else
-	   EShapeUnionRects(EoGetWin(sw), 0, 0, rl, 8);
+	EShapeSetRects(EoGetWin(sw), 0, 0, rl, 8);
      }
    EoShapeUpdate(sw, 0);
 }

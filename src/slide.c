@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2017 Kim Woelders
+ * Copyright (C) 2013-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -102,7 +102,7 @@ _EwinSlideSizeTo(EObj * eo, int remaining, void *state)
    if (p->mode == MR_OPAQUE)
       EwinMoveResize(ewin, x, y, w, h, MRF_KEEP_MAXIMIZED);
    else
-      DrawEwinShape(ewin, p->mode, x, y, w, h, p->firstlast, 0);
+      DrawEwinShape(ewin, p->mode, x, y, w, h, p->firstlast);
    if (p->firstlast == 0)
       p->firstlast = 1;
 
@@ -111,7 +111,7 @@ _EwinSlideSizeTo(EObj * eo, int remaining, void *state)
 	ewin->state.sliding = 0;
 	if (p->mode != MR_OPAQUE)
 	   DrawEwinShape(ewin, p->mode, p->tx, p->ty,
-			 ewin->client.w, ewin->client.h, 2, 0);
+			 ewin->client.w, ewin->client.h, 2);
 	EwinMove(ewin, p->tx, p->ty, MRF_NOCHECK_ONSCREEN | MRF_KEEP_MAXIMIZED);
 	if (p->flags & SLIDE_WARP)
 	  {

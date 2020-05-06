@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -163,7 +163,7 @@ _MoveResizeMoveEnd(EWin * ewin)
 	for (i = 0; i < num; i++)
 	   DrawEwinShape(gwins[i], Mode_mr.mode,
 			 gwins[i]->shape_x, gwins[i]->shape_y,
-			 gwins[i]->client.w, gwins[i]->client.h, 2, i);
+			 gwins[i]->client.w, gwins[i]->client.h, 2);
      }
    Mode.mode = MODE_NONE;
 
@@ -226,7 +226,7 @@ _MoveResizeMoveSuspend(void)
 	  {
 	     ewin = lst[i];
 	     DrawEwinShape(ewin, Mode_mr.mode, ewin->shape_x,
-			   ewin->shape_y, ewin->client.w, ewin->client.h, 3, i);
+			   ewin->shape_y, ewin->client.w, ewin->client.h, 3);
 	  }
 	Efree(lst);
 
@@ -239,7 +239,7 @@ _MoveResizeMoveResume(void)
 {
    EWin               *ewin, **lst;
    int                 i, num;
-   int                 x, y, fl, dx, dy;
+   int                 x, y, dx, dy;
 
    ewin = Mode_mr.ewin;
    if (!ewin)
@@ -247,12 +247,8 @@ _MoveResizeMoveResume(void)
 
    GrabPointerSet(Mode_mr.events, ECSR_ACT_MOVE, 1);
 
-   fl = 0;
    if (Mode.mode == MODE_MOVE_PENDING)
-     {
-	Mode.mode = MODE_MOVE;
-	fl = 0;			/* This is the first time we draw it */
-     }
+      Mode.mode = MODE_MOVE;
 
    if (Mode_mr.grab_server)
       EGrabServer();
@@ -275,7 +271,7 @@ _MoveResizeMoveResume(void)
 	x = ewin->shape_x + dx;
 	y = ewin->shape_y + dy;
 	DrawEwinShape(ewin, Mode_mr.mode, x, y,
-		      ewin->client.w, ewin->client.h, fl, i);
+		      ewin->client.w, ewin->client.h, 0);
      }
    Efree(lst);
 }
@@ -427,7 +423,7 @@ MoveResizeResizeStart(EWin * ewin, int kbd, int hv)
    EwinShapeSet(ewin);
    ewin->state.show_coords = 1;
    DrawEwinShape(ewin, Conf.movres.mode_resize, EoGetX(ewin), EoGetY(ewin),
-		 ewin->client.w, ewin->client.h, 0, 0);
+		 ewin->client.w, ewin->client.h, 0);
 }
 
 static void
@@ -449,7 +445,7 @@ _MoveResizeResizeEnd(EWin * ewin)
 
    ewin->state.show_coords = 0;
    DrawEwinShape(ewin, Conf.movres.mode_resize, ewin->shape_x, ewin->shape_y,
-		 ewin->shape_w, ewin->shape_h, 2, 0);
+		 ewin->shape_w, ewin->shape_h, 2);
 
    if ((Mode_mr.mode == MR_OPAQUE) || (Mode_mr.mode == MR_TECH_OPAQUE))
      {
@@ -513,7 +509,7 @@ _MoveResizeMoveHandleMotion(void)
 	  {
 	     ewin1 = gwins[i];
 	     DrawEwinShape(ewin1, Mode_mr.mode, EoGetX(ewin1), EoGetY(ewin1),
-			   ewin1->client.w, ewin1->client.h, 0, i);
+			   ewin1->client.w, ewin1->client.h, 0);
 	     if (Conf.movres.mode_move == MR_OPAQUE)
 		Mode_mr.mode = MR_OPAQUE;
 	  }
@@ -649,7 +645,7 @@ _MoveResizeMoveHandleMotion(void)
 	/* draw the new position of the window */
 	DrawEwinShape(ewin1, Mode_mr.mode,
 		      ewin1->shape_x + ndx, ewin1->shape_y + ndy,
-		      ewin1->client.w, ewin1->client.h, 1, i);
+		      ewin1->client.w, ewin1->client.h, 1);
 
 	/* if we didnt jump the window after a resist at the edge */
 	/* reset the requested x to be the prev. requested + delta */
@@ -753,7 +749,7 @@ _MoveResizeResizeHandleMotion(void)
 	break;
      }
 
-   DrawEwinShape(ewin, Conf.movres.mode_resize, x, y, w, h, 1, 0);
+   DrawEwinShape(ewin, Conf.movres.mode_resize, x, y, w, h, 1);
 }
 
 static void

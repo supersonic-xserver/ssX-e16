@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Kim Woelders
+ * Copyright (C) 2014-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -38,8 +38,7 @@ struct _ShapeWin {
 ShapeWin           *ShapewinCreate(int md);
 void                ShapewinDestroy(ShapeWin * sw);
 void                ShapewinShapeSet(ShapeWin * sw, int md, int x, int y, int w,
-				     int h, int bl, int br, int bt, int bb,
-				     int seqno);
+				     int h, int bl, int br, int bt, int bb);
 
 void                do_draw_technical(EX_Drawable dr, GC gc,
 				      int a, int b, int c, int d, int bl,

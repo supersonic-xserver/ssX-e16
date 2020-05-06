@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2019 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -343,7 +343,7 @@ void                DockIt(EWin * ewin);
 
 /* draw.c */
 void                DrawEwinShape(EWin * ewin, int md, int x, int y, int w,
-				  int h, int firstlast, int seqno);
+				  int h, int firstlast);
 void                DrawEwinShapeEnd(EWin * ewin);
 int                 DrawEwinShapeNeedsGrab(int mode);
 
