@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2007-2018 Kim Woelders
+ * Copyright (C) 2007-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -226,12 +226,16 @@ DrawEwinShape(EWin * ewin, int md, int x, int y, int w, int h,
      {
 	EwinShapeSet(ewin);
 
-	psd = ECALLOC(ShapeData, 1);
-	ewin->shape_data = psd;
+	psd = (ShapeData *) ewin->shape_data;
 	if (!psd)
-	   goto done;
-	psd->root = WinGetXwin(VROOT);
-	EwinBorderGetSize(ewin, &psd->bl, &psd->br, &psd->bt, &psd->bb);
+	  {
+	     psd = ECALLOC(ShapeData, 1);
+	     if (!psd)
+		goto done;
+	     ewin->shape_data = psd;
+	     psd->root = WinGetXwin(VROOT);
+	     EwinBorderGetSize(ewin, &psd->bl, &psd->br, &psd->bt, &psd->bb);
+	  }
      }
    psd = (ShapeData *) ewin->shape_data;
    if (!psd)
