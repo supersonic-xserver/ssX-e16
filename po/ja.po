@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2019-10-23 19:06+0200\n"
+"POT-Creation-Date: 2020-05-05 18:06+0200\n"
 "PO-Revision-Date: 2011-10-11 18:12+0900\n"
 "Last-Translator: Yasufumi Haga <yasufumi.haga@nifty.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -157,32 +157,32 @@ msgstr ""
 msgid "Enlightenment Error"
 msgstr "Enlightenment エラー"
 
-#: src/alert.c:570
+#: src/alert.c:583
 msgid "Enlightenment Message Dialog"
 msgstr "Enlightenment メッセージダイアログ"
 
-#: src/alert.c:570
+#: src/alert.c:583
 msgid "Ignore this"
 msgstr "無視する"
 
-#: src/alert.c:571
+#: src/alert.c:584
 msgid "Restart Enlightenment"
 msgstr "Enlightenment 再起動"
 
-#: src/alert.c:571 src/setup.c:184
+#: src/alert.c:584 src/setup.c:184
 msgid "Quit Enlightenment"
 msgstr "Enlightenment 終了"
 
-#: src/alert.c:581
+#: src/alert.c:594
 msgid "Attention !!!"
 msgstr "注意 !!!"
 
-#: src/alert.c:581 src/dialog.c:679 src/dialog.c:1814 src/events.c:104
-#: src/setup.c:163 src/setup.c:176 src/sound.c:314
+#: src/alert.c:594 src/dialog.c:680 src/dialog.c:1818 src/events.c:104
+#: src/setup.c:163 src/setup.c:176
 msgid "OK"
 msgstr "了解"
 
-#: src/backgrounds.c:1497
+#: src/backgrounds.c:1499
 #, c-format
 msgid ""
 "Background definition information:\n"
@@ -193,11 +193,11 @@ msgstr ""
 "名前: %s\n"
 "ファイル: %s"
 
-#: src/backgrounds.c:1498
+#: src/backgrounds.c:1500
 msgid "-NONE-"
 msgstr "なし"
 
-#: src/backgrounds.c:1673 src/backgrounds.c:1675
+#: src/backgrounds.c:1675 src/backgrounds.c:1677
 msgid ""
 "No\n"
 "Background"
@@ -205,40 +205,40 @@ msgstr ""
 "背景\n"
 "なし"
 
-#: src/backgrounds.c:1775 src/backgrounds.c:2206
+#: src/backgrounds.c:1777 src/backgrounds.c:2210
 #, c-format
 msgid "Unused backgrounds freed after %2i:%02i:%02i"
 msgstr "%2i:%02i:%02i 後に使用されていない背景を解放する"
 
-#: src/backgrounds.c:1995
+#: src/backgrounds.c:1999
 msgid "Use background image"
 msgstr "背景に画像を使用する"
 
-#: src/backgrounds.c:1999
+#: src/backgrounds.c:2003
 msgid "Keep aspect on scale"
 msgstr "縦横のサイズ比を保つ"
 
-#: src/backgrounds.c:2003
+#: src/backgrounds.c:2007
 msgid "Tile image across background"
 msgstr "背景画像をタイル状に配置"
 
-#: src/backgrounds.c:2012
+#: src/backgrounds.c:2016
 msgid "Move to Front"
 msgstr "先頭へ移動"
 
-#: src/backgrounds.c:2017
+#: src/backgrounds.c:2021
 msgid "Duplicate"
 msgstr "コピー"
 
-#: src/backgrounds.c:2021
+#: src/backgrounds.c:2025
 msgid "Unlist"
 msgstr "背景リストから消去"
 
-#: src/backgrounds.c:2026
+#: src/backgrounds.c:2030
 msgid "Delete File"
 msgstr "背景ファイルを削除"
 
-#: src/backgrounds.c:2037
+#: src/backgrounds.c:2041
 msgid ""
 "Background\n"
 "Image\n"
@@ -252,62 +252,62 @@ msgstr ""
 "\n"
 "方向\n"
 
-#: src/backgrounds.c:2091
+#: src/backgrounds.c:2095
 msgid "BG Colour"
 msgstr "背景の色"
 
-#: src/backgrounds.c:2096
+#: src/backgrounds.c:2100
 msgid "Red:"
 msgstr "赤:"
 
-#: src/backgrounds.c:2107
+#: src/backgrounds.c:2111
 msgid "Green:"
 msgstr "緑:"
 
-#: src/backgrounds.c:2118
+#: src/backgrounds.c:2122
 msgid "Blue:"
 msgstr "青:"
 
-#: src/backgrounds.c:2151
+#: src/backgrounds.c:2155
 msgid "Pre-scan BG's"
 msgstr "背景をスキャン"
 
-#: src/backgrounds.c:2159
+#: src/backgrounds.c:2163
 msgid "Sort by File"
 msgstr "ファイル名でソート"
 
-#: src/backgrounds.c:2164
+#: src/backgrounds.c:2168
 msgid "Sort by Attr."
 msgstr "属性でソート"
 
-#: src/backgrounds.c:2170
+#: src/backgrounds.c:2174
 msgid "Sort by Image"
 msgstr "画像名でソート"
 
-#: src/backgrounds.c:2190
+#: src/backgrounds.c:2194
 msgid "Use dithering in Hi-Colour"
 msgstr "ハイカラー時にディザリングする"
 
-#: src/backgrounds.c:2194
+#: src/backgrounds.c:2198
 msgid "Background overrides theme"
 msgstr "背景はテーマを上書きする"
 
-#: src/backgrounds.c:2199
+#: src/backgrounds.c:2203
 msgid "Enable background transparency compatibility mode"
 msgstr ""
 "一般の背景透過手法に合わせてE16の背景透過機能を補正する (速度低下の可能性あ"
 "り)"
 
 #
-#: src/backgrounds.c:2223
+#: src/backgrounds.c:2227
 msgid "Background"
 msgstr "背景"
 
-#: src/backgrounds.c:2223
+#: src/backgrounds.c:2227
 msgid "Desktop Background Settings"
 msgstr "デスクトップ背景の設定"
 
-#: src/backgrounds.c:2227
+#: src/backgrounds.c:2231
 msgid ""
 "Enlightenment Desktop\n"
 "Background Settings Dialog"
@@ -422,7 +422,7 @@ msgstr "Enlightenment 起動中..."
 msgid "Settings..."
 msgstr "設定"
 
-#: src/container.c:1186 src/dialog.c:690 src/pager.c:1003 config/strings.c:30
+#: src/container.c:1186 src/dialog.c:691 src/pager.c:1003 config/strings.c:30
 #: config/strings.c:122
 msgid "Close"
 msgstr "閉じる"
@@ -431,7 +431,7 @@ msgstr "閉じる"
 msgid "Create New Iconbox"
 msgstr "新しいアイコンボックスを作る"
 
-#: src/container.c:1500 src/container.c:1572 src/menus.c:1971
+#: src/container.c:1500 src/container.c:1572 src/menus.c:1979
 #, c-format
 msgid "Icon size: %2d"
 msgstr "アイコンサイズ: %2d"
@@ -500,7 +500,7 @@ msgstr "両端"
 msgid "End"
 msgstr "終了"
 
-#: src/container.c:1646 src/focus.c:995
+#: src/container.c:1646 src/focus.c:998
 msgid "None"
 msgstr "なし"
 
@@ -645,16 +645,16 @@ msgstr "上"
 msgid "Bottom"
 msgstr "下"
 
-#: src/desktops.c:2571 src/pager.c:1898 src/pager.c:1923 src/pager.c:1948
+#: src/desktops.c:2571 src/pager.c:1895 src/pager.c:1920 src/pager.c:1945
 msgid "Left"
 msgstr "左"
 
-#: src/desktops.c:2577 src/pager.c:1910 src/pager.c:1935 src/pager.c:1960
+#: src/desktops.c:2577 src/pager.c:1907 src/pager.c:1932 src/pager.c:1957
 msgid "Right"
 msgstr "右"
 
 #
-#: src/desktops.c:2585 src/menus-misc.c:564
+#: src/desktops.c:2585 src/menus-misc.c:563
 msgid "Desks"
 msgstr "マルチデスクトップ"
 
@@ -710,11 +710,11 @@ msgstr ""
 "Enlightenment 仮想デスクトップ\n"
 "設定ダイアログ"
 
-#: src/dialog.c:684
+#: src/dialog.c:685
 msgid "Apply"
 msgstr "適用"
 
-#: src/ecompmgr.c:2316
+#: src/ecompmgr.c:2322
 msgid ""
 "Cannot enable Composite Manager.\n"
 "Use xdpyinfo to check that\n"
@@ -749,121 +749,121 @@ msgstr ""
 "\n"
 "終了します。\n"
 
-#: src/focus.c:836
+#: src/focus.c:839
 msgid "Focus follows pointer"
 msgstr "マウスのあるウィンドウがフォーカスを得る"
 
-#: src/focus.c:842
+#: src/focus.c:845
 msgid "Focus follows pointer sloppily"
 msgstr ""
 "マウスのあるウィンドウがフォーカスを得る(ウィンドウを離れてもフォーカスは保"
 "持)"
 
-#: src/focus.c:848
+#: src/focus.c:851
 msgid "Focus follows mouse clicks"
 msgstr "クリックしたウィンドウがフォーカスを得る"
 
-#: src/focus.c:858
+#: src/focus.c:861
 msgid "Clicking in a window always raises it"
 msgstr "クリックしたウィンドウを常に上へ出す"
 
-#: src/focus.c:866
+#: src/focus.c:869
 msgid "All new windows first get the focus"
 msgstr "新しいウィンドウはすべて出現時にフォーカスを得る"
 
-#: src/focus.c:873
+#: src/focus.c:876
 msgid "New windows get the focus if their window group is focused"
 msgstr "フォーカスがあるウィンドウグループの新しいウィンドウはフォーカスを得る"
 
-#: src/focus.c:878
+#: src/focus.c:881
 msgid "Only new dialog windows get the focus"
 msgstr "新しいダイアログウィンドウだけがフォーカスを得る"
 
-#: src/focus.c:885
+#: src/focus.c:888
 msgid "Only new dialogs whose owner is focused get the focus"
 msgstr "フォーカスがある親から生まれたダイアログだけがフォーカスを得る"
 
 #
-#: src/focus.c:890
+#: src/focus.c:893
 msgid "Raise windows while switching focus"
 msgstr "フォーカスの切替中フォーカスを得たウィンドウを上に出す"
 
 #
-#: src/focus.c:896
+#: src/focus.c:899
 msgid "Send mouse pointer to window while switching focus"
 msgstr "フォーカスの切替中フォーカスを得たウィンドウにマウスポインタを移す"
 
 #
-#: src/focus.c:902
+#: src/focus.c:905
 msgid "Always send mouse pointer to window on focus switch"
 msgstr "フォーカスが移ると必ずマウスポインタも移す"
 
-#: src/focus.c:910
+#: src/focus.c:913
 msgid "Raise windows automatically"
 msgstr "ウィンドウを自動的に上に出す(オートレイズ)"
 
-#: src/focus.c:916
+#: src/focus.c:919
 msgid "Autoraise delay:"
 msgstr "オートレイズするまでの遅延時間"
 
-#: src/focus.c:929
+#: src/focus.c:932
 msgid "Display and use focus list"
 msgstr "フォーカスリストを表示し、使用する"
 
-#: src/focus.c:934
+#: src/focus.c:937
 msgid "Include sticky windows in focus list"
 msgstr "常時表示ウィンドウをフォーカスリストに含める"
 
-#: src/focus.c:939
+#: src/focus.c:942
 msgid "Include shaded windows in focus list"
 msgstr "シェードされているウィンドウをフォーカスリストに含める"
 
-#: src/focus.c:944
+#: src/focus.c:947
 msgid "Include iconified windows in focus list"
 msgstr "アイコン化されているウィンドウをフォーカスリストに含める"
 
-#: src/focus.c:949
+#: src/focus.c:952
 msgid "Include windows on other desks in focus list"
 msgstr "他のデスクトップのウィンドウもフォーカスリストに含める"
 
-#: src/focus.c:954
+#: src/focus.c:957
 msgid "Focus windows while switching"
 msgstr "切り替わったらウィンドウにフォーカスを移す"
 
-#: src/focus.c:959
+#: src/focus.c:962
 msgid "Outline windows while switching"
 msgstr "フォーカスリストで選択中(Alt+tab)はウィンドウの枠線を表示する"
 
-#: src/focus.c:964
+#: src/focus.c:967
 msgid "Raise windows after focus switch"
 msgstr "フォーカスを切り替えたらウィンドウを上に出す"
 
-#: src/focus.c:969
+#: src/focus.c:972
 msgid "Send mouse pointer to window after focus switch"
 msgstr "フォーカスを切り替えたらウィンドウにマウスポインタを移す"
 
 #
-#: src/focus.c:979
+#: src/focus.c:982
 msgid "Focuslist image display policy (if one operation fails, try the next):"
 msgstr "アイコン画像表示ポリシー (失敗したら次を試す)"
 
-#: src/focus.c:983
+#: src/focus.c:986
 msgid "First E Icon, then App Icon"
 msgstr "まず E アイコン、それからアプリケーションアイコン"
 
-#: src/focus.c:989
+#: src/focus.c:992
 msgid "First App Icon, then E Icon"
 msgstr "まずアプリケーションアイコン、それから E アイコン"
 
-#: src/focus.c:1003
+#: src/focus.c:1006
 msgid "Focus"
 msgstr "フォーカス"
 
-#: src/focus.c:1003
+#: src/focus.c:1006
 msgid "Focus Settings"
 msgstr "フォーカスの設定"
 
-#: src/focus.c:1007
+#: src/focus.c:1010
 msgid ""
 "Enlightenment Focus\n"
 "Settings Dialog"
@@ -899,11 +899,11 @@ msgstr ""
 "Enlightenment 特殊効果\n"
 "設定ダイアログ"
 
-#: src/groups.c:699
+#: src/groups.c:778
 msgid "Window Group Selection"
 msgstr "ウィンドウグループを選ぶ"
 
-#: src/groups.c:703
+#: src/groups.c:782
 msgid ""
 "Enlightenment Window Group\n"
 "Selection Dialog"
@@ -911,23 +911,23 @@ msgstr ""
 "Enlightenment ウィンドウグループ\n"
 "選択ダイアログ"
 
-#: src/groups.c:726
+#: src/groups.c:805
 msgid "Pick the group the window will belong to:"
 msgstr "このウィンドウが参加するグループを選択してください:"
 
-#: src/groups.c:730
+#: src/groups.c:809
 msgid "Select the group to remove the window from:"
 msgstr "削除するウィンドウが属しているグループを選択してください。"
 
-#: src/groups.c:734
+#: src/groups.c:813
 msgid "Select the group to break:"
 msgstr "破棄するグループを選択してください。 "
 
-#: src/groups.c:745 src/groups.c:755 src/groups.c:762 src/groups.c:944
+#: src/groups.c:824 src/groups.c:834 src/groups.c:841 src/groups.c:1019
 msgid "Window Group Error"
 msgstr "ウィンドウグループエラー"
 
-#: src/groups.c:747
+#: src/groups.c:826
 msgid ""
 "This window currently does not belong to any groups.\n"
 "You can only destroy groups or remove windows from groups\n"
@@ -937,7 +937,7 @@ msgstr ""
 "今できるのはグループを破棄するか、実際に少なくとも一つのグループに属し\n"
 "ているウィンドウを使って、グループからウィンドウを削除することだけです。"
 
-#: src/groups.c:756
+#: src/groups.c:835
 msgid ""
 "Currently, no groups exist or this window\n"
 "already belongs to all existing groups.\n"
@@ -947,15 +947,15 @@ msgstr ""
 "すでに既存のすべてのグループに属しています。\n"
 "まず他のグループを作成してください。"
 
-#: src/groups.c:764
+#: src/groups.c:843
 msgid "Currently, no groups exist. You have to start a group first."
 msgstr "現在、グループはありません。まずグループを作成してください。"
 
-#: src/groups.c:854
+#: src/groups.c:933
 msgid "Pick the group to configure:"
 msgstr "設定するグループを選択してください:"
 
-#: src/groups.c:883
+#: src/groups.c:961
 msgid ""
 "The following actions are\n"
 "applied to all group members:"
@@ -963,39 +963,39 @@ msgstr ""
 "グループ内の全ウィンドウに\n"
 "反映される操作:"
 
-#: src/groups.c:888 src/groups.c:989
+#: src/groups.c:966 src/groups.c:1064
 msgid "Changing Border Style"
 msgstr "ボーダースタイルの変更"
 
-#: src/groups.c:893 src/groups.c:994
+#: src/groups.c:971 src/groups.c:1069
 msgid "Iconifying"
 msgstr "アイコン化"
 
-#: src/groups.c:898 src/groups.c:999
+#: src/groups.c:976 src/groups.c:1074
 msgid "Killing"
 msgstr "強制終了"
 
-#: src/groups.c:903 src/groups.c:1004
+#: src/groups.c:981 src/groups.c:1079
 msgid "Moving"
 msgstr "移動"
 
-#: src/groups.c:908 src/groups.c:1009
+#: src/groups.c:986 src/groups.c:1084
 msgid "Raising/Lowering"
 msgstr "上に出す/下に移す"
 
-#: src/groups.c:913 src/groups.c:1014
+#: src/groups.c:991 src/groups.c:1089
 msgid "Sticking"
 msgstr "常時表示"
 
-#: src/groups.c:918 src/groups.c:1019
+#: src/groups.c:996 src/groups.c:1094
 msgid "Shading"
 msgstr "シェード"
 
-#: src/groups.c:924
+#: src/groups.c:1002
 msgid "Window Group Settings"
 msgstr "ウィンドウグループの設定"
 
-#: src/groups.c:928
+#: src/groups.c:1006
 msgid ""
 "Enlightenment Window Group\n"
 "Settings Dialog"
@@ -1003,32 +1003,32 @@ msgstr ""
 "Enlightenment ウィンドウグループ\n"
 "設定ダイアログ"
 
-#: src/groups.c:945
+#: src/groups.c:1020
 msgid "This window currently does not belong to any groups."
 msgstr "このウィンドウは現在どのグループにも属していません。"
 
-#: src/groups.c:982
+#: src/groups.c:1057
 msgid "Per-group settings:"
 msgstr "グループごとの設定:"
 
-#: src/groups.c:1028
+#: src/groups.c:1103
 msgid "Global settings:"
 msgstr "全般の設定:"
 
-#: src/groups.c:1032
+#: src/groups.c:1107
 msgid "Swap Window Locations"
 msgstr "ウィンドウ位置を交換する"
 
 #
-#: src/groups.c:1038 src/menus-misc.c:623 config/strings.c:138
+#: src/groups.c:1113 src/menus-misc.c:622 config/strings.c:138
 msgid "Groups"
 msgstr "グループ"
 
-#: src/groups.c:1038
+#: src/groups.c:1113
 msgid "Default Group Control Settings"
 msgstr "グループ管理のデフォルト設定"
 
-#: src/groups.c:1042
+#: src/groups.c:1117
 msgid ""
 "Enlightenment Default\n"
 "Group Control Settings Dialog"
@@ -1189,14 +1189,14 @@ msgstr "\"help <コマンド>\" で指定されたコマンドの説明が表示
 msgid "         <command>     : <description>\n"
 msgstr "<コマンド> : <説明>\n"
 
-#: src/main.c:533
+#: src/main.c:531
 #, c-format
 msgid ""
 "%s must be a directory in which you have\n"
 "read, write, and execute permission.\n"
 msgstr "%s は読み書きと実行の権限があるディレクトリにしてください.\n"
 
-#: src/main.c:632
+#: src/main.c:630
 #, c-format
 msgid ""
 "!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n"
@@ -1225,7 +1225,7 @@ msgstr ""
 "削除したか、あるいは Enlightenment のインストールに誤りがあったことが\n"
 "考えられます。\n"
 
-#: src/main.c:646
+#: src/main.c:644
 #, c-format
 msgid ""
 "!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n"
@@ -1251,36 +1251,36 @@ msgid "Magnifier"
 msgstr "拡大中"
 
 #
-#: src/menus-misc.c:409 config/strings.c:79
+#: src/menus-misc.c:408 config/strings.c:79
 msgid "Backgrounds"
 msgstr "背景"
 
 #
-#: src/menus-misc.c:447 config/strings.c:91 config/strings.c:113
+#: src/menus-misc.c:446 config/strings.c:91 config/strings.c:113
 msgid "Themes"
 msgstr "テーマ"
 
 #
-#: src/menus-misc.c:463
+#: src/menus-misc.c:462
 msgid "Border"
 msgstr "ボーダー"
 
 #
-#: src/menus-misc.c:525
+#: src/menus-misc.c:524
 msgid "Window List"
 msgstr "ウィンドウリスト"
 
 #
-#: src/menus-misc.c:547
+#: src/menus-misc.c:546
 msgid "Go to this Desktop"
 msgstr "このデスクトップに移動"
 
-#: src/menus-misc.c:551 src/menus-misc.c:645
+#: src/menus-misc.c:550 src/menus-misc.c:644
 #, c-format
 msgid "Desktop %i"
 msgstr "デスクトップ %i"
 
-#: src/menus-misc.c:593
+#: src/menus-misc.c:594
 msgid "Show/Hide this group"
 msgstr "このグループを表示する／隠す"
 
@@ -1288,35 +1288,35 @@ msgstr "このグループを表示する／隠す"
 msgid "Iconify this group"
 msgstr "このグループをアイコン化する"
 
-#: src/menus-misc.c:609
+#: src/menus-misc.c:608
 #, c-format
 msgid "Group %i"
 msgstr "グループ %i"
 
-#: src/menus.c:1990
+#: src/menus.c:1998
 msgid "Animated display of menus"
 msgstr "メニューをアニメーション表示する"
 
-#: src/menus.c:1995
+#: src/menus.c:2003
 msgid "Always pop up menus on screen"
 msgstr "メニューが画面からはみ出る場合は必ず収まるようにメニューを動かす"
 
-#: src/menus.c:2000
+#: src/menus.c:2008
 msgid "Warp pointer after moving menus"
 msgstr "マウスポインタはメニューの移動に追随する"
 
 #
-#: src/menus.c:2017
+#: src/menus.c:2025
 msgid "Menus"
 msgstr "メニュー"
 
 #
-#: src/menus.c:2017
+#: src/menus.c:2025
 msgid "Menu Settings"
 msgstr "メニューの設定"
 
 #
-#: src/menus.c:2021
+#: src/menus.c:2029
 msgid ""
 "Enlightenment Menu\n"
 "Settings Dialog"
@@ -1372,76 +1372,76 @@ msgstr "ズーム Off"
 msgid "Zoom On"
 msgstr "ズーム On"
 
-#: src/pager.c:1787 src/pager.c:1878
+#: src/pager.c:1784 src/pager.c:1875
 msgid "Pager scanning speed:"
 msgstr "ページャのスキャン速度: "
 
-#: src/pager.c:1788 src/pager.c:1879
+#: src/pager.c:1785 src/pager.c:1876
 msgid "lines per second"
 msgstr "(行／秒)"
 
-#: src/pager.c:1817
+#: src/pager.c:1814
 msgid "Enable pager display"
 msgstr "ページャを表示する"
 
-#: src/pager.c:1827
+#: src/pager.c:1824
 msgid "Pager Mode:"
 msgstr "ページャーモード"
 
-#: src/pager.c:1831
+#: src/pager.c:1828
 msgid "Simple"
 msgstr "シンプル"
 
-#: src/pager.c:1837
+#: src/pager.c:1834
 msgid "Make miniature snapshots of the screen"
 msgstr "画面のスナップショットを表示する"
 
-#: src/pager.c:1844
+#: src/pager.c:1841
 msgid "Live Update"
 msgstr "即時更新"
 
-#: src/pager.c:1855
+#: src/pager.c:1852
 msgid "Smooth high quality snapshots in snapshot mode"
 msgstr "スナップショットモードでスナップショットを滑らかな高画質にする"
 
-#: src/pager.c:1860
+#: src/pager.c:1857
 msgid "Zoom in on pager windows when mouse is over them"
 msgstr "マウスポインタが乗っているスナップショットを拡大する"
 
-#: src/pager.c:1866
+#: src/pager.c:1863
 msgid "Pop up window title when mouse is over the window"
 msgstr ""
 "マウスポインタが乗っているスナップショットのウィンドウタイトルを表示する"
 
-#: src/pager.c:1871
+#: src/pager.c:1868
 msgid "Continuously scan screen to update pager"
 msgstr "ページャの表示を更新するため画面を絶え間なくスキャンする"
 
-#: src/pager.c:1894
+#: src/pager.c:1891
 msgid "Mouse button to select and drag windows:"
 msgstr "ウィンドウの選択とドラッグに使うマウスボタン"
 
-#: src/pager.c:1904 src/pager.c:1929 src/pager.c:1954
+#: src/pager.c:1901 src/pager.c:1926 src/pager.c:1951
 msgid "Middle"
 msgstr "中央"
 
-#: src/pager.c:1919
+#: src/pager.c:1916
 msgid "Mouse button to select desktops:"
 msgstr "デスクトップを選択するマウスボタン"
 
-#: src/pager.c:1944
+#: src/pager.c:1941
 msgid "Mouse button to display pager menu:"
 msgstr "ページャメニューを表示するマウスボタン"
 
-#: src/pager.c:1968
+#: src/pager.c:1965
 msgid "Pagers"
 msgstr "ページャ"
 
-#: src/pager.c:1968
+#: src/pager.c:1965
 msgid "Pager Settings"
 msgstr "ページャの設定"
 
-#: src/pager.c:1972
+#: src/pager.c:1969
 msgid ""
 "Enlightenment Desktop & Area\n"
 "Pager Settings Dialog"
@@ -1882,88 +1882,88 @@ msgstr ""
 "あります。X11 以降のサーバーだとすると、そのサーバーは Enlightenment の\n"
 "作者が利用してもいないし、今まで聞いたこともないサーバーです。\n"
 
-#: src/snaps.c:712
+#: src/snaps.c:709
 msgid "Title:"
 msgstr "タイトル"
 
-#: src/snaps.c:724
+#: src/snaps.c:721
 msgid "Name:"
 msgstr "名前"
 
-#: src/snaps.c:737
+#: src/snaps.c:734
 msgid "Class:"
 msgstr "クラス"
 
 #
-#: src/snaps.c:750
+#: src/snaps.c:747
 msgid "Role:"
 msgstr "役割:"
 
-#: src/snaps.c:763
+#: src/snaps.c:760
 msgid "Command:"
 msgstr "コマンド名"
 
-#: src/snaps.c:802
+#: src/snaps.c:799
 msgid "Track Changes"
 msgstr "変更を記録する"
 
-#: src/snaps.c:807
+#: src/snaps.c:804
 msgid "Location"
 msgstr "位置"
 
-#: src/snaps.c:812
+#: src/snaps.c:809
 msgid "Border style"
 msgstr "ボーダースタイル"
 
-#: src/snaps.c:817 config/strings.c:175
+#: src/snaps.c:814 config/strings.c:175
 msgid "Size"
 msgstr "サイズ"
 
-#: src/snaps.c:822 config/strings.c:90 config/strings.c:112
+#: src/snaps.c:819 config/strings.c:90 config/strings.c:112
 msgid "Desktop"
 msgstr "デスクトップ"
 
-#: src/snaps.c:827
+#: src/snaps.c:824
 msgid "Shaded state"
 msgstr "シェード状態"
 
-#: src/snaps.c:832
+#: src/snaps.c:829
 msgid "Sticky state"
 msgstr "常時表示状態"
 
-#: src/snaps.c:837
+#: src/snaps.c:834
 msgid "Stacking layer"
 msgstr "ウィンドウの上下関係"
 
-#: src/snaps.c:842
+#: src/snaps.c:839
 msgid "Window List Skip"
 msgstr "ウィンドウリストのスキップ"
 
-#: src/snaps.c:848 config/strings.c:135 config/strings.c:163
+#: src/snaps.c:845 config/strings.c:135 config/strings.c:163
 msgid "Opacity"
 msgstr "不透明度"
 
-#: src/snaps.c:853
+#: src/snaps.c:850
 msgid "Shadowing"
 msgstr "影を付ける"
 
-#: src/snaps.c:859
+#: src/snaps.c:856
 msgid "Flags"
 msgstr "その他のウィンドウ属性"
 
-#: src/snaps.c:878
+#: src/snaps.c:875
 msgid "Restart application on login"
 msgstr "ログイン時にアプリケーションを再起動する"
 
-#: src/snaps.c:897
+#: src/snaps.c:894
 msgid "Remember this window's group(s)"
 msgstr "このウィンドウのグループを記憶する"
 
-#: src/snaps.c:904
+#: src/snaps.c:901
 msgid "Remembered Application Attributes"
 msgstr "記憶されているアプリケショーン属性"
 
-#: src/snaps.c:908
+#: src/snaps.c:905
 msgid ""
 "Select the attributes of this\n"
 "window you wish to Remember\n"
@@ -1973,32 +1973,32 @@ msgstr ""
 "しておきたいものを選択して下さい。\n"
 
 #
-#: src/snaps.c:998
+#: src/snaps.c:995
 msgid "Delete"
 msgstr "削除"
 
-#: src/snaps.c:1026
+#: src/snaps.c:1023
 msgid "Remembered Settings..."
 msgstr "設定を記憶する..."
 
-#: src/snaps.c:1033
+#: src/snaps.c:1030
 msgid "Unused"
 msgstr "未使用"
 
-#: src/snaps.c:1046
+#: src/snaps.c:1043
 msgid "There are no active windows with remembered attributes."
 msgstr "現在のウィンドウで設定を記憶してあるものはありません。"
 
 #
-#: src/snaps.c:1052
+#: src/snaps.c:1049
 msgid "Remember"
 msgstr "記憶"
 
-#: src/snaps.c:1052
+#: src/snaps.c:1049
 msgid "Remembered Windows Settings"
 msgstr "ウィンドウの記憶内容の設定"
 
-#: src/snaps.c:1056
+#: src/snaps.c:1053
 msgid ""
 "Enlightenment Remembered\n"
 "Windows Settings Dialog"
@@ -2006,15 +2006,15 @@ msgstr ""
 "Enlightenment ウィンドウの\n"
 "記憶内容設定ダイアログ"
 
-#: src/snaps.c:1157
+#: src/snaps.c:1156
 msgid "Error saving snaps file"
 msgstr "スナップファイルの保存時にエラーが起きました。"
 
-#: src/sound.c:217
+#: src/sound.c:250
 msgid "Error finding sound file"
 msgstr "サウンドファイルがみつかりません。"
 
-#: src/sound.c:218
+#: src/sound.c:251
 #, c-format
 msgid ""
 "Warning!  Enlightenment was unable to load the\n"
@@ -2028,11 +2028,11 @@ msgstr ""
 "%s\n"
 "処理は継続されますが、設定を確認した方がいいと思います。\n"
 
-#: src/sound.c:314
+#: src/sound.c:341 src/sound.c:354
 msgid "Error initialising sound"
 msgstr "サウンドの初期化中にエラーが起きました。"
 
-#: src/sound.c:315
+#: src/sound.c:343
 #, c-format
 msgid ""
 "Audio was enabled for Enlightenment but there was an error\n"
@@ -2043,19 +2043,26 @@ msgstr ""
 "オーディオサーバー (%s) との通信中にエラーが起きました。\n"
 "オーディオを無効にします。\n"
 
-#: src/sound.c:468
+#: src/sound.c:356
+#, c-format
+msgid ""
+"The sound player is not executable (%s).\n"
+"Audio will now be disabled.\n"
+msgstr ""
+
+#: src/sound.c:527
 msgid "Enable sounds"
 msgstr "音響機能を有効にする"
 
-#: src/sound.c:474
+#: src/sound.c:533
 msgid "Sound"
 msgstr "サウンド"
 
-#: src/sound.c:474
+#: src/sound.c:533
 msgid "Audio Settings"
 msgstr "オーディオ設定"
 
-#: src/sound.c:478
+#: src/sound.c:537
 msgid ""
 "Enlightenment Audio\n"
 "Settings Dialog"
