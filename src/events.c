@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2019 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -23,7 +23,11 @@
  */
 #include "config.h"
 
+#if USE_EVHAN_POLL
+#include <poll.h>
+#elif USE_EVHAN_SELECT
 #include <sys/select.h>
+#endif
 #include <sys/time.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -347,11 +351,16 @@ struct _EventFdDesc {
 #if 0				/* Unused */
    const char         *name;
 #endif
+#if USE_EVHAN_SELECT
    int                 fd;
+#endif
    void                (*handler)(void);
 };
 
 static int          nfds = 0;
+#if USE_EVHAN_POLL
+static struct pollfd *pfdl = NULL;
+#endif
 static EventFdDesc *pfds = NULL;
 
 EventFdDesc        *
@@ -359,7 +368,14 @@ EventFdRegister(int fd, EventFdHandler * handler)
 {
    nfds++;
    pfds = EREALLOC(EventFdDesc, pfds, nfds);
+
+#if USE_EVHAN_POLL
+   pfdl = EREALLOC(struct pollfd, pfdl, nfds);
+   pfdl[nfds - 1].fd = fd;
+#elif USE_EVHAN_SELECT
    pfds[nfds - 1].fd = fd;
+#endif
+
    pfds[nfds - 1].handler = handler;
 
    return pfds + (nfds - 1);
@@ -368,7 +384,14 @@ EventFdRegister(int fd, EventFdHandler * handler)
 void
 EventFdUnregister(EventFdDesc * efd)
 {
-   efd->fd = -1;
+   int                 ix = efd - pfds;
+
+#if USE_EVHAN_POLL
+   if (pfdl[ix].fd > 0)
+      pfdl[ix].fd = -pfdl[ix].fd;
+#elif USE_EVHAN_SELECT
+   pfds[ix].fd = -1;
+#endif
 }
 
 /*
@@ -1072,12 +1095,15 @@ EventsMain(void)
    static int          evq_alloc = 0;
    static int          evq_fetch = 0;
    static XEvent      *evq_ptr = NULL;
+#if USE_EVHAN_SELECT
    fd_set              fdset;
+   int                 fdsize, fd;
    struct timeval      tval;
+#endif
    unsigned int        time1, time2;
    int                 dtl, dt;
    int                 count, pfetch;
-   int                 fdsize, fd, i;
+   int                 i;
 
    time1 = GetTimeMs();
 
@@ -1128,6 +1154,32 @@ EventsMain(void)
 	else if (XPending(disp))
 	   continue;
 
+#if USE_EVHAN_POLL
+	for (i = 0; i < nfds; i++)
+	   pfdl[i].events = (i == 0 && Mode.events.block) ? 0 : POLLIN;
+
+	if (dt < 0.)
+	   dt = 0.;
+	count = poll(pfdl, nfds, (int)dt);
+
+	if (EDebug(EDBUG_TYPE_EVENTS))
+	   Eprintf("%s: count=%d xfd=%d:%d dtl=%.6lf dt=%.6lf\n", __func__,
+		   count, pfdl[0].fd, pfdl[0].revents, dtl * 1e-3, dt * 1e-3);
+
+	if (count <= 0)
+	   continue;		/* Timeout (or error) */
+
+	/* Excluding X fd */
+	for (i = 1; i < nfds; i++)
+	  {
+	     if (pfdl[i].fd >= 0 && pfdl[i].revents & POLLIN)
+	       {
+		  if (EDebug(EDBUG_TYPE_EVENTS) > 1)
+		     Eprintf("Event fd %d\n", i);
+		  pfds[i].handler();
+	       }
+	  }
+#elif USE_EVHAN_SELECT
 	FD_ZERO(&fdset);
 	fdsize = -1;
 	for (i = 0; i < nfds; i++)
@@ -1173,6 +1225,7 @@ EventsMain(void)
 		  pfds[i].handler();
 	       }
 	  }
+#endif
      }
 }
 
