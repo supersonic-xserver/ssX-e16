@@ -6049,3 +6049,81 @@ Explicitly include sys/select.h where needed
 Fix using sound in modular build
 Add sndio sound back end (Ingo Feinerer/Jonathan Armani)
 e_gen_menu: menu generation speedups (Thanatermesis)
+
+-------------------------------------------------------------------------------
+
+Sat 20 Jun 2020 06:21:54 AM CEST
+
+--- 1.0.22 ---
+Use installed gettext version, if possible
+e_gen_menu: Drop ConsoleOnly apps
+windowmatches: Fix use of MAKE_WINDOW_STICKY_...() macros
+windowmatches: Remove ancient incorrect case values
+definitions: Empty obsolete windowmatch macros
+windowmatches: Resurrect USE_ICON_IMAGE_FOR_CLIENT_() macros
+windowmatches: Issue notice when discarding invalid one
+windowmatches: Remove some cruft
+windowmatches: Enable having spaces in name matches
+Consistently use @ as token delimiter in .in files
+Fix warnings occurring in various situations
+windowmatches: Add some consts
+bindings: Add 'W' as alias for modifier 4
+libhack: Intercept XSendEvent too
+Fix unmaximizing by _NET_WM_STATE[_MAXIMIZED_...]
+Indent profile - Drop -bad for now as it does silly things
+Re-indent with indent-2.2.12
+slideouts: Use defines for directions
+slideouts: Refactoring
+slideouts: Fix potential crash
+aclass.c: Fix valgrind complaint
+eesh: Fix clang-analyzer complaints
+edox: Fix clang-analyzer complaints
+src: Fix clang-analyzer complaints
+autogen.sh: Add -n as alternative to NOCONFIGURE
+Fix incorrect check for __attribute__ ((unused)))
+Hide Group struct internals
+groups.c: Correct debug stuff
+configure.ac: Drop unnecessary prefix stuff
+Spec file: Add git tag to rpm file name (if built from git checkout)
+edox: Add a couple of forgotten casts
+edox: Fix missing return value (at previously unreachable function exit)
+Espawn(): Use variable argument list
+Enable sounds in combined configuration dialog
+Autofoo sound configuration cosmetics
+Optionally play sounds using audio player
+Introduce path_canexec0() for convenience
+Minor cleanups after sound by audio player feature
+GSOD: Avoid rendering artifacts when unmapped
+Avoid potential crash when attempting to enable sound, cosmetics
+Minor cleanups in sound players
+Add alsa-lib sound backend
+Autofoo cosmetics (AC_HELP_STRING -> AS_HELP_STRING).
+Fix obscure m4 problem
+Add feature to build with ASAN (--enable-gcc-asan)
+groups: Eliminate EwinGetGroups()
+groups.c: Eliminate BuildWindowGroup()
+groups.c: Mostly cosmetic changes around group configuration
+groups.c: Reshuffle code to avoid forward declarations
+groups.c: Rename functions for more consistency
+groups.c: Refactor _GroupEwinRemove()
+groups.c: Fold "group_info" into "group" IPC command
+groups.c: Enable popping up ewin group configuration dialogs from ipc
+groups.c: _GroupEwinDestroy() -> _GroupDelete()
+groups.c: Mostly cosmetic tweaks
+groups.c: Fix handling groups with negative id
+groups.c: Fix showing empty group
+groups.c: Add group del command
+groups.c: Fix group deletion
+groups.c: Add some debug
+groups.c: Fix snapshot updating
+snaps: Fix snapshot group remembering when all groups are deleted
+groups: Rework group configuration saving
+groups.c: Simplify _GroupDelete() some more
+groups.c: Eliminate _EwinInGroup()
+groups.c: Add group list ipc comand
+groups.c: Fold "groups" into "group_op" IPC command
+Fix technical/shapewin move mode through edge flip
+Fix technical/shapewin move mode with window groups
+French translation update (Philippe J. Guillaumie)
+Document the "absolute" parameter for the toggle_* window operations (Pierre Neyron)
+configure.ac: Avoid trouble with missing AM_LANGINFO_CODESET
