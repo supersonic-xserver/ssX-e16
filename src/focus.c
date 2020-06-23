@@ -236,6 +236,13 @@ ClickGrabsSet(EWin * ewin)
 
    if (set)
      {
+	if (ewin->state.click_grab_isset &&
+	    ewin->state.click_grab_button != raise_button)
+	  {
+	     GrabButtonRelease(ewin->state.click_grab_button, AnyModifier,
+			       EwinGetClientConWin(ewin));
+	     ewin->state.click_grab_isset = 0;
+	  }
 	if (!ewin->state.click_grab_isset)
 	  {
 	     GrabButtonSet(raise_button, AnyModifier, EwinGetClientConWin(ewin),
@@ -244,13 +251,14 @@ ClickGrabsSet(EWin * ewin)
 		Eprintf("%s: %#x set %s\n", __func__,
 			EwinGetClientXwin(ewin), EwinGetTitle(ewin));
 	     ewin->state.click_grab_isset = 1;
+	     ewin->state.click_grab_button = raise_button;
 	  }
      }
    else
      {
 	if (ewin->state.click_grab_isset)
 	  {
-	     GrabButtonRelease(raise_button, AnyModifier,
+	     GrabButtonRelease(ewin->state.click_grab_button, AnyModifier,
 			       EwinGetClientConWin(ewin));
 	     if (EDebug(EDBUG_TYPE_GRABS))
 		Eprintf("%s: %#x unset %s\n", __func__,
