@@ -186,6 +186,7 @@ typedef struct {
    struct {
       int                 mode;
       char                clickraises;
+      char                only_button1_can_raise;
       char                transientsfollowleader;
       char                switchfortransientmap;
       char                all_new_windows_get_focus;

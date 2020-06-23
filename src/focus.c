@@ -225,6 +225,10 @@ static void
 ClickGrabsSet(EWin * ewin)
 {
    int                 set = 0;
+   unsigned int        raise_button = AnyButton;
+
+   if (Conf.focus.only_button1_can_raise)
+      raise_button = Button1;
 
    if ((Conf.focus.clickraises && !EwinListStackIsRaised(ewin)) ||
        (!ewin->state.active && !ewin->state.inhibit_focus))
@@ -234,7 +238,7 @@ ClickGrabsSet(EWin * ewin)
      {
 	if (!ewin->state.click_grab_isset)
 	  {
-	     GrabButtonSet(AnyButton, AnyModifier, EwinGetClientConWin(ewin),
+	     GrabButtonSet(raise_button, AnyModifier, EwinGetClientConWin(ewin),
 			   ButtonPressMask, ECSR_PGRAB, 1);
 	     if (EDebug(EDBUG_TYPE_GRABS))
 		Eprintf("%s: %#x set %s\n", __func__,
@@ -246,7 +250,7 @@ ClickGrabsSet(EWin * ewin)
      {
 	if (ewin->state.click_grab_isset)
 	  {
-	     GrabButtonRelease(AnyButton, AnyModifier,
+	     GrabButtonRelease(raise_button, AnyModifier,
 			       EwinGetClientConWin(ewin));
 	     if (EDebug(EDBUG_TYPE_GRABS))
 		Eprintf("%s: %#x unset %s\n", __func__,
@@ -736,6 +740,7 @@ typedef struct {
    struct {
       int                 mode;
       char                clickalways;
+      char                button1_raises;
       char                new_focus;
       char                new_focus_if_group;
       char                popup_focus;
@@ -771,6 +776,7 @@ _DlgApplyFocus(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
 
    Conf.focus.mode = dd->focus.mode;
    Conf.focus.clickraises = dd->focus.clickalways;
+   Conf.focus.only_button1_can_raise = dd->focus.button1_raises;
    Conf.focus.all_new_windows_get_focus = dd->focus.new_focus;
    Conf.focus.new_windows_get_focus_if_group_focused =
       dd->focus.new_focus_if_group;
@@ -808,6 +814,7 @@ _DlgFillFocus(Dialog * d, DItem * table, void *data __UNUSED__)
 
    dd->focus.mode = Conf.focus.mode;
    dd->focus.clickalways = Conf.focus.clickraises;
+   dd->focus.button1_raises = Conf.focus.only_button1_can_raise;
    dd->focus.new_focus = Conf.focus.all_new_windows_get_focus;
    dd->focus.new_focus_if_group =
       Conf.focus.new_windows_get_focus_if_group_focused;
@@ -860,6 +867,11 @@ _DlgFillFocus(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemSetColSpan(di, 2);
    DialogItemSetText(di, _("Clicking in a window always raises it"));
    DialogItemCheckButtonSetPtr(di, &dd->focus.clickalways);
+
+   di = DialogAddItem(table, DITEM_CHECKBUTTON);
+   DialogItemSetColSpan(di, 2);
+   DialogItemSetText(di, _("Only primary mouse button can raise window"));
+   DialogItemCheckButtonSetPtr(di, &dd->focus.button1_raises);
 
    di = DialogAddItem(table, DITEM_SEPARATOR);
    DialogItemSetColSpan(di, 2);
@@ -1168,6 +1180,7 @@ static const IpcItem FocusIpcArray[] = {
 static const CfgItem FocusCfgItems[] = {
    CFG_ITEM_INT(Conf.focus, mode, MODE_FOCUS_SLOPPY),
    CFG_ITEM_BOOL(Conf.focus, clickraises, 1),
+   CFG_ITEM_BOOL(Conf.focus, only_button1_can_raise, 0),
    CFG_ITEM_BOOL(Conf.focus, transientsfollowleader, 1),
    CFG_ITEM_BOOL(Conf.focus, switchfortransientmap, 1),
    CFG_ITEM_BOOL(Conf.focus, all_new_windows_get_focus, 0),

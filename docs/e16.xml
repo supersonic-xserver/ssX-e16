@@ -1069,6 +1069,8 @@ effects.waves.enabled = 0
 focus.mode = 1
 # [bool] Raise window when clicked
 focus.clickraises = 1
+# [bool] Only primary mouse button can raise window
+focus.only_button1_can_raise = 0
 # [bool] Transients are placed where leader is
 focus.transientsfollowleader = 1
 # [bool] When a transient is mapped the desk/area is switched to where the transient appears
