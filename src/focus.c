@@ -818,7 +818,7 @@ static void
 _DlgFillFocus(Dialog * d, DItem * table, void *data __UNUSED__)
 {
    FocusDlgData       *dd = DLG_DATA_GET(d, FocusDlgData);
-   DItem              *di, *radio, *radio2;
+   DItem              *di, *radio;
 
    dd->focus.mode = Conf.focus.mode;
    dd->focus.clickalways = Conf.focus.clickraises;
@@ -1001,24 +1001,24 @@ _DlgFillFocus(Dialog * d, DItem * table, void *data __UNUSED__)
 		     _
 		     ("Focuslist image display policy (if one operation fails, try the next):"));
 
-   radio2 = di = DialogAddItem(table, DITEM_RADIOBUTTON);
+   radio = di = DialogAddItem(table, DITEM_RADIOBUTTON);
    DialogItemSetColSpan(di, 2);
    DialogItemSetText(di, _("First E Icon, then App Icon"));
-   DialogItemRadioButtonSetFirst(di, radio2);
+   DialogItemRadioButtonSetFirst(di, radio);
    DialogItemRadioButtonGroupSetVal(di, EWIN_ICON_MODE_IMG_APP);
 
    di = DialogAddItem(table, DITEM_RADIOBUTTON);
    DialogItemSetColSpan(di, 2);
    DialogItemSetText(di, _("First App Icon, then E Icon"));
-   DialogItemRadioButtonSetFirst(di, radio2);
+   DialogItemRadioButtonSetFirst(di, radio);
    DialogItemRadioButtonGroupSetVal(di, EWIN_ICON_MODE_APP_IMG);
 
    di = DialogAddItem(table, DITEM_RADIOBUTTON);
    DialogItemSetColSpan(di, 2);
    DialogItemSetText(di, _("None"));
-   DialogItemRadioButtonSetFirst(di, radio2);
+   DialogItemRadioButtonSetFirst(di, radio);
    DialogItemRadioButtonGroupSetVal(di, EWIN_ICON_MODE_NONE);
-   DialogItemRadioButtonGroupSetValPtr(radio2, &dd->focuslist.icon_mode);
+   DialogItemRadioButtonGroupSetValPtr(radio, &dd->focuslist.icon_mode);
 }
 
 const DialogDef     DlgFocus = {
