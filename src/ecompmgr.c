@@ -1034,12 +1034,14 @@ ECompMgrWinFade(EObj * eo, unsigned int op_from, unsigned int op_to)
 static void
 ECompMgrWinFadeIn(EObj * eo)
 {
-#if DEBUG_OPACITY
    ECmWinInfo         *cw = eo->cmhook;
 
+#if DEBUG_OPACITY
    Eprintf("%s %#x: %u/%u, %#x %#x->%#x\n", __func__, EobjGetXwin(eo),
 	   eo->fading, cw->fadeout, eo->opacity, 0x10000000, cw->opacity);
 #endif
+   if (eo->fading && cw->fadeout)
+      ECompMgrWinFadeEnd(eo, 0);
    ECompMgrWinFade(eo, 0x10000000, eo->opacity);
 }
 
