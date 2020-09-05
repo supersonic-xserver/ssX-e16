@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -36,6 +36,11 @@
 #include "xwin.h"
 
 #define DEBUG_HIWIN 0
+#if DEBUG_HIWIN
+#define Dprintf(fmt, ...) Eprintf("%s: " fmt, __func__, __VA_ARGS__)
+#else
+#define Dprintf(fmt...)
+#endif
 
 struct _hiwin {
    EObj                o;
@@ -220,9 +225,7 @@ HiwinEwinEvent(Win win __UNUSED__, XEvent * ev, void *prm)
 {
    Hiwin              *phi = (Hiwin *) prm;
 
-#if DEBUG_HIWIN
-   Eprintf("%s: type=%d %s\n", __func__, ev->type, EwinGetTitle(phi->ewin));
-#endif
+   Dprintf("type=%d %s\n", ev->type, EwinGetTitle(phi->ewin));
 
    switch (ev->type)
      {
@@ -272,9 +275,7 @@ HiwinInit(Hiwin * phi, EWin * ewin, EObj * parent)
 #if USE_COMPOSITE
    if (phi->ewin)
      {
-#if DEBUG_HIWIN
-	Eprintf("%s: Unregister %s\n", __func__, EwinGetTitle(phi->ewin));
-#endif
+	Dprintf("Unregister %s\n", EwinGetTitle(phi->ewin));
 	EventCallbackUnregister(EoGetWin(phi->ewin), HiwinEwinEvent, phi);
      }
 #endif
@@ -286,9 +287,7 @@ HiwinInit(Hiwin * phi, EWin * ewin, EObj * parent)
 #if USE_COMPOSITE
    if (phi->ewin)
      {
-#if DEBUG_HIWIN
-	Eprintf("%s: Register %s\n", __func__, EwinGetTitle(phi->ewin));
-#endif
+	Dprintf("Register %s\n", EwinGetTitle(phi->ewin));
 	EventCallbackRegister(EoGetWin(phi->ewin), HiwinEwinEvent, phi);
      }
 #endif
