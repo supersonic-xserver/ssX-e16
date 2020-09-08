@@ -1383,7 +1383,10 @@ ECompMgrWinReparent(EObj * eo, Desk * dsk, int change_xy)
    if (!eo->shown)
      {
 	if (change_xy)
-	   ECompMgrWinInvalidate(eo, INV_POS);
+	  {
+	     ECompMgrDamageMergeObject(eo, cw->extents);
+	     ECompMgrWinInvalidate(eo, INV_POS);
+	  }
 	return;
      }
 
