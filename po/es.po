@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2020-05-05 18:06+0200\n"
+"POT-Creation-Date: 2020-09-09 16:41+0200\n"
 "PO-Revision-Date: 2010-04-23 21:20+0000\n"
 "Last-Translator: Fernando Muñoz <munozferna@gmail.com>\n"
 "Language-Team: \n"
@@ -503,7 +503,7 @@ msgstr "Ambos extremos"
 msgid "End"
 msgstr "Extremo"
 
-#: src/container.c:1646 src/focus.c:998
+#: src/container.c:1646 src/focus.c:1024
 msgid "None"
 msgstr "Ninguna"
 
@@ -712,7 +712,7 @@ msgstr ""
 msgid "Apply"
 msgstr "Aplicar"
 
-#: src/ecompmgr.c:2322
+#: src/ecompmgr.c:2327
 msgid ""
 "Cannot enable Composite Manager.\n"
 "Use xdpyinfo to check that\n"
@@ -748,119 +748,129 @@ msgstr ""
 "\n"
 "Saliendo...\n"
 
-#: src/focus.c:839
+#: src/focus.c:851
 msgid "Focus follows pointer"
 msgstr "El enfoque sigue al puntero del ratón"
 
-#: src/focus.c:845
+#: src/focus.c:857
 msgid "Focus follows pointer sloppily"
 msgstr "El enfoque sigue al puntero del ratón lentamente"
 
-#: src/focus.c:851
+#: src/focus.c:863
 msgid "Focus follows mouse clicks"
 msgstr "El enfoque sigue los clicks del ratón"
 
-#: src/focus.c:861
+#: src/focus.c:873
+#, fuzzy
+msgid "Clicking in a window does not raise it"
+msgstr "Pulsar en una ventana siempre la eleva"
+
+#: src/focus.c:879
 msgid "Clicking in a window always raises it"
 msgstr "Pulsar en una ventana siempre la eleva"
 
-#: src/focus.c:869
+#: src/focus.c:885
+#, fuzzy
+msgid "Only primary mouse button can raise window"
+msgstr "Botón del ratón para seleccionar y arrastrar ventanas:"
+
+#: src/focus.c:895
 msgid "All new windows first get the focus"
 msgstr "Todas las ventanas nuevas reciben el enfoque primero"
 
-#: src/focus.c:876
+#: src/focus.c:902
 msgid "New windows get the focus if their window group is focused"
 msgstr ""
 
-#: src/focus.c:881
+#: src/focus.c:907
 msgid "Only new dialog windows get the focus"
 msgstr "Solo nuevas ventanas de diálogo reciben enfoque"
 
-#: src/focus.c:888
+#: src/focus.c:914
 msgid "Only new dialogs whose owner is focused get the focus"
 msgstr ""
 "Solo nuevas ventanas de diálogo cuyo padre tiene el enfoque reciben enfoque"
 
-#: src/focus.c:893
+#: src/focus.c:919
 msgid "Raise windows while switching focus"
 msgstr "Elevar ventanas al cambiar el foco"
 
-#: src/focus.c:899
+#: src/focus.c:925
 msgid "Send mouse pointer to window while switching focus"
 msgstr "Enviar el puntero a la ventana mientras se cambia el foco"
 
-#: src/focus.c:905
+#: src/focus.c:931
 msgid "Always send mouse pointer to window on focus switch"
 msgstr "Siempre enviar el puntero a la ventana durante el cambio de foco"
 
-#: src/focus.c:913
+#: src/focus.c:939
 msgid "Raise windows automatically"
 msgstr "Elevar Ventanas Automáticamente"
 
-#: src/focus.c:919
+#: src/focus.c:945
 msgid "Autoraise delay:"
 msgstr "Retardo al elevar ventanas:"
 
-#: src/focus.c:932
+#: src/focus.c:958
 msgid "Display and use focus list"
 msgstr "Mostrar y usar Lista de Enfoque"
 
-#: src/focus.c:937
+#: src/focus.c:963
 msgid "Include sticky windows in focus list"
 msgstr "Incluir ventanas pegajosas en la lista de enfoques"
 
-#: src/focus.c:942
+#: src/focus.c:968
 msgid "Include shaded windows in focus list"
 msgstr "Incluir ventanas sombreadas en la lista de enfoque"
 
-#: src/focus.c:947
+#: src/focus.c:973
 msgid "Include iconified windows in focus list"
 msgstr "Incluir ventanas iconificadas en la lista de enfoque"
 
-#: src/focus.c:952
+#: src/focus.c:978
 msgid "Include windows on other desks in focus list"
 msgstr "Incluir las ventanas de otros escritorios en la lista de foco"
 
-#: src/focus.c:957
+#: src/focus.c:983
 msgid "Focus windows while switching"
 msgstr "Enfocar ventana mientras cambiamos"
 
-#: src/focus.c:962
+#: src/focus.c:988
 #, fuzzy
 msgid "Outline windows while switching"
 msgstr "Enfocar ventana mientras cambiamos"
 
-#: src/focus.c:967
+#: src/focus.c:993
 msgid "Raise windows after focus switch"
 msgstr "Elevar ventana DESPUÉS de cambio de enfoque"
 
-#: src/focus.c:972
+#: src/focus.c:998
 msgid "Send mouse pointer to window after focus switch"
 msgstr "Enviar el puntero del ratón a la ventana DESPUÉS del cambio de enfoque"
 
-#: src/focus.c:982
+#: src/focus.c:1008
 msgid "Focuslist image display policy (if one operation fails, try the next):"
 msgstr ""
 "Política al mostrar la Focuslist de la imagen (si una operación falla "
 "intentar siguiente):"
 
-#: src/focus.c:986
+#: src/focus.c:1012
 msgid "First E Icon, then App Icon"
 msgstr "Primero Icono E, luego Icono App"
 
-#: src/focus.c:992
+#: src/focus.c:1018
 msgid "First App Icon, then E Icon"
 msgstr "Primero Icono App, luego Icono E"
 
-#: src/focus.c:1006
+#: src/focus.c:1032
 msgid "Focus"
 msgstr "Foco"
 
-#: src/focus.c:1006
+#: src/focus.c:1032
 msgid "Focus Settings"
 msgstr "Configurar enfoque"
 
-#: src/focus.c:1010
+#: src/focus.c:1036
 msgid ""
 "Enlightenment Focus\n"
 "Settings Dialog"

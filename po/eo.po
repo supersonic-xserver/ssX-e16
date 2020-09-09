@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16 0.99.99.003\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2020-05-05 18:06+0200\n"
+"POT-Creation-Date: 2020-09-09 16:41+0200\n"
 "PO-Revision-Date: 2014-01-03 14:12+0000\n"
 "Last-Translator: Eliovir <Unknown>\n"
 "Language-Team: Esperanto <translation-team-eo@lists.sourceforge.net>\n"
@@ -483,7 +483,7 @@ msgstr "Ambaŭ finas"
 msgid "End"
 msgstr "Fino"
 
-#: src/container.c:1646 src/focus.c:998
+#: src/container.c:1646 src/focus.c:1024
 msgid "None"
 msgstr "Neniu"
 
@@ -683,7 +683,7 @@ msgstr ""
 msgid "Apply"
 msgstr "Apliki"
 
-#: src/ecompmgr.c:2322
+#: src/ecompmgr.c:2327
 msgid ""
 "Cannot enable Composite Manager.\n"
 "Use xdpyinfo to check that\n"
@@ -719,115 +719,125 @@ msgstr ""
 "\n"
 "Elirado.\n"
 
-#: src/focus.c:839
+#: src/focus.c:851
 msgid "Focus follows pointer"
 msgstr "Fokuso sekvas kursoron"
 
-#: src/focus.c:845
+#: src/focus.c:857
 msgid "Focus follows pointer sloppily"
 msgstr "Fokuso sekvas kursoron nestrikte"
 
-#: src/focus.c:851
+#: src/focus.c:863
 msgid "Focus follows mouse clicks"
 msgstr "Fokuso sekvas musajn alklakojn"
 
-#: src/focus.c:861
+#: src/focus.c:873
+#, fuzzy
+msgid "Clicking in a window does not raise it"
+msgstr "Alklakante sur fenestro ĉiam levas ĝin"
+
+#: src/focus.c:879
 msgid "Clicking in a window always raises it"
 msgstr "Alklakante sur fenestro ĉiam levas ĝin"
 
-#: src/focus.c:869
+#: src/focus.c:885
+#, fuzzy
+msgid "Only primary mouse button can raise window"
+msgstr "Butono de muso por elekti kaj treni fenestrojn:"
+
+#: src/focus.c:895
 msgid "All new windows first get the focus"
 msgstr "Ĉiuj novaj fenestroj unue fokusiĝas"
 
-#: src/focus.c:876
+#: src/focus.c:902
 msgid "New windows get the focus if their window group is focused"
 msgstr "Novaj fenestroj fokusiĝas se sia grupo de fenestroj estas fokusitaj"
 
-#: src/focus.c:881
+#: src/focus.c:907
 msgid "Only new dialog windows get the focus"
 msgstr "Nur novaj dialogoj fokusiĝas"
 
-#: src/focus.c:888
+#: src/focus.c:914
 msgid "Only new dialogs whose owner is focused get the focus"
 msgstr "Nur novaj dialogoj kies posedanto fokusiĝis fokusiĝas"
 
-#: src/focus.c:893
+#: src/focus.c:919
 msgid "Raise windows while switching focus"
 msgstr "Levi fenestrojn post ŝanĝo de fokuso"
 
-#: src/focus.c:899
+#: src/focus.c:925
 msgid "Send mouse pointer to window while switching focus"
 msgstr "Sendi musan kursoron fenestren dum ŝanĝo de fokuso"
 
-#: src/focus.c:905
+#: src/focus.c:931
 msgid "Always send mouse pointer to window on focus switch"
 msgstr "Ĉiam sendi musan kursoron fenestren dum ŝanĝo de fokuso"
 
-#: src/focus.c:913
+#: src/focus.c:939
 msgid "Raise windows automatically"
 msgstr "Aŭtomate levi fenestrojn"
 
-#: src/focus.c:919
+#: src/focus.c:945
 msgid "Autoraise delay:"
 msgstr "Prokrasto de aŭtomata levo:"
 
-#: src/focus.c:932
+#: src/focus.c:958
 msgid "Display and use focus list"
 msgstr "Montri kaj uzi fokusan liston"
 
-#: src/focus.c:937
+#: src/focus.c:963
 msgid "Include sticky windows in focus list"
 msgstr ""
 
-#: src/focus.c:942
+#: src/focus.c:968
 msgid "Include shaded windows in focus list"
 msgstr ""
 
-#: src/focus.c:947
+#: src/focus.c:973
 msgid "Include iconified windows in focus list"
 msgstr ""
 
-#: src/focus.c:952
+#: src/focus.c:978
 msgid "Include windows on other desks in focus list"
 msgstr ""
 
-#: src/focus.c:957
+#: src/focus.c:983
 msgid "Focus windows while switching"
 msgstr ""
 
-#: src/focus.c:962
+#: src/focus.c:988
 msgid "Outline windows while switching"
 msgstr ""
 
-#: src/focus.c:967
+#: src/focus.c:993
 msgid "Raise windows after focus switch"
 msgstr ""
 
-#: src/focus.c:972
+#: src/focus.c:998
 msgid "Send mouse pointer to window after focus switch"
 msgstr ""
 
-#: src/focus.c:982
+#: src/focus.c:1008
 msgid "Focuslist image display policy (if one operation fails, try the next):"
 msgstr ""
 
-#: src/focus.c:986
+#: src/focus.c:1012
 msgid "First E Icon, then App Icon"
 msgstr "Unue piktogramoj de Enlightenment, do piktogramoj de aplikaĵoj"
 
-#: src/focus.c:992
+#: src/focus.c:1018
 msgid "First App Icon, then E Icon"
 msgstr "Unue piktogramoj de aplikaĵoj, do piktogramoj de Enlightenment"
 
-#: src/focus.c:1006
+#: src/focus.c:1032
 msgid "Focus"
 msgstr "Fokuso"
 
-#: src/focus.c:1006
+#: src/focus.c:1032
 msgid "Focus Settings"
 msgstr "Agordoj pri fokuso"
 
-#: src/focus.c:1010
+#: src/focus.c:1036
 msgid ""
 "Enlightenment Focus\n"
 "Settings Dialog"
