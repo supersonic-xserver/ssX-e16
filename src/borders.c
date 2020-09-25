@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -51,13 +51,13 @@
 
 static              LIST_HEAD(border_list);
 
-static void         BorderDestroy(Border * b);
-static void         BorderWinpartHandleEvents(Win win, XEvent * ev, void *prm);
-static void         BorderFrameHandleEvents(Win win, XEvent * ev, void *prm);
-static Border      *BorderGetFallback(void);
+static void         _BorderDestroy(Border * b);
+static void         _BorderWinpartHandleEvents(Win win, XEvent * ev, void *prm);
+static void         _BorderFrameHandleEvents(Win win, XEvent * ev, void *prm);
+static Border      *_BorderGetFallback(void);
 
 static void
-BorderWinpartRealise(EWin * ewin, int i)
+_BorderWinpartRealise(EWin * ewin, int i)
 {
    EWinBit            *ewb = &ewin->bits[i];
 
@@ -77,7 +77,7 @@ BorderWinpartRealise(EWin * ewin, int i)
 }
 
 static void
-BorderWinpartITclassApply(EWin * ewin, int i, int force)
+_BorderWinpartITclassApply(EWin * ewin, int i, int force)
 {
    EWinBit            *ewb = &ewin->bits[i];
    WinPart            *ebp = &ewin->border->part[i];
@@ -179,7 +179,7 @@ BorderWinpartITclassApply(EWin * ewin, int i, int force)
 }
 
 static int
-BorderWinpartDraw(EWin * ewin, int i)
+_BorderWinpartDraw(EWin * ewin, int i)
 {
    EWinBit            *ewb = &ewin->bits[i];
    int                 resize = 0, ret = 0;
@@ -200,7 +200,7 @@ BorderWinpartDraw(EWin * ewin, int i)
 
    if ((resize) || (ewb->expose))
      {
-	BorderWinpartITclassApply(ewin, i, 1);
+	_BorderWinpartITclassApply(ewin, i, 1);
 	ewb->expose = 0;
 	ret = 1;
      }
@@ -209,9 +209,9 @@ BorderWinpartDraw(EWin * ewin, int i)
 }
 
 static void
-BorderWinpartChange(EWin * ewin, int i, int force)
+_BorderWinpartChange(EWin * ewin, int i, int force)
 {
-   BorderWinpartITclassApply(ewin, i, force);
+   _BorderWinpartITclassApply(ewin, i, force);
 
    if (ewin->update.shape || ewin->border->changes_shape)
       EwinPropagateShapes(ewin);
@@ -228,7 +228,7 @@ EwinBorderDraw(EWin * ewin, int do_shape, int do_paint)
 #endif
 
    for (i = 0; i < ewin->border->num_winparts; i++)
-      BorderWinpartITclassApply(ewin, i, do_shape || do_paint);
+      _BorderWinpartITclassApply(ewin, i, do_shape || do_paint);
 
    if (do_shape || ewin->update.shape || ewin->border->changes_shape)
       EwinPropagateShapes(ewin);
@@ -242,12 +242,12 @@ EwinBorderUpdateInfo(EWin * ewin)
    for (i = 0; i < ewin->border->num_winparts; i++)
      {
 	if (ewin->border->part[i].flags & FLAG_TITLE)
-	   BorderWinpartITclassApply(ewin, i, 1);
+	   _BorderWinpartITclassApply(ewin, i, 1);
      }
 }
 
 static void
-BorderWinpartCalc(const EWin * ewin, int i, int ww, int hh)
+_BorderWinpartCalc(const EWin * ewin, int i, int ww, int hh)
 {
    int                 x, y, w, h, ox, oy, max, min;
    int                 topleft, bottomright;
@@ -255,9 +255,9 @@ BorderWinpartCalc(const EWin * ewin, int i, int ww, int hh)
    topleft = ewin->border->part[i].geom.topleft.originbox;
    bottomright = ewin->border->part[i].geom.bottomright.originbox;
    if (topleft >= 0)
-      BorderWinpartCalc(ewin, topleft, ww, hh);
+      _BorderWinpartCalc(ewin, topleft, ww, hh);
    if (bottomright >= 0)
-      BorderWinpartCalc(ewin, bottomright, ww, hh);
+      _BorderWinpartCalc(ewin, bottomright, ww, hh);
 
    x = y = 0;
    if (topleft == -1)
@@ -442,14 +442,14 @@ EwinBorderCalcSizes(EWin * ewin, int propagate)
       ewin->bits[i].w = -2;
    for (i = 0; i < ewin->border->num_winparts; i++)
       if (ewin->bits[i].w == -2)
-	 BorderWinpartCalc(ewin, i, ww, hh);
+	 _BorderWinpartCalc(ewin, i, ww, hh);
    for (i = 0; i < ewin->border->num_winparts; i++)
-      BorderWinpartRealise(ewin, i);
+      _BorderWinpartRealise(ewin, i);
 
    reshape = 0;
    for (i = 0; i < ewin->border->num_winparts; i++)
      {
-	reshape |= BorderWinpartDraw(ewin, i);
+	reshape |= _BorderWinpartDraw(ewin, i);
      }
 
 #if 0				/* Debug */
@@ -462,13 +462,13 @@ EwinBorderCalcSizes(EWin * ewin, int propagate)
 }
 
 static void
-BorderIncRefcount(const Border * b)
+_BorderIncRefcount(const Border * b)
 {
    ((Border *) b)->ref_count++;
 }
 
 static void
-BorderDecRefcount(const Border * b)
+_BorderDecRefcount(const Border * b)
 {
    ((Border *) b)->ref_count--;
 }
@@ -507,7 +507,7 @@ EwinBorderSelect(EWin * ewin)
       b = BorderFind("DEFAULT");
 
    if (!b)
-      b = BorderGetFallback();
+      b = _BorderGetFallback();
 
  done:
    ewin->normal_border = ewin->border = b;
@@ -524,21 +524,21 @@ EwinBorderDetach(EWin * ewin)
 
    TooltipsSetPending(0, NULL, NULL);
 
-   EventCallbackUnregister(EoGetWin(ewin), BorderFrameHandleEvents, ewin);
+   EventCallbackUnregister(EoGetWin(ewin), _BorderFrameHandleEvents, ewin);
    for (i = 0; i < b->num_winparts; i++)
      {
 	EventCallbackUnregister(ewin->bits[i].win,
-				BorderWinpartHandleEvents, &ewin->bits[i]);
+				_BorderWinpartHandleEvents, &ewin->bits[i]);
 	if (ewin->bits[i].win)
 	   EDestroyWindow(ewin->bits[i].win);
      }
    EFREE_NULL(ewin->bits);
-   BorderDecRefcount(b);
+   _BorderDecRefcount(b);
 
    ewin->border = NULL;
 
    if (b->throwaway)
-      BorderDestroy((Border *) b);
+      _BorderDestroy((Border *) b);
 }
 
 void
@@ -559,12 +559,12 @@ EwinBorderSetTo(EWin * ewin, const Border * b)
       EwinBorderDetach(ewin);
 
    ewin->border = b;
-   BorderIncRefcount(b);
+   _BorderIncRefcount(b);
    HintsSetWindowBorder(ewin);
 
    ewin->state.no_border = b->num_winparts <= 0;
 
-   EventCallbackRegister(EoGetWin(ewin), BorderFrameHandleEvents, ewin);
+   EventCallbackRegister(EoGetWin(ewin), _BorderFrameHandleEvents, ewin);
 
    if (b->num_winparts > 0)
       ewin->bits = EMALLOC(EWinBit, b->num_winparts);
@@ -577,7 +577,7 @@ EwinBorderSetTo(EWin * ewin, const Border * b)
 	ECursorApply(b->part[i].ec, ewin->bits[i].win);
 	EMapWindow(ewin->bits[i].win);
 	EventCallbackRegister(ewin->bits[i].win,
-			      BorderWinpartHandleEvents, &ewin->bits[i]);
+			      _BorderWinpartHandleEvents, &ewin->bits[i]);
 	if (b->part[i].flags & FLAG_TITLE)
 	   ESelectInput(ewin->bits[i].win, EWIN_BORDER_TITLE_EVENT_MASK);
 	else
@@ -646,14 +646,14 @@ EwinBorderChange(EWin * ewin, const Border * b, int normal)
 }
 
 static void
-EwinBorderAssign(EWin * ewin, const Border * b)
+_EwinBorderAssign(EWin * ewin, const Border * b)
 {
    if (!b || ewin->border == b || ewin->inh_wm.b.border)
       return;
 
    if (ewin->border)
-      BorderDecRefcount(ewin->border);
-   BorderIncRefcount(b);
+      _BorderDecRefcount(ewin->border);
+   _BorderIncRefcount(b);
 
    ewin->border = ewin->normal_border = b;
 }
@@ -661,11 +661,11 @@ EwinBorderAssign(EWin * ewin, const Border * b)
 void
 EwinBorderSetInitially(EWin * ewin, const char *name)
 {
-   EwinBorderAssign(ewin, BorderFind(name));
+   _EwinBorderAssign(ewin, BorderFind(name));
 }
 
 static Border      *
-BorderCreate(const char *name)
+_BorderCreate(const char *name)
 {
    Border             *b;
 
@@ -683,7 +683,7 @@ BorderCreate(const char *name)
 }
 
 static void
-BorderDestroy(Border * b)
+_BorderDestroy(Border * b)
 {
    int                 i;
 
@@ -728,12 +728,12 @@ BorderFind(const char *name)
 }
 
 static void
-BorderWinpartAdd(Border * b, const char *iclass, const char *aclass,
-		 const char *tclass, const char *cclass, char ontop, int flags,
-		 char isregion __UNUSED__, int wmin, int wmax, int hmin,
-		 int hmax, int torigin, int txp, int txa, int typ, int tya,
-		 int borigin, int bxp, int bxa, int byp, int bya,
-		 char keep_for_shade)
+_BorderWinpartAdd(Border * b, const char *iclass, const char *aclass,
+		  const char *tclass, const char *cclass, char ontop, int flags,
+		  char isregion __UNUSED__, int wmin, int wmax, int hmin,
+		  int hmax, int torigin, int txp, int txa, int typ, int tya,
+		  int borigin, int bxp, int bxa, int byp, int bya,
+		  char keep_for_shade)
 {
    int                 n;
 
@@ -780,7 +780,7 @@ EwinBorderMinShadeSize(const EWin * ewin, int *mw, int *mh)
       ewin->bits[i].w = -2;
    for (i = 0; i < ewin->border->num_winparts; i++)
       if (ewin->bits[i].w == -2)
-	 BorderWinpartCalc(ewin, i, pw, ph);
+	 _BorderWinpartCalc(ewin, i, pw, ph);
 
    switch (ewin->border->shadedir)
      {
@@ -832,7 +832,7 @@ EwinBorderMinShadeSize(const EWin * ewin, int *mw, int *mh)
       ewin->bits[i].w = -2;
    for (i = 0; i < ewin->border->num_winparts; i++)
       if (ewin->bits[i].w == -2)
-	 BorderWinpartCalc(ewin, i, pw, ph);
+	 _BorderWinpartCalc(ewin, i, pw, ph);
 
    min_w = 0;
    min_h = 0;
@@ -874,7 +874,7 @@ BorderWinpartIndex(EWin * ewin, Win win)
 #define DEBUG_BORDER_EVENTS 0
 
 static void
-BorderWinpartEventMouseDown(EWinBit * wbit, XEvent * ev)
+_BorderWinpartEventMouseDown(EWinBit * wbit, XEvent * ev)
 {
    EWin               *ewin = wbit->ewin;
    int                 part = wbit - ewin->bits;
@@ -887,7 +887,7 @@ BorderWinpartEventMouseDown(EWinBit * wbit, XEvent * ev)
 #if DEBUG_BORDER_EVENTS
    Eprintf("%s: %#x %d\n", __func__, WinGetXwin(wbit->win), wbit->state);
 #endif
-   BorderWinpartChange(ewin, part, 0);
+   _BorderWinpartChange(ewin, part, 0);
 
    FocusHandleClick(ewin, wbit->win);
 
@@ -896,7 +896,7 @@ BorderWinpartEventMouseDown(EWinBit * wbit, XEvent * ev)
 }
 
 static void
-BorderWinpartEventMouseUp(EWinBit * wbit, XEvent * ev)
+_BorderWinpartEventMouseUp(EWinBit * wbit, XEvent * ev)
 {
    EWin               *ewin = wbit->ewin;
    int                 part = wbit - ewin->bits;
@@ -913,7 +913,7 @@ BorderWinpartEventMouseUp(EWinBit * wbit, XEvent * ev)
 	 * if the event happens before the pointer grab is moved to the
 	 * move/resize event window.
 	 * This can be tested e.g. by inserting usleep(100000) at the start
-	 * of BorderWinpartEventMouseDown().
+	 * of _BorderWinpartEventMouseDown().
 	 */
 	MoveResizeEnd(ewin);
      }
@@ -925,7 +925,7 @@ BorderWinpartEventMouseUp(EWinBit * wbit, XEvent * ev)
 #if DEBUG_BORDER_EVENTS
    Eprintf("%s: %#x %d\n", __func__, WinGetXwin(wbit->win), wbit->state);
 #endif
-   BorderWinpartChange(ewin, part, 0);
+   _BorderWinpartChange(ewin, part, 0);
 
    /* Beware! Actions may destroy the current border */
    wbit->left = 0;
@@ -936,7 +936,7 @@ BorderWinpartEventMouseUp(EWinBit * wbit, XEvent * ev)
 }
 
 static void
-BorderWinpartEventEnter(EWinBit * wbit, XEvent * ev)
+_BorderWinpartEventEnter(EWinBit * wbit, XEvent * ev)
 {
    EWin               *ewin = wbit->ewin;
    int                 part = wbit - ewin->bits;
@@ -948,13 +948,13 @@ BorderWinpartEventEnter(EWinBit * wbit, XEvent * ev)
       wbit->left = 0;
 
    wbit->state = STATE_HILITED;
-   BorderWinpartChange(ewin, part, 0);
+   _BorderWinpartChange(ewin, part, 0);
    if (ewin->border->part[part].aclass)
       ActionclassEvent(ewin->border->part[part].aclass, ev, ewin);
 }
 
 static void
-BorderWinpartEventLeave(EWinBit * wbit, XEvent * ev)
+_BorderWinpartEventLeave(EWinBit * wbit, XEvent * ev)
 {
    EWin               *ewin = wbit->ewin;
    int                 part = wbit - ewin->bits;
@@ -967,7 +967,7 @@ BorderWinpartEventLeave(EWinBit * wbit, XEvent * ev)
    else
      {
 	wbit->state = STATE_NORMAL;
-	BorderWinpartChange(ewin, part, 0);
+	_BorderWinpartChange(ewin, part, 0);
 	if (ewin->border->part[part].aclass)
 	   ActionclassEvent(ewin->border->part[part].aclass, ev, ewin);
      }
@@ -986,7 +986,7 @@ BorderCheckState(EWin * ewin, XEvent * ev)
 	     break;
 
 	  case ButtonRelease:
-	     BorderWinpartEventMouseUp(ewin->bits + i, NULL);
+	     _BorderWinpartEventMouseUp(ewin->bits + i, NULL);
 	     break;
 	  }
      }
@@ -1007,7 +1007,7 @@ _BorderAutoshadeTimeout(void *data)
 }
 
 static void
-BorderFrameHandleEvents(Win win __UNUSED__, XEvent * ev, void *prm)
+_BorderFrameHandleEvents(Win win __UNUSED__, XEvent * ev, void *prm)
 {
    EWin               *ewin = (EWin *) prm;
    int                 x, y;
@@ -1039,7 +1039,7 @@ BorderFrameHandleEvents(Win win __UNUSED__, XEvent * ev, void *prm)
 }
 
 static ActionClass *
-BorderWinpartGetAclass(void *data)
+_BorderWinpartGetAclass(void *data)
 {
    EWinBit            *wbit = (EWinBit *) data;
    EWin               *ewin;
@@ -1058,39 +1058,39 @@ BorderWinpartGetAclass(void *data)
 }
 
 static void
-BorderWinpartHandleTooltip(EWinBit * wbit)
+_BorderWinpartHandleTooltip(EWinBit * wbit)
 {
    EWin               *ewin = wbit->ewin;
    int                 part = wbit - ewin->bits;
 
    if (!ewin->border->part[part].aclass)
       return;
-   TooltipsSetPending(0, BorderWinpartGetAclass, wbit);
+   TooltipsSetPending(0, _BorderWinpartGetAclass, wbit);
 }
 
 static void
-BorderWinpartHandleEvents(Win win __UNUSED__, XEvent * ev, void *prm)
+_BorderWinpartHandleEvents(Win win __UNUSED__, XEvent * ev, void *prm)
 {
    EWinBit            *wbit = (EWinBit *) prm;
 
    switch (ev->type)
      {
      case ButtonPress:
-	BorderWinpartEventMouseDown(wbit, ev);
+	_BorderWinpartEventMouseDown(wbit, ev);
 	break;
      case ButtonRelease:
-	BorderWinpartEventMouseUp(wbit, ev);
+	_BorderWinpartEventMouseUp(wbit, ev);
 	break;
      case EnterNotify:
 	/* Beware! Actions may destroy the current border */
-	BorderWinpartHandleTooltip(wbit);
-	BorderWinpartEventEnter(wbit, ev);
+	_BorderWinpartHandleTooltip(wbit);
+	_BorderWinpartEventEnter(wbit, ev);
 	break;
      case LeaveNotify:
-	BorderWinpartEventLeave(wbit, ev);
+	_BorderWinpartEventLeave(wbit, ev);
 	break;
      case MotionNotify:
-	BorderWinpartHandleTooltip(wbit);
+	_BorderWinpartHandleTooltip(wbit);
 	break;
      }
 }
@@ -1101,7 +1101,7 @@ BorderWinpartHandleEvents(Win win __UNUSED__, XEvent * ev, void *prm)
 #include "conf.h"
 
 static int
-BorderPartLoad(FILE * fs, char type __UNUSED__, Border * b)
+_BorderPartLoad(FILE * fs, char type __UNUSED__, Border * b)
 {
    int                 err = 0;
    char                s[FILEPATH_LEN_MAX];
@@ -1125,10 +1125,10 @@ BorderPartLoad(FILE * fs, char type __UNUSED__, Border * b)
 	switch (i1)
 	  {
 	  case CONFIG_CLOSE:
-	     BorderWinpartAdd(b, piclass, paclass, ptclass, pcclass, ontop,
-			      flags, isregion, wmin, wmax, hmin, hmax,
-			      torigin, txp, txa, typ, tya,
-			      borigin, bxp, bxa, byp, bya, keepshade);
+	     _BorderWinpartAdd(b, piclass, paclass, ptclass, pcclass, ontop,
+			       flags, isregion, wmin, wmax, hmin, hmax,
+			       torigin, txp, txa, typ, tya,
+			       borigin, bxp, bxa, byp, bya, keepshade);
 	     goto done;
 	  case CONFIG_IMAGECLASS:
 	  case BORDERPART_ICLASS:
@@ -1241,7 +1241,7 @@ BorderConfigLoad(FILE * fs)
 		  SkipTillEnd(fs);
 		  goto done;
 	       }
-	     b = BorderCreate(s2);
+	     b = _BorderCreate(s2);
 	     continue;
 	  }
 
@@ -1255,7 +1255,7 @@ BorderConfigLoad(FILE * fs)
 	  case BORDER_INIT:
 	     if (i2 != CONFIG_OPEN)
 		break;
-	     err = BorderPartLoad(fs, i1, b);
+	     err = _BorderPartLoad(fs, i1, b);
 	     if (err)
 		break;
 	     break;
@@ -1300,7 +1300,7 @@ BorderCreateFiller(int w, int h, int sw, int sh)
    if (w > sw || h > sh)	/* Borders must be >= 0 */
       return NULL;
 
-   b = BorderCreate("__FILLER");
+   b = _BorderCreate("__FILLER");
    if (!b)
       return b;
 
@@ -1321,23 +1321,23 @@ BorderCreateFiller(int w, int h, int sw, int sh)
    ImageclassGetBlack();	/* Creates the __BLACK ImageClass */
 
    if (top)
-      BorderWinpartAdd(b, "__BLACK", NULL, NULL, NULL, 1, FLAG_BUTTON, 0,
-		       1, 99999, 1, 99999,
-		       -1, 0, 0, 0, 0, -1, 1024, -1, 0, top - 1, 1);
+      _BorderWinpartAdd(b, "__BLACK", NULL, NULL, NULL, 1, FLAG_BUTTON, 0,
+			1, 99999, 1, 99999,
+			-1, 0, 0, 0, 0, -1, 1024, -1, 0, top - 1, 1);
    if (bottom)
-      BorderWinpartAdd(b, "__BLACK", NULL, NULL, NULL, 1, FLAG_BUTTON, 0,
-		       1, 99999, 1, 99999,
-		       -1, 0, 0, 1024, -bottom, -1, 1024, -1, 1024, -1, 1);
+      _BorderWinpartAdd(b, "__BLACK", NULL, NULL, NULL, 1, FLAG_BUTTON, 0,
+			1, 99999, 1, 99999,
+			-1, 0, 0, 1024, -bottom, -1, 1024, -1, 1024, -1, 1);
    if (left)
-      BorderWinpartAdd(b, "__BLACK", NULL, NULL, NULL, 1, FLAG_BUTTON, 0,
-		       1, 99999, 1, 99999,
-		       -1, 0, 0, 0, top,
-		       -1, 0, left - 1, 1024, -(bottom + 1), 1);
+      _BorderWinpartAdd(b, "__BLACK", NULL, NULL, NULL, 1, FLAG_BUTTON, 0,
+			1, 99999, 1, 99999,
+			-1, 0, 0, 0, top,
+			-1, 0, left - 1, 1024, -(bottom + 1), 1);
    if (right)
-      BorderWinpartAdd(b, "__BLACK", NULL, NULL, NULL, 1, FLAG_BUTTON, 0,
-		       1, 99999, 1, 99999,
-		       -1, 1024, -right, 0, top,
-		       -1, 1024, -1, 1024, -(bottom + 1), 1);
+      _BorderWinpartAdd(b, "__BLACK", NULL, NULL, NULL, 1, FLAG_BUTTON, 0,
+			1, 99999, 1, 99999,
+			-1, 1024, -right, 0, top,
+			-1, 1024, -1, 1024, -(bottom + 1), 1);
 
    return b;
 }
@@ -1393,7 +1393,7 @@ BorderGetFallbackAclass(void)
 }
 
 static Border      *
-BorderGetFallback(void)
+_BorderGetFallback(void)
 {
    /*
     * This function creates simple internal data members to be used in 
@@ -1410,7 +1410,7 @@ BorderGetFallback(void)
    BorderGetFallbackAclass();	/* Creates the fallback ac */
 
    /* Create fallback border */
-   b = BorderCreate("__fb_bd");
+   b = _BorderCreate("__fb_bd");
    if (!b)
       return b;
 
@@ -1418,18 +1418,18 @@ BorderGetFallback(void)
    b->border.right = 8;
    b->border.top = 8;
    b->border.bottom = 8;
-   BorderWinpartAdd(b, "__fb_ic", "__fb_bd_ac", NULL, NULL,
-		    1, FLAG_BUTTON, 0, 8, 99999, 8, 99999, -1, 0, 0, 0, 0,
-		    -1, 1024, -1, 0, 7, 1);
-   BorderWinpartAdd(b, "__fb_ic", "__fb_bd_ac", NULL, NULL,
-		    1, FLAG_BUTTON, 0, 8, 99999, 8, 99999, -1, 0, 0, 1024,
-		    -8, -1, 1024, -1, 1024, -1, 1);
-   BorderWinpartAdd(b, "__fb_ic", "__fb_bd_ac", NULL, NULL,
-		    1, FLAG_BUTTON, 0, 8, 99999, 8, 99999, -1, 0, 0, 0, 8,
-		    -1, 0, 7, 1024, -9, 1);
-   BorderWinpartAdd(b, "__fb_ic", "__fb_bd_ac", NULL, NULL,
-		    1, FLAG_BUTTON, 0, 8, 99999, 8, 99999, -1, 1024, -8, 0,
-		    8, -1, 1024, -1, 1024, -9, 1);
+   _BorderWinpartAdd(b, "__fb_ic", "__fb_bd_ac", NULL, NULL,
+		     1, FLAG_BUTTON, 0, 8, 99999, 8, 99999, -1, 0, 0, 0, 0,
+		     -1, 1024, -1, 0, 7, 1);
+   _BorderWinpartAdd(b, "__fb_ic", "__fb_bd_ac", NULL, NULL,
+		     1, FLAG_BUTTON, 0, 8, 99999, 8, 99999, -1, 0, 0, 1024,
+		     -8, -1, 1024, -1, 1024, -1, 1);
+   _BorderWinpartAdd(b, "__fb_ic", "__fb_bd_ac", NULL, NULL,
+		     1, FLAG_BUTTON, 0, 8, 99999, 8, 99999, -1, 0, 0, 0, 8,
+		     -1, 0, 7, 1024, -9, 1);
+   _BorderWinpartAdd(b, "__fb_ic", "__fb_bd_ac", NULL, NULL,
+		     1, FLAG_BUTTON, 0, 8, 99999, 8, 99999, -1, 1024, -8, 0,
+		     8, -1, 1024, -1, 1024, -9, 1);
 
    return b;
 }
