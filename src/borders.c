@@ -1226,17 +1226,14 @@ _BorderPartLoad(FILE * fs, char type __UNUSED__, Border * b)
 			       borigin, bxp, bxa, byp, bya, keepshade);
 	     goto done;
 	  case CONFIG_IMAGECLASS:
-	  case BORDERPART_ICLASS:
 	     STRCPY(iclass, s2);
 	     piclass = iclass;
 	     break;
 	  case CONFIG_ACTIONCLASS:
-	  case BORDERPART_ACLASS:
 	     STRCPY(aclass, s2);
 	     paclass = aclass;
 	     break;
 	  case CONFIG_TEXT:
-	  case BORDERPART_TEXTCLASS:
 	     STRCPY(tclass, s2);
 	     ptclass = tclass;
 	     break;
@@ -1331,7 +1328,6 @@ BorderConfigLoad(FILE * fs)
 	     _BorderCheck(b);
 	     goto done;
 	  case CONFIG_CLASSNAME:
-	  case BORDER_NAME:
 	     if (BorderFind(s2))
 	       {
 		  SkipTillEnd(fs);

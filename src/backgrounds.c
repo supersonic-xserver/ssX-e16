@@ -1095,7 +1095,6 @@ BackgroundsConfigLoad(FILE * fs)
 	     break;
 
 	  case CONFIG_CLASSNAME:
-	  case BG_NAME:
 	     bg = BackgroundFind(s2);
 	     if (!bg)
 	       {

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -405,7 +405,6 @@ ImageclassConfigLoad(FILE * fs)
 	  case ICLASS_COLORMOD:
 	     continue;
 	  case CONFIG_CLASSNAME:
-	  case ICLASS_NAME:
 	     if (ImageclassFind(s2, 0))
 	       {
 		  SkipTillEnd(fs);

@@ -321,7 +321,6 @@ AclassConfigLoad(FILE * fs)
 	     goto done;
 
 	  case CONFIG_CLASSNAME:
-	  case ACLASS_NAME:
 	     ac = ActionclassFindAny(s2);
 	     if (ac)
 	       {
@@ -335,7 +334,6 @@ AclassConfigLoad(FILE * fs)
 	       }
 	     break;
 	  case CONFIG_TYPE:
-	  case ACLASS_TYPE:
 	     if (!ac || i2 == ACLASS_TYPE_ACLASS)
 		break;
 	     LIST_REMOVE(ActionClass, &aclass_list, ActionclassFind(ac->name));
@@ -344,7 +342,6 @@ AclassConfigLoad(FILE * fs)
 
 	     break;
 	  case CONFIG_MODIFIER:
-	  case ACLASS_MODIFIER:
 	     /* These are the defines that I have listed...
 	      * These, therefore, are the ones that I am 
 	      * going to accept by default.
@@ -431,19 +428,15 @@ AclassConfigLoad(FILE * fs)
 	       }
 	     break;
 	  case CONFIG_ANYMOD:
-	  case ACLASS_ANYMOD:
 	     anymod = i2;
 	     break;
 	  case CONFIG_ANYBUT:
-	  case ACLASS_ANYBUT:
 	     anybut = i2;
 	     break;
 	  case CONFIG_BUTTON:
-	  case ACLASS_BUT:
 	     but = i2;
 	     break;
 	  case CONFIG_ANYKEY:
-	  case ACLASS_ANYKEY:
 	     anykey = i2;
 	     break;
 	  case ACLASS_KEY:
