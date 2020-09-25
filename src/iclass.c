@@ -449,8 +449,6 @@ ImageclassConfigLoad(FILE * fs)
 	     ic->padding.top = t;
 	     ic->padding.bottom = b;
 	     continue;
-	  case CONFIG_DESKTOP:
-	     /* don't ask... --mandrake */
 	  case ICLASS_NORMAL:
 	     is = ImagestateSet(&ic->norm.normal, s2);
 	     continue;

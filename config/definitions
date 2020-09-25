@@ -99,7 +99,7 @@
 #define __EFFECT_SHADOW  1
 #define __EFFECT_OUTLINE 2
 
-#define __NORMAL 5
+#define __NORMAL 351
 #define __CLICKED 352
 #define __HILITED 353
 #define __NORMAL_ACTIVE 354

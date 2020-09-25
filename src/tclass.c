@@ -265,7 +265,6 @@ TextclassConfigLoad(FILE * fs)
 	  case TEXT_JUSTIFICATION:
 	     tc->justification = atoi(s2);
 	     continue;
-	  case CONFIG_DESKTOP:
 	  case ICLASS_NORMAL:
 	     ts = TextstateSet(&tc->norm.normal, s2);
 	     continue;
