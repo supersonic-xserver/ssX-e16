@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2019 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -752,10 +752,7 @@ EwinInstantShade(EWin * ewin, int force)
    int                 x, y, w, h;
    int                 minw, minh;
 
-   if ((ewin->border->border.left == 0) && (ewin->border->border.right == 0)
-       && (ewin->border->border.top == 0) && (ewin->border->border.bottom == 0))
-      return;
-   if (ewin->state.zoomed)
+   if (ewin->state.inhibit_shade)
       return;
    if (ewin->state.shaded && !force)
       return;
@@ -958,14 +955,9 @@ EwinShade(EWin * ewin)
    _ewin_shade_data    esd;
    int                 duration;
 
-   if ((ewin->border->border.left == 0) && (ewin->border->border.right == 0) &&
-       (ewin->border->border.top == 0) && (ewin->border->border.bottom == 0))
+   if (ewin->state.inhibit_shade)
       return;
-   if (ewin->state.zoomed)
-      return;
-   if (ewin->state.shaded || ewin->state.shading || ewin->state.iconified)
-      return;
-   if ((ewin->border) && (!strcmp(ewin->border->name, "BORDERLESS")))
+   if (ewin->state.shaded || ewin->state.shading)
       return;
 
    esd.ewin = ewin;
@@ -1592,12 +1584,8 @@ EwinOpSetBorder(EWin * ewin, int source __UNUSED__, const char *name)
 	     break;
 	  }
      }
-   if (has_shaded)
-     {
-	if ((b->border.left == 0) && (b->border.right == 0)
-	    && (b->border.top == 0) && (b->border.bottom == 0))
-	   return;
-     }
+   if (has_shaded && !BorderCanShade(b))
+      return;
 
    for (i = 0; i < num; i++)
      {

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2019 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -352,6 +352,8 @@ EwinConfigure(EWin * ewin)
    EwinSetGeometry(ewin);	/* Calculate window geometry before border parts */
    EwinBorderSetTo(ewin, NULL);
 
+   EwinStateUpdate(ewin);	/* Update after border configuration */
+
    if (!ewin->props.no_button_grabs)
       GrabButtonGrabs(EoGetWin(ewin));
 
@@ -360,8 +362,7 @@ EwinConfigure(EWin * ewin)
 
    EwinUpdateOpacity(ewin);
 
-   if ((ewin->border) && (!strcmp(ewin->border->name, "BORDERLESS")) &&
-       EoGetWin(ewin)->argb)
+   if (ewin->state.no_border && EoGetWin(ewin)->argb)
       EoSetShadow(ewin, 0);
 
    HintsSetWindowState(ewin);

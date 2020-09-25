@@ -479,6 +479,12 @@ BorderGetName(const Border * b)
    return (b) ? b->name : NULL;
 }
 
+int
+BorderCanShade(const Border * b)
+{
+   return !b->no_extent;
+}
+
 void
 EwinBorderSelect(EWin * ewin)
 {
@@ -562,7 +568,7 @@ EwinBorderSetTo(EWin * ewin, const Border * b)
    _BorderIncRefcount(b);
    HintsSetWindowBorder(ewin);
 
-   ewin->state.no_border = b->num_winparts <= 0;
+   ewin->state.no_border = b->no_extent;
 
    EventCallbackRegister(EoGetWin(ewin), _BorderFrameHandleEvents, ewin);
 
@@ -680,6 +686,16 @@ _BorderCreate(const char *name)
    b->shadedir = 2;
 
    return b;
+}
+
+static int
+_BorderCheck(Border * b)
+{
+   b->no_extent = b->num_winparts <= 0 ||
+      (b->border.left == 0 && b->border.right == 0 &&
+       b->border.top == 0 && b->border.bottom == 0);
+
+   return 0;
 }
 
 static void
@@ -1233,6 +1249,7 @@ BorderConfigLoad(FILE * fs)
 	switch (i1)
 	  {
 	  case CONFIG_CLOSE:
+	     _BorderCheck(b);
 	     goto done;
 	  case CONFIG_CLASSNAME:
 	  case BORDER_NAME:
