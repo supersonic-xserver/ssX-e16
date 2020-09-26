@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2011 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -76,15 +76,6 @@
 #define ICLASS_TRANSPARENT 372
 #define ICLASS_ROTATE 373
 #define ICLASS_BEVEL 374
-
-#define DESKTOP_DRAGDIR 400
-#define DESKTOP_DRAGBAR_WIDTH 401
-#define DESKTOP_DRAGBAR_ORDERING 402
-#define DESKTOP_DRAGBAR_LENGTH 403
-#define DESKTOP_SLIDEIN 404
-#define DESKTOP_SLIDESPEED 405
-#define DESKTOP_HIQUALITYBG 406
-#define DESKTOP_AREA_SIZE 407
 
 #define ACLASS_NAME 420
 #define ACLASS_TYPE 421
