@@ -39,6 +39,8 @@ Eexec(const char *cmd)
    lst = StrlistFromString(cmd, ' ', &num);
 
    execvp(lst[0], lst);
+
+   StrlistFree(lst, num);
 }
 
 static void
