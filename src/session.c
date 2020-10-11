@@ -404,19 +404,19 @@ ice_init(void)
 void
 SessionInit(void)
 {
-   if (Mode.wm.window)
-      return;
-
-#if USE_SM
-   ice_init();
-#endif
-
    if (!Conf.session.script)
       Conf.session.script = Estrdup("$EROOT/scripts/session.sh");
    if (!Conf.session.cmd_reboot)
       Conf.session.cmd_reboot = Estrdup("reboot");
    if (!Conf.session.cmd_halt)
       Conf.session.cmd_halt = Estrdup("poweroff");
+
+   if (Mode.wm.window)
+      return;
+
+#if USE_SM
+   ice_init();
+#endif
 }
 
 #if USE_SM
