@@ -293,10 +293,6 @@ callback_shutdown_cancelled(SmcConn smc_conn, SmPointer client_data __UNUSED__)
    SmcSaveYourselfDone(smc_conn, False);
 }
 
-#if 0				/* Unused */
-static EX_Atom      atom_sm_client_id;
-#endif
-
 static IceConn      ice_conn;
 
 static void
@@ -411,10 +407,6 @@ SessionInit(void)
    if (Mode.wm.window)
       return;
 
-#if 0				/* Unused */
-   atom_sm_client_id = ex_atom_get("SM_CLIENT_ID");
-#endif
-
 #if USE_SM
    ice_init();
 #endif
@@ -425,24 +417,6 @@ SessionInit(void)
       Conf.session.cmd_reboot = Estrdup("reboot");
    if (!Conf.session.cmd_halt)
       Conf.session.cmd_halt = Estrdup("poweroff");
-}
-
-void
-SessionGetInfo(EWin * ewin __UNUSED__)
-{
-#if 0				/* Unused */
-#if USE_SM
-   if (atom_sm_client_id == NoXID)
-      return;
-   EFREE_NULL(ewin->session_id);
-   if (ewin->icccm.client_leader != NoXID)
-      ewin->session_id =
-	 ex_window_prop_string_get(ewin->icccm.client_leader,
-				   atom_sm_client_id);
-#else
-   ewin = NULL;
-#endif /* USE_SM */
-#endif
 }
 
 #if USE_SM

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2014 Kim Woelders
+ * Copyright (C) 2004-2020 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -174,8 +174,5 @@ int                 ICCCM_ProcessPropertyChange(EWin * ewin,
 /* mwm.c */
 void                MWM_GetHints(EWin * ewin, EX_Atom atom_change);
 void                MWM_SetInfo(void);
-
-/* session.c */
-void                SessionGetInfo(EWin * ewin);
 
 #endif /* _HINTS_H_ */
