@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
 "POT-Creation-Date: 2020-10-14 17:32+0200\n"
-"PO-Revision-Date: 2020-10-13 14:42+0200\n"
+"PO-Revision-Date: 2020-10-14 19:48+0200\n"
 "Last-Translator: Philippe Jean Guillaumie <similar@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -755,18 +755,16 @@ msgid "Focus follows mouse clicks"
 msgstr "Le focus suit les clics de la souris"
 
 #: src/focus.c:873
-#, fuzzy
 msgid "Clicking in a window does not raise it"
-msgstr "Toujours élever une fenêtre qui reçoit un clic"
+msgstr "Ne jamais élever une fenêtre qui reçoit un clic"
 
 #: src/focus.c:879
 msgid "Clicking in a window always raises it"
 msgstr "Toujours élever une fenêtre qui reçoit un clic"
 
 #: src/focus.c:885
-#, fuzzy
 msgid "Only primary mouse button can raise window"
-msgstr "Bouton de la souris pour sélectionner et déplacer les fenêtres :"
+msgstr "Seul le bouton principal de la souris peut élever la fenêtre"
 
 #: src/focus.c:895
 msgid "All new windows first get the focus"
