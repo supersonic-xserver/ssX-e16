@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2020-09-09 16:41+0200\n"
+"POT-Creation-Date: 2020-10-14 17:32+0200\n"
 "PO-Revision-Date: 2009-12-02 09:48+0000\n"
 "Last-Translator: Michael Kim <Unknown>\n"
 "Language-Team: Korean <translation-team-ko@lists.sourceforge.net>\n"
@@ -36,13 +36,13 @@ msgid ""
 "Kim Woelders - kim@woelders.dk\n"
 msgstr ""
 
-#: src/aclass.c:222 src/backgrounds.c:257 src/borders.c:695 src/buttons.c:190
+#: src/aclass.c:222 src/backgrounds.c:257 src/borders.c:790 src/buttons.c:190
 #: src/cursors.c:139 src/iclass.c:280 src/tclass.c:119 src/tooltips.c:136
 #, c-format
 msgid "%u references remain"
 msgstr "%u개의 참조가 남아있습니다"
 
-#: src/actions.c:129
+#: src/actions.c:131
 #, c-format
 msgid ""
 "There was an error running the program:\n"
@@ -55,7 +55,7 @@ msgstr ""
 "이 프로그램은 실행될 수 없습니다.\n"
 "이 프로그램이 존재하지 않기 때문입니다.\n"
 
-#: src/actions.c:135
+#: src/actions.c:137
 #, c-format
 msgid ""
 "There was an error running the program:\n"
@@ -74,7 +74,7 @@ msgstr ""
 "를 설정하는 방법을 배우신 후 경로를 제대로 설정하시기\n"
 "바랍니다.\n"
 
-#: src/actions.c:154
+#: src/actions.c:156
 #, c-format
 msgid ""
 "There was an error running the program:\n"
@@ -91,7 +91,7 @@ msgstr ""
 "당신이 실행할 수 있도록 되어 있습니다. 이 파일의 내용을\n"
 "한 번 확인해 보시기 바랍니다.\n"
 
-#: src/actions.c:164
+#: src/actions.c:166
 #, c-format
 msgid ""
 "There was an error running the program:\n"
@@ -106,7 +106,7 @@ msgstr ""
 "이 파일이 존재하지만 당신은 이 파일을 실행할 수 있는 권한을\n"
 "가지고 있지 않습니다.\n"
 
-#: src/actions.c:177
+#: src/actions.c:179
 #, c-format
 msgid ""
 "There was an error running the program:\n"
@@ -119,7 +119,7 @@ msgstr ""
 "이 프로그램은 실행될 수 없습니다.\n"
 "이것은 파일이 아니고 디렉토리입니다.\n"
 
-#: src/actions.c:184
+#: src/actions.c:186
 #, c-format
 msgid ""
 "There was an error running the program:\n"
@@ -132,7 +132,7 @@ msgstr ""
 "이 프로그램은 실행될 수 없습니다.\n"
 "이것은 일반적인 파일이 아니기 때문입니다.\n"
 
-#: src/actions.c:209
+#: src/actions.c:211
 #, c-format
 msgid ""
 "There was an error running the program:\n"
@@ -168,7 +168,7 @@ msgstr "주목 !!!"
 msgid "OK"
 msgstr "확인"
 
-#: src/backgrounds.c:1499
+#: src/backgrounds.c:1498
 #, c-format
 msgid ""
 "Background definition information:\n"
@@ -179,11 +179,11 @@ msgstr ""
 "이름: %s\n"
 "파일: %s"
 
-#: src/backgrounds.c:1500
+#: src/backgrounds.c:1499
 msgid "-NONE-"
 msgstr "-없음-"
 
-#: src/backgrounds.c:1675 src/backgrounds.c:1677
+#: src/backgrounds.c:1674 src/backgrounds.c:1676
 msgid ""
 "No\n"
 "Background"
@@ -191,40 +191,40 @@ msgstr ""
 "배경\n"
 "없음"
 
-#: src/backgrounds.c:1777 src/backgrounds.c:2210
+#: src/backgrounds.c:1776 src/backgrounds.c:2209
 #, c-format
 msgid "Unused backgrounds freed after %2i:%02i:%02i"
 msgstr "사용되지 않는 배경은 %2i:%2i:%2i후에 해제"
 
-#: src/backgrounds.c:1999
+#: src/backgrounds.c:1998
 msgid "Use background image"
 msgstr "배경 이미지 사용"
 
-#: src/backgrounds.c:2003
+#: src/backgrounds.c:2002
 msgid "Keep aspect on scale"
 msgstr "크기조정시 모양 유지"
 
-#: src/backgrounds.c:2007
+#: src/backgrounds.c:2006
 msgid "Tile image across background"
 msgstr "배경에 사용할 타일 이미지"
 
-#: src/backgrounds.c:2016
+#: src/backgrounds.c:2015
 msgid "Move to Front"
 msgstr "앞으로 이동"
 
-#: src/backgrounds.c:2021
+#: src/backgrounds.c:2020
 msgid "Duplicate"
 msgstr "복제"
 
-#: src/backgrounds.c:2025
+#: src/backgrounds.c:2024
 msgid "Unlist"
 msgstr "목록에서 삭제"
 
-#: src/backgrounds.c:2030
+#: src/backgrounds.c:2029
 msgid "Delete File"
 msgstr "파일 삭제"
 
-#: src/backgrounds.c:2041
+#: src/backgrounds.c:2040
 msgid ""
 "Background\n"
 "Image\n"
@@ -238,59 +238,59 @@ msgstr ""
 "그리고\n"
 "위치조정\n"
 
-#: src/backgrounds.c:2095
+#: src/backgrounds.c:2094
 msgid "BG Colour"
 msgstr "배경 색"
 
-#: src/backgrounds.c:2100
+#: src/backgrounds.c:2099
 msgid "Red:"
 msgstr "적색:"
 
-#: src/backgrounds.c:2111
+#: src/backgrounds.c:2110
 msgid "Green:"
 msgstr "녹색:"
 
-#: src/backgrounds.c:2122
+#: src/backgrounds.c:2121
 msgid "Blue:"
 msgstr "청색:"
 
-#: src/backgrounds.c:2155
+#: src/backgrounds.c:2154
 msgid "Pre-scan BG's"
 msgstr "배경 미리 스캔"
 
-#: src/backgrounds.c:2163
+#: src/backgrounds.c:2162
 msgid "Sort by File"
 msgstr "파일로 정렬"
 
-#: src/backgrounds.c:2168
+#: src/backgrounds.c:2167
 msgid "Sort by Attr."
 msgstr "속성으로 정렬"
 
-#: src/backgrounds.c:2174
+#: src/backgrounds.c:2173
 msgid "Sort by Image"
 msgstr "이미지로 정렬"
 
-#: src/backgrounds.c:2194
+#: src/backgrounds.c:2193
 msgid "Use dithering in Hi-Colour"
 msgstr "고색상에서 디더링 사용"
 
-#: src/backgrounds.c:2198
+#: src/backgrounds.c:2197
 msgid "Background overrides theme"
 msgstr "테마의 배경 사용않함"
 
-#: src/backgrounds.c:2203
+#: src/backgrounds.c:2202
 msgid "Enable background transparency compatibility mode"
 msgstr ""
 
-#: src/backgrounds.c:2227
+#: src/backgrounds.c:2226
 msgid "Background"
 msgstr "배경화면"
 
-#: src/backgrounds.c:2227
+#: src/backgrounds.c:2226
 msgid "Desktop Background Settings"
 msgstr "데스크탑 배경 설정"
 
-#: src/backgrounds.c:2231
+#: src/backgrounds.c:2230
 msgid ""
 "Enlightenment Desktop\n"
 "Background Settings Dialog"
@@ -395,7 +395,7 @@ msgstr "닫기"
 msgid "Create New Iconbox"
 msgstr "새 아이콘상자 생성"
 
-#: src/container.c:1500 src/container.c:1572 src/menus.c:1979
+#: src/container.c:1500 src/container.c:1572 src/menus.c:1982
 #, c-format
 msgid "Icon size: %2d"
 msgstr ""
@@ -612,7 +612,7 @@ msgstr "왼쪽"
 msgid "Right"
 msgstr "오른쪽"
 
-#: src/desktops.c:2585 src/menus-misc.c:563
+#: src/desktops.c:2585 src/menus-misc.c:564
 msgid "Desks"
 msgstr ""
 
@@ -979,7 +979,7 @@ msgstr "공통 설정:"
 msgid "Swap Window Locations"
 msgstr "창 위치 바꿈"
 
-#: src/groups.c:1113 src/menus-misc.c:622 config/strings.c:138
+#: src/groups.c:1113 src/menus-misc.c:623 config/strings.c:138
 msgid "Groups"
 msgstr ""
 
@@ -1093,47 +1093,47 @@ msgstr "아이콘상자 옵션"
 msgid "Iconbox Settings"
 msgstr "아이콘상자 설정"
 
-#: src/ipc.c:198 src/ipc.c:1507 src/ipc.c:1514 src/theme.c:407
+#: src/ipc.c:198 src/ipc.c:1506 src/ipc.c:1513 src/theme.c:407
 msgid "Message"
 msgstr "메시지"
 
-#: src/ipc.c:1507 src/ipc.c:1514
+#: src/ipc.c:1506 src/ipc.c:1513
 #, c-format
 msgid "e16 was built without %s support"
 msgstr ""
 
-#: src/ipc.c:1508
+#: src/ipc.c:1507
 msgid "composite"
 msgstr ""
 
-#: src/ipc.c:1515
+#: src/ipc.c:1514
 msgid "sound"
 msgstr ""
 
-#: src/ipc.c:1859
+#: src/ipc.c:1858
 msgid "Enlightenment IPC Commands Help\n"
 msgstr ""
 
-#: src/ipc.c:1863
+#: src/ipc.c:1862
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
 "\n"
 msgstr ""
 
-#: src/ipc.c:1865 src/ipc.c:1889 src/ipc.c:1901
+#: src/ipc.c:1864 src/ipc.c:1888 src/ipc.c:1900
 msgid "Commands currently available:\n"
 msgstr ""
 
-#: src/ipc.c:1887
+#: src/ipc.c:1886
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr ""
 
-#: src/ipc.c:1888
+#: src/ipc.c:1887
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr ""
 
-#: src/ipc.c:1890 src/ipc.c:1902
+#: src/ipc.c:1889 src/ipc.c:1901
 msgid "         <command>     : <description>\n"
 msgstr ""
 
@@ -1206,57 +1206,57 @@ msgstr ""
 msgid "Themes"
 msgstr ""
 
-#: src/menus-misc.c:462
+#: src/menus-misc.c:463
 msgid "Border"
 msgstr ""
 
-#: src/menus-misc.c:524
+#: src/menus-misc.c:525
 msgid "Window List"
 msgstr ""
 
-#: src/menus-misc.c:546
+#: src/menus-misc.c:547
 msgid "Go to this Desktop"
 msgstr ""
 
-#: src/menus-misc.c:550 src/menus-misc.c:644
+#: src/menus-misc.c:551 src/menus-misc.c:645
 #, c-format
 msgid "Desktop %i"
 msgstr "데스크탑 %i"
 
-#: src/menus-misc.c:594
+#: src/menus-misc.c:595
 msgid "Show/Hide this group"
 msgstr "이 그룹 보여주기/숨기기"
 
-#: src/menus-misc.c:598
+#: src/menus-misc.c:599
 msgid "Iconify this group"
 msgstr "이 그룹 아이콘화"
 
-#: src/menus-misc.c:608
+#: src/menus-misc.c:609
 #, c-format
 msgid "Group %i"
 msgstr "그룹 %i"
 
-#: src/menus.c:1998
+#: src/menus.c:2001
 msgid "Animated display of menus"
 msgstr "메뉴 표시 에니메이트"
 
-#: src/menus.c:2003
+#: src/menus.c:2006
 msgid "Always pop up menus on screen"
 msgstr "항상 화면에 메뉴를 팝업"
 
-#: src/menus.c:2008
+#: src/menus.c:2011
 msgid "Warp pointer after moving menus"
 msgstr "메뉴를 움직인 후에 포인터 뒤집기"
 
-#: src/menus.c:2025
+#: src/menus.c:2028
 msgid "Menus"
 msgstr ""
 
-#: src/menus.c:2025
+#: src/menus.c:2028
 msgid "Menu Settings"
 msgstr ""
 
-#: src/menus.c:2029
+#: src/menus.c:2032
 msgid ""
 "Enlightenment Menu\n"
 "Settings Dialog"
@@ -1386,7 +1386,7 @@ msgstr ""
 "인라이튼먼트 데스크탑과 영역\n"
 "페이저 설정 대화상자"
 
-#: src/session.c:329
+#: src/session.c:325
 msgid ""
 "ERROR!\n"
 "\n"
@@ -1412,51 +1412,51 @@ msgstr ""
 "\n"
 "... 그러길 바랍니다.\n"
 
-#: src/session.c:632
+#: src/session.c:606
 msgid "Are you sure?"
 msgstr "확실한가요?"
 
-#: src/session.c:634
+#: src/session.c:608
 msgid "Are you sure you wish to log out ?"
 msgstr "정말로 로그아웃하기를 바라십니까 ?"
 
-#: src/session.c:642
+#: src/session.c:616
 msgid "Yes, Shut Down"
 msgstr ""
 
-#: src/session.c:644
+#: src/session.c:618
 msgid "Yes, Reboot"
 msgstr ""
 
-#: src/session.c:647
+#: src/session.c:621
 msgid "Yes, Log Out"
 msgstr "예, 로그아웃"
 
-#: src/session.c:649
+#: src/session.c:623
 msgid "No"
 msgstr "아니오"
 
-#: src/session.c:770
+#: src/session.c:744
 msgid "Enable Session Script"
 msgstr ""
 
-#: src/session.c:775
+#: src/session.c:749
 msgid "Enable Logout Dialog"
 msgstr ""
 
-#: src/session.c:780
+#: src/session.c:754
 msgid "Enable Reboot/Halt on Logout"
 msgstr ""
 
-#: src/session.c:786
+#: src/session.c:760
 msgid "Session"
 msgstr ""
 
-#: src/session.c:786
+#: src/session.c:760
 msgid "Session Settings"
 msgstr ""
 
-#: src/session.c:790
+#: src/session.c:764
 msgid ""
 "Enlightenment Session\n"
 "Settings Dialog"
@@ -2045,27 +2045,27 @@ msgid ""
 "Settings Dialog"
 msgstr ""
 
-#: src/tooltips.c:851
+#: src/tooltips.c:850
 msgid "Display Tooltips"
 msgstr "툴팁 표시"
 
-#: src/tooltips.c:856
+#: src/tooltips.c:855
 msgid "Display Root Window Tips"
 msgstr "루트 창 팁 표시"
 
-#: src/tooltips.c:861
+#: src/tooltips.c:860
 msgid "Tooltip Delay:"
 msgstr "툴팁 지연:"
 
-#: src/tooltips.c:872
+#: src/tooltips.c:871
 msgid "Tooltips"
 msgstr ""
 
-#: src/tooltips.c:872
+#: src/tooltips.c:871
 msgid "Tooltip Settings"
 msgstr "툴팁 설정"
 
-#: src/tooltips.c:876
+#: src/tooltips.c:875
 msgid ""
 "Enlightenment Tooltip\n"
 "Settings Dialog"
