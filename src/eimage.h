@@ -116,6 +116,8 @@ void                ScaleTile(Win wsrc, EX_Drawable src, Win wdst,
 			      EX_Pixmap dst, int dx, int dy, int dw, int dh,
 			      int flags);
 
+EX_Cursor           EImageDefineCursor(EImage * im, int xh, int yh);
+
 void                EDrawableDumpImage(EX_Drawable draw, const char *txt);
 
 EImage             *ThemeImageLoad(const char *file);

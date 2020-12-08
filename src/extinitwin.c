@@ -47,8 +47,6 @@ typedef struct {
 typedef void        (EiwLoopFunc) (EX_Window win, EImage * im, EiwData * d);
 
 #if USE_EIWC_RENDER
-#include <Imlib2.h>
-
 static void         _eiw_render_loop(EX_Window win, EImage * im, EiwData * d);
 
 static EiwLoopFunc *
@@ -62,7 +60,6 @@ _eiw_render_init(EX_Window win __UNUSED__, EiwData * d)
    if (!vis)
       return NULL;
 
-   imlib_context_set_visual(vis);
    d->curs = NoXID;
 
    return _eiw_render_loop;
@@ -72,24 +69,12 @@ static void
 _eiw_render_loop(EX_Window win, EImage * im, EiwData * d)
 {
    int                 w, h;
-   XRenderPictFormat  *pictfmt;
-   EX_Pixmap           pmap;
-   EX_Picture          pict;
 
    EImageGetSize(im, &w, &h);
 
-   pictfmt = XRenderFindStandardFormat(disp, PictStandardARGB32);
-   pmap = XCreatePixmap(disp, WinGetXwin(RROOT), w, h, 32);
-   imlib_context_set_image(im);
-   imlib_context_set_drawable(pmap);
-   imlib_render_image_on_drawable(0, 0);
-   pict = XRenderCreatePicture(disp, pmap, pictfmt, 0, 0);
-   XFreePixmap(disp, pmap);
-
    if (d->curs != NoXID)
       XFreeCursor(disp, d->curs);
-   d->curs = XRenderCreateCursor(disp, pict, w / 2, h / 2);
-   XRenderFreePicture(disp, pict);
+   d->curs = EImageDefineCursor(im, w / 2, h / 2);
 
    XDefineCursor(disp, win, d->curs);
 }

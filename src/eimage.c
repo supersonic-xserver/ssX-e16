@@ -681,3 +681,28 @@ PmapMaskFree(PmapMask * pmm)
 	pmm->mask = 0;
      }
 }
+
+#if USE_XRENDER
+
+EX_Cursor
+EImageDefineCursor(EImage * im, int xh, int yh)
+{
+   EX_Cursor           curs;
+   int                 w, h;
+   EX_Pixmap           pmap;
+   EX_Picture          pict;
+
+   EImageGetSize(im, &w, &h);
+
+   pict = EPictureCreateBuffer(VROOT, w, h, 1, &pmap);
+
+   EImageRenderOnDrawableARGB(im, pmap, w, h);
+   EFreePixmap(pmap);
+
+   curs = XRenderCreateCursor(disp, pict, xh, yh);
+   XRenderFreePicture(disp, pict);
+
+   return curs;
+}
+
+#endif /* USE_COMPOSITE */
