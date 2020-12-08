@@ -455,6 +455,27 @@ EImageRenderOnDrawable(EImage * im, Win win, EX_Drawable draw, int flags,
       imlib_context_set_visual(WinGetVisual(VROOT));
 }
 
+#if USE_XRENDER
+
+void
+EImageRenderOnDrawableARGB(EImage * im, EX_Drawable draw, int w, int h)
+{
+   Visual             *vis;
+
+   imlib_context_set_image(im);
+   imlib_context_set_drawable(draw);
+   vis = EVisualFindARGB();
+   if (vis)
+      imlib_context_set_visual(vis);
+
+   imlib_render_image_on_drawable_at_size(0, 0, w, h);
+
+   if (vis)
+      imlib_context_set_visual(WinGetVisual(VROOT));
+}
+
+#endif
+
 void
 EImageRenderPixmaps(EImage * im, Win win, int flags,
 		    EX_Pixmap * ppmap, EX_Pixmap * pmask, int w, int h)

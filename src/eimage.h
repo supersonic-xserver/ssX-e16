@@ -98,6 +98,8 @@ EImage             *EImageGrabDrawableScaled(Win win,
 void                EImageRenderOnDrawable(EImage * im, Win win,
 					   EX_Drawable draw, int flags,
 					   int x, int y, int w, int h);
+void                EImageRenderOnDrawableARGB(EImage * im, EX_Drawable draw,
+					       int w, int h);
 
 void                EImageRenderPixmaps(EImage * im, Win win, int flags,
 					EX_Pixmap * pmap,
