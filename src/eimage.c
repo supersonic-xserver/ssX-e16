@@ -310,28 +310,6 @@ EImageBlend(EImage * im, EImage * src, int flags,
 }
 
 void
-EImageBlendCM(EImage * im, EImage * src, EImageColorModifier * icm)
-{
-   int                 w, h, iw, ih;
-
-   imlib_context_set_image(src);
-   iw = imlib_image_get_width();
-   ih = imlib_image_get_height();
-   imlib_context_set_image(im);
-   w = imlib_image_get_width();
-   h = imlib_image_get_height();
-
-   imlib_context_set_blend(1);
-   if (icm)
-      imlib_context_set_color_modifier(icm);
-   imlib_context_set_operation(IMLIB_OP_COPY);
-   imlib_blend_image_onto_image(src, 0, 0, 0, iw, ih, 0, 0, w, h);
-   imlib_context_set_blend(0);
-   if (icm)
-      imlib_context_set_color_modifier(NULL);
-}
-
-void
 EImageTile(EImage * im, EImage * tile, int flags, int tw, int th,
 	   int dx, int dy, int dw, int dh, int ox, int oy)
 {
@@ -681,28 +659,4 @@ PmapMaskFree(PmapMask * pmm)
 	   EFreePixmap(pmm->mask);
 	pmm->mask = 0;
      }
-}
-
-EImageColorModifier *
-EImageColorModifierCreate(void)
-{
-   return imlib_create_color_modifier();
-}
-
-void
-EImageColorModifierSetTables(EImageColorModifier * icm,
-			     unsigned char *r, unsigned char *g,
-			     unsigned char *b, unsigned char *a)
-{
-   if (!icm)
-      return;
-
-   imlib_context_set_color_modifier(icm);
-#if 0				/* Useful in this context? */
-   imlib_modify_color_modifier_gamma(0.5);
-   imlib_modify_color_modifier_brightness(0.5);
-   imlib_modify_color_modifier_contrast(0.5);
-#endif
-   imlib_set_color_modifier_tables(r, g, b, a);
-   imlib_context_set_color_modifier(NULL);
 }

@@ -26,7 +26,6 @@
 #include "xtypes.h"
 
 typedef void        EImage;
-typedef void        EImageColorModifier;
 
 typedef struct {
    int                 left, right, top, bottom;
@@ -84,8 +83,6 @@ void                EImageBlend(EImage * im, EImage * src, int flags,
 				int sx, int sy, int sw, int sh,
 				int dx, int dy, int dw, int dh,
 				int merge_alpha);
-void                EImageBlendCM(EImage * im, EImage * src,
-				  EImageColorModifier * icm);
 void                EImageTile(EImage * im, EImage * tile, int flags, int tw,
 			       int th, int dx, int dy, int dw, int dh, int ox,
 			       int oy);
@@ -109,13 +106,6 @@ void                EImagePixmapsFree(EX_Pixmap pmap, EX_Pixmap mask);
 
 void                EImageApplyToWin(EImage * im, Win win, int flags,
 				     int w, int h);
-
-EImageColorModifier *EImageColorModifierCreate(void);
-void                EImageColorModifierSetTables(EImageColorModifier * icm,
-						 unsigned char *r,
-						 unsigned char *g,
-						 unsigned char *b,
-						 unsigned char *a);
 
 void                ScaleRect(Win wsrc, EX_Drawable src, Win wdst,
 			      EX_Pixmap dst, int sx, int sy, int sw, int sh,
