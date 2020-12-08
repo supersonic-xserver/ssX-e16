@@ -52,7 +52,7 @@
 EDisplay            Dpy;
 Display            *disp;
 
-#if USE_COMPOSITE
+#if USE_XRENDER
 static Visual      *argb_visual = NULL;
 static EX_Colormap  argb_cmap = NoXID;
 #endif
@@ -347,15 +347,8 @@ ECreateArgbWindow(Win parent, int x, int y, int w, int h, Win cwin)
      }
    else
      {
-	if (!argb_visual)
-	  {
-	     argb_visual = EVisualFindARGB();
-	     argb_cmap =
-		XCreateColormap(disp, WinGetXwin(VROOT), argb_visual,
-				AllocNone);
-	  }
 	depth = 32;
-	vis = argb_visual;
+	vis = EVisualFindARGB();
 	cmap = argb_cmap;
      }
 
@@ -1963,6 +1956,9 @@ EVisualFindARGB(void)
    int                 i, num;
    Visual             *vis;
 
+   if (argb_visual)
+      return argb_visual;
+
    xvit.screen = Dpy.screen;
    xvit.depth = 32;
 #if __cplusplus
@@ -1986,6 +1982,9 @@ EVisualFindARGB(void)
    vis = (i < num) ? xvi[i].visual : NULL;
 
    XFree(xvi);
+
+   argb_visual = vis;
+   argb_cmap = XCreateColormap(disp, WinGetXwin(VROOT), vis, AllocNone);
 
    return vis;
 }
