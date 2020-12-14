@@ -37,7 +37,7 @@
 #include "tooltips.h"
 #include "windowmatch.h"
 
-#define MAX_E_CFG_VERSION 2	/* Max. supported configuration version */
+#define E_CFG_VER_MAX     2	/* Max. supported theme config version */
 
 void
 SkipTillEnd(FILE * fs)
@@ -303,7 +303,7 @@ ConfigFileRead(FILE * fs)
 
 	if (i2 == CONFIG_OPEN)
 	  {
-	     if (e_cfg_ver > MAX_E_CFG_VERSION)
+	     if (e_cfg_ver > E_CFG_VER_MAX)
 	       {
 		  AlertX(_("Theme versioning ERROR"),
 			 _("Restart with Defaults"), " ",
@@ -322,7 +322,7 @@ ConfigFileRead(FILE * fs)
 			   "it may be that you haven't upgraded Enlightenment for\n"
 			   "a while and this theme takes advantages of new\n"
 			   "features in Enlightenment in new versions.\n"),
-			 e_cfg_ver, MAX_E_CFG_VERSION);
+			 e_cfg_ver, E_CFG_VER_MAX);
 		  SessionExit(EEXIT_THEME, "DEFAULT");
 	       }
 	     else
