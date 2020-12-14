@@ -296,8 +296,6 @@ AclassConfigLoad(FILE * fs)
 	i2 = atoi(s2);
 	switch (i1)
 	  {
-	  case CONFIG_VERSION:
-	     break;
 	  case CONFIG_ACTIONCLASS:
 	     err = -1;
 	     if (i2 != CONFIG_OPEN)

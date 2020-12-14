@@ -143,7 +143,6 @@ WindowMatchConfigLoad(FILE * fs)
 	i1 = ConfigParseline1(s, s2, &p2, NULL);
 	switch (i1)
 	  {
-	  case CONFIG_VERSION:
 	  case CONFIG_WINDOWMATCH:
 	     err = -1;
 	     break;

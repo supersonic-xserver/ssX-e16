@@ -1780,9 +1780,6 @@ MenuConfigLoad(FILE * fs)
 	  default:
 	     break;
 
-	  case CONFIG_VERSION:
-	     continue;
-
 	  case CONFIG_MENU:
 	     err = -1;
 	     i2 = atoi(s2);
