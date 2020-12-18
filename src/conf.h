@@ -26,9 +26,7 @@
 #define CONFIG_BORDER 3
 #define CONFIG_BUTTON 4
 #define CONFIG_DESKTOP 5
-#define CONFIG_ICONBOX 6
-#define CONFIG_KEYBIND 8
-#define CONFIG_SOUND 9
+#define CONFIG_SOUND 9		/* Used in sound config but ignored by e16 */
 #define CONFIG_ACTIONCLASS 11
 #define CONFIG_IMAGECLASS 12
 #define CONFIG_WINDOWMATCH 14
