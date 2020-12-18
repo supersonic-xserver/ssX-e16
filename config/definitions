@@ -73,9 +73,7 @@
 #define __MATCH_WINDOW 14
 #define __COLOR_MODIFIER 15
 #define __SLIDEOUT 16
-#define __FX 18
 #define __ICONBOX 19
-#define __EXTRAS 20
 #define __FONTS 21
 
 #define __MENU_STYLE 699
