@@ -1,6 +1,7 @@
 DESKTOPS_APP = e16.desktop
 DESKTOPS_IN = e16.desktop.in \
-		e16-session.desktop.in e16-gnome2-session.desktop.in e16-kde-session.desktop.in
+		e16-session.desktop.in e16-kde-session.desktop.in \
+		e16-gnome2-session.desktop.in e16-gnome3-session.desktop.in
 XSESSION_MISC = e16-session.desktop e16-kde-session.desktop
 if WITH_GNOME2
 XSESSION_GNOME2 = e16-gnome2-session.desktop
@@ -33,10 +34,10 @@ endif
 #xclientsdir = $(sysconfdir)/X11/xinit/Xclients.d
 #xclients_SCRIPTS = $(XCLIENTS)
 
-EXTRA_DIST = $(DESKTOPS_IN) $(XCLIENTS) $(SCRIPTS) starte16.in \
-		$(xsession_DATA) $(gsession_DATA)
+EXTRA_DIST = $(DESKTOPS_IN) $(XCLIENTS) starte16.in \
+		$(gsession_DATA) e16-dbus-cmd
 
-CLEANFILES = $(DESKTOPS_APP) $(XSESSION_MISC) $(XSESSION_GNOME2) starte16
+CLEANFILES = $(DESKTOPS_APP) $(XSESSION_DESKTOPS) starte16
 
 starte16: $(srcdir)/starte16.in Makefile
 
@@ -44,7 +45,6 @@ starte16:
 	sed -e "s=\@bindir\@=${bindir}=" $(srcdir)/$@.in > $@
 
 e16.desktop: $(srcdir)/e16.desktop.in Makefile
-e16-gnome.desktop: $(srcdir)/e16-gnome.desktop.in Makefile
 e16-kde.desktop: $(srcdir)/e16-kde.desktop.in Makefile
 
 $(DESKTOPS):
