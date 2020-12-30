@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -175,7 +175,7 @@ _SclassSampleDestroy(void *data, void *user_data __UNUSED__)
 }
 
 static SoundClass  *
-SclassCreate(const char *name, const char *file)
+_SclassCreate(const char *name, const char *file)
 {
    SoundClass         *sclass;
 
@@ -193,7 +193,7 @@ SclassCreate(const char *name, const char *file)
 }
 
 static void
-SclassDestroy(SoundClass * sclass)
+_SclassDestroy(SoundClass * sclass)
 {
    if (!sclass)
       return;
@@ -204,12 +204,6 @@ SclassDestroy(SoundClass * sclass)
    Efree(sclass->file);
 
    Efree(sclass);
-}
-
-static void
-_SclassDestroy(void *data, void *user_data __UNUSED__)
-{
-   SclassDestroy((SoundClass *) data);
 }
 
 #if USE_SOUND_PLAYER
@@ -227,7 +221,7 @@ _SclassPlayAplay(SoundClass * sclass)
 #endif
 
 static void
-SclassApply(SoundClass * sclass)
+_SclassApply(SoundClass * sclass)
 {
    if (!sclass || !Conf_sound.enable)
       return;
@@ -253,7 +247,7 @@ SclassApply(SoundClass * sclass)
 			"Enlightenment will continue to operate, but you\n"
 			"may wish to check your configuration settings.\n"),
 		      sclass->file);
-	     SclassDestroy(sclass);
+	     _SclassDestroy(sclass);
 	     return;
 	  }
      }
@@ -269,7 +263,7 @@ _SclassMatchName(const void *data, const void *match)
 }
 
 static SoundClass  *
-SclassFind(const char *name)
+_SclassFind(const char *name)
 {
    return LIST_FIND(SoundClass, &sound_list, _SclassMatchName, name);
 }
@@ -285,12 +279,12 @@ _SoundPlayByName(const char *name)
    if (!name || !*name)
       return;
 
-   sclass = SclassFind(name);
+   sclass = _SclassFind(name);
 
    if (EDebug(EDBUG_TYPE_SOUND))
       Eprintf("%s: %s file=%s\n", "SclassApply", name, SC_NAME(sclass));
 
-   SclassApply(sclass);
+   _SclassApply(sclass);
 }
 
 #define _SoundMasked(i) \
@@ -312,18 +306,18 @@ SoundPlay(int sound)
 }
 
 static int
-SoundFree(const char *name)
+_SoundFree(const char *name)
 {
    SoundClass         *sclass;
 
-   sclass = SclassFind(name);
-   SclassDestroy(sclass);
+   sclass = _SclassFind(name);
+   _SclassDestroy(sclass);
 
    return !!sclass;
 }
 
 static void
-SoundInit(void)
+_SoundInit(void)
 {
    if (!Conf_sound.enable)
       return;
@@ -364,7 +358,7 @@ SoundInit(void)
 }
 
 static void
-SoundExit(void)
+_SoundExit(void)
 {
    SoundClass         *sc;
 
@@ -386,9 +380,9 @@ _SoundConfigure(int enable)
    Conf_sound.enable = enable;
 
    if (Conf_sound.enable)
-      SoundInit();
+      _SoundInit();
    else
-      SoundExit();
+      _SoundExit();
 }
 
 /*
@@ -418,7 +412,7 @@ _SoundConfigParse(FILE * fs)
 	     Eprintf("*** Ignoring line: %s\n", s);
 	     continue;
 	  }
-	SclassCreate(s1, s2);
+	_SclassCreate(s1, s2);
      }
 #if 0				/* Errors here are just ignored */
    if (err)
@@ -450,7 +444,9 @@ _SoundConfigUnload(void)
    SoundClass         *sc, *tmp;
 
    LIST_FOR_EACH_SAFE(SoundClass, &sound_list, sc, tmp)
-      _SclassDestroy(sc, NULL);
+   {
+      _SclassDestroy(sc);
+   }
 
    Mode_sound.cfg_loaded = 0;
 }
@@ -476,7 +472,7 @@ _SoundThemeChange(void *item __UNUSED__, const char *theme)
  */
 
 static void
-SoundSighan(int sig, void *prm __UNUSED__)
+_SoundSighan(int sig, void *prm __UNUSED__)
 {
    switch (sig)
      {
@@ -484,17 +480,17 @@ SoundSighan(int sig, void *prm __UNUSED__)
 	memset(&Mode_sound, 0, sizeof(Mode_sound));
 	break;
      case ESIGNAL_CONFIGURE:
-	SoundInit();
+	_SoundInit();
 	break;
      case ESIGNAL_START:
 	if (!Conf_sound.enable)
 	   break;
 	SoundPlay(SOUND_STARTUP);
-	SoundFree("SOUND_STARTUP");
+	_SoundFree("SOUND_STARTUP");
 	break;
      case ESIGNAL_EXIT:
 /*      if (Mode.wm.master) */
-	SoundExit();
+	_SoundExit();
 	break;
      }
 }
@@ -563,7 +559,7 @@ SoundIpc(const char *params)
 
    if (!strncmp(cmd, "del", 3))
      {
-	SoundFree(prm);
+	_SoundFree(prm);
      }
    else if (!strncmp(cmd, "list", 2))
      {
@@ -571,7 +567,7 @@ SoundIpc(const char *params)
      }
    else if (!strncmp(cmd, "new", 3))
      {
-	SclassCreate(prm, p);
+	_SclassCreate(prm, p);
      }
    else if (!strncmp(cmd, "off", 2))
      {
@@ -618,7 +614,7 @@ extern const EModule ModSound;
 
 const EModule       ModSound = {
    "sound", "audio",
-   SoundSighan,
+   _SoundSighan,
    {N_IPC_FUNCS, SoundIpcArray},
    {N_CFG_ITEMS, SoundCfgItems}
 };
