@@ -176,7 +176,7 @@ MODULE_LIBS = $(DLOPEN_LIBS)
 
 libe16dir = $(pkglibdir)
 
-libe16_LTLIBRARIES = $(LIBSND_ESD) $(LIBSND_PULSE) $(LIBSND_SNDIO) $(LIBSND_ALSA) $(LIBFNT_IFT) $(LIBFNT_XFT) $(LIBFNT_PANGO)
+libe16_LTLIBRARIES = $(LIBSND_ESD) $(LIBSND_PULSE) $(LIBSND_SNDIO) $(LIBSND_ALSA) $(LIBSND_PLAYER) $(LIBFNT_IFT) $(LIBFNT_XFT) $(LIBFNT_PANGO)
 
 if USE_SOUND_ESD
 LIBSND_ESD = libsound_esd.la
@@ -210,6 +210,12 @@ libsound_alsa_la_LIBADD  = $(ALSA_LIBS) $(SNDLDR_LIBS)
 libsound_alsa_la_LDFLAGS = -module -avoid-version
 endif
 
+if USE_SOUND_PLAYER
+LIBSND_PLAYER = libsound_player.la
+libsound_player_la_SOURCES = sound_player.c
+libsound_player_la_LDFLAGS = -module -avoid-version
+endif
+
 LIBFNT_IFT = libfont_ift.la
 libfont_ift_la_SOURCES    = ttfont.c
 libfont_ift_la_CFLAGS     = $(IMLIB2_CFLAGS)
@@ -234,7 +240,7 @@ endif
 
 else
 
-MODULE_SRCS = sound_esd.c sound_pulse.c sound_sndio.c sound_alsa.c sound_load.c \
+MODULE_SRCS = sound_esd.c sound_pulse.c sound_sndio.c sound_alsa.c sound_player.c sound_load.c \
 	ttfont.c text_xft.c text_pango.c
 MODULE_LIBS = $(ESD_LIBS) $(PA_LIBS) $(SNDIO_LIBS) $(ALSA_LIBS) $(SNDLDR_LIBS) $(PANGO_LIBS) $(XFT_LIBS)
 MODULE_CFLAGS = $(ESD_CFLAGS) $(PA_CFLAGS) $(SNDIO_CFLAGS) $(SNDLDR_CFLAGS) $(PANGO_CFLAGS) $(XFT_CFLAGS)

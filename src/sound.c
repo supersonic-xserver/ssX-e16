@@ -31,8 +31,6 @@
 #include "sound.h"
 #include "sounds.h"
 
-#define HAVE_SOUND_OPS	1
-
 #if USE_SOUND_ESD
 #define SOUND_SERVER_NAME "esd"
 #define SOUND_MODULE_NAME "esd"
@@ -46,7 +44,8 @@
 #define SOUND_SERVER_NAME "ALSA"
 #define SOUND_MODULE_NAME "alsa"
 #elif USE_SOUND_PLAYER
-#undef HAVE_SOUND_OPS
+#define SOUND_SERVER_NAME SOUND_PLAYER_FMT
+#define SOUND_MODULE_NAME "player"
 #else
 #error Invalid sound configuration
 #endif
@@ -92,6 +91,9 @@ static const SoundOps *ops = &SoundOps_sndio;
 #elif USE_SOUND_ALSA
 extern const SoundOps SoundOps_alsa;
 static const SoundOps *ops = &SoundOps_alsa;
+#elif USE_SOUND_PLAYER
+extern const SoundOps SoundOps_player;
+static const SoundOps *ops = &SoundOps_player;
 #endif
 #endif
 
@@ -167,10 +169,9 @@ _SclassSampleDestroy(void *data, void *user_data __UNUSED__)
    if (!sclass || !sclass->sample)
       return;
 
-#if HAVE_SOUND_OPS
    if (ops)
       ops->SampleDestroy(sclass->sample);
-#endif
+
    sclass->sample = NULL;
 }
 
@@ -206,29 +207,12 @@ _SclassDestroy(SoundClass * sclass)
    Efree(sclass);
 }
 
-#if USE_SOUND_PLAYER
-static void
-_SclassPlayAplay(SoundClass * sclass)
-{
-   char               *file;
-
-   file = FindFile(sclass->file, SOUND_THEME_PATH, FILE_TYPE_SOUND);
-   if (!file)
-      return;
-   Espawn(SOUND_PLAYER_FMT, file);
-   Efree(file);
-}
-#endif
-
 static void
 _SclassApply(SoundClass * sclass)
 {
    if (!sclass || !Conf_sound.enable)
       return;
 
-#if USE_SOUND_PLAYER
-   _SclassPlayAplay(sclass);
-#else
    if (!sclass->sample)
      {
 	char               *file;
@@ -253,7 +237,6 @@ _SclassApply(SoundClass * sclass)
      }
 
    ops->SamplePlay(sclass->sample);
-#endif
 }
 
 static int
@@ -322,8 +305,6 @@ _SoundInit(void)
    if (!Conf_sound.enable)
       return;
 
-#if HAVE_SOUND_OPS
-
 #if USE_MODULES
    if (!ops)
       ops = ModLoadSym("sound", "SoundOps", SOUND_MODULE_NAME);
@@ -340,20 +321,6 @@ _SoundInit(void)
 	return;
      }
 
-#elif USE_SOUND_PLAYER
-
-   if (!path_canexec0(SOUND_PLAYER_FMT))
-     {
-	Conf_sound.enable = 0;
-	DialogOK(_("Error initialising sound"),
-		 _
-		 ("The sound player is not executable (%s).\n"
-		  "Audio will now be disabled.\n"), SOUND_PLAYER_FMT);
-	return;
-     }
-
-#endif /* HAVE_SOUND_OPS */
-
    _SoundConfigLoad();
 }
 
@@ -364,10 +331,8 @@ _SoundExit(void)
 
    LIST_FOR_EACH(SoundClass, &sound_list, sc) _SclassSampleDestroy(sc, NULL);
 
-#if HAVE_SOUND_OPS
    if (ops)
       ops->Exit();
-#endif
 
    Conf_sound.enable = 0;
 }

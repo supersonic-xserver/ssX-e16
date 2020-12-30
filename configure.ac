@@ -176,6 +176,7 @@ if test "x$enable_sound" = "xplayer"; then
     with_sndplayer="/usr/bin/aplay -q %s")
     AC_DEFINE_UNQUOTED(SOUND_PLAYER_FMT, "$with_sndplayer", [Audio player]),
 fi
+AM_CONDITIONAL(USE_SOUND_PLAYER, test "x$enable_sound" = "xplayer")
 
 case x$enable_sound in
 xpulseaudio|xesound|xsndio|xalsa)
