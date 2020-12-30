@@ -38,7 +38,7 @@
 #define SOUND_MODULE_NAME "esd"
 #elif USE_SOUND_PULSE
 #define SOUND_SERVER_NAME "pulseaudio"
-#define SOUND_MODULE_NAME "pa"
+#define SOUND_MODULE_NAME "pulse"
 #elif USE_SOUND_SNDIO
 #define SOUND_SERVER_NAME "sndio"
 #define SOUND_MODULE_NAME "sndio"

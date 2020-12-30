@@ -176,9 +176,9 @@ MODULE_LIBS = $(DLOPEN_LIBS)
 
 libe16dir = $(pkglibdir)
 
-libe16_LTLIBRARIES = $(LIBSND_ESD) $(LIBSND_PA) $(LIBSND_SNDIO) $(LIBSND_ALSA) $(LIBFNT_IFT) $(LIBFNT_XFT) $(LIBFNT_PANGO)
+libe16_LTLIBRARIES = $(LIBSND_ESD) $(LIBSND_PULSE) $(LIBSND_SNDIO) $(LIBSND_ALSA) $(LIBFNT_IFT) $(LIBFNT_XFT) $(LIBFNT_PANGO)
 
-if USE_LIBESD
+if USE_SOUND_ESD
 LIBSND_ESD = libsound_esd.la
 libsound_esd_la_SOURCES   = sound_esd.c sound_load.c
 libsound_esd_la_CFLAGS    = $(ESD_CFLAGS) $(SNDLDR_CFLAGS)
@@ -186,15 +186,15 @@ libsound_esd_la_LIBADD    = $(ESD_LIBS) $(SNDLDR_LIBS)
 libsound_esd_la_LDFLAGS   = -module -avoid-version
 endif
 
-if USE_LIBPA
-LIBSND_PA = libsound_pa.la
-libsound_pa_la_SOURCES   = sound_pa.c sound_load.c
-libsound_pa_la_CFLAGS    = $(PA_CFLAGS) $(SNDLDR_CFLAGS)
-libsound_pa_la_LIBADD    = $(PA_LIBS) $(SNDLDR_LIBS)
-libsound_pa_la_LDFLAGS   = -module -avoid-version
+if USE_SOUND_PULSE
+LIBSND_PULSE = libsound_pulse.la
+libsound_pulse_la_SOURCES = sound_pa.c sound_load.c
+libsound_pulse_la_CFLAGS  = $(PA_CFLAGS) $(SNDLDR_CFLAGS)
+libsound_pulse_la_LIBADD  = $(PA_LIBS) $(SNDLDR_LIBS)
+libsound_pulse_la_LDFLAGS = -module -avoid-version
 endif
 
-if USE_LIBSNDIO
+if USE_SOUND_SNDIO
 LIBSND_SNDIO = libsound_sndio.la
 libsound_sndio_la_SOURCES = sound_sndio.c sound_load.c
 libsound_sndio_la_CFLAGS  = $(SNDIO_CFLAGS) $(SNDLDR_CFLAGS)
@@ -202,7 +202,7 @@ libsound_sndio_la_LIBADD  = $(SNDIO_LIBS) $(SNDLDR_LIBS)
 libsound_sndio_la_LDFLAGS = -module -avoid-version
 endif
 
-if USE_LIBALSA
+if USE_SOUND_ALSA
 LIBSND_ALSA = libsound_alsa.la
 libsound_alsa_la_SOURCES = sound_alsa.c sound_load.c
 libsound_alsa_la_CFLAGS  = $(ALSA_CFLAGS) $(SNDLDR_CFLAGS)

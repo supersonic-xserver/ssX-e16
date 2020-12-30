@@ -137,7 +137,7 @@ if test "x$enable_sound" = "xpulseaudio"; then
     AC_DEFINE(USE_SOUND_PULSE, 1, [PulseAudio sound support]),
     enable_sound=no)
 fi
-AM_CONDITIONAL(USE_LIBPA, test "x$enable_sound" = "xpulseaudio")
+AM_CONDITIONAL(USE_SOUND_PULSE, test "x$enable_sound" = "xpulseaudio")
 
 if test "x$enable_sound" = "xesound"; then
   AM_PATH_ESD(0.2.17,,[
@@ -148,7 +148,7 @@ if test "x$enable_sound" = "xesound"; then
     AC_DEFINE(USE_SOUND_ESD, 1, [EsounD sound support])
   fi
 fi
-AM_CONDITIONAL(USE_LIBESD, test "x$enable_sound" = "xesound")
+AM_CONDITIONAL(USE_SOUND_ESD, test "x$enable_sound" = "xesound")
 
 if test "x$enable_sound" = "xsndio"; then
   AC_CHECK_HEADERS(sndio.h,, enable_sound=no
@@ -159,7 +159,14 @@ if test "x$enable_sound" = "xsndio"; then
     AC_DEFINE(USE_SOUND_SNDIO, 1, [Sndio sound support])
   fi
 fi
-AM_CONDITIONAL(USE_LIBSNDIO, test "x$enable_sound" = "xsndio")
+AM_CONDITIONAL(USE_SOUND_SNDIO, test "x$enable_sound" = "xsndio")
+
+if test "x$enable_sound" = "xalsa"; then
+  PKG_CHECK_MODULES(ALSA, alsa,
+    AC_DEFINE(USE_SOUND_ALSA, 1, [ALSA sound support]),
+    enable_sound=no)
+fi
+AM_CONDITIONAL(USE_SOUND_ALSA, test "x$enable_sound" = "xalsa")
 
 if test "x$enable_sound" = "xplayer"; then
   AC_DEFINE(USE_SOUND_PLAYER, 1, [Play sounds using audio player])
@@ -169,13 +176,6 @@ if test "x$enable_sound" = "xplayer"; then
     with_sndplayer="/usr/bin/aplay -q %s")
     AC_DEFINE_UNQUOTED(SOUND_PLAYER_FMT, "$with_sndplayer", [Audio player]),
 fi
-
-if test "x$enable_sound" = "xalsa"; then
-  PKG_CHECK_MODULES(ALSA, alsa,
-    AC_DEFINE(USE_SOUND_ALSA, 1, [ALSA sound support]),
-    enable_sound=no)
-fi
-AM_CONDITIONAL(USE_LIBALSA, test "x$enable_sound" = "xalsa")
 
 case x$enable_sound in
 xpulseaudio|xesound|xsndio|xalsa)
