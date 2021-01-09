@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2020 Kim Woelders
+ * Copyright (C) 2008-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -345,9 +345,9 @@ _sound_pa_Init(void)
    goto done;
 }
 
-__EXPORT__ extern const SoundOps SoundOps_pa;
+__EXPORT__ extern const SoundOps SoundOps_pulse;
 
-const SoundOps      SoundOps_pa = {
+const SoundOps      SoundOps_pulse = {
    _sound_pa_Init, _sound_pa_Exit, _sound_pa_Load, _sound_pa_Destroy,
    _sound_pa_Play,
 };

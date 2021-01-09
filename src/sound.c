@@ -84,8 +84,8 @@ static const SoundOps *ops = NULL;
 extern const SoundOps SoundOps_esd;
 static const SoundOps *ops = &SoundOps_esd;
 #elif USE_SOUND_PULSE
-extern const SoundOps SoundOps_pa;
-static const SoundOps *ops = &SoundOps_pa;
+extern const SoundOps SoundOps_pulse;
+static const SoundOps *ops = &SoundOps_pulse;
 #elif USE_SOUND_SNDIO
 extern const SoundOps SoundOps_sndio;
 static const SoundOps *ops = &SoundOps_sndio;

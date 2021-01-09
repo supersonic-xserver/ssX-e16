@@ -188,7 +188,7 @@ endif
 
 if USE_SOUND_PULSE
 LIBSND_PULSE = libsound_pulse.la
-libsound_pulse_la_SOURCES = sound_pa.c sound_load.c
+libsound_pulse_la_SOURCES = sound_pulse.c sound_load.c
 libsound_pulse_la_CFLAGS  = $(PA_CFLAGS) $(SNDLDR_CFLAGS)
 libsound_pulse_la_LIBADD  = $(PA_LIBS) $(SNDLDR_LIBS)
 libsound_pulse_la_LDFLAGS = -module -avoid-version
@@ -234,7 +234,7 @@ endif
 
 else
 
-MODULE_SRCS = sound_esd.c sound_pa.c sound_sndio.c sound_alsa.c sound_load.c \
+MODULE_SRCS = sound_esd.c sound_pulse.c sound_sndio.c sound_alsa.c sound_load.c \
 	ttfont.c text_xft.c text_pango.c
 MODULE_LIBS = $(ESD_LIBS) $(PA_LIBS) $(SNDIO_LIBS) $(ALSA_LIBS) $(SNDLDR_LIBS) $(PANGO_LIBS) $(XFT_LIBS)
 MODULE_CFLAGS = $(ESD_CFLAGS) $(PA_CFLAGS) $(SNDIO_CFLAGS) $(SNDLDR_CFLAGS) $(PANGO_CFLAGS) $(XFT_CFLAGS)
