@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006-2015 Kim Woelders
+ * Copyright (C) 2006-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -117,7 +117,7 @@ _xft_TextDraw(TextState * ts, int x, int y, const char *text, int len)
 		     (const XftChar8 *)text, len);
 }
 
-int
+__EXPORT__ int
 _xft_FdcInit(TextState * ts, Win win, EX_Drawable draw)
 {
    FontCtxXft         *fdc = (FontCtxXft *) ts->fdc;
@@ -131,7 +131,7 @@ _xft_FdcInit(TextState * ts, Win win, EX_Drawable draw)
    return 0;
 }
 
-void
+__EXPORT__ void
 _xft_FdcFini(TextState * ts)
 {
    FontCtxXft         *fdc = (FontCtxXft *) ts->fdc;
@@ -139,7 +139,7 @@ _xft_FdcFini(TextState * ts)
    XftDrawDestroy(fdc->xftd);
 }
 
-void
+__EXPORT__ void
 _xft_FdcSetDrawable(TextState * ts, unsigned long draw)
 {
    FontCtxXft         *fdc = (FontCtxXft *) ts->fdc;
@@ -150,7 +150,7 @@ _xft_FdcSetDrawable(TextState * ts, unsigned long draw)
    XftDrawChange(fdc->xftd, draw);
 }
 
-void
+__EXPORT__ void
 _xft_FdcSetColor(TextState * ts, unsigned int color)
 {
    FontCtxXft         *fdc = (FontCtxXft *) ts->fdc;

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2019 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -83,7 +83,7 @@ const char         *Estrcasestr(const char *haystack, const char *needle);
 #define EMALLOC(type, num) (type*)Emalloc((num)*sizeof(type))
 #define EREALLOC(type, ptr, num) (type*)Erealloc(ptr, (num)*sizeof(type))
 
-__EXPORT__ void     EfreeNull(void **p);
+void                EfreeNull(void **p);
 void                EfreeSet(void **p, void *s);
 void                EfreeDup(char **p, const char *s);
 
@@ -112,7 +112,7 @@ void                StrlistSort(char **lst, int num);
 void                Esetenv(const char *name, const char *value);
 
 /* misc.c */
-__EXPORT__ void __PRINTF__ Eprintf(const char *fmt, ...);
+void __PRINTF__     Eprintf(const char *fmt, ...);
 
 #ifdef HAVE_SNPRINTF
 #define Evsnprintf vsnprintf
