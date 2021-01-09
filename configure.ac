@@ -97,20 +97,109 @@ esac
 
 AC_ARG_ENABLE(sound,
   AS_HELP_STRING([--enable-sound],
-                 [compile with sound support (pulseaudio/esound/sndio/alsa/player/no)@<:@default=pulseaudio@:>@]),,
-  enable_sound=pulseaudio)
-case x$enable_sound in
-xyes)
-  enable_sound=pulseaudio;;
-xpulseaudio|xesound|xsndio|xalsa)
-  ;;
-xplayer)
-  with_sndldr=none
-  ;;
+                 [compile with sound support (select default)  (yes/no/pulseaudio/esound/sndio/alsa/player)@<:@default=yes@:>@]),
+  enable_sound="$enableval",
+  enable_sound="yes")
+case "$enable_sound" in
+yes | pulse*)
+        enable_sound_pulse="yes"; enable_sound="pulse" ;;
+esound) enable_sound_esound="yes" ;;
+alsa)   enable_sound_alsa="yes" ;;
+sndio)  enable_sound_sndio="yes" ;;
+player) enable_sound_player="yes" ;;
 *)
-  enable_sound=no;;
+  enable_sound="no"
+  enable_sound_pulse="no"
+  enable_sound_esound="no"
+  enable_sound_alsa="no"
+  enable_sound_sndio="no"
+  enable_sound_player="no"
+  ;;
 esac
-AM_CONDITIONAL(ENABLE_SOUND, test "x$enable_sound" != "xno")
+default_sound_engine="$enable_sound"
+
+if test "x$enable_sound" != "xno"; then
+  AC_DEFINE(ENABLE_SOUND, 1, [Sound support])
+  AC_DEFINE_UNQUOTED(DEFAULT_SOUND_ENGINE, "$default_sound_engine", [Default sound engine])
+  enable_sound="yes"
+fi
+AM_CONDITIONAL(ENABLE_SOUND, test "x$enable_sound" = "xyes")
+
+AC_ARG_ENABLE(sound_pulse,
+  AS_HELP_STRING([--enable-sound-pulse],
+                 [Enable PulseAudio sound support @<:@default=no@:>@]),
+  enable_sound_pulse="$enableval",
+  enable_sound_pulse="no")
+if test "x$enable_sound_pulse" = "xyes"; then
+  PKG_CHECK_MODULES(PULSE, libpulse,
+    AC_DEFINE(USE_SOUND_PULSE, 1, [PulseAudio sound support])
+    need_sndldr="yes",
+    enable_sound_pulse="no")
+fi
+AM_CONDITIONAL(USE_SOUND_PULSE, test "x$enable_sound_pulse" = "xyes")
+
+AC_ARG_ENABLE(sound_esound,
+  AS_HELP_STRING([--enable-sound-esound],
+                 [Enable EsounD sound support @<:@default=no@:>@]),
+  enable_sound_esound="$enableval",
+  enable_sound_esound="no")
+if test "x$enable_sound_esound" = "xyes"; then
+  AM_PATH_ESD(0.2.17,,[
+    enable_sound_esound=no
+    AC_MSG_WARN([EsounD sound support was requested but not found.])
+  ])
+  if test "x$enable_sound_esound" = "xyes"; then
+    AC_DEFINE(USE_SOUND_ESOUND, 1, [EsounD sound support])
+    need_sndldr="yes"
+  fi
+fi
+AM_CONDITIONAL(USE_SOUND_ESOUND, test "x$enable_sound_esound" = "xyes")
+
+AC_ARG_ENABLE(sound_alsa,
+  AS_HELP_STRING([--enable-sound-alsa],
+                 [Enable ALSA sound support @<:@default=no@:>@]),
+  enable_sound_alsa="$enableval",
+  enable_sound_alsa="no")
+if test "x$enable_sound_alsa" = "xyes"; then
+  PKG_CHECK_MODULES(ALSA, alsa,
+    AC_DEFINE(USE_SOUND_ALSA, 1, [ALSA sound support])
+    need_sndldr="yes",
+    enable_sound_alsa="no")
+fi
+AM_CONDITIONAL(USE_SOUND_ALSA, test "x$enable_sound_alsa" = "xyes")
+
+AC_ARG_ENABLE(sound_sndio,
+  AS_HELP_STRING([--enable-sound-sndio],
+                 [Enable Sndio sound support @<:@default=no@:>@]),
+  enable_sound_sndio="$enableval",
+  enable_sound_sndio="no")
+if test "x$enable_sound_sndio" = "xyes"; then
+  AC_CHECK_HEADERS(sndio.h,, enable_sound_sndio=no
+    AC_MSG_WARN([sndio sound support was requested but not found.]))
+  AC_CHECK_LIB(sndio, sio_open, SNDIO_LIBS="-lsndio", enable_sound_sndio="no")
+  AC_SUBST(SNDIO_LIBS)
+  if test "x$enable_sound_sndio" = "xyes"; then
+    AC_DEFINE(USE_SOUND_SNDIO, 1, [Sndio sound support])
+    need_sndldr="yes"
+  fi
+fi
+AM_CONDITIONAL(USE_SOUND_SNDIO, test "x$enable_sound_sndio" = "xyes")
+
+AC_ARG_ENABLE(sound_player,
+  AS_HELP_STRING([--enable-sound-player],
+                 [Enable playing sounds using audio player @<:@default=yes@:>@]),
+  enable_sound_player="$enableval",
+  enable_sound_player="yes")
+AC_ARG_WITH(sound_player,
+  AS_HELP_STRING([--with-sound-player],
+                 [Audio player @<:@default="/usr/bin/aplay -q %s"@:>@]),
+  with_sound_player="$enableval",
+  with_sound_player="/usr/bin/aplay -q %s")
+if test "x$enable_sound_player" = "xyes"; then
+  AC_DEFINE(USE_SOUND_PLAYER, 1, [Play sounds using audio player])
+  AC_DEFINE_UNQUOTED(SOUND_PLAYER_FMT, "$with_sound_player", [Audio player])
+fi
+AM_CONDITIONAL(USE_SOUND_PLAYER, test "x$enable_sound_player" = "xyes")
 
 AC_ARG_WITH(sndldr,
   AS_HELP_STRING([--with-sndldr],
@@ -128,64 +217,12 @@ if test "x$with_sndldr" = "xaudiofile"; then
     with_sndldr=none)
 fi
 
-if test "x$enable_sound" = "xpulseaudio"; then
-  PKG_CHECK_MODULES(PULSE, libpulse,
-    AC_DEFINE(USE_SOUND_PULSE, 1, [PulseAudio sound support]),
-    enable_sound=no)
-fi
-AM_CONDITIONAL(USE_SOUND_PULSE, test "x$enable_sound" = "xpulseaudio")
-
-if test "x$enable_sound" = "xesound"; then
-  AM_PATH_ESD(0.2.17,,[
-    enable_sound=no
-    AC_MSG_WARN([EsounD sound support was requested but not found.])
-  ])
-  if test "x$enable_sound" = "xesound"; then
-    AC_DEFINE(USE_SOUND_ESOUND, 1, [EsounD sound support])
-  fi
-fi
-AM_CONDITIONAL(USE_SOUND_ESOUND, test "x$enable_sound" = "xesound")
-
-if test "x$enable_sound" = "xsndio"; then
-  AC_CHECK_HEADERS(sndio.h,, enable_sound=no
-    AC_MSG_WARN([sndio sound support was requested but not found.]))
-  AC_CHECK_LIB(sndio, sio_open, SNDIO_LIBS="-lsndio", enable_sound=no)
-  AC_SUBST(SNDIO_LIBS)
-  if test "x$enable_sound" = "xsndio"; then
-    AC_DEFINE(USE_SOUND_SNDIO, 1, [Sndio sound support])
-  fi
-fi
-AM_CONDITIONAL(USE_SOUND_SNDIO, test "x$enable_sound" = "xsndio")
-
-if test "x$enable_sound" = "xalsa"; then
-  PKG_CHECK_MODULES(ALSA, alsa,
-    AC_DEFINE(USE_SOUND_ALSA, 1, [ALSA sound support]),
-    enable_sound=no)
-fi
-AM_CONDITIONAL(USE_SOUND_ALSA, test "x$enable_sound" = "xalsa")
-
-if test "x$enable_sound" = "xplayer"; then
-  AC_DEFINE(USE_SOUND_PLAYER, 1, [Play sounds using audio player])
-  AC_ARG_WITH(sndplayer,
-    AS_HELP_STRING([--with-sndplayer],
-                   [select sound player @<:@default="/usr/bin/aplay -q %s"@:>@]),,
-    with_sndplayer="/usr/bin/aplay -q %s")
-    AC_DEFINE_UNQUOTED(SOUND_PLAYER_FMT, "$with_sndplayer", [Audio player]),
-fi
-AM_CONDITIONAL(USE_SOUND_PLAYER, test "x$enable_sound" = "xplayer")
-
-case x$enable_sound in
-xpulseaudio|xesound|xsndio|xalsa)
+if test "x$need_sndldr" = "xyes"; then
   if test "x$with_sndldr" = "xnone"; then
     AC_MSG_ERROR([Sound support requires a sound loader])
   fi
-  AC_DEFINE(ENABLE_SOUND, 1, [Sound support])
-  ;;
-xplayer)
-  AC_DEFINE(ENABLE_SOUND, 1, [Sound support])
-  ;;
-esac
-AM_CONDITIONAL(USE_SOUND_LOADER, test "x$with_sndldr" != "xnone")
+fi
+AM_CONDITIONAL(USE_SOUND_LOADER, test "x$need_sndldr" = "xyes")
 
 # Save CPPFLAGS/LDFLAGS and add X_... to each
 SAVE_CPPFLAGS="$CPPFLAGS"
@@ -519,7 +556,15 @@ echo
 echo "Support for"
 echo "  Localisation ................. $USE_NLS"
 echo "  Sound ........................ $enable_sound"
+if test "x$enable_sound" = "xyes"; then
+echo "    Default .................... $default_sound_engine"
+echo "    pulseaudio ................. $enable_sound_pulse"
+echo "    esound ..................... $enable_sound_esound"
+echo "    alsa ....................... $enable_sound_alsa"
+echo "    sndio ...................... $enable_sound_sndio"
+echo "    player ..................... $enable_sound_player ($with_sound_player)"
 echo "  Sound loader ................. $with_sndldr"
+fi
 echo "  Old GNOME hints .............. $enable_hints_gnome"
 echo "  Session management ........... $enable_sm"
 echo "  Zoom ......................... $enable_zoom"

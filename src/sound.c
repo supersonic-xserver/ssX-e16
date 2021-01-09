@@ -30,25 +30,6 @@
 #include "sound.h"
 #include "sounds.h"
 
-#if USE_SOUND_ESOUND
-#define SOUND_SERVER_NAME "esound"
-#define SOUND_MODULE_NAME "esound"
-#elif USE_SOUND_PULSE
-#define SOUND_SERVER_NAME "pulseaudio"
-#define SOUND_MODULE_NAME "pulse"
-#elif USE_SOUND_SNDIO
-#define SOUND_SERVER_NAME "sndio"
-#define SOUND_MODULE_NAME "sndio"
-#elif USE_SOUND_ALSA
-#define SOUND_SERVER_NAME "ALSA"
-#define SOUND_MODULE_NAME "alsa"
-#elif USE_SOUND_PLAYER
-#define SOUND_SERVER_NAME SOUND_PLAYER_FMT
-#define SOUND_MODULE_NAME "player"
-#else
-#error Invalid sound configuration
-#endif
-
 #define N_SOUNDS (SOUND_NOT_USED - 1)
 
 typedef struct {
@@ -64,6 +45,7 @@ static struct {
    char                enable;
    char               *theme;
    unsigned int        mask1, mask2;
+   char               *engine;
 } Conf_sound;
 
 static struct {
@@ -75,26 +57,38 @@ static struct {
 
 static              LIST_HEAD(sound_list);
 
-#if USE_MODULES
-static const SoundOps *ops = NULL;
-#else
-#if USE_SOUND_ESOUND
+#if !USE_MODULES
 extern const SoundOps SoundOps_esd;
-static const SoundOps *ops = &SoundOps_esd;
-#elif USE_SOUND_PULSE
 extern const SoundOps SoundOps_pulse;
-static const SoundOps *ops = &SoundOps_pulse;
-#elif USE_SOUND_SNDIO
 extern const SoundOps SoundOps_sndio;
-static const SoundOps *ops = &SoundOps_sndio;
-#elif USE_SOUND_ALSA
 extern const SoundOps SoundOps_alsa;
-static const SoundOps *ops = &SoundOps_alsa;
-#elif USE_SOUND_PLAYER
 extern const SoundOps SoundOps_player;
-static const SoundOps *ops = &SoundOps_player;
+
+typedef struct {
+   const char         *name;
+   const SoundOps     *ops;
+} SoundEngine;
+
+static const SoundEngine SoundEngines[] = {
+#if USE_SOUND_ESOUND
+   {"esound", &SoundOps_esd},
 #endif
+#if USE_SOUND_PULSE
+   {"pulse", &SoundOps_pulse},
 #endif
+#if USE_SOUND_SNDIO
+   {"sndio", &SoundOps_sndio},
+#endif
+#if USE_SOUND_ALSA
+   {"alsa", &SoundOps_alsa},
+#endif
+#if USE_SOUND_PLAYER
+   {"player", &SoundOps_player},
+#endif
+};
+#endif /* USE_MODULES */
+
+static const SoundOps *ops = NULL;
 
 static void         _SoundConfigLoad(void);
 
@@ -159,6 +153,45 @@ static const char  *const sound_names[N_SOUNDS] = {
    "SOUND_WINDOW_STICK",
    "SOUND_WINDOW_UNSTICK",
 };
+
+static const SoundOps *
+_SoundOpsLookup1(const char *name)
+{
+#if USE_MODULES
+   return ModLoadSym("sound", "SoundOps", name);
+#else
+   unsigned int        i;
+   const SoundEngine  *se;
+
+   for (i = 0; i < E_ARRAY_SIZE(SoundEngines); i++)
+     {
+	se = &SoundEngines[i];
+	if (strcmp(se->name, name) == 0)
+	   return se->ops;
+     }
+
+   return NULL;
+#endif
+}
+
+static const SoundOps *
+_SoundOpsLookup(void)
+{
+   const SoundOps     *so;
+
+   if (Conf_sound.engine)
+     {
+	so = _SoundOpsLookup1(Conf_sound.engine);
+	if (so)
+	   return so;
+     }
+
+   /* Try default */
+   EFREE_DUP(Conf_sound.engine, DEFAULT_SOUND_ENGINE);
+   so = _SoundOpsLookup1(Conf_sound.engine);
+
+   return so;
+}
 
 static void
 _SclassSampleDestroy(void *data, void *user_data __UNUSED__)
@@ -304,10 +337,8 @@ _SoundInit(void)
    if (!Conf_sound.enable)
       return;
 
-#if USE_MODULES
    if (!ops)
-      ops = ModLoadSym("sound", "SoundOps", SOUND_MODULE_NAME);
-#endif
+      ops = _SoundOpsLookup();
 
    if (!ops || ops->Init())
      {
@@ -316,7 +347,7 @@ _SoundInit(void)
 		 _
 		 ("Audio was enabled for Enlightenment but there was an error\n"
 		  "communicating with the audio server (%s).\n"
-		  "Audio will now be disabled.\n"), SOUND_SERVER_NAME);
+		  "Audio will now be disabled.\n"), Conf_sound.engine);
 	return;
      }
 
@@ -331,7 +362,10 @@ _SoundExit(void)
    LIST_FOR_EACH(SoundClass, &sound_list, sc) _SclassSampleDestroy(sc, NULL);
 
    if (ops)
-      ops->Exit();
+     {
+	ops->Exit();
+	ops = NULL;
+     }
 
    Conf_sound.enable = 0;
 }
@@ -419,6 +453,18 @@ static void
 _SoundEnableChange(void *item __UNUSED__, const char *sval)
 {
    _SoundConfigure(!!atoi(sval));
+}
+
+static void
+_SoundEngineChange(void *item __UNUSED__, const char *sval)
+{
+   EFREE_DUP(Conf_sound.engine, sval);
+
+   if (Conf_sound.enable)
+     {
+	_SoundConfigure(0);
+	_SoundConfigure(1);
+     }
 }
 
 static void
@@ -567,6 +613,7 @@ static const CfgItem SoundCfgItems[] = {
    CFG_FUNC_STR(Conf_sound, theme, _SoundThemeChange),
    CFG_ITEM_HEX(Conf_sound, mask1, 0),
    CFG_ITEM_HEX(Conf_sound, mask2, 0),
+   CFG_FUNC_STR(Conf_sound, engine, _SoundEngineChange),
 };
 
 /*
