@@ -56,7 +56,7 @@ __EXPORT__ EMode    Mode;
 static int          EoptGet(int argc, char **argv);
 static void         EoptHelp(void);
 static void         ECheckEprog(const char *name);
-static void         EDirUserSet(const char *dir);
+static void         EDirUserConfSet(const char *dir);
 static void         EConfNameSet(const char *dir);
 static void         EDirUserCacheSet(const char *dir);
 static void         EDirsSetup(void);
@@ -133,7 +133,7 @@ main(int argc, char **argv)
       EConfNameSet(str);
    str = getenv("ECONFDIR");
    if (str)
-      EDirUserSet(str);
+      EDirUserConfSet(str);
    str = getenv("ECACHEDIR");
    if (str)
       EDirUserCacheSet(str);
@@ -185,7 +185,7 @@ main(int argc, char **argv)
 	     EConfNameSet(eoptarg);
 	     break;
 	  case 'P':
-	     EDirUserSet(eoptarg);
+	     EDirUserConfSet(eoptarg);
 	     break;
 	  case 'Q':
 	     EDirUserCacheSet(eoptarg);
@@ -251,7 +251,7 @@ main(int argc, char **argv)
    Esetenv("EVERSION", e_wm_version);
    Esetenv("EROOT", EDirRoot());
    Esetenv("EBIN", EDirBin());
-   Esetenv("ECONFDIR", EDirUser());
+   Esetenv("ECONFDIR", EDirUserConf());
    Esetenv("ECACHEDIR", EDirUserCache());
    Esetenv("ETHEME", Mode.theme.path);
 
@@ -504,7 +504,7 @@ EConfNameSet(const char *name)
 }
 
 static void
-EDirUserSet(const char *dir)
+EDirUserConfSet(const char *dir)
 {
    EFREE_DUP(Mode.conf.dir, dir);
 }
@@ -520,7 +520,7 @@ Etmp(char *s)
 {
    static unsigned int n_calls = 0;
 
-   Esnprintf(s, 1024, "%s/TMP_%d_%d", EDirUser(), getpid(), n_calls++);
+   Esnprintf(s, 1024, "%s/TMP_%d_%d", EDirUserConf(), getpid(), n_calls++);
 }
 
 static void
@@ -555,11 +555,12 @@ EDirsSetup(void)
    EDirCheck(home);
 
    /* Set user config dir if not already set */
-   cfgdir = Mode.conf.dir;
+   cfgdir = EDirUserConf();
    if (!cfgdir)
      {
 	Esnprintf(s, sizeof(s), "%s/.e16", home);
-	Mode.conf.dir = cfgdir = Estrdup(s);
+	EDirUserConfSet(s);
+	cfgdir = EDirUserConf();
      }
 
    if (exists(cfgdir))
@@ -579,18 +580,18 @@ EDirsSetup(void)
    if (!Mode.conf.cache_dir)
       Mode.conf.cache_dir = cfgdir;	/* Beware if ever freed */
 
-   Esnprintf(s, sizeof(s), "%s/menus", cfgdir);
+   Esnprintf(s, sizeof(s), "%s/menus", EDirUserConf());
    Mode.firsttime = !exists(s);
 
-   EDirMake(Mode.conf.dir, "themes");
-   EDirMake(Mode.conf.dir, "backgrounds");
-   EDirMake(Mode.conf.dir, "menus");
+   EDirMake(EDirUserConf(), "themes");
+   EDirMake(EDirUserConf(), "backgrounds");
+   EDirMake(EDirUserConf(), "menus");
 
-   EDirMake(Mode.conf.cache_dir, "cached");
-   EDirMake(Mode.conf.cache_dir, "cached/cfg");
-   EDirMake(Mode.conf.cache_dir, "cached/bgsel");
-   EDirMake(Mode.conf.cache_dir, "cached/img");
-   EDirMake(Mode.conf.cache_dir, "cached/pager");
+   EDirMake(EDirUserCache(), "cached");
+   EDirMake(EDirUserCache(), "cached/cfg");
+   EDirMake(EDirUserCache(), "cached/bgsel");
+   EDirMake(EDirUserCache(), "cached/img");
+   EDirMake(EDirUserCache(), "cached/pager");
 }
 
 /*
@@ -606,12 +607,12 @@ ESavePrefixSetup(void)
 
    if (Mode.conf.name)
       Esnprintf(buf, sizeof(buf), "%s/%s-%d",
-		Mode.conf.dir, Mode.conf.name, Dpy.screen);
+		EDirUserConf(), Mode.conf.name, Dpy.screen);
    else if (Mode.wm.window)
-      Esnprintf(buf, sizeof(buf), "%s/%s-window", Mode.conf.dir, ECFG_DEFAULT);
+      Esnprintf(buf, sizeof(buf), "%s/%s-window", EDirUserConf(), ECFG_DEFAULT);
    else
       Esnprintf(buf, sizeof(buf), "%s/%s-%s",
-		Mode.conf.dir, ECFG_DEFAULT, Dpy.name);
+		EDirUserConf(), ECFG_DEFAULT, Dpy.name);
 
    Mode.conf.prefix = Estrdup(buf);
 

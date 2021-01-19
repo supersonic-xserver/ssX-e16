@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -35,7 +35,7 @@ _ThemePathsUpdate(void)
    char                paths[FILEPATH_LEN_MAX];
 
    Esnprintf(paths, sizeof(paths), "%s/themes:%s/.themes:%s/themes:%s",
-	     EDirUser(), userhome(), EDirRoot(),
+	     EDirUserConf(), userhome(), EDirRoot(),
 	     (Conf.theme.extra_path) ? Conf.theme.extra_path : "");
    EFREE_DUP(Mode.theme.paths, paths);
 }
@@ -159,7 +159,7 @@ _append_merge_dir(char *dir, char ***list, int *count)
 
 	if (strcmp(s + 1, "etheme") == 0)
 	  {
-	     Esnprintf(s1, sizeof(s1), "%s/themes/%s", EDirUser(), str[i]);
+	     Esnprintf(s1, sizeof(s1), "%s/themes/%s", EDirUserConf(), str[i]);
 	     s = strrchr(s1, '.');
 	     if (!s)
 		continue;
@@ -246,7 +246,7 @@ _ThemeExtract(const char *path)
 	Esnprintf(th, sizeof(th), "%s/.themes/%s", userhome(), name);
      }
    else
-      Esnprintf(th, sizeof(th), "%s/themes/%s", EDirUser(), name);
+      Esnprintf(th, sizeof(th), "%s/themes/%s", EDirUserConf(), name);
 
    /* check magic numbers */
    if ((buf[0] == 31) && (buf[1] == 139))

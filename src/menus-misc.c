@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -399,7 +399,7 @@ MenuCreateFromBackgrounds(const char *name, MenuStyle * ms)
    Menu               *m;
    char                s[FILEPATH_LEN_MAX];
 
-   Esnprintf(s, sizeof(s), "%s/backgrounds", EDirUser());
+   Esnprintf(s, sizeof(s), "%s/backgrounds", EDirUserConf());
 
    m = MenuCreateFromDirectory(name, NULL, ms, s);
    if (!m)

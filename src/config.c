@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -255,7 +255,7 @@ ConfigFilePreparse(const char *src, const char *dst, const char *themepath)
 	   "%s %s",
 	   EDirBin(), EDirRoot(), themepath, EDirRoot(),
 	   e_wm_version, EDirRoot(), EDirBin(), themepath, variant,
-	   EDirUser(), EDirUserCache(),
+	   EDirUserConf(), EDirUserCache(),
 	   WinGetW(VROOT), WinGetH(VROOT), WinGetW(VROOT), WinGetH(VROOT),
 	   WinGetDepth(VROOT), src, dst);
 
@@ -474,7 +474,7 @@ FindFile(const char *file, const char *themepath, int type)
 	  default:
 	     continue;
 	  case 'U':		/* User config */
-	     path = EDirUser();
+	     path = EDirUserConf();
 	     break;
 	  case 'E':		/* e16 config */
 	     path = EDirRoot();

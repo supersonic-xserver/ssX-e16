@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -196,13 +196,13 @@ set_save_props(SmcConn smc_conn, int master_flag)
 	restartVal[n++].value = (char *)"-p";
 	restartVal[n++].value = (char *)s;
      }
-   s = Mode.conf.dir;
+   s = EDirUserConf();
    if (s)
      {
 	restartVal[n++].value = (char *)"-P";
 	restartVal[n++].value = (char *)s;
      }
-   s = Mode.conf.cache_dir;
+   s = EDirUserCache();
    if (s)
      {
 	restartVal[n++].value = (char *)"-Q";

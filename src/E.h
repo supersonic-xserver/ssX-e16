@@ -526,7 +526,7 @@ __NORETURN__ void   EExit(int exitcode);
 #define EDirRoot()       ENLIGHTENMENT_ROOT
 #define EDirBin()        ENLIGHTENMENT_BIN
 #define EDirLib()        ENLIGHTENMENT_LIB
-#define EDirUser()       Mode.conf.dir
+#define EDirUserConf()   Mode.conf.dir
 #define EDirUserCache()  Mode.conf.cache_dir
 #define EGetSavePrefix() Mode.conf.prefix
 
