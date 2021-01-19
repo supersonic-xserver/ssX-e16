@@ -46,6 +46,8 @@ EFonts_Init(void)
    imlib_add_path_to_font_path(s);
    Esnprintf(s, sizeof(s), "%s/fonts", EDirRoot());
    imlib_add_path_to_font_path(s);
+   Esnprintf(s, sizeof(s), "%s/fonts", Mode.conf.dir);
+   imlib_add_path_to_font_path(s);
 #endif
 }
 
