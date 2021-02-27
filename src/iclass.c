@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -210,9 +210,10 @@ ImagestateRealize(ImageState * is)
      }
    if (is->real_file)
      {
-	is->im = EImageLoad(is->real_file);
-	if (is->im && is->rotate)
-	   EImageOrientate(is->im, is->rotate);
+	if (is->rotate && !Conf.memory_paranoia)
+	   is->im = EImageLoadOrientate(is->real_file, is->rotate);
+	else
+	   is->im = EImageLoad(is->real_file);
      }
    if (!is->im)
      {

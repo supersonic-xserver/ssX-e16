@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -30,6 +30,7 @@
 
 #include "E.h"
 #include "eimage.h"
+#include "file.h"
 #include "xwin.h"
 
 #define IMG_CACHE_DEFAULT_SIZE          (2 * 1024 * 1024)
@@ -125,6 +126,47 @@ EImage             *
 EImageLoad(const char *file)
 {
    return imlib_load_image(file);
+}
+
+EImage             *
+EImageLoadOrientate(const char *file, int orientation)
+{
+   EImage             *im, *im2;
+   char                name[2048], path[4096], *s, *s2;
+
+   snprintf(name, sizeof(name), "%s", file);
+   for (s = name, s2 = NULL; *s; s++)
+     {
+	if (*s == '/')
+	   *s = '.';
+	else if (*s == '.')
+	   s2 = s;
+     }
+   if (s2)
+      *s2 = '\0';
+   snprintf(path, sizeof(path), "%s/cached/cfg/%s-%d.png",
+	    EDirUserCache(), name, orientation);
+
+   if (!exists(path))
+     {
+	im = imlib_load_image(file);
+	if (!im)
+	   return NULL;
+
+	imlib_context_set_image(im);
+	im2 = imlib_clone_image();
+	imlib_free_image();
+
+	imlib_context_set_image(im2);
+	imlib_image_orientate(orientation);
+	imlib_image_set_format("png");
+	imlib_save_image(path);
+	imlib_free_image();
+     }
+
+   im = imlib_load_image(path);
+
+   return im;
 }
 
 void
