@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -191,6 +191,9 @@ GroupMatchAction(const Group * g, int action)
      {
      default:
 	match = 0;
+	break;
+     case GROUP_ACTION_ANY:
+	match = 1;
 	break;
      case GROUP_ACTION_SET_WINDOW_BORDER:
 	match = g->cfg.set_border;
