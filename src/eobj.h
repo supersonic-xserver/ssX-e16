@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2019 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -74,6 +74,7 @@ struct _eobj {
 #define EOBJ_TYPE_GLX       8
 
 #define EobjGetWin(eo)          ((eo)->win)
+#define EobjGetParent(eo)       WinGetParent(EobjGetWin(eo))
 #define EobjGetXwin(eo)         WinGetXwin(EobjGetWin(eo))
 #define EobjGetX(eo)            WinGetX(EobjGetWin(eo))
 #define EobjGetY(eo)            WinGetY(EobjGetWin(eo))
@@ -91,6 +92,7 @@ struct _eobj {
 
 #define EoObj(eo)               (&((eo)->o))
 #define EoGetWin(eo)            EobjGetWin(EoObj(eo))
+#define EoGetParent(eo)         EobjGetParent(EoObj(eo))
 #define EoGetXwin(eo)           EobjGetXwin(EoObj(eo))
 #define EoGetType(eo)           EobjGetType(EoObj(eo))
 #define EoGetDesk(eo)           EobjGetDesk(EoObj(eo))

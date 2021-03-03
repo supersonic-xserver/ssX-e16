@@ -120,6 +120,7 @@ struct _xwin {
 
 Win                 ELookupXwin(EX_Window xwin);
 
+#define             WinGetParent(win)		((win)->parent)
 #define             WinGetXwin(win)		((win)->xwin)
 #define             WinGetPmap(win)		((win)->bgpmap)
 #define             WinGetX(win)		((win)->x)
