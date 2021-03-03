@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -281,7 +281,7 @@ HiwinInit(Hiwin * phi, EWin * ewin, EObj * parent)
 #endif
 
    phi->ewin = ewin;
-   if (parent)
+   if (parent && EobjGetWin(parent) != EoGetParent(phi))
       EoReparent(phi, parent, 0, 0);
 
 #if USE_COMPOSITE
@@ -407,8 +407,6 @@ HiwinShow(Hiwin * phi, EWin * ewin, int zoom, int confine)
 
    pz->init(phi);
 
-   EoMap(phi, 0);
-
    if (step && phi->animate)
      {
 	x = phi->xo;
@@ -444,6 +442,7 @@ HiwinShow(Hiwin * phi, EWin * ewin, int zoom, int confine)
 	     xx = x + ((w - ww) / 2);
 	     yy = y + ((h - hh) / 2);
 	     EoMoveResize(phi, xx, yy, ww, hh);
+	     EoMap(phi, 0);
 	     pz->draw(phi);
 
 	     on_screen = EQueryPointer(NULL, &px, &py, NULL, NULL);
@@ -459,6 +458,7 @@ HiwinShow(Hiwin * phi, EWin * ewin, int zoom, int confine)
    else
      {
 	EoMoveResize(phi, x - w / 2, y - h / 2, w, h);
+	EoMap(phi, 0);
      }
 
    GrabPointerSet(EoGetWin(phi), ECSR_ACT_MOVE, confine);
