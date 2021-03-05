@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -43,7 +43,7 @@
 #include "xwin.h"
 
 static const WinOp  winops[] = {
-   {"border", 2, 1, 0, EWIN_OP_BORDER},
+   {"border", 2, 1, 1, EWIN_OP_BORDER},
    {"title", 2, 1, 1, EWIN_OP_TITLE},
 
    {"focusclick", 0, 1, 1, EWIN_OP_FOCUS_CLICK},	/* Place before "focus" */

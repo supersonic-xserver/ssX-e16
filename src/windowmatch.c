@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2005-2020 Kim Woelders
+ * Copyright (C) 2005-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -242,7 +242,10 @@ WindowMatchConfigLoad(FILE * fs)
 		break;
 	     wm->border = BorderFind(s2);
 	     if (!wm->border)
-		break;
+	       {
+		  Eprintf("%s: No such border: '%s'\n", __func__, s2);
+		  break;
+	       }
 	     wm->op = MATCH_OP_BORDER;
 	     break;
 
@@ -372,6 +375,7 @@ WindowMatchDecode(const char *line)
 	wm->border = BorderFind(args);
 	if (!wm->border)
 	  {
+	     Eprintf("%s: No such border: '%s'\n", __func__, args);
 	     err = 1;
 	     goto done;
 	  }
@@ -647,6 +651,10 @@ WindowMatchEwinOpsAction(EWin * ewin, int op, const char *args)
      default:
 	/* We should not get here */
 	return;
+
+     case EWIN_OP_BORDER:
+	EwinBorderSetInitially(ewin, args);
+	break;
 
      case EWIN_OP_TITLE:
 	EFREE_DUP(EwinGetIcccmName(ewin), args);
