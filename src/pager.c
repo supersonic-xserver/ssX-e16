@@ -94,7 +94,6 @@ typedef struct {
    EWin               *ewin;
    Win                 win;
    int                 w, h;
-   char               *name;
    EX_Pixmap           bgpmap;
    Desk               *dsk;
    int                 dw, dh;
@@ -149,7 +148,6 @@ PagerCreate(void)
 
    LIST_APPEND(Pager, &pager_list, p);
 
-   p->name = NULL;
    p->win = ECreateClientWindow(VROOT, 0, 0, 1, 1);
    EventCallbackRegister(p->win, PagerEvent, p);
    p->sel_win = ECreateWindow(p->win, 0, 0, 1, 1, 0);
@@ -163,7 +161,6 @@ PagerDestroy(Pager * p)
    LIST_REMOVE(Pager, &pager_list, p);
 
    PagerScanCancel(p);
-   Efree(p->name);
    PagerHiwinHide();
    if (p->bgpmap != NoXID)
       EFreePixmap(p->bgpmap);
