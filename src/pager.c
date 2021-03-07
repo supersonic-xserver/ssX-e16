@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -833,8 +833,7 @@ static void
 PagersCheckUpdate(void)
 {
    static unsigned int tms_last = 0;
-   unsigned int        tms;
-   int                 dtms;
+   unsigned int        tms, dtms;
 
    if (!Mode_pagers.update_pending || !Conf_pagers.enable)
       return;
@@ -843,7 +842,7 @@ PagersCheckUpdate(void)
      {
 	tms = GetTimeMs();
 	dtms = (Conf_pagers.scanspeed > 0) ? 1000 / Conf_pagers.scanspeed : 100;
-	if ((int)(tms - tms_last) < dtms)
+	if ((unsigned int)(tms - tms_last) < dtms)
 	  {
 	     /* The purpose of this timer is to trigger the idler */
 	     if (Mode_pagers.timer_pending)
