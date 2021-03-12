@@ -41,6 +41,11 @@
 
 #define EwinListFocusRaise(ewin) EobjListFocusRaise(EoObj(ewin))
 
+static const char  *const focus_why[] = {
+   "NOP", "INIT", "SET", "NONE", "ENTER", "LEAVE", "EWIN_NEW", "EWIN_UNMAP",
+   "DESK_ENTER", "DESK_LEAVE", "NEXT", "PREV", "CLICK",
+};
+
 static char         focus_inhibit = 1;
 static char         focus_is_set = 0;
 static char         click_pending_update_grabs = 0;
@@ -354,9 +359,9 @@ doFocusToEwin(EWin * ewin, int why)
       return;
 
    if (EDebug(EDBUG_TYPE_FOCUS))
-      Eprintf("%s: %#x %s why=%d\n", __func__,
+      Eprintf("%s: %#x %s why=%s\n", __func__,
 	      (ewin) ? EwinGetClientXwin(ewin) : 0,
-	      (ewin) ? EwinGetTitle(ewin) : "None", why);
+	      (ewin) ? EwinGetTitle(ewin) : "None", focus_why[why]);
 
    switch (why)
      {
@@ -510,9 +515,9 @@ void
 FocusToEWin(EWin * ewin, int why)
 {
    if (EDebug(EDBUG_TYPE_FOCUS))
-      Eprintf("%s(%d) %#x %s why=%d\n", __func__, focus_inhibit,
+      Eprintf("%s(%d) %#x %s why=%s\n", __func__, focus_inhibit,
 	      (ewin) ? EwinGetClientXwin(ewin) : 0,
-	      (ewin) ? EwinGetTitle(ewin) : "None", why);
+	      (ewin) ? EwinGetTitle(ewin) : "None", focus_why[why]);
 
    switch (why)
      {
