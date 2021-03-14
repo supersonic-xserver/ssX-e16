@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -106,6 +106,42 @@ FocusEwinValid(EWin * ewin, int want_on_screen, int click, int want_visible)
        want_on_screen, EwinIsOnScreen(ewin), click, ewin->props.focusclick,
        want_visible, ewin->state.visibility, ok);
 #endif
+   return ok;
+}
+
+/*
+ * Return !0 if new ewin should be focused.
+ */
+static int
+FocusEwinValidNew(EWin * ewin)
+{
+   int                 ok = 0;
+
+   if (Conf.focus.all_new_windows_get_focus)
+      ok = 1;
+
+   else if (Conf.focus.new_windows_get_focus_if_group_focused &&
+	    Mode.focuswin &&
+	    EwinGetWindowGroup(ewin) == EwinGetWindowGroup(Mode.focuswin))
+      ok = 1;
+
+   else if (EwinIsTransient(ewin))
+     {
+	if (Conf.focus.new_transients_get_focus)
+	  {
+	     ok = 1;
+	  }
+	else if (Conf.focus.new_transients_get_focus_if_group_focused &&
+		 Mode.focuswin)
+	  {
+	     if ((EwinGetTransientFor(ewin) ==
+		  EwinGetClientXwin(Mode.focuswin)) ||
+		 (EwinGetWindowGroup(ewin) ==
+		  EwinGetWindowGroup(Mode.focuswin)))
+		ok = 1;
+	  }
+     }
+
    return ok;
 }
 
@@ -309,7 +345,6 @@ ClickGrabsUpdate(void)
 static void
 doFocusToEwin(EWin * ewin, int why)
 {
-   int                 do_focus = 0;
    int                 do_raise = 0, do_warp = 0;
 
    if (focus_inhibit)
@@ -374,38 +409,14 @@ doFocusToEwin(EWin * ewin, int why)
 	if (ewin->props.focus_when_mapped)
 	   goto check_focus_new;
 
-	if (Conf.focus.all_new_windows_get_focus)
-	   goto check_focus_new;
-
-	if (Conf.focus.new_windows_get_focus_if_group_focused &&
-	    Mode.focuswin &&
-	    EwinGetWindowGroup(ewin) == EwinGetWindowGroup(Mode.focuswin))
-	   goto check_focus_new;
-
-	if (Conf.focus.mode != MODE_FOCUS_CLICK && ewin == Mode.mouse_over_ewin)
-	   goto check_focus_new;
-
-	if (EwinIsTransient(ewin))
+	if (FocusEwinValidNew(ewin))
 	  {
-	     if (Conf.focus.new_transients_get_focus)
-	       {
-		  do_focus = 1;
-	       }
-	     else if (Conf.focus.new_transients_get_focus_if_group_focused &&
-		      Mode.focuswin)
-	       {
-		  if ((EwinGetTransientFor(ewin) ==
-		       EwinGetClientXwin(Mode.focuswin)) ||
-		      (EwinGetWindowGroup(ewin) ==
-		       EwinGetWindowGroup(Mode.focuswin)))
-		     do_focus = 1;
-	       }
-
-	     if (!do_focus)
-		return;
 	     DeskGotoByEwin(ewin, 0);
 	     goto check_focus_new;
 	  }
+
+	if (Conf.focus.mode != MODE_FOCUS_CLICK && ewin == Mode.mouse_over_ewin)
+	   goto check_focus_new;
 
 	return;
 
@@ -503,6 +514,8 @@ FocusToEWin(EWin * ewin, int why)
    switch (why)
      {
      case FOCUS_EWIN_NEW:
+	if (!FocusEwinValidNew(ewin))
+	   break;
 	if (!FocusEwinValid(ewin, 0, 0, 0))
 	   break;
 	focus_pending_new = ewin;
