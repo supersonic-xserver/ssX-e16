@@ -524,6 +524,7 @@ FocusToEWin(EWin * ewin, int why)
 	focus_pending_new = ewin;
 	focus_pending_why = why;
 	focus_pending_ewin = ewin;
+	focus_request = (int)NextRequest(disp) - 1;
 	break;
 
      default:
@@ -531,6 +532,7 @@ FocusToEWin(EWin * ewin, int why)
 	   break;
 	focus_pending_why = why;
 	focus_pending_ewin = ewin;
+	focus_request = (int)NextRequest(disp) - 1;
 	break;
 
      case FOCUS_EWIN_UNMAP:
@@ -547,7 +549,6 @@ FocusToEWin(EWin * ewin, int why)
 	   focus_pending_new = NULL;
 	break;
      }
-   focus_request = (int)NextRequest(disp) - 1;
 }
 
 static void
@@ -559,6 +560,7 @@ FocusSet(void)
       doFocusToEwin(focus_pending_ewin, focus_pending_why);
    focus_pending_why = 0;
    focus_pending_ewin = focus_pending_new = NULL;
+   focus_request = 0;
 }
 
 void
