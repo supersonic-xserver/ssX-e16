@@ -86,6 +86,9 @@ FocusEwinValid(EWin * ewin, int want_on_screen, int click, int want_visible)
 	    ewin->state.state != EWIN_STATE_MAPPED)
       ok = 0;
 
+   else if (ewin->state.sliding)
+      ok = 0;
+
    else if (ewin->props.focusclick && !click)
       ok = 0;
 
