@@ -140,10 +140,10 @@ if test "x$enable_sound" = "xesound"; then
     AC_MSG_WARN([EsounD sound support was requested but not found.])
   ])
   if test "x$enable_sound" = "xesound"; then
-    AC_DEFINE(USE_SOUND_ESD, 1, [EsounD sound support])
+    AC_DEFINE(USE_SOUND_ESOUND, 1, [EsounD sound support])
   fi
 fi
-AM_CONDITIONAL(USE_SOUND_ESD, test "x$enable_sound" = "xesound")
+AM_CONDITIONAL(USE_SOUND_ESOUND, test "x$enable_sound" = "xesound")
 
 if test "x$enable_sound" = "xsndio"; then
   AC_CHECK_HEADERS(sndio.h,, enable_sound=no

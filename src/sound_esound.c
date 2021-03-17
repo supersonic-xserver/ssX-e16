@@ -23,7 +23,7 @@
  */
 #include "config.h"
 
-#if defined(ENABLE_SOUND) && defined(USE_SOUND_ESD)
+#if defined(ENABLE_SOUND) && defined(USE_SOUND_ESOUND)
 #include <esd.h>
 #include <unistd.h>
 
@@ -42,7 +42,7 @@ struct _sample {
 static int          sound_fd = -1;
 
 static Sample      *
-_sound_esd_Load(const char *file)
+_sound_esound_Load(const char *file)
 {
    Sample             *s;
    int                 err, format;
@@ -97,7 +97,7 @@ _sound_esd_Load(const char *file)
 }
 
 static void
-_sound_esd_Destroy(Sample * s)
+_sound_esound_Destroy(Sample * s)
 {
    if (s->id && sound_fd >= 0)
      {
@@ -111,7 +111,7 @@ _sound_esd_Destroy(Sample * s)
 }
 
 static void
-_sound_esd_Play(Sample * s)
+_sound_esound_Play(Sample * s)
 {
    if (sound_fd < 0)
       return;
@@ -121,7 +121,7 @@ _sound_esd_Play(Sample * s)
 }
 
 static int
-_sound_esd_Init(void)
+_sound_esound_Init(void)
 {
    if (sound_fd >= 0)
       return 0;
@@ -132,7 +132,7 @@ _sound_esd_Init(void)
 }
 
 static void
-_sound_esd_Exit(void)
+_sound_esound_Exit(void)
 {
    if (sound_fd < 0)
       return;
@@ -144,8 +144,8 @@ _sound_esd_Exit(void)
 __EXPORT__ extern const SoundOps SoundOps_esd;
 
 const SoundOps      SoundOps_esd = {
-   _sound_esd_Init, _sound_esd_Exit, _sound_esd_Load, _sound_esd_Destroy,
-   _sound_esd_Play,
+   _sound_esound_Init, _sound_esound_Exit,
+   _sound_esound_Load, _sound_esound_Destroy, _sound_esound_Play,
 };
 
-#endif /* ENABLE_SOUND && USE_SOUND_ESD */
+#endif /* ENABLE_SOUND && USE_SOUND_ESOUND */

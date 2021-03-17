@@ -31,9 +31,9 @@
 #include "sound.h"
 #include "sounds.h"
 
-#if USE_SOUND_ESD
-#define SOUND_SERVER_NAME "esd"
-#define SOUND_MODULE_NAME "esd"
+#if USE_SOUND_ESOUND
+#define SOUND_SERVER_NAME "esound"
+#define SOUND_MODULE_NAME "esound"
 #elif USE_SOUND_PULSE
 #define SOUND_SERVER_NAME "pulseaudio"
 #define SOUND_MODULE_NAME "pulse"
@@ -79,7 +79,7 @@ static              LIST_HEAD(sound_list);
 #if USE_MODULES
 static const SoundOps *ops = NULL;
 #else
-#if USE_SOUND_ESD
+#if USE_SOUND_ESOUND
 extern const SoundOps SoundOps_esd;
 static const SoundOps *ops = &SoundOps_esd;
 #elif USE_SOUND_PULSE

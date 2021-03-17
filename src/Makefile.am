@@ -172,14 +172,14 @@ MODULE_LIBS = $(DLOPEN_LIBS)
 
 libe16dir = $(pkglibdir)
 
-libe16_LTLIBRARIES = $(LIBSND_ESD) $(LIBSND_PULSE) $(LIBSND_SNDIO) $(LIBSND_ALSA) $(LIBSND_PLAYER) $(LIBFNT_IFT) $(LIBFNT_XFT) $(LIBFNT_PANGO)
+libe16_LTLIBRARIES = $(LIBSND_ESOUND) $(LIBSND_PULSE) $(LIBSND_SNDIO) $(LIBSND_ALSA) $(LIBSND_PLAYER) $(LIBFNT_IFT) $(LIBFNT_XFT) $(LIBFNT_PANGO)
 
-if USE_SOUND_ESD
-LIBSND_ESD = libsound_esd.la
-libsound_esd_la_SOURCES   = sound_esd.c sound_load.c
-libsound_esd_la_CFLAGS    = $(ESD_CFLAGS) $(SNDLDR_CFLAGS)
-libsound_esd_la_LIBADD    = $(ESD_LIBS) $(SNDLDR_LIBS)
-libsound_esd_la_LDFLAGS   = -module -avoid-version
+if USE_SOUND_ESOUND
+LIBSND_ESOUND = libsound_esound.la
+libsound_esound_la_SOURCES   = sound_esound.c sound_load.c
+libsound_esound_la_CFLAGS    = $(ESD_CFLAGS) $(SNDLDR_CFLAGS)
+libsound_esound_la_LIBADD    = $(ESD_LIBS) $(SNDLDR_LIBS)
+libsound_esound_la_LDFLAGS   = -module -avoid-version
 endif
 
 if USE_SOUND_PULSE
@@ -236,7 +236,7 @@ endif
 
 else
 
-MODULE_SRCS = sound_esd.c sound_pulse.c sound_sndio.c sound_alsa.c sound_player.c sound_load.c \
+MODULE_SRCS = sound_esound.c sound_pulse.c sound_sndio.c sound_alsa.c sound_player.c sound_load.c \
 	ttfont.c text_xft.c text_pango.c
 MODULE_LIBS = $(ESD_LIBS) $(PULSE_LIBS) $(SNDIO_LIBS) $(ALSA_LIBS) $(SNDLDR_LIBS) \
 	      $(PANGO_LIBS) $(XFT_LIBS)
