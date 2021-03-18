@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2019 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -142,7 +142,7 @@ doSignalsSetup(int setup)
    sigemptyset(&sa.sa_mask);
    sigprocmask(SIG_SETMASK, &sa.sa_mask, (sigset_t *) NULL);
 
-   for (i = 0; i < sizeof(signals) / sizeof(int); i++)
+   for (i = 0; i < E_ARRAY_SIZE(signals); i++)
      {
 	sig = signals[i];
 	if (Mode.wm.coredump &&

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1446,13 +1446,13 @@ IPC_InsertKeys(const char *params, Client * c __UNUSED__)
    ev.window = win;
    for (i = 0; i < (int)strlen(s); i++)
      {
-	int                 j;
+	unsigned int        j;
 
 	ev.x = Mode.events.cx;
 	ev.y = Mode.events.cy;
 	ev.x_root = Mode.events.cx;
 	ev.y_root = Mode.events.cy;
-	for (j = 0; j < (int)(sizeof(ks) / sizeof(struct _keyset)); j++)
+	for (j = 0; j < E_ARRAY_SIZE(ks); j++)
 	  {
 	     if (strncmp(ks[j].ch, &(s[i]), strlen(ks[j].ch)))
 		continue;
@@ -1723,7 +1723,7 @@ IPC_GetList(int *pnum)
 	return ipc_item_list;
      }
 
-   num = sizeof(IPCArray) / sizeof(IpcItem);
+   num = E_ARRAY_SIZE(IPCArray);
    lst = EMALLOC(const IpcItem *, num);
 
    for (i = 0; i < num; i++)

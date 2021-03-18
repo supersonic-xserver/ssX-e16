@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2020 Kim Woelders
+ * Copyright (C) 2003-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -386,7 +386,7 @@ void
 EWMH_SetWindowState(const EWin * ewin)
 {
    EX_Atom             atom_list[64];
-   int                 len = sizeof(atom_list) / sizeof(EX_Atom);
+   int                 len = E_ARRAY_SIZE(atom_list);
    int                 atom_count;
 
    atom_count = 0;

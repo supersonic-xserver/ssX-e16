@@ -1305,7 +1305,6 @@ static const IpcItem ImageclassIpcArray[] = {
     NULL}
    ,
 };
-#define N_IPC_FUNCS (sizeof(ImageclassIpcArray)/sizeof(IpcItem))
 
 /*
  * Module descriptor
@@ -1315,7 +1314,6 @@ extern const EModule ModImageclass;
 const EModule       ModImageclass = {
    "imageclass", "ic",
    NULL,
-   {N_IPC_FUNCS, ImageclassIpcArray}
-   ,
+   MOD_ITEMS(ImageclassIpcArray),
    {0, NULL}
 };

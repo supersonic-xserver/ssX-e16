@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1123,7 +1123,7 @@ static const char  *const menu_aliases[] = {
    "ROOT_2", "enlightenment.menu",
    "WINOPS_MENU", "winops.menu",
 };
-#define N_MENU_ALIASES (sizeof(menu_aliases)/sizeof(char*)/2)
+#define N_MENU_ALIASES (E_ARRAY_SIZE(menu_aliases)/2)
 
 static const char  *
 _MenuCheckAlias(const char *name)
@@ -2089,7 +2089,6 @@ static const IpcItem MenusIpcArray[] = {
     "  menus show <name>        Show named menu\n"}
    ,
 };
-#define N_IPC_FUNCS (sizeof(MenusIpcArray)/sizeof(IpcItem))
 
 static const CfgItem MenusCfgItems[] = {
    CFG_ITEM_BOOL(Conf.menus, animate, 0),
@@ -2104,7 +2103,6 @@ static const CfgItem MenusCfgItems[] = {
    CFG_ITEM_HEX(Conf.menus, key.escape, XK_Escape),
    CFG_ITEM_HEX(Conf.menus, key.ret, XK_Return),
 };
-#define N_CFG_ITEMS (sizeof(MenusCfgItems)/sizeof(CfgItem))
 
 /*
  * Module descriptor
@@ -2114,6 +2112,6 @@ extern const EModule ModMenus;
 const EModule       ModMenus = {
    "menus", "menu",
    MenusSighan,
-   {N_IPC_FUNCS, MenusIpcArray},
-   {N_CFG_ITEMS, MenusCfgItems}
+   MOD_ITEMS(MenusIpcArray),
+   MOD_ITEMS(MenusCfgItems)
 };

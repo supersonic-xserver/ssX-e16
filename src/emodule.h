@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2010 Kim Woelders
+ * Copyright (C) 2003-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -33,6 +33,8 @@ typedef struct {
    IpcItemList         ipc;
    CfgItemList         cfg;
 } EModule;
+
+#define MOD_ITEMS(x) { E_ARRAY_SIZE(x), x }
 
 typedef enum {
    ESIGNAL_NONE,

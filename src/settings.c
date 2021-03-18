@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -711,7 +711,6 @@ static const DialogDef *const dialogs[] = {
    &DlgSession,
    &DlgMisc,
 };
-#define N_CFG_DLGS (sizeof(dialogs)/sizeof(DialogDef*))
 
 static void
 CB_DlgSelect(Dialog * d, int val, void *data)
@@ -746,7 +745,7 @@ _DlgFillConfiguration(Dialog * d, DItem * table, void *data __UNUSED__)
    buttons = DialogAddItem(table, DITEM_TABLE);
    content = DialogAddItem(table, DITEM_TABLE);
 
-   for (i = 0; i < N_CFG_DLGS; i++)
+   for (i = 0; i < E_ARRAY_SIZE(dialogs); i++)
      {
 	di = DialogAddItem(buttons, DITEM_BUTTON);
 	DialogItemSetPadding(di, 2, 2, 0, 0);
@@ -780,7 +779,7 @@ IPC_Cfg(const char *params)
 	return;
      }
 
-   for (i = 0; i < N_CFG_DLGS; i++)
+   for (i = 0; i < E_ARRAY_SIZE(dialogs); i++)
      {
 	name = dialogs[i]->label;
 	if (Estrcasecmp(params, name))

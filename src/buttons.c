@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1082,13 +1082,11 @@ static const IpcItem ButtonsIpcArray[] = {
     "(removes all buttons)\n \"button_show buttons CONFIG*\" "
     "(removes all buttons with CONFIG in the start)\n"},
 };
-#define N_IPC_FUNCS (sizeof(ButtonsIpcArray)/sizeof(IpcItem))
 
 #if 0
 static const CfgItem ButtonsCfgItems[] = {
    CFG_ITEM_BOOL(Conf.buttons, enable, 1),
 };
-#define N_CFG_ITEMS (sizeof(ButtonsCfgItems)/sizeof(CfgItem))
 #endif
 
 /*
@@ -1099,6 +1097,6 @@ extern const EModule ModButtons;
 const EModule       ModButtons = {
    "buttons", "btn",
    ButtonsSighan,
-   {N_IPC_FUNCS, ButtonsIpcArray},
+   MOD_ITEMS(ButtonsIpcArray),
    {0, NULL}
 };

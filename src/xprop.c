@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2019 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -42,8 +42,6 @@
 #include "xwin.h"
 
 #define _ex_disp disp
-
-#define N_ITEMS(x) (sizeof(x)/sizeof(x[0]))
 
 /*
  * General stuff
@@ -600,9 +598,9 @@ void
 ex_icccm_init(void)
 {
 #if DEBUG_CHECK
-   assert(CHECK_COUNT_ICCCM == N_ITEMS(atoms_icccm));
+   assert(CHECK_COUNT_ICCCM == E_ARRAY_SIZE(atoms_icccm));
 #endif
-   ex_atoms_get(atoms_icccm_names, N_ITEMS(atoms_icccm), atoms_icccm);
+   ex_atoms_get(atoms_icccm_names, E_ARRAY_SIZE(atoms_icccm), atoms_icccm);
 }
 
 static void
@@ -822,9 +820,9 @@ void
 ex_netwm_init(void)
 {
 #if DEBUG_CHECK
-   assert(CHECK_COUNT_NETWM == N_ITEMS(atoms_netwm));
+   assert(CHECK_COUNT_NETWM == E_ARRAY_SIZE(atoms_netwm));
 #endif
-   ex_atoms_get(atoms_netwm_names, N_ITEMS(atoms_netwm), atoms_netwm);
+   ex_atoms_get(atoms_netwm_names, E_ARRAY_SIZE(atoms_netwm), atoms_netwm);
 }
 
 /*

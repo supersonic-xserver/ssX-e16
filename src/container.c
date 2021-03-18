@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1995,7 +1995,6 @@ static const IpcItem ContainersIpcArray[] = {
     "  iconbox new <name>   Create new iconbox\n"
     "  iconbox cfg          Configure iconboxes\n"}
 };
-#define N_IPC_FUNCS (sizeof(ContainersIpcArray)/sizeof(IpcItem))
 
 /*
  * Configuration items
@@ -2003,7 +2002,6 @@ static const IpcItem ContainersIpcArray[] = {
 static const CfgItem ContainersCfgItems[] = {
    CFG_ITEM_INT(Conf_containers, anim_time, 250),
 };
-#define N_CFG_ITEMS (sizeof(ContainersCfgItems)/sizeof(CfgItem))
 
 /*
  * Module descriptor
@@ -2013,6 +2011,6 @@ extern const EModule ModIconboxes;
 const EModule       ModIconboxes = {
    "iconboxes", "ibox",
    ContainersSighan,
-   {N_IPC_FUNCS, ContainersIpcArray},
-   {N_CFG_ITEMS, ContainersCfgItems}
+   MOD_ITEMS(ContainersIpcArray),
+   MOD_ITEMS(ContainersCfgItems)
 };

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -447,7 +447,6 @@ static const CfgItem LocaleCfgItems[] = {
    CFG_FUNC_STR(Conf_locale, internal, LangCfgChange),
    CFG_ITEM_STR(Conf_locale, exported),
 };
-#define N_CFG_ITEMS (sizeof(LocaleCfgItems)/sizeof(CfgItem))
 
 extern const EModule ModLocale;
 
@@ -455,5 +454,5 @@ const EModule       ModLocale = {
    "locale", NULL,
    NULL,
    {0, NULL},
-   {N_CFG_ITEMS, LocaleCfgItems}
+   MOD_ITEMS(LocaleCfgItems)
 };

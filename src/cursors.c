@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -421,7 +421,6 @@ static const IpcItem CursorIpcArray[] = {
     "Cursor functions",
     "  cursor list                       Show all cursors\n"}
 };
-#define N_IPC_FUNCS (sizeof(CursorIpcArray)/sizeof(IpcItem))
 
 /*
  * Module descriptor
@@ -431,7 +430,6 @@ extern const EModule ModCursors;
 const EModule       ModCursors = {
    "cursor", "csr",
    NULL,
-   {N_IPC_FUNCS, CursorIpcArray}
-   ,
+   MOD_ITEMS(CursorIpcArray),
    {0, NULL}
 };

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2020 Kim Woelders
+ * Copyright (C) 2007-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -760,12 +760,10 @@ static const IpcItem GlwinIpcArray[] = {
     "  glwin\n"}
    ,
 };
-#define N_IPC_FUNCS (sizeof(GlwinIpcArray)/sizeof(IpcItem))
 
 static const CfgItem GlwinCfgItems[] = {
    CFG_ITEM_INT(Conf_glwin, mode, 0),
 };
-#define N_CFG_ITEMS (sizeof(GlwinCfgItems)/sizeof(CfgItem))
 
 /*
  * Module descriptor
@@ -775,6 +773,6 @@ extern const EModule ModGlwin;
 const EModule       ModGlwin = {
    "glwin", NULL,
    GlwinSighan,
-   {N_IPC_FUNCS, GlwinIpcArray},
-   {N_CFG_ITEMS, GlwinCfgItems}
+   MOD_ITEMS(GlwinIpcArray),
+   MOD_ITEMS(GlwinCfgItems)
 };

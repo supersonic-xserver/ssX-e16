@@ -562,7 +562,6 @@ static const IpcItem SoundIpcArray[] = {
     "  sound on                         Enable sounds\n"
     "  sound play <classname>           Play sounds\n"}
 };
-#define N_IPC_FUNCS (sizeof(SoundIpcArray)/sizeof(IpcItem))
 
 static const CfgItem SoundCfgItems[] = {
    CFG_FUNC_BOOL(Conf_sound, enable, 0, _SoundEnableChange),
@@ -570,7 +569,6 @@ static const CfgItem SoundCfgItems[] = {
    CFG_ITEM_HEX(Conf_sound, mask1, 0),
    CFG_ITEM_HEX(Conf_sound, mask2, 0),
 };
-#define N_CFG_ITEMS (sizeof(SoundCfgItems)/sizeof(CfgItem))
 
 /*
  * Module descriptor
@@ -580,8 +578,8 @@ extern const EModule ModSound;
 const EModule       ModSound = {
    "sound", "audio",
    _SoundSighan,
-   {N_IPC_FUNCS, SoundIpcArray},
-   {N_CFG_ITEMS, SoundCfgItems}
+   MOD_ITEMS(SoundIpcArray),
+   MOD_ITEMS(SoundCfgItems)
 };
 
 #endif /* ENABLE_SOUND */

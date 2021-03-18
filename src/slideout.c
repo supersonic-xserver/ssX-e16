@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -500,7 +500,6 @@ static const IpcItem SlideoutsIpcArray[] = {
    {
     IPC_Slideout, "slideout", NULL, "Show slideout", NULL},
 };
-#define N_IPC_FUNCS (sizeof(SlideoutsIpcArray)/sizeof(IpcItem))
 
 /*
  * Module descriptor
@@ -510,6 +509,6 @@ extern const EModule ModSlideouts;
 const EModule       ModSlideouts = {
    "slideouts", "slideout",
    SlideoutsSighan,
-   {N_IPC_FUNCS, SlideoutsIpcArray},
+   MOD_ITEMS(SlideoutsIpcArray),
    {0, NULL}
 };

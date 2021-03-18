@@ -1430,7 +1430,6 @@ static const IpcItem GroupsIpcArray[] = {
     "  group <groupid> shade <on/off/?>\n"}
    ,
 };
-#define N_IPC_FUNCS (sizeof(GroupsIpcArray)/sizeof(IpcItem))
 
 /*
  * Configuration items
@@ -1445,13 +1444,12 @@ static const CfgItem GroupsCfgItems[] = {
    CFG_ITEM_BOOL(Conf_groups, dflt.shade, 1),
    CFG_ITEM_BOOL(Conf_groups, swapmove, 1),
 };
-#define N_CFG_ITEMS (sizeof(GroupsCfgItems)/sizeof(CfgItem))
 
 extern const EModule ModGroups;
 
 const EModule       ModGroups = {
    "groups", "grp",
    NULL,
-   {N_IPC_FUNCS, GroupsIpcArray},
-   {N_CFG_ITEMS, GroupsCfgItems}
+   MOD_ITEMS(GroupsIpcArray),
+   MOD_ITEMS(GroupsCfgItems)
 };

@@ -507,7 +507,6 @@ static const IpcItem ThemeIpcArray[] = {
     "  theme use <name>  Switch to theme <name>\n"}
    ,
 };
-#define N_IPC_FUNCS (sizeof(ThemeIpcArray)/sizeof(IpcItem))
 
 static const CfgItem ThemeCfgItems[] = {
    CFG_ITEM_STR(Conf.theme, name),
@@ -516,7 +515,6 @@ static const CfgItem ThemeCfgItems[] = {
    CFG_ITEM_BOOL(Conf.theme, use_alt_font_cfg, 0),
    CFG_ITEM_STR(Conf.theme, font_cfg),
 };
-#define N_CFG_ITEMS (sizeof(ThemeCfgItems)/sizeof(CfgItem))
 
 /*
  * Module descriptor
@@ -526,6 +524,6 @@ extern const EModule ModTheme;
 const EModule       ModTheme = {
    "theme", "th",
    NULL,
-   {N_IPC_FUNCS, ThemeIpcArray},
-   {N_CFG_ITEMS, ThemeCfgItems}
+   MOD_ITEMS(ThemeIpcArray),
+   MOD_ITEMS(ThemeCfgItems)
 };

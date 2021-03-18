@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2019 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -2984,7 +2984,6 @@ static const IpcItem DesksIpcArray[] = {
     "  area lmove <dl>      Move relative to current linear area\n"}
    ,
 };
-#define N_IPC_FUNCS (sizeof(DesksIpcArray)/sizeof(IpcItem))
 
 static void
 DesksCfgFuncCount(void *item __UNUSED__, const char *value)
@@ -3039,7 +3038,6 @@ static const CfgItem DesksCfgItems[] = {
    CFG_ITEM_INT(Conf.desks, edge_flip_mode, EDGE_FLIP_ON),
    CFG_ITEM_INT(Conf.desks, edge_flip_resistance, 25),
 };
-#define N_CFG_ITEMS (sizeof(DesksCfgItems)/sizeof(CfgItem))
 
 /*
  * Module descriptor
@@ -3049,6 +3047,6 @@ extern const EModule ModDesktops;
 const EModule       ModDesktops = {
    "desktops", "desk",
    DesksSighan,
-   {N_IPC_FUNCS, DesksIpcArray},
-   {N_CFG_ITEMS, DesksCfgItems}
+   MOD_ITEMS(DesksIpcArray),
+   MOD_ITEMS(DesksCfgItems)
 };

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2020 Kim Woelders
+ * Copyright (C) 2003-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -100,7 +100,7 @@ const EModule      *const p_modules[] = {
    &ModWarplist,
    &ModWindowMatch,
 };
-int                 n_modules = sizeof(p_modules) / sizeof(EModule *);
+int                 n_modules = E_ARRAY_SIZE(p_modules);
 
 #if 0
 static void
@@ -219,14 +219,13 @@ static const CfgItem MiscCfgItems[] = {
    CFG_ITEM_BOOL(Conf, memory_paranoia, 1),
    CFG_ITEM_BOOL(Conf, save_under, 0),
 };
-#define N_CFG_ITEMS ((int)(sizeof(MiscCfgItems)/sizeof(CfgItem)))
 
 /* Stuff not elsewhere */
 const EModule       ModMisc = {
    "misc", NULL,
    NULL,
    {0, NULL},
-   {N_CFG_ITEMS, MiscCfgItems}
+   MOD_ITEMS(MiscCfgItems)
 };
 
 void

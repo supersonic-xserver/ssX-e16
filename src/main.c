@@ -385,7 +385,7 @@ EoptGet(int argc, char **argv)
 
    eoptarg = NULL;
    eopt = NULL;
-   for (i = 0; i < sizeof(Eopts) / sizeof(EOpt); i++)
+   for (i = 0; i < E_ARRAY_SIZE(Eopts); i++)
      {
 	eopt = &Eopts[i];
 
@@ -447,7 +447,7 @@ EoptHelp(void)
    char                buf[256];
 
    printf("e16 options:\n");
-   for (i = 0; i < sizeof(Eopts) / sizeof(EOpt); i++)
+   for (i = 0; i < E_ARRAY_SIZE(Eopts); i++)
      {
 	eopt = &Eopts[i];
 	if (!eopt->desc)

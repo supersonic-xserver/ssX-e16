@@ -2123,7 +2123,6 @@ static const IpcItem PagersIpcArray[] = {
     "  pager zoom <on/off>    Toggle zooming in the pager\n"}
    ,
 };
-#define N_IPC_FUNCS (sizeof(PagersIpcArray)/sizeof(IpcItem))
 
 /*
  * Configuration items
@@ -2139,7 +2138,6 @@ static const CfgItem PagersCfgItems[] = {
    CFG_ITEM_INT(Conf_pagers, win_button, 1),
    CFG_ITEM_INT(Conf_pagers, menu_button, 3),
 };
-#define N_CFG_ITEMS (sizeof(PagersCfgItems)/sizeof(CfgItem))
 
 /*
  * Module descriptor
@@ -2149,6 +2147,6 @@ extern const EModule ModPagers;
 const EModule       ModPagers = {
    "pagers", "pg",
    PagersSighan,
-   {N_IPC_FUNCS, PagersIpcArray},
-   {N_CFG_ITEMS, PagersCfgItems}
+   MOD_ITEMS(PagersIpcArray),
+   MOD_ITEMS(PagersCfgItems)
 };

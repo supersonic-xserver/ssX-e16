@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -333,7 +333,6 @@ static FXHandler    fx_handlers[] = {
    {"ripples", FX_Ripple_Init, FX_Ripple_Ops, 0, 0},
    {"waves", FX_Waves_Init, FX_Waves_Ops, 0, 0},
 };
-#define N_FX_HANDLERS (sizeof(fx_handlers)/sizeof(FXHandler))
 
 /****************************** Effect handlers *****************************/
 
@@ -387,7 +386,7 @@ FX_OpForEach(int op)
 {
    unsigned int        i;
 
-   for (i = 0; i < N_FX_HANDLERS; i++)
+   for (i = 0; i < E_ARRAY_SIZE(fx_handlers); i++)
       FX_Op(&fx_handlers[i], op);
 }
 
@@ -487,7 +486,6 @@ static const CfgItem FxCfgItems[] = {
    CFR_FUNC_BOOL(fx_handlers[0].enabled, ripples.enabled, 0, FxCfgFunc),
    CFR_FUNC_BOOL(fx_handlers[1].enabled, waves.enabled, 0, FxCfgFunc),
 };
-#define N_CFG_ITEMS (sizeof(FxCfgItems)/sizeof(CfgItem))
 
 /*
  * Module descriptor
@@ -498,5 +496,5 @@ const EModule       ModEffects = {
    "effects", "fx",
    FxSighan,
    {0, NULL},
-   {N_CFG_ITEMS, FxCfgItems}
+   MOD_ITEMS(FxCfgItems)
 };

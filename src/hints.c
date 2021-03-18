@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2020 Kim Woelders
+ * Copyright (C) 2003-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -40,8 +40,6 @@
 static void         EHintsSetDeskInfo(void);
 static void         EHintsSetAreaInfo(void);
 
-#define N_ITEMS(x) (sizeof(x)/sizeof(x[0]))
-
 static const char  *const atoms_misc_names[] = {
    /* Misc atoms */
    "MANAGER",
@@ -71,7 +69,7 @@ HintsInit(void)
 {
    EX_Window           win;
 
-   ex_atoms_get(atoms_misc_names, N_ITEMS(atoms_misc_names), atoms_misc);
+   ex_atoms_get(atoms_misc_names, E_ARRAY_SIZE(atoms_misc_names), atoms_misc);
 
    win = XCreateSimpleWindow(disp, WinGetXwin(VROOT), -200, -200, 5, 5,
 			     0, 0, 0);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -2622,7 +2622,6 @@ static const IpcItem CompMgrIpcArray[] = {
     "  cm stop                  Stop composite manager\n"}
    ,
 };
-#define N_IPC_FUNCS (sizeof(CompMgrIpcArray)/sizeof(IpcItem))
 
 static const CfgItem CompMgrCfgItems[] = {
    CFG_ITEM_BOOL(Conf_compmgr, enable, 0),
@@ -2643,7 +2642,6 @@ static const CfgItem CompMgrCfgItems[] = {
    CFG_ITEM_INT(Conf_compmgr, override_redirect.mode, 1),
    CFG_ITEM_INT(Conf_compmgr, override_redirect.opacity, 90),
 };
-#define N_CFG_ITEMS (sizeof(CompMgrCfgItems)/sizeof(CfgItem))
 
 /*
  * Module descriptor
@@ -2653,8 +2651,8 @@ extern const EModule ModCompMgr;
 const EModule       ModCompMgr = {
    "compmgr", "cm",
    ECompMgrSighan,
-   {N_IPC_FUNCS, CompMgrIpcArray},
-   {N_CFG_ITEMS, CompMgrCfgItems}
+   MOD_ITEMS(CompMgrIpcArray),
+   MOD_ITEMS(CompMgrCfgItems)
 };
 
 #endif /* USE_COMPOSITE */

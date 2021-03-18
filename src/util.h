@@ -136,4 +136,6 @@ unsigned int        GetTimeUs(void);
 
 void                SleepUs(unsigned int tus);
 
+#define E_ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
+
 #endif /* _UTIL_H_ */

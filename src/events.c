@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -409,7 +409,7 @@ EventsInit(void)
 
    Mode.screen.fps = 60;	/* If not randr or weirdness */
 
-   for (i = 0; i < sizeof(Extensions) / sizeof(EServerExt); i++)
+   for (i = 0; i < E_ARRAY_SIZE(Extensions); i++)
       ExtQuery(Extensions + i);
 
 #if USE_COMPOSITE
@@ -429,7 +429,7 @@ EventsGetExtensionName(int req)
    unsigned int        i;
    EServerExtData     *exd;
 
-   for (i = 0; i < sizeof(Extensions) / sizeof(EServerExt); i++)
+   for (i = 0; i < E_ARRAY_SIZE(Extensions); i++)
      {
 	exd = ExtData + Extensions[i].ix;
 	if (req == exd->major_op)
@@ -1247,14 +1247,13 @@ static const char  *const TxtEventNames[] = {
    "SelectionRequest", "SelectionNotify", "ColormapNotify", "ClientMessage",
    "MappingNotify"
 };
-#define N_EVENT_NAMES (sizeof(TxtEventNames)/sizeof(char*))
 
 static const char  *
 EventName(unsigned int type)
 {
    static char         buf[16];
 
-   if (type < N_EVENT_NAMES)
+   if (type < E_ARRAY_SIZE(TxtEventNames))
       return TxtEventNames[type];
 
    switch (type)
@@ -1292,12 +1291,11 @@ EventName(unsigned int type)
 static const char  *const TxtEventNotifyModeNames[] = {
    "NotifyNormal", "NotifyGrab", "NotifyUngrab", "NotifyWhileGrabbed"
 };
-#define N_EVENT_NOTIFY_MODE_NAMES (sizeof(TxtEventNotifyModeNames)/sizeof(char*))
 
 static const char  *
 EventNotifyModeName(unsigned int mode)
 {
-   if (mode < N_EVENT_NOTIFY_MODE_NAMES)
+   if (mode < E_ARRAY_SIZE(TxtEventNotifyModeNames))
       return TxtEventNotifyModeNames[mode];
 
    return "Unknown";
@@ -1308,12 +1306,11 @@ static const char  *const TxtEventNotifyDetailNames[] = {
    "NotifyNonlinearVirtual", "NotifyPointer", "NotifyPointerRoot",
    "NotifyDetailNone"
 };
-#define N_EVENT_NOTIFY_DETAIL_NAMES (sizeof(TxtEventNotifyDetailNames)/sizeof(char*))
 
 static const char  *
 EventNotifyDetailName(unsigned int detail)
 {
-   if (detail < N_EVENT_NOTIFY_DETAIL_NAMES)
+   if (detail < E_ARRAY_SIZE(TxtEventNotifyDetailNames))
       return TxtEventNotifyDetailNames[detail];
 
    return "Unknown";

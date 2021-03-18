@@ -591,12 +591,12 @@ ThemeConfigLoad(void)
       "menustyles.cfg",
    };
    Progressbar        *p = NULL;
-   int                 i;
+   unsigned int        i;
 
    /* Font mappings */
    FontConfigLoad();
 
-   for (i = 0; i < (int)(sizeof(config_files) / sizeof(char *)); i++)
+   for (i = 0; i < E_ARRAY_SIZE(config_files); i++)
 
      {
 	if (!Mode.wm.restart && Conf.startup.animate)
@@ -616,8 +616,7 @@ ThemeConfigLoad(void)
 	ConfigFileLoad(config_files[i], Mode.theme.path, ConfigFileRead, 1);
 
 	if (p)
-	   ProgressbarSet(p, (i * 100) /
-			  (int)(sizeof(config_files) / sizeof(char *)));
+	   ProgressbarSet(p, (i * 100) / E_ARRAY_SIZE(config_files));
 
 	/* Hack - We are not running in the event loop here */
 	EobjsRepaint();

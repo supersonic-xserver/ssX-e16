@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2015 Kim Woelders
+ * Copyright (C) 2007-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -569,7 +569,6 @@ static const IpcItem MagwinIpcArray[] = {
     "  mag [show|hide]\n"}
    ,
 };
-#define N_IPC_FUNCS (sizeof(MagwinIpcArray)/sizeof(IpcItem))
 
 /*
  * Module descriptor
@@ -579,6 +578,6 @@ extern const EModule ModMagwin;
 const EModule       ModMagwin = {
    "magwin", NULL,
    NULL,
-   {N_IPC_FUNCS, MagwinIpcArray},
+   MOD_ITEMS(MagwinIpcArray),
    {0, NULL}
 };

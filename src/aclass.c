@@ -1243,7 +1243,6 @@ static const IpcItem AclassIpcArray[] = {
     "  aclass list [name/all]    List action class[es]\n"
     "  aclass load [name]        Reload action classes (default is bindings.cfg)\n"}
 };
-#define N_IPC_FUNCS (sizeof(AclassIpcArray)/sizeof(IpcItem))
 
 /*
  * Module descriptor
@@ -1253,7 +1252,7 @@ extern const EModule ModAclass;
 const EModule       ModAclass = {
    "aclass", "ac",
    AclassSighan,
-   {N_IPC_FUNCS, AclassIpcArray},
+   MOD_ITEMS(AclassIpcArray),
    {0, NULL}
 };
 

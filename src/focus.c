@@ -1207,7 +1207,6 @@ static const IpcItem FocusIpcArray[] = {
     "                 the last window does not lose the focus\n"}
    ,
 };
-#define N_IPC_FUNCS (sizeof(FocusIpcArray)/sizeof(IpcItem))
 
 static const CfgItem FocusCfgItems[] = {
    CFG_ITEM_INT(Conf.focus, mode, MODE_FOCUS_SLOPPY),
@@ -1225,7 +1224,6 @@ static const CfgItem FocusCfgItems[] = {
    CFG_ITEM_BOOL(Conf, autoraise.enable, 0),
    CFG_ITEM_INT(Conf, autoraise.delay, 500),
 };
-#define N_CFG_ITEMS (sizeof(FocusCfgItems)/sizeof(CfgItem))
 
 /*
  * Module descriptor
@@ -1235,6 +1233,6 @@ extern const EModule ModFocus;
 const EModule       ModFocus = {
    "focus", NULL,
    FocusSighan,
-   {N_IPC_FUNCS, FocusIpcArray},
-   {N_CFG_ITEMS, FocusCfgItems}
+   MOD_ITEMS(FocusIpcArray),
+   MOD_ITEMS(FocusCfgItems)
 };

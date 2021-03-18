@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -883,7 +883,6 @@ static const CfgItem TooltipsCfgItems[] = {
    CFG_ITEM_BOOL(Conf_tooltips, showroottooltip, 1),
    CFG_ITEM_INT(Conf_tooltips, delay, 1500),
 };
-#define N_CFG_ITEMS (sizeof(TooltipsCfgItems)/sizeof(CfgItem))
 
 /*
  * Module descriptor
@@ -894,5 +893,5 @@ const EModule       ModTooltips = {
    "tooltips", "tt",
    TooltipsSighan,
    {0, NULL},
-   {N_CFG_ITEMS, TooltipsCfgItems}
+   MOD_ITEMS(TooltipsCfgItems)
 };

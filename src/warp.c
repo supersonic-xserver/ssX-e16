@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -552,7 +552,6 @@ static const CfgItem WarplistCfgItems[] = {
    CFG_ITEM_BOOL(Conf.warplist, show_shape, 0),
    CFG_ITEM_INT(Conf.warplist, icon_mode, EWIN_ICON_MODE_APP_IMG),
 };
-#define N_CFG_ITEMS (sizeof(WarplistCfgItems)/sizeof(CfgItem))
 
 extern const EModule ModWarplist;
 
@@ -560,5 +559,5 @@ const EModule       ModWarplist = {
    "warplist", "warp",
    NULL,
    {0, NULL},
-   {N_CFG_ITEMS, WarplistCfgItems}
+   MOD_ITEMS(WarplistCfgItems)
 };

@@ -977,7 +977,6 @@ static const IpcItem WindowMatchIpcArray[] = {
     "  wmatch list               List window matches\n"}
    ,
 };
-#define N_IPC_FUNCS (sizeof(WindowMatchIpcArray)/sizeof(IpcItem))
 
 /*
  * Module descriptor
@@ -987,7 +986,6 @@ extern const EModule ModWindowMatch;
 const EModule       ModWindowMatch = {
    "winmatch", NULL,
    WindowMatchSighan,
-   {N_IPC_FUNCS, WindowMatchIpcArray}
-   ,
+   MOD_ITEMS(WindowMatchIpcArray),
    {0, NULL}
 };
