@@ -477,6 +477,7 @@ doPagerUpdate(Pager * p)
      }
 
  do_screen_update:
+   EobjsRepaint();
    Dprintf("%s %d: Snap screen\n", __func__, p->dsk->num);
    /* Update pager area by snapshotting entire screen */
    ScaleRect(VROOT, WinGetXwin(VROOT), p->win, pmap, 0, 0,
