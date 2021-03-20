@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1324,9 +1324,6 @@ BorderConfigLoad(FILE * fs)
 
 	switch (i1)
 	  {
-	  case CONFIG_CLOSE:
-	     _BorderCheck(b);
-	     goto done;
 	  case CONFIG_CLASSNAME:
 	     if (BorderFind(s2))
 	       {
@@ -1344,6 +1341,9 @@ BorderConfigLoad(FILE * fs)
 	  {
 	  default:
 	     break;
+	  case CONFIG_CLOSE:
+	     _BorderCheck(b);
+	     goto done;
 	  case BORDER_INIT:
 	     if (i2 != CONFIG_OPEN)
 		break;
