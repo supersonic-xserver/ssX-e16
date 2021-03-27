@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2020-10-14 17:32+0200\n"
+"POT-Creation-Date: 2021-04-09 07:30+0200\n"
 "PO-Revision-Date: 2009-11-09 14:39+0000\n"
 "Last-Translator: Yentl <y.v.t@scarlet.be>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -46,7 +46,7 @@ msgstr ""
 "Kim Woelders - kim@woelders.dk\n"
 
 #: src/aclass.c:222 src/backgrounds.c:257 src/borders.c:790 src/buttons.c:190
-#: src/cursors.c:139 src/iclass.c:280 src/tclass.c:119 src/tooltips.c:136
+#: src/cursors.c:139 src/iclass.c:281 src/tclass.c:119 src/tooltips.c:136
 #, c-format
 msgid "%u references remain"
 msgstr "%u verwijzingen blijven over"
@@ -174,7 +174,7 @@ msgstr "Stop Enlightenment"
 msgid "Attention !!!"
 msgstr "Attentie !!!!"
 
-#: src/alert.c:594 src/dialog.c:680 src/dialog.c:1818 src/events.c:104
+#: src/alert.c:594 src/dialog.c:680 src/dialog.c:1818 src/events.c:108
 #: src/setup.c:163 src/setup.c:176
 msgid "OK"
 msgstr "OK"
@@ -420,7 +420,7 @@ msgstr "Enlightenment start op"
 msgid "Settings..."
 msgstr "Instellingen..."
 
-#: src/container.c:1186 src/dialog.c:691 src/pager.c:1003 config/strings.c:30
+#: src/container.c:1186 src/dialog.c:691 src/pager.c:1000 config/strings.c:30
 #: config/strings.c:122
 msgid "Close"
 msgstr "Sluit"
@@ -429,7 +429,7 @@ msgstr "Sluit"
 msgid "Create New Iconbox"
 msgstr "Maak een nieuwe Icoonbox"
 
-#: src/container.c:1500 src/container.c:1572 src/menus.c:1982
+#: src/container.c:1500 src/container.c:1572 src/menus.c:1979
 #, c-format
 msgid "Icon size: %2d"
 msgstr "Icoon grootte: %2d"
@@ -498,7 +498,7 @@ msgstr "Beide zijden"
 msgid "End"
 msgstr "Einde"
 
-#: src/container.c:1646 src/focus.c:1024
+#: src/container.c:1646 src/focus.c:1047
 msgid "None"
 msgstr "Geen"
 
@@ -638,11 +638,11 @@ msgstr "Boven"
 msgid "Bottom"
 msgstr "Onder"
 
-#: src/desktops.c:2571 src/pager.c:1895 src/pager.c:1920 src/pager.c:1945
+#: src/desktops.c:2571 src/pager.c:1892 src/pager.c:1917 src/pager.c:1942
 msgid "Left"
 msgstr "Links"
 
-#: src/desktops.c:2577 src/pager.c:1907 src/pager.c:1932 src/pager.c:1957
+#: src/desktops.c:2577 src/pager.c:1904 src/pager.c:1929 src/pager.c:1954
 msgid "Right"
 msgstr "Rechts"
 
@@ -718,11 +718,11 @@ msgstr ""
 "Composite, Damage, Fixes, en Render\n"
 "extensies geladen zijn."
 
-#: src/events.c:104
+#: src/events.c:108
 msgid "X server setup error"
 msgstr "X server instellingsfout"
 
-#: src/events.c:105
+#: src/events.c:109
 msgid ""
 "FATAL ERROR:\n"
 "\n"
@@ -742,130 +742,130 @@ msgstr ""
 "\n"
 "Applicatie wordt afgesloten.\n"
 
-#: src/focus.c:851
+#: src/focus.c:874
 msgid "Focus follows pointer"
 msgstr "Invoer volgt de muis"
 
-#: src/focus.c:857
+#: src/focus.c:880
 msgid "Focus follows pointer sloppily"
 msgstr "Invoer volgt de muis slordig"
 
-#: src/focus.c:863
+#: src/focus.c:886
 msgid "Focus follows mouse clicks"
 msgstr "Invoer volgt muis klikken"
 
-#: src/focus.c:873
+#: src/focus.c:896
 #, fuzzy
 msgid "Clicking in a window does not raise it"
 msgstr "Klikken in een venster brengt het altijd naar boven"
 
-#: src/focus.c:879
+#: src/focus.c:902
 msgid "Clicking in a window always raises it"
 msgstr "Klikken in een venster brengt het altijd naar boven"
 
-#: src/focus.c:885
+#: src/focus.c:908
 #, fuzzy
 msgid "Only primary mouse button can raise window"
 msgstr "Muisknop op vensters te selecteren en slepen"
 
-#: src/focus.c:895
+#: src/focus.c:918
 msgid "All new windows first get the focus"
 msgstr "Alle niewe vensters krijgen de invoer"
 
-#: src/focus.c:902
+#: src/focus.c:925
 msgid "New windows get the focus if their window group is focused"
 msgstr ""
 
-#: src/focus.c:907
+#: src/focus.c:930
 msgid "Only new dialog windows get the focus"
 msgstr "Alleen nieuwe dialoog vensters krijgen de invoer"
 
-#: src/focus.c:914
+#: src/focus.c:937
 msgid "Only new dialogs whose owner is focused get the focus"
 msgstr ""
 "Alleen nieuwe dialoog vensters waarvan de eigenaar de invoer heeft krijgen "
 "de invoer"
 
-#: src/focus.c:919
+#: src/focus.c:942
 msgid "Raise windows while switching focus"
 msgstr "Venster naar voorgrond brengen bij het wisselen van focus"
 
-#: src/focus.c:925
+#: src/focus.c:948
 msgid "Send mouse pointer to window while switching focus"
 msgstr "Cursor verplaatsen naar het venster bij het wisselen van focus"
 
-#: src/focus.c:931
+#: src/focus.c:954
 msgid "Always send mouse pointer to window on focus switch"
 msgstr "Altijd cursor verplaatsen naar het venster bij wisselen van focus"
 
-#: src/focus.c:939
+#: src/focus.c:962
 msgid "Raise windows automatically"
 msgstr "Breng vensters automatisch naar voren"
 
-#: src/focus.c:945
+#: src/focus.c:968
 msgid "Autoraise delay:"
 msgstr "Wacht voor omhoogbrengen:"
 
-#: src/focus.c:958
+#: src/focus.c:981
 msgid "Display and use focus list"
 msgstr "Toon en gebruik een venster lijst"
 
-#: src/focus.c:963
+#: src/focus.c:986
 msgid "Include sticky windows in focus list"
 msgstr "Sticky vensters toevoegen aan focuslijst"
 
-#: src/focus.c:968
+#: src/focus.c:991
 msgid "Include shaded windows in focus list"
 msgstr "Schaduwvensters toevoegen aan focuslijst"
 
-#: src/focus.c:973
+#: src/focus.c:996
 msgid "Include iconified windows in focus list"
 msgstr "Geiconiseerde vensters toevoegen aan focuslijst"
 
-#: src/focus.c:978
+#: src/focus.c:1001
 msgid "Include windows on other desks in focus list"
 msgstr "Vensters op andere bureaubladen toevoegen aan focuslijst"
 
-#: src/focus.c:983
+#: src/focus.c:1006
 msgid "Focus windows while switching"
 msgstr "Focus vensters bij wisselen"
 
-#: src/focus.c:988
+#: src/focus.c:1011
 #, fuzzy
 msgid "Outline windows while switching"
 msgstr "Focus vensters bij wisselen"
 
-#: src/focus.c:993
+#: src/focus.c:1016
 msgid "Raise windows after focus switch"
 msgstr "Breng vensters naar voren na een invoer wisseling"
 
-#: src/focus.c:998
+#: src/focus.c:1021
 msgid "Send mouse pointer to window after focus switch"
 msgstr "Stuur de muis naar het vester na een invoer wisseling"
 
-#: src/focus.c:1008
+#: src/focus.c:1031
 msgid "Focuslist image display policy (if one operation fails, try the next):"
 msgstr ""
 "Focuslijst afbeelding weergave beleid (als één operatie faalt, probeer de "
 "volgende):"
 
-#: src/focus.c:1012
+#: src/focus.c:1035
 msgid "First E Icon, then App Icon"
 msgstr "Eerst E Icoon, dan App Icoon"
 
-#: src/focus.c:1018
+#: src/focus.c:1041
 msgid "First App Icon, then E Icon"
 msgstr "Eerst App Icoon, dan E Icoon"
 
-#: src/focus.c:1032
+#: src/focus.c:1055
 msgid "Focus"
 msgstr "Focus"
 
-#: src/focus.c:1032
+#: src/focus.c:1055
 msgid "Focus Settings"
 msgstr "Invoer instellingen"
 
-#: src/focus.c:1036
+#: src/focus.c:1059
 msgid ""
 "Enlightenment Focus\n"
 "Settings Dialog"
@@ -873,27 +873,27 @@ msgstr ""
 "Enlightenment Focus\n"
 "Instellingendialoog"
 
-#: src/fx.c:462
+#: src/fx.c:461
 msgid "Effects"
 msgstr "Effecten"
 
-#: src/fx.c:464
+#: src/fx.c:463
 msgid "Ripples"
 msgstr "Rimpels"
 
-#: src/fx.c:467
+#: src/fx.c:466
 msgid "Waves"
 msgstr "Golven"
 
-#: src/fx.c:473
+#: src/fx.c:472
 msgid "FX"
 msgstr "FX"
 
-#: src/fx.c:473
+#: src/fx.c:472
 msgid "Special FX Settings"
 msgstr "Speciale Effect Instellingen"
 
-#: src/fx.c:477
+#: src/fx.c:476
 msgid ""
 "Enlightenment Special Effects\n"
 "Settings Dialog"
@@ -901,11 +901,11 @@ msgstr ""
 "Enlightenment Speciale Effecten\n"
 "Instellingendialoog"
 
-#: src/groups.c:778
+#: src/groups.c:781
 msgid "Window Group Selection"
 msgstr "Venster Groep Selectie"
 
-#: src/groups.c:782
+#: src/groups.c:785
 msgid ""
 "Enlightenment Window Group\n"
 "Selection Dialog"
@@ -913,23 +913,23 @@ msgstr ""
 "Enlightenment Venstergroep\n"
 "Selectiedialoog"
 
-#: src/groups.c:805
+#: src/groups.c:808
 msgid "Pick the group the window will belong to:"
 msgstr "Kies de groep waartoe het venster zal behoren:"
 
-#: src/groups.c:809
+#: src/groups.c:812
 msgid "Select the group to remove the window from:"
 msgstr "Selecteer de groep waarvan het venster verwijderd moet worden:"
 
-#: src/groups.c:813
+#: src/groups.c:816
 msgid "Select the group to break:"
 msgstr "Selecteer de te breken groep:"
 
-#: src/groups.c:824 src/groups.c:834 src/groups.c:841 src/groups.c:1019
+#: src/groups.c:827 src/groups.c:837 src/groups.c:844 src/groups.c:1022
 msgid "Window Group Error"
 msgstr "Venster groep fout"
 
-#: src/groups.c:826
+#: src/groups.c:829
 msgid ""
 "This window currently does not belong to any groups.\n"
 "You can only destroy groups or remove windows from groups\n"
@@ -939,7 +939,7 @@ msgstr ""
 "Je kunt alleen maar groepen verwijderen of vensters van groepen\n"
 "verwijderen via vensters die daadwerkelijk bij minstens een groep behoren."
 
-#: src/groups.c:835
+#: src/groups.c:838
 msgid ""
 "Currently, no groups exist or this window\n"
 "already belongs to all existing groups.\n"
@@ -949,16 +949,16 @@ msgstr ""
 "behoort al bij alle bestaande groepen.\n"
 "Je zult eerst andere groepen moeten starten."
 
-#: src/groups.c:843
+#: src/groups.c:846
 msgid "Currently, no groups exist. You have to start a group first."
 msgstr ""
 "Momenteel bestaan er geen groepen, Je zult eerst een groep moeten starten."
 
-#: src/groups.c:933
+#: src/groups.c:936
 msgid "Pick the group to configure:"
 msgstr "Kies de groep om in te stellen:"
 
-#: src/groups.c:961
+#: src/groups.c:964
 msgid ""
 "The following actions are\n"
 "applied to all group members:"
@@ -966,39 +966,39 @@ msgstr ""
 "De volgende acties worden\n"
 "toegepast op alle groepsleden:"
 
-#: src/groups.c:966 src/groups.c:1064
+#: src/groups.c:969 src/groups.c:1067
 msgid "Changing Border Style"
 msgstr "Verander van rand stijl"
 
-#: src/groups.c:971 src/groups.c:1069
+#: src/groups.c:974 src/groups.c:1072
 msgid "Iconifying"
 msgstr "Minimaliseren"
 
-#: src/groups.c:976 src/groups.c:1074
+#: src/groups.c:979 src/groups.c:1077
 msgid "Killing"
 msgstr "Afsluiten"
 
-#: src/groups.c:981 src/groups.c:1079
+#: src/groups.c:984 src/groups.c:1082
 msgid "Moving"
 msgstr "Verplaatsen"
 
-#: src/groups.c:986 src/groups.c:1084
+#: src/groups.c:989 src/groups.c:1087
 msgid "Raising/Lowering"
 msgstr "Omhoog/Omlaag brengen"
 
-#: src/groups.c:991 src/groups.c:1089
+#: src/groups.c:994 src/groups.c:1092
 msgid "Sticking"
 msgstr "Sticken"
 
-#: src/groups.c:996 src/groups.c:1094
+#: src/groups.c:999 src/groups.c:1097
 msgid "Shading"
 msgstr "Shaden"
 
-#: src/groups.c:1002
+#: src/groups.c:1005
 msgid "Window Group Settings"
 msgstr "Venster Groep Instellingen"
 
-#: src/groups.c:1006
+#: src/groups.c:1009
 msgid ""
 "Enlightenment Window Group\n"
 "Settings Dialog"
@@ -1006,31 +1006,31 @@ msgstr ""
 "Enlightenment Venstergroep\n"
 "Instellingendialoog"
 
-#: src/groups.c:1020
+#: src/groups.c:1023
 msgid "This window currently does not belong to any groups."
 msgstr "Dit venster behoort momenteel niet bij een groep."
 
-#: src/groups.c:1057
+#: src/groups.c:1060
 msgid "Per-group settings:"
 msgstr "Per-groep instellingen:"
 
-#: src/groups.c:1103
+#: src/groups.c:1106
 msgid "Global settings:"
 msgstr "Algemene instellingen:"
 
-#: src/groups.c:1107
+#: src/groups.c:1110
 msgid "Swap Window Locations"
 msgstr "Vensterlocaties verwisselen"
 
-#: src/groups.c:1113 src/menus-misc.c:623 config/strings.c:138
+#: src/groups.c:1116 src/menus-misc.c:623 config/strings.c:138
 msgid "Groups"
 msgstr "Groepen"
 
-#: src/groups.c:1113
+#: src/groups.c:1116
 msgid "Default Group Control Settings"
 msgstr "Standaard Groep Controle Instellingen"
 
-#: src/groups.c:1117
+#: src/groups.c:1120
 msgid ""
 "Enlightenment Default\n"
 "Group Control Settings Dialog"
@@ -1122,11 +1122,11 @@ msgstr ""
 "Het is hoogst onwaarschijnlijk om een Bus Fout te veroorzaken\n"
 "op volledig werkende hardware.\n"
 
-#: src/hints.c:611
+#: src/hints.c:609
 msgid "Selection Error!"
 msgstr "Selectiefout!"
 
-#: src/hints.c:611
+#: src/hints.c:609
 #, c-format
 msgid "Could not acquire selection: %s"
 msgstr "Kon Selectie niet verkrijgen: %s"
@@ -1187,7 +1187,7 @@ msgstr "Gebruik \"help <commando>\" voor een individuele beschrijving\n"
 msgid "         <command>     : <description>\n"
 msgstr "         <commando>     : <beschrijving>\n"
 
-#: src/main.c:531
+#: src/main.c:532
 #, c-format
 msgid ""
 "%s must be a directory in which you have\n"
@@ -1196,7 +1196,7 @@ msgstr ""
 "%s met een map zijn waarin je\n"
 "lees, schrijf en uitvoerrechten hebt.\n"
 
-#: src/main.c:630
+#: src/main.c:632
 #, c-format
 msgid ""
 "!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n"
@@ -1225,7 +1225,7 @@ msgstr ""
 "pakket, iemand heeft het programma manueel verwijderd\n"
 "of misschien een fout bij het installeren van Enlightenment.\n"
 
-#: src/main.c:644
+#: src/main.c:646
 #, c-format
 msgid ""
 "!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n"
@@ -1288,27 +1288,27 @@ msgstr "Minimaliseer deze groep"
 msgid "Group %i"
 msgstr "Groep %i"
 
-#: src/menus.c:2001
+#: src/menus.c:1998
 msgid "Animated display of menus"
 msgstr "Geanimeerd tonen van menus"
 
-#: src/menus.c:2006
+#: src/menus.c:2003
 msgid "Always pop up menus on screen"
 msgstr "Toon menus altijd op het scherm"
 
-#: src/menus.c:2011
+#: src/menus.c:2008
 msgid "Warp pointer after moving menus"
 msgstr "Pointer warpen na menu's te verplaatsen"
 
-#: src/menus.c:2028
+#: src/menus.c:2025
 msgid "Menus"
 msgstr "Menu's"
 
-#: src/menus.c:2028
+#: src/menus.c:2025
 msgid "Menu Settings"
 msgstr "Menu Instellingen"
 
-#: src/menus.c:2032
+#: src/menus.c:2029
 msgid ""
 "Enlightenment Menu\n"
 "Settings Dialog"
@@ -1316,123 +1316,123 @@ msgstr ""
 "Enlightenment Menu\n"
 "Instellingendialoog"
 
-#: src/pager.c:992 config/strings.c:49 config/strings.c:121
+#: src/pager.c:989 config/strings.c:49 config/strings.c:121
 msgid "Window Options"
 msgstr "Venster Opties"
 
-#: src/pager.c:999 config/strings.c:51 config/strings.c:124
+#: src/pager.c:996 config/strings.c:51 config/strings.c:124
 msgid "Iconify"
 msgstr "Minimaliseer"
 
-#: src/pager.c:1007 config/strings.c:123
+#: src/pager.c:1004 config/strings.c:123
 msgid "Annihilate"
 msgstr "Annihileer"
 
-#: src/pager.c:1011
+#: src/pager.c:1008
 msgid "Stick / Unstick"
 msgstr "Stick / Unstick"
 
-#: src/pager.c:1018
+#: src/pager.c:1015
 msgid "Desktop Options"
 msgstr "Desktop opties"
 
-#: src/pager.c:1024
+#: src/pager.c:1021
 msgid "Pager Settings..."
 msgstr "Pager instellingen..."
 
-#: src/pager.c:1029
+#: src/pager.c:1026
 msgid "Snapshotting Off"
 msgstr "Snapshots uit"
 
-#: src/pager.c:1033
+#: src/pager.c:1030
 msgid "High Quality Off"
 msgstr "Hoge kwaliteit uit"
 
-#: src/pager.c:1035
+#: src/pager.c:1032
 msgid "High Quality On"
 msgstr "Hoge kwaliteit aan"
 
-#: src/pager.c:1040
+#: src/pager.c:1037
 msgid "Snapshotting On"
 msgstr "Shapshots aan"
 
-#: src/pager.c:1044
+#: src/pager.c:1041
 msgid "Zoom Off"
 msgstr "Zoom Af"
 
-#: src/pager.c:1046
+#: src/pager.c:1043
 msgid "Zoom On"
 msgstr "Zoom Aan"
 
-#: src/pager.c:1784 src/pager.c:1875
+#: src/pager.c:1781 src/pager.c:1872
 msgid "Pager scanning speed:"
 msgstr "Pager scan snelheid:"
 
-#: src/pager.c:1785 src/pager.c:1876
+#: src/pager.c:1782 src/pager.c:1873
 msgid "lines per second"
 msgstr "lijnen per seconde"
 
-#: src/pager.c:1814
+#: src/pager.c:1811
 msgid "Enable pager display"
 msgstr "Toon pager"
 
-#: src/pager.c:1824
+#: src/pager.c:1821
 msgid "Pager Mode:"
 msgstr "Pager Mode:"
 
-#: src/pager.c:1828
+#: src/pager.c:1825
 msgid "Simple"
 msgstr "Simpel"
 
-#: src/pager.c:1834
+#: src/pager.c:1831
 msgid "Make miniature snapshots of the screen"
 msgstr "Maak miniatuur snapshots van het scherm"
 
-#: src/pager.c:1841
+#: src/pager.c:1838
 msgid "Live Update"
 msgstr "Live Update"
 
-#: src/pager.c:1852
+#: src/pager.c:1849
 msgid "Smooth high quality snapshots in snapshot mode"
 msgstr "Verbeter hoge kwaliteits snapshots in snapshot modus"
 
-#: src/pager.c:1857
+#: src/pager.c:1854
 msgid "Zoom in on pager windows when mouse is over them"
 msgstr "Zoom in op pager vensters als de muis boven ze is"
 
-#: src/pager.c:1863
+#: src/pager.c:1860
 msgid "Pop up window title when mouse is over the window"
 msgstr "Toon venster titel als de muis boven het venster is"
 
-#: src/pager.c:1868
+#: src/pager.c:1865
 msgid "Continuously scan screen to update pager"
 msgstr "Scan het scherm continu om de pager bij te werken"
 
-#: src/pager.c:1891
+#: src/pager.c:1888
 msgid "Mouse button to select and drag windows:"
 msgstr "Muisknop op vensters te selecteren en slepen"
 
-#: src/pager.c:1901 src/pager.c:1926 src/pager.c:1951
+#: src/pager.c:1898 src/pager.c:1923 src/pager.c:1948
 msgid "Middle"
 msgstr "Midden"
 
-#: src/pager.c:1916
+#: src/pager.c:1913
 msgid "Mouse button to select desktops:"
 msgstr "Muisknop om desktops te selecteren"
 
-#: src/pager.c:1941
+#: src/pager.c:1938
 msgid "Mouse button to display pager menu:"
 msgstr "Muisknop om pager menu te tonen"
 
-#: src/pager.c:1965
+#: src/pager.c:1962
 msgid "Pagers"
 msgstr "Pagers"
 
-#: src/pager.c:1965
+#: src/pager.c:1962
 msgid "Pager Settings"
 msgstr "Pager instellingen"
 
-#: src/pager.c:1969
+#: src/pager.c:1966
 msgid ""
 "Enlightenment Desktop & Area\n"
 "Pager Settings Dialog"
@@ -1783,7 +1783,7 @@ msgstr ""
 "Enlightenment Composiet\n"
 "Instellingendialoog"
 
-#: src/settings.c:762
+#: src/settings.c:761
 msgid "Enlightenment Settings"
 msgstr "Enlightenment Instellingen"
 
@@ -1985,11 +1985,11 @@ msgstr ""
 msgid "Error saving snaps file"
 msgstr "Fout bij het opslaan van snap bestanden"
 
-#: src/sound.c:250
+#: src/sound.c:228
 msgid "Error finding sound file"
 msgstr "Fout bij het zoeken van geluidsbestanden"
 
-#: src/sound.c:251
+#: src/sound.c:229
 #, c-format
 msgid ""
 "Warning!  Enlightenment was unable to load the\n"
@@ -2004,11 +2004,11 @@ msgstr ""
 "Enlightenment zal verderwerken, maar je\n"
 "kan best jouw configuratie controleren.\n"
 
-#: src/sound.c:341 src/sound.c:354
+#: src/sound.c:316
 msgid "Error initialising sound"
 msgstr "Fout bij geluidsinitialisatie"
 
-#: src/sound.c:343
+#: src/sound.c:318
 #, c-format
 msgid ""
 "Audio was enabled for Enlightenment but there was an error\n"
@@ -2019,26 +2019,19 @@ msgstr ""
 "bij het communiceren met de audioserver (%s).\n"
 "Audio zal nu uitgeschakeld zijn.\n"
 
-#: src/sound.c:356
-#, c-format
-msgid ""
-"The sound player is not executable (%s).\n"
-"Audio will now be disabled.\n"
-msgstr ""
-
-#: src/sound.c:527
+#: src/sound.c:488
 msgid "Enable sounds"
 msgstr "Zet geluiden aan"
 
-#: src/sound.c:533
+#: src/sound.c:494
 msgid "Sound"
 msgstr "Geluid"
 
-#: src/sound.c:533
+#: src/sound.c:494
 msgid "Audio Settings"
 msgstr "Audio Instellingen"
 
-#: src/sound.c:537
+#: src/sound.c:498
 msgid ""
 "Enlightenment Audio\n"
 "Settings Dialog"

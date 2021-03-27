@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2020-10-14 17:32+0200\n"
+"POT-Creation-Date: 2021-04-09 07:30+0200\n"
 "PO-Revision-Date: 2010-05-09 01:23+0000\n"
 "Last-Translator: sda00 <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -47,7 +47,7 @@ msgstr ""
 "Kim Woelders - kim@woelders.dk\n"
 
 #: src/aclass.c:222 src/backgrounds.c:257 src/borders.c:790 src/buttons.c:190
-#: src/cursors.c:139 src/iclass.c:280 src/tclass.c:119 src/tooltips.c:136
+#: src/cursors.c:139 src/iclass.c:281 src/tclass.c:119 src/tooltips.c:136
 #, c-format
 msgid "%u references remain"
 msgstr "Осталось %u ссылок"
@@ -177,7 +177,7 @@ msgstr "Выйти из Enlightenment"
 msgid "Attention !!!"
 msgstr "Внимание !!!"
 
-#: src/alert.c:594 src/dialog.c:680 src/dialog.c:1818 src/events.c:104
+#: src/alert.c:594 src/dialog.c:680 src/dialog.c:1818 src/events.c:108
 #: src/setup.c:163 src/setup.c:176
 msgid "OK"
 msgstr "ОК"
@@ -422,7 +422,7 @@ msgstr "Запуск Enlightenment..."
 msgid "Settings..."
 msgstr "Настройки..."
 
-#: src/container.c:1186 src/dialog.c:691 src/pager.c:1003 config/strings.c:30
+#: src/container.c:1186 src/dialog.c:691 src/pager.c:1000 config/strings.c:30
 #: config/strings.c:122
 msgid "Close"
 msgstr "Закрыть"
@@ -431,7 +431,7 @@ msgstr "Закрыть"
 msgid "Create New Iconbox"
 msgstr "Сделать новый Iconbox"
 
-#: src/container.c:1500 src/container.c:1572 src/menus.c:1982
+#: src/container.c:1500 src/container.c:1572 src/menus.c:1979
 #, c-format
 msgid "Icon size: %2d"
 msgstr "Размер пиктограммы: %2d"
@@ -500,7 +500,7 @@ msgstr "С обеих сторон"
 msgid "End"
 msgstr "В конце"
 
-#: src/container.c:1646 src/focus.c:1024
+#: src/container.c:1646 src/focus.c:1047
 msgid "None"
 msgstr "Не использовать"
 
@@ -645,11 +645,11 @@ msgstr "Верхняя"
 msgid "Bottom"
 msgstr "Нижняя"
 
-#: src/desktops.c:2571 src/pager.c:1895 src/pager.c:1920 src/pager.c:1945
+#: src/desktops.c:2571 src/pager.c:1892 src/pager.c:1917 src/pager.c:1942
 msgid "Left"
 msgstr "Левая"
 
-#: src/desktops.c:2577 src/pager.c:1907 src/pager.c:1932 src/pager.c:1957
+#: src/desktops.c:2577 src/pager.c:1904 src/pager.c:1929 src/pager.c:1954
 msgid "Right"
 msgstr "Правая"
 
@@ -725,11 +725,11 @@ msgstr ""
 "Composite, Damage, Fixes, и Render\n"
 "загруженных расширений X-сервера."
 
-#: src/events.c:104
+#: src/events.c:108
 msgid "X server setup error"
 msgstr "Ошибка установки X-сервера"
 
-#: src/events.c:105
+#: src/events.c:109
 msgid ""
 "FATAL ERROR:\n"
 "\n"
@@ -750,127 +750,127 @@ msgstr ""
 "\n"
 "Выходим.\n"
 
-#: src/focus.c:851
+#: src/focus.c:874
 msgid "Focus follows pointer"
 msgstr "Фокус следует за мышью"
 
-#: src/focus.c:857
+#: src/focus.c:880
 msgid "Focus follows pointer sloppily"
 msgstr "Фокус следует за мышью свободно"
 
-#: src/focus.c:863
+#: src/focus.c:886
 msgid "Focus follows mouse clicks"
 msgstr "Фокус по нажатию кнопки мыши"
 
-#: src/focus.c:873
+#: src/focus.c:896
 #, fuzzy
 msgid "Clicking in a window does not raise it"
 msgstr "Нажатие кнопки мыши всегда поднимает окно наверх"
 
-#: src/focus.c:879
+#: src/focus.c:902
 msgid "Clicking in a window always raises it"
 msgstr "Нажатие кнопки мыши всегда поднимает окно наверх"
 
-#: src/focus.c:885
+#: src/focus.c:908
 #, fuzzy
 msgid "Only primary mouse button can raise window"
 msgstr "Кнопка для выбора и перемещения окон:"
 
-#: src/focus.c:895
+#: src/focus.c:918
 msgid "All new windows first get the focus"
 msgstr "Все новые окна получают фокус"
 
-#: src/focus.c:902
+#: src/focus.c:925
 msgid "New windows get the focus if their window group is focused"
 msgstr ""
 
-#: src/focus.c:907
+#: src/focus.c:930
 msgid "Only new dialog windows get the focus"
 msgstr "Только новые диалоги получают фокус"
 
-#: src/focus.c:914
+#: src/focus.c:937
 msgid "Only new dialogs whose owner is focused get the focus"
 msgstr "Только новые диалоги окон в фокусе получают фокус"
 
-#: src/focus.c:919
+#: src/focus.c:942
 msgid "Raise windows while switching focus"
 msgstr "Поднимать окна наверх после переключения фокуса"
 
-#: src/focus.c:925
+#: src/focus.c:948
 msgid "Send mouse pointer to window while switching focus"
 msgstr "Посылать курсор в окно при получении фокуса"
 
-#: src/focus.c:931
+#: src/focus.c:954
 msgid "Always send mouse pointer to window on focus switch"
 msgstr "Посылать курсор в окно при получении фокуса"
 
-#: src/focus.c:939
+#: src/focus.c:962
 msgid "Raise windows automatically"
 msgstr "Поднимать окна на передний план вручную"
 
-#: src/focus.c:945
+#: src/focus.c:968
 msgid "Autoraise delay:"
 msgstr "Задержка подъема:"
 
-#: src/focus.c:958
+#: src/focus.c:981
 msgid "Display and use focus list"
 msgstr "Отображать и использовать список окон для передачи фокуса"
 
-#: src/focus.c:963
+#: src/focus.c:986
 msgid "Include sticky windows in focus list"
 msgstr "Включать зафиксированные окна в список передачи фокуса"
 
-#: src/focus.c:968
+#: src/focus.c:991
 msgid "Include shaded windows in focus list"
 msgstr "Включать скрытые окна в список передачи фокуса"
 
-#: src/focus.c:973
+#: src/focus.c:996
 msgid "Include iconified windows in focus list"
 msgstr "Включать свёрнутые окна в список передачи фокуса"
 
-#: src/focus.c:978
+#: src/focus.c:1001
 msgid "Include windows on other desks in focus list"
 msgstr "Располагать окна вручную"
 
-#: src/focus.c:983
+#: src/focus.c:1006
 msgid "Focus windows while switching"
 msgstr "При переключении в другое окно передавать ему фокус"
 
-#: src/focus.c:988
+#: src/focus.c:1011
 #, fuzzy
 msgid "Outline windows while switching"
 msgstr "При переключении в другое окно передавать ему фокус"
 
-#: src/focus.c:993
+#: src/focus.c:1016
 msgid "Raise windows after focus switch"
 msgstr "Поднимать окна наверх после переключения фокуса"
 
-#: src/focus.c:998
+#: src/focus.c:1021
 msgid "Send mouse pointer to window after focus switch"
 msgstr "Посылать курсор в окно после получении фокуса"
 
-#: src/focus.c:1008
+#: src/focus.c:1031
 msgid "Focuslist image display policy (if one operation fails, try the next):"
 msgstr ""
 "Способ отображения пиктограмм (если один не работает, пробовать следующий):"
 
-#: src/focus.c:1012
+#: src/focus.c:1035
 msgid "First E Icon, then App Icon"
 msgstr "Сперва - иконку E, потом - иконку приложения"
 
-#: src/focus.c:1018
+#: src/focus.c:1041
 msgid "First App Icon, then E Icon"
 msgstr "Сперва - иконку приложения, потоиииииконку E"
 
-#: src/focus.c:1032
+#: src/focus.c:1055
 msgid "Focus"
 msgstr "Фокус"
 
-#: src/focus.c:1032
+#: src/focus.c:1055
 msgid "Focus Settings"
 msgstr "Настройки фокуса"
 
-#: src/focus.c:1036
+#: src/focus.c:1059
 msgid ""
 "Enlightenment Focus\n"
 "Settings Dialog"
@@ -878,27 +878,27 @@ msgstr ""
 "Диалог настройки\n"
 "фокуса Enlightenment"
 
-#: src/fx.c:462
+#: src/fx.c:461
 msgid "Effects"
 msgstr "Эффекты"
 
-#: src/fx.c:464
+#: src/fx.c:463
 msgid "Ripples"
 msgstr "Рябь"
 
-#: src/fx.c:467
+#: src/fx.c:466
 msgid "Waves"
 msgstr "Волны"
 
-#: src/fx.c:473
+#: src/fx.c:472
 msgid "FX"
 msgstr "FX"
 
-#: src/fx.c:473
+#: src/fx.c:472
 msgid "Special FX Settings"
 msgstr "Установки спецэффектов"
 
-#: src/fx.c:477
+#: src/fx.c:476
 msgid ""
 "Enlightenment Special Effects\n"
 "Settings Dialog"
@@ -906,11 +906,11 @@ msgstr ""
 "Диалог настройки\n"
 "спецэффектов Enlightenment"
 
-#: src/groups.c:778
+#: src/groups.c:781
 msgid "Window Group Selection"
 msgstr "Выбор Группы Окон"
 
-#: src/groups.c:782
+#: src/groups.c:785
 msgid ""
 "Enlightenment Window Group\n"
 "Selection Dialog"
@@ -918,23 +918,23 @@ msgstr ""
 "Диалог настройки\n"
 "групп окон Enlightenment"
 
-#: src/groups.c:805
+#: src/groups.c:808
 msgid "Pick the group the window will belong to:"
 msgstr "Выберите группу, к которой будет принадлежать окно:"
 
-#: src/groups.c:809
+#: src/groups.c:812
 msgid "Select the group to remove the window from:"
 msgstr "Выберите группу, из которой нужно убрать это окно:"
 
-#: src/groups.c:813
+#: src/groups.c:816
 msgid "Select the group to break:"
 msgstr "Выберите группу, которую хотите разорвать:"
 
-#: src/groups.c:824 src/groups.c:834 src/groups.c:841 src/groups.c:1019
+#: src/groups.c:827 src/groups.c:837 src/groups.c:844 src/groups.c:1022
 msgid "Window Group Error"
 msgstr "Ошибка Группы Окон"
 
-#: src/groups.c:826
+#: src/groups.c:829
 msgid ""
 "This window currently does not belong to any groups.\n"
 "You can only destroy groups or remove windows from groups\n"
@@ -944,7 +944,7 @@ msgstr ""
 "Вы можете разрывать группы или удалять окна из групп\n"
 "только из окна, которое входит по крайней мере в одну группу."
 
-#: src/groups.c:835
+#: src/groups.c:838
 msgid ""
 "Currently, no groups exist or this window\n"
 "already belongs to all existing groups.\n"
@@ -954,17 +954,17 @@ msgstr ""
 "или это окно уже входит во все существующие группы.\n"
 "Вам надо сперва начать другие группы."
 
-#: src/groups.c:843
+#: src/groups.c:846
 msgid "Currently, no groups exist. You have to start a group first."
 msgstr ""
 "В настоящий момент, не существует ни одной группы.\n"
 "Вам надо сперва начать группу."
 
-#: src/groups.c:933
+#: src/groups.c:936
 msgid "Pick the group to configure:"
 msgstr "Выберите группу для настройки:"
 
-#: src/groups.c:961
+#: src/groups.c:964
 msgid ""
 "The following actions are\n"
 "applied to all group members:"
@@ -972,39 +972,39 @@ msgstr ""
 "Эти действия применяются\n"
 "ко всем членам группы окон:"
 
-#: src/groups.c:966 src/groups.c:1064
+#: src/groups.c:969 src/groups.c:1067
 msgid "Changing Border Style"
 msgstr "Изменить стиль бордюра окна"
 
-#: src/groups.c:971 src/groups.c:1069
+#: src/groups.c:974 src/groups.c:1072
 msgid "Iconifying"
 msgstr "Свернуть"
 
-#: src/groups.c:976 src/groups.c:1074
+#: src/groups.c:979 src/groups.c:1077
 msgid "Killing"
 msgstr "Уничтожить"
 
-#: src/groups.c:981 src/groups.c:1079
+#: src/groups.c:984 src/groups.c:1082
 msgid "Moving"
 msgstr "Переместить"
 
-#: src/groups.c:986 src/groups.c:1084
+#: src/groups.c:989 src/groups.c:1087
 msgid "Raising/Lowering"
 msgstr "Поднять/Опустить"
 
-#: src/groups.c:991 src/groups.c:1089
+#: src/groups.c:994 src/groups.c:1092
 msgid "Sticking"
 msgstr "Зафиксировать"
 
-#: src/groups.c:996 src/groups.c:1094
+#: src/groups.c:999 src/groups.c:1097
 msgid "Shading"
 msgstr "Скрыть"
 
-#: src/groups.c:1002
+#: src/groups.c:1005
 msgid "Window Group Settings"
 msgstr "Установки группы окон"
 
-#: src/groups.c:1006
+#: src/groups.c:1009
 msgid ""
 "Enlightenment Window Group\n"
 "Settings Dialog"
@@ -1012,31 +1012,31 @@ msgstr ""
 "Диалог настройки\n"
 "групп окон Enlightenment"
 
-#: src/groups.c:1020
+#: src/groups.c:1023
 msgid "This window currently does not belong to any groups."
 msgstr "В настоящий момент это окно не входит ни в одну группу."
 
-#: src/groups.c:1057
+#: src/groups.c:1060
 msgid "Per-group settings:"
 msgstr "Настройки каждой группы окон:"
 
-#: src/groups.c:1103
+#: src/groups.c:1106
 msgid "Global settings:"
 msgstr "Глобальные настройки:"
 
-#: src/groups.c:1107
+#: src/groups.c:1110
 msgid "Swap Window Locations"
 msgstr "Изменить расположение окна"
 
-#: src/groups.c:1113 src/menus-misc.c:623 config/strings.c:138
+#: src/groups.c:1116 src/menus-misc.c:623 config/strings.c:138
 msgid "Groups"
 msgstr "Группы окон"
 
-#: src/groups.c:1113
+#: src/groups.c:1116
 msgid "Default Group Control Settings"
 msgstr "Установки группы по умолчанию"
 
-#: src/groups.c:1117
+#: src/groups.c:1120
 msgid ""
 "Enlightenment Default\n"
 "Group Control Settings Dialog"
@@ -1129,11 +1129,11 @@ msgstr ""
 "и установку ОС. Такая ошибка встречается крайне редко на рабочем\n"
 "оборудовании.\n"
 
-#: src/hints.c:611
+#: src/hints.c:609
 msgid "Selection Error!"
 msgstr "Рабочий стол"
 
-#: src/hints.c:611
+#: src/hints.c:609
 #, c-format
 msgid "Could not acquire selection: %s"
 msgstr "Не могу получить контроль над: %s"
@@ -1193,7 +1193,7 @@ msgstr "\"help <команда>\": описание команды\n"
 msgid "         <command>     : <description>\n"
 msgstr "         <команда> : <описание>\n"
 
-#: src/main.c:531
+#: src/main.c:532
 #, c-format
 msgid ""
 "%s must be a directory in which you have\n"
@@ -1202,7 +1202,7 @@ msgstr ""
 "%s должен быть каталогом, в котором вы имеете\n"
 "права на чтение, запись и исполнение приложений.\n"
 
-#: src/main.c:630
+#: src/main.c:632
 #, c-format
 msgid ""
 "!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n"
@@ -1231,7 +1231,7 @@ msgstr ""
 "кем-то удалены, программа стерта кем-либо, либо ошибка в\n"
 "установке Enlightenment.\n"
 
-#: src/main.c:644
+#: src/main.c:646
 #, c-format
 msgid ""
 "!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n"
@@ -1294,27 +1294,27 @@ msgstr "Свернуть эту группу"
 msgid "Group %i"
 msgstr "Группа %i"
 
-#: src/menus.c:2001
+#: src/menus.c:1998
 msgid "Animated display of menus"
 msgstr "Анимированный показ окон"
 
-#: src/menus.c:2006
+#: src/menus.c:2003
 msgid "Always pop up menus on screen"
 msgstr "Всегда показывать меню поверх остальных окон"
 
-#: src/menus.c:2011
+#: src/menus.c:2008
 msgid "Warp pointer after moving menus"
 msgstr "Следить за перемещением меню"
 
-#: src/menus.c:2028
+#: src/menus.c:2025
 msgid "Menus"
 msgstr "Стиль рамки"
 
-#: src/menus.c:2028
+#: src/menus.c:2025
 msgid "Menu Settings"
 msgstr "Настройки меню"
 
-#: src/menus.c:2032
+#: src/menus.c:2029
 msgid ""
 "Enlightenment Menu\n"
 "Settings Dialog"
@@ -1322,123 +1322,123 @@ msgstr ""
 "Диалог настройки\n"
 "Меню Enlightenment"
 
-#: src/pager.c:992 config/strings.c:49 config/strings.c:121
+#: src/pager.c:989 config/strings.c:49 config/strings.c:121
 msgid "Window Options"
 msgstr "Окно"
 
-#: src/pager.c:999 config/strings.c:51 config/strings.c:124
+#: src/pager.c:996 config/strings.c:51 config/strings.c:124
 msgid "Iconify"
 msgstr "Свернуть"
 
-#: src/pager.c:1007 config/strings.c:123
+#: src/pager.c:1004 config/strings.c:123
 msgid "Annihilate"
 msgstr "Уничтожить"
 
-#: src/pager.c:1011
+#: src/pager.c:1008
 msgid "Stick / Unstick"
 msgstr "Закрепить / Освободить"
 
-#: src/pager.c:1018
+#: src/pager.c:1015
 msgid "Desktop Options"
 msgstr "Рабочий стол"
 
-#: src/pager.c:1024
+#: src/pager.c:1021
 msgid "Pager Settings..."
 msgstr "Установки Pager-а..."
 
-#: src/pager.c:1029
+#: src/pager.c:1026
 msgid "Snapshotting Off"
 msgstr "Выключить отображение экрана"
 
-#: src/pager.c:1033
+#: src/pager.c:1030
 msgid "High Quality Off"
 msgstr "Низкое качество"
 
-#: src/pager.c:1035
+#: src/pager.c:1032
 msgid "High Quality On"
 msgstr "Высокое качество"
 
-#: src/pager.c:1040
+#: src/pager.c:1037
 msgid "Snapshotting On"
 msgstr "Включить отображение экрана"
 
-#: src/pager.c:1044
+#: src/pager.c:1041
 msgid "Zoom Off"
 msgstr "Выключить зум"
 
-#: src/pager.c:1046
+#: src/pager.c:1043
 msgid "Zoom On"
 msgstr "Включить зум"
 
-#: src/pager.c:1784 src/pager.c:1875
+#: src/pager.c:1781 src/pager.c:1872
 msgid "Pager scanning speed:"
 msgstr "Скорость сканирования:"
 
-#: src/pager.c:1785 src/pager.c:1876
+#: src/pager.c:1782 src/pager.c:1873
 msgid "lines per second"
 msgstr "линий в секунду"
 
-#: src/pager.c:1814
+#: src/pager.c:1811
 msgid "Enable pager display"
 msgstr "Включить Pager"
 
-#: src/pager.c:1824
+#: src/pager.c:1821
 msgid "Pager Mode:"
 msgstr "Режим пейджера"
 
-#: src/pager.c:1828
+#: src/pager.c:1825
 msgid "Simple"
 msgstr "Размер"
 
-#: src/pager.c:1834
+#: src/pager.c:1831
 msgid "Make miniature snapshots of the screen"
 msgstr "Отображать экран"
 
-#: src/pager.c:1841
+#: src/pager.c:1838
 msgid "Live Update"
 msgstr "Постоянное сканирование"
 
-#: src/pager.c:1852
+#: src/pager.c:1849
 msgid "Smooth high quality snapshots in snapshot mode"
 msgstr "Высокое качество иконок в режиме отображения экрана"
 
-#: src/pager.c:1857
+#: src/pager.c:1854
 msgid "Zoom in on pager windows when mouse is over them"
 msgstr "Увеличивать иконки окон при прохождении курсора"
 
-#: src/pager.c:1863
+#: src/pager.c:1860
 msgid "Pop up window title when mouse is over the window"
 msgstr "Показывать заголовок окна, когда курсор над иконкой"
 
-#: src/pager.c:1868
+#: src/pager.c:1865
 msgid "Continuously scan screen to update pager"
 msgstr "Непрерывно сканировать экран"
 
-#: src/pager.c:1891
+#: src/pager.c:1888
 msgid "Mouse button to select and drag windows:"
 msgstr "Кнопка для выбора и перемещения окон:"
 
-#: src/pager.c:1901 src/pager.c:1926 src/pager.c:1951
+#: src/pager.c:1898 src/pager.c:1923 src/pager.c:1948
 msgid "Middle"
 msgstr "Средняя"
 
-#: src/pager.c:1916
+#: src/pager.c:1913
 msgid "Mouse button to select desktops:"
 msgstr "Кнопка для выбора рабочих столов:"
 
-#: src/pager.c:1941
+#: src/pager.c:1938
 msgid "Mouse button to display pager menu:"
 msgstr "Кнопка для отображения меню Pager-а:"
 
-#: src/pager.c:1965
+#: src/pager.c:1962
 msgid "Pagers"
 msgstr "Настройки Pager-а"
 
-#: src/pager.c:1965
+#: src/pager.c:1962
 msgid "Pager Settings"
 msgstr "Настройки Pager-а"
 
-#: src/pager.c:1969
+#: src/pager.c:1966
 msgid ""
 "Enlightenment Desktop & Area\n"
 "Pager Settings Dialog"
@@ -1785,7 +1785,7 @@ msgstr ""
 "Диалог настройки композита\n"
 "(прозрачность окон)"
 
-#: src/settings.c:762
+#: src/settings.c:761
 msgid "Enlightenment Settings"
 msgstr "Настройки  Enlightenment..."
 
@@ -1989,11 +1989,11 @@ msgstr ""
 msgid "Error saving snaps file"
 msgstr "Ошибка сохранения сессионного файла"
 
-#: src/sound.c:250
+#: src/sound.c:228
 msgid "Error finding sound file"
 msgstr "Ошибка: звуковой файл не найден"
 
-#: src/sound.c:251
+#: src/sound.c:229
 #, c-format
 msgid ""
 "Warning!  Enlightenment was unable to load the\n"
@@ -2008,11 +2008,11 @@ msgstr ""
 "Enlightenment продолжит работу, однако, возможно,\n"
 "Вам следует проверить установки конфигурации.\n"
 
-#: src/sound.c:341 src/sound.c:354
+#: src/sound.c:316
 msgid "Error initialising sound"
 msgstr "Ошибка инициализации звука"
 
-#: src/sound.c:343
+#: src/sound.c:318
 #, c-format
 msgid ""
 "Audio was enabled for Enlightenment but there was an error\n"
@@ -2023,26 +2023,19 @@ msgstr ""
 "ошибка при установлении соединения с Esound (%s). Поддержка звука\n"
 "будет сейчас отключена.\n"
 
-#: src/sound.c:356
-#, c-format
-msgid ""
-"The sound player is not executable (%s).\n"
-"Audio will now be disabled.\n"
-msgstr ""
-
-#: src/sound.c:527
+#: src/sound.c:488
 msgid "Enable sounds"
 msgstr "Включить поддержку звука"
 
-#: src/sound.c:533
+#: src/sound.c:494
 msgid "Sound"
 msgstr "Звук"
 
-#: src/sound.c:533
+#: src/sound.c:494
 msgid "Audio Settings"
 msgstr "Установки звука"
 
-#: src/sound.c:537
+#: src/sound.c:498
 msgid ""
 "Enlightenment Audio\n"
 "Settings Dialog"
