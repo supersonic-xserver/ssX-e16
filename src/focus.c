@@ -419,7 +419,8 @@ doFocusToEwin(EWin * ewin, int why)
 
 	if (FocusEwinValidNew(ewin))
 	  {
-	     DeskGotoByEwin(ewin, 0);
+	     if (EwinIsTransient(ewin))
+		DeskGotoByEwin(ewin, 0);
 	     goto check_focus_new;
 	  }
 
