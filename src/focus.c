@@ -566,7 +566,6 @@ FocusSet(void)
       doFocusToEwin(focus_pending_ewin, focus_pending_why);
    focus_pending_why = 0;
    focus_pending_ewin = focus_pending_new = NULL;
-   focus_request = 0;
 }
 
 void
