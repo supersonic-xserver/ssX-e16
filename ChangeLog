@@ -1,4 +1,74 @@
 
+e16 v1.0.23 - 2021-04-09
+------------------------
+- 1.0.23
+- Trim ChangeLog (move <= v1.0.0 to ChangeLog.old), new format
+- Add ChangeLog generation script
+- Update po
+- Focus: Tweak request serial number check logic - correction
+- Focus: Fixup after "Fix pointer focus on new windows..."
+- Focus: Improve debug message understandability
+- Remove obsolete and unused AC_HEADER_STDC
+- Fix pager update on desk switch
+- Fix segv on bad border definition
+- Introduce E_ARRAY_SIZE() and MOD_ITEMS()
+- Focus: Tweak request serial number check logic
+- Focus: Don't set focus on sliding windows
+- Focus: Fix pointer focus on new windows if pointer is in window
+- Update winter theme
+- Allow Winop border in matches.cfg
+- Remove unused Pager:name
+- Fix pager live updates if millisecond time is initially "negative"
+- Fix handling of imageclasses with flipped/rotated images
+- Fix pager zoom window sometimes flickering at 0,0
+- Add EoGetParent() etc.
+- Remove ancient TODO
+- group_op showhide should target all the windows groups members
+- Rename EDirUser{Set} wrappers and use then some more
+- French translation update (Philippe J. Guillaumie)
+- Support user fonts
+- Sound: Treat player engine like others
+- Sound: sound_pa -> sound_pulse
+- Sound: Mostly cosmetic changes
+- Sound: autofoo cosmetics
+- Consistently put __EXPORT__ in .c files
+- Forgot some 2020
+- conf.h: Remove some unused items
+- definitions: Remove some more obsolete configuration item definitions
+- Configuration parsing cleanups
+- Cleanups in .desktop file generation
+- Include git stamp in version info (if built from git checkout)
+- Introduce EImageDefineCursor()
+- Introduce EImageRenderOnDrawableARGB()
+- Cache visual in EVisualFindARGB()
+- Remove obsolete color modifier functions
+- French translation update (Philippe J. Guillaumie)
+- Use poll() for event handling by default (if available)
+- French translation update (Philippe J. Guillaumie)
+- French translation update (Philippe J. Guillaumie)
+- Update po
+- French translation update (Philippe J. Guillaumie)
+- Ensure a couple of initialisations are never skipped
+- Remove unused SM_CLIENT_ID stuff
+- Fix memory leak after failed execvp()
+- Remove some (duplicated?) configuration identifiers that are not in definitions
+- definitions: Remove long obsolete configuration item definitions
+- conf.h: Remove some long obsolete configuration item defines
+- Hide Border struct internals
+- Simplify checks for borderless
+- Use border name wrapper function some more
+- borders.c: Prefix static functions with _
+- ipc.c: Trivial cleanups
+- Update po
+- CM: Fix damage corner case (reparenting fading-out window)
+- CM: Fix switching fadeout to fadein
+- hiwin: Tweak debug
+- Merge variables controlling click-to-raise configuration
+- focus.c: Eliminate unnecessary variable
+- Make "only primary mouse button raises" option take effect immediately
+- Add option to allow only the primary mouse button to raise windows
+- 1.0.22.000
+
 e16 v1.0.22 - 2020-06-20
 ------------------------
 - 1.0.22.
