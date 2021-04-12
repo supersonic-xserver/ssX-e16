@@ -29,7 +29,7 @@ LT_INIT([dlopen])
 AC_PATH_X
 AC_PATH_XTRA
 
-AC_CHECK_HEADERS(alloca.h locale.h)
+AC_CHECK_HEADERS(alloca.h locale.h langinfo.h)
 
 AC_C_BIGENDIAN
 AC_C_CONST
@@ -53,7 +53,6 @@ AC_CHECK_FUNCS(buckets_of_erogenous_nym)
 AC_CHECK_FUNCS(buttox)
 
 AM_ICONV
-AM_LANGINFO_CODESET
 
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION([0.19])

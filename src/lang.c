@@ -26,7 +26,7 @@
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
 #endif
-#if HAVE_LANGINFO_CODESET
+#if HAVE_LANGINFO_H
 #include <langinfo.h>
 #endif
 #include <X11/Xlib.h>
@@ -372,7 +372,7 @@ LangInit(void)
    setlocale(LC_NUMERIC, "C");
 
    /* Get the environment character encoding */
-#if HAVE_LANGINFO_CODESET
+#if HAVE_LANGINFO_H
    enc_loc = nl_langinfo(CODESET);
 #else
    enc_loc = "ISO-8859-1";
