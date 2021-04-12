@@ -5,13 +5,12 @@ ACLOCAL_AMFLAGS = -I m4
 MAINTAINERCLEANFILES = aclocal.m4 config.* compile configure depcomp \
 		       install-sh ltmain.sh missing mkinstalldirs \
 		       Makefile.in */Makefile.in */*/Makefile.in \
-		       version.h \
 		       ABOUT-NLS \
 		       po/Makefile.in.in po/Makevars.template po/Rules-quot \
 		       po/*.header po/*.sed po/*.sin po/e16.pot \
 		       *~ */*~
 
-CLEANFILES = $(PACKAGE).spec
+CLEANFILES = $(PACKAGE).spec version.h
 
 BUILT_SOURCES = version.h
 
@@ -33,7 +32,7 @@ version.h: FORCE
 
 RPM_RELEASE=`echo -n "1.%(date '+%y%m%d').git"; git rev-parse --short=8 HEAD`
 else
-version.h:
+version.h: FORCE
 	@echo '#define E16_VERSION "@VERSION@"' > $@.tmp
 	@if cmp -s $@.tmp $@; then rm $@.tmp; else mv $@.tmp $@; fi
 
