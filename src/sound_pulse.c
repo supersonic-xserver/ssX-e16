@@ -57,7 +57,7 @@ static pa_context  *pa_ctx = NULL;
 
 static int          pa_block = 0;
 
-static void         _sound_pa_Exit(void);
+static void         _sound_pulse_Exit(void);
 
 static int
 dispatch(int block)
@@ -77,7 +77,7 @@ dispatch(int block)
      }
 
    if (err < 0)
-      _sound_pa_Exit();
+      _sound_pulse_Exit();
 
    D3printf("%s: end\n", __func__);
    return err;
@@ -181,7 +181,7 @@ context_state_callback(pa_context * pac, void *userdata __UNUSED__)
 }
 
 static void
-_sound_pa_Destroy(Sample * s)
+_sound_pulse_Destroy(Sample * s)
 {
    pa_operation       *op;
 
@@ -203,7 +203,7 @@ _sound_pa_Destroy(Sample * s)
 }
 
 static Sample      *
-_sound_pa_Load(const char *file)
+_sound_pulse_Load(const char *file)
 {
    Sample             *s;
    pa_sample_spec      sample_spec;
@@ -262,12 +262,12 @@ _sound_pa_Load(const char *file)
  bail_out:
    if (sample_stream)
       pa_stream_unref(sample_stream);
-   _sound_pa_Destroy(s);
+   _sound_pulse_Destroy(s);
    return NULL;
 }
 
 static void
-_sound_pa_Play(Sample * s)
+_sound_pulse_Play(Sample * s)
 {
    pa_operation       *op;
 
@@ -284,7 +284,7 @@ _sound_pa_Play(Sample * s)
 }
 
 static void
-_sound_pa_Exit(void)
+_sound_pulse_Exit(void)
 {
    D2printf("%s\n", __func__);
 #if 0
@@ -308,7 +308,7 @@ _sound_pa_Exit(void)
 }
 
 static int
-_sound_pa_Init(void)
+_sound_pulse_Init(void)
 {
    int                 err;
 
@@ -344,15 +344,15 @@ _sound_pa_Init(void)
  done:
    return !pa_ctx;
  quit:
-   _sound_pa_Exit();
+   _sound_pulse_Exit();
    goto done;
 }
 
 __EXPORT__ extern const SoundOps SoundOps_pulse;
 
 const SoundOps      SoundOps_pulse = {
-   _sound_pa_Init, _sound_pa_Exit, _sound_pa_Load, _sound_pa_Destroy,
-   _sound_pa_Play,
+   _sound_pulse_Init, _sound_pulse_Exit,
+   _sound_pulse_Load, _sound_pulse_Destroy, _sound_pulse_Play,
 };
 
 #endif /* ENABLE_SOUND && USE_SOUND_PULSE */

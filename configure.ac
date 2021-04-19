@@ -128,7 +128,7 @@ if test "x$with_sndldr" = "xaudiofile"; then
 fi
 
 if test "x$enable_sound" = "xpulseaudio"; then
-  PKG_CHECK_MODULES(PA, libpulse,
+  PKG_CHECK_MODULES(PULSE, libpulse,
     AC_DEFINE(USE_SOUND_PULSE, 1, [PulseAudio sound support]),
     enable_sound=no)
 fi
