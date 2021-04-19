@@ -22,7 +22,6 @@
  */
 #include "config.h"
 
-#if defined(ENABLE_SOUND) && defined(USE_SOUND_PLAYER)
 #include "file.h"
 #include "sound.h"
 #include "util.h"
@@ -68,5 +67,3 @@ const SoundOps      SoundOps_player = {
    _sound_player_Init, _sound_player_Exit,
    _sound_player_Load, _sound_player_Destroy, _sound_player_Play,
 };
-
-#endif /* ENABLE_SOUND && USE_SOUND_PLAYER */

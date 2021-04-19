@@ -23,7 +23,6 @@
  */
 #include "config.h"
 
-#if defined(ENABLE_SOUND) && defined(USE_SOUND_SNDIO)
 #include <sndio.h>
 
 #include "sound.h"
@@ -124,5 +123,3 @@ const SoundOps      SoundOps_sndio = {
    _sound_sndio_Init, _sound_sndio_Exit, _sound_sndio_Load,
    _sound_sndio_Destroy, _sound_sndio_Play,
 };
-
-#endif /* ENABLE_SOUND && USE_SOUND_SNDIO */

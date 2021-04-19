@@ -22,7 +22,6 @@
  */
 #include "config.h"
 
-#if defined(ENABLE_SOUND) && defined(USE_SOUND_PULSE)
 #include <fcntl.h>
 #include <pulse/pulseaudio.h>
 #include <sys/stat.h>
@@ -354,5 +353,3 @@ const SoundOps      SoundOps_pulse = {
    _sound_pulse_Init, _sound_pulse_Exit,
    _sound_pulse_Load, _sound_pulse_Destroy, _sound_pulse_Play,
 };
-
-#endif /* ENABLE_SOUND && USE_SOUND_PULSE */

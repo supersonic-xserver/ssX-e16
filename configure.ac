@@ -110,6 +110,7 @@ xplayer)
 *)
   enable_sound=no;;
 esac
+AM_CONDITIONAL(ENABLE_SOUND, test "x$enable_sound" != "xno")
 
 AC_ARG_WITH(sndldr,
   AS_HELP_STRING([--with-sndldr],
@@ -184,6 +185,7 @@ xplayer)
   AC_DEFINE(ENABLE_SOUND, 1, [Sound support])
   ;;
 esac
+AM_CONDITIONAL(USE_SOUND_LOADER, test "x$with_sndldr" != "xnone")
 
 # Save CPPFLAGS/LDFLAGS and add X_... to each
 SAVE_CPPFLAGS="$CPPFLAGS"

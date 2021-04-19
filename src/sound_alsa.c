@@ -22,7 +22,6 @@
  */
 #include "config.h"
 
-#if defined(ENABLE_SOUND) && defined(USE_SOUND_ALSA)
 #include <alsa/asoundlib.h>
 
 #include "sound.h"
@@ -138,5 +137,3 @@ const SoundOps      SoundOps_alsa = {
    _sound_alsa_Init, _sound_alsa_Exit, _sound_alsa_Load,
    _sound_alsa_Destroy, _sound_alsa_Play,
 };
-
-#endif /* HAVE_SOUND && USE_SOUND_ALSA */

@@ -22,9 +22,9 @@
  */
 #include "config.h"
 
-#ifdef USE_XFT
 #include <X11/extensions/Xrender.h>
 #include <X11/Xft/Xft.h>
+
 #include "tclass.h"
 #include "xtypes.h"
 
@@ -166,5 +166,3 @@ const FontOps       FontOps_xft = {
    _xft_Load, _xft_Unload, _xft_TextSize, TextstateTextFit, _xft_TextDraw,
    _xft_FdcInit, _xft_FdcFini, _xft_FdcSetDrawable, _xft_FdcSetColor
 };
-
-#endif /* FONT_TYPE_XFT */

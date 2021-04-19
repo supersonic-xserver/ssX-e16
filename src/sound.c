@@ -22,7 +22,6 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #include "E.h"
-#if ENABLE_SOUND
 #include "dialog.h"
 #include "emodule.h"
 #include "file.h"
@@ -581,5 +580,3 @@ const EModule       ModSound = {
    MOD_ITEMS(SoundIpcArray),
    MOD_ITEMS(SoundCfgItems)
 };
-
-#endif /* ENABLE_SOUND */

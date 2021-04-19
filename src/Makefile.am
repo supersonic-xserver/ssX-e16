@@ -89,7 +89,6 @@ e16_SOURCES = \
 	slide.c			slide.h			\
 	slideout.c		\
 	snaps.c                 snaps.h			\
-	sound.c			sound.h			\
 	sounds.h		\
 	stacking.c		\
 	startup.c		\
@@ -108,7 +107,8 @@ e16_SOURCES = \
 	xprop.c			xprop.h			\
 	x.c                     xwin.h			\
 	xtypes.h                \
-	$(MODULE_SRCS)		\
+	$(SRCS_SOUND)		\
+	$(SRCS_FONTS)		\
 	$(SRCS_GNOME) 		\
 	$(SRCS_ZOOM) 		\
 	$(SRCS_GLX) 		\
@@ -130,7 +130,8 @@ e16_CPPFLAGS = \
 	$(AM_CPPFLAGS) \
 	-I$(top_srcdir) \
 	-I$(top_builddir) \
-	$(MODULE_CFLAGS) \
+	$(SOUND_CFLAGS) \
+	$(FONTS_CFLAGS) \
 	$(IMLIB2_CFLAGS) \
 	$(DBUS_CFLAGS) \
 	$(XI_CFLAGS) \
@@ -142,7 +143,8 @@ LDADD = \
 	$(LTLIBINTL)		\
 	$(LTLIBICONV)		\
 	$(IMLIB2_LIBS)		\
-	$(MODULE_LIBS)		\
+	$(SOUND_LIBS)		\
+	$(FONTS_LIBS)		\
 	$(GLX_LIBS)		\
 	$(XCOMPOSITE_LIBS)	\
 	$(XDAMAGE_LIBS)		\
@@ -159,6 +161,7 @@ LDADD = \
 	$(X_EXTRA_LIBS)		\
 	$(E_X_LIBS)		\
 	$(DBUS_LIBS)		\
+	$(MODULE_LIBS)		\
 	$(CLOCK_LIBS)		\
 	-lX11 -lm
 
@@ -166,6 +169,10 @@ SNDLDR_CFLAGS = $(AUDIOFILE_CFLAGS) $(SNDFILE_CFLAGS)
 SNDLDR_LIBS = $(AUDIOFILE_LIBS) $(SNDFILE_LIBS)
 
 if BUILD_MODULES
+
+if ENABLE_SOUND
+SRCS_SOUND = sound.c sound.h
+endif
 
 e16_LDFLAGS = -export-dynamic
 MODULE_LIBS = $(DLOPEN_LIBS)
@@ -236,12 +243,44 @@ endif
 
 else
 
-MODULE_SRCS = sound_esound.c sound_pulse.c sound_sndio.c sound_alsa.c sound_player.c sound_load.c \
-	ttfont.c text_xft.c text_pango.c
-MODULE_LIBS = $(ESD_LIBS) $(PULSE_LIBS) $(SNDIO_LIBS) $(ALSA_LIBS) $(SNDLDR_LIBS) \
-	      $(PANGO_LIBS) $(XFT_LIBS)
-MODULE_CFLAGS = $(ESD_CFLAGS) $(PULSE_CFLAGS) $(SNDIO_CFLAGS) $(SNDLDR_CFLAGS) \
-		$(PANGO_CFLAGS) $(XFT_CFLAGS)
+if ENABLE_SOUND
+if USE_SOUND_LOADER
+SRCS_SOUND_LOADER = sound_load.c
+endif
+if USE_SOUND_ESOUND
+SRCS_SOUND_ESOUND = sound_esound.c
+endif
+if USE_SOUND_PULSE
+SRCS_SOUND_PULSE = sound_pulse.c
+endif
+if USE_SOUND_SNDIO
+SRCS_SOUND_SNDIO = sound_sndio.c
+endif
+if USE_SOUND_ALSA
+SRCS_SOUND_ALSA = sound_alsa.c
+endif
+if USE_SOUND_PLAYER
+SRCS_SOUND_PLAYER = sound_player.c
+endif
+SRCS_SOUND = sound.c sound.h $(SRCS_SOUND_LOADER) \
+	     $(SRCS_SOUND_ESOUND) $(SRCS_SOUND_PULSE) $(SRCS_SOUND_SNDIO) \
+	     $(SRCS_SOUND_ALSA) $(SRCS_SOUND_PLAYER)
+endif
+
+SRCS_FONT_IFT = ttfont.c
+if USE_LIBXFT
+SRCS_FONT_XFT = text_xft.c
+endif
+if USE_LIBPANGO
+SRCS_FONT_PANGO = text_pango.c
+endif
+SRCS_FONTS = $(SRCS_FONT_IFT) $(SRCS_FONT_XFT) $(SRCS_FONT_PANGO)
+
+SOUND_LIBS = $(ESD_LIBS) $(PULSE_LIBS) $(SNDIO_LIBS) $(ALSA_LIBS) $(SNDLDR_LIBS)
+FONTS_LIBS = $(PANGO_LIBS) $(XFT_LIBS)
+
+SOUND_CFLAGS = $(ESD_CFLAGS) $(PULSE_CFLAGS) $(SNDIO_CFLAGS) $(SNDLDR_CFLAGS)
+FONTS_CFLAGS = $(PANGO_CFLAGS) $(XFT_CFLAGS)
 
 endif
 

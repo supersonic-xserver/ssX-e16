@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2016 Kim Woelders
+ * Copyright (C) 2007-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -22,9 +22,9 @@
  */
 #include "config.h"
 
-#ifdef USE_PANGO
 #include <X11/Xft/Xft.h>
 #include <pango/pangoxft.h>
+
 #include "tclass.h"
 #include "xwin.h"
 
@@ -134,5 +134,3 @@ const FontOps       FontOps_pango = {
    _pango_xft_TextSize, TextstateTextFit, _pango_xft_TextDraw,
    _xft_FdcInit, _xft_FdcFini, _xft_FdcSetDrawable, _xft_FdcSetColor
 };
-
-#endif /* USE_PANGO */
