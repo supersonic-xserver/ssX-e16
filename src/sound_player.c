@@ -20,11 +20,12 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+#include "config.h"
 
-#include "E.h"
 #if defined(ENABLE_SOUND) && defined(USE_SOUND_PLAYER)
 #include "file.h"
 #include "sound.h"
+#include "util.h"
 
 #ifdef USE_MODULES
 #define Estrdup strdup
