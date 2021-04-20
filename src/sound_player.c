@@ -45,7 +45,7 @@ _sound_player_Destroy(Sample * s)
 static void
 _sound_player_Play(Sample * s)
 {
-   Espawn(SOUND_PLAYER_FMT, s);
+   Espawn(SOUND_PLAYER_FMT, (char *)s);
 }
 
 static int

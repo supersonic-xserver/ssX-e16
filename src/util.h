@@ -117,6 +117,14 @@ void __PRINTF__     Eprintf(const char *fmt, ...);
 #define Evsnprintf vsnprintf
 #define Esnprintf snprintf
 
+#define EXEC_SET_LANG       0x01
+#define EXEC_SET_STARTUP_ID 0x02
+
+void                Eexec(const char *cmd);
+int                 EspawnApplication(const char *params, int flags);
+void __PRINTF__     Espawn(const char *fmt, ...);
+int __PRINTF__      Esystem(const char *fmt, ...);
+
 #if USE_MODULES
 /* Dynamic loading */
 const void         *ModLoadSym(const char *lib, const char *sym,

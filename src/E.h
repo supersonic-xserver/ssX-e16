@@ -442,14 +442,6 @@ typedef struct {
 /* about.c */
 void                About(void);
 
-/* actions.c */
-#define EXEC_SET_LANG       0x01
-#define EXEC_SET_STARTUP_ID 0x02
-void                Eexec(const char *cmd);
-int                 EspawnApplication(const char *params, int flags);
-void                Espawn(const char *fmt, ...);
-int __PRINTF__      Esystem(const char *fmt, ...);
-
 /* config.c */
 #define FILE_TYPE_CONFIG     0
 #define FILE_TYPE_BACKGROUND 1
