@@ -42,8 +42,6 @@ AC_CHECK_SIZEOF(int, 4)
 AC_CHECK_SIZEOF(long, 4)
 AC_CHECK_SIZEOF(wchar_t, 4)
 
-AC_CHECK_FUNCS(snprintf)
-AM_CONDITIONAL(USE_ESNPRINTF, test "x$ac_cv_func_snprintf" != "xyes")
 AC_CHECK_FUNCS(strcasecmp strcasestr)
 AC_CHECK_FUNCS(setenv unsetenv)
 AC_CHECK_FUNCS(strdup strndup)

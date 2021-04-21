@@ -17,9 +17,6 @@ endif
 if ENABLE_DBUS
 SRCS_DBUS = edbus.c edbus.h
 endif
-if USE_ESNPRINTF
-SRCS_SNPRINTF = snprintf.c
-endif
 
 e16_SOURCES = \
 	E.h			\
@@ -116,8 +113,7 @@ e16_SOURCES = \
 	$(SRCS_ZOOM) 		\
 	$(SRCS_GLX) 		\
 	$(SRCS_ECOMPMGR)	\
-	$(SRCS_DBUS)		\
-	$(SRCS_SNPRINTF)
+	$(SRCS_DBUS)
 
 AM_CFLAGS = \
 	$(CFLAGS_ASAN)

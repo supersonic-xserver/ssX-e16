@@ -114,16 +114,8 @@ void                Esetenv(const char *name, const char *value);
 /* misc.c */
 void __PRINTF__     Eprintf(const char *fmt, ...);
 
-#ifdef HAVE_SNPRINTF
 #define Evsnprintf vsnprintf
 #define Esnprintf snprintf
-#else /* HAVE_SNPRINTF */
-int                 Evsnprintf(char *str, size_t count, const char *fmt,
-			       va_list args);
-
-int                 Esnprintf(char *str, size_t count, const char *fmt, ...);
-
-#endif /* HAVE_SNPRINTF */
 
 #if USE_MODULES
 /* Dynamic loading */
