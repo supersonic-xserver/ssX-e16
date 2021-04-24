@@ -53,7 +53,7 @@
 #endif /* ENABLE_DEBUG */
 
 static struct {
-   char                mode;
+   int                 mode;
 } Conf_glwin;
 
 static struct {
