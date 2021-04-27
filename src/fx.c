@@ -176,7 +176,6 @@ FX_Ripple_Ops(int op)
 #define FX_WAVE_WATERH 64
 #define FX_WAVE_WATERW 64
 #define FX_WAVE_DEPTH  10
-#define FX_WAVE_GRABH  (FX_WAVE_WATERH + FX_WAVE_DEPTH)
 #define FX_WAVE_CROSSPERIOD 0.42f
 
 typedef struct {
@@ -233,15 +232,6 @@ FX_Wave_timeout(EObj * eo __UNUSED__, int run __UNUSED__, void *state)
    d->incx += 0.32f;
    if (d->incx > M_2PI_F)
       d->incx = 0;
-
-   SET_GC_CLIP(bgeo, d->gc1);
-
-   /* Copy the area to correct bugs */
-   if (d->count == 0)
-      EXCopyAreaGC(d->above, WinGetXwin(d->win), d->gc1,
-		   0, WinGetH(VROOT) - FX_WAVE_GRABH,
-		   WinGetW(VROOT), FX_WAVE_DEPTH * 2,
-		   0, WinGetH(VROOT) - FX_WAVE_GRABH);
 
    /* Go through the bottom couple (FX_WAVE_WATERH) lines of the window */
    for (y = 0; y < FX_WAVE_WATERH; y++)
