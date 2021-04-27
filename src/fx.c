@@ -67,10 +67,10 @@ _FxSetup(FXData * d, unsigned int height)
 {
    EObj               *bgeo;
 
-   bgeo = DeskGetBackgroundObj(DesksGetCurrent());
-
    if (!d->above)
      {
+	bgeo = DeskGetBackgroundObj(DesksGetCurrent());
+
 	d->win = EobjGetWin(bgeo);
 #if USE_COMPOSITE
 	if (ECompMgrIsActive() && !Mode.wm.window)
@@ -89,7 +89,7 @@ _FxSetup(FXData * d, unsigned int height)
 
 #if USE_COMPOSITE
    /* As of composite 0.4 we need to set the clip region */
-   ECompMgrWinClipToGC(bgeo, d->gc1);
+   EGCSetClip(d->gc1, ECompMgrChildClipRegion());
 #endif
 }
 

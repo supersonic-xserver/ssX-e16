@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2014 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -27,6 +27,7 @@
 
 #include "eobj.h"
 #include "etypes.h"
+#include "xtypes.h"
 
 typedef struct {
    char                enable;
@@ -60,7 +61,6 @@ void                ECompMgrWinChangeOpacity(EObj * eo, unsigned int opacity);
 void                ECompMgrWinChangeShadow(EObj * eo, int shadow);
 EX_Pixmap           ECompMgrWinGetPixmap(const EObj * eo);
 EX_Picture          ECompMgrWinGetAlphaPict(const EObj * eo);
-void                ECompMgrWinClipToGC(EObj * eo, GC gc);
 
 void                ECompMgrConfigGet(cfg_composite * cfg);
 void                ECompMgrConfigSet(const cfg_composite * cfg);
@@ -69,6 +69,8 @@ void                ECompMgrRepaint(void);
 int                 ECompMgrRender(int dt);
 
 EX_Window           ECompMgrRootWin(void);
+
+EX_SrvRegion        ECompMgrChildClipRegion(void);
 
 #else
 

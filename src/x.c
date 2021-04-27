@@ -2172,6 +2172,12 @@ EPictureFillRect(EX_Picture pict, int x, int y, int w, int h,
 #if USE_COMPOSITE
 
 void
+EGCSetClip(GC gc, EX_SrvRegion clip)
+{
+   XFixesSetGCClipRegion(disp, gc, 0, 0, clip);
+}
+
+void
 EPictureSetClip(EX_Picture pict, EX_SrvRegion clip)
 {
    XFixesSetPictureClipRegion(disp, pict, 0, 0, clip);

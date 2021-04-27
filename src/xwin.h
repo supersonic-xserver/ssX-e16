@@ -352,6 +352,7 @@ int                 ERegionIsEmpty(EX_SrvRegion rgn);
 void                ERegionShow(const char *txt, EX_SrvRegion rgn,
 				void (*prf)(const char *fmt, ...));
 
+void                EGCSetClip(GC gc, EX_SrvRegion clip);
 void                EPictureSetClip(EX_Picture pict, EX_SrvRegion clip);
 
 EX_Pixmap           EWindowGetPixmap(const Win win);
