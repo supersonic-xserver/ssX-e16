@@ -306,8 +306,8 @@ FX_Waves_Ops(int op)
    if (op != FX_OP_DISABLE)
       return;
 
-   EClearArea(d->win, 0, WinGetH(VROOT) - FX_WAVE_WATERH,
-	      WinGetW(VROOT), FX_WAVE_WATERH);
+   EClearArea(d->win, 0, WinGetH(VROOT) - 2 * FX_WAVE_WATERH - FX_WAVE_DEPTH,
+	      WinGetW(VROOT), 2 * FX_WAVE_WATERH + FX_WAVE_DEPTH);
    EXFreeGC(d->gc1);
 
    AnimatorDel(NULL, fx_waves);
