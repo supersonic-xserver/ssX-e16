@@ -107,6 +107,9 @@ _FxCleanup(FXData * d, int h)
 	EXFreeGC(d->gc1);
 
 	EClearArea(d->win, 0, WinGetH(VROOT) - h, WinGetW(VROOT), h);
+#if USE_COMPOSITE
+	ECompMgrDamageArea(0, WinGetH(VROOT) - h, WinGetW(VROOT), h);
+#endif
      }
 }
 

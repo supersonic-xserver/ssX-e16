@@ -431,6 +431,19 @@ ECompMgrDamageAll(void)
    ECompMgrDamageMerge(Mode_compmgr.rgn_screen);
 }
 
+void
+ECompMgrDamageArea(int x, int y, int w, int h)
+{
+   EX_SrvRegion        rgn;
+
+   if (!Mode_compmgr.active)
+      return;
+
+   rgn = Mode_compmgr.rgn_tmp2;
+   ERegionSetRect(rgn, x, y, w, h);
+   ECompMgrDamageMerge(rgn);
+}
+
 #if ENABLE_SHADOWS
 
 #define M_2PI_F ((float)(2 * M_PI))

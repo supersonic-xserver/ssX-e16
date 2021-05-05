@@ -70,6 +70,8 @@ int                 ECompMgrRender(int dt);
 
 EX_Window           ECompMgrRootWin(void);
 
+void                ECompMgrDamageArea(int x, int y, int w, int h);
+
 EX_SrvRegion        ECompMgrChildClipRegion(void);
 
 #else
