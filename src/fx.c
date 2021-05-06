@@ -55,6 +55,7 @@ typedef struct {
 
 typedef struct {
    Win                 win;
+   EX_Window           root;
    EX_Pixmap           above;
    int                 count;
    float               incv, inch, incx;
@@ -71,13 +72,14 @@ _FxSetup(FXData * d, unsigned int height)
    if (!d->above)
      {
 	d->win = EobjGetWin(bgeo);
+	d->root = EobjGetXwin(bgeo);
 	d->above = ECreatePixmap(d->win, WinGetW(VROOT), height, 0);
 
 	XGCValues           xgcv;
 
 	xgcv.subwindow_mode = ClipByChildren;
 	if (!d->gc1)
-	   d->gc1 = EXCreateGC(WinGetXwin(d->win), GCSubwindowMode, &xgcv);
+	   d->gc1 = EXCreateGC(d->root, GCSubwindowMode, &xgcv);
      }
 
 #if USE_COMPOSITE
@@ -112,14 +114,14 @@ _FxCopyArea(FXData * d, int out, int src_x, int src_y, int dst_x, int dst_y,
    if (out)
      {
 	src = d->above;
-	dst = WinGetXwin(d->win);
+	dst = d->root;
 
 	EXCopyAreaGC(src, dst, d->gc1, src_x, src_y, width, height,
 		     dst_x, dst_y);
      }
    else
      {
-	src = WinGetXwin(d->win);
+	src = d->root;
 	dst = d->above;
 
 	EXCopyArea(src, dst, src_x, src_y, width, height, dst_x, dst_y);
