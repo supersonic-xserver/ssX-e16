@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2015 Kim Woelders
+ * Copyright (C) 2007-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -50,7 +50,7 @@ typedef struct {
 
 static DbusData     dbus_data;
 
-static EventFdDesc *db_efd = NULL;
+static int          db_efd = 0;
 
 static              dbus_bool_t
 DbusWatchAdd(DBusWatch * watch, void *data __UNUSED__)

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006-2013 Kim Woelders
+ * Copyright (C) 2006-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -43,10 +43,9 @@ void                EventsMain(void);
 void                EventShow(const XEvent * ev);
 void                EventShowError(const XEvent * ev);
 
-typedef struct _EventFdDesc EventFdDesc;
 typedef void        (EventFdHandler) (void);
-EventFdDesc        *EventFdRegister(int fd, EventFdHandler * handler);
-void                EventFdUnregister(EventFdDesc * efd);
+int                 EventFdRegister(int fd, EventFdHandler * handler);
+void                EventFdUnregister(int efd);
 
 int                 EventsUpdateXY(int *px, int *py);
 void                EventsBlock(int mode);

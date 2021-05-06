@@ -56,7 +56,7 @@ static char         restarting = 0;
 static char        *sm_client_id = NULL;
 static SmcConn      sm_conn = NULL;
 
-static EventFdDesc *sm_efd = NULL;
+static int          sm_efd = 0;
 
 static void
 set_save_props(SmcConn smc_conn, int master_flag)

@@ -347,7 +347,7 @@ ExtVersion(int ext_ix)
  * File descriptor handling
  */
 
-struct _EventFdDesc {
+typedef struct {
 #if 0				/* Unused */
    const char         *name;
 #endif
@@ -355,7 +355,7 @@ struct _EventFdDesc {
    int                 fd;
 #endif
    void                (*handler)(void);
-};
+} EventFdDesc;
 
 static int          nfds = 0;
 #if USE_EVHAN_POLL
@@ -363,34 +363,34 @@ static struct pollfd *pfdl = NULL;
 #endif
 static EventFdDesc *pfds = NULL;
 
-EventFdDesc        *
+int
 EventFdRegister(int fd, EventFdHandler * handler)
 {
-   nfds++;
+   int                 efd;
+
+   efd = nfds++;
    pfds = EREALLOC(EventFdDesc, pfds, nfds);
 
 #if USE_EVHAN_POLL
    pfdl = EREALLOC(struct pollfd, pfdl, nfds);
-   pfdl[nfds - 1].fd = fd;
+   pfdl[efd].fd = fd;
 #elif USE_EVHAN_SELECT
-   pfds[nfds - 1].fd = fd;
+   pfds[efd].fd = fd;
 #endif
 
-   pfds[nfds - 1].handler = handler;
+   pfds[efd].handler = handler;
 
-   return pfds + (nfds - 1);
+   return efd;
 }
 
 void
-EventFdUnregister(EventFdDesc * efd)
+EventFdUnregister(int efd)
 {
-   int                 ix = efd - pfds;
-
 #if USE_EVHAN_POLL
-   if (pfdl[ix].fd > 0)
-      pfdl[ix].fd = -pfdl[ix].fd;
+   if (pfdl[efd].fd > 0)
+      pfdl[efd].fd = -pfdl[efd].fd;
 #elif USE_EVHAN_SELECT
-   pfds[ix].fd = -1;
+   pfds[efd].fd = -1;
 #endif
 }
 
