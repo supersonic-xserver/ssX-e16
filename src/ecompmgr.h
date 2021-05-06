@@ -68,6 +68,8 @@ void                ECompMgrConfigSet(const cfg_composite * cfg);
 void                ECompMgrRepaint(void);
 int                 ECompMgrRender(int dt);
 
+EX_Window           ECompMgrRootWin(void);
+
 #else
 
 #define ECompMgrIsActive()          0

@@ -2147,6 +2147,12 @@ ECompMgrIsActive(void)
    return Mode_compmgr.active;
 }
 
+EX_Window
+ECompMgrRootWin(void)
+{
+   return Mode_compmgr.root;
+}
+
 static void
 ECompMgrStart(void)
 {

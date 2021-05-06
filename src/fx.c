@@ -72,7 +72,12 @@ _FxSetup(FXData * d, unsigned int height)
    if (!d->above)
      {
 	d->win = EobjGetWin(bgeo);
-	d->root = EobjGetXwin(bgeo);
+#if USE_COMPOSITE
+	if (ECompMgrIsActive() && !Mode.wm.window)
+	   d->root = ECompMgrRootWin();
+	else
+#endif
+	   d->root = EobjGetXwin(bgeo);
 	d->above = ECreatePixmap(d->win, WinGetW(VROOT), height, 0);
 
 	XGCValues           xgcv;
