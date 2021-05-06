@@ -364,6 +364,8 @@ if test "x$enable_composite" = "xyes"; then
   PKG_CHECK_MODULES(XFIXES, xfixes,, enable_composite=no)
   if test "x$enable_composite" = "xyes"; then
     AC_DEFINE(USE_COMPOSITE, 1, [Composite support])
+    PKG_CHECK_EXISTS(xcomposite >= 0.3,
+      AC_DEFINE(HAVE_COMPOSITE_OVERLAY_WINDOW, 1, [Composite 0.3 support]))
   else
     AC_MSG_WARN([Composite support was requested but required component was not found])
   fi

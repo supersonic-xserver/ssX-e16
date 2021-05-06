@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -36,12 +36,6 @@
 #include "util.h"
 #if USE_COMPOSITE
 #include <X11/extensions/Xcomposite.h>
-/* Composite Overlay Window (client) availability */
-#if VERS(COMPOSITE_MAJOR, COMPOSITE_MINOR) >= VERS(0, 3)
-#define USE_COMPOSITE_OVERLAY_WINDOW 1
-#else
-#define USE_COMPOSITE_OVERLAY_WINDOW 0
-#endif
 #endif
 
 #define ExTextExtents XmbTextExtents
@@ -263,7 +257,7 @@ ShowAlert(const char *title,
    mask = CWBackPixel | CWBorderPixel | CWOverrideRedirect | CWSaveUnder |
       CWBackingStore;
 
-#if USE_COMPOSITE_OVERLAY_WINDOW
+#if HAVE_COMPOSITE_OVERLAY_WINDOW
    /*
     * Intended workings:
     * Composite extension not enabled (or COW not available?)
@@ -533,7 +527,7 @@ ShowAlert(const char *title,
    XFreeFontSet(dd, xfs);
  done:
    XUngrabServer(dd);
-#if USE_COMPOSITE_OVERLAY_WINDOW
+#if HAVE_COMPOSITE_OVERLAY_WINDOW
    /* Force damage on root window where GSOD is/was rendered */
    if (root != DefaultRootWindow(dd))
      {
