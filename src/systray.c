@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -448,7 +448,7 @@ SystrayInit(Container * ct)
    ct->wm_name = "Systray";
    ct->menu_title = _("Systray Options");
    ct->dlg_title = _("Systray Settings");
-   ct->iconsize = 16;
+   ct->iconsize = 32;
 }
 
 static void
