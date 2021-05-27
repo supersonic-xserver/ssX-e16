@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2021-04-09 07:30+0200\n"
-"PO-Revision-Date: 2021-02-17 10:44+0100\n"
+"POT-Creation-Date: 2021-05-03 07:40+0200\n"
+"PO-Revision-Date: 2021-05-26 18:24+0200\n"
 "Last-Translator: Philippe Jean Guillaumie <similar@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 2.4.3\n"
 
 #: src/about.c:35
 #, c-format
@@ -82,7 +82,7 @@ msgstr ""
 "%s\n"
 "Ce programme ne peut être exécuté.\n"
 "Le programme n'est probablement pas dans le chemin d'exécution\n"
-"(Path) de votre shell qui est %s. Je vous suggère de lire le manuel\n"
+"(PATH) de votre shell qui est %s. Je vous suggère de lire le manuel\n"
 "de votre shell afin de trouver comment modifier votre chemin\n"
 "d'exécution.\n"
 
@@ -189,7 +189,7 @@ msgid ""
 "Name: %s\n"
 "File: %s"
 msgstr ""
-"Définition du fond d'écran :\n"
+"À propos du fond d'écran :\n"
 "Nom : %s\n"
 "Fichier : %s"
 
@@ -310,7 +310,7 @@ msgid ""
 "Background Settings Dialog"
 msgstr ""
 "Bureau Enlightenment\n"
-"Dialogue de paramétrage de l'arrière-plan"
+"Dialogue de paramétrage de l'Arrière-plan"
 
 #: src/comms.c:244
 msgid "E IPC Error"
@@ -406,7 +406,7 @@ msgstr ""
 "Veuillez contacter l'auteur ou le responsable de ce\n"
 "thème et l'informer que pour que son thème fonctionne\n"
 "avec cette version d'Enlightenment, il devra le mettre\n"
-"à jour en respectant le nouveau format et ensuite en\n"
+"à jour en respectant le nouveau format, et ensuite en\n"
 "changer le numéro de version.\n"
 "\n"
 "Si la version du thème est supérieure à celle\n"
@@ -417,7 +417,7 @@ msgstr ""
 
 #: src/config.c:609
 msgid "Enlightenment Starting..."
-msgstr "Démarrage d'Enlightenment..."
+msgstr "Lancement d'Enlightenment..."
 
 #: src/container.c:1182
 msgid "Settings..."
@@ -716,7 +716,7 @@ msgstr ""
 "Impossible d'activer le gestionnaire Composite.\n"
 "Utilisez xdpyinfo pour vérifier que\n"
 "les extensions Composite, Damage,\n"
-"Fixes, et Render sont bien chargées."
+"Fixes et Render sont bien chargées."
 
 #: src/events.c:108
 msgid "X server setup error"
@@ -782,7 +782,7 @@ msgstr "Seules les nouvelles fenêtres de dialogue obtiennent le focus"
 msgid "Only new dialogs whose owner is focused get the focus"
 msgstr ""
 "Seules les nouvelles fenêtres de dialogue dont le parent a le\n"
-"focus obtiennent le focus."
+"focus obtiennent le focus"
 
 #: src/focus.c:942
 msgid "Raise windows while switching focus"
@@ -899,14 +899,14 @@ msgstr ""
 
 #: src/groups.c:781
 msgid "Window Group Selection"
-msgstr "Sélection de Groupe de fenêtres"
+msgstr "Sélection du Groupe de fenêtres"
 
 #: src/groups.c:785
 msgid ""
 "Enlightenment Window Group\n"
 "Selection Dialog"
 msgstr ""
-"Dialogue de sélection de\n"
+"Dialogue de sélection du\n"
 "Groupe de fenêtres"
 
 #: src/groups.c:808
@@ -933,7 +933,7 @@ msgid ""
 msgstr ""
 "Cette fenêtre n'appartient actuellement à aucun groupe.\n"
 "Vous ne pouvez détruire un groupe ou retirer une fenêtre d'un groupe\n"
-"qu'à partir d'une fenêtre qui appartient à au moins un groupe."
+"qu'à partir d'une fenêtre qui appartient au moins à un groupe."
 
 #: src/groups.c:838
 msgid ""
@@ -1049,8 +1049,8 @@ msgstr ""
 "\n"
 "Cela peut être dû au fait que vous utilisez un binaire\n"
 "d'Enlightenment compilé pour une autre architecture\n"
-"(AMD, Pentium II, Cyrix, 486) que votre machine.\n"
-"Veuillez obtenir le paquet correct ou bien recompiler\n"
+"(AMD, Pentium II, Cyrix, 486...) que votre machine.\n"
+"Veuillez récupérer le paquet adéquat ou bien recompiler\n"
 "Enlightenment, et éventuellement les bibliothèques qu'il utilise.\n"
 
 #: src/handlers.c:76
@@ -1686,7 +1686,7 @@ msgid ""
 "Enlightenment Window Placement\n"
 "Settings Dialog"
 msgstr ""
-"Dialogue de paramétrage de\n"
+"Dialogue de paramétrage du\n"
 "Placement des fenêtres"
 
 #: src/settings.c:509
@@ -1699,7 +1699,7 @@ msgstr "Images de Bouton (NdT : fonction désormais désactivée)"
 
 #: src/settings.c:524
 msgid "Enable sliding startup windows"
-msgstr "Activer les rideaux glissants au démarrage"
+msgstr "Activer les rideaux glissants au lancement"
 
 #: src/settings.c:536
 msgid "Magwin zoom resolution"
@@ -1980,11 +1980,11 @@ msgstr ""
 msgid "Error saving snaps file"
 msgstr "Erreur lors de l'écriture du fichier de session"
 
-#: src/sound.c:228
+#: src/sound.c:260
 msgid "Error finding sound file"
 msgstr "Erreur lors de la recherche du fichier son"
 
-#: src/sound.c:229
+#: src/sound.c:261
 #, c-format
 msgid ""
 "Warning!  Enlightenment was unable to load the\n"
@@ -1999,11 +1999,11 @@ msgstr ""
 "Enlightenment va continuer à fonctionner mais\n"
 "vous devriez vérifier votre configuration.\n"
 
-#: src/sound.c:316
+#: src/sound.c:346
 msgid "Error initialising sound"
 msgstr "Erreur lors de l'initialisation du son"
 
-#: src/sound.c:318
+#: src/sound.c:348
 #, c-format
 msgid ""
 "Audio was enabled for Enlightenment but there was an error\n"
@@ -2014,19 +2014,19 @@ msgstr ""
 "une erreur de communication avec le serveur audio (%s).\n"
 "Les sons sont désormais désactivés.\n"
 
-#: src/sound.c:488
+#: src/sound.c:533
 msgid "Enable sounds"
 msgstr "Activer les sons"
 
-#: src/sound.c:494
+#: src/sound.c:539
 msgid "Sound"
 msgstr "Son"
 
-#: src/sound.c:494
+#: src/sound.c:539
 msgid "Audio Settings"
 msgstr "Paramètres Audio"
 
-#: src/sound.c:498
+#: src/sound.c:543
 msgid ""
 "Enlightenment Audio\n"
 "Settings Dialog"
@@ -2350,7 +2350,7 @@ msgstr "Bureau suivant"
 
 #: config/strings.c:78
 msgid "Desktop Operations"
-msgstr "Options de Bureau"
+msgstr "Options du Bureau"
 
 #: config/strings.c:80
 msgid "Cleanup Desktop"
