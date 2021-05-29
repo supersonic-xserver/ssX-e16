@@ -2,10 +2,9 @@ libe16dir = $(pkglibdir)
 
 libe16_LTLIBRARIES = $(LIB_HACK) $(LIB_TRIP)
 
-AM_CPPFLAGS = -I$(top_srcdir)/src $(X_CFLAGS) \
-	      $(CFLAGS_WARNINGS) $(CFLAGS_VISIBILITY)
+AM_CPPFLAGS = -I$(top_srcdir)/src $(X_CFLAGS)
 
-AM_CFLAGS = $(CFLAGS_ASAN)
+AM_CFLAGS = $(CFLAGS_WARNINGS) $(CFLAGS_VISIBILITY) $(CFLAGS_ASAN)
 
 if BUILD_LIBHACK
 

@@ -19,6 +19,10 @@
 
 bin_PROGRAMS = epp
 
+AM_CPPFLAGS = -I$(top_builddir)
+
+AM_CFLAGS = $(CFLAGS_WARNINGS) $(CFLAGS_VISIBILITY) $(CFLAGS_ASAN)
+
 epp_SOURCES = \
 	cpplib.h \
 	cpphash.h \
@@ -28,8 +32,6 @@ epp_SOURCES = \
 	cpphash.c \
 	cpplib.c \
 	cppmain.c 
-
-epp_CPPFLAGS = -I$(top_builddir) $(CFLAGS_WARNINGS)
 
 DEFS= \
 -DHAVE_STRERROR \
@@ -49,4 +51,3 @@ DEFS= \
 -DTARGET_CR=13 \
 -DTARGET_TAB=9 \
 -DTARGET_VT=11
-
