@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -895,7 +895,7 @@ AddToFamily(EWin * ewin, EX_Window xwin, XWindowAttributes * pxwa, int startup)
 	hor = ewin->state.maximized_horz;
 	ver = ewin->state.maximized_vert;
 	ewin->state.maximized_horz = ewin->state.maximized_vert = 0;
-	MaxSizeHV(ewin, "absolute", hor, ver);
+	MaxSizeHV(ewin, "absolute", hor, ver, SLIDE_FOCUS | SLIDE_SOUND);
 	/* Set old state to current maximized one */
 	ewin->save_max.x = EoGetX(ewin);
 	ewin->save_max.y = EoGetY(ewin);

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -483,7 +483,7 @@ void                MoveResizeEnd(EWin * ewin);
 
 /* size.c */
 void                MaxSizeHV(EWin * ewin, const char *resize_type,
-			      int hor, int ver);
+			      int hor, int ver, int flags);
 
 /* stacking.c */
 EWin               *const *EwinListStackGet(int *num);

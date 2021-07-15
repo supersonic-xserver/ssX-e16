@@ -650,15 +650,15 @@ IpcWinop(const WinOp * wop, EWin * ewin, const char *prm)
 	break;
 
      case EWIN_OP_MAX_WIDTH:
-	MaxSizeHV(ewin, param1, 1, 0);
+	MaxSizeHV(ewin, param1, 1, 0, 0);
 	break;
 
      case EWIN_OP_MAX_HEIGHT:
-	MaxSizeHV(ewin, param1, 0, 1);
+	MaxSizeHV(ewin, param1, 0, 1, 0);
 	break;
 
      case EWIN_OP_MAX_SIZE:
-	MaxSizeHV(ewin, param1, 1, 1);
+	MaxSizeHV(ewin, param1, 1, 1, 0);
 	break;
 
      case EWIN_OP_FULLSCREEN:

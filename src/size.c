@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2003-2012 Kim Woelders
+ * Copyright (C) 2003-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -814,7 +814,7 @@ pareto_maximizer(EWin * ewin, int type, EWin * const *lst, int num,
 #endif /* ENABLE_SMART_MAXIMISE */
 
 void
-MaxSizeHV(EWin * ewin, const char *resize_type, int hor, int ver)
+MaxSizeHV(EWin * ewin, const char *resize_type, int hor, int ver, int flags)
 {
    int                 x, y, w, h, x1, x2, y1, y2, type, bl, br, bt, bb;
    EWin               *const *lst;
@@ -1038,7 +1038,7 @@ MaxSizeHV(EWin * ewin, const char *resize_type, int hor, int ver)
 
  do_resize:
    speed = Conf.movres.maximize_animate ? Conf.movres.maximize_speed : 0;
-   EwinSlideSizeTo(ewin, x, y, w, h, speed, 0, SLIDE_WARP);
+   EwinSlideSizeTo(ewin, x, y, w, h, speed, 0, flags | SLIDE_WARP);
 
    HintsSetWindowState(ewin);
 }
