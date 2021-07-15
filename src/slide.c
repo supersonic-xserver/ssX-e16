@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Kim Woelders
+ * Copyright (C) 2013-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -145,7 +145,9 @@ EwinSlideSizeTo(EWin * ewin, int tx, int ty, int tw, int th,
 	warp = mx < tx || mx >= tx + tw || my < ty || my >= ty + th;
      }
 
-   if (speed == 0)
+   if (speed == 0 ||
+       (tx == EoGetX(ewin) && ty == EoGetY(ewin) &&
+	tw == EoGetW(ewin) && th == EoGetH(ewin)))
      {
 	EwinMoveResize(ewin, tx, ty, tw, th, MRF_KEEP_MAXIMIZED);
 	if (warp)
