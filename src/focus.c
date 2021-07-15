@@ -108,11 +108,12 @@ FocusEwinValid(EWin * ewin, int want_on_screen, int click, int want_visible)
 
 #if 0
    Eprintf
-      ("%s: %#x %s: st=%d sh=%d inh=%d ons=%d(%d) cl=%d(%d) vis=%d(%d): Ok=%d\n",
+      ("%s: %#x %s: st=%d sh=%d inh=%d/%d ons=%d(%d) vis=%d(%d) cl=%d(%d): Ok=%d\n",
        __func__, EwinGetClientXwin(ewin), EwinGetTitle(ewin),
-       ewin->state.state, EoIsShown(ewin), ewin->state.inhibit_focus,
-       want_on_screen, EwinIsOnScreen(ewin), click, ewin->props.focusclick,
-       want_visible, ewin->state.visibility, ok);
+       ewin->state.state, EoIsShown(ewin),
+       ewin->state.inhibit_focus, ewin->state.sliding,
+       EwinIsOnScreen(ewin), want_on_screen,
+       ewin->state.visibility, want_visible, ok, click, ewin->props.focusclick);
 #endif
    return ok;
 }
@@ -149,6 +150,11 @@ FocusEwinValidNew(EWin * ewin)
 		ok = 1;
 	  }
      }
+
+#if 0
+   Eprintf("%s: %#x %s: Ok=%d\n", __func__,
+	   EwinGetClientXwin(ewin), EwinGetTitle(ewin), ok);
+#endif
 
    return ok;
 }
