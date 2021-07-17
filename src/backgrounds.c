@@ -1572,8 +1572,8 @@ static void
 CB_ConfigureDelBG(Dialog * d, int val, void *data __UNUSED__)
 {
    BgDlgData          *dd = DLG_DATA_GET(d, BgDlgData);
-   Background         *bg;
    int                 lower, upper;
+   Background         *bg, *bgn;
 
    bg = LIST_CHECK(Background, &bg_list, dd->bg);
    if (!bg)
@@ -1581,17 +1581,16 @@ CB_ConfigureDelBG(Dialog * d, int val, void *data __UNUSED__)
    if (BackgroundIsNone(bg))
       return;
 
-   bg = LIST_NEXT(Background, &bg_list, bg);
-   if (!bg)
-      bg = LIST_PREV(Background, &bg_list, bg);
+   bgn = LIST_NEXT(Background, &bg_list, bg);
+   if (!bgn)
+      bgn = LIST_PREV(Background, &bg_list, bg);
 
-   DeskBackgroundSet(DesksGetCurrent(), bg);
+   DeskBackgroundSet(DesksGetCurrent(), bgn);
 
    if (val == 0)
-      BackgroundDestroy(dd->bg);
+      BackgroundDestroy(bg);
    else
-      BackgroundDelete(dd->bg);
-   dd->bg = NULL;
+      BackgroundDelete(bg);
 
    DialogItemSliderGetBounds(dd->bg_sel_slider, &lower, &upper);
    upper -= 4;
@@ -1599,7 +1598,8 @@ CB_ConfigureDelBG(Dialog * d, int val, void *data __UNUSED__)
    if (dd->bg_sel_sliderval > upper)
       DialogItemSliderSetVal(dd->bg_sel_slider, upper);
 
-   BgDialogSetNewCurrent(d, bg);
+   dd->bg = NULL;
+   BgDialogSetNewCurrent(d, bgn);
 
    autosave();
 }
