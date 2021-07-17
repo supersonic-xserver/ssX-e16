@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2007-2020 Kim Woelders
+ * Copyright (C) 2007-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -61,11 +61,7 @@ TextGetLines(const char *text, int *count)
 void
 TextStateLoadFont(TextState * ts)
 {
-#if USE_XFONT
-   if ((ts->efont) || (ts->xfont) || (ts->xfontset))
-#else
    if ((ts->efont) || (ts->xfontset))
-#endif
       return;
 
    if (!ts->fontname)
@@ -98,19 +94,6 @@ TextStateLoadFont(TextState * ts)
 	if (ts->efont)
 	   return;
      }
-
-#if USE_XFONT
-   if ((!ts->xfont) && (!strchr(ts->fontname, ',')))
-     {
-	ts->xfont = XLoadQueryFont(disp, ts->fontname);
-	if (ts->xfont)
-	  {
-	     ts->xfontset_ascent = ts->xfont->ascent;
-	     ts->height = ts->xfont->ascent + ts->xfont->descent;
-	     return;
-	  }
-     }
-#endif
 
    if (!ts->xfontset)
      {
@@ -183,34 +166,6 @@ TextSize(TextState * ts, const char *text, int *width, int *height)
 		*width = ret2.width;
 	  }
      }
-#if USE_XFONT
-   else if ((ts->xfont) && (ts->xfont->min_byte1 == 0) &&
-	    (ts->xfont->max_byte1 == 0))
-     {
-	for (i = 0; i < num_lines; i++)
-	  {
-	     int                 wid;
-
-	     wid = XTextWidth(ts->xfont, lines[i], strlen(lines[i]));
-	     *height += ts->xfont->ascent + ts->xfont->descent;
-	     if (wid > *width)
-		*width = wid;
-	  }
-     }
-   else if ((ts->xfont))
-     {
-	for (i = 0; i < num_lines; i++)
-	  {
-	     int                 wid;
-
-	     wid = XTextWidth16(ts->xfont, (XChar2b *) lines[i],
-				strlen(lines[i]) / 2);
-	     *height += ts->xfont->ascent + ts->xfont->descent;
-	     if (wid > *width)
-		*width = wid;
-	  }
-     }
-#endif /* USE_XFONT */
    freestrlist(lines, num_lines);
 }
 
@@ -313,84 +268,5 @@ TextDraw(TextState * ts, Window win, char *text,
 	     yy += ret2.height;
 	  }
      }
-#if USE_XFONT
-   else if ((ts->xfont) && (ts->xfont->min_byte1 == 0) &&
-	    (ts->xfont->max_byte1 == 0))
-     {
-	XSetFont(disp, gc, ts->xfont->fid);
-	for (i = 0; i < num_lines; i++)
-	  {
-	     int                 wid;
-
-	     wid = XTextWidth(ts->xfont, lines[i], strlen(lines[i]));
-	     if (i == 0)
-		yy += ts->xfont->ascent;
-	     xx = x + (((w - wid) * justification) >> 10);
-	     if (ts->effect == 1)
-	       {
-		  EAllocColor(&ts->bg_col);
-		  XSetForeground(disp, gc, ts->bg_col.pixel);
-		  XDrawString(disp, win, gc, xx + 1, yy + 1,
-			      lines[i], strlen(lines[i]));
-	       }
-	     else if (ts->effect == 2)
-	       {
-		  EAllocColor(&ts->bg_col);
-		  XSetForeground(disp, gc, ts->bg_col.pixel);
-		  XDrawString(disp, win, gc, xx - 1, yy,
-			      lines[i], strlen(lines[i]));
-		  XDrawString(disp, win, gc, xx + 1, yy,
-			      lines[i], strlen(lines[i]));
-		  XDrawString(disp, win, gc, xx, yy - 1,
-			      lines[i], strlen(lines[i]));
-		  XDrawString(disp, win, gc, xx, yy + 1,
-			      lines[i], strlen(lines[i]));
-	       }
-	     EAllocColor(&ts->fg_col);
-	     XSetForeground(disp, gc, ts->fg_col.pixel);
-	     XDrawString(disp, win, gc, xx, yy, lines[i], strlen(lines[i]));
-	     yy += ts->xfont->ascent + ts->xfont->descent;
-	  }
-     }
-   else if ((ts->xfont))
-     {
-	XSetFont(disp, gc, ts->xfont->fid);
-	for (i = 0; i < num_lines; i++)
-	  {
-	     int                 wid;
-
-	     wid = XTextWidth16(ts->xfont, (XChar2b *) lines[i],
-				strlen(lines[i]) / 2);
-	     if (i == 0)
-		yy += ts->xfont->ascent;
-	     xx = x + (((w - wid) * justification) >> 10);
-	     if (ts->effect == 1)
-	       {
-		  EAllocColor(&ts->bg_col);
-		  XSetForeground(disp, gc, ts->bg_col.pixel);
-		  XDrawString16(disp, win, gc, xx + 1, yy + 1,
-				(XChar2b *) lines[i], strlen(lines[i]) / 2);
-	       }
-	     else if (ts->effect == 2)
-	       {
-		  EAllocColor(&ts->bg_col);
-		  XSetForeground(disp, gc, ts->bg_col.pixel);
-		  XDrawString16(disp, win, gc, xx - 1, yy,
-				(XChar2b *) lines[i], strlen(lines[i]) / 2);
-		  XDrawString16(disp, win, gc, xx + 1, yy,
-				(XChar2b *) lines[i], strlen(lines[i]) / 2);
-		  XDrawString16(disp, win, gc, xx, yy - 1,
-				(XChar2b *) lines[i], strlen(lines[i]) / 2);
-		  XDrawString16(disp, win, gc, xx, yy + 1,
-				(XChar2b *) lines[i], strlen(lines[i]) / 2);
-	       }
-	     EAllocColor(&ts->fg_col);
-	     XSetForeground(disp, gc, ts->fg_col.pixel);
-	     XDrawString16(disp, win, gc, xx, yy,
-			   (XChar2b *) lines[i], strlen(lines[i]) / 2);
-	     yy += ts->xfont->ascent + ts->xfont->descent;
-	  }
-     }
-#endif /* USE_XFONT */
    freestrlist(lines, num_lines);
 }

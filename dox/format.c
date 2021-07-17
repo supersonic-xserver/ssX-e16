@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2007-2020 Kim Woelders
+ * Copyright (C) 2007-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -688,11 +688,6 @@ RenderPage(Window win, int page_num, int w, int h)
 	     if (ts.efont)
 		Efont_free(ts.efont);
 	     ts.efont = NULL;
-#if USE_XFONT
-	     if (ts.xfont)
-		XFreeFont(disp, ts.xfont);
-	     ts.xfont = NULL;
-#endif
 	     if (ts.xfontset)
 		XFreeFontSet(disp, ts.xfontset);
 	     ts.xfontset = NULL;
@@ -973,10 +968,6 @@ RenderPage(Window win, int page_num, int w, int h)
 
    if (ts.efont)
       Efont_free(ts.efont);
-#if USE_XFONT
-   if (ts.xfont)
-      XFreeFont(disp, ts.xfont);
-#endif
    if (ts.xfontset)
       XFreeFontSet(disp, ts.xfontset);
 

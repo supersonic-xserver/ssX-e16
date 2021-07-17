@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2007-2020 Kim Woelders
+ * Copyright (C) 2007-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -51,9 +51,6 @@ typedef struct _textstate {
    XColor              bg_col;
    int                 effect;
    Efont              *efont;
-#if USE_XFONT
-   XFontStruct        *xfont;
-#endif
    XFontSet            xfontset;
    int                 xfontset_ascent;
    int                 height;
