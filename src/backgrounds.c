@@ -271,18 +271,21 @@ BackgroundDestroy(Background * bg)
 }
 
 #if ENABLE_DIALOGS
-static void
+static int
 BackgroundDelete(Background * bg)
 {
    char               *f;
 
    if (!bg)
-      return;
+      return -1;
 #if 0
    Eprintf("%s: %s\n", __func__, bg->name);
 #endif
    if (bg->ref_count > 0)
-      return;
+     {
+	DialogOK("Background Error!", _("%u references remain"), bg->ref_count);
+	return -1;
+     }
 
    /* And delete the actual image files */
    f = _BackgroundGetBgFile(bg);
@@ -292,7 +295,7 @@ BackgroundDelete(Background * bg)
    if (f)
       E_rm(f);
 
-   BackgroundDestroy(bg);
+   return BackgroundDestroy(bg);
 }
 #endif /* ENABLE_DIALOGS */
 
@@ -1572,8 +1575,8 @@ static void
 CB_ConfigureDelBG(Dialog * d, int val, void *data __UNUSED__)
 {
    BgDlgData          *dd = DLG_DATA_GET(d, BgDlgData);
-   int                 lower, upper;
    Background         *bg, *bgn;
+   int                 err, lower, upper;
 
    bg = LIST_CHECK(Background, &bg_list, dd->bg);
    if (!bg)
@@ -1588,15 +1591,18 @@ CB_ConfigureDelBG(Dialog * d, int val, void *data __UNUSED__)
    DeskBackgroundSet(DesksGetCurrent(), bgn);
 
    if (val == 0)
-      BackgroundDestroy(bg);
+      err = BackgroundDestroy(bg);
    else
-      BackgroundDelete(bg);
+      err = BackgroundDelete(bg);
 
-   DialogItemSliderGetBounds(dd->bg_sel_slider, &lower, &upper);
-   upper -= 4;
-   DialogItemSliderSetBounds(dd->bg_sel_slider, lower, upper);
-   if (dd->bg_sel_sliderval > upper)
-      DialogItemSliderSetVal(dd->bg_sel_slider, upper);
+   if (!err)
+     {
+	DialogItemSliderGetBounds(dd->bg_sel_slider, &lower, &upper);
+	upper -= 4;
+	DialogItemSliderSetBounds(dd->bg_sel_slider, lower, upper);
+	if (dd->bg_sel_sliderval > upper)
+	   DialogItemSliderSetVal(dd->bg_sel_slider, upper);
+     }
 
    dd->bg = NULL;
    BgDialogSetNewCurrent(d, bgn);
