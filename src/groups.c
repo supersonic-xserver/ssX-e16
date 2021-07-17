@@ -924,7 +924,8 @@ _DlgFillGroups(Dialog * d, DItem * table, void *data)
    dd->cur_grp = dd->prv_grp = 0;
    for (i = 0; i < ewin->num_groups; i++)
       dd->cfgs[i] = ewin->groups[i]->cfg;
-   dd->cfg = dd->cfgs[0];
+   if (ewin->num_groups > 0)	/* Avoid compiler warning */
+      dd->cfg = dd->cfgs[0];
 
    _EwinGroupsShowHide(ewin, 0, SET_ON);
 
