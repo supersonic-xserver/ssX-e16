@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -259,6 +259,7 @@ ExtInitWinCreate(void)
       Eprintf("%s\n", __func__);
 
    a = ex_atom_get("ENLIGHTENMENT_RESTART_SCREEN");
+   ex_window_prop_window_set(WinGetXwin(RROOT), a, NULL, 0);
    ESync(0);
 
    if (fork())
@@ -272,7 +273,7 @@ ExtInitWinCreate(void)
 		Eprintf("%s: parent\n", __func__);
 
 	     /* Hack to give the child some space. Not foolproof. */
-	     sleep(1);
+	     SleepUs(500000);
 
 	     if (ex_window_prop_window_get
 		 (WinGetXwin(RROOT), a, &win_ex, 1) > 0)
