@@ -736,7 +736,7 @@ EImageDefineCursor(EImage * im, int xh, int yh)
 
    EImageGetSize(im, &w, &h);
 
-   pict = EPictureCreateBuffer(VROOT, w, h, 1, &pmap);
+   pict = EPictureCreateBuffer(RROOT, w, h, 1, &pmap);
 
    EImageRenderOnDrawableARGB(im, pmap, w, h);
    EFreePixmap(pmap);
@@ -747,4 +747,4 @@ EImageDefineCursor(EImage * im, int xh, int yh)
    return curs;
 }
 
-#endif /* USE_COMPOSITE */
+#endif /* USE_XRENDER */
