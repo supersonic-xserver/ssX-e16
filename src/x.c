@@ -445,41 +445,6 @@ ECreateEventWindow(Win parent, int x, int y, int w, int h)
    return win;
 }
 
-#if 0				/* Not used */
-/*
- * create a window which will accept the keyboard focus when no other 
- * windows have it
- */
-Win
-ECreateFocusWindow(Win parent, int x, int y, int w, int h)
-{
-   Win                 win;
-   XSetWindowAttributes attr;
-
-   attr.backing_store = NotUseful;
-   attr.override_redirect = False;
-   attr.colormap = WinGetCmap(VROOT);
-   attr.border_pixel = 0;
-   attr.background_pixel = 0;
-   attr.save_under = False;
-   attr.event_mask = KeyPressMask | FocusChangeMask;
-
-   EX_Window           xwin, xpar;
-
-   win = XCreateWindow(disp, parent, x, y, w, h, 0, 0, InputOnly,
-		       CopyFromParent,
-		       CWOverrideRedirect | CWSaveUnder | CWBackingStore |
-		       CWColormap | CWBackPixel | CWBorderPixel | CWEventMask,
-		       &attr);
-
-   XSetWindowBackground(disp, win, 0);
-   XMapWindow(disp, win);
-   XSetInputFocus(disp, win, RevertToParent, CurrentTime);
-
-   return win;
-}
-#endif
-
 void
 EMoveWindow(Win win, int x, int y)
 {

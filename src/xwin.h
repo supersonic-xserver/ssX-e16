@@ -161,7 +161,6 @@ Win                 ECreateObjectWindow(Win parent, int x, int y, int w,
 					int h, int saveunder, int type,
 					Win cwin);
 Win                 ECreateEventWindow(Win parent, int x, int y, int w, int h);
-Win                 ECreateFocusWindow(Win parent, int x, int y, int w, int h);
 void                EWindowSync(Win win);
 void                EWindowSetGeometry(Win win, int x, int y, int w, int h,
 				       int bw);
