@@ -817,6 +817,20 @@ EXGetGeometry(EX_Drawable draw, EX_Window * root_return, int *x, int *y,
 #if 0				/* Debug */
 	Eprintf("%s win=%#x, error %d\n", __func__, draw, ok);
 #endif
+	if (root_return)
+	   *root_return = NoXID;
+	if (x)
+	   *x = 0;
+	if (y)
+	   *y = 0;
+	if (w)
+	   *w = 0;
+	if (h)
+	   *h = 0;
+	if (bw)
+	   *bw = 0;
+	if (depth)
+	   *depth = 0;
 	return 0;
      }
 
@@ -843,8 +857,27 @@ EGetGeometry(Win win, EX_Window * root_return, int *x, int *y,
 	     int *w, int *h, int *bw, int *depth)
 {
    if (!win)
-      return 0;
+     {
+	Eprintf("%s win=null\n", __func__);
+	if (root_return)
+	   *root_return = NoXID;
+	if (x)
+	   *x = 0;
+	if (y)
+	   *y = 0;
+	if (w)
+	   *w = 0;
+	if (h)
+	   *h = 0;
+	if (bw)
+	   *bw = 0;
+	if (depth)
+	   *depth = 0;
+	return 0;
+     }
 
+   if (root_return)
+      *root_return = WinGetXwin(VROOT);
    if (x)
       *x = win->x;
    if (y)
@@ -857,8 +890,6 @@ EGetGeometry(Win win, EX_Window * root_return, int *x, int *y,
       *bw = 0;
    if (depth)
       *depth = win->depth;
-   if (root_return)
-      *root_return = WinGetXwin(VROOT);
 
    return 1;
 }
