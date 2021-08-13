@@ -753,7 +753,7 @@ EReparentWindow(Win win, Win parent, int x, int y)
 
 #if 0
    Eprintf
-      ("%s: %p %#lx: %d %#lx->%#lx %d,%d %dx%d -> %d,%d\n", __func__,
+      ("%s: %p %#x: %d %#x->%#x %d,%d %dx%d -> %d,%d\n", __func__,
        win, win->xwin, win->mapped, (win->parent) ? win->parent->xwin : NoXID,
        parent->xwin, win->x, win->y, win->w, win->h, x, y);
 #endif
@@ -813,7 +813,12 @@ EXGetGeometry(EX_Drawable draw, EX_Window * root_return, int *x, int *y,
 
    ok = XGetGeometry(disp, draw, &rr, &xx, &yy, &ww, &hh, &bb, &dd);
    if (!ok)
-      goto done;
+     {
+#if 0				/* Debug */
+	Eprintf("%s win=%#x, error %d\n", __func__, draw, ok);
+#endif
+	return 0;
+     }
 
    if (root_return)
       *root_return = rr;
@@ -830,12 +835,7 @@ EXGetGeometry(EX_Drawable draw, EX_Window * root_return, int *x, int *y,
    if (depth)
       *depth = dd;
 
- done:
-#if 0				/* Debug */
-   if (!ok)
-      Eprintf("%s win=%#x, error %d\n", __func__, (unsigned)win, ok);
-#endif
-   return ok;
+   return 1;
 }
 
 int
