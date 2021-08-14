@@ -1225,7 +1225,7 @@ static void
 ContainerEventScrollWin(Win win __UNUSED__, XEvent * ev, void *prm)
 {
    Container          *ct = (Container *) prm;
-   int                 x, y, w, h;
+   Win                 sbwin;
 
    switch (ev->type)
      {
@@ -1240,19 +1240,19 @@ ContainerEventScrollWin(Win win __UNUSED__, XEvent * ev, void *prm)
 	if (!ct->scrollbox_clicked)
 	   break;
 	ct->scrollbox_clicked = 0;
-	EGetGeometry(ct->scrollbar_win, NULL, &x, &y, &w, &h, NULL, NULL);
+	sbwin = ct->scrollbar_win;
 	if (ct->orientation)
 	  {
-	     if (ev->xbutton.y < y)
+	     if (ev->xbutton.y < WinGetY(sbwin))
 		ContainerScroll(ct, -8);
-	     else if (ev->xbutton.y > (y + h))
+	     else if (ev->xbutton.y > WinGetY(sbwin) + WinGetH(sbwin))
 		ContainerScroll(ct, 8);
 	  }
 	else
 	  {
-	     if (ev->xbutton.x < x)
+	     if (ev->xbutton.x < WinGetX(sbwin))
 		ContainerScroll(ct, -8);
-	     else if (ev->xbutton.x > (x + w))
+	     else if (ev->xbutton.x > WinGetX(sbwin) + WinGetW(sbwin))
 		ContainerScroll(ct, 8);
 	  }
 	break;

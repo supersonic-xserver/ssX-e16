@@ -174,9 +174,6 @@ void                EMapWindow(Win win);
 void                EMapRaised(Win win);
 void                EUnmapWindow(Win win);
 void                EReparentWindow(Win win, Win parent, int x, int y);
-int                 EGetGeometry(Win win, EX_Window * root_return,
-				 int *x, int *y, int *w, int *h, int *bw,
-				 int *depth);
 void                EGetWindowAttributes(Win win, XWindowAttributes * pxwa);
 void                EConfigureWindow(Win win, unsigned int mask,
 				     XWindowChanges * wc);

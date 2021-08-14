@@ -691,14 +691,11 @@ BackgroundApplyPmap(Background * bg, Win win, EX_Drawable draw,
 static void
 BackgroundApplyWin(Background * bg, Win win)
 {
-   int                 w, h;
    EX_Pixmap           pmap;
    unsigned int        pixel;
 
-   if (!EGetGeometry(win, NULL, NULL, NULL, &w, &h, NULL, NULL))
-      return;
-
-   BackgroundRealize(bg, win, NoXID, w, h, 1, &pmap, &pixel);
+   BackgroundRealize(bg, win, NoXID, WinGetW(win), WinGetH(win), 1,
+		     &pmap, &pixel);
    if (pmap != NoXID)
      {
 	ESetWindowBackgroundPixmap(win, pmap, 0);

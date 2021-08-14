@@ -178,9 +178,10 @@ SlideoutShow(Slideout * s, EWin * ewin, Win win)
       return;
 
    SlideoutCalcSize(s);
-   EGetGeometry(win, NULL, NULL, NULL, &w, &h, NULL, NULL);
    ETranslateCoordinates(win, VROOT, 0, 0, &x, &y, NULL);
 
+   w = WinGetW(win);
+   h = WinGetH(win);
    sw = EoGetW(s);
    sh = EoGetH(s);
    xx = 0;

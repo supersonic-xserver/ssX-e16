@@ -831,48 +831,6 @@ EXGetSize(EX_Drawable draw, int *w, int *h)
    return 1;
 }
 
-int
-EGetGeometry(Win win, EX_Window * root_return, int *x, int *y,
-	     int *w, int *h, int *bw, int *depth)
-{
-   if (!win)
-     {
-	Eprintf("%s win=null\n", __func__);
-	if (root_return)
-	   *root_return = NoXID;
-	if (x)
-	   *x = 0;
-	if (y)
-	   *y = 0;
-	if (w)
-	   *w = 0;
-	if (h)
-	   *h = 0;
-	if (bw)
-	   *bw = 0;
-	if (depth)
-	   *depth = 0;
-	return 0;
-     }
-
-   if (root_return)
-      *root_return = WinGetXwin(VROOT);
-   if (x)
-      *x = win->x;
-   if (y)
-      *y = win->y;
-   if (w)
-      *w = win->w;
-   if (h)
-      *h = win->h;
-   if (bw)
-      *bw = 0;
-   if (depth)
-      *depth = win->depth;
-
-   return 1;
-}
-
 void
 EGetWindowAttributes(Win win, XWindowAttributes * pxwa)
 {

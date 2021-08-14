@@ -290,7 +290,7 @@ static void
 MenuShow(Menu * m, char noshow)
 {
    EWin               *ewin;
-   int                 x, y, w, h;
+   Win                 win;
    int                 wx, wy, mw, mh;
    int                 head_num = 0;
 
@@ -321,13 +321,13 @@ MenuShow(Menu * m, char noshow)
 #endif
      }
 
-   EGetGeometry(m->items[0]->win, NULL, &x, &y, &w, &h, NULL, NULL);
+   win = m->items[0]->win;
    mw = m->w;
    mh = m->h;
 
    EQueryPointer(NULL, &wx, &wy, NULL, NULL);
-   wx -= EoGetX(DesksGetCurrent()) + x + (w / 2);
-   wy -= EoGetY(DesksGetCurrent()) + y + (h / 2);
+   wx -= EoGetX(DesksGetCurrent()) + WinGetX(win) + WinGetW(win) / 2;
+   wy -= EoGetY(DesksGetCurrent()) + WinGetY(win) + WinGetH(win) / 2;
    if (Conf.menus.onscreen)
      {
 	Border             *b;
@@ -963,7 +963,10 @@ MenuDrawItem(Menu * m, MenuItem * mi, char shape, int state)
 	PmapMask            pmm;
 	EImage             *im;
 
-	EGetGeometry(mi->win, NULL, &x, &y, &w, &h, NULL, NULL);
+	x = WinGetX(mi->win);
+	y = WinGetY(mi->win);
+	w = WinGetW(mi->win);
+	h = WinGetH(mi->win);
 
 	mi_pmm->type = 0;
 	mi_pmm->pmap = ECreatePixmap(mi->win, w, h, 0);
@@ -1406,11 +1409,12 @@ _SubmenuGetPlacement(Menu * m, int *xo, int *yo, int *mw, int *mh)
    int                 bl1, br1, bt1, bb1;
    int                 bl2, br2, bt2, bb2;
 
-   EGetGeometry(mi->win, NULL, &mix, &miy, &miw, NULL, NULL, NULL);
+   mix = WinGetX(mi->win);
+   miy = WinGetY(mi->win);
+   miw = WinGetW(mi->win);
    my2 = 0;
    if (mi->child->num > 0 && mi->child->items[0])
-      EGetGeometry(mi->child->items[0]->win, NULL, NULL, &my2, NULL, NULL, NULL,
-		   NULL);
+      my2 = WinGetY(mi->child->items[0]->win);
 
    ewin = m->ewin;
    ewin2 = m->child->ewin;
