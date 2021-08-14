@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -179,11 +179,8 @@ IB_GetAppIcon(EWin * ewin, int size)
    if (!ewin->icccm.icon_pmap)
       return NULL;
 
-   w = 0;
-   h = 0;
-   EXGetGeometry(ewin->icccm.icon_pmap, NULL, NULL, NULL, &w, &h, NULL, NULL);
-
-   if (w < 1 || h < 1)
+   EXGetSize(ewin->icccm.icon_pmap, &w, &h);
+   if (w <= 0 || h <= 0)
       return NULL;
 
    im = EImageGrabDrawable(ewin->icccm.icon_pmap, ewin->icccm.icon_mask,

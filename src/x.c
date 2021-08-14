@@ -803,8 +803,7 @@ EXGetWindowAttributes(EX_Window xwin, XWindowAttributes * pxwa)
 }
 
 int
-EXGetGeometry(EX_Drawable draw, EX_Window * root_return, int *x, int *y,
-	      int *w, int *h, int *bw, int *depth)
+EXGetSize(EX_Drawable draw, int *w, int *h)
 {
    int                 ok;
    Window              rr;
@@ -817,37 +816,17 @@ EXGetGeometry(EX_Drawable draw, EX_Window * root_return, int *x, int *y,
 #if 0				/* Debug */
 	Eprintf("%s win=%#x, error %d\n", __func__, draw, ok);
 #endif
-	if (root_return)
-	   *root_return = NoXID;
-	if (x)
-	   *x = 0;
-	if (y)
-	   *y = 0;
 	if (w)
 	   *w = 0;
 	if (h)
 	   *h = 0;
-	if (bw)
-	   *bw = 0;
-	if (depth)
-	   *depth = 0;
 	return 0;
      }
 
-   if (root_return)
-      *root_return = rr;
-   if (x)
-      *x = xx;
-   if (y)
-      *y = yy;
    if (w)
       *w = ww;
    if (h)
       *h = hh;
-   if (bw)
-      *bw = bb;
-   if (depth)
-      *depth = dd;
 
    return 1;
 }
@@ -1239,7 +1218,7 @@ EXDrawableOk(EX_Drawable draw)
    if (draw == NoXID)
       return 0;
 
-   return EXGetGeometry(draw, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+   return EXGetSize(draw, NULL, NULL);
 }
 
 int

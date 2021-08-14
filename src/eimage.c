@@ -634,7 +634,7 @@ ScaleTile(Win wsrc, EX_Drawable src, Win wdst, EX_Pixmap dst,
 
    sw = WinGetW(wsrc);
    sh = WinGetH(wsrc);
-   EXGetGeometry(src, NULL, NULL, NULL, &stw, &sth, NULL, NULL);
+   EXGetSize(src, &stw, &sth);
    if (stw >= sw && sth >= sh)
      {
 	ScaleRect(wsrc, src, wdst, dst, 0, 0, sw, sh, dx, dy, dw, dh, scale);
@@ -670,8 +670,7 @@ EDrawableDumpImage(EX_Drawable draw, const char *txt)
    Imlib_Image         im;
    int                 w, h;
 
-   w = h = 0;
-   EXGetGeometry(draw, NULL, NULL, NULL, &w, &h, NULL, NULL);
+   EXGetSize(draw, &w, &h);
    if (w <= 0 || h <= 0)
       return;
    im = EImageGrabDrawableScaled(ELookupXwin(draw), draw, NoXID,

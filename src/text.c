@@ -68,7 +68,7 @@ TextDrawRotTo(Win win, EX_Drawable src, EX_Drawable dst, int x, int y,
 	EImageFree(im);
 	break;
      case FONT_TO_DOWN:
-	EXGetGeometry(src, NULL, NULL, NULL, &win_w, NULL, NULL, NULL);
+	EXGetSize(src, &win_w, NULL);
 	im = EImageGrabDrawable(src, NoXID, win_w - y - h, x, h, w, 0);
 	EImageOrientate(im, 3);
 	EImageRenderOnDrawable(im, win, dst, 0, 0, 0, w, h);
@@ -101,7 +101,7 @@ TextDrawRotBack(Win win, EX_Drawable dst, EX_Drawable src, int x, int y,
 	EImageFree(im);
 	break;
      case FONT_TO_DOWN:
-	EXGetGeometry(dst, NULL, NULL, NULL, &win_w, NULL, NULL, NULL);
+	EXGetSize(dst, &win_w, NULL);
 	im = EImageGrabDrawable(src, NoXID, 0, 0, w, h, 0);
 	EImageOrientate(im, 1);
 	EImageRenderOnDrawable(im, win, dst, 0, win_w - y - h, x, h, w);
@@ -141,7 +141,7 @@ TextImageGet(Win win __UNUSED__, EX_Drawable src, int x, int y, int w, int h,
 	EImageOrientate(im, 1);
 	break;
      case FONT_TO_DOWN:
-	EXGetGeometry(src, NULL, NULL, NULL, &win_w, NULL, NULL, NULL);
+	EXGetSize(src, &win_w, NULL);
 	im = EImageGrabDrawable(src, NoXID, win_w - y - h, x, h, w, 0);
 	EImageOrientate(im, 3);
 	break;
@@ -171,7 +171,7 @@ TextImagePut(EImage * im, Win win, EX_Drawable dst, int x, int y,
 	EImageRenderOnDrawable(im, win, dst, 0, y, x, h, w);
 	break;
      case FONT_TO_DOWN:
-	EXGetGeometry(dst, NULL, NULL, NULL, &win_w, NULL, NULL, NULL);
+	EXGetSize(dst, &win_w, NULL);
 	EImageOrientate(im, 1);
 	EImageRenderOnDrawable(im, win, dst, 0, win_w - y - h, x, h, w);
 	break;

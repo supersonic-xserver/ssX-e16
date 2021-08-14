@@ -254,9 +254,7 @@ unsigned int        EAllocColor(EX_Colormap cmap, unsigned int argb);
 EX_Window           EXWindowGetParent(EX_Window xwin);
 int                 EXGetWindowAttributes(EX_Window xwin,
 					  XWindowAttributes * pxwa);
-int                 EXGetGeometry(EX_Window xwin, EX_Window * root_return,
-				  int *x, int *y, int *w, int *h, int *bw,
-				  int *depth);
+int                 EXGetSize(EX_Window xwin, int *w, int *h);
 
 void                EXRestackWindows(EX_Window * windows, int nwindows);
 
