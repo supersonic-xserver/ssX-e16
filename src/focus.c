@@ -329,10 +329,9 @@ FocusEwinSetActive(EWin * ewin, int active)
    EwinUpdateOpacity(ewin);
 
    if (active && ewin->state.attention)
-     {
-	ewin->state.attention = 0;
-	HintsSetWindowState(ewin);
-     }
+      ewin->state.attention = 0;
+
+   HintsSetWindowState(ewin);
 }
 
 static void

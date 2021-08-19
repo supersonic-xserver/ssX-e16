@@ -131,6 +131,7 @@ EWMH_Init(EX_Window win_wm_check)
    atom_list[atom_count++] = EX_ATOM_NET_WM_STATE_ABOVE;
    atom_list[atom_count++] = EX_ATOM_NET_WM_STATE_BELOW;
    atom_list[atom_count++] = EX_ATOM_NET_WM_STATE_DEMANDS_ATTENTION;
+   atom_list[atom_count++] = EX_ATOM_NET_WM_STATE_FOCUSED;
 
    atom_list[atom_count++] = EX_ATOM_NET_WM_ALLOWED_ACTIONS;
    atom_list[atom_count++] = EX_ATOM_NET_WM_ACTION_MOVE;
@@ -383,6 +384,7 @@ EWMH_SetWindowState(const EWin * ewin)
    ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_ABOVE, EoGetLayer(ewin) >= 6);
    ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_BELOW, EoGetLayer(ewin) <= 2);
    ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_DEMANDS_ATTENTION, ewin->state.attention);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_FOCUSED, ewin->state.active);
 
    if (ewin->ewmh.current_state == atom_mask)
       return;
