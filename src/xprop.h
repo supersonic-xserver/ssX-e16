@@ -190,30 +190,31 @@ extern EX_Atom      atoms_netwm[];
 #define EX_ATOM_NET_WM_STATE_ABOVE		atoms_netwm[37]
 #define EX_ATOM_NET_WM_STATE_BELOW		atoms_netwm[38]
 #define EX_ATOM_NET_WM_STATE_DEMANDS_ATTENTION	atoms_netwm[39]
+#define EX_ATOM_NET_WM_STATE_FOCUSED          	atoms_netwm[40]
 
-#define EX_ATOM_NET_WM_ALLOWED_ACTIONS		atoms_netwm[40]
-#define EX_ATOM_NET_WM_ACTION_MOVE		atoms_netwm[41]
-#define EX_ATOM_NET_WM_ACTION_RESIZE		atoms_netwm[42]
-#define EX_ATOM_NET_WM_ACTION_MINIMIZE		atoms_netwm[43]
-#define EX_ATOM_NET_WM_ACTION_SHADE		atoms_netwm[44]
-#define EX_ATOM_NET_WM_ACTION_STICK		atoms_netwm[45]
-#define EX_ATOM_NET_WM_ACTION_MAXIMIZE_HORZ	atoms_netwm[46]
-#define EX_ATOM_NET_WM_ACTION_MAXIMIZE_VERT	atoms_netwm[47]
-#define EX_ATOM_NET_WM_ACTION_FULLSCREEN	atoms_netwm[48]
-#define EX_ATOM_NET_WM_ACTION_CHANGE_DESKTOP	atoms_netwm[49]
-#define EX_ATOM_NET_WM_ACTION_CLOSE		atoms_netwm[50]
-#define EX_ATOM_NET_WM_ACTION_ABOVE		atoms_netwm[51]
-#define EX_ATOM_NET_WM_ACTION_BELOW		atoms_netwm[52]
+#define EX_ATOM_NET_WM_ALLOWED_ACTIONS		atoms_netwm[41]
+#define EX_ATOM_NET_WM_ACTION_MOVE		atoms_netwm[42]
+#define EX_ATOM_NET_WM_ACTION_RESIZE		atoms_netwm[43]
+#define EX_ATOM_NET_WM_ACTION_MINIMIZE		atoms_netwm[44]
+#define EX_ATOM_NET_WM_ACTION_SHADE		atoms_netwm[45]
+#define EX_ATOM_NET_WM_ACTION_STICK		atoms_netwm[46]
+#define EX_ATOM_NET_WM_ACTION_MAXIMIZE_HORZ	atoms_netwm[47]
+#define EX_ATOM_NET_WM_ACTION_MAXIMIZE_VERT	atoms_netwm[48]
+#define EX_ATOM_NET_WM_ACTION_FULLSCREEN	atoms_netwm[49]
+#define EX_ATOM_NET_WM_ACTION_CHANGE_DESKTOP	atoms_netwm[50]
+#define EX_ATOM_NET_WM_ACTION_CLOSE		atoms_netwm[51]
+#define EX_ATOM_NET_WM_ACTION_ABOVE		atoms_netwm[52]
+#define EX_ATOM_NET_WM_ACTION_BELOW		atoms_netwm[53]
 
-#define EX_ATOM_NET_WM_STRUT			atoms_netwm[53]
-#define EX_ATOM_NET_WM_STRUT_PARTIAL		atoms_netwm[54]
+#define EX_ATOM_NET_WM_STRUT			atoms_netwm[54]
+#define EX_ATOM_NET_WM_STRUT_PARTIAL		atoms_netwm[55]
 
-#define EX_ATOM_NET_FRAME_EXTENTS		atoms_netwm[55]
+#define EX_ATOM_NET_FRAME_EXTENTS		atoms_netwm[56]
 
-#define EX_ATOM_NET_WM_ICON			atoms_netwm[56]
+#define EX_ATOM_NET_WM_ICON			atoms_netwm[57]
 
-#define EX_ATOM_NET_WM_USER_TIME		atoms_netwm[57]
-#define EX_ATOM_NET_WM_USER_TIME_WINDOW		atoms_netwm[58]
+#define EX_ATOM_NET_WM_USER_TIME		atoms_netwm[58]
+#define EX_ATOM_NET_WM_USER_TIME_WINDOW		atoms_netwm[59]
 
 #if 0				/* Not used */
 #define EX_ATOM_NET_WM_ICON_GEOMETRY		atoms_netwm[0]
@@ -222,27 +223,27 @@ extern EX_Atom      atoms_netwm[];
 
 #define EX_ATOM_NET_WM_PING			atoms_netwm[0]
 #endif
-#define EX_ATOM_NET_WM_SYNC_REQUEST		atoms_netwm[59]
-#define EX_ATOM_NET_WM_SYNC_REQUEST_COUNTER	atoms_netwm[60]
+#define EX_ATOM_NET_WM_SYNC_REQUEST		atoms_netwm[60]
+#define EX_ATOM_NET_WM_SYNC_REQUEST_COUNTER	atoms_netwm[61]
 
-#define EX_ATOM_NET_WM_WINDOW_OPACITY		atoms_netwm[61]
+#define EX_ATOM_NET_WM_WINDOW_OPACITY		atoms_netwm[62]
 
 /* Misc window ops */
-#define EX_ATOM_NET_CLOSE_WINDOW		atoms_netwm[62]
-#define EX_ATOM_NET_MOVERESIZE_WINDOW		atoms_netwm[63]
-#define EX_ATOM_NET_WM_MOVERESIZE		atoms_netwm[64]
-#define EX_ATOM_NET_RESTACK_WINDOW		atoms_netwm[65]
+#define EX_ATOM_NET_CLOSE_WINDOW		atoms_netwm[63]
+#define EX_ATOM_NET_MOVERESIZE_WINDOW		atoms_netwm[64]
+#define EX_ATOM_NET_WM_MOVERESIZE		atoms_netwm[65]
+#define EX_ATOM_NET_RESTACK_WINDOW		atoms_netwm[66]
 
 #if 0				/* Not yet implemented */
 #define EX_ATOM_NET_REQUEST_FRAME_EXTENTS	atoms_netwm[0]
 #endif
 
 /* Startup notification */
-#define EX_ATOM_NET_STARTUP_ID			atoms_netwm[66]
-#define EX_ATOM_NET_STARTUP_INFO_BEGIN		atoms_netwm[67]
-#define EX_ATOM_NET_STARTUP_INFO		atoms_netwm[68]
+#define EX_ATOM_NET_STARTUP_ID			atoms_netwm[67]
+#define EX_ATOM_NET_STARTUP_INFO_BEGIN		atoms_netwm[68]
+#define EX_ATOM_NET_STARTUP_INFO		atoms_netwm[69]
 
-#define CHECK_COUNT_NETWM 69
+#define CHECK_COUNT_NETWM 70
 
 void                ex_netwm_init(void);
 
