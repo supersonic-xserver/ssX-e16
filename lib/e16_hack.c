@@ -173,3 +173,39 @@ XSendEvent(Display * display, Window window, Bool propagate,
 
    return (*func) (display, window, propagate, event_mask, event_send);
 }
+
+/*
+ * XGetWindowProperty interception
+ */
+
+typedef int         (GWPF) (Display * display, Window w,
+			    Atom property,
+			    long long_offset, long long_length,
+			    Bool delete, Atom req_type,
+			    Atom * actual_type_return,
+			    int *actual_format_return,
+			    unsigned long *nitems_return,
+			    unsigned long *bytes_after_return,
+			    unsigned char **prop_return);
+
+__EXPORT__ int
+XGetWindowProperty(Display * display, Window w, Atom property,
+		   long long_offset, long long_length, Bool delete,
+		   Atom req_type, Atom * actual_type_return,
+		   int *actual_format_return,
+		   unsigned long *nitems_return,
+		   unsigned long *bytes_after_return,
+		   unsigned char **prop_return)
+{
+   static GWPF        *func = NULL;
+
+   if (!func)
+      func = (GWPF *) GetFunc("XGetWindowProperty");
+
+   if (w == DefaultRootWindow(display))
+      w = MyRoot(display);
+
+   return func(display, w, property, long_offset, long_length, delete,
+	       req_type, actual_type_return, actual_format_return,
+	       nitems_return, bytes_after_return, prop_return);
+}
