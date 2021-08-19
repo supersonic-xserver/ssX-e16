@@ -232,6 +232,8 @@ struct _ewin {
 	    unsigned            normal:1;
 	 } b;
       } type;
+      unsigned int        current_state;
+      unsigned int        current_actions;
    } ewmh;
    struct {
       signed char         gravity;

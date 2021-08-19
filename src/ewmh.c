@@ -34,6 +34,15 @@
 #include "hints.h"
 #include "xprop.h"
 
+#define ATOM_ADD_IF(atom, cond) \
+    do { \
+        if (cond) { \
+            atom_list[atom_count++] = atom; \
+	    atom_mask |= 1U << atom_bit; \
+        } \
+        atom_bit++; \
+    } while(0)
+
 /*
  * _NET_WM_MOVERESIZE client message actions
  */
@@ -61,37 +70,6 @@
 #define _NET_WM_SOURCE_USER     2
 
 #define OPSRC(src) (((src) == _NET_WM_SOURCE_USER) ? _NET_WM_SOURCE_USER : _NET_WM_SOURCE_APP)
-
-/*
- * Set/clear Atom in list
- */
-static void
-atom_list_set(EX_Atom * atoms, int size, int *count, EX_Atom atom, int set)
-{
-   int                 i, n, in_list;
-
-   n = *count;
-
-   /* Check if atom is in list or not (+get index) */
-   for (i = 0; i < n; i++)
-      if (atoms[i] == atom)
-	 break;
-   in_list = i < n;
-
-   if (set && !in_list)
-     {
-	/* Add it (if space left) */
-	if (n < size)
-	   atoms[n++] = atom;
-	*count = n;
-     }
-   else if (!set && in_list)
-     {
-	/* Remove it */
-	atoms[i] = atoms[--n];
-	*count = n;
-     }
-}
 
 /*
  * Initialize EWMH stuff
@@ -385,37 +363,30 @@ EWMH_SetWindowDesktop(const EWin * ewin)
 void
 EWMH_SetWindowState(const EWin * ewin)
 {
-   EX_Atom             atom_list[64];
-   int                 len = E_ARRAY_SIZE(atom_list);
+   EX_Atom             atom_list[16];
    int                 atom_count;
+   unsigned int        atom_mask, atom_bit;
 
    atom_count = 0;
-   atom_list_set(atom_list, len, &atom_count, EX_ATOM_NET_WM_STATE_MODAL,
-		 ewin->state.modal);
-   atom_list_set(atom_list, len, &atom_count, EX_ATOM_NET_WM_STATE_STICKY,
-		 EoIsSticky(ewin));
-   atom_list_set(atom_list, len, &atom_count, EX_ATOM_NET_WM_STATE_SHADED,
-		 ewin->state.shaded);
-   atom_list_set(atom_list, len, &atom_count,
-		 EX_ATOM_NET_WM_STATE_SKIP_TASKBAR, ewin->props.skip_ext_task);
-   atom_list_set(atom_list, len, &atom_count, EX_ATOM_NET_WM_STATE_HIDDEN,
-		 ewin->state.iconified || ewin->state.shaded);
-   atom_list_set(atom_list, len, &atom_count,
-		 EX_ATOM_NET_WM_STATE_MAXIMIZED_VERT,
-		 ewin->state.maximized_vert);
-   atom_list_set(atom_list, len, &atom_count,
-		 EX_ATOM_NET_WM_STATE_MAXIMIZED_HORZ,
-		 ewin->state.maximized_horz);
-   atom_list_set(atom_list, len, &atom_count,
-		 EX_ATOM_NET_WM_STATE_FULLSCREEN, ewin->state.fullscreen);
-   atom_list_set(atom_list, len, &atom_count,
-		 EX_ATOM_NET_WM_STATE_SKIP_PAGER, ewin->props.skip_ext_pager);
-   atom_list_set(atom_list, len, &atom_count, EX_ATOM_NET_WM_STATE_ABOVE,
-		 EoGetLayer(ewin) >= 6);
-   atom_list_set(atom_list, len, &atom_count, EX_ATOM_NET_WM_STATE_BELOW,
-		 EoGetLayer(ewin) <= 2);
-   atom_list_set(atom_list, len, &atom_count,
-		 EX_ATOM_NET_WM_STATE_DEMANDS_ATTENTION, ewin->state.attention);
+   atom_mask = atom_bit = 0;
+
+   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_MODAL, ewin->state.modal);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_STICKY, EoIsSticky(ewin));
+   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_SHADED, ewin->state.shaded);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_SKIP_TASKBAR, ewin->props.skip_ext_task);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_HIDDEN,
+	       ewin->state.iconified || ewin->state.shaded);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_MAXIMIZED_VERT, ewin->state.maximized_vert);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_MAXIMIZED_HORZ, ewin->state.maximized_horz);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_FULLSCREEN, ewin->state.fullscreen);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_SKIP_PAGER, ewin->props.skip_ext_pager);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_ABOVE, EoGetLayer(ewin) >= 6);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_BELOW, EoGetLayer(ewin) <= 2);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_DEMANDS_ATTENTION, ewin->state.attention);
+
+   if (ewin->ewmh.current_state == atom_mask)
+      return;
+   ((EWin *) ewin)->ewmh.current_state = atom_mask;
 
    ex_window_prop_atom_set(EwinGetClientXwin(ewin), EX_ATOM_NET_WM_STATE,
 			   atom_list, atom_count);
@@ -757,37 +728,37 @@ EWMH_GetWindowStrut(EWin * ewin)
 void
 EWMH_SetWindowActions(const EWin * ewin)
 {
-   EX_Atom             aa[12];
-   int                 num;
+   EX_Atom             atom_list[16];
+   int                 atom_count;
+   unsigned int        atom_mask, atom_bit;
 
-   num = 0;
-   if (!ewin->state.inhibit_move)
-      aa[num++] = EX_ATOM_NET_WM_ACTION_MOVE;
-   if (!ewin->state.inhibit_resize)
-      aa[num++] = EX_ATOM_NET_WM_ACTION_RESIZE;
-   if (!ewin->state.inhibit_iconify)
-      aa[num++] = EX_ATOM_NET_WM_ACTION_MINIMIZE;
-   if (!ewin->state.inhibit_shade)
-      aa[num++] = EX_ATOM_NET_WM_ACTION_SHADE;
-   if (!ewin->state.inhibit_stick)
-      aa[num++] = EX_ATOM_NET_WM_ACTION_STICK;
-   if (!ewin->state.inhibit_max_hor)
-      aa[num++] = EX_ATOM_NET_WM_ACTION_MAXIMIZE_HORZ;
-   if (!ewin->state.inhibit_max_ver)
-      aa[num++] = EX_ATOM_NET_WM_ACTION_MAXIMIZE_VERT;
-   if (!ewin->state.inhibit_fullscreeen)
-      aa[num++] = EX_ATOM_NET_WM_ACTION_FULLSCREEN;
-   if (!ewin->state.inhibit_change_desk)
-      aa[num++] = EX_ATOM_NET_WM_ACTION_CHANGE_DESKTOP;
-   if (!ewin->state.inhibit_close)
-      aa[num++] = EX_ATOM_NET_WM_ACTION_CLOSE;
-   if (!ewin->state.inhibit_stacking)
-      aa[num++] = EX_ATOM_NET_WM_ACTION_ABOVE;
-   if (!ewin->state.inhibit_stacking)
-      aa[num++] = EX_ATOM_NET_WM_ACTION_BELOW;
+   atom_count = 0;
+   atom_mask = atom_bit = 0;
+
+   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_MOVE, !ewin->state.inhibit_move);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_RESIZE, !ewin->state.inhibit_resize);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_MINIMIZE, !ewin->state.inhibit_iconify);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_SHADE, !ewin->state.inhibit_shade);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_STICK, !ewin->state.inhibit_stick);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_MAXIMIZE_HORZ,
+	       !ewin->state.inhibit_max_hor);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_MAXIMIZE_VERT,
+	       !ewin->state.inhibit_max_ver);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_FULLSCREEN,
+	       !ewin->state.inhibit_fullscreeen);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_CHANGE_DESKTOP,
+	       !ewin->state.inhibit_change_desk);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_CLOSE, !ewin->state.inhibit_close);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_ABOVE, !ewin->state.inhibit_stacking);
+   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_BELOW, !ewin->state.inhibit_stacking);
+
+   if (ewin->ewmh.current_actions == atom_mask)
+      return;
+   ((EWin *) ewin)->ewmh.current_actions = atom_mask;
 
    ex_window_prop_atom_set(EwinGetClientXwin(ewin),
-			   EX_ATOM_NET_WM_ALLOWED_ACTIONS, aa, num);
+			   EX_ATOM_NET_WM_ALLOWED_ACTIONS, atom_list,
+			   atom_count);
 }
 
 void
