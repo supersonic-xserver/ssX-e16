@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2005-2007 Carsten Haitzler
- * Copyright (C) 2006-2020 Kim Woelders
+ * Copyright (C) 2006-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -71,6 +71,10 @@ GetFunc(const char *name)
    return func;
 }
 
+/*
+ * XCreateWindow interception
+ */
+
 typedef             Window(CWF) (Display * _display, Window _parent, int _x,
 				 int _y, unsigned int _width,
 				 unsigned int _height,
@@ -79,7 +83,6 @@ typedef             Window(CWF) (Display * _display, Window _parent, int _x,
 				 unsigned long _valuemask,
 				 XSetWindowAttributes * _attributes);
 
-/* XCreateWindow intercept hack */
 __EXPORT__          Window
 XCreateWindow(Display * display, Window parent, int x, int y,
 	      unsigned int width, unsigned int height,
@@ -99,6 +102,10 @@ XCreateWindow(Display * display, Window parent, int x, int y,
 		   clss, visual, valuemask, attributes);
 }
 
+/*
+ * XCreateSimpleWindow interception
+ */
+
 typedef             Window(CSWF) (Display * _display, Window _parent, int _x,
 				  int _y, unsigned int _width,
 				  unsigned int _height,
@@ -106,7 +113,6 @@ typedef             Window(CSWF) (Display * _display, Window _parent, int _x,
 				  unsigned long _border,
 				  unsigned long _background);
 
-/* XCreateSimpleWindow intercept hack */
 __EXPORT__          Window
 XCreateSimpleWindow(Display * display, Window parent, int x, int y,
 		    unsigned int width, unsigned int height,
@@ -125,10 +131,13 @@ XCreateSimpleWindow(Display * display, Window parent, int x, int y,
 		   border_width, border, background);
 }
 
+/*
+ * XReparentWindow interception
+ */
+
 typedef int         (RWF) (Display * _display, Window _window, Window _parent,
 			   int x, int y);
 
-/* XReparentWindow intercept hack */
 __EXPORT__ int
 XReparentWindow(Display * display, Window window, Window parent, int x, int y)
 {
@@ -143,10 +152,13 @@ XReparentWindow(Display * display, Window window, Window parent, int x, int y)
    return (*func) (display, window, parent, x, y);
 }
 
+/*
+ * XSendEvent interception
+ */
+
 typedef int         (SEF) (Display * display, Window window, Bool propagate,
 			   long event_mask, XEvent * event_send);
 
-/* XSendEvent intercept hack */
 __EXPORT__ int
 XSendEvent(Display * display, Window window, Bool propagate,
 	   long event_mask, XEvent * event_send)
