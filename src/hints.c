@@ -40,28 +40,6 @@
 static void         EHintsSetDeskInfo(void);
 static void         EHintsSetAreaInfo(void);
 
-static const char  *const atoms_misc_names[] = {
-   /* Misc atoms */
-   "MANAGER",
-
-   /* Root background atoms */
-   "_XROOTPMAP_ID",
-   "_XROOTCOLOR_PIXEL",
-
-   /* E16 atoms */
-   "ENLIGHTENMENT_VERSION",
-
-   "ENLIGHTENMENT_COMMS",
-   "ENL_MSG",
-
-   "ENL_INTERNAL_AREA_DATA",
-   "ENL_INTERNAL_DESK_DATA",
-   "ENL_WIN_DATA",
-   "ENL_WIN_BORDER"
-};
-
-EX_Atom             atoms_misc[10];
-
 static unsigned int desk_info = 0;
 
 void
@@ -69,11 +47,10 @@ HintsInit(void)
 {
    EX_Window           win;
 
-   ex_atoms_get(atoms_misc_names, E_ARRAY_SIZE(atoms_misc_names), atoms_misc);
-
    win = XCreateSimpleWindow(disp, WinGetXwin(VROOT), -200, -200, 5, 5,
 			     0, 0, 0);
 
+   ex_atoms_init();
    ICCCM_Init();
    MWM_SetInfo();
 #if ENABLE_GNOME

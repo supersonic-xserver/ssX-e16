@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -25,27 +25,7 @@
 #define _HINTS_H_
 
 #include "etypes.h"
-#include "xprop.h"
 #include "xwin.h"
-
-/* Misc atoms */
-
-extern EX_Atom      atoms_misc[];
-
-#define E_XA_MANAGER			atoms_misc[0]
-
-#define E_XROOTPMAP_ID			atoms_misc[1]
-#define E_XROOTCOLOR_PIXEL		atoms_misc[2]
-
-#define E16_ATOM_VERSION           	atoms_misc[3]
-
-#define E16_ATOM_COMMS_WIN		atoms_misc[4]
-#define E16_ATOM_COMMS_MSG		atoms_misc[5]
-
-#define E16_ATOM_INTERNAL_AREA_DATA	atoms_misc[6]
-#define E16_ATOM_INTERNAL_DESK_DATA	atoms_misc[7]
-#define E16_ATOM_WIN_DATA		atoms_misc[8]
-#define E16_ATOM_WIN_BORDER		atoms_misc[9]
 
 /* ewmh.c */
 void                EWMH_Init(EX_Window win_wm_check);

@@ -50,6 +50,7 @@
 #include "slide.h"
 #include "timers.h"
 #include "tooltips.h"
+#include "xprop.h"
 #include "xwin.h"
 
 #define DESK_EVENT_MASK1 \

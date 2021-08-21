@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2014 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -78,11 +78,32 @@ void                ex_window_prop_string_set(EX_Window win, EX_Atom atom,
 					      const char *str);
 char               *ex_window_prop_string_get(EX_Window win, EX_Atom atom);
 
-/* Misc. */
+/* Misc atoms */
+extern EX_Atom      atoms_misc[];
+
+#define E_XA_UTF8_STRING		atoms_misc[0]
+#define E_XA_MANAGER			atoms_misc[1]
+
+#define E_XROOTPMAP_ID			atoms_misc[2]
+#define E_XROOTCOLOR_PIXEL		atoms_misc[3]
+
+#define E16_ATOM_VERSION           	atoms_misc[4]
+
+#define E16_ATOM_COMMS_WIN		atoms_misc[5]
+#define E16_ATOM_COMMS_MSG		atoms_misc[6]
+
+#define E16_ATOM_INTERNAL_AREA_DATA	atoms_misc[7]
+#define E16_ATOM_INTERNAL_DESK_DATA	atoms_misc[8]
+#define E16_ATOM_WIN_DATA		atoms_misc[9]
+#define E16_ATOM_WIN_BORDER		atoms_misc[10]
+
+#define CHECK_COUNT_MISC  11
+
+void                ex_atoms_init(void);
+
+/* ICCCM */
 #include <X11/Xatom.h>
 extern EX_Atom      atoms_icccm[];
-
-#define EX_ATOM_UTF8_STRING		atoms_icccm[8]
 
 /* ICCCM */
 #define EX_ATOM_WM_STATE		atoms_icccm[0]
@@ -94,7 +115,7 @@ extern EX_Atom      atoms_icccm[];
 #define EX_ATOM_WM_DELETE_WINDOW	atoms_icccm[6]
 #define EX_ATOM_WM_TAKE_FOCUS		atoms_icccm[7]
 
-#define CHECK_COUNT_ICCCM 9
+#define CHECK_COUNT_ICCCM 8
 
 #define EX_ATOM_WM_CLASS		XA_WM_CLASS
 #define EX_ATOM_WM_NAME			XA_WM_NAME

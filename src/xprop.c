@@ -350,7 +350,7 @@ ex_window_prop_string_get(EX_Window win, EX_Atom atom)
 static void
 _ex_window_prop_string_utf8_set(EX_Window win, EX_Atom atom, const char *str)
 {
-   XChangeProperty(_ex_disp, win, atom, EX_ATOM_UTF8_STRING, 8,
+   XChangeProperty(_ex_disp, win, atom, E_XA_UTF8_STRING, 8,
 		   PropModeReplace, (unsigned char *)str, strlen(str));
 }
 
@@ -369,7 +369,7 @@ _ex_window_prop_string_utf8_get(EX_Window win, EX_Atom atom)
    str = NULL;
    prop_ret = NULL;
    XGetWindowProperty(_ex_disp, win, atom, 0, 0x7fffffff, False,
-		      EX_ATOM_UTF8_STRING, &type_ret,
+		      E_XA_UTF8_STRING, &type_ret,
 		      &format_ret, &num_ret, &bytes_after, &prop_ret);
    if (prop_ret && num_ret > 0 && format_ret == 8)
      {
@@ -568,12 +568,45 @@ ex_window_prop_window_list_get(EX_Window win, EX_Atom atom, EX_Window ** plst)
 }
 
 /*
+ * Misc atom stuff
+ */
+
+static const char  *const atoms_misc_names[] = {
+   /* Misc atoms */
+   "UTF8_STRING",
+   "MANAGER",
+
+   /* Root background atoms */
+   "_XROOTPMAP_ID",
+   "_XROOTCOLOR_PIXEL",
+
+   /* E16 atoms */
+   "ENLIGHTENMENT_VERSION",
+
+   "ENLIGHTENMENT_COMMS",
+   "ENL_MSG",
+
+   "ENL_INTERNAL_AREA_DATA",
+   "ENL_INTERNAL_DESK_DATA",
+   "ENL_WIN_DATA",
+   "ENL_WIN_BORDER",
+};
+EX_Atom             atoms_misc[E_ARRAY_SIZE(atoms_misc_names)];
+
+void
+ex_atoms_init(void)
+{
+#if DEBUG_CHECK
+   assert(CHECK_COUNT_MISC == E_ARRAY_SIZE(atoms_misc));
+#endif
+   ex_atoms_get(atoms_misc_names, E_ARRAY_SIZE(atoms_misc), atoms_misc);
+}
+
+/*
  * ICCCM stuff
  */
 
 static const char  *const atoms_icccm_names[] = {
-/* *INDENT-OFF* */
-
    /* ICCCM */
    "WM_STATE",
    "WM_WINDOW_ROLE",
@@ -586,13 +619,8 @@ static const char  *const atoms_icccm_names[] = {
 #if 0
    "WM_SAVE_YOURSELF",
 #endif
-
-   /* Misc. */
-   "UTF8_STRING",
-
-/* *INDENT-ON* */
 };
-EX_Atom             atoms_icccm[CHECK_COUNT_ICCCM];
+EX_Atom             atoms_icccm[E_ARRAY_SIZE(atoms_icccm_names)];
 
 void
 ex_icccm_init(void)
@@ -709,8 +737,6 @@ ex_icccm_name_class_get(EX_Window win, char **name, char **clss)
  */
 
 static const char  *const atoms_netwm_names[] = {
-/* *INDENT-OFF* */
-
    /* Window manager info */
    "_NET_SUPPORTED",
    "_NET_SUPPORTING_WM_CHECK",
@@ -811,10 +837,8 @@ static const char  *const atoms_netwm_names[] = {
    "_NET_STARTUP_ID",
    "_NET_STARTUP_INFO_BEGIN",
    "_NET_STARTUP_INFO",
-
-/* *INDENT-ON* */
 };
-EX_Atom             atoms_netwm[CHECK_COUNT_NETWM];
+EX_Atom             atoms_netwm[E_ARRAY_SIZE(atoms_netwm_names)];
 
 void
 ex_netwm_init(void)
@@ -888,7 +912,7 @@ ex_netwm_desk_names_set(EX_Window root, const char **names,
      }
 
    XChangeProperty(_ex_disp, root, EX_ATOM_NET_DESKTOP_NAMES,
-		   EX_ATOM_UTF8_STRING, 8, PropModeReplace,
+		   E_XA_UTF8_STRING, 8, PropModeReplace,
 		   (unsigned char *)buf, len);
 
  done:
