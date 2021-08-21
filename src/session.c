@@ -26,14 +26,10 @@
 #include "emodule.h"
 #include "events.h"
 #include "ewins.h"
-#include "hints.h"
 #include "session.h"
 #include "settings.h"
 #include "snaps.h"
 #include "user.h"
-#if 0				/* Unused */
-#include "xprop.h"
-#endif
 #include "xwin.h"
 
 #ifdef USE_EXT_INIT_WIN
