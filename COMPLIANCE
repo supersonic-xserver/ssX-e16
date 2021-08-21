@@ -69,6 +69,14 @@ Application Window Properties
     [/] _NET_WM_WINDOW_TYPE_SPLASH
     [/] _NET_WM_WINDOW_TYPE_DIALOG
     [/] _NET_WM_WINDOW_TYPE_NORMAL
+    New window types to be used on override-redirect windows
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    [ ] _NET_WM_WINDOW_TYPE_DROPDOWN_MENU
+    [ ] _NET_WM_WINDOW_TYPE_POPUP_MENU
+    [ ] _NET_WM_WINDOW_TYPE_TOOLTIP
+    [ ] _NET_WM_WINDOW_TYPE_NOTIFICATION
+    [ ] _NET_WM_WINDOW_TYPE_COMBO
+    [ ] _NET_WM_WINDOW_TYPE_DND
 [/] _NET_WM_STATE
     [ ] _NET_WM_STATE_MODAL
     [+] _NET_WM_STATE_STICKY
@@ -82,6 +90,7 @@ Application Window Properties
     [+] _NET_WM_STATE_ABOVE
     [+] _NET_WM_STATE_BELOW
     [+] _NET_WM_STATE_DEMANDS_ATTENTION
+    [+] _NET_WM_STATE_FOCUSED
 [+] _NET_WM_ALLOWED_ACTIONS
     [+] _NET_WM_ACTION_MOVE
     [+] _NET_WM_ACTION_RESIZE
@@ -105,12 +114,15 @@ Application Window Properties
 [/] _NET_WM_USER_TIME
 [/] _NET_WM_USER_TIME_WINDOW
 [+] _NET_FRAME_EXTENTS
+[ ] _NET_WM_OPAQUE_REGION
+[ ] _NET_WM_BYPASS_COMPOSITOR
 
 Window Manager Protocols
 ~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] _NET_WM_PING
 [+] _NET_WM_SYNC_REQUEST
     [+] _NET_WM_SYNC_REQUEST_COUNTER
+[ ] _NET_WM_FULLSCREEN_MONITORS
 
 Other Properties
 ~~~~~~~~~~~~~~~~
@@ -119,6 +131,7 @@ Other Properties
 Compositing Managers
 ~~~~~~~~~~~~~~~~~~~~
 [+] _NET_WM_CM_Sn
+[ ] WM_TRANSIENT_FOR for override-redirect windows
 
 
 GNOME Compliance (_WIN_... hints)
