@@ -181,7 +181,7 @@ XSendEvent(Display * display, Window window, Bool propagate,
 typedef int         (GWPF) (Display * display, Window w,
 			    Atom property,
 			    long long_offset, long long_length,
-			    Bool delete, Atom req_type,
+			    Bool delete_, Atom req_type,
 			    Atom * actual_type_return,
 			    int *actual_format_return,
 			    unsigned long *nitems_return,
@@ -190,7 +190,7 @@ typedef int         (GWPF) (Display * display, Window w,
 
 __EXPORT__ int
 XGetWindowProperty(Display * display, Window w, Atom property,
-		   long long_offset, long long_length, Bool delete,
+		   long long_offset, long long_length, Bool delete_,
 		   Atom req_type, Atom * actual_type_return,
 		   int *actual_format_return,
 		   unsigned long *nitems_return,
@@ -205,7 +205,7 @@ XGetWindowProperty(Display * display, Window w, Atom property,
    if (w == DefaultRootWindow(display))
       w = MyRoot(display);
 
-   return func(display, w, property, long_offset, long_length, delete,
+   return func(display, w, property, long_offset, long_length, delete_,
 	       req_type, actual_type_return, actual_format_return,
 	       nitems_return, bytes_after_return, prop_return);
 }
