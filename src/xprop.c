@@ -34,12 +34,14 @@
 #define EX_PROP_LIST_ADD       1
 #define EX_PROP_LIST_TOGGLE    2
 
-#define DEBUG_CHECK 0
-#if DEBUG_CHECK
-#include <assert.h>
-#endif
 #include "xprop.h"
 #include "xwin.h"
+
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ > 201112L
+#define E_STATIC_ASSERT(...)	_Static_assert(__VA_ARGS__)
+#else
+#define E_STATIC_ASSERT(...)
+#endif
 
 #define _ex_disp disp
 
@@ -593,12 +595,11 @@ static const char  *const atoms_misc_names[] = {
 };
 EX_Atom             atoms_misc[E_ARRAY_SIZE(atoms_misc_names)];
 
+E_STATIC_ASSERT(CHECK_COUNT_MISC == E_ARRAY_SIZE(atoms_misc));
+
 void
 ex_atoms_init(void)
 {
-#if DEBUG_CHECK
-   assert(CHECK_COUNT_MISC == E_ARRAY_SIZE(atoms_misc));
-#endif
    ex_atoms_get(atoms_misc_names, E_ARRAY_SIZE(atoms_misc), atoms_misc);
 }
 
@@ -622,12 +623,11 @@ static const char  *const atoms_icccm_names[] = {
 };
 EX_Atom             atoms_icccm[E_ARRAY_SIZE(atoms_icccm_names)];
 
+E_STATIC_ASSERT(CHECK_COUNT_ICCCM == E_ARRAY_SIZE(atoms_icccm));
+
 void
 ex_icccm_init(void)
 {
-#if DEBUG_CHECK
-   assert(CHECK_COUNT_ICCCM == E_ARRAY_SIZE(atoms_icccm));
-#endif
    ex_atoms_get(atoms_icccm_names, E_ARRAY_SIZE(atoms_icccm), atoms_icccm);
 }
 
@@ -840,12 +840,11 @@ static const char  *const atoms_netwm_names[] = {
 };
 EX_Atom             atoms_netwm[E_ARRAY_SIZE(atoms_netwm_names)];
 
+E_STATIC_ASSERT(CHECK_COUNT_NETWM == E_ARRAY_SIZE(atoms_netwm));
+
 void
 ex_netwm_init(void)
 {
-#if DEBUG_CHECK
-   assert(CHECK_COUNT_NETWM == E_ARRAY_SIZE(atoms_netwm));
-#endif
    ex_atoms_get(atoms_netwm_names, E_ARRAY_SIZE(atoms_netwm), atoms_netwm);
 }
 
