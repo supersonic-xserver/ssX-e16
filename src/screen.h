@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2016 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -29,15 +29,11 @@ void            ScreenSplit(unsigned int nx, unsigned int ny);
 void            ScreenShowInfo(const char *prm);
 int             ScreenGetCurrent(void);
 int             ScreenGetHead(int xi, int yi);
-int             ScreenGetGeometry(int x, int y, int *px, int *py,
-                                  int *pw, int *ph);
-void            ScreenGetGeometryByHead(int head, int *px, int *py,
-                                        int *pw, int *ph);
-int             ScreenGetAvailableArea(int x, int y, int *px, int *py,
-                                       int *pw, int *ph, int ignore_struts);
-int             ScreenGetGeometryByPointer(int *px, int *py, int *pw, int *ph);
-int             ScreenGetAvailableAreaByPointer(int *px, int *py,
-                                                int *pw, int *ph,
-                                                int ignore_struts);
+int             ScreenGetGeometry(int x, int y, Area * pa);
+void            ScreenGetGeometryByHead(int head, Area * pa);
+int             ScreenGetAvailableArea(int x, int y, Area * pa,
+                                       int ignore_struts);
+int             ScreenGetGeometryByPointer(Area * pa);
+int             ScreenGetAvailableAreaByPointer(Area * pa, int ignore_struts);
 
 #endif                          /* _SCREEN_H_ */

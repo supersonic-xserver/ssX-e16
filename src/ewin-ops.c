@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1218,6 +1218,7 @@ void
 EwinOpFullscreen(EWin *ewin, int source __UNUSED__, int on)
 {
     int             x, y, w, h, ww, hh;
+    Area            area;
     EWin          **lst;
     int             i, num;
     const Border   *b;
@@ -1248,8 +1249,12 @@ EwinOpFullscreen(EWin *ewin, int source __UNUSED__, int on)
         {
             EventsUpdateXY(&x, &y);
         }
-        ScreenGetAvailableArea(x, y, &x, &y, &w, &h,
+        ScreenGetAvailableArea(x, y, &area,
                                Conf.place.ignore_struts_fullscreen);
+        x = area.x;
+        y = area.y;
+        w = area.w;
+        h = area.h;
 
         ewin->state.fullscreen = 1;
 

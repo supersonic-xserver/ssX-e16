@@ -636,29 +636,30 @@ EwinGetPosition(const EWin *ewin, int x, int y, int grav, int *px, int *py)
 static void
 EwinKeepOnScreen(const EWin *ewin, int wn, int hn, int *px, int *py)
 {
-    int             x = *px, y = *py, w, h;
-    int             sx, sy, sw, sh, xy;
+    int             x = *px, y = *py, w, h, xy;
+    Area            area;
 
     w = EoGetW(ewin);
     h = EoGetH(ewin);
 
-    ScreenGetAvailableArea(x, y, &sx, &sy, &sw, &sh, Conf.place.ignore_struts);
+    ScreenGetAvailableArea(x, y, &area, Conf.place.ignore_struts);
 
     /* Quit if not on-screen to begin with */
-    if (x < sx || x + w > sx + sw || y < sy || y + h > sy + sh)
+    if (x < area.x || x + w > area.x + area.w ||
+        y < area.y || y + h > area.y + area.h)
         return;
 
     /* Attempt to keep on-screen */
-    xy = sx + sw - (w - ewin->client.w + wn);
+    xy = area.x + area.w - (w - ewin->client.w + wn);
     if (x > xy)
         x = xy;
-    if (x < sx)
-        x = sx;
-    xy = sy + sh - (h - ewin->client.h + hn);
+    if (x < area.x)
+        x = area.x;
+    xy = area.y + area.h - (h - ewin->client.h + hn);
     if (y > xy)
         y = xy;
-    if (y < sy)
-        y = sy;
+    if (y < area.y)
+        y = area.y;
 
     *px = x;
     *py = y;

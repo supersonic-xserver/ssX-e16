@@ -145,6 +145,7 @@ WarpFocusWinShow(WarpFocusWin *fw)
     EImageBorder   *pad;
     EWin           *ewin;
     int             i, x, y, w, h, ww, hh;
+    Area            area;
     char            s[1024], ss[32];
     const char     *fmt;
 
@@ -199,9 +200,9 @@ WarpFocusWinShow(WarpFocusWin *fw)
     /* Reset shape */
     EShapeSetMask(EoGetWin(fw), 0, 0, NoXID);
 
-    ScreenGetAvailableAreaByPointer(&x, &y, &ww, &hh, Conf.place.ignore_struts);
-    x += (ww - w) / 2;
-    y += (hh - h * warplist_num) / 2;
+    ScreenGetAvailableAreaByPointer(&area, Conf.place.ignore_struts);
+    x = area.x + (area.w - w) / 2;
+    y = area.y + (area.h - h * warplist_num) / 2;
     EoMoveResize(fw, x, y, w, h * warplist_num);
 
     for (i = 0; i < warplist_num; i++)

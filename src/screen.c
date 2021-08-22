@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2003-2022 Kim Woelders
+ * Copyright (C) 2003-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -300,31 +300,25 @@ ScreenShowInfo(const char *prm __UNUSED__)
 }
 
 void
-ScreenGetGeometryByHead(int head, int *px, int *py, int *pw, int *ph)
+ScreenGetGeometryByHead(int head, Area *pa)
 {
     EScreen        *ps;
-    int             x, y, w, h;
 
     if (head >= 0 && head < n_screens)
     {
         ps = p_screens + head;
-        x = ps->x;
-        y = ps->y;
-        w = ps->w;
-        h = ps->h;
+        pa->x = ps->x;
+        pa->y = ps->y;
+        pa->w = ps->w;
+        pa->h = ps->h;
     }
     else
     {
-        x = 0;
-        y = 0;
-        w = WinGetW(VROOT);
-        h = WinGetH(VROOT);
+        pa->x = 0;
+        pa->y = 0;
+        pa->w = WinGetW(VROOT);
+        pa->h = WinGetH(VROOT);
     }
-
-    *px = x;
-    *py = y;
-    *pw = w;
-    *ph = h;
 }
 
 int
@@ -363,18 +357,18 @@ ScreenGetHead(int xi, int yi)
 }
 
 int
-ScreenGetGeometry(int xi, int yi, int *px, int *py, int *pw, int *ph)
+ScreenGetGeometry(int xi, int yi, Area *pa)
 {
     int             head;
 
     head = ScreenGetHead(xi, yi);
-    ScreenGetGeometryByHead(head, px, py, pw, ph);
+    ScreenGetGeometryByHead(head, pa);
 
     return head;
 }
 
 static void
-_VRootGetAvailableArea(int *px, int *py, int *pw, int *ph)
+_VRootGetAvailableArea(Area *pa)
 {
     EWin           *const *lst, *ewin;
     int             i, num, l, r, t, b;
@@ -385,6 +379,7 @@ _VRootGetAvailableArea(int *px, int *py, int *pw, int *ph)
     b = Conf.place.screen_struts.bottom;
 
     lst = EwinListGetAll(&num);
+
     for (i = 0; i < num; i++)
     {
         ewin = lst[i];
@@ -399,59 +394,53 @@ _VRootGetAvailableArea(int *px, int *py, int *pw, int *ph)
             b = ewin->strut.bottom;
     }
 
-    *px = l;
-    *py = t;
-    *pw = WinGetW(VROOT) - (l + r);
-    *ph = WinGetH(VROOT) - (t + b);
+    pa->x = l;
+    pa->y = t;
+    pa->w = WinGetW(VROOT) - (l + r);
+    pa->h = WinGetH(VROOT) - (t + b);
 }
 
 int
-ScreenGetAvailableArea(int xi, int yi, int *px, int *py, int *pw, int *ph,
-                       int ignore_struts)
+ScreenGetAvailableArea(int xi, int yi, Area *pa, int ignore_struts)
 {
-    int             x1, y1, w1, h1, x2, y2, w2, h2, head;
+    int             head;
+    Area            area;       /* Available */
 
-    head = ScreenGetGeometry(xi, yi, &x1, &y1, &w1, &h1);
+    head = ScreenGetGeometry(xi, yi, pa);
 
     if (!ignore_struts)
     {
-        _VRootGetAvailableArea(&x2, &y2, &w2, &h2);
-        if (x1 < x2)
-            x1 = x2;
-        if (y1 < y2)
-            y1 = y2;
-        if (w1 > w2)
-            w1 = w2;
-        if (h1 > h2)
-            h1 = h2;
-    }
+        _VRootGetAvailableArea(&area);
+        if (pa->x < area.x)
+            pa->x = area.x;
+        if (pa->y < area.y)
+            pa->y = area.y;
+        if (pa->w > area.w)
+            pa->w = area.w;
+        if (pa->h > area.h)
+            pa->h = area.h;
 
-    *px = x1;
-    *py = y1;
-    *pw = w1;
-    *ph = h1;
+    }
 
     return head;
 }
 
 int
-ScreenGetGeometryByPointer(int *px, int *py, int *pw, int *ph)
+ScreenGetGeometryByPointer(Area *pa)
 {
     int             pointer_x, pointer_y;
 
     EQueryPointer(NULL, &pointer_x, &pointer_y, NULL, NULL);
 
-    return ScreenGetGeometry(pointer_x, pointer_y, px, py, pw, ph);
+    return ScreenGetGeometry(pointer_x, pointer_y, pa);
 }
 
 int
-ScreenGetAvailableAreaByPointer(int *px, int *py, int *pw, int *ph,
-                                int ignore_struts)
+ScreenGetAvailableAreaByPointer(Area *pa, int ignore_struts)
 {
     int             pointer_x, pointer_y;
 
     EQueryPointer(NULL, &pointer_x, &pointer_y, NULL, NULL);
 
-    return ScreenGetAvailableArea(pointer_x, pointer_y, px, py, pw, ph,
-                                  ignore_struts);
+    return ScreenGetAvailableArea(pointer_x, pointer_y, pa, ignore_struts);
 }

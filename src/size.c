@@ -815,6 +815,7 @@ void
 MaxSizeHV(EWin *ewin, const char *resize_type, int hor, int ver, int flags)
 {
     int             x, y, w, h, x1, x2, y1, y2, type, bl, br, bt, bb;
+    Area            area;
     EWin           *const *lst;
     int             num, speed;
     int             old_hor = ewin->state.maximized_horz != 0;
@@ -936,10 +937,12 @@ MaxSizeHV(EWin *ewin, const char *resize_type, int hor, int ver, int flags)
     case MAX_HALF_S:
     case MAX_HALF_E:
     case MAX_HALF_W:
-        ScreenGetAvailableArea(x + w / 2, y + h / 2, &x1, &y1, &x2, &y2,
+        ScreenGetAvailableArea(x + w / 2, y + h / 2, &area,
                                Conf.place.ignore_struts_maximize);
-        x2 += x1;
-        y2 += y1;
+        x1 = area.x;
+        y1 = area.y;
+        x2 = x1 + area.w;
+        y2 = y1 + area.h;
 
         if (Conf.movres.dragbar_nocover && type != MAX_ABSOLUTE)
         {

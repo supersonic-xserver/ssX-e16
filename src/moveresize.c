@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -475,8 +475,9 @@ _SnapEwin(EWin *ewin, int dx, int dy, int *new_dx, int *new_dy)
     EWin          **lst, **gwins, *e;
     int             gnum, num, i, j, k, odx, ody;
     static char     last_res = 0;
-    int             top_bound, bottom_bound, left_bound, right_bound, w, h;
+    int             top_bound, bottom_bound, left_bound, right_bound;
     int             top_strut, bottom_strut, left_strut, right_strut;
+    Area            area;
 
     if (!ewin)
         return;
@@ -488,10 +489,11 @@ _SnapEwin(EWin *ewin, int dx, int dy, int *new_dx, int *new_dy)
         return;
     }
 
-    ScreenGetGeometry(ewin->shape_x, ewin->shape_y,
-                      &left_bound, &top_bound, &w, &h);
-    right_bound = left_bound + w;
-    bottom_bound = top_bound + h;
+    ScreenGetGeometry(ewin->shape_x, ewin->shape_y, &area);
+    left_bound = area.x;
+    top_bound = area.y;
+    right_bound = left_bound + area.w;
+    bottom_bound = top_bound + area.h;
 
     left_strut = left_bound + Conf.place.screen_struts.left;
     right_strut = right_bound - Conf.place.screen_struts.right;

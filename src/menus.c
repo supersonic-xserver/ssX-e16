@@ -334,22 +334,22 @@ MenuShow(Menu *m, char noshow)
         b = BorderFind(m->style->border_name);
         if (b)
         {
-            int             sx, sy, sw, sh;
+            Area            area;
             const EImageBorder *pad;
 
             pad = BorderGetSize(b);
 
-            head_num = ScreenGetGeometryByPointer(&sx, &sy, &sw, &sh);
+            head_num = ScreenGetGeometryByPointer(&area);
 
-            if (wx > sx + sw - mw - pad->right)
-                wx = sx + sw - mw - pad->right;
-            if (wx < sx + pad->left)
-                wx = sx + pad->left;
+            if (wx > area.x + area.w - mw - pad->right)
+                wx = area.x + area.w - mw - pad->right;
+            if (wx < area.x + pad->left)
+                wx = area.x + pad->left;
 
-            if (wy > sy + sh - mh - pad->bottom)
-                wy = sy + sh - mh - pad->bottom;
-            if (wy < sy + pad->top)
-                wy = sy + pad->top;
+            if (wy > area.y + area.h - mh - pad->bottom)
+                wy = area.y + area.h - mh - pad->bottom;
+            if (wy < area.y + pad->top)
+                wy = area.y + pad->top;
         }
     }
 
@@ -1471,7 +1471,7 @@ static void
 _MenusSlideCheck(Menu *m, int xo, int yo, int ww, int hh, int *pdx, int *pdy)
 {
     EWin           *ewin;
-    int             sx, sy, sw, sh;
+    Area            area;
     int             xdist, ydist;
 
     xdist = ydist = 0;
@@ -1479,23 +1479,23 @@ _MenusSlideCheck(Menu *m, int xo, int yo, int ww, int hh, int *pdx, int *pdy)
     if (!Conf.menus.onscreen)
         goto done;
 
-    ScreenGetGeometryByHead(Mode_menus.first->ewin->head, &sx, &sy, &sw, &sh);
+    ScreenGetGeometryByHead(Mode_menus.first->ewin->head, &area);
 
     ewin = m->ewin;
 
-    if (EoGetX(Mode_menus.first->ewin) < sx)
-        xdist = sx - EoGetX(Mode_menus.first->ewin);
-    if (EoGetX(ewin) + xdist + xo + ww > sx + sw)
-        xdist = sx + sw - (EoGetX(ewin) + xo + ww);
-    if (EoGetX(ewin) + xdist + xo < sx)
-        xdist = sx - (EoGetX(ewin) + xo);
+    if (EoGetX(Mode_menus.first->ewin) < area.x)
+        xdist = area.x - EoGetX(Mode_menus.first->ewin);
+    if (EoGetX(ewin) + xdist + xo + ww > area.x + area.w)
+        xdist = area.x + area.w - (EoGetX(ewin) + xo + ww);
+    if (EoGetX(ewin) + xdist + xo < area.x)
+        xdist = area.x - (EoGetX(ewin) + xo);
 
-    if (EoGetY(Mode_menus.first->ewin) < sy)
-        ydist = sy - EoGetY(Mode_menus.first->ewin);
-    if (EoGetY(ewin) + ydist + yo + hh > sy + sh)
-        ydist = sy + sh - (EoGetY(ewin) + yo + hh);
-    if (EoGetY(ewin) + ydist + yo < sy)
-        ydist = sy - (EoGetY(ewin) + yo);
+    if (EoGetY(Mode_menus.first->ewin) < area.y)
+        ydist = area.y - EoGetY(Mode_menus.first->ewin);
+    if (EoGetY(ewin) + ydist + yo + hh > area.y + area.h)
+        ydist = area.y + area.h - (EoGetY(ewin) + yo + hh);
+    if (EoGetY(ewin) + ydist + yo < area.y)
+        ydist = area.y - (EoGetY(ewin) + yo);
 
   done:
     *pdx = xdist;

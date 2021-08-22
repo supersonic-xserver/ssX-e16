@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -323,20 +323,17 @@ ArrangeRects(const RectBox *fixed, int fixed_count, RectBox *floating,
     ty2 = starty + height;
     if (initial_window)
     {
-        int             xx1, yy1, xx2, yy2;
+        Area            area;
 
-        ScreenGetAvailableAreaByPointer(&xx1, &yy1, &xx2, &yy2,
-                                        Conf.place.ignore_struts);
-        xx2 += xx1;
-        yy2 += yy1;
-        if (tx1 < xx1)
-            tx1 = xx1;
-        if (tx2 > xx2)
-            tx2 = xx2;
-        if (ty1 < yy1)
-            ty1 = yy1;
-        if (ty2 > yy2)
-            ty2 = yy2;
+        ScreenGetAvailableAreaByPointer(&area, Conf.place.ignore_struts);
+        if (tx1 < area.x)
+            tx1 = area.x;
+        if (tx2 > area.x + area.w)
+            tx2 = area.x + area.w;
+        if (ty1 < area.y)
+            ty1 = area.y;
+        if (ty2 > area.y + area.h)
+            ty2 = area.y + area.h;
     }
 #if DEBUG_ARRANGE
     Eprintf("Target area %d,%d -> %d,%d\n", tx1, ty1, tx2, ty2);
@@ -663,28 +660,28 @@ ArrangeEwinXY(EWin *ewin, int *px, int *py)
 void
 ArrangeEwinCenteredXY(EWin *ewin, int *px, int *py)
 {
-    int             x, y, w, h;
+    Area            area;
 
-    ScreenGetAvailableAreaByPointer(&x, &y, &w, &h, Conf.place.ignore_struts);
-    *px = (w - EoGetW(ewin)) / 2 + x;
-    *py = (h - EoGetH(ewin)) / 2 + y;
+    ScreenGetAvailableAreaByPointer(&area, Conf.place.ignore_struts);
+    *px = (area.w - EoGetW(ewin)) / 2 + area.x;
+    *py = (area.h - EoGetH(ewin)) / 2 + area.y;
 }
 
 void
 ArrangeEwinCenteredOn(EWin *ewin, int x, int y, int w, int h, int *px, int *py)
 {
-    int             sx, sy, sw, sh;
+    Area            area;
 
     x += (w - EoGetW(ewin)) / 2;
     y += (h - EoGetH(ewin)) / 2;
 
-    ScreenGetAvailableArea(x, y, &sx, &sy, &sw, &sh, Conf.place.ignore_struts);
+    ScreenGetAvailableArea(x, y, &area, Conf.place.ignore_struts);
 
     /* keep it all on this screen if possible */
-    x = MIN(x, sx + sw - EoGetW(ewin));
-    y = MIN(y, sy + sh - EoGetH(ewin));
-    x = MAX(x, sx);
-    y = MAX(y, sy);
+    x = MIN(x, area.x + area.w - EoGetW(ewin));
+    y = MIN(y, area.y + area.h - EoGetH(ewin));
+    x = MAX(x, area.x);
+    y = MAX(y, area.y);
 
     *px = x;
     *py = y;
