@@ -58,7 +58,8 @@ HintsInit(void)
 #endif
    EWMH_Init(win);
 
-   ex_window_prop_string_set(WinGetXwin(VROOT), E16_ATOM_VERSION, e_wm_version);
+   ex_window_prop_string_set(WinGetXwin(VROOT), ea_m.ENLIGHTENMENT_VERSION,
+			     e_wm_version);
 
    if (Mode.wm.window)
      {
@@ -297,7 +298,8 @@ HintsGetRootPixmap(Win win)
    EX_Pixmap           pm;
 
    pm = NoXID;
-   ex_window_prop_xid_get(WinGetXwin(win), E_XROOTPMAP_ID, XA_PIXMAP, &pm, 1);
+   ex_window_prop_xid_get(WinGetXwin(win), ea_m._XROOTPMAP_ID, XA_PIXMAP, &pm,
+			  1);
 
    return pm;
 }
@@ -308,9 +310,11 @@ HintsSetRootInfo(Win win, EX_Pixmap pmap, unsigned int color)
    EX_Pixmap           pm;
 
    pm = pmap;
-   ex_window_prop_xid_set(WinGetXwin(win), E_XROOTPMAP_ID, XA_PIXMAP, &pm, 1);
+   ex_window_prop_xid_set(WinGetXwin(win), ea_m._XROOTPMAP_ID, XA_PIXMAP, &pm,
+			  1);
 
-   ex_window_prop_card32_set(WinGetXwin(win), E_XROOTCOLOR_PIXEL, &color, 1);
+   ex_window_prop_card32_set(WinGetXwin(win), ea_m._XROOTCOLOR_PIXEL, &color,
+			     1);
 }
 
 typedef union {
@@ -356,10 +360,10 @@ EHintsSetInfo(const EWin * ewin)
    c[10] = ewin->save_fs.h;
    c[11] = ewin->save_fs.layer;
 
-   ex_window_prop_card32_set(EwinGetClientXwin(ewin), E16_ATOM_WIN_DATA,
+   ex_window_prop_card32_set(EwinGetClientXwin(ewin), ea_m.ENL_WIN_DATA,
 			     (unsigned int *)c, ENL_DATA_ITEMS);
 
-   ex_window_prop_string_set(EwinGetClientXwin(ewin), E16_ATOM_WIN_BORDER,
+   ex_window_prop_string_set(EwinGetClientXwin(ewin), ea_m.ENL_WIN_BORDER,
 			     BorderGetName(ewin->normal_border));
 
    if (EDebug(EDBUG_TYPE_SNAPS))
@@ -385,7 +389,7 @@ EHintsGetInfo(EWin * ewin)
       ewin->client.x -= WinGetW(VROOT);
 
    num =
-      ex_window_prop_card32_get(EwinGetClientXwin(ewin), E16_ATOM_WIN_DATA,
+      ex_window_prop_card32_get(EwinGetClientXwin(ewin), ea_m.ENL_WIN_DATA,
 				(unsigned int *)c, ENL_DATA_ITEMS + 1);
    if (num < 0)
       return;
@@ -420,7 +424,7 @@ EHintsGetInfo(EWin * ewin)
      }
 
    str =
-      ex_window_prop_string_get(EwinGetClientXwin(ewin), E16_ATOM_WIN_BORDER);
+      ex_window_prop_string_get(EwinGetClientXwin(ewin), ea_m.ENL_WIN_BORDER);
    if (str)
       EwinBorderSetInitially(ewin, str);
    Efree(str);
@@ -457,7 +461,7 @@ EHintsSetDeskInfo(void)
    c[0] = DesksGetCurrentNum();
    c[1] = Mode.wm.exiting ? 0 : desk_pos_info;
    ex_window_prop_card32_set(WinGetXwin(VROOT),
-			     E16_ATOM_INTERNAL_DESK_DATA, c, 2);
+			     ea_m.ENL_INTERNAL_DESK_DATA, c, 2);
 
    if (Mode.wm.exiting && Mode.root.ext_pmap_valid)
      {
@@ -490,7 +494,7 @@ EHintsSetAreaInfo(void)
      }
 
    ex_window_prop_card32_set(WinGetXwin(VROOT),
-			     E16_ATOM_INTERNAL_AREA_DATA, c, 2 * n_desks);
+			     ea_m.ENL_INTERNAL_AREA_DATA, c, 2 * n_desks);
 
    Efree(c);
 }
@@ -508,7 +512,7 @@ EHintsGetDeskInfo(void)
       return;
 
    num = ex_window_prop_card32_get(WinGetXwin(VROOT),
-				   E16_ATOM_INTERNAL_AREA_DATA, c, 2 * n_desks);
+				   ea_m.ENL_INTERNAL_AREA_DATA, c, 2 * n_desks);
    if (num > 0)
      {
 	for (i = 0; i < (num / 2); i++)
@@ -516,7 +520,7 @@ EHintsGetDeskInfo(void)
      }
 
    num = ex_window_prop_card32_get(WinGetXwin(VROOT),
-				   E16_ATOM_INTERNAL_DESK_DATA, c, 2);
+				   ea_m.ENL_INTERNAL_DESK_DATA, c, 2);
    if (num > 0)
      {
 	DesksSetCurrent(DeskGet(c[0]));
@@ -596,7 +600,7 @@ SelectionAcquire(const char *name, EventCallbackFunc * func, void *data)
 	EventCallbackRegister(sel->win, sel->func, sel->data);
      }
 
-   ex_client_message32_send(WinGetXwin(VROOT), E_XA_MANAGER,
+   ex_client_message32_send(WinGetXwin(VROOT), ea_m.MANAGER,
 			    StructureNotifyMask, CurrentTime, sel->atom,
 			    WinGetXwin(sel->win), 0, 0);
 

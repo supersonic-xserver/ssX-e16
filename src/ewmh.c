@@ -84,81 +84,81 @@ EWMH_Init(EX_Window win_wm_check)
 
    atom_count = 0;
 
-   atom_list[atom_count++] = EX_ATOM_NET_SUPPORTED;
-   atom_list[atom_count++] = EX_ATOM_NET_SUPPORTING_WM_CHECK;
+   atom_list[atom_count++] = ea_n._NET_SUPPORTED;
+   atom_list[atom_count++] = ea_n._NET_SUPPORTING_WM_CHECK;
 
-   atom_list[atom_count++] = EX_ATOM_NET_NUMBER_OF_DESKTOPS;
-   atom_list[atom_count++] = EX_ATOM_NET_DESKTOP_GEOMETRY;
-   atom_list[atom_count++] = EX_ATOM_NET_DESKTOP_NAMES;
-   atom_list[atom_count++] = EX_ATOM_NET_CURRENT_DESKTOP;
-   atom_list[atom_count++] = EX_ATOM_NET_DESKTOP_VIEWPORT;
-   atom_list[atom_count++] = EX_ATOM_NET_WORKAREA;
-   atom_list[atom_count++] = EX_ATOM_NET_VIRTUAL_ROOTS;
-   atom_list[atom_count++] = EX_ATOM_NET_SHOWING_DESKTOP;
+   atom_list[atom_count++] = ea_n._NET_NUMBER_OF_DESKTOPS;
+   atom_list[atom_count++] = ea_n._NET_DESKTOP_GEOMETRY;
+   atom_list[atom_count++] = ea_n._NET_DESKTOP_NAMES;
+   atom_list[atom_count++] = ea_n._NET_CURRENT_DESKTOP;
+   atom_list[atom_count++] = ea_n._NET_DESKTOP_VIEWPORT;
+   atom_list[atom_count++] = ea_n._NET_WORKAREA;
+   atom_list[atom_count++] = ea_n._NET_VIRTUAL_ROOTS;
+   atom_list[atom_count++] = ea_n._NET_SHOWING_DESKTOP;
 
-   atom_list[atom_count++] = EX_ATOM_NET_ACTIVE_WINDOW;
-   atom_list[atom_count++] = EX_ATOM_NET_CLIENT_LIST;
-   atom_list[atom_count++] = EX_ATOM_NET_CLIENT_LIST_STACKING;
+   atom_list[atom_count++] = ea_n._NET_ACTIVE_WINDOW;
+   atom_list[atom_count++] = ea_n._NET_CLIENT_LIST;
+   atom_list[atom_count++] = ea_n._NET_CLIENT_LIST_STACKING;
 
-   atom_list[atom_count++] = EX_ATOM_NET_CLOSE_WINDOW;
-   atom_list[atom_count++] = EX_ATOM_NET_MOVERESIZE_WINDOW;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_MOVERESIZE;
+   atom_list[atom_count++] = ea_n._NET_CLOSE_WINDOW;
+   atom_list[atom_count++] = ea_n._NET_MOVERESIZE_WINDOW;
+   atom_list[atom_count++] = ea_n._NET_WM_MOVERESIZE;
 
-   atom_list[atom_count++] = EX_ATOM_NET_WM_NAME;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_ICON_NAME;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_DESKTOP;
+   atom_list[atom_count++] = ea_n._NET_WM_NAME;
+   atom_list[atom_count++] = ea_n._NET_WM_ICON_NAME;
+   atom_list[atom_count++] = ea_n._NET_WM_DESKTOP;
 
-   atom_list[atom_count++] = EX_ATOM_NET_WM_WINDOW_TYPE;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_WINDOW_TYPE_DESKTOP;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_WINDOW_TYPE_DOCK;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_WINDOW_TYPE_TOOLBAR;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_WINDOW_TYPE_MENU;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_WINDOW_TYPE_UTILITY;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_WINDOW_TYPE_SPLASH;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_WINDOW_TYPE_DIALOG;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_WINDOW_TYPE_NORMAL;
+   atom_list[atom_count++] = ea_n._NET_WM_WINDOW_TYPE;
+   atom_list[atom_count++] = ea_n._NET_WM_WINDOW_TYPE_DESKTOP;
+   atom_list[atom_count++] = ea_n._NET_WM_WINDOW_TYPE_DOCK;
+   atom_list[atom_count++] = ea_n._NET_WM_WINDOW_TYPE_TOOLBAR;
+   atom_list[atom_count++] = ea_n._NET_WM_WINDOW_TYPE_MENU;
+   atom_list[atom_count++] = ea_n._NET_WM_WINDOW_TYPE_UTILITY;
+   atom_list[atom_count++] = ea_n._NET_WM_WINDOW_TYPE_SPLASH;
+   atom_list[atom_count++] = ea_n._NET_WM_WINDOW_TYPE_DIALOG;
+   atom_list[atom_count++] = ea_n._NET_WM_WINDOW_TYPE_NORMAL;
 
-   atom_list[atom_count++] = EX_ATOM_NET_WM_STATE;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_STATE_MODAL;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_STATE_STICKY;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_STATE_MAXIMIZED_VERT;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_STATE_MAXIMIZED_HORZ;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_STATE_SHADED;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_STATE_SKIP_TASKBAR;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_STATE_SKIP_PAGER;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_STATE_HIDDEN;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_STATE_FULLSCREEN;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_STATE_ABOVE;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_STATE_BELOW;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_STATE_DEMANDS_ATTENTION;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_STATE_FOCUSED;
+   atom_list[atom_count++] = ea_n._NET_WM_STATE;
+   atom_list[atom_count++] = ea_n._NET_WM_STATE_MODAL;
+   atom_list[atom_count++] = ea_n._NET_WM_STATE_STICKY;
+   atom_list[atom_count++] = ea_n._NET_WM_STATE_MAXIMIZED_VERT;
+   atom_list[atom_count++] = ea_n._NET_WM_STATE_MAXIMIZED_HORZ;
+   atom_list[atom_count++] = ea_n._NET_WM_STATE_SHADED;
+   atom_list[atom_count++] = ea_n._NET_WM_STATE_SKIP_TASKBAR;
+   atom_list[atom_count++] = ea_n._NET_WM_STATE_SKIP_PAGER;
+   atom_list[atom_count++] = ea_n._NET_WM_STATE_HIDDEN;
+   atom_list[atom_count++] = ea_n._NET_WM_STATE_FULLSCREEN;
+   atom_list[atom_count++] = ea_n._NET_WM_STATE_ABOVE;
+   atom_list[atom_count++] = ea_n._NET_WM_STATE_BELOW;
+   atom_list[atom_count++] = ea_n._NET_WM_STATE_DEMANDS_ATTENTION;
+   atom_list[atom_count++] = ea_n._NET_WM_STATE_FOCUSED;
 
-   atom_list[atom_count++] = EX_ATOM_NET_WM_ALLOWED_ACTIONS;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_ACTION_MOVE;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_ACTION_RESIZE;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_ACTION_MINIMIZE;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_ACTION_SHADE;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_ACTION_STICK;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_ACTION_MAXIMIZE_HORZ;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_ACTION_MAXIMIZE_VERT;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_ACTION_FULLSCREEN;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_ACTION_CHANGE_DESKTOP;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_ACTION_CLOSE;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_ACTION_ABOVE;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_ACTION_BELOW;
+   atom_list[atom_count++] = ea_n._NET_WM_ALLOWED_ACTIONS;
+   atom_list[atom_count++] = ea_n._NET_WM_ACTION_MOVE;
+   atom_list[atom_count++] = ea_n._NET_WM_ACTION_RESIZE;
+   atom_list[atom_count++] = ea_n._NET_WM_ACTION_MINIMIZE;
+   atom_list[atom_count++] = ea_n._NET_WM_ACTION_SHADE;
+   atom_list[atom_count++] = ea_n._NET_WM_ACTION_STICK;
+   atom_list[atom_count++] = ea_n._NET_WM_ACTION_MAXIMIZE_HORZ;
+   atom_list[atom_count++] = ea_n._NET_WM_ACTION_MAXIMIZE_VERT;
+   atom_list[atom_count++] = ea_n._NET_WM_ACTION_FULLSCREEN;
+   atom_list[atom_count++] = ea_n._NET_WM_ACTION_CHANGE_DESKTOP;
+   atom_list[atom_count++] = ea_n._NET_WM_ACTION_CLOSE;
+   atom_list[atom_count++] = ea_n._NET_WM_ACTION_ABOVE;
+   atom_list[atom_count++] = ea_n._NET_WM_ACTION_BELOW;
 
-   atom_list[atom_count++] = EX_ATOM_NET_WM_STRUT_PARTIAL;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_STRUT;
+   atom_list[atom_count++] = ea_n._NET_WM_STRUT_PARTIAL;
+   atom_list[atom_count++] = ea_n._NET_WM_STRUT;
 
-   atom_list[atom_count++] = EX_ATOM_NET_FRAME_EXTENTS;
+   atom_list[atom_count++] = ea_n._NET_FRAME_EXTENTS;
 
-   atom_list[atom_count++] = EX_ATOM_NET_WM_USER_TIME;
-   atom_list[atom_count++] = EX_ATOM_NET_WM_USER_TIME_WINDOW;
+   atom_list[atom_count++] = ea_n._NET_WM_USER_TIME;
+   atom_list[atom_count++] = ea_n._NET_WM_USER_TIME_WINDOW;
 
-   atom_list[atom_count++] = EX_ATOM_NET_WM_WINDOW_OPACITY;
+   atom_list[atom_count++] = ea_n._NET_WM_WINDOW_OPACITY;
 
    ex_window_prop_atom_set(WinGetXwin(VROOT),
-			   EX_ATOM_NET_SUPPORTED, atom_list, atom_count);
+			   ea_n._NET_SUPPORTED, atom_list, atom_count);
 
    /* Set WM info properties */
    ex_netwm_wm_identify(WinGetXwin(VROOT), win_wm_check, e_wm_name);
@@ -371,26 +371,26 @@ EWMH_SetWindowState(const EWin * ewin)
    atom_count = 0;
    atom_mask = atom_bit = 0;
 
-   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_MODAL, ewin->state.modal);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_STICKY, EoIsSticky(ewin));
-   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_SHADED, ewin->state.shaded);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_SKIP_TASKBAR, ewin->props.skip_ext_task);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_HIDDEN,
-	       ewin->state.iconified || ewin->state.shaded);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_MAXIMIZED_VERT, ewin->state.maximized_vert);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_MAXIMIZED_HORZ, ewin->state.maximized_horz);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_FULLSCREEN, ewin->state.fullscreen);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_SKIP_PAGER, ewin->props.skip_ext_pager);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_ABOVE, EoGetLayer(ewin) >= 6);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_BELOW, EoGetLayer(ewin) <= 2);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_DEMANDS_ATTENTION, ewin->state.attention);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_STATE_FOCUSED, ewin->state.active);
+   ATOM_ADD_IF(ea_n._NET_WM_STATE_MODAL, ewin->state.modal);
+   ATOM_ADD_IF(ea_n._NET_WM_STATE_STICKY, EoIsSticky(ewin));
+   ATOM_ADD_IF(ea_n._NET_WM_STATE_SHADED, ewin->state.shaded);
+   ATOM_ADD_IF(ea_n._NET_WM_STATE_SKIP_TASKBAR, ewin->props.skip_ext_task);
+   ATOM_ADD_IF(ea_n._NET_WM_STATE_HIDDEN, ewin->state.iconified
+	       || ewin->state.shaded);
+   ATOM_ADD_IF(ea_n._NET_WM_STATE_MAXIMIZED_VERT, ewin->state.maximized_vert);
+   ATOM_ADD_IF(ea_n._NET_WM_STATE_MAXIMIZED_HORZ, ewin->state.maximized_horz);
+   ATOM_ADD_IF(ea_n._NET_WM_STATE_FULLSCREEN, ewin->state.fullscreen);
+   ATOM_ADD_IF(ea_n._NET_WM_STATE_SKIP_PAGER, ewin->props.skip_ext_pager);
+   ATOM_ADD_IF(ea_n._NET_WM_STATE_ABOVE, EoGetLayer(ewin) >= 6);
+   ATOM_ADD_IF(ea_n._NET_WM_STATE_BELOW, EoGetLayer(ewin) <= 2);
+   ATOM_ADD_IF(ea_n._NET_WM_STATE_DEMANDS_ATTENTION, ewin->state.attention);
+   ATOM_ADD_IF(ea_n._NET_WM_STATE_FOCUSED, ewin->state.active);
 
    if (ewin->ewmh.current_state == atom_mask)
       return;
    ((EWin *) ewin)->ewmh.current_state = atom_mask;
 
-   ex_window_prop_atom_set(EwinGetClientXwin(ewin), EX_ATOM_NET_WM_STATE,
+   ex_window_prop_atom_set(EwinGetClientXwin(ewin), ea_n._NET_WM_STATE,
 			   atom_list, atom_count);
 }
 
@@ -413,7 +413,7 @@ EWMH_SetWindowBorder(const EWin * ewin)
       val[0] = val[1] = val[2] = val[3] = 0;
 
    ex_window_prop_card32_set(EwinGetClientXwin(ewin),
-			     EX_ATOM_NET_FRAME_EXTENTS, val, 4);
+			     ea_n._NET_FRAME_EXTENTS, val, 4);
 }
 
 void
@@ -440,9 +440,9 @@ EWMH_SetWindowOpacity(EWin * ewin)
 	  {
 	     ewin->ewmh.opacity = opacity;
 	     ex_window_prop_del(EwinGetClientXwin(ewin),
-				EX_ATOM_NET_WM_WINDOW_OPACITY);
+				ea_n._NET_WM_WINDOW_OPACITY);
 	  }
-	ex_window_prop_del(EoGetXwin(ewin), EX_ATOM_NET_WM_WINDOW_OPACITY);
+	ex_window_prop_del(EoGetXwin(ewin), ea_n._NET_WM_WINDOW_OPACITY);
 	ewin->ewmh.opacity_update = 0;
      }
 }
@@ -514,7 +514,7 @@ EWMH_GetWindowState(EWin * ewin)
    int                 i, n_atoms;
 
    n_atoms = ex_window_prop_atom_list_get(EwinGetClientXwin(ewin),
-					  EX_ATOM_NET_WM_STATE, &p_atoms);
+					  ea_n._NET_WM_STATE, &p_atoms);
    if (n_atoms <= 0)
       return;
 
@@ -530,29 +530,29 @@ EWMH_GetWindowState(EWin * ewin)
    for (i = 0; i < n_atoms; i++)
      {
 	atom = p_atoms[i];
-	if (atom == EX_ATOM_NET_WM_STATE_MODAL)
+	if (atom == ea_n._NET_WM_STATE_MODAL)
 	   ewin->state.modal = 1;
-	else if (atom == EX_ATOM_NET_WM_STATE_STICKY)
+	else if (atom == ea_n._NET_WM_STATE_STICKY)
 	   EoSetSticky(ewin, 1);
-	else if (atom == EX_ATOM_NET_WM_STATE_SHADED)
+	else if (atom == ea_n._NET_WM_STATE_SHADED)
 	   ewin->state.shaded = 1;
-	else if (atom == EX_ATOM_NET_WM_STATE_SKIP_TASKBAR)
+	else if (atom == ea_n._NET_WM_STATE_SKIP_TASKBAR)
 	   ewin->props.skip_ext_task = 1;
-	else if (atom == EX_ATOM_NET_WM_STATE_SKIP_PAGER)
+	else if (atom == ea_n._NET_WM_STATE_SKIP_PAGER)
 	   ewin->props.skip_ext_pager = 1;
-	else if (atom == EX_ATOM_NET_WM_STATE_HIDDEN)
+	else if (atom == ea_n._NET_WM_STATE_HIDDEN)
 	   ;			/* ewin->state.iconified = 1; No - WM_STATE does this */
-	else if (atom == EX_ATOM_NET_WM_STATE_MAXIMIZED_VERT)
+	else if (atom == ea_n._NET_WM_STATE_MAXIMIZED_VERT)
 	   ewin->state.maximized_vert = 1;
-	else if (atom == EX_ATOM_NET_WM_STATE_MAXIMIZED_HORZ)
+	else if (atom == ea_n._NET_WM_STATE_MAXIMIZED_HORZ)
 	   ewin->state.maximized_horz = 1;
-	else if (atom == EX_ATOM_NET_WM_STATE_FULLSCREEN)
+	else if (atom == ea_n._NET_WM_STATE_FULLSCREEN)
 	   ewin->state.fullscreen = 1;
-	else if (atom == EX_ATOM_NET_WM_STATE_ABOVE)
+	else if (atom == ea_n._NET_WM_STATE_ABOVE)
 	   EoSetLayer(ewin, 6);
-	else if (atom == EX_ATOM_NET_WM_STATE_BELOW)
+	else if (atom == ea_n._NET_WM_STATE_BELOW)
 	   EoSetLayer(ewin, 2);
-	else if (atom == EX_ATOM_NET_WM_STATE_DEMANDS_ATTENTION)
+	else if (atom == ea_n._NET_WM_STATE_DEMANDS_ATTENTION)
 	   ewin->state.attention = 1;
      }
    Efree(p_atoms);
@@ -567,7 +567,7 @@ EWMH_GetWindowType(EWin * ewin)
    ewin->ewmh.type.all = 0;
 
    n_atoms = ex_window_prop_atom_list_get(EwinGetClientXwin(ewin),
-					  EX_ATOM_NET_WM_WINDOW_TYPE, &p_atoms);
+					  ea_n._NET_WM_WINDOW_TYPE, &p_atoms);
    if (n_atoms <= 0)
      {
 	if (EwinIsTransient(ewin))
@@ -580,21 +580,21 @@ EWMH_GetWindowType(EWin * ewin)
    for (i = 0; i < n_atoms; i++)
      {
 	atom = p_atoms[i];
-	if (atom == EX_ATOM_NET_WM_WINDOW_TYPE_DESKTOP)
+	if (atom == ea_n._NET_WM_WINDOW_TYPE_DESKTOP)
 	   ewin->ewmh.type.b.desktop = 1;
-	else if (atom == EX_ATOM_NET_WM_WINDOW_TYPE_DOCK)
+	else if (atom == ea_n._NET_WM_WINDOW_TYPE_DOCK)
 	   ewin->ewmh.type.b.dock = 1;
-	else if (atom == EX_ATOM_NET_WM_WINDOW_TYPE_UTILITY)
+	else if (atom == ea_n._NET_WM_WINDOW_TYPE_UTILITY)
 	   ewin->ewmh.type.b.utility = 1;
-	else if (atom == EX_ATOM_NET_WM_WINDOW_TYPE_TOOLBAR)
+	else if (atom == ea_n._NET_WM_WINDOW_TYPE_TOOLBAR)
 	   ewin->ewmh.type.b.toolbar = 1;
-	else if (atom == EX_ATOM_NET_WM_WINDOW_TYPE_MENU)
+	else if (atom == ea_n._NET_WM_WINDOW_TYPE_MENU)
 	   ewin->ewmh.type.b.menu = 1;
-	else if (atom == EX_ATOM_NET_WM_WINDOW_TYPE_SPLASH)
+	else if (atom == ea_n._NET_WM_WINDOW_TYPE_SPLASH)
 	   ewin->ewmh.type.b.splash = 1;
-	else if (atom == EX_ATOM_NET_WM_WINDOW_TYPE_DIALOG)
+	else if (atom == ea_n._NET_WM_WINDOW_TYPE_DIALOG)
 	   ewin->ewmh.type.b.dialog = 1;
-	else if (atom == EX_ATOM_NET_WM_WINDOW_TYPE_NORMAL)
+	else if (atom == ea_n._NET_WM_WINDOW_TYPE_NORMAL)
 	   ewin->ewmh.type.b.normal = 1;
      }
 
@@ -610,7 +610,7 @@ EWMH_GetWindowIcons(EWin * ewin)
    EFREE_NULL(ewin->ewmh.wm_icon);
 
    num = ex_window_prop_card32_list_get(EwinGetClientXwin(ewin),
-					EX_ATOM_NET_WM_ICON, &val);
+					ea_n._NET_WM_ICON, &val);
    ewin->ewmh.wm_icon_len = num;
    if (num <= 0)
       return;
@@ -669,7 +669,7 @@ EWMH_GetWindowMisc(EWin * ewin)
    EX_Window           win;
 
    num = ex_window_prop_window_get(EwinGetClientXwin(ewin),
-				   EX_ATOM_NET_SUPPORTING_WM_CHECK, &win, 1);
+				   ea_n._NET_SUPPORTING_WM_CHECK, &win, 1);
    if (num <= 0)
       return;
 
@@ -701,11 +701,11 @@ EWMH_GetWindowStrut(EWin * ewin)
    unsigned int        val[12];
 
    num = ex_window_prop_card32_get(EwinGetClientXwin(ewin),
-				   EX_ATOM_NET_WM_STRUT_PARTIAL, val, 12);
+				   ea_n._NET_WM_STRUT_PARTIAL, val, 12);
 
    if (num < 4)
       num = ex_window_prop_card32_get(EwinGetClientXwin(ewin),
-				      EX_ATOM_NET_WM_STRUT, val, 4);
+				      ea_n._NET_WM_STRUT, val, 4);
    if (num < 4)
       return;
 
@@ -737,30 +737,27 @@ EWMH_SetWindowActions(const EWin * ewin)
    atom_count = 0;
    atom_mask = atom_bit = 0;
 
-   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_MOVE, !ewin->state.inhibit_move);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_RESIZE, !ewin->state.inhibit_resize);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_MINIMIZE, !ewin->state.inhibit_iconify);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_SHADE, !ewin->state.inhibit_shade);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_STICK, !ewin->state.inhibit_stick);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_MAXIMIZE_HORZ,
-	       !ewin->state.inhibit_max_hor);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_MAXIMIZE_VERT,
-	       !ewin->state.inhibit_max_ver);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_FULLSCREEN,
+   ATOM_ADD_IF(ea_n._NET_WM_ACTION_MOVE, !ewin->state.inhibit_move);
+   ATOM_ADD_IF(ea_n._NET_WM_ACTION_RESIZE, !ewin->state.inhibit_resize);
+   ATOM_ADD_IF(ea_n._NET_WM_ACTION_MINIMIZE, !ewin->state.inhibit_iconify);
+   ATOM_ADD_IF(ea_n._NET_WM_ACTION_SHADE, !ewin->state.inhibit_shade);
+   ATOM_ADD_IF(ea_n._NET_WM_ACTION_STICK, !ewin->state.inhibit_stick);
+   ATOM_ADD_IF(ea_n._NET_WM_ACTION_MAXIMIZE_HORZ, !ewin->state.inhibit_max_hor);
+   ATOM_ADD_IF(ea_n._NET_WM_ACTION_MAXIMIZE_VERT, !ewin->state.inhibit_max_ver);
+   ATOM_ADD_IF(ea_n._NET_WM_ACTION_FULLSCREEN,
 	       !ewin->state.inhibit_fullscreeen);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_CHANGE_DESKTOP,
+   ATOM_ADD_IF(ea_n._NET_WM_ACTION_CHANGE_DESKTOP,
 	       !ewin->state.inhibit_change_desk);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_CLOSE, !ewin->state.inhibit_close);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_ABOVE, !ewin->state.inhibit_stacking);
-   ATOM_ADD_IF(EX_ATOM_NET_WM_ACTION_BELOW, !ewin->state.inhibit_stacking);
+   ATOM_ADD_IF(ea_n._NET_WM_ACTION_CLOSE, !ewin->state.inhibit_close);
+   ATOM_ADD_IF(ea_n._NET_WM_ACTION_ABOVE, !ewin->state.inhibit_stacking);
+   ATOM_ADD_IF(ea_n._NET_WM_ACTION_BELOW, !ewin->state.inhibit_stacking);
 
    if (ewin->ewmh.current_actions == atom_mask)
       return;
    ((EWin *) ewin)->ewmh.current_actions = atom_mask;
 
    ex_window_prop_atom_set(EwinGetClientXwin(ewin),
-			   EX_ATOM_NET_WM_ALLOWED_ACTIONS, atom_list,
-			   atom_count);
+			   ea_n._NET_WM_ALLOWED_ACTIONS, atom_list, atom_count);
 }
 
 void
@@ -785,8 +782,8 @@ EWMH_GetWindowHints(EWin * ewin)
 void
 EWMH_DelWindowHints(const EWin * ewin)
 {
-   ex_window_prop_del(EwinGetClientXwin(ewin), EX_ATOM_NET_WM_DESKTOP);
-   ex_window_prop_del(EwinGetClientXwin(ewin), EX_ATOM_NET_WM_STATE);
+   ex_window_prop_del(EwinGetClientXwin(ewin), ea_n._NET_WM_DESKTOP);
+   ex_window_prop_del(EwinGetClientXwin(ewin), ea_n._NET_WM_STATE);
 }
 
 /*
@@ -795,28 +792,28 @@ EWMH_DelWindowHints(const EWin * ewin)
 int
 EWMH_ProcessPropertyChange(EWin * ewin, EX_Atom atom_change)
 {
-   if (atom_change == EX_ATOM_NET_WM_NAME)
+   if (atom_change == ea_n._NET_WM_NAME)
      {
 	EWMH_GetWindowName(ewin);
 	return 1;
      }
-   if (atom_change == EX_ATOM_NET_WM_ICON_NAME)
+   if (atom_change == ea_n._NET_WM_ICON_NAME)
      {
 	EWMH_GetWindowIconName(ewin);
 	return 1;
      }
-   if (atom_change == EX_ATOM_NET_WM_STRUT_PARTIAL ||
-       atom_change == EX_ATOM_NET_WM_STRUT)
+   if (atom_change == ea_n._NET_WM_STRUT_PARTIAL ||
+       atom_change == ea_n._NET_WM_STRUT)
      {
 	EWMH_GetWindowStrut(ewin);
 	return 1;
      }
-   if (atom_change == EX_ATOM_NET_WM_WINDOW_OPACITY)
+   if (atom_change == ea_n._NET_WM_WINDOW_OPACITY)
      {
 	EWMH_GetWindowOpacity(ewin);
 	return 1;
      }
-   if (atom_change == EX_ATOM_NET_WM_USER_TIME)
+   if (atom_change == ea_n._NET_WM_USER_TIME)
      {
 #if 0				/* Remove? */
 	EWMH_GetWindowUserTime(ewin);
@@ -852,7 +849,7 @@ EWMH_ProcessClientClientMessage(EWin * ewin, XClientMessageEvent * ev)
 
 /* EX_Time          ts; */
 
-   if (ev->message_type == EX_ATOM_NET_ACTIVE_WINDOW)
+   if (ev->message_type == ea_n._NET_ACTIVE_WINDOW)
      {
 	source = OPSRC(ev->data.l[0]);
 /*	ts = ev->data.l[1]; */
@@ -860,14 +857,14 @@ EWMH_ProcessClientClientMessage(EWin * ewin, XClientMessageEvent * ev)
 	EwinOpActivate(ewin, source, 1);
 	return 1;
      }
-   if (ev->message_type == EX_ATOM_NET_CLOSE_WINDOW)
+   if (ev->message_type == ea_n._NET_CLOSE_WINDOW)
      {
 /*	ts = ev->data.l[0]; */
 	source = OPSRC(ev->data.l[1]);
 	EwinOpClose(ewin, source);
 	return 1;
      }
-   if (ev->message_type == EX_ATOM_NET_WM_DESKTOP)
+   if (ev->message_type == ea_n._NET_WM_DESKTOP)
      {
 	source = OPSRC(ev->data.l[1]);
 	if ((unsigned)ev->data.l[0] == 0xFFFFFFFF)
@@ -884,7 +881,7 @@ EWMH_ProcessClientClientMessage(EWin * ewin, XClientMessageEvent * ev)
 	  }
 	return 1;
      }
-   if (ev->message_type == EX_ATOM_NET_WM_STATE)
+   if (ev->message_type == ea_n._NET_WM_STATE)
      {
 	/*
 	 * It is assumed(!) that only the MAXIMIZE H/V ones can be set
@@ -897,49 +894,49 @@ EWMH_ProcessClientClientMessage(EWin * ewin, XClientMessageEvent * ev)
 	atom = ev->data.l[1];
 	atom2 = ev->data.l[2];
 	source = OPSRC(ev->data.l[3]);
-	if (atom == EX_ATOM_NET_WM_STATE_MODAL)
+	if (atom == ea_n._NET_WM_STATE_MODAL)
 	  {
 	     action = do_set(ewin->state.modal, action);
 	     /* TBD */
 	     ewin->state.modal = action;
 	  }
-	else if (atom == EX_ATOM_NET_WM_STATE_STICKY)
+	else if (atom == ea_n._NET_WM_STATE_STICKY)
 	  {
 	     action = do_set(EoIsSticky(ewin), action);
 	     EwinOpStick(ewin, source, action);
 	  }
-	else if (atom == EX_ATOM_NET_WM_STATE_SHADED)
+	else if (atom == ea_n._NET_WM_STATE_SHADED)
 	  {
 	     action = do_set(ewin->state.shaded, action);
 	     EwinOpShade(ewin, source, action);
 	  }
-	else if (atom == EX_ATOM_NET_WM_STATE_SKIP_TASKBAR)
+	else if (atom == ea_n._NET_WM_STATE_SKIP_TASKBAR)
 	  {
 	     action = do_set(ewin->props.skip_ext_task, action);
 	     ewin->props.skip_ext_task = action;
 	     EWMH_SetWindowState(ewin);
 	  }
-	else if (atom == EX_ATOM_NET_WM_STATE_SKIP_PAGER)
+	else if (atom == ea_n._NET_WM_STATE_SKIP_PAGER)
 	  {
 	     action = do_set(ewin->props.skip_ext_pager, action);
 	     ewin->props.skip_ext_pager = action;
 	     EWMH_SetWindowState(ewin);
 	  }
-	else if (atom == EX_ATOM_NET_WM_STATE_MAXIMIZED_VERT ||
-		 atom == EX_ATOM_NET_WM_STATE_MAXIMIZED_HORZ)
+	else if (atom == ea_n._NET_WM_STATE_MAXIMIZED_VERT ||
+		 atom == ea_n._NET_WM_STATE_MAXIMIZED_HORZ)
 	  {
 	     int                 maxh, maxv;
 
 	     maxh = ewin->state.maximized_horz;
 	     maxv = ewin->state.maximized_vert;
-	     if (atom2 == EX_ATOM_NET_WM_STATE_MAXIMIZED_VERT ||
-		 atom2 == EX_ATOM_NET_WM_STATE_MAXIMIZED_HORZ)
+	     if (atom2 == ea_n._NET_WM_STATE_MAXIMIZED_VERT ||
+		 atom2 == ea_n._NET_WM_STATE_MAXIMIZED_HORZ)
 	       {
 		  /* (ok - ok) */
 		  maxh = do_set(maxh, action);
 		  maxv = do_set(maxv, action);
 	       }
-	     else if (atom == EX_ATOM_NET_WM_STATE_MAXIMIZED_VERT)
+	     else if (atom == ea_n._NET_WM_STATE_MAXIMIZED_VERT)
 	       {
 		  maxv = do_set(maxv, action);
 	       }
@@ -956,13 +953,13 @@ EWMH_ProcessClientClientMessage(EWin * ewin, XClientMessageEvent * ev)
 		  EWMH_SetWindowState(ewin);
 	       }
 	  }
-	else if (atom == EX_ATOM_NET_WM_STATE_FULLSCREEN)
+	else if (atom == ea_n._NET_WM_STATE_FULLSCREEN)
 	  {
 	     action = do_set(ewin->state.fullscreen, action);
 	     if (ewin->state.fullscreen != action)
 		EwinOpFullscreen(ewin, source, action);
 	  }
-	else if (atom == EX_ATOM_NET_WM_STATE_ABOVE)
+	else if (atom == ea_n._NET_WM_STATE_ABOVE)
 	  {
 	     action = do_set(EoGetLayer(ewin) >= 6, action);
 	     if (action)
@@ -976,7 +973,7 @@ EWMH_ProcessClientClientMessage(EWin * ewin, XClientMessageEvent * ev)
 		     EwinOpSetLayer(ewin, source, 4);
 	       }
 	  }
-	else if (atom == EX_ATOM_NET_WM_STATE_BELOW)
+	else if (atom == ea_n._NET_WM_STATE_BELOW)
 	  {
 	     action = do_set(EoGetLayer(ewin) <= 2, action);
 	     if (action)
@@ -990,7 +987,7 @@ EWMH_ProcessClientClientMessage(EWin * ewin, XClientMessageEvent * ev)
 		     EwinOpSetLayer(ewin, source, 4);
 	       }
 	  }
-	else if (atom == EX_ATOM_NET_WM_STATE_DEMANDS_ATTENTION)
+	else if (atom == ea_n._NET_WM_STATE_DEMANDS_ATTENTION)
 	  {
 	     action = do_set(ewin->state.attention, action);
 	     ewin->state.attention = action;
@@ -998,7 +995,7 @@ EWMH_ProcessClientClientMessage(EWin * ewin, XClientMessageEvent * ev)
 	  }
 	return 1;
      }
-   if (ev->message_type == EX_ATOM_NET_MOVERESIZE_WINDOW)
+   if (ev->message_type == ea_n._NET_MOVERESIZE_WINDOW)
      {
 	int                 flags, grav, x, y, w, h;
 
@@ -1012,7 +1009,7 @@ EWMH_ProcessClientClientMessage(EWin * ewin, XClientMessageEvent * ev)
 	EwinMoveResizeWithGravity(ewin, x, y, w, h, grav);
 	return 1;
      }
-   if (ev->message_type == EX_ATOM_NET_WM_MOVERESIZE)
+   if (ev->message_type == ea_n._NET_WM_MOVERESIZE)
      {
 /*	source = OPSRC(ev->data.l[4]); */
 
@@ -1051,7 +1048,7 @@ EWMH_ProcessClientClientMessage(EWin * ewin, XClientMessageEvent * ev)
 	  }
 	return 1;
      }
-   if (ev->message_type == EX_ATOM_NET_RESTACK_WINDOW)
+   if (ev->message_type == ea_n._NET_RESTACK_WINDOW)
      {
 /*	source = OPSRC(ev->data.l[0]); */
 	/* FIXME - Implement */
@@ -1064,32 +1061,32 @@ EWMH_ProcessClientClientMessage(EWin * ewin, XClientMessageEvent * ev)
 int
 EWMH_ProcessRootClientMessage(XClientMessageEvent * ev)
 {
-   if (ev->message_type == EX_ATOM_NET_CURRENT_DESKTOP)
+   if (ev->message_type == ea_n._NET_CURRENT_DESKTOP)
      {
 	DeskGotoNum(ev->data.l[0]);
 	return 1;
      }
-   if (ev->message_type == EX_ATOM_NET_DESKTOP_VIEWPORT)
+   if (ev->message_type == ea_n._NET_DESKTOP_VIEWPORT)
      {
 	DeskCurrentGotoArea(ev->data.l[0] / WinGetW(VROOT),
 			    ev->data.l[1] / WinGetH(VROOT));
 	return 1;
      }
-   if (ev->message_type == EX_ATOM_NET_SHOWING_DESKTOP)
+   if (ev->message_type == ea_n._NET_SHOWING_DESKTOP)
      {
 	EwinsShowDesktop(ev->data.l[0]);
 	return 1;
      }
 #if 0				/* These messages are sent to dedicated window */
-   if (ev->message_type == EX_ATOM_NET_STARTUP_INFO_BEGIN)
+   if (ev->message_type == ea_n._NET_STARTUP_INFO_BEGIN)
      {
-	Eprintf("EX_ATOM_NET_STARTUP_INFO_BEGIN: %lx: %s\n",
+	Eprintf("ea_n._NET_STARTUP_INFO_BEGIN: %lx: %s\n",
 		ev->window, (char *)ev->data.l);
 	return 1;
      }
-   if (ev->message_type == EX_ATOM_NET_STARTUP_INFO)
+   if (ev->message_type == ea_n._NET_STARTUP_INFO)
      {
-	Eprintf("EX_ATOM_NET_STARTUP_INFO      : %lx: %s\n",
+	Eprintf("ea_n._NET_STARTUP_INFO      : %lx: %s\n",
 		ev->window, (char *)ev->data.l);
 	return 1;
      }

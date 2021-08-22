@@ -2070,7 +2070,7 @@ DeskPropertyChange(Desk * dsk, XEvent * ev)
 {
    EX_Pixmap           pmap;
 
-   if (ev->xproperty.atom == E_XROOTPMAP_ID)
+   if (ev->xproperty.atom == ea_m._XROOTPMAP_ID)
      {
 	/* Possible race here? */
 	pmap = HintsGetRootPixmap(EoGetWin(dsk));
@@ -2087,7 +2087,7 @@ DeskPropertyChange(Desk * dsk, XEvent * ev)
 	Mode.root.ext_pmap_valid = EXDrawableOk(pmap);
 	DesksBackgroundRefresh(NULL, DESK_BG_REFRESH);
      }
-   else if (ev->xproperty.atom == E_XROOTCOLOR_PIXEL)
+   else if (ev->xproperty.atom == ea_m._XROOTCOLOR_PIXEL)
      {
 	if (EDebug(EDBUG_TYPE_DESKS))
 	   Eprintf("%s: win=%#lx _XROOTCOLOR_PIXEL\n", __func__,

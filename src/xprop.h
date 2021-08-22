@@ -79,52 +79,26 @@ void                ex_window_prop_string_set(EX_Window win, EX_Atom atom,
 char               *ex_window_prop_string_get(EX_Window win, EX_Atom atom);
 
 /* Misc atoms */
-extern EX_Atom      atoms_misc[];
 
-#define E_XA_UTF8_STRING		atoms_misc[0]
-#define E_XA_MANAGER			atoms_misc[1]
+typedef struct {
+#define DEFINE_ATOM_MISC(a) EX_Atom a;
+#include "xpropdefs.h"
+#undef DEFINE_ATOM_MISC
+} e_atoms_misc_t;
 
-#define E_XROOTPMAP_ID			atoms_misc[2]
-#define E_XROOTCOLOR_PIXEL		atoms_misc[3]
-
-#define E16_ATOM_VERSION           	atoms_misc[4]
-
-#define E16_ATOM_COMMS_WIN		atoms_misc[5]
-#define E16_ATOM_COMMS_MSG		atoms_misc[6]
-
-#define E16_ATOM_INTERNAL_AREA_DATA	atoms_misc[7]
-#define E16_ATOM_INTERNAL_DESK_DATA	atoms_misc[8]
-#define E16_ATOM_WIN_DATA		atoms_misc[9]
-#define E16_ATOM_WIN_BORDER		atoms_misc[10]
-
-#define CHECK_COUNT_MISC  11
+extern e_atoms_misc_t ea_m;
 
 void                ex_atoms_init(void);
 
 /* ICCCM */
-#include <X11/Xatom.h>
-extern EX_Atom      atoms_icccm[];
 
-/* ICCCM */
-#define EX_ATOM_WM_STATE		atoms_icccm[0]
-#define EX_ATOM_WM_WINDOW_ROLE		atoms_icccm[1]
-#define EX_ATOM_WM_CLIENT_LEADER	atoms_icccm[2]
-#define EX_ATOM_WM_COLORMAP_WINDOWS	atoms_icccm[3]
-#define EX_ATOM_WM_CHANGE_STATE		atoms_icccm[4]
-#define EX_ATOM_WM_PROTOCOLS		atoms_icccm[5]
-#define EX_ATOM_WM_DELETE_WINDOW	atoms_icccm[6]
-#define EX_ATOM_WM_TAKE_FOCUS		atoms_icccm[7]
+typedef struct {
+#define DEFINE_ATOM_ICCCM(a) EX_Atom a;
+#include "xpropdefs.h"
+#undef DEFINE_ATOM_ICCCM
+} e_atoms_icccm_t;
 
-#define CHECK_COUNT_ICCCM 8
-
-#define EX_ATOM_WM_CLASS		XA_WM_CLASS
-#define EX_ATOM_WM_NAME			XA_WM_NAME
-#define EX_ATOM_WM_COMMAND		XA_WM_COMMAND
-#define EX_ATOM_WM_ICON_NAME		XA_WM_ICON_NAME
-#define EX_ATOM_WM_CLIENT_MACHINE	XA_WM_CLIENT_MACHINE
-#define EX_ATOM_WM_HINTS		XA_WM_HINTS
-#define EX_ATOM_WM_NORMAL_HINTS		XA_WM_NORMAL_HINTS
-#define EX_ATOM_WM_TRANSIENT_FOR	XA_WM_TRANSIENT_FOR
+extern e_atoms_icccm_t ea_i;
 
 void                ex_icccm_init(void);
 
@@ -139,111 +113,14 @@ void                ex_icccm_name_class_get(EX_Window win,
 					    char **name, char **clss);
 
 /* NETWM (EWMH) */
-extern EX_Atom      atoms_netwm[];
 
-/* Window manager info */
-#define EX_ATOM_NET_SUPPORTED			atoms_netwm[0]
-#define EX_ATOM_NET_SUPPORTING_WM_CHECK		atoms_netwm[1]
+typedef struct {
+#define DEFINE_ATOM_NETWM(a) EX_Atom a;
+#include "xpropdefs.h"
+#undef DEFINE_ATOM_NETWM
+} e_atoms_netwm_t;
 
-/* Desktop status/requests */
-#define EX_ATOM_NET_NUMBER_OF_DESKTOPS		atoms_netwm[2]
-#define EX_ATOM_NET_VIRTUAL_ROOTS		atoms_netwm[3]
-#define EX_ATOM_NET_DESKTOP_GEOMETRY		atoms_netwm[4]
-#define EX_ATOM_NET_DESKTOP_NAMES		atoms_netwm[5]
-#define EX_ATOM_NET_DESKTOP_VIEWPORT		atoms_netwm[6]
-#define EX_ATOM_NET_WORKAREA			atoms_netwm[7]
-#define EX_ATOM_NET_CURRENT_DESKTOP		atoms_netwm[8]
-#define EX_ATOM_NET_SHOWING_DESKTOP		atoms_netwm[9]
-
-#define EX_ATOM_NET_ACTIVE_WINDOW		atoms_netwm[10]
-#define EX_ATOM_NET_CLIENT_LIST			atoms_netwm[11]
-#define EX_ATOM_NET_CLIENT_LIST_STACKING	atoms_netwm[12]
-
-/* Client window props/client messages */
-#define EX_ATOM_NET_WM_NAME			atoms_netwm[13]
-#define EX_ATOM_NET_WM_VISIBLE_NAME		atoms_netwm[14]
-#define EX_ATOM_NET_WM_ICON_NAME		atoms_netwm[15]
-#define EX_ATOM_NET_WM_VISIBLE_ICON_NAME	atoms_netwm[16]
-
-#define EX_ATOM_NET_WM_DESKTOP			atoms_netwm[17]
-
-#define EX_ATOM_NET_WM_WINDOW_TYPE		atoms_netwm[18]
-#define EX_ATOM_NET_WM_WINDOW_TYPE_DESKTOP	atoms_netwm[19]
-#define EX_ATOM_NET_WM_WINDOW_TYPE_DOCK		atoms_netwm[20]
-#define EX_ATOM_NET_WM_WINDOW_TYPE_TOOLBAR	atoms_netwm[21]
-#define EX_ATOM_NET_WM_WINDOW_TYPE_MENU		atoms_netwm[22]
-#define EX_ATOM_NET_WM_WINDOW_TYPE_UTILITY	atoms_netwm[23]
-#define EX_ATOM_NET_WM_WINDOW_TYPE_SPLASH	atoms_netwm[24]
-#define EX_ATOM_NET_WM_WINDOW_TYPE_DIALOG	atoms_netwm[25]
-#define EX_ATOM_NET_WM_WINDOW_TYPE_NORMAL	atoms_netwm[26]
-
-#define EX_ATOM_NET_WM_STATE			atoms_netwm[27]
-#define EX_ATOM_NET_WM_STATE_MODAL		atoms_netwm[28]
-#define EX_ATOM_NET_WM_STATE_STICKY		atoms_netwm[29]
-#define EX_ATOM_NET_WM_STATE_MAXIMIZED_VERT	atoms_netwm[30]
-#define EX_ATOM_NET_WM_STATE_MAXIMIZED_HORZ	atoms_netwm[31]
-#define EX_ATOM_NET_WM_STATE_SHADED		atoms_netwm[32]
-#define EX_ATOM_NET_WM_STATE_SKIP_TASKBAR	atoms_netwm[33]
-#define EX_ATOM_NET_WM_STATE_SKIP_PAGER		atoms_netwm[34]
-#define EX_ATOM_NET_WM_STATE_HIDDEN		atoms_netwm[35]
-#define EX_ATOM_NET_WM_STATE_FULLSCREEN		atoms_netwm[36]
-#define EX_ATOM_NET_WM_STATE_ABOVE		atoms_netwm[37]
-#define EX_ATOM_NET_WM_STATE_BELOW		atoms_netwm[38]
-#define EX_ATOM_NET_WM_STATE_DEMANDS_ATTENTION	atoms_netwm[39]
-#define EX_ATOM_NET_WM_STATE_FOCUSED          	atoms_netwm[40]
-
-#define EX_ATOM_NET_WM_ALLOWED_ACTIONS		atoms_netwm[41]
-#define EX_ATOM_NET_WM_ACTION_MOVE		atoms_netwm[42]
-#define EX_ATOM_NET_WM_ACTION_RESIZE		atoms_netwm[43]
-#define EX_ATOM_NET_WM_ACTION_MINIMIZE		atoms_netwm[44]
-#define EX_ATOM_NET_WM_ACTION_SHADE		atoms_netwm[45]
-#define EX_ATOM_NET_WM_ACTION_STICK		atoms_netwm[46]
-#define EX_ATOM_NET_WM_ACTION_MAXIMIZE_HORZ	atoms_netwm[47]
-#define EX_ATOM_NET_WM_ACTION_MAXIMIZE_VERT	atoms_netwm[48]
-#define EX_ATOM_NET_WM_ACTION_FULLSCREEN	atoms_netwm[49]
-#define EX_ATOM_NET_WM_ACTION_CHANGE_DESKTOP	atoms_netwm[50]
-#define EX_ATOM_NET_WM_ACTION_CLOSE		atoms_netwm[51]
-#define EX_ATOM_NET_WM_ACTION_ABOVE		atoms_netwm[52]
-#define EX_ATOM_NET_WM_ACTION_BELOW		atoms_netwm[53]
-
-#define EX_ATOM_NET_WM_STRUT			atoms_netwm[54]
-#define EX_ATOM_NET_WM_STRUT_PARTIAL		atoms_netwm[55]
-
-#define EX_ATOM_NET_FRAME_EXTENTS		atoms_netwm[56]
-
-#define EX_ATOM_NET_WM_ICON			atoms_netwm[57]
-
-#define EX_ATOM_NET_WM_USER_TIME		atoms_netwm[58]
-#define EX_ATOM_NET_WM_USER_TIME_WINDOW		atoms_netwm[59]
-
-#if 0				/* Not used */
-#define EX_ATOM_NET_WM_ICON_GEOMETRY		atoms_netwm[0]
-#define EX_ATOM_NET_WM_PID			atoms_netwm[0]
-#define EX_ATOM_NET_WM_HANDLED_ICONS		atoms_netwm[0]
-
-#define EX_ATOM_NET_WM_PING			atoms_netwm[0]
-#endif
-#define EX_ATOM_NET_WM_SYNC_REQUEST		atoms_netwm[60]
-#define EX_ATOM_NET_WM_SYNC_REQUEST_COUNTER	atoms_netwm[61]
-
-#define EX_ATOM_NET_WM_WINDOW_OPACITY		atoms_netwm[62]
-
-/* Misc window ops */
-#define EX_ATOM_NET_CLOSE_WINDOW		atoms_netwm[63]
-#define EX_ATOM_NET_MOVERESIZE_WINDOW		atoms_netwm[64]
-#define EX_ATOM_NET_WM_MOVERESIZE		atoms_netwm[65]
-#define EX_ATOM_NET_RESTACK_WINDOW		atoms_netwm[66]
-
-#if 0				/* Not yet implemented */
-#define EX_ATOM_NET_REQUEST_FRAME_EXTENTS	atoms_netwm[0]
-#endif
-
-/* Startup notification */
-#define EX_ATOM_NET_STARTUP_ID			atoms_netwm[67]
-#define EX_ATOM_NET_STARTUP_INFO_BEGIN		atoms_netwm[68]
-#define EX_ATOM_NET_STARTUP_INFO		atoms_netwm[69]
-
-#define CHECK_COUNT_NETWM 70
+extern e_atoms_netwm_t ea_n;
 
 void                ex_netwm_init(void);
 

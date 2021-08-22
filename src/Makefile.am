@@ -104,7 +104,7 @@ e16_SOURCES = \
 	util.h			\
 	warp.c			\
 	windowmatch.c   	windowmatch.h		\
-	xprop.c			xprop.h			\
+	xprop.c			xprop.h	 xpropdefs.h	\
 	x.c                     xwin.h			\
 	xtypes.h                \
 	$(SRCS_SOUND)		\

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -52,8 +52,8 @@ ICCCM_Init(void)
      {
 	EX_Atom             wm_props[1];
 
-	wm_props[0] = EX_ATOM_WM_DELETE_WINDOW;
-	ex_window_prop_atom_set(WinGetXwin(VROOT), EX_ATOM_WM_PROTOCOLS,
+	wm_props[0] = ea_i.WM_DELETE_WINDOW;
+	ex_window_prop_atom_set(WinGetXwin(VROOT), ea_i.WM_PROTOCOLS,
 				wm_props, 1);
      }
 }
@@ -61,7 +61,7 @@ ICCCM_Init(void)
 int
 ICCCM_ProcessClientClientMessage(EWin * ewin, XClientMessageEvent * event)
 {
-   if (event->message_type == EX_ATOM_WM_CHANGE_STATE)
+   if (event->message_type == ea_i.WM_CHANGE_STATE)
      {
 	if (event->data.l[0] == IconicState)
 	  {
@@ -78,10 +78,10 @@ ICCCM_ProcessRootClientMessage(XClientMessageEvent * event)
 {
    EX_Atom             a;
 
-   if (event->message_type == EX_ATOM_WM_PROTOCOLS)
+   if (event->message_type == ea_i.WM_PROTOCOLS)
      {
 	a = event->data.l[0];
-	if (a == EX_ATOM_WM_DELETE_WINDOW)
+	if (a == ea_i.WM_DELETE_WINDOW)
 	   SessionExit(EEXIT_EXIT, NULL);
 	return 1;
      }
@@ -353,7 +353,7 @@ ICCCM_Cmap(EWin * ewin)
       goto set_cmap;
 
    num = ex_window_prop_window_list_get(EwinGetClientXwin(ewin),
-					EX_ATOM_WM_COLORMAP_WINDOWS, &wlist);
+					ea_i.WM_COLORMAP_WINDOWS, &wlist);
    if (num > 0)
      {
 	for (i = 0; i < num; i++)
@@ -575,10 +575,10 @@ ICCCM_GetWmCommand(EWin * ewin)
    EFREE_NULL(ewin->icccm.wm_command);
 
    argc = ex_window_prop_string_list_get(EwinGetClientXwin(ewin),
-					 EX_ATOM_WM_COMMAND, &argv);
+					 ea_i.WM_COMMAND, &argv);
    if ((argc < 0) && TryGroup(ewin))
       argc = ex_window_prop_string_list_get(ewin->icccm.group,
-					    EX_ATOM_WM_COMMAND, &argv);
+					    ea_i.WM_COMMAND, &argv);
 
    ss = StrlistEncodeEscaped(s, sizeof(s), argv, argc);
    ewin->icccm.wm_command = Estrdup(ss);
@@ -592,11 +592,10 @@ ICCCM_GetWmClientMachine(EWin * ewin)
 
    ewin->icccm.wm_machine =
       ex_window_prop_string_get(EwinGetClientXwin(ewin),
-				EX_ATOM_WM_CLIENT_MACHINE);
+				ea_i.WM_CLIENT_MACHINE);
    if (!ewin->icccm.wm_machine && TryGroup(ewin))
       ewin->icccm.wm_machine =
-	 ex_window_prop_string_get(ewin->icccm.group,
-				   EX_ATOM_WM_CLIENT_MACHINE);
+	 ex_window_prop_string_get(ewin->icccm.group, ea_i.WM_CLIENT_MACHINE);
 }
 
 static void
@@ -605,10 +604,10 @@ ICCCM_GetWmIconName(EWin * ewin)
    EFREE_NULL(ewin->icccm.wm_icon_name);
 
    ewin->icccm.wm_icon_name =
-      ex_window_prop_string_get(EwinGetClientXwin(ewin), EX_ATOM_WM_ICON_NAME);
+      ex_window_prop_string_get(EwinGetClientXwin(ewin), ea_i.WM_ICON_NAME);
    if (!ewin->icccm.wm_icon_name && TryGroup(ewin))
       ewin->icccm.wm_icon_name =
-	 ex_window_prop_string_get(ewin->icccm.group, EX_ATOM_WM_ICON_NAME);
+	 ex_window_prop_string_get(ewin->icccm.group, ea_i.WM_ICON_NAME);
 }
 
 static void
@@ -616,8 +615,7 @@ ICCCM_GetWmWindowRole(EWin * ewin)
 {
    EFREE_NULL(ewin->icccm.wm_role);
    ewin->icccm.wm_role =
-      ex_window_prop_string_get(EwinGetClientXwin(ewin),
-				EX_ATOM_WM_WINDOW_ROLE);
+      ex_window_prop_string_get(EwinGetClientXwin(ewin), ea_i.WM_WINDOW_ROLE);
 }
 
 void
@@ -710,7 +708,7 @@ ICCCM_GetWmProtocols(EWin * ewin)
    EX_Atom             prop[64];	/* More is unlikely */
    int                 i, num;
 
-   num = ex_window_prop_atom_get(EwinGetClientXwin(ewin), EX_ATOM_WM_PROTOCOLS,
+   num = ex_window_prop_atom_get(EwinGetClientXwin(ewin), ea_i.WM_PROTOCOLS,
 				 prop, 64);
    if (num < 0)
       return;
@@ -719,18 +717,18 @@ ICCCM_GetWmProtocols(EWin * ewin)
    ewin->icccm.delete_window = 0;
    for (i = 0; i < num; i++)
      {
-	if (prop[i] == EX_ATOM_WM_TAKE_FOCUS)
+	if (prop[i] == ea_i.WM_TAKE_FOCUS)
 	   ewin->icccm.take_focus = 1;
-	else if (prop[i] == EX_ATOM_WM_DELETE_WINDOW)
+	else if (prop[i] == ea_i.WM_DELETE_WINDOW)
 	   ewin->icccm.delete_window = 1;
 #if USE_XSYNC
-	else if (prop[i] == EX_ATOM_NET_WM_SYNC_REQUEST)
+	else if (prop[i] == ea_n._NET_WM_SYNC_REQUEST)
 	  {
 	     unsigned int        c;
 
 	     ewin->ewmh.sync_request_enable = 1;
 	     ex_window_prop_card32_get(EwinGetClientXwin(ewin),
-				       EX_ATOM_NET_WM_SYNC_REQUEST_COUNTER,
+				       ea_n._NET_WM_SYNC_REQUEST_COUNTER,
 				       &c, 1);
 	     ewin->ewmh.sync_request_counter = c;
 	  }
@@ -745,7 +743,7 @@ ICCCM_GetWmTransientFor(EWin * ewin)
    EX_Window           win;
 
    num = ex_window_prop_window_get(EwinGetClientXwin(ewin),
-				   EX_ATOM_WM_TRANSIENT_FOR, &win, 1);
+				   ea_i.WM_TRANSIENT_FOR, &win, 1);
    if (num > 0)
      {
 	ewin->icccm.transient = 1;
@@ -765,7 +763,7 @@ ICCCM_GetWmClientLeader(EWin * ewin)
    EX_Window           cleader;
 
    num = ex_window_prop_window_get(EwinGetClientXwin(ewin),
-				   EX_ATOM_WM_CLIENT_LEADER, &cleader, 1);
+				   ea_i.WM_CLIENT_LEADER, &cleader, 1);
    if (num > 0)
      {
 	ewin->icccm.client_leader = cleader;
@@ -805,70 +803,70 @@ ICCCM_SetIconSizes(void)
 int
 ICCCM_ProcessPropertyChange(EWin * ewin, EX_Atom atom_change)
 {
-   if (atom_change == EX_ATOM_WM_NAME)
+   if (atom_change == ea_i.WM_NAME)
      {
 	ICCCM_GetTitle(ewin);
 	return 1;
      }
 
    /* ICCCM_GetHints */
-   if (atom_change == EX_ATOM_WM_HINTS)
+   if (atom_change == ea_i.WM_HINTS)
      {
 	ICCCM_GetWmHints(ewin);
 	return 1;
      }
-   if (atom_change == EX_ATOM_WM_PROTOCOLS)
+   if (atom_change == ea_i.WM_PROTOCOLS)
      {
 	ICCCM_GetWmProtocols(ewin);
 	return 1;
      }
-   if (atom_change == EX_ATOM_WM_TRANSIENT_FOR)
+   if (atom_change == ea_i.WM_TRANSIENT_FOR)
      {
 	ICCCM_GetWmTransientFor(ewin);
 	return 1;
      }
-   if (atom_change == EX_ATOM_WM_CLIENT_LEADER)
+   if (atom_change == ea_i.WM_CLIENT_LEADER)
      {
 	ICCCM_GetWmClientLeader(ewin);
 	return 1;
      }
 
    /* ICCCM_GetInfo */
-   if (atom_change == EX_ATOM_WM_ICON_NAME)
+   if (atom_change == ea_i.WM_ICON_NAME)
      {
 	ICCCM_GetWmIconName(ewin);
 	return 1;
      }
 #if 1				/* FIXME - Any reason to process these? */
-   if (atom_change == EX_ATOM_WM_CLASS)
+   if (atom_change == ea_i.WM_CLASS)
      {
 	ICCCM_GetWmClass(ewin);
 	return 1;
      }
-   if (atom_change == EX_ATOM_WM_COMMAND)
+   if (atom_change == ea_i.WM_COMMAND)
      {
 	ICCCM_GetWmCommand(ewin);
 	return 1;
      }
-   if (atom_change == EX_ATOM_WM_CLIENT_MACHINE)
+   if (atom_change == ea_i.WM_CLIENT_MACHINE)
      {
 	ICCCM_GetWmClientMachine(ewin);
 	return 1;
      }
-   if (atom_change == EX_ATOM_WM_WINDOW_ROLE)
+   if (atom_change == ea_i.WM_WINDOW_ROLE)
      {
 	ICCCM_GetWmWindowRole(ewin);
 	return 1;
      }
 #endif
 
-   if (atom_change == EX_ATOM_WM_COLORMAP_WINDOWS)
+   if (atom_change == ea_i.WM_COLORMAP_WINDOWS)
      {
 	ICCCM_Cmap(ewin);
 	return 1;
      }
 
-   if (atom_change == EX_ATOM_WM_NORMAL_HINTS)
+   if (atom_change == ea_i.WM_NORMAL_HINTS)
      {
 	ICCCM_GetGeoms(ewin);
 	return 1;
@@ -891,9 +889,9 @@ EwinSyncRequestSend(EWin * ewin)
    if (count == 0)
       ewin->ewmh.sync_request_count = ++count;
    ex_client_message32_send(EwinGetClientXwin(ewin),
-			    EX_ATOM_WM_PROTOCOLS,
+			    ea_i.WM_PROTOCOLS,
 			    StructureNotifyMask,
-			    EX_ATOM_NET_WM_SYNC_REQUEST,
+			    ea_n._NET_WM_SYNC_REQUEST,
 			    Mode.events.time,
 			    (long)(count & 0xffffffff), (long)(count >> 32), 0);
 

@@ -37,12 +37,6 @@
 #include "xprop.h"
 #include "xwin.h"
 
-#if defined(__STDC_VERSION__) && __STDC_VERSION__ > 201112L
-#define E_STATIC_ASSERT(...)	_Static_assert(__VA_ARGS__)
-#else
-#define E_STATIC_ASSERT(...)
-#endif
-
 #define _ex_disp disp
 
 /*
@@ -352,7 +346,7 @@ ex_window_prop_string_get(EX_Window win, EX_Atom atom)
 static void
 _ex_window_prop_string_utf8_set(EX_Window win, EX_Atom atom, const char *str)
 {
-   XChangeProperty(_ex_disp, win, atom, E_XA_UTF8_STRING, 8,
+   XChangeProperty(_ex_disp, win, atom, ea_m.UTF8_STRING, 8,
 		   PropModeReplace, (unsigned char *)str, strlen(str));
 }
 
@@ -371,7 +365,7 @@ _ex_window_prop_string_utf8_get(EX_Window win, EX_Atom atom)
    str = NULL;
    prop_ret = NULL;
    XGetWindowProperty(_ex_disp, win, atom, 0, 0x7fffffff, False,
-		      E_XA_UTF8_STRING, &type_ret,
+		      ea_m.UTF8_STRING, &type_ret,
 		      &format_ret, &num_ret, &bytes_after, &prop_ret);
    if (prop_ret && num_ret > 0 && format_ret == 8)
      {
@@ -569,66 +563,42 @@ ex_window_prop_window_list_get(EX_Window win, EX_Atom atom, EX_Window ** plst)
    return ex_window_prop_xid_list_get(win, atom, XA_WINDOW, plst);
 }
 
+#define S_ATOM_COUNT(s) (sizeof(s) / sizeof(EX_Atom))
+
 /*
  * Misc atom stuff
  */
 
-static const char  *const atoms_misc_names[] = {
-   /* Misc atoms */
-   "UTF8_STRING",
-   "MANAGER",
-
-   /* Root background atoms */
-   "_XROOTPMAP_ID",
-   "_XROOTCOLOR_PIXEL",
-
-   /* E16 atoms */
-   "ENLIGHTENMENT_VERSION",
-
-   "ENLIGHTENMENT_COMMS",
-   "ENL_MSG",
-
-   "ENL_INTERNAL_AREA_DATA",
-   "ENL_INTERNAL_DESK_DATA",
-   "ENL_WIN_DATA",
-   "ENL_WIN_BORDER",
+static const char  *const ea_m_names[] = {
+#define DEFINE_ATOM_MISC(a) #a,
+#include "xpropdefs.h"
+#undef DEFINE_ATOM_MISC
 };
-EX_Atom             atoms_misc[E_ARRAY_SIZE(atoms_misc_names)];
 
-E_STATIC_ASSERT(CHECK_COUNT_MISC == E_ARRAY_SIZE(atoms_misc));
+e_atoms_misc_t      ea_m;
 
 void
 ex_atoms_init(void)
 {
-   ex_atoms_get(atoms_misc_names, E_ARRAY_SIZE(atoms_misc), atoms_misc);
+   ex_atoms_get(ea_m_names, E_ARRAY_SIZE(ea_m_names), (EX_Atom *) & ea_m);
 }
 
 /*
  * ICCCM stuff
  */
 
-static const char  *const atoms_icccm_names[] = {
-   /* ICCCM */
-   "WM_STATE",
-   "WM_WINDOW_ROLE",
-   "WM_CLIENT_LEADER",
-   "WM_COLORMAP_WINDOWS",
-   "WM_CHANGE_STATE",
-   "WM_PROTOCOLS",
-   "WM_DELETE_WINDOW",
-   "WM_TAKE_FOCUS",
-#if 0
-   "WM_SAVE_YOURSELF",
-#endif
+static const char  *const ea_i_names[] = {
+#define DEFINE_ATOM_ICCCM(a) #a,
+#include "xpropdefs.h"
+#undef DEFINE_ATOM_ICCCM
 };
-EX_Atom             atoms_icccm[E_ARRAY_SIZE(atoms_icccm_names)];
 
-E_STATIC_ASSERT(CHECK_COUNT_ICCCM == E_ARRAY_SIZE(atoms_icccm));
+e_atoms_icccm_t     ea_i;
 
 void
 ex_icccm_init(void)
 {
-   ex_atoms_get(atoms_icccm_names, E_ARRAY_SIZE(atoms_icccm), atoms_icccm);
+   ex_atoms_get(ea_i_names, E_ARRAY_SIZE(ea_i_names), (EX_Atom *) & ea_i);
 }
 
 static void
@@ -638,7 +608,7 @@ ex_icccm_state_set(EX_Window win, unsigned int state)
 
    c[0] = state;
    c[1] = 0;
-   XChangeProperty(_ex_disp, win, EX_ATOM_WM_STATE, EX_ATOM_WM_STATE,
+   XChangeProperty(_ex_disp, win, ea_i.WM_STATE, ea_i.WM_STATE,
 		   32, PropModeReplace, (unsigned char *)c, 2);
 }
 
@@ -663,40 +633,40 @@ ex_icccm_state_set_withdrawn(EX_Window win)
 static void
 ex_icccm_client_message_send(EX_Window win, EX_Atom atom, EX_Time ts)
 {
-   ex_client_message32_send(win, EX_ATOM_WM_PROTOCOLS, NoEventMask,
+   ex_client_message32_send(win, ea_i.WM_PROTOCOLS, NoEventMask,
 			    atom, ts, 0, 0, 0);
 }
 
 void
 ex_icccm_delete_window_send(EX_Window win, EX_Time ts)
 {
-   ex_icccm_client_message_send(win, EX_ATOM_WM_DELETE_WINDOW, ts);
+   ex_icccm_client_message_send(win, ea_i.WM_DELETE_WINDOW, ts);
 }
 
 void
 ex_icccm_take_focus_send(EX_Window win, EX_Time ts)
 {
-   ex_icccm_client_message_send(win, EX_ATOM_WM_TAKE_FOCUS, ts);
+   ex_icccm_client_message_send(win, ea_i.WM_TAKE_FOCUS, ts);
 }
 
 #if 0
 void
 ex_icccm_save_yourself_send(EX_Window win, EX_Time ts)
 {
-   ex_icccm_client_message_send(win, EX_ATOM_WM_SAVE_YOURSELF, ts);
+   ex_icccm_client_message_send(win, ea_i.WM_SAVE_YOURSELF, ts);
 }
 #endif
 
 void
 ex_icccm_title_set(EX_Window win, const char *title)
 {
-   ex_window_prop_string_set(win, EX_ATOM_WM_NAME, title);
+   ex_window_prop_string_set(win, ea_i.WM_NAME, title);
 }
 
 char               *
 ex_icccm_title_get(EX_Window win)
 {
-   return ex_window_prop_string_get(win, EX_ATOM_WM_NAME);
+   return ex_window_prop_string_get(win, ea_i.WM_NAME);
 }
 
 void
@@ -736,117 +706,17 @@ ex_icccm_name_class_get(EX_Window win, char **name, char **clss)
  * _NET_WM hints (EWMH)
  */
 
-static const char  *const atoms_netwm_names[] = {
-   /* Window manager info */
-   "_NET_SUPPORTED",
-   "_NET_SUPPORTING_WM_CHECK",
-
-   /* Desktop status/requests */
-   "_NET_NUMBER_OF_DESKTOPS",
-   "_NET_VIRTUAL_ROOTS",
-   "_NET_DESKTOP_GEOMETRY",
-   "_NET_DESKTOP_NAMES",
-   "_NET_DESKTOP_VIEWPORT",
-   "_NET_WORKAREA",
-   "_NET_CURRENT_DESKTOP",
-   "_NET_SHOWING_DESKTOP",
-
-   "_NET_ACTIVE_WINDOW",
-   "_NET_CLIENT_LIST",
-   "_NET_CLIENT_LIST_STACKING",
-
-   /* Client window props/client messages */
-   "_NET_WM_NAME",
-   "_NET_WM_VISIBLE_NAME",
-   "_NET_WM_ICON_NAME",
-   "_NET_WM_VISIBLE_ICON_NAME",
-
-   "_NET_WM_DESKTOP",
-
-   "_NET_WM_WINDOW_TYPE",
-   "_NET_WM_WINDOW_TYPE_DESKTOP",
-   "_NET_WM_WINDOW_TYPE_DOCK",
-   "_NET_WM_WINDOW_TYPE_TOOLBAR",
-   "_NET_WM_WINDOW_TYPE_MENU",
-   "_NET_WM_WINDOW_TYPE_UTILITY",
-   "_NET_WM_WINDOW_TYPE_SPLASH",
-   "_NET_WM_WINDOW_TYPE_DIALOG",
-   "_NET_WM_WINDOW_TYPE_NORMAL",
-
-   "_NET_WM_STATE",
-   "_NET_WM_STATE_MODAL",
-   "_NET_WM_STATE_STICKY",
-   "_NET_WM_STATE_MAXIMIZED_VERT",
-   "_NET_WM_STATE_MAXIMIZED_HORZ",
-   "_NET_WM_STATE_SHADED",
-   "_NET_WM_STATE_SKIP_TASKBAR",
-   "_NET_WM_STATE_SKIP_PAGER",
-   "_NET_WM_STATE_HIDDEN",
-   "_NET_WM_STATE_FULLSCREEN",
-   "_NET_WM_STATE_ABOVE",
-   "_NET_WM_STATE_BELOW",
-   "_NET_WM_STATE_DEMANDS_ATTENTION",
-   "_NET_WM_STATE_FOCUSED",
-
-   "_NET_WM_ALLOWED_ACTIONS",
-   "_NET_WM_ACTION_MOVE",
-   "_NET_WM_ACTION_RESIZE",
-   "_NET_WM_ACTION_MINIMIZE",
-   "_NET_WM_ACTION_SHADE",
-   "_NET_WM_ACTION_STICK",
-   "_NET_WM_ACTION_MAXIMIZE_HORZ",
-   "_NET_WM_ACTION_MAXIMIZE_VERT",
-   "_NET_WM_ACTION_FULLSCREEN",
-   "_NET_WM_ACTION_CHANGE_DESKTOP",
-   "_NET_WM_ACTION_CLOSE",
-   "_NET_WM_ACTION_ABOVE",
-   "_NET_WM_ACTION_BELOW",
-
-   "_NET_WM_STRUT",
-   "_NET_WM_STRUT_PARTIAL",
-
-   "_NET_FRAME_EXTENTS",
-
-   "_NET_WM_ICON",
-
-   "_NET_WM_USER_TIME",
-   "_NET_WM_USER_TIME_WINDOW",
-
-#if 0				/* Not used */
-   "_NET_WM_ICON_GEOMETRY",
-   "_NET_WM_PID",
-   "_NET_WM_HANDLED_ICONS",
-
-   "_NET_WM_PING",
-#endif
-   "_NET_WM_SYNC_REQUEST",
-   "_NET_WM_SYNC_REQUEST_COUNTER",
-
-   "_NET_WM_WINDOW_OPACITY",
-
-   /* Misc window ops */
-   "_NET_CLOSE_WINDOW",
-   "_NET_MOVERESIZE_WINDOW",
-   "_NET_WM_MOVERESIZE",
-   "_NET_RESTACK_WINDOW",
-
-#if 0				/* Not yet implemented */
-   "_NET_REQUEST_FRAME_EXTENTS",
-#endif
-
-   /* Startup notification */
-   "_NET_STARTUP_ID",
-   "_NET_STARTUP_INFO_BEGIN",
-   "_NET_STARTUP_INFO",
+static const char  *const ea_n_names[] = {
+#define DEFINE_ATOM_NETWM(a) #a,
+#include "xpropdefs.h"
+#undef DEFINE_ATOM_NETWM
 };
-EX_Atom             atoms_netwm[E_ARRAY_SIZE(atoms_netwm_names)];
-
-E_STATIC_ASSERT(CHECK_COUNT_NETWM == E_ARRAY_SIZE(atoms_netwm));
+e_atoms_netwm_t     ea_n;
 
 void
 ex_netwm_init(void)
 {
-   ex_atoms_get(atoms_netwm_names, E_ARRAY_SIZE(atoms_netwm), atoms_netwm);
+   ex_atoms_get(ea_n_names, E_ARRAY_SIZE(ea_n_names), (EX_Atom *) & ea_n);
 }
 
 /*
@@ -855,11 +725,11 @@ ex_netwm_init(void)
 void
 ex_netwm_wm_identify(EX_Window root, EX_Window check, const char *wm_name)
 {
-   ex_window_prop_window_set(root, EX_ATOM_NET_SUPPORTING_WM_CHECK, &check, 1);
-   ex_window_prop_window_set(check, EX_ATOM_NET_SUPPORTING_WM_CHECK, &check, 1);
-   _ex_window_prop_string_utf8_set(check, EX_ATOM_NET_WM_NAME, wm_name);
+   ex_window_prop_window_set(root, ea_n._NET_SUPPORTING_WM_CHECK, &check, 1);
+   ex_window_prop_window_set(check, ea_n._NET_SUPPORTING_WM_CHECK, &check, 1);
+   _ex_window_prop_string_utf8_set(check, ea_n._NET_WM_NAME, wm_name);
    /* This one isn't mandatory */
-   _ex_window_prop_string_utf8_set(root, EX_ATOM_NET_WM_NAME, wm_name);
+   _ex_window_prop_string_utf8_set(root, ea_n._NET_WM_NAME, wm_name);
 }
 
 /*
@@ -869,14 +739,14 @@ ex_netwm_wm_identify(EX_Window root, EX_Window check, const char *wm_name)
 void
 ex_netwm_desk_count_set(EX_Window root, unsigned int n_desks)
 {
-   ex_window_prop_card32_set(root, EX_ATOM_NET_NUMBER_OF_DESKTOPS, &n_desks, 1);
+   ex_window_prop_card32_set(root, ea_n._NET_NUMBER_OF_DESKTOPS, &n_desks, 1);
 }
 
 void
 ex_netwm_desk_roots_set(EX_Window root, const EX_Window * vroots,
 			unsigned int n_desks)
 {
-   ex_window_prop_window_set(root, EX_ATOM_NET_VIRTUAL_ROOTS, vroots, n_desks);
+   ex_window_prop_window_set(root, ea_n._NET_VIRTUAL_ROOTS, vroots, n_desks);
 }
 
 void
@@ -911,8 +781,8 @@ ex_netwm_desk_names_set(EX_Window root, const char **names,
 	len += l;
      }
 
-   XChangeProperty(_ex_disp, root, EX_ATOM_NET_DESKTOP_NAMES,
-		   E_XA_UTF8_STRING, 8, PropModeReplace,
+   XChangeProperty(_ex_disp, root, ea_n._NET_DESKTOP_NAMES,
+		   ea_m.UTF8_STRING, 8, PropModeReplace,
 		   (unsigned char *)buf, len);
 
  done:
@@ -926,27 +796,27 @@ ex_netwm_desk_size_set(EX_Window root, unsigned int width, unsigned int height)
 
    size[0] = width;
    size[1] = height;
-   ex_window_prop_card32_set(root, EX_ATOM_NET_DESKTOP_GEOMETRY, size, 2);
+   ex_window_prop_card32_set(root, ea_n._NET_DESKTOP_GEOMETRY, size, 2);
 }
 
 void
 ex_netwm_desk_workareas_set(EX_Window root, const unsigned int *areas,
 			    unsigned int n_desks)
 {
-   ex_window_prop_card32_set(root, EX_ATOM_NET_WORKAREA, areas, 4 * n_desks);
+   ex_window_prop_card32_set(root, ea_n._NET_WORKAREA, areas, 4 * n_desks);
 }
 
 void
 ex_netwm_desk_current_set(EX_Window root, unsigned int desk)
 {
-   ex_window_prop_card32_set(root, EX_ATOM_NET_CURRENT_DESKTOP, &desk, 1);
+   ex_window_prop_card32_set(root, ea_n._NET_CURRENT_DESKTOP, &desk, 1);
 }
 
 void
 ex_netwm_desk_viewports_set(EX_Window root, const unsigned int *origins,
 			    unsigned int n_desks)
 {
-   ex_window_prop_card32_set(root, EX_ATOM_NET_DESKTOP_VIEWPORT,
+   ex_window_prop_card32_set(root, ea_n._NET_DESKTOP_VIEWPORT,
 			     origins, 2 * n_desks);
 }
 
@@ -956,7 +826,7 @@ ex_netwm_showing_desktop_set(EX_Window root, int on)
    unsigned int        val;
 
    val = (on) ? 1 : 0;
-   ex_window_prop_card32_set(root, EX_ATOM_NET_SHOWING_DESKTOP, &val, 1);
+   ex_window_prop_card32_set(root, ea_n._NET_SHOWING_DESKTOP, &val, 1);
 }
 
 /*
@@ -968,8 +838,7 @@ void
 ex_netwm_client_list_set(EX_Window root, const EX_Window * p_clients,
 			 unsigned int n_clients)
 {
-   ex_window_prop_window_set(root, EX_ATOM_NET_CLIENT_LIST,
-			     p_clients, n_clients);
+   ex_window_prop_window_set(root, ea_n._NET_CLIENT_LIST, p_clients, n_clients);
 }
 
 /* Stacking order */
@@ -978,14 +847,14 @@ ex_netwm_client_list_stacking_set(EX_Window root,
 				  const EX_Window * p_clients,
 				  unsigned int n_clients)
 {
-   ex_window_prop_window_set(root, EX_ATOM_NET_CLIENT_LIST_STACKING,
+   ex_window_prop_window_set(root, ea_n._NET_CLIENT_LIST_STACKING,
 			     p_clients, n_clients);
 }
 
 void
 ex_netwm_client_active_set(EX_Window root, EX_Window win)
 {
-   ex_window_prop_window_set(root, EX_ATOM_NET_ACTIVE_WINDOW, &win, 1);
+   ex_window_prop_window_set(root, ea_n._NET_ACTIVE_WINDOW, &win, 1);
 }
 
 /*
@@ -995,7 +864,7 @@ ex_netwm_client_active_set(EX_Window root, EX_Window win)
 void
 ex_netwm_name_set(EX_Window win, const char *name)
 {
-   _ex_window_prop_string_utf8_set(win, EX_ATOM_NET_WM_NAME, name);
+   _ex_window_prop_string_utf8_set(win, ea_n._NET_WM_NAME, name);
 }
 
 int
@@ -1003,7 +872,7 @@ ex_netwm_name_get(EX_Window win, char **name)
 {
    char               *s;
 
-   s = _ex_window_prop_string_utf8_get(win, EX_ATOM_NET_WM_NAME);
+   s = _ex_window_prop_string_utf8_get(win, ea_n._NET_WM_NAME);
    *name = s;
 
    return !!s;
@@ -1012,7 +881,7 @@ ex_netwm_name_get(EX_Window win, char **name)
 void
 ex_netwm_visible_name_set(EX_Window win, const char *name)
 {
-   _ex_window_prop_string_utf8_set(win, EX_ATOM_NET_WM_VISIBLE_NAME, name);
+   _ex_window_prop_string_utf8_set(win, ea_n._NET_WM_VISIBLE_NAME, name);
 }
 
 int
@@ -1020,7 +889,7 @@ ex_netwm_visible_name_get(EX_Window win, char **name)
 {
    char               *s;
 
-   s = _ex_window_prop_string_utf8_get(win, EX_ATOM_NET_WM_VISIBLE_NAME);
+   s = _ex_window_prop_string_utf8_get(win, ea_n._NET_WM_VISIBLE_NAME);
    *name = s;
 
    return !!s;
@@ -1029,7 +898,7 @@ ex_netwm_visible_name_get(EX_Window win, char **name)
 void
 ex_netwm_icon_name_set(EX_Window win, const char *name)
 {
-   _ex_window_prop_string_utf8_set(win, EX_ATOM_NET_WM_ICON_NAME, name);
+   _ex_window_prop_string_utf8_set(win, ea_n._NET_WM_ICON_NAME, name);
 }
 
 int
@@ -1037,7 +906,7 @@ ex_netwm_icon_name_get(EX_Window win, char **name)
 {
    char               *s;
 
-   s = _ex_window_prop_string_utf8_get(win, EX_ATOM_NET_WM_ICON_NAME);
+   s = _ex_window_prop_string_utf8_get(win, ea_n._NET_WM_ICON_NAME);
    *name = s;
 
    return !!s;
@@ -1046,7 +915,7 @@ ex_netwm_icon_name_get(EX_Window win, char **name)
 void
 ex_netwm_visible_icon_name_set(EX_Window win, const char *name)
 {
-   _ex_window_prop_string_utf8_set(win, EX_ATOM_NET_WM_VISIBLE_ICON_NAME, name);
+   _ex_window_prop_string_utf8_set(win, ea_n._NET_WM_VISIBLE_ICON_NAME, name);
 }
 
 int
@@ -1054,7 +923,7 @@ ex_netwm_visible_icon_name_get(EX_Window win, char **name)
 {
    char               *s;
 
-   s = _ex_window_prop_string_utf8_get(win, EX_ATOM_NET_WM_VISIBLE_ICON_NAME);
+   s = _ex_window_prop_string_utf8_get(win, ea_n._NET_WM_VISIBLE_ICON_NAME);
    *name = s;
 
    return !!s;
@@ -1063,31 +932,31 @@ ex_netwm_visible_icon_name_get(EX_Window win, char **name)
 void
 ex_netwm_desktop_set(EX_Window win, unsigned int desk)
 {
-   ex_window_prop_card32_set(win, EX_ATOM_NET_WM_DESKTOP, &desk, 1);
+   ex_window_prop_card32_set(win, ea_n._NET_WM_DESKTOP, &desk, 1);
 }
 
 int
 ex_netwm_desktop_get(EX_Window win, unsigned int *desk)
 {
-   return ex_window_prop_card32_get(win, EX_ATOM_NET_WM_DESKTOP, desk, 1);
+   return ex_window_prop_card32_get(win, ea_n._NET_WM_DESKTOP, desk, 1);
 }
 
 int
 ex_netwm_user_time_get(EX_Window win, unsigned int *ts)
 {
-   return ex_window_prop_card32_get(win, EX_ATOM_NET_WM_USER_TIME, ts, 1);
+   return ex_window_prop_card32_get(win, ea_n._NET_WM_USER_TIME, ts, 1);
 }
 
 void
 ex_netwm_opacity_set(EX_Window win, unsigned int opacity)
 {
-   ex_window_prop_card32_set(win, EX_ATOM_NET_WM_WINDOW_OPACITY, &opacity, 1);
+   ex_window_prop_card32_set(win, ea_n._NET_WM_WINDOW_OPACITY, &opacity, 1);
 }
 
 int
 ex_netwm_opacity_get(EX_Window win, unsigned int *opacity)
 {
-   return ex_window_prop_card32_get(win, EX_ATOM_NET_WM_WINDOW_OPACITY,
+   return ex_window_prop_card32_get(win, ea_n._NET_WM_WINDOW_OPACITY,
 				    opacity, 1);
 }
 
@@ -1095,7 +964,7 @@ ex_netwm_opacity_get(EX_Window win, unsigned int *opacity)
 void
 ex_netwm_startup_id_set(EX_Window win, const char *id)
 {
-   _ex_window_prop_string_utf8_set(win, EX_ATOM_NET_STARTUP_ID, id);
+   _ex_window_prop_string_utf8_set(win, ea_n._NET_STARTUP_ID, id);
 }
 #endif
 
@@ -1104,7 +973,7 @@ ex_netwm_startup_id_get(EX_Window win, char **id)
 {
    char               *s;
 
-   s = _ex_window_prop_string_utf8_get(win, EX_ATOM_NET_STARTUP_ID);
+   s = _ex_window_prop_string_utf8_get(win, ea_n._NET_STARTUP_ID);
    *id = s;
 
    return !!s;
