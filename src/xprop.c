@@ -728,8 +728,6 @@ ex_netwm_wm_identify(EX_Window root, EX_Window check, const char *wm_name)
    ex_window_prop_window_set(root, ea_n._NET_SUPPORTING_WM_CHECK, &check, 1);
    ex_window_prop_window_set(check, ea_n._NET_SUPPORTING_WM_CHECK, &check, 1);
    _ex_window_prop_string_utf8_set(check, ea_n._NET_WM_NAME, wm_name);
-   /* This one isn't mandatory */
-   _ex_window_prop_string_utf8_set(root, ea_n._NET_WM_NAME, wm_name);
 }
 
 /*
