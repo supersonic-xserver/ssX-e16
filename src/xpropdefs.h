@@ -148,7 +148,7 @@
    notdef_ATOM_NETWM(_NET_WM_ICON_GEOMETRY)		/* Not used */
    DEFINE_ATOM_NETWM(_NET_WM_ICON)
 
-   notdef_ATOM_NETWM(_NET_WM_PID)			/* Not used */
+   DEFINE_ATOM_NETWM(_NET_WM_PID)
 
    notdef_ATOM_NETWM(_NET_WM_HANDLED_ICONS)		/* Not used */
 

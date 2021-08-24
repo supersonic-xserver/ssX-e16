@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <X11/Xatom.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -725,9 +726,12 @@ ex_netwm_init(void)
 void
 ex_netwm_wm_identify(EX_Window root, EX_Window check, const char *wm_name)
 {
+   unsigned int        pid = getpid();
+
    ex_window_prop_window_set(root, ea_n._NET_SUPPORTING_WM_CHECK, &check, 1);
    ex_window_prop_window_set(check, ea_n._NET_SUPPORTING_WM_CHECK, &check, 1);
    _ex_window_prop_string_utf8_set(check, ea_n._NET_WM_NAME, wm_name);
+   ex_window_prop_card32_set(check, ea_n._NET_WM_PID, &pid, 1);
 }
 
 /*
