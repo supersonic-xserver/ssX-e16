@@ -102,9 +102,26 @@ matchregexp(const char *rx, const char *s)
 	     i = isafter(i, s, rx2);
 	     if (i < 0)
 		return 0;
+	     // Because the for loop will increment i (the index
+	     // into string s) at the end of this block, but i now
+	     // already points to the next char in s, this next char
+	     // gets ignored.
+	     // Without this next decrement, if the regex is *bla,
+	     // it will incorrectly say that blax matches, although
+	     // correctly say that blaxy doesn't. Ie. char x is skipped
+	     if (i > 0)
+		i--;
 	  }
 	else
-	   return match;
+	  {
+	     // We arrived at the end of the regex BUT if it doesn't
+	     // end with the wildcard * and there are more chars
+	     // in s remaining to be matched, we should return 0
+	     if ((i < len) && (rx[l - 1] != '*'))
+		return 0;
+	     else
+		return match;
+	  }
      }
    return match;
 }
