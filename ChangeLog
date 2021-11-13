@@ -1,4 +1,66 @@
 
+e16 1.0.24 - 2021-11-14
+------------------------
+- 1.0.24
+- Update po
+- Danish translation update
+- pagers: Remember zoom setting when changed by pager menu
+- Regular expression matching fix simplification
+- Regular expression matching fixes
+- systray: Change default icon size to 32
+- Set _NET_WM_PID on WM check window
+- Drop initial setting of _NET_WM_NAME = "e16" on the root window
+- Refactor atoms handling
+- Avoid using "delete"
+- COMPLIANCE: Update
+- Support _NET_WM_STATE_FOCUSED
+- Add _NET_WM_STATE_FOCUSED to the EWHM atoms
+- Only update _NET_WM_STATE and _NET_WM_ALLOWED_ACTIONS when changed
+- xprop.c: Do some sanity checks using static asserts if possible
+- Shuffle some property stuff around
+- session.c: Remove unused headers
+- libhack: Add XGetWindowProperty interception
+- libhack: Cosmetics
+- Eliminate EGetGeometry()
+- Change EXGetGeometry() to EXGetSize()
+- x.c: Fix LTO warnings
+- x.c: Deubug stuff cleanups
+- x.c: Remove ancient unused ECreateFocusWindow()
+- extinitwin: Fix parent/client synchronization
+- Fix EImageDefineCursor() for window mode
+- edox: Avoid LTO null pointer warning
+- edox: Unifdef USE_XFONT
+- Backgrounds: Fix trouble when deleting multiply referenced background
+- Backgrounds: Fix bad list operation in CB_ConfigureDelBG()
+- Groups: Avoid compiler warning in _DlgFillGroups()
+- Drop animation in EwinSlideSizeTo() if there is no change
+- Focus: Debug tweaks
+- Focus: Fix focus on new clients requesting max size
+- autofoo: Deal a bit more consistently with C[PP]FLAGS and LDADD
+- French translation update (Philippe J. Guillaumie/Carla Sensa)
+- Fix bad memory access during shutdown
+- FX: Use xrender when available
+- FX: Fix cleanup with compositing enabled
+- FX: Fix clipping with compositing enabled
+- FX: Make it work in regular compositing mode
+- FX: Tweaks
+- FX: Some refactoring
+- FX: Fix waves cleanup
+- FX: Remove "correct bugs" operation in waves
+- Introduce HAVE_COMPOSITE_OVERLAY_WINDOW
+- glwin.c: Fix incorrect config item size
+- Sound: Enable changing engine at runtime
+- Don't build disabled stuff
+- Sound: Change some esd to esound
+- Sound: Change some pa to pulse
+- Sound: Header file tweaks
+- Move Eexec() and friends to util.h
+- Drop (v)snprintf() implementation
+- Use installed gettext version, if possible
+- Eliminate AM_LANGINFO_CODESET
+- 1.0.23.000
+- Fix version reported by e16 in release build
+
 e16 v1.0.23 - 2021-04-09
 ------------------------
 - 1.0.23
