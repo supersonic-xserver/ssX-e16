@@ -89,7 +89,7 @@ matchregexp(const char *rx, const char *s)
      }
    if ((!rx[l]) && (s[lenr]))
       return 0;
-   for (i = lenr; i < len; i++)
+   for (i = lenr; i < len;)
      {
 	if (rx[l])
 	   l++;
@@ -102,15 +102,6 @@ matchregexp(const char *rx, const char *s)
 	     i = isafter(i, s, rx2);
 	     if (i < 0)
 		return 0;
-	     // Because the for loop will increment i (the index
-	     // into string s) at the end of this block, but i now
-	     // already points to the next char in s, this next char
-	     // gets ignored.
-	     // Without this next decrement, if the regex is *bla,
-	     // it will incorrectly say that blax matches, although
-	     // correctly say that blaxy doesn't. Ie. char x is skipped
-	     if (i > 0)
-		i--;
 	  }
 	else
 	  {
