@@ -1287,6 +1287,16 @@ PagersSetMode(int mode)
    autosave();
 }
 
+static void
+PagersSetZoom(int onoff)
+{
+   if (Conf_pagers.zoom == onoff)
+      return;
+   Conf_pagers.zoom = onoff;
+
+   autosave();
+}
+
 /*
  * Pager event handlers
  */
@@ -2103,9 +2113,9 @@ IPC_Pager(const char *params)
    else if (!strcmp(prm1, "zoom"))
      {
 	if (!strcmp(p, "on"))
-	   Conf_pagers.zoom = 1;
+	   PagersSetZoom(1);
 	else if (!strcmp(p, "off"))
-	   Conf_pagers.zoom = 0;
+	   PagersSetZoom(0);
      }
 }
 
