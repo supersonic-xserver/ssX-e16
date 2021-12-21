@@ -376,7 +376,7 @@ typedef struct {
    } move;
    struct {
       signed char         enable_features;
-      char                doing_manual;
+      EWin               *doing_manual;
    } place;
    struct {
       int                 w_old;

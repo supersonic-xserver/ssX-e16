@@ -129,6 +129,9 @@ FocusEwinValidNew(EWin * ewin)
    if (Conf.focus.all_new_windows_get_focus)
       ok = 1;
 
+   else if (Mode.place.doing_manual == ewin)
+      ok = 1;
+
    else if (Conf.focus.new_windows_get_focus_if_group_focused &&
 	    Mode.focuswin &&
 	    EwinGetWindowGroup(ewin) == EwinGetWindowGroup(Mode.focuswin))
@@ -415,9 +418,6 @@ doFocusToEwin(EWin * ewin, int why)
      case FOCUS_EWIN_NEW:
 	if (!ewin)
 	   return;
-
-	if (Mode.place.doing_manual)
-	   goto check_focus_new;
 
 	if (ewin->props.focus_when_mapped)
 	   goto check_focus_new;

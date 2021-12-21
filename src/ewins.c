@@ -983,7 +983,7 @@ AddToFamily(EWin * ewin, EX_Window xwin, XWindowAttributes * pxwa, int startup)
 	EoSetFloating(ewin, 1);	/* Causes reparenting to root */
 	EwinOpFloatAt(ewin, OPSRC_USER, x, y);
 	EwinShow(ewin);
-	Mode.place.doing_manual = 1;
+	Mode.place.doing_manual = ewin;
 	MoveResizeMoveStart(ewin, 0, 0, 0);
      }
    else if (doslide)
