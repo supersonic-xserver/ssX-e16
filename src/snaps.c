@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -21,6 +21,7 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+#include <arpa/inet.h>
 #include "E.h"
 #include "borders.h"
 #include "desktops.h"
@@ -33,6 +34,7 @@
 #include "settings.h"
 #include "snaps.h"
 #include "timers.h"
+#include "util.h"
 #include "xwin.h"
 
 struct _snapshot {
@@ -57,6 +59,8 @@ struct _snapshot {
    int                 layer;
    char                shaded;
    char                sticky;
+   int                *pinned;
+   int                 num_pinned;
    unsigned int        flags[2];
    char               *cmd;
    int                *groups;
@@ -349,6 +353,10 @@ static void
 _SnapUpdateEwinSticky(Snapshot * sn, const EWin * ewin)
 {
    sn->sticky = EoIsSticky(ewin);
+   sn->num_pinned = ewin->num_pinned;
+   EFREE_NULL(sn->pinned);
+   if (sn->num_pinned)
+      sn->pinned = EMEMDUP(int, ewin->pinned, ewin->num_pinned);
 }
 
 static void
@@ -1118,7 +1126,15 @@ SnapshotsSaveReal(void)
       if (sn->use_flags & SNAP_USE_LAYER)
 	 fprintf(f, "LAYER: %i\n", sn->layer);
       if (sn->use_flags & SNAP_USE_STICKY)
-	 fprintf(f, "STICKY: %i\n", sn->sticky);
+	{
+	   fprintf(f, "STICKY: %i", sn->sticky);
+	   if (sn->pinned)
+	     {
+		for (i = 0; i < sn->num_pinned; i++)
+		   fprintf(f, " %06x", htonl(sn->pinned[i]));
+	     }
+	   fprintf(f, "\n");
+	}
       if (sn->use_flags & SNAP_USE_SHADED)
 	 fprintf(f, "SHADE: %i\n", sn->shaded);
       if (sn->use_flags & SNAP_USE_SKIP_LISTS)
@@ -1317,7 +1333,20 @@ _SnapshotsLoad(FILE * fs)
 	     else if (!strcmp(buf, "STICKY"))
 	       {
 		  sn->use_flags |= SNAP_USE_STICKY;
-		  sn->sticky = atoi(s);
+		  a = b = 0;
+		  sscanf(s, "%d %n", &a, &b);
+		  sn->sticky = a;
+		  for (;;)
+		    {
+		       s += b;
+		       b = 0;
+		       sscanf(s, "%x %n", &a, &b);
+		       if (b <= 0)
+			  break;
+		       sn->num_pinned++;
+		       sn->pinned = EREALLOC(int, sn->pinned, sn->num_pinned);
+		       sn->pinned[sn->num_pinned - 1] = htonl(a);
+		    }
 	       }
 	     else if (!strcmp(buf, "SHADE"))
 	       {
@@ -1427,7 +1456,11 @@ SnapshotEwinApply(EWin * ewin)
 	 SNAP_USE_OPACITY;
 
    if (use_flags & SNAP_USE_STICKY)
-      EoSetSticky(ewin, sn->sticky);
+     {
+	EoSetSticky(ewin, sn->sticky);
+	ewin->num_pinned = sn->num_pinned;
+	ewin->pinned = EMEMDUP(DeskArea, sn->pinned, sn->num_pinned);
+     }
 
    if (use_flags & SNAP_USE_DESK)
       EoSetDesk(ewin, DeskGetValid(sn->desktop));
@@ -1452,8 +1485,15 @@ SnapshotEwinApply(EWin * ewin)
 	if (!EoIsSticky(ewin))
 	  {
 	     DeskGetArea(EoGetDesk(ewin), &ax, &ay);
-	     ewin->client.x += ((sn->area_x - ax) * WinGetW(VROOT));
-	     ewin->client.y += ((sn->area_y - ay) * WinGetH(VROOT));
+	     if (EwinIsPinnedOn(ewin, DesksGetCurrentNum(), ax, ay) >= 0)
+	       {
+		  EoSetDesk(ewin, DesksGetCurrent());
+	       }
+	     else
+	       {
+		  ewin->client.x += ((sn->area_x - ax) * WinGetW(VROOT));
+		  ewin->client.y += ((sn->area_y - ay) * WinGetH(VROOT));
+	       }
 	  }
      }
 

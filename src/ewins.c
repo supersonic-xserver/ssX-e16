@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1920,6 +1920,78 @@ EwinWarpTo(EWin * ewin, int force)
    Mode.mouse_over_ewin = ewin;
 }
 
+int
+EwinIsPinnedMisplaced(EWin * ewin, int desk, int ax, int ay)
+{
+   return ((int)EoGetDeskNum(ewin) != desk ||
+	   ewin->area_x != ax || ewin->area_y != ay) &&
+      EwinIsPinnedOn(ewin, desk, ax, ay) >= 0;
+}
+
+int
+EwinIsPinnedOn(EWin * ewin, int desk, int ax, int ay)
+{
+   unsigned int        i;
+   DeskArea           *dxy = ewin->pinned;
+
+   for (i = 0; i < ewin->num_pinned; i++, dxy++)
+     {
+	if (dxy->desk == desk && dxy->ax == ax && dxy->ay == ay)
+	   return i;
+     }
+
+   return -1;
+}
+
+void
+EwinPinOn(EWin * ewin, int on, int desk, int ax, int ay)
+{
+   int                 ix;
+   unsigned int        num;
+
+   if (on == -2)
+     {
+	/* Cleaar all */
+	EFREE_NULL(ewin->pinned);
+	ewin->num_pinned = 0;
+	goto done;
+     }
+
+   if (desk < 0 || ax < 0 || ay < 0)
+      return;
+
+   ix = EwinIsPinnedOn(ewin, desk, ax, ay);
+
+   if (on < 0)
+      on = ix < 0;		/* Toggle */
+
+   if (on)
+     {
+	if (ix >= 0)
+	   return;		/* Already set */
+
+	num = ewin->num_pinned++;
+	ewin->pinned = EREALLOC(DeskArea, ewin->pinned, ewin->num_pinned);
+	ewin->pinned[num].all = 0;
+	ewin->pinned[num].desk = desk;
+	ewin->pinned[num].ax = ax;
+	ewin->pinned[num].ay = ay;
+     }
+   else
+     {
+	if (ix < 0)
+	   return;		/* Not set */
+
+	ewin->num_pinned--;
+	num = ewin->num_pinned - ix;	/* Items to move */
+	if (num != 0)
+	   memmove(ewin->pinned + ix, ewin->pinned + 1, num * sizeof(DeskArea));
+     }
+
+ done:
+   SnapshotEwinUpdate(ewin, SNAP_USE_STICKY);
+}
+
 typedef union {
    unsigned int        all;
    struct {
@@ -2225,6 +2297,27 @@ EwinsMoveStickyToDesk(Desk * dsk)
 	   continue;
 
 	EwinMoveToDesktop(ewin, dsk);
+     }
+}
+
+void
+EwinsMovePinnedToDesk(Desk * dsk)
+{
+   EWin               *const *lst, *ewin;
+   int                 i, num, ax, ay;
+
+   DeskGetArea(dsk, &ax, &ay);
+
+   lst = EwinListStackGet(&num);
+   for (i = 0; i < num; i++)
+     {
+	ewin = lst[num - 1 - i];
+	if (!EwinIsPinnedMisplaced(ewin, dsk->num, ax, ay))
+	   continue;
+
+	EwinMoveToDesktopAtNocheck(ewin, dsk,
+				   ewin->vx - ewin->area_x * WinGetW(VROOT),
+				   ewin->vy - ewin->area_y * WinGetH(VROOT));
      }
 }
 

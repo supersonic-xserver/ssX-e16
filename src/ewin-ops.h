@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2011 Kim Woelders
+ * Copyright (C) 2005-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -36,6 +36,7 @@ typedef enum {
    EWIN_OP_SHADE,
    EWIN_OP_STICK,
    EWIN_OP_FOCUS,
+   EWIN_OP_PIN,
 
    EWIN_OP_DESK,
    EWIN_OP_AREA,

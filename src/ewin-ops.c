@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -57,6 +57,7 @@ static const WinOp  winops[] = {
    {"shadow", 0, 1, 1, EWIN_OP_SHADOW},	/* Place before "shade" */
    {"shade", 2, 1, 1, EWIN_OP_SHADE},
    {"stick", 2, 1, 1, EWIN_OP_STICK},
+   {"pin", 0, 1, 1, EWIN_OP_PIN},
    {"focus", 2, 1, 0, EWIN_OP_FOCUS},
 
    {"desk", 2, 1, 1, EWIN_OP_DESK},
@@ -474,6 +475,13 @@ void
 EwinMoveToDesktopAt(EWin * ewin, Desk * dsk, int x, int y)
 {
    doEwinMoveResize(ewin, dsk, x, y, 0, 0, MRF_DESK | MRF_MOVE);
+}
+
+void
+EwinMoveToDesktopAtNocheck(EWin * ewin, Desk * dsk, int x, int y)
+{
+   doEwinMoveResize(ewin, dsk, x, y, 0, 0,
+		    MRF_DESK | MRF_MOVE | MRF_NOCHECK_ONSCREEN);
 }
 
 void

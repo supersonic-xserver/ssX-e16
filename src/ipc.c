@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -427,9 +427,9 @@ static void
 IpcWinop(const WinOp * wop, EWin * ewin, const char *prm)
 {
    char                param1[128], param2[128];
-   unsigned int        val;
+   unsigned int        i, val;
    char                on;
-   int                 a, b;
+   int                 a, b, d;
 
    param1[0] = param2[0] = '\0';
    sscanf(prm, "%127s %127s", param1, param2);
@@ -506,6 +506,47 @@ IpcWinop(const WinOp * wop, EWin * ewin, const char *prm)
 	     goto done;
 	  }
 	EwinOpActivate(ewin, OPSRC_USER, 1);
+	break;
+
+     case EWIN_OP_PIN:
+	if (!param1[0])
+	  {
+	     IpcPrintf("Error: no parameters supplied\n");
+	     goto done;
+	  }
+	else if (!strcmp(param1, "?"))
+	  {
+	     for (i = 0; i < ewin->num_pinned; i++)
+		IpcPrintf("%2d: %d,%d\n", ewin->pinned[i].desk,
+			  ewin->pinned[i].ax, ewin->pinned[i].ay);
+	  }
+	else if (!strcmp(param1, "clear"))
+	  {
+	     EwinPinOn(ewin, -2, 0, 0, 0);
+	  }
+	else
+	  {
+	     if (!strcmp(param1, "on"))
+		on = 1;
+	     else if (!strcmp(param1, "off"))
+		on = 0;
+	     else if (!strcmp(param1, "tgl"))
+		on = -1;
+	     else
+		break;
+
+	     if (param2[0] == '*')
+	       {
+		  d = EoGetDeskNum(ewin);
+		  DeskGetArea(EoGetDesk(ewin), &a, &b);
+	       }
+	     else
+	       {
+		  a = b = d = -1;
+		  sscanf(prm, "%*s %u %u %u", &d, &a, &b);
+	       }
+	     EwinPinOn(ewin, on, d, a, b);
+	  }
 	break;
 
      case EWIN_OP_DESK:
@@ -1546,6 +1587,7 @@ IPC_Compat(const char *params)
  */
 static void         IPC_Help(const char *params);
 
+/**INDENT-OFF**/
 static const IpcItem IPCArray[] = {
    {
     IPC_Help,
@@ -1606,6 +1648,9 @@ static const IpcItem IPCArray[] = {
     "  win_op <windowid> title <title>\n"
     "  win_op <windowid> <close/kill>\n"
     "  win_op <windowid> <focus/iconify/alone/shade/stick>\n"
+    "  win_op <windowid> pin <on/off/tgl> desk area_x area_y\n"
+    "                    pin ?\n"
+    "                    pin clear\n"
 #if USE_COMPOSITE
     "  win_op <windowid> <fade/shadow>\n"
 #endif
@@ -1706,6 +1751,7 @@ static const IpcItem IPCArray[] = {
     "  keys <string>\n"},
 #endif
 };
+/**INDENT-ON**/
 
 static int          ipc_item_count = 0;
 static const IpcItem **ipc_item_list = NULL;

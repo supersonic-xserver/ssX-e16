@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -63,6 +63,15 @@ typedef struct {
    void                (*MoveResize)(EWin * ewin, int resize);
    void                (*Close)(EWin * ewin);
 } EWinOps;
+
+typedef union {
+   unsigned int        all;
+   struct {
+      unsigned char       rsvd;
+      unsigned char       desk;
+      unsigned char       ax, ay;
+   };
+} DeskArea;
 
 struct _ewin {
    EObj                o;
@@ -250,7 +259,12 @@ struct _ewin {
 
    int                 num_groups;
    Group             **groups;
+
    int                 area_x, area_y;
+
+   unsigned int        num_pinned;
+   DeskArea           *pinned;
+
    char               *session_id;
    PmapMask            mini_pmm;
 
@@ -410,7 +424,13 @@ EWin              **EwinListTransientFor(const EWin * ewin, int *num);
 void                EwinsManage(void);
 void                EwinsSetFree(void);
 void                EwinsShowDesktop(int on);
-void                EwinsMoveStickyToDesk(Desk * d);
+void                EwinsMoveStickyToDesk(Desk * dsk);
+void                EwinsMovePinnedToDesk(Desk * dsk);
+
+void                EwinPinOn(EWin * ewin, int on, int desk, int ax, int ay);
+int                 EwinIsPinnedOn(EWin * ewin, int desk, int ax, int ay);
+int                 EwinIsPinnedMisplaced(EWin * ewin,
+					  int desk, int ax, int ay);
 
 /* ewin-ops.c */
 /* Move/resize flags */
@@ -425,6 +445,8 @@ void                EwinMoveResizeWithGravity(EWin * ewin, int x, int y, int w,
 					      int h, int grav);
 void                EwinMoveToDesktop(EWin * ewin, Desk * d);
 void                EwinMoveToDesktopAt(EWin * ewin, Desk * d, int x, int y);
+void                EwinMoveToDesktopAtNocheck(EWin * ewin, Desk * dsk,
+					       int x, int y);
 void                EwinIconify(EWin * ewin);
 void                EwinAlone(EWin * ewin);
 void                EwinDeIconify(EWin * ewin);

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -52,6 +52,13 @@
 #include "tooltips.h"
 #include "xprop.h"
 #include "xwin.h"
+
+#define DEBUG_DESKS 0
+#if DEBUG_DESKS
+#define Dprintf(fmt...) if(EDebug(EDBUG_TYPE_DESKS))Eprintf(fmt)
+#else
+#define Dprintf(fmt...)
+#endif
 
 #define DESK_EVENT_MASK1 \
   (ButtonPressMask | ButtonReleaseMask)
@@ -1195,6 +1202,28 @@ DeskSwitchDone(void)
    FocusNewDesk();
 }
 
+static int
+_doDeskGotoEndDeferred(void *data __UNUSED__)
+{
+   Dprintf("%s\n", __func__);
+
+   /* The "deferring" is an attempt to delay the pinned window moving
+    * to after a potential area move following a desk switch.
+    * Otherwise we will move windows that are pinned to the target desktop
+    * initial area but not on the target area. */
+   EwinsMovePinnedToDesk(desks.current);
+
+   return 0;
+}
+
+static void
+_DeskGotoEndDeferred(void)
+{
+   Dprintf("%s\n", __func__);
+
+   TIMER_ADD_NP(0, _doDeskGotoEndDeferred, NULL);
+}
+
 static void
 _DeskGotoStart(Desk * dsk)
 {
@@ -1217,6 +1246,8 @@ _DeskGotoEnd(Desk * dsk)
 
    if (EDebug(EDBUG_TYPE_DESKS))
       Eprintf("%s: %d\n", __func__, dsk->num);
+
+   _DeskGotoEndDeferred();
 }
 
 static int
@@ -1732,6 +1763,7 @@ typedef struct {
    EWin              **ewins_slide;
    int                 n_ewins_desk, n_ewins_slide;
    int                 slide_dx, slide_dy;
+   int                 ax, ay;
 } slide_area_data_t;
 
 static void
@@ -1747,12 +1779,26 @@ _DeskCurrentGotoAreaEnd(slide_area_data_t * sad)
    dx = sad->slide_dx;
    dy = sad->slide_dy;
 
+   if (EDebug(EDBUG_TYPE_DESKS))
+      Eprintf("%s: %d,%d\n", __func__, sad->ax, sad->ay);
+
    /* move all windows to their final positions */
    for (i = 0; i < num; i++)
      {
 	ewin = lst[i];
 	if (EwinIsTransientChild(ewin))
 	   continue;
+
+	if (EwinIsPinnedMisplaced(ewin, DesksGetCurrentNum(), sad->ax, sad->ay))
+	  {
+	     EwinMoveToDesktopAtNocheck(ewin, DesksGetCurrent(),
+					ewin->vx -
+					ewin->area_x * WinGetW(VROOT),
+					ewin->vy -
+					ewin->area_y * WinGetH(VROOT));
+	     continue;
+	  }
+
 	if (EoGetDesk(ewin) != DesksGetCurrent() && !EoIsFloating(ewin))
 	   continue;
 
@@ -1844,6 +1890,8 @@ DeskCurrentGotoArea(int ax, int ay)
    sad->n_ewins_slide = 0;
    sad->slide_dx = dx;
    sad->slide_dy = dy;
+   sad->ax = ax;
+   sad->ay = ay;
 
    if (Conf.desks.slidein && Conf.desks.slidespeed > 10)
      {
@@ -1860,6 +1908,9 @@ DeskCurrentGotoArea(int ax, int ay)
 		continue;
 
 	     if (EoIsFloating(ewin) && Conf.movres.mode_move == MR_OPAQUE)
+		continue;
+
+	     if (EwinIsPinnedMisplaced(ewin, EoGetDeskNum(ewin), ax, ay))
 		continue;
 
 	     wnum++;
