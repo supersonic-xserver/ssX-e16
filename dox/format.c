@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2007-2021 Kim Woelders
+ * Copyright (C) 2007-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -603,13 +603,51 @@ CalcOffset(Page * pg, int col_w, int x, int y, int th, int *pxspace, int *poff)
    *poff = off;
 }
 
+static void
+next_y(int w __UNUSED__, int h, int col_w, int *px, int *py, int *pcol,
+       const Page * pg, const TextState * ts, const char *txt __UNUSED__)
+{
+   int                 x = *px;
+   int                 y = *py;
+   int                 col = *pcol;
+   int                 y_max;
+
+   y += ts->height;
+
+/* y_max = h - (pg->padding + ts->height); */
+   /* Allow descent to enter padding area */
+   y_max = h - (pg->padding + ts->xfontset_ascent);
+
+   if (y >= y_max)
+     {
+	col = (col + 1) % pg->columns;
+	if (col > 0)
+	  {
+	     /* Goto top of next col */
+	     y = pg->padding;
+	     x += col * col_w + pg->padding;
+	  }
+	else
+	  {
+	     /* Goto bottom of first col (hack) */
+	     x = pg->padding;
+	     y = y_max;
+	  }
+
+	*px = x;
+	*pcol = col;
+     }
+
+   *py = y;
+}
+
 Link               *
 RenderPage(Window win, int page_num, int w, int h)
 {
    Link               *ll = NULL;
    Page               *pg;
    TextState           ts;
-   int                 i, col_w;
+   int                 i, col_w, col;
    int                 x, y;
    int                 justification = 0;
    int                 firstp = 1;
@@ -620,6 +658,7 @@ RenderPage(Window win, int page_num, int w, int h)
    pg = &(page[page_num]);
    x = pg->padding;
    y = pg->padding;
+   col = 0;
    col_w = ((w - (pg->padding * (pg->columns + 1))) / pg->columns);
 
    if (pg->background)
@@ -644,6 +683,8 @@ RenderPage(Window win, int page_num, int w, int h)
 
 	switch (pg->obj[i].type)
 	  {
+	  default:
+	     break;
 	  case IMG:
 	     img = (Img_ *) pg->obj[i].object;
 	     if (img->src)
@@ -676,7 +717,7 @@ RenderPage(Window win, int page_num, int w, int h)
 	     break;
 	  case BR:
 	     if (!wastext)
-		y += ts.height;
+		next_y(w, h, col_w, &x, &y, &col, pg, &ts, "<BR>");
 	     wastext = 0;
 	     break;
 	  case FONT:
@@ -704,7 +745,7 @@ RenderPage(Window win, int page_num, int w, int h)
 	     else
 		justification = 0;
 	     if (!firstp)
-		y += ts.height;
+		next_y(w, h, col_w, &x, &y, &col, pg, &ts, "<P>");
 	     else
 		firstp = 0;
 	     break;
@@ -866,15 +907,8 @@ RenderPage(Window win, int page_num, int w, int h)
 				      wastext = 1;
 				      TextDraw(&ts, win, p1, x + off, y,
 					       xspace, 99999, justification);
-				      y += ts.height;
-				      if (y >=
-					  (h -
-					   (pg->padding + ts.height -
-					    (ts.height - ts.xfontset_ascent))))
-					{
-					   y = pg->padding;
-					   x += col_w + pg->padding;
-					}
+				      next_y(w, h, col_w, &x, &y, &col,
+					     pg, &ts, p1);
 				      CalcOffset(pg, col_w, x, y, ts.height,
 						 &xspace, &off);
 				   }
@@ -937,15 +971,8 @@ RenderPage(Window win, int page_num, int w, int h)
 				 link_link[0] = '\0';
 				 link_txt[0] = '\0';
 			      }
-			    y += ts.height;
-			    if (y >=
-				(h -
-				 (pg->padding + ts.height -
-				  (ts.height - ts.xfontset_ascent))))
-			      {
-				 y = pg->padding;
-				 x += col_w + pg->padding;
-			      }
+			    next_y(w, h, col_w, &x, &y, &col,
+				   pg, &ts, txt_disp);
 			 }
 		       eot = 0;
 		       s[0] = 0;
@@ -955,14 +982,6 @@ RenderPage(Window win, int page_num, int w, int h)
 	       }
 
 	     break;
-	  default:
-	     break;
-	  }
-	if (y >=
-	    (h - (pg->padding + ts.height - (ts.height - ts.xfontset_ascent))))
-	  {
-	     y = pg->padding;
-	     x += col_w + pg->padding;
 	  }
      }
 
