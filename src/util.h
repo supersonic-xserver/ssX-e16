@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -79,9 +79,13 @@ const char         *Estrcasestr(const char *haystack, const char *needle);
 #define Efree       free
 #endif
 
+void               *Ememdup(const void *ptr, unsigned int len);
+
 #define ECALLOC(type, num) (type*)Ecalloc(num, sizeof(type))
 #define EMALLOC(type, num) (type*)Emalloc((num)*sizeof(type))
 #define EREALLOC(type, ptr, num) (type*)Erealloc(ptr, (num)*sizeof(type))
+
+#define EMEMDUP(type, ptr, num) (type*)Ememdup(ptr, (num)*sizeof(type))
 
 void                EfreeNull(void **p);
 void                EfreeSet(void **p, void *s);

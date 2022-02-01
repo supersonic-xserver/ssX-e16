@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2005-2021 Kim Woelders
+ * Copyright (C) 2005-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -28,6 +28,22 @@
 #include <string.h>
 
 #include "util.h"
+
+void               *
+Ememdup(const void *ptr, unsigned int len)
+{
+   void               *ret;
+
+   if (len == 0)
+      return NULL;
+
+   ret = malloc(len);
+   if (!ret)
+      return 0;
+   memcpy(ret, ptr, len);
+
+   return ret;
+}
 
 __EXPORT__ void
 EfreeNull(void **p)
@@ -71,37 +87,26 @@ Estrtrim(char *s)
 char               *
 Estrdup(const char *s)
 {
-#if USE_LIBC_STRDUP
-   if (s)
-      return strdup(s);
-   return NULL;
-#else
-   int                 sz;
-   char               *ss;
-
    if (!s)
       return NULL;
-   sz = strlen(s);
-   ss = EMALLOC(char, sz + 1);
-   memcpy(ss, s, sz + 1);
-   return ss;
+#if USE_LIBC_STRDUP
+   return strdup(s);
+#else
+   return Ememdup(s, strlen(s) + 1);
 #endif
 }
 
 char               *
 Estrndup(const char *s, size_t n)
 {
+   if (!s)
+      return NULL;
 #if USE_LIBC_STRNDUP
-   if (s)
-      return strndup(s, n);
-   return NULL;
+   return strndup(s, n);
 #else
    char               *ss;
 
-   if (!s)
-      return NULL;
-   ss = EMALLOC(char, n + 1);
-   strncpy(ss, s, n);
+   ss = Ememdup(s, n + 1);
    ss[n] = '\0';
    return ss;
 #endif
