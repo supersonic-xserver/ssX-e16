@@ -55,8 +55,8 @@ struct _snapshot {
    int                 x, y;
    int                 w, h;
    int                 layer;
-   char                sticky;
    char                shaded;
+   char                sticky;
    unsigned int        flags[2];
    char               *cmd;
    int                *groups;
@@ -1076,7 +1076,7 @@ void
 SnapshotsSaveReal(void)
 {
    Snapshot           *sn;
-   int                 j;
+   int                 i;
    char                buf[4096], s[4096];
    FILE               *f;
 
@@ -1138,8 +1138,8 @@ SnapshotsSaveReal(void)
       if (sn->use_flags & SNAP_USE_GROUPS)
 	{
 	   fprintf(f, "GROUP:");
-	   for (j = 0; j < sn->num_groups; j++)
-	      fprintf(f, " %i", sn->groups[j]);
+	   for (i = 0; i < sn->num_groups; i++)
+	      fprintf(f, " %i", sn->groups[i]);
 	   fprintf(f, "\n");
 	}
       fprintf(f, "\n");
