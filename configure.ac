@@ -1,5 +1,5 @@
 m4_define([pkg_version],  [1.0.24])
-#m4_define([pkg_revision], [000])
+m4_define([pkg_revision], [000])
 m4_define([pkg_version],  m4_ifdef([pkg_revision], [pkg_version.pkg_revision], [pkg_version]))
 
 AC_INIT([e16],[pkg_version],[enlightenment-devel@lists.sourceforge.net])
