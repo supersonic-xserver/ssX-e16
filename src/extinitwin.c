@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -91,7 +91,7 @@ _eiw_window_init(EX_Window win, EiwData * d)
    EX_Pixmap           pmap, mask;
    XColor              cl;
 
-   d->cwin = XCreateWindow(disp, win, 0, 0, 32, 32, 0,
+   d->cwin = XCreateWindow(disp, WinGetXwin(RROOT), 0, 0, 32, 32, 0,
 			   CopyFromParent, InputOutput, CopyFromParent,
 			   CWOverrideRedirect | CWBackingStore | CWBackPixel,
 			   &d->attr);
@@ -117,7 +117,7 @@ _eiw_window_loop(EX_Window win, EImage * im, EiwData * d)
    int                 dd, x, y, w, h;
    unsigned int        mm;
 
-   EImageRenderPixmaps(im, NULL, 0, &pmap, &mask, 0, 0);
+   EImageRenderPixmaps(im, RROOT, 0, &pmap, &mask, 0, 0);
    EImageGetSize(im, &w, &h);
    XShapeCombineMask(disp, d->cwin, ShapeBounding, 0, 0, mask, ShapeSet);
    XSetWindowBackgroundPixmap(disp, d->cwin, pmap);
