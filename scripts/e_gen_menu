@@ -253,21 +253,6 @@ def ProcessDir(dir, cats, type):
         ProcessFile(file, cats, type)
 
 
-# Process old style GNOME/KDE directories
-def ProcessOldStyle(type, dirs):
-    for dir in dirs:
-        D(f'Processing directory: {dir}')
-        if not os.path.isdir(dir):
-            D(f'- Not found')
-            confinue
-        for file in os.listdir(dir):
-            dir2 = f'{dir}/{file}'
-            D(f' Subdir: {dir2}')
-            if not os.path.isdir(dir2):
-                continue
-            ProcessDir(dir2, file, type)
-
-
 # Find that $#@! thing
 def FindIcon(icon):
     if not icon:
@@ -400,14 +385,6 @@ IconSizes = ['48x48', '32x32', '24x24', '16x16']
 D(f'IconDirs  = "{IconDirs}"')
 D(f'IconDirs2 = "{IconDirs2}"')
 
-# Where to look for GNOME1 apps
-OldGnomeDirs = MkDirList(Prefixes, ['/share/gnome/apps'])
-D(f'OldGnomeDirs = "{OldGnomeDirs}"')
-
-# Where to look for KDE1/2 apps
-OldKdeDirs = MkDirList(Prefixes, ['/share/applnk'])
-D(f'OldKdeDirs = "{OldKdeDirs}"')
-
 # Pick up env vars
 EdirUser = getenv('ECONFDIR')
 EdirRoot = getenv('EROOT')
@@ -485,12 +462,6 @@ UserAppsMenu = [
 
 EeshCloseMessageWindows()
 EeshCall('dialog_ok Menus are being generated... Please Wait')
-
-# Process old style GNOME directories
-ProcessOldStyle('GNOME', OldGnomeDirs)
-
-# Process old style KDE directories
-ProcessOldStyle('KDE', OldKdeDirs)
 
 # Process new style (GNOME2, KDE2/3) directories
 for dir in AppDirs:
