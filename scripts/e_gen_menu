@@ -268,7 +268,7 @@ def FindIcon(icon):
         if os.path.isfile(file):
             return file
         if not FileExt(icon) in ['png', 'xpm', 'svg']:
-            for ext in ['png']:
+            for ext in ['png', 'xpm']:
                 fil2 = f'{file}.{ext}'
                 D2(f'Check icon: {icon} : {fil2}')
                 if os.path.isfile(fil2):
@@ -297,7 +297,7 @@ def FindIcon(icon):
                         if os.path.isfile(file):
                             return file
                     else:
-                        for ext in ['png', 'xpm']:
+                        for ext in ['png', 'xpm', 'svg']:
                             fil2 = f'{file}.{ext}'
                             D2(f'Check icon: {icon}: {fil2}')
                             if os.path.isfile(fil2):
@@ -377,10 +377,14 @@ D(f'AppDirs  = "{AppDirs}"')
 
 IconDirs  = MkDirList(Prefixes, ['/share/pixmaps', '/share/icons'])
 IconDirs2 = MkDirList(Prefixes, ['/share/icons'])
-Themes    = ['default.kde', 'gnome', 'hicolor', 'Adwaita']
+Themes    = ['default.kde', 'gnome', 'hicolor', 'mate', 'Adwaita']
+#Themes   += ['HighContrast']
 IconDirs2 = MkDirList(IconDirs2, Themes, sep='/')
 IconCats  = ['apps', 'filesystems', 'actions', 'devices', 'categories', 'places', 'mimetypes']
-IconSizes = ['48x48', '32x32', '24x24', '16x16']
+IconCats += ['legacy']
+#IconCats += ['stock']
+IconSizes = ['48x48', '32x32', '24x24', '128x128', '16x16']
+IconSizes += ['scalable']
 
 D(f'IconDirs  = "{IconDirs}"')
 D(f'IconDirs2 = "{IconDirs2}"')
