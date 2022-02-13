@@ -475,6 +475,7 @@ void                EwinOpSkipLists(EWin * ewin, int source, int skip);
 void                EwinOpIconify(EWin * ewin, int source, int on);
 void                EwinOpShade(EWin * ewin, int source, int on);
 void                EwinOpSetLayer(EWin * ewin, int source, int layer);
+void                EwinOpSetTitle(EWin * ewin, const char *title);
 void                EwinOpSetBorder(EWin * ewin, int source, const char *name);
 void                EwinOpSetOpacity(EWin * ewin, int source, int opacity);
 void                EwinOpSetFocusedOpacity(EWin * ewin, int source,

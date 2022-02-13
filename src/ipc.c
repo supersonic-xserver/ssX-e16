@@ -485,7 +485,7 @@ IpcWinop(const WinOp * wop, EWin * ewin, const char *prm)
 	     IpcPrintf("title: %s\n", EwinGetIcccmName(ewin));
 	     goto done;
 	  }
-	HintsSetWindowName(EwinGetClientWin(ewin), prm);
+	EwinOpSetTitle(ewin, prm);
 	break;
 
      case EWIN_OP_CLOSE:

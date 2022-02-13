@@ -1558,6 +1558,20 @@ EwinOpSetLayer(EWin * ewin, int source __UNUSED__, int layer)
 }
 
 void
+EwinOpSetTitle(EWin * ewin, const char *title)
+{
+   /* Note! The window border title is updated via the PropertyChange
+    * notification(s) caused by the property changes done below.
+    * PropertyChange notifications for internal windows are ignored so
+    * the window title for internal windows will not be updated that way.
+    * Therefore, let's just not change the properties either. */
+   if (EwinIsInternal(ewin))
+      return;
+
+   HintsSetWindowName(EwinGetClientWin(ewin), title);
+}
+
+void
 EwinOpSetBorder(EWin * ewin, int source __UNUSED__, const char *name)
 {
    EWin              **gwins;
