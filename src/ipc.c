@@ -194,10 +194,29 @@ IPC_Border(const char *params)
 static void
 IPC_DialogOK(const char *params)
 {
-   if (params)
-      DialogOKstr(_("Message"), params);
+   char                tbuf[128];
+   const char         *title;
+   int                 nr;
+
+   if (!params)
+     {
+	IpcPrintf("Error: No text for dialog specified\n");
+	return;
+     }
+
+   nr = 0;
+   sscanf(params, "[%127[^]]] %n", tbuf, &nr);
+   if (nr > 0)
+     {
+	title = tbuf;
+	params += nr;
+     }
    else
-      IpcPrintf("Error: No text for dialog specified\n");
+     {
+	title = _("Message");
+     }
+
+   DialogOKstr(title, params);
 }
 
 static int
