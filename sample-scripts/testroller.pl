@@ -1,19 +1,19 @@
 #!/usr/bin/perl
 
 # Copyright (C) 2000-2004 Carsten Haitzler, Geoff Harrison and various contributors
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to
 # deal in the Software without restriction, including without limitation the
 # rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
 # sell copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies of the Software, its documentation and marketing & publicity
 # materials, and acknowledgment shall be given in the documentation, materials
 # and software packages that this Software was used.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
@@ -33,10 +33,10 @@
 # here we're going to test to see whether we are shading or unshading
 # the window.
 
-if($ARGV[0] eq "on") {
-	$shade = 1;
+if ($ARGV[0] eq "on") {
+    $shade = 1;
 } else {
-	$shade = 0;
+    $shade = 0;
 }
 
 # here we'll retreive the current desk we're on
@@ -72,23 +72,23 @@ print IPCPIPE "set misc.shading.speed 10000000\n";
 
 @winlist = `eesh window_list a`;
 foreach (@winlist) {
-	if (/\s*(\w+)\s* : .* :: \s*(-*\d+)\s* : (.*) : (.*)$/) {
-		$window = $1;
-		$desk = $2;
-		$area = $3;
-		$name = $4;
+    if (/\s*(\w+)\s* : .* :: \s*(-*\d+)\s* : (.*) : (.*)$/) {
+        $window = $1;
+        $desk = $2;
+        $area = $3;
+        $name = $4;
 
-		# Skip pagers, iconboxes, systrays, and epplets
-		next if ($name =~ /^Pager-|Iconbox|Systray|E-/);
-#		next unless (($desk == -1) and ($desk eq $current_desk));
-		next unless ($desk eq $current_desk);
-		next unless ($area eq $current_area);
-		if ($shade) {
-			print IPCPIPE "win_op $window shade on\n";
-		} else {
-			print IPCPIPE "win_op $window shade off\n";
-		}
-	}
+# Skip pagers, iconboxes, systrays, and epplets
+        next if ($name =~ /^Pager-|Iconbox|Systray|E-/);
+#       next unless (($desk == -1) and ($desk eq $current_desk));
+        next unless ($desk eq $current_desk);
+        next unless ($area eq $current_area);
+        if ($shade) {
+            print IPCPIPE "win_op $window shade on\n";
+        } else {
+            print IPCPIPE "win_op $window shade off\n";
+        }
+    }
 }
 
 # now we're going to set the shade speed back to what it was originally
