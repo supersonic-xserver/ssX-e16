@@ -115,6 +115,7 @@ const char         *txt[] = {
    _("Help"),
    _("About Enlightenment"),
    _("About this theme"),
+   _("Theme menu"),
    _("Restart"),
    _("Log Out"),
 /* winops.menu */
