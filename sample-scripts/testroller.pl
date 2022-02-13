@@ -34,9 +34,9 @@
 # the window.
 
 if ($ARGV[0] eq "on") {
-    $shade = 1;
+    $shade = "on";
 } else {
-    $shade = 0;
+    $shade = "off";
 }
 
 # here we'll retreive the current desk we're on
@@ -78,16 +78,13 @@ foreach (@winlist) {
         $area = $3;
         $name = $4;
 
-# Skip pagers, iconboxes, systrays, and epplets
+        # Skip pagers, iconboxes, systrays, and epplets
         next if ($name =~ /^Pager-|Iconbox|Systray|E-/);
 #       next unless (($desk == -1) and ($desk eq $current_desk));
         next unless ($desk eq $current_desk);
         next unless ($area eq $current_area);
-        if ($shade) {
-            print IPCPIPE "win_op $window shade on\n";
-        } else {
-            print IPCPIPE "win_op $window shade off\n";
-        }
+#       print "win_op $window shade $shade\n";
+        print IPCPIPE "win_op $window shade $shade\n";
     }
 }
 

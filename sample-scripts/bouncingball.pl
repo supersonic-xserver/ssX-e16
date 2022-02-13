@@ -58,19 +58,22 @@ open IPCPIPE,"| eesh";
 $i = 0;
 foreach (@fallspeed) {
     $originalbally = $bally;
-    $fallspeed = $fallspeed[i];
+    $fallspeed = $fallspeed[$i];
+#   print "loop $i x,y $ballx,$bally fall $fallspeed\n";
     while ($bally < ($height - $ballh)) {
         if (($bally + $fallspeed + $ballh) < $height) {
             $bally += $fallspeed;
         } else {
             $bally = $height - $ballh;
         }
+#       print "win_op $ball move $ballx $bally\n";
         print IPCPIPE "win_op $ball move $ballx $bally\n";
-        system("usleep 20000");
+        system("sleep .020");
     }
 
-    if ($fallspeed[i+1]) {
-        $fallspeed = $fallspeed[i+1];
+#   print "reverse\n";
+    if ($fallspeed[$i + 1]) {
+        $fallspeed = $fallspeed[$i + 1];
     } else {
         $fallspeed = 1;
     }
@@ -82,8 +85,9 @@ foreach (@fallspeed) {
         } else {
             $bally = $originalbally + int($originalbally * (1/$#fallspeed));
         }
+#       print "win_op $ball move $ballx $bally\n";
         print IPCPIPE "win_op $ball move $ballx $bally\n";
-        system("usleep 20000");
+        system("sleep .020");
     }
     $i++;
 }

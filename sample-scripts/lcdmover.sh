@@ -26,16 +26,10 @@
 #
 
 # Open dialog 1
-eesh -e "dialog_ok Move this window"
-usleep 100000
-eesh -e "wop Message title Dlg1"
-usleep 100000
+eesh -e "dialog_ok [Dlg1] Move this window"
 
 # Open dialog 2
-eesh -e "dialog_ok Watch me follow the above window"
-usleep 100000
-eesh -e "wop Message title Dlg2"
-usleep 100000
+eesh -e "dialog_ok [Dlg2] Watch me follow the above window"
 
 # In one endless loop, get window position of the first window, then move the
 # second one accordingly...
