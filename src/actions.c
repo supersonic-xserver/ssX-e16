@@ -24,7 +24,6 @@
 #include "E.h"
 #include "desktops.h"
 #include "file.h"
-#include "user.h"
 
 static void
 _ExecSetStartupId(void)
@@ -87,15 +86,10 @@ Eexec(const char *cmd)
 int
 EspawnApplication(const char *params, int flags)
 {
-   char                exe[FILEPATH_LEN_MAX];
-   const char         *sh;
-   char               *real_exec;
+   int                 argc;
+   char              **argv;
 
    if (!params)
-      return -1;
-
-   sscanf(params, "%4000s", exe);
-   if (exe[0] == '\0')
       return -1;
 
    if (EDebug(EDBUG_TYPE_EXEC))
@@ -107,23 +101,17 @@ EspawnApplication(const char *params, int flags)
 
    _ExecSetupEnv(flags);
 
-   sh = usershell();
+   argv = StrlistDecodeEscaped(params, &argc);
+   if (argc <= 0)
+      return -1;
 
-   if (path_canexec(exe))
-     {
-	real_exec = EMALLOC(char, strlen(params) + 6);
-
-	if (!real_exec)
-	   return -1;
-	sprintf(real_exec, "exec %s", params);
-
-	execl(sh, sh, "-c", real_exec, NULL);
-	/* We should not get here - invalid shell? */
-     }
+   execvp(argv[0], argv);
 
    if (!Mode.wm.startup)
       AlertOK(_("There was a problem running the command\n '%s'\nError: %m"),
 	      params);
+
+   StrlistFree(argv, argc);
 
    exit(100);
 }
