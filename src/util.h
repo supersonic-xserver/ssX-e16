@@ -123,6 +123,7 @@ void __PRINTF__     Eprintf(const char *fmt, ...);
 
 #define EXEC_SET_LANG       0x01
 #define EXEC_SET_STARTUP_ID 0x02
+#define EXEC_NO_LIBHACK     0x04
 
 void                Eexec(const char *cmd);
 int                 EspawnApplication(const char *params, int flags);
