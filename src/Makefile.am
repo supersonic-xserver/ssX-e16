@@ -2,9 +2,6 @@ SUBDIRS =
 
 bin_PROGRAMS = e16
 
-if ENABLE_GNOME
-SRCS_GNOME = gnome.c
-endif
 if ENABLE_ZOOM
 SRCS_ZOOM = zoom.c
 endif

@@ -68,16 +68,6 @@ if test "x$have_clock_gettime" != xno; then
   fi
 fi
 
-AC_ARG_ENABLE(hints-gnome,
-  AS_HELP_STRING([--enable-hints-gnome],
-                 [compile with GNOME(<2.0) hints support @<:@default=no@:>@]),,
-  enable_hints_gnome=no)
-
-if test "x$enable_hints_gnome" = "xyes"; then
-  AC_DEFINE(ENABLE_GNOME, 1, [GNOME(<2.0) Hints])
-fi
-AM_CONDITIONAL(ENABLE_GNOME, test "x$enable_hints_gnome" = "xyes")
-
 AC_ARG_WITH(evhan,
   AS_HELP_STRING([--with-evhan],
                  [select event handling api (poll/select)@<:@default=auto@:>@]),,
@@ -567,7 +557,6 @@ echo "    sndio ...................... $enable_sound_sndio"
 echo "    player ..................... $enable_sound_player ($with_sound_player)"
 echo "  Sound loader ................. $with_sndldr"
 fi
-echo "  Old GNOME hints .............. $enable_hints_gnome"
 echo "  Session management ........... $enable_sm"
 echo "  Zoom ......................... $enable_zoom"
 echo "  Pango ........................ $enable_pango"

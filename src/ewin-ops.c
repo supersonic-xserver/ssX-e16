@@ -574,10 +574,6 @@ EwinIconify(EWin * ewin)
 
 	EwinIconify(e);
      }
-#if ENABLE_GNOME
-   if (lst && call_depth == 1)
-      GNOME_SetClientList();
-#endif
    Efree(lst);
 
    EwinStateUpdate(ewin);
@@ -669,10 +665,6 @@ EwinDeIconify1(EWin * ewin, int dx, int dy)
 
 	EwinDeIconify1(e, dx, dy);
      }
-#if ENABLE_GNOME
-   if (lst && call_depth == 1)
-      GNOME_SetClientList();
-#endif
    Efree(lst);
 
    EwinStateUpdate(ewin);
@@ -1472,9 +1464,6 @@ EwinOpSkipLists(EWin * ewin, int source __UNUSED__, int skip)
 
    EwinStateUpdate(ewin);
    HintsSetWindowState(ewin);
-#if ENABLE_GNOME
-   GNOME_SetClientList();
-#endif
    SnapshotEwinUpdate(ewin, SNAP_USE_SKIP_LISTS);
 }
 
@@ -1486,9 +1475,6 @@ EwinOpSkipTask(EWin * ewin, int skip)
 
    EwinStateUpdate(ewin);
    HintsSetWindowState(ewin);
-#if ENABLE_GNOME
-   GNOME_SetClientList();
-#endif
    SnapshotEwinUpdate(ewin, SNAP_USE_SKIP_LISTS);
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2021 Kim Woelders
+ * Copyright (C) 2003-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -53,9 +53,6 @@ HintsInit(void)
    ex_atoms_init();
    ICCCM_Init();
    MWM_SetInfo();
-#if ENABLE_GNOME
-   GNOME_SetHints(win);
-#endif
    EWMH_Init(win);
 
    ex_window_prop_string_set(WinGetXwin(VROOT), ea_m.ENLIGHTENMENT_VERSION,
@@ -84,9 +81,6 @@ HintsSetRootHints(Win win __UNUSED__)
 void
 HintsSetClientList(void)
 {
-#if ENABLE_GNOME
-   GNOME_SetClientList();
-#endif
    EWMH_SetClientList();
    EWMH_SetClientStacking();
 }
@@ -100,10 +94,6 @@ HintsSetClientStacking(void)
 void
 HintsSetDesktopConfig(void)
 {
-#if ENABLE_GNOME
-   GNOME_SetDeskCount();
-   GNOME_SetDeskNames();
-#endif
    EWMH_SetDesktopCount();
    EWMH_SetDesktopRoots();
    EWMH_SetDesktopNames();
@@ -113,18 +103,12 @@ HintsSetDesktopConfig(void)
 void
 HintsSetViewportConfig(void)
 {
-#if ENABLE_GNOME
-   GNOME_SetAreaCount();
-#endif
    EWMH_SetDesktopSize();
 }
 
 void
 HintsSetCurrentDesktop(void)
 {
-#if ENABLE_GNOME
-   GNOME_SetCurrentDesk();
-#endif
    EWMH_SetCurrentDesktop();
    EHintsSetDeskInfo();
 }
@@ -132,9 +116,6 @@ HintsSetCurrentDesktop(void)
 void
 HintsSetDesktopViewport(void)
 {
-#if ENABLE_GNOME
-   GNOME_SetCurrentArea();
-#endif
    EWMH_SetDesktopViewport();
    EHintsSetAreaInfo();
 }
@@ -170,26 +151,17 @@ HintsSetWindowClass(Win win, const char *name, const char *clss)
 void
 HintsSetWindowDesktop(const EWin * ewin)
 {
-#if ENABLE_GNOME
-   GNOME_SetEwinDesk(ewin);
-#endif
    EWMH_SetWindowDesktop(ewin);
 }
 
 void
 HintsSetWindowArea(const EWin * ewin __UNUSED__)
 {
-#if ENABLE_GNOME
-   GNOME_SetEwinArea(ewin);
-#endif
 }
 
 void
 HintsSetWindowState(const EWin * ewin)
 {
-#if ENABLE_GNOME
-   GNOME_SetHint(ewin);
-#endif
    EWMH_SetWindowState(ewin);
    EWMH_SetWindowActions(ewin);
 }
@@ -213,9 +185,6 @@ HintsSetWindowBorder(const EWin * ewin)
 void
 HintsGetWindowHints(EWin * ewin)
 {
-#if ENABLE_GNOME
-   GNOME_GetHints(ewin, 0);
-#endif
    EWMH_GetWindowHints(ewin);
 }
 
@@ -226,9 +195,6 @@ HintsGetWindowHints(EWin * ewin)
 void
 HintsDelWindowHints(const EWin * ewin)
 {
-#if ENABLE_GNOME
-   GNOME_DelHints(ewin);
-#endif
    EWMH_DelWindowHints(ewin);
 }
 
@@ -243,10 +209,6 @@ HintsProcessPropertyChange(EWin * ewin, XEvent * ev)
       return;
    if (EWMH_ProcessPropertyChange(ewin, ev->xproperty.atom))
       return;
-#if 0				/* No! - ENABLE_GNOME */
-   if (GNOME_GetHints(ewin, ev->xproperty.atom))
-      return;
-#endif
 #if 0
    if (EDebug(1))
      {
@@ -263,10 +225,6 @@ HintsProcessClientClientMessage(EWin * ewin, XClientMessageEvent * event)
       return;
    if (EWMH_ProcessClientClientMessage(ewin, event))
       return;
-#if ENABLE_GNOME
-   if (GNOME_ProcessClientClientMessage(ewin, event))
-      return;
-#endif
    if (EDebug(1))
      {
 	Eprintf("%s:\n", __func__);
@@ -281,10 +239,6 @@ HintsProcessRootClientMessage(XClientMessageEvent * event)
       return;
    if (EWMH_ProcessRootClientMessage(event))
       return;
-#if ENABLE_GNOME
-   if (GNOME_ProcessRootClientMessage(event))
-      return;
-#endif
    if (EDebug(1))
      {
 	Eprintf("%s:\n", __func__);

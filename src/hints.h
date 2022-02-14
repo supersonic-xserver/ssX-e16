@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -54,26 +54,6 @@ int                 EWMH_ProcessClientClientMessage(EWin * ewin,
 						    XClientMessageEvent *
 						    event);
 int                 EWMH_ProcessRootClientMessage(XClientMessageEvent * event);
-
-#if ENABLE_GNOME
-/* gnome.c */
-void                GNOME_SetCurrentDesk(void);
-void                GNOME_SetDeskCount(void);
-void                GNOME_SetDeskNames(void);
-void                GNOME_SetClientList(void);
-void                GNOME_SetEwinDesk(const EWin * ewin);
-void                GNOME_SetEwinArea(const EWin * ewin);
-void                GNOME_SetHint(const EWin * ewin);
-void                GNOME_SetCurrentArea(void);
-void                GNOME_SetAreaCount(void);
-void                GNOME_GetHints(EWin * ewin, EX_Atom atom_change);
-void                GNOME_DelHints(const EWin * ewin);
-void                GNOME_SetHints(EX_Window win_wm_check);
-int                 GNOME_ProcessClientClientMessage(EWin * ewin,
-						     XClientMessageEvent *
-						     event);
-int                 GNOME_ProcessRootClientMessage(XClientMessageEvent * event);
-#endif
 
 /* hints.c */
 void                HintsInit(void);
