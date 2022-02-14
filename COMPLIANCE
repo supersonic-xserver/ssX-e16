@@ -1,6 +1,5 @@
-
-Enlightenment Standards Compliance
-==================================
+e16 Standards Compliance
+========================
 
 Notation
 --------
@@ -13,7 +12,6 @@ Notation
 
 Extended Window Manager Hints (EWMH) Compliance
 -----------------------------------------------
-
 AKA NetWM or freedesktop hints.
 
 Root Window Properties (and Related Messages)
@@ -134,26 +132,8 @@ Compositing Managers
 [ ] WM_TRANSIENT_FOR for override-redirect windows
 
 
-GNOME Compliance (_WIN_... hints)
----------------------------------
-
-If support is enabled (configure --enable-hints-gnome) Enlightenment is GNOME(1)
-compliant according to http://developer.gnome.org/doc/standards/wm/book1.html.
-
-In case of ambiguities the EWMH specification takes precedence.
-
-
-KDE Compliance (KWM_... hints)
----------------------------------
-
-These hints are considered obsolete and support has been removed after the
-0.16.6 release.
-
-
 ICCCM Compliance
 ----------------
-
-Enlightenment intends to be compliant with the relevant sections of the ICCCM
-Version 2.0.
+e16 intends to be compliant with the relevant sections of the ICCCM Version 2.0.
 
 In case of ambiguities the EWMH specification takes precedence.
