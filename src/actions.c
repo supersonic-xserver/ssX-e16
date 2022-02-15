@@ -89,7 +89,6 @@ EspawnApplication(const char *params, int flags)
 {
    char                exe[FILEPATH_LEN_MAX];
    const char         *sh;
-   char               *path;
    char               *real_exec;
 
    if (!params)
@@ -98,6 +97,9 @@ EspawnApplication(const char *params, int flags)
    sscanf(params, "%4000s", exe);
    if (exe[0] == '\0')
       return -1;
+
+   if (EDebug(EDBUG_TYPE_EXEC))
+      Eprintf("%s: '%s'\n", __func__, params);
 
    Mode.apps.startup_id++;
    if (fork())
@@ -120,76 +122,9 @@ EspawnApplication(const char *params, int flags)
      }
 
    if (!Mode.wm.startup)
-     {
-	path = path_test(exe, EFILE_ANY);
-	if (!path)
-	  {
-	     /* absolute path */
-	     if (isabspath(exe))
-		AlertOK(_("There was an error running the program:\n"
-			  "%s\n"
-			  "This program could not be executed.\n"
-			  "This is because the file does not exist.\n"), exe);
-	     /* relative path */
-	     else
-		AlertOK(_("There was an error running the program:\n"
-			  "%s\n"
-			  "This program could not be executed.\n"
-			  "This is most probably because this "
-			  "program is not in the\n"
-			  "path for your shell which is %s. "
-			  "I suggest you read the manual\n"
-			  "page for that shell and read up how to "
-			  "change or add to your\n"
-			  "execution path.\n"), exe, sh);
-	  }
-	else
-	   /* it is a node on the filing sys */
-	  {
-	     /* it's a file */
-	     if (isfile(path))
-	       {
-		  /* can execute it */
-		  if (canexec(path))
-		     AlertOK(_("There was an error running the program:\n"
-			       "%s\n"
-			       "This program could not be executed.\n"
-			       "I am unsure as to why you could not "
-			       "do this. The file exists,\n"
-			       "is a file, and you are allowed to "
-			       "execute it. I suggest you look\n"
-			       "into this.\n"), path);
-		  /* not executable file */
-		  else
-		     AlertOK(_("There was an error running the program:\n"
-			       "%s\n"
-			       "This program could not be executed.\n"
-			       "This is because the file exists, is a "
-			       "file, but you are unable\n"
-			       "to execute it because you do not "
-			       "have execute " "access to this file.\n"), path);
-	       }
-	     /* it's not a file */
-	     else
-	       {
-		  /* its a dir */
-		  if (isdir(path))
-		     AlertOK(_("There was an error running the program:\n"
-			       "%s\n"
-			       "This program could not be executed.\n"
-			       "This is because the file is in fact "
-			       "a directory.\n"), path);
-		  /* its not a file or a dir */
-		  else
-		     AlertOK(_("There was an error running the program:\n"
-			       "%s\n"
-			       "This program could not be executed.\n"
-			       "This is because the file is not a "
-			       "regular file.\n"), path);
-	       }
-	     Efree(path);
-	  }
-     }
+      AlertOK(_("There was a problem running the command\n '%s'\nError: %m"),
+	      params);
+
    exit(100);
 }
 
@@ -206,7 +141,9 @@ _Espawn(int argc __UNUSED__, char **argv)
 
    execvp(argv[0], argv);
 
-   AlertOK(_("There was an error running the program:\n%s"), argv[0]);
+   AlertOK(_("There was a problem running the command\n '%s'\nError: %m"),
+	   argv[0]);
+
    exit(100);
 }
 

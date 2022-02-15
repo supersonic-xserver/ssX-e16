@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006-2021 Kim Woelders
+ * Copyright (C) 2006-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -58,6 +58,7 @@
 #define EDBUG_TYPE_ZOOM         154
 #define EDBUG_TYPE_ANIM         155
 #define EDBUG_TYPE_PRESENT      156
+#define EDBUG_TYPE_EXEC         157
 
 #define EDBUG_TYPE_COMPMGR      161
 #define EDBUG_TYPE_COMPMGR2     162
