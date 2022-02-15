@@ -118,6 +118,9 @@ void                Esetenv(const char *name, const char *value);
 /* misc.c */
 void __PRINTF__     Eprintf(const char *fmt, ...);
 
+/* string.c */
+void                EnvSubst(const char *str, char *bptr, unsigned int blen);
+
 #define Evsnprintf vsnprintf
 #define Esnprintf snprintf
 
