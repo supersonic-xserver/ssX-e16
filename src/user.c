@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2012-2015 Kim Woelders
+ * Copyright (C) 2012-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -35,7 +35,6 @@
 static int          usr_uid = -1;
 static const char  *usr_name = "unknown";
 static const char  *usr_home = "/tmp";
-static const char  *usr_shell = "/bin/sh";
 
 static void
 _user_init(void)
@@ -60,12 +59,6 @@ _user_init(void)
    ss = Estrdup(pwd->pw_dir);
    if (ss)
       usr_home = ss;
-   if (canexec(pwd->pw_shell))
-     {
-	ss = Estrdup(pwd->pw_shell);
-	if (ss)
-	   usr_shell = ss;
-     }
 }
 
 const char         *
@@ -82,12 +75,4 @@ userhome(void)
    if (usr_uid < 0)
       _user_init();
    return usr_home;
-}
-
-const char         *
-usershell(void)
-{
-   if (usr_uid < 0)
-      _user_init();
-   return usr_shell;
 }
