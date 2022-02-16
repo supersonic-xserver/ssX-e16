@@ -191,6 +191,7 @@ IPC_Border(const char *params)
      }
 }
 
+#if ENABLE_DIALOGS
 static void
 IPC_DialogOK(const char *params)
 {
@@ -218,6 +219,7 @@ IPC_DialogOK(const char *params)
 
    DialogOKstr(title, params);
 }
+#endif /* ENABLE_DIALOGS */
 
 static int
 CfgStrlistIndex(const char *const *list, const char *str)
@@ -1711,11 +1713,13 @@ static const IpcItem IPCArray[] = {
     "  movres move   <?/opaque/lined/box/shaded/semi-solid/translucent>\n"
     "  movres resize <?/opaque/lined/box/shaded/semi-solid>\n"
     "  movres info   <?/never/center/corner>\n"},
+#if ENABLE_DIALOGS
    {
     IPC_DialogOK,
     "dialog_ok", "dok",
     "Pop up a dialog box with an OK button",
     "Use \"dialog_ok <message>\" to pop up a dialog box\n"},
+#endif /* ENABLE_DIALOGS */
    {
     IPC_Border, "border", NULL, "List available borders", NULL},
    {
