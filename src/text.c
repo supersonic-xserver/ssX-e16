@@ -23,34 +23,10 @@
  */
 #include "config.h"
 
-#include <X11/Xlib.h>
-
 #include "E.h"
 #include "eimage.h"
 #include "tclass.h"
 #include "xwin.h"
-
-static              GC
-_get_gc(Win win)
-{
-   static GC           gc = NULL;
-   static Visual      *last_vis = NULL;
-   Visual             *vis;
-
-   vis = WinGetVisual(win);
-   if (vis != last_vis)
-     {
-	if (gc)
-	   EXFreeGC(gc);
-	gc = NULL;
-	last_vis = vis;
-     }
-
-   if (!gc)
-      gc = EXCreateGC(WinGetXwin(win), 0, NULL);
-
-   return gc;
-}
 
 static void
 TextDrawRotTo(Win win, EX_Drawable src, EX_Drawable dst, int x, int y,
@@ -362,124 +338,6 @@ TextstateTextFitMB(TextState * ts, char **ptext, int *pw, int textwidth_limit)
    EwcClose();
 }
 
-#if FONT_TYPE_XFS
-/*
- * XFontSet - XCreateFontSet
- */
-extern const FontOps FontOpsXfs;
-
-typedef struct {
-   XFontSet            font;
-   int                 ascent;
-   Win                 win;
-   EX_Drawable         draw;
-   GC                  gc;
-} FontCtxXfs;
-
-static int
-_xfs_Load(TextState * ts, const char *name)
-{
-   XFontSet            font;
-   FontCtxXfs         *fdc;
-   int                 i, missing_cnt, font_cnt;
-   char              **missing_list, *def_str, **fnlr;
-   XFontStruct       **fs;
-
-   font = XCreateFontSet(disp, name, &missing_list, &missing_cnt, &def_str);
-   if (missing_cnt)
-      XFreeStringList(missing_list);
-   if (!font)
-      return -1;
-
-   if (EDebug(EDBUG_TYPE_FONTS) >= 2)
-     {
-	Eprintf("- XBaseFontNameListOfFontSet %s\n",
-		XBaseFontNameListOfFontSet(font));
-	font_cnt = XFontsOfFontSet(font, &fs, &fnlr);
-	for (i = 0; i < font_cnt; i++)
-	   Eprintf("- XFontsOfFontSet %d: %s\n", i, fnlr[i]);
-     }
-
-   fdc = EMALLOC(FontCtxXfs, 1);
-   if (!fdc)
-      return -1;
-   fdc->font = font;
-   ts->fdc = fdc;
-   fdc->ascent = 0;
-   font_cnt = XFontsOfFontSet(font, &fs, &fnlr);
-   for (i = 0; i < font_cnt; i++)
-      fdc->ascent = MAX(fs[i]->ascent, fdc->ascent);
-   ts->type = FONT_TYPE_XFS;
-   ts->ops = &FontOpsXfs;
-   return 0;
-}
-
-static void
-_xfs_Unload(TextState * ts)
-{
-   FontCtxXfs         *fdc = (FontCtxXfs *) ts->fdc;
-
-   XFreeFontSet(disp, fdc->font);
-}
-
-static void
-_xfs_TextSize(TextState * ts, const char *text, int len,
-	      int *width, int *height, int *ascent)
-{
-   FontCtxXfs         *fdc = (FontCtxXfs *) ts->fdc;
-   XRectangle          ret2;
-
-   if (len == 0)
-      len = strlen(text);
-   XmbTextExtents(fdc->font, text, len, NULL, &ret2);
-   *height = ret2.height;
-   *width = ret2.width;
-   *ascent = fdc->ascent;
-}
-
-static void
-_xfs_TextDraw(TextState * ts, int x, int y, const char *text, int len)
-{
-   FontCtxXfs         *fdc = (FontCtxXfs *) ts->fdc;
-
-   XmbDrawString(disp, fdc->draw, fdc->font, fdc->gc, x, y, text, len);
-}
-
-static int
-_xfs_FdcInit(TextState * ts, Win win, EX_Drawable draw)
-{
-   FontCtxXfs         *fdc = (FontCtxXfs *) ts->fdc;
-
-   fdc->win = win;
-   fdc->draw = draw;
-   fdc->gc = _get_gc(win);
-   return 0;
-}
-
-static void
-_xfs_FdcSetDrawable(TextState * ts, unsigned long draw)
-{
-   FontCtxXfs         *fdc = (FontCtxXfs *) ts->fdc;
-
-   fdc->draw = draw;
-}
-
-static void
-_xfs_FdcSetColor(TextState * ts, unsigned int color)
-{
-   FontCtxXfs         *fdc = (FontCtxXfs *) ts->fdc;
-   unsigned int        pixel;
-
-   pixel = EAllocColor(WinGetCmap(fdc->win), color);
-   XSetForeground(disp, fdc->gc, pixel);
-}
-
-const FontOps       FontOpsXfs = {
-   _xfs_Load, _xfs_Unload, _xfs_TextSize, TextstateTextFit, _xfs_TextDraw,
-   _xfs_FdcInit, NULL, _xfs_FdcSetDrawable, _xfs_FdcSetColor
-};
-#endif /* FONT_TYPE_XFS */
-
 static void
 TsTextDraw(TextState * ts, int x, int y, const char *text, int len)
 {
@@ -508,6 +366,10 @@ typedef struct {
 #endif
 } FontHandler;
 
+#if FONT_TYPE_XFS
+extern const FontOps FontOps_xfs;
+#endif
+
 #if USE_MODULES
 
 #define FONT(type, ops, opsm) { type, opsm, 0 }
@@ -530,7 +392,7 @@ extern const FontOps FontOps_pango;
 
 static FontHandler  fhs[] = {
 #if FONT_TYPE_XFS
-   FONT("xfs", &FontOpsXfs, &FontOpsXfs),	/* XFontSet - XCreateFontSet */
+   FONT("xfs", &FontOps_xfs, &FontOps_xfs),	/* XFontSet - XCreateFontSet */
 #endif
 #if FONT_TYPE_IFT
    FONT("ift", &FontOps_ift, NULL),	/* Imlib2/FreeType */
@@ -607,7 +469,7 @@ TextStateLoadFont(TextState * ts)
      }
  fallback:
 #if FONT_TYPE_XFS
-   if (!FontOpsXfs.Load(ts, "fixed"))	/* XFontSet - XCreateFontSet */
+   if (!FontOps_xfs.Load(ts, "fixed"))	/* XFontSet - XCreateFontSet */
       goto done;
 #endif
 

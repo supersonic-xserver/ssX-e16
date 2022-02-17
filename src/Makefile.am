@@ -92,6 +92,7 @@ e16_SOURCES = \
 	x.c                     xwin.h			\
 	xtypes.h
 
+e16_SOURCES += text_xfs.c
 if ENABLE_SOUND
 e16_SOURCES += sound.c sound.h
 endif
