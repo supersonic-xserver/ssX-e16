@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -296,46 +296,6 @@ TextstateTextFit1(TextState * ts, char **ptext, int *pw, int textwidth_limit)
    *ptext = new_line;
 }
 
-#if FONT_TYPE_XFONT
-static void
-TextstateTextFit2(TextState * ts, char **ptext, int *pw, int textwidth_limit)
-{
-   char               *text = *ptext;
-   int                 hh, ascent;
-   char               *new_line;
-   int                 nuke_count = 0;
-   int                 len;
-
-   len = strlen(text);
-   new_line = EMALLOC(char, len + 20);
-
-   if (!new_line)
-      return;
-
-   while (*pw > textwidth_limit)
-     {
-	nuke_count += 2;
-
-	if (nuke_count > len)
-	  {
-	     memcpy(new_line, text, 2);
-	     memcpy(new_line + 2, ". . . ", 7);
-	     break;
-	  }
-
-	new_line[0] = 0;
-	strncat(new_line, text, (len - nuke_count) / 4);
-	strcat(new_line, ". . . ");
-	strcat(new_line, text + ((len - nuke_count) / 4) + nuke_count);
-
-	ts->ops->TextSize(ts, new_line, 0, pw, &hh, &ascent);
-     }
-
-   Efree(text);
-   *ptext = new_line;
-}
-#endif /* FONT_TYPE_XFONT */
-
 static void
 TextstateTextFitMB(TextState * ts, char **ptext, int *pw, int textwidth_limit)
 {
@@ -520,122 +480,6 @@ const FontOps       FontOpsXfs = {
 };
 #endif /* FONT_TYPE_XFS */
 
-#if FONT_TYPE_XFONT
-/*
- * XFontStruct - XLoadQueryFont
- */
-extern const FontOps FontOpsXfont;
-
-typedef struct {
-   XFontStruct        *font;
-   Win                 win;
-   EX_Drawable         draw;
-   GC                  gc;
-} FontCtxXfont;
-
-static int
-_xfont_Load(TextState * ts, const char *name)
-{
-   XFontStruct        *font;
-   FontCtxXfont       *fdc;
-
-   font = XLoadQueryFont(disp, name);
-   if (!font)
-      return -1;
-
-   fdc = EMALLOC(FontCtxXfont, 1);
-   if (!fdc)
-      return -1;
-   fdc->font = font;
-   ts->fdc = fdc;
-   ts->type = FONT_TYPE_XFONT;
-   ts->ops = &FontOpsXfont;
-   return 0;
-}
-
-static void
-_xfont_Unload(TextState * ts __UNUSED__)
-{
-   FontCtxXfont       *fdc = (FontCtxXfont *) ts->fdc;
-
-   XFreeFont(disp, fdc->font);
-}
-
-static void
-_xfont_TextSize(TextState * ts, const char *text, int len,
-		int *width, int *height, int *ascent)
-{
-   FontCtxXfont       *fdc = (FontCtxXfont *) ts->fdc;
-
-   if (len == 0)
-      len = strlen(text);
-   if (fdc->font->min_byte1 == 0 && fdc->font->max_byte1 == 0)
-      *width = XTextWidth(fdc->font, text, len);
-   else
-      *width = XTextWidth16(fdc->font, (XChar2b *) text, len / 2);
-   *height = fdc->font->ascent + fdc->font->descent;
-   *ascent = fdc->font->ascent;
-}
-
-static void
-_xfont_TextDraw(TextState * ts, int x, int y, const char *text, int len)
-{
-   FontCtxXfont       *fdc = (FontCtxXfont *) ts->fdc;
-
-   if (fdc->font->min_byte1 == 0 && fdc->font->max_byte1 == 0)
-      XDrawString(disp, fdc->draw, fdc->gc, x, y, text, len);
-   else
-      XDrawString16(disp, fdc->draw, fdc->gc, x, y, (XChar2b *) text, len);
-}
-
-static int
-_xfont_FdcInit(TextState * ts, Win win, EX_Drawable draw)
-{
-   FontCtxXfont       *fdc = (FontCtxXfont *) ts->fdc;
-
-   fdc->win = win;
-   fdc->draw = draw;
-   fdc->gc = _get_gc(win);
-
-   XSetFont(disp, fdc->gc, fdc->font->fid);
-   return 0;
-}
-
-static void
-_xfont_FdcSetDrawable(TextState * ts, unsigned long draw)
-{
-   FontCtxXfont       *fdc = (FontCtxXfont *) ts->fdc;
-
-   fdc->draw = draw;
-}
-
-static void
-_xfont_FdcSetColor(TextState * ts, unsigned int color)
-{
-   FontCtxXfont       *fdc = (FontCtxXfont *) ts->fdc;
-   unsigned int        pixel;
-
-   pixel = EAllocColor(WinGetCmap(fdc->win), color);
-   XSetForeground(disp, fdc->gc, pixel);
-}
-
-static void
-_xfont_TextFit(TextState * ts, char **ptext, int *pw, int textwidth_limit)
-{
-   FontCtxXfont       *fdc = (FontCtxXfont *) ts->fdc;
-
-   if (fdc->font->min_byte1 == 0 && fdc->font->max_byte1 == 0)
-      TextstateTextFit1(ts, ptext, pw, textwidth_limit);
-   else
-      TextstateTextFit2(ts, ptext, pw, textwidth_limit);
-}
-
-const FontOps       FontOpsXfont = {
-   _xfont_Load, _xfont_Unload, _xfont_TextSize, _xfont_TextFit, _xfont_TextDraw,
-   _xfont_FdcInit, NULL, _xfont_FdcSetDrawable, _xfont_FdcSetColor
-};
-#endif /* FONT_TYPE_XFONT */
-
 static void
 TsTextDraw(TextState * ts, int x, int y, const char *text, int len)
 {
@@ -685,9 +529,6 @@ extern const FontOps FontOps_pango;
 #endif /* USE_MODULES */
 
 static FontHandler  fhs[] = {
-#if FONT_TYPE_XFONT
-   FONT("xfont", &FontOpsXfont, &FontOpsXfont),	/* XFontStruct - XLoadQueryFont */
-#endif
 #if FONT_TYPE_XFS
    FONT("xfs", &FontOpsXfs, &FontOpsXfs),	/* XFontSet - XCreateFontSet */
 #endif
@@ -767,10 +608,6 @@ TextStateLoadFont(TextState * ts)
  fallback:
 #if FONT_TYPE_XFS
    if (!FontOpsXfs.Load(ts, "fixed"))	/* XFontSet - XCreateFontSet */
-      goto done;
-#endif
-#if FONT_TYPE_XFONT
-   if (!FontOpsXfont.Load(ts, "fixed"))	/* XFontStruct - XLoadQueryFont */
       goto done;
 #endif
 
