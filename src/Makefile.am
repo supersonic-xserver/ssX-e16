@@ -2,19 +2,6 @@ SUBDIRS =
 
 bin_PROGRAMS = e16
 
-if ENABLE_ZOOM
-SRCS_ZOOM = zoom.c
-endif
-if ENABLE_GLX
-SRCS_GLX = eglx.c eglx.h glwin.c
-endif
-if ENABLE_COMPOSITE
-SRCS_ECOMPMGR = ecompmgr.c ecompmgr.h magwin.c
-endif
-if ENABLE_DBUS
-SRCS_DBUS = edbus.c edbus.h
-endif
-
 e16_SOURCES = \
 	E.h			\
 	about.c			\
@@ -103,14 +90,23 @@ e16_SOURCES = \
 	windowmatch.c   	windowmatch.h		\
 	xprop.c			xprop.h	 xpropdefs.h	\
 	x.c                     xwin.h			\
-	xtypes.h                \
-	$(SRCS_SOUND)		\
-	$(SRCS_FONTS)		\
-	$(SRCS_GNOME) 		\
-	$(SRCS_ZOOM) 		\
-	$(SRCS_GLX) 		\
-	$(SRCS_ECOMPMGR)	\
-	$(SRCS_DBUS)
+	xtypes.h
+
+if ENABLE_SOUND
+e16_SOURCES += sound.c sound.h
+endif
+if ENABLE_ZOOM
+e16_SOURCES += zoom.c
+endif
+if ENABLE_GLX
+e16_SOURCES += eglx.c eglx.h glwin.c
+endif
+if ENABLE_COMPOSITE
+e16_SOURCES += ecompmgr.c ecompmgr.h magwin.c
+endif
+if ENABLE_DBUS
+e16_SOURCES += edbus.c edbus.h
+endif
 
 AM_CFLAGS = $(CFLAGS_WARNINGS) $(CFLAGS_VISIBILITY) $(CFLAGS_ASAN)
 
@@ -164,10 +160,6 @@ SNDLDR_LIBS = $(AUDIOFILE_LIBS) $(SNDFILE_LIBS)
 
 if BUILD_MODULES
 
-if ENABLE_SOUND
-SRCS_SOUND = sound.c sound.h
-endif
-
 e16_LDFLAGS = -export-dynamic
 MODULE_LIBS = $(DLOPEN_LIBS)
 
@@ -214,7 +206,7 @@ libsound_player_la_LDFLAGS = -module -avoid-version
 endif
 
 LIBFNT_IFT = libfont_ift.la
-libfont_ift_la_SOURCES    = ttfont.c
+libfont_ift_la_SOURCES    = text_ift.c
 libfont_ift_la_CFLAGS     = $(IMLIB2_CFLAGS)
 libfont_ift_la_LIBADD     = $(IMLIB2_LIBS)
 libfont_ift_la_LDFLAGS    = -module -avoid-version
@@ -235,40 +227,36 @@ libfont_pango_la_LIBADD   = $(PANGO_LIBS) libfont_xft.la
 libfont_pango_la_LDFLAGS  = -module -avoid-version
 endif
 
-else
+else # BUILD_MODULES
 
 if ENABLE_SOUND
 if USE_SOUND_LOADER
-SRCS_SOUND_LOADER = sound_load.c
+e16_SOURCES += sound_load.c
 endif
 if USE_SOUND_ESOUND
-SRCS_SOUND_ESOUND = sound_esound.c
+e16_SOURCES += sound_esound.c
 endif
 if USE_SOUND_PULSE
-SRCS_SOUND_PULSE = sound_pulse.c
+e16_SOURCES += sound_pulse.c
 endif
 if USE_SOUND_SNDIO
-SRCS_SOUND_SNDIO = sound_sndio.c
+e16_SOURCES += sound_sndio.c
 endif
 if USE_SOUND_ALSA
-SRCS_SOUND_ALSA = sound_alsa.c
+e16_SOURCES += sound_alsa.c
 endif
 if USE_SOUND_PLAYER
-SRCS_SOUND_PLAYER = sound_player.c
+e16_SOURCES += sound_player.c
 endif
-SRCS_SOUND = sound.c sound.h $(SRCS_SOUND_LOADER) \
-	     $(SRCS_SOUND_ESOUND) $(SRCS_SOUND_PULSE) $(SRCS_SOUND_SNDIO) \
-	     $(SRCS_SOUND_ALSA) $(SRCS_SOUND_PLAYER)
-endif
+endif # ENABLE_SOUND
 
-SRCS_FONT_IFT = ttfont.c
+e16_SOURCES += text_ift.c
 if USE_LIBXFT
-SRCS_FONT_XFT = text_xft.c
+e16_SOURCES += text_xft.c
 endif
 if USE_LIBPANGO
-SRCS_FONT_PANGO = text_pango.c
+e16_SOURCES += text_pango.c
 endif
-SRCS_FONTS = $(SRCS_FONT_IFT) $(SRCS_FONT_XFT) $(SRCS_FONT_PANGO)
 
 SOUND_LIBS = $(ESD_LIBS) $(PULSE_LIBS) $(SNDIO_LIBS) $(ALSA_LIBS) $(SNDLDR_LIBS)
 FONTS_LIBS = $(PANGO_LIBS) $(XFT_LIBS)
@@ -276,7 +264,7 @@ FONTS_LIBS = $(PANGO_LIBS) $(XFT_LIBS)
 SOUND_CFLAGS = $(ESD_CFLAGS) $(PULSE_CFLAGS) $(SNDIO_CFLAGS) $(SNDLDR_CFLAGS)
 FONTS_CFLAGS = $(PANGO_CFLAGS) $(XFT_CFLAGS)
 
-endif
+endif # BUILD_MODULES
 
 install-data-hook:
 	rm -f $(DESTDIR)$(libe16dir)/*.la
