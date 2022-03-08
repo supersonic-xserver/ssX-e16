@@ -2454,8 +2454,16 @@ BackgroundsIpc(const char *params)
 	   bg = BackgroundFind(prm);
 
 	num = DesksGetCurrentNum();
-	sscanf(p, "%d %n", &num, &len);
-	DeskBackgroundSet(DeskGet(num), bg);
+	for (;; len = num = -1)
+	  {
+	     sscanf(p, "%d %n", &num, &len);
+	     p += len;
+	     if (num < 0)
+		break;
+	     DeskBackgroundSet(DeskGet(num), bg);
+	  }
+
+	BackgroundsConfigSave();
      }
    else if (!strncmp(cmd, "xget", 2))
      {
@@ -2480,35 +2488,6 @@ BackgroundsIpc(const char *params)
      }
 }
 
-static void
-IPC_BackgroundUse(const char *params)
-{
-   char                name[1024];
-   const char         *p;
-   Background         *bg;
-   int                 i, l;
-
-   p = params;
-   name[0] = '\0';
-   l = 0;
-   sscanf(p, "%1000s %n", name, &l);
-   p += l;
-
-   bg = BackgroundFind(name);
-   if (!bg)
-      return;
-
-   for (;;)
-     {
-	i = l = -1;
-	sscanf(p, "%d %n", &i, &l);
-	p += l;
-	if (i < 0)
-	   break;
-	DeskBackgroundSet(DeskGet(i), bg);
-     }
-}
-
 static const IpcItem BackgroundsIpcArray[] = {
    {
     BackgroundsIpc,
@@ -2524,10 +2503,6 @@ static const IpcItem BackgroundsIpcArray[] = {
     "  background use <name> <desks...> Switch to background <name>\n"
     "  background xget <name>           Special show background parameters\n"
     "  background xset <name> ...       Special set background parameters\n"}
-   ,
-   {
-    IPC_BackgroundUse, "use_bg", NULL, "Deprecated - do not use", NULL}
-   ,
 };
 
 /*

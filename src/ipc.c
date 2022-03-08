@@ -1535,11 +1535,13 @@ IPC_InsertKeys(const char *params, Client * c __UNUSED__)
 /*
  * Compatibility stuff - DO NOT USE
  */
+static int          IpcExec(const char *params);
+
 static int
 IPC_Compat(const char *params)
 {
    int                 ok = 0;
-   char                param1[128];
+   char                param1[128], buf[FILEPATH_LEN_MAX];
    const char         *p;
    int                 len;
 
@@ -1561,6 +1563,11 @@ IPC_Compat(const char *params)
      {
 	if (*p == '?')
 	   IpcPrintf("Number of Desks: %d\n", DesksGetNumber());
+     }
+   else if (!strcmp(param1, "use_bg"))
+     {
+	snprintf(buf, sizeof(buf), "bg use %s", p);
+	IpcExec(buf);		/* Beware - recursive */
      }
 #if !USE_COMPOSITE
    else if (!strcmp(param1, "cm"))
