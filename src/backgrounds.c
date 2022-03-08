@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1564,8 +1564,6 @@ CB_ConfigureNewBG(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
    DeskBackgroundSet(DesksGetCurrent(), dd->bg);
 
    BG_RedrawView(d);
-
-   autosave();
 }
 
 static void
@@ -1603,8 +1601,6 @@ CB_ConfigureDelBG(Dialog * d, int val, void *data __UNUSED__)
 
    dd->bg = NULL;
    BgDialogSetNewCurrent(d, bgn);
-
-   autosave();
 }
 
 /* Move current background to first position in list */
@@ -1621,7 +1617,6 @@ CB_ConfigureFrontBG(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
    LIST_PREPEND(Background, &bg_list, bg);
    BGSettingsGoTo(d, bg);
    BG_RedrawView(d);
-   autosave();
 }
 
 /* Draw the scrolling background image window */
@@ -1753,7 +1748,6 @@ CB_BGAreaEvent(DItem * di, int val __UNUSED__, void *data)
 		break;
 	     BgDialogSetNewCurrent(d, bg);
 	     DeskBackgroundSet(DesksGetCurrent(), bg);
-	     autosave();
 	     break;
 	  case 4:
 	     dd->bg_sel_sliderval += 4;
@@ -1874,8 +1868,6 @@ CB_BGSortFile(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
    Efree(bglist);
 
    BGSettingsGoTo(d, dd->bg);
-
-   autosave();
 }
 
 static void
@@ -1913,8 +1905,6 @@ CB_BGSortAttrib(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
    Efree(bglist);
 
    BGSettingsGoTo(d, dd->bg);
-
-   autosave();
 }
 
 #if 0				/* Doesn't do anything useful */
@@ -1935,8 +1925,6 @@ CB_BGSortContent(Dialog * d __UNUSED__, int val __UNUSED__,
       LIST_PREPEND(Background, &bg_list, bglist[i]);
 
    Efree(bglist);
-
-   autosave();
 }
 #endif
 
@@ -2336,7 +2324,6 @@ BackgroundSet1(const char *name, const char *params)
      {
 	IpcPrintf("Error: unknown background value type '%s'\n", type);
      }
-   autosave();
 }
 
 static void
@@ -2469,7 +2456,6 @@ BackgroundsIpc(const char *params)
 	num = DesksGetCurrentNum();
 	sscanf(p, "%d %n", &num, &len);
 	DeskBackgroundSet(DeskGet(num), bg);
-	autosave();
      }
    else if (!strncmp(cmd, "xget", 2))
      {
@@ -2521,8 +2507,6 @@ IPC_BackgroundUse(const char *params)
 	   break;
 	DeskBackgroundSet(DeskGet(i), bg);
      }
-
-   autosave();
 }
 
 static const IpcItem BackgroundsIpcArray[] = {
