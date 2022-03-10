@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2021 Kim Woelders
+ * Copyright (C) 2007-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -726,20 +726,6 @@ GlwinExit(void)
  */
 
 static void
-GlwinSighan(int sig, void *prm __UNUSED__)
-{
-   switch (sig)
-     {
-     case ESIGNAL_START:
-	break;
-
-     case ESIGNAL_EXIT:
-	GlwinExit();
-	break;
-     }
-}
-
-static void
 GlwinIpc(const char *params)
 {
    const char         *cmd;
@@ -772,7 +758,7 @@ extern const EModule ModGlwin;
 
 const EModule       ModGlwin = {
    "glwin", NULL,
-   GlwinSighan,
+   NULL,
    MOD_ITEMS(GlwinIpcArray),
    MOD_ITEMS(GlwinCfgItems)
 };
