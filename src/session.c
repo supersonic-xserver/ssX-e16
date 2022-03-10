@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -459,7 +459,7 @@ doSMExit(int mode, const char *params)
    const char         *ss;
 
    if (EDebug(EDBUG_TYPE_SESSION))
-      Eprintf("%s: mode=%d prm=%p\n", __func__, mode, params);
+      Eprintf("%s: mode=%d prm=%p disp=%p\n", __func__, mode, params, disp);
 
    restarting = 1;
 
@@ -477,10 +477,11 @@ doSMExit(int mode, const char *params)
 	ESelectInput(VROOT, 0);
 	ExtInitWinKill();
 	ESync(0);
-
-	/* Forget about cleaning up if no disp */
-	ModulesSignal(ESIGNAL_EXIT, NULL);
      }
+
+   /* NB! Exit functions must not do X stuff as the connection may be lost
+    * (disp = NULL) */
+   ModulesSignal(ESIGNAL_EXIT, NULL);
 
    ss = NULL;
    switch (mode)
