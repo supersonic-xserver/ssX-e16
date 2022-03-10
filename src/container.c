@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -31,6 +31,7 @@
 #include "emodule.h"
 #include "eobj.h"
 #include "ewins.h"
+#include "file.h"
 #include "hints.h"
 #include "iclass.h"
 #include "icons.h"
@@ -1213,15 +1214,6 @@ ContainersShow(void)
 }
 
 static void
-ContainersDestroy(void)
-{
-   Container          *ct, *tmp;
-
-   LIST_FOR_EACH_SAFE(Container, &container_list, ct, tmp)
-      ContainerDestroy(ct, 1);
-}
-
-static void
 ContainerEventScrollWin(Win win __UNUSED__, XEvent * ev, void *prm)
 {
    Container          *ct = (Container *) prm;
@@ -1842,11 +1834,11 @@ ContainersConfigLoad(void)
 static void
 ContainersConfigSave(void)
 {
-   char                s[FILEPATH_LEN_MAX];
+   char                s[FILEPATH_LEN_MAX], st[FILEPATH_LEN_MAX];
    FILE               *fs;
    Container          *ct;
 
-   Esnprintf(s, sizeof(s), "%s.ibox", EGetSavePrefix());
+   Etmp(st);
    fs = fopen(s, "w");
    if (!fs)
       return;
@@ -1873,6 +1865,9 @@ ContainersConfigSave(void)
    }
 
    fclose(fs);
+
+   Esnprintf(s, sizeof(s), "%s.ibox", EGetSavePrefix());
+   E_mv(st, s);
 }
 
 /*
@@ -1889,9 +1884,6 @@ ContainersSighan(int sig, void *prm)
      case ESIGNAL_START:
 	ContainersConfigLoad();
 	ContainersShow();
-	break;
-     case ESIGNAL_EXIT:
-	ContainersDestroy();
 	break;
      }
 
