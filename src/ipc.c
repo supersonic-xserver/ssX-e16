@@ -1847,6 +1847,9 @@ IpcExec(const char *params)
    if (!ok && params)
       ok = IPC_Compat(params);
 
+   if (!ok)
+      IpcPrintf("Unknown command: '%s'\n", params);
+
    return ok;
 }
 
