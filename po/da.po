@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
 "POT-Creation-Date: 2022-03-10 22:21+0100\n"
-"PO-Revision-Date: 2021-11-13 03:30+0100\n"
+"PO-Revision-Date: 2022-03-11 06:47+0100\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
 "Language: da\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: src/about.c:35
 #, c-format
@@ -54,17 +54,15 @@ msgid "%u references remain"
 msgstr "%u referencer endnu"
 
 #: src/actions.c:111 src/actions.c:132
-#, fuzzy, c-format
-#| msgid ""
-#| "There was an error running the program:\n"
-#| "%s"
+#, c-format
 msgid ""
 "There was a problem running the command\n"
 " '%s'\n"
 "Error: %m"
 msgstr ""
-"Der skete en fejl ved start af programmet:\n"
-"%s"
+"Der skete en fejl ved start af programmet\n"
+" '%s'\n"
+"Fejl: %m"
 
 #: src/alert.c:211
 msgid "Enlightenment Error"
@@ -2308,8 +2306,6 @@ msgid "Regenerate Menus"
 msgstr "Regenerer menu'er"
 
 #: config/strings.c:118
-#, fuzzy
-#| msgid "Theme Settings"
 msgid "Theme menu"
 msgstr "Temaindstillinger"
 
