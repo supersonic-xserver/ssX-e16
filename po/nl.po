@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2021-11-13 19:15+0100\n"
+"POT-Creation-Date: 2022-03-10 22:21+0100\n"
 "PO-Revision-Date: 2009-11-09 14:39+0000\n"
 "Last-Translator: Yentl <y.v.t@scarlet.be>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -52,101 +52,15 @@ msgstr ""
 msgid "%u references remain"
 msgstr "%u verwijzingen blijven over"
 
-#: src/actions.c:131
-#, c-format
+#: src/actions.c:111 src/actions.c:132
+#, fuzzy, c-format
+#| msgid ""
+#| "There was an error running the program:\n"
+#| "%s"
 msgid ""
-"There was an error running the program:\n"
-"%s\n"
-"This program could not be executed.\n"
-"This is because the file does not exist.\n"
-msgstr ""
-"Er is een fout opgetreden bij het uitvoeren van:\n"
-"%s\n"
-"Dit programma kon niet uitgevoerd worden.\n"
-"Dit omdat het bestand niet bestaat.\n"
-
-#: src/actions.c:137
-#, c-format
-msgid ""
-"There was an error running the program:\n"
-"%s\n"
-"This program could not be executed.\n"
-"This is most probably because this program is not in the\n"
-"path for your shell which is %s. I suggest you read the manual\n"
-"page for that shell and read up how to change or add to your\n"
-"execution path.\n"
-msgstr ""
-"Er is een fout opgetreden bij het uitvoeren van:\n"
-"%s\n"
-"Dit programma kon niet uitgevoerd worden.\n"
-"De meest waarschijnlijke reden hiervoor is dat het programma\n"
-"niet in het pad voor uw shell staat, dat is %s. Ik suggereer dat \n"
-"U de documentatie voor uw sheel bekijkt hoe U het pad voor\n"
-"uivoerbare programma's moet aanpassen.\n"
-
-#: src/actions.c:156
-#, c-format
-msgid ""
-"There was an error running the program:\n"
-"%s\n"
-"This program could not be executed.\n"
-"I am unsure as to why you could not do this. The file exists,\n"
-"is a file, and you are allowed to execute it. I suggest you look\n"
-"into this.\n"
-msgstr ""
-"Er is een fout opgetreden bij het uitvoeren van:\n"
-"%s\n"
-"Dit programma kon niet uitgevoerd worden.\n"
-"Ik weet niet hoe het komt dat het niet kan. Het bestand bestaat,\n"
-"en U bent gerechtigd om het uit te voeren. Ik suggereer dat\n"
-"U hier naar kijkt.\n"
-
-#: src/actions.c:166
-#, c-format
-msgid ""
-"There was an error running the program:\n"
-"%s\n"
-"This program could not be executed.\n"
-"This is because the file exists, is a file, but you are unable\n"
-"to execute it because you do not have execute access to this file.\n"
-msgstr ""
-"Er is een fout opgetreden bij het uitvoeren van:\n"
-"%s\n"
-"Dit programma kon niet uitgevoerd worden.\n"
-"De reden hiervoor is dat het bestand bestaat, maar U kan het\n"
-"niet uitvoeren omdat U geen uitvoer rechten voor het bestand heeft.\n"
-
-#: src/actions.c:179
-#, c-format
-msgid ""
-"There was an error running the program:\n"
-"%s\n"
-"This program could not be executed.\n"
-"This is because the file is in fact a directory.\n"
-msgstr ""
-"Er is een fout opgetreden bij het uitvoeren van:\n"
-"%s\n"
-"Dit programma kon niet uitgevoerd worden.\n"
-"De reden hiervoor is dat het bestand in werkelijkheid een directory is.\n"
-
-#: src/actions.c:186
-#, c-format
-msgid ""
-"There was an error running the program:\n"
-"%s\n"
-"This program could not be executed.\n"
-"This is because the file is not a regular file.\n"
-msgstr ""
-"Er was een fout bij het uitvoeren van het programma:\n"
-"%s\n"
-"Dit programma kon niet uitgevoerd worden.\n"
-"Dit is omdat het bestand geen gewoon bestand is.\n"
-
-#: src/actions.c:211
-#, c-format
-msgid ""
-"There was an error running the program:\n"
-"%s"
+"There was a problem running the command\n"
+" '%s'\n"
+"Error: %m"
 msgstr ""
 "Er was een fout bij het uitvoeren van het programma:\n"
 "%s"
@@ -195,7 +109,7 @@ msgstr ""
 msgid "-NONE-"
 msgstr "-GEEN-"
 
-#: src/backgrounds.c:1677 src/backgrounds.c:1679
+#: src/backgrounds.c:1672 src/backgrounds.c:1674
 msgid ""
 "No\n"
 "Background"
@@ -203,40 +117,40 @@ msgstr ""
 "Nee\n"
 "Achtergrond"
 
-#: src/backgrounds.c:1779 src/backgrounds.c:2212
+#: src/backgrounds.c:1773 src/backgrounds.c:2200
 #, c-format
 msgid "Unused backgrounds freed after %2i:%02i:%02i"
 msgstr "Ongebruikte achtergronden verwijderd na %2i:%02i:%02i"
 
-#: src/backgrounds.c:2001
+#: src/backgrounds.c:1989
 msgid "Use background image"
 msgstr "Gebruik achtergrond plaatje"
 
-#: src/backgrounds.c:2005
+#: src/backgrounds.c:1993
 msgid "Keep aspect on scale"
 msgstr "Bewaar verhoudingen bij schalen"
 
-#: src/backgrounds.c:2009
+#: src/backgrounds.c:1997
 msgid "Tile image across background"
 msgstr "Plaats plaatjes naast elkaar op achtergrond"
 
-#: src/backgrounds.c:2018
+#: src/backgrounds.c:2006
 msgid "Move to Front"
 msgstr "Verplaats naar voren"
 
-#: src/backgrounds.c:2023
+#: src/backgrounds.c:2011
 msgid "Duplicate"
 msgstr "Dupliceer"
 
-#: src/backgrounds.c:2027
+#: src/backgrounds.c:2015
 msgid "Unlist"
 msgstr "Haal uit de lijst"
 
-#: src/backgrounds.c:2032
+#: src/backgrounds.c:2020
 msgid "Delete File"
 msgstr "Verwijder bestand"
 
-#: src/backgrounds.c:2043
+#: src/backgrounds.c:2031
 msgid ""
 "Background\n"
 "Image\n"
@@ -250,59 +164,59 @@ msgstr ""
 "en\n"
 "Plaatsing\n"
 
-#: src/backgrounds.c:2097
+#: src/backgrounds.c:2085
 msgid "BG Colour"
 msgstr "Achtergrond kleur"
 
-#: src/backgrounds.c:2102
+#: src/backgrounds.c:2090
 msgid "Red:"
 msgstr "Rood:"
 
-#: src/backgrounds.c:2113
+#: src/backgrounds.c:2101
 msgid "Green:"
 msgstr "Groen:"
 
-#: src/backgrounds.c:2124
+#: src/backgrounds.c:2112
 msgid "Blue:"
 msgstr "Blauw:"
 
-#: src/backgrounds.c:2157
+#: src/backgrounds.c:2145
 msgid "Pre-scan BG's"
 msgstr "Prescan Achtergronden"
 
-#: src/backgrounds.c:2165
+#: src/backgrounds.c:2153
 msgid "Sort by File"
 msgstr "Sorteer op bestand"
 
-#: src/backgrounds.c:2170
+#: src/backgrounds.c:2158
 msgid "Sort by Attr."
 msgstr "Sorteer op attribuut"
 
-#: src/backgrounds.c:2176
+#: src/backgrounds.c:2164
 msgid "Sort by Image"
 msgstr "Sorteer op plaatje"
 
-#: src/backgrounds.c:2196
+#: src/backgrounds.c:2184
 msgid "Use dithering in Hi-Colour"
 msgstr "Gebruik dithering in Hi-Color"
 
-#: src/backgrounds.c:2200
+#: src/backgrounds.c:2188
 msgid "Background overrides theme"
 msgstr "Achtergrond overruled thema"
 
-#: src/backgrounds.c:2205
+#: src/backgrounds.c:2193
 msgid "Enable background transparency compatibility mode"
 msgstr "Achtergrondtransparantie compabiliteitsmodus inschakelen"
 
-#: src/backgrounds.c:2229
+#: src/backgrounds.c:2217
 msgid "Background"
 msgstr "Achtergrond"
 
-#: src/backgrounds.c:2229
+#: src/backgrounds.c:2217
 msgid "Desktop Background Settings"
 msgstr "Desktop Achtergrond Instellingen"
 
-#: src/backgrounds.c:2233
+#: src/backgrounds.c:2221
 msgid ""
 "Enlightenment Desktop\n"
 "Background Settings Dialog"
@@ -417,134 +331,134 @@ msgstr ""
 msgid "Enlightenment Starting..."
 msgstr "Enlightenment start op"
 
-#: src/container.c:1182
+#: src/container.c:1183
 msgid "Settings..."
 msgstr "Instellingen..."
 
-#: src/container.c:1186 src/dialog.c:691 src/pager.c:1000 config/strings.c:30
-#: config/strings.c:122
+#: src/container.c:1187 src/dialog.c:691 src/pager.c:1000 config/strings.c:30
+#: config/strings.c:123
 msgid "Close"
 msgstr "Sluit"
 
-#: src/container.c:1191 config/strings.c:83
+#: src/container.c:1192 config/strings.c:83
 msgid "Create New Iconbox"
 msgstr "Maak een nieuwe Icoonbox"
 
-#: src/container.c:1500 src/container.c:1572 src/menus.c:1983
+#: src/container.c:1492 src/container.c:1564 src/menus.c:1983
 #, c-format
 msgid "Icon size: %2d"
 msgstr "Icoon grootte: %2d"
 
-#: src/container.c:1536
+#: src/container.c:1528
 msgid "Transparent background"
 msgstr "Transparante achtergrond"
 
-#: src/container.c:1540
+#: src/container.c:1532
 msgid "Hide inner border"
 msgstr "Binnenste rand verbergen"
 
-#: src/container.c:1544
+#: src/container.c:1536
 msgid "Draw base image behind Icons"
 msgstr "Teken basisplaatje achter iconen"
 
-#: src/container.c:1548
+#: src/container.c:1540
 msgid "Hide scrollbar when not needed"
 msgstr "Toon geen scrollbar als niet nodig"
 
-#: src/container.c:1552
+#: src/container.c:1544
 msgid "Automatically resize to fit Icons"
 msgstr "Grootte automatisch aanpassen om iconen te bevatten"
 
-#: src/container.c:1559
+#: src/container.c:1551
 msgid "Alignment of anchoring when automatically resizing:"
 msgstr "Plaatsing van ankers als automatisch grootte aanpassen"
 
-#: src/container.c:1590
+#: src/container.c:1582
 msgid "Orientation:"
 msgstr "Orientatie:"
 
-#: src/container.c:1593
+#: src/container.c:1585
 msgid "Horizontal"
 msgstr "Horizontaal"
 
-#: src/container.c:1598
+#: src/container.c:1590
 msgid "Vertical"
 msgstr "Vertikaal"
 
-#: src/container.c:1609
+#: src/container.c:1601
 msgid "Scrollbar side:"
 msgstr "Scrollbar kant:"
 
-#: src/container.c:1612
+#: src/container.c:1604
 msgid "Left / Top"
 msgstr "Links/Boven"
 
-#: src/container.c:1617
+#: src/container.c:1609
 msgid "Right / Bottom"
 msgstr "Rechts/Onder"
 
-#: src/container.c:1628
+#: src/container.c:1620
 msgid "Scrollbar arrows:"
 msgstr "Scrollbar pijltjes"
 
-#: src/container.c:1631
+#: src/container.c:1623
 msgid "Start"
 msgstr "Start"
 
-#: src/container.c:1636
+#: src/container.c:1628
 msgid "Both ends"
 msgstr "Beide zijden"
 
-#: src/container.c:1641
+#: src/container.c:1633
 msgid "End"
 msgstr "Einde"
 
-#: src/container.c:1646 src/focus.c:1052
+#: src/container.c:1638 src/focus.c:1052
 msgid "None"
 msgstr "Geen"
 
-#: src/container.c:1656
+#: src/container.c:1648
 msgid "Show icon names"
 msgstr "Toon icoon namen"
 
-#: src/container.c:1665
+#: src/container.c:1657
 msgid "Animation mode:"
 msgstr ""
 
-#: src/container.c:1668 src/desktops.c:2731
+#: src/container.c:1660 src/desktops.c:2782
 msgid "Off"
 msgstr "Uitgeschakeld"
 
-#: src/container.c:1673
+#: src/container.c:1665
 msgid "Whirl"
 msgstr ""
 
-#: src/container.c:1678 src/settings.c:126 src/settings.c:131
+#: src/container.c:1670 src/settings.c:126 src/settings.c:131
 #: src/settings.c:392
 msgid "Box"
 msgstr "Box"
 
-#: src/container.c:1686
+#: src/container.c:1678
 msgid "Animation speed:"
 msgstr ""
 
-#: src/container.c:1701
+#: src/container.c:1693
 msgid "Icon image display policy (if one operation fails, try the next):"
 msgstr "Icoon plaatje instellingen (als de ene niet gaat, probeer volgende):"
 
-#: src/container.c:1706
+#: src/container.c:1698
 msgid "Snapshot Windows, Use application icon, Use Enlightenment Icon"
 msgstr "Snapshot venster, Applicatie icoon, Enlightenment icoon"
 
-#: src/container.c:1713
+#: src/container.c:1705
 msgid "Use application icon, Use Enlightenment Icon, Snapshot Window"
 msgstr "Applicatie icoon, Enlightenment icoon, Snapshot venster"
 
-#: src/container.c:1718
+#: src/container.c:1710
 msgid "Use Enlightenment Icon, Snapshot Window"
 msgstr "Enlightenment icoon, Snapshot venster"
 
-#: src/container.c:1731
+#: src/container.c:1723
 msgid ""
 "Enlightenment Iconbox\n"
 "Settings Dialog"
@@ -557,7 +471,7 @@ msgstr ""
 msgid "Focused/unfocused opacity: %d/%d %%"
 msgstr "Gefocust/ongefocuste doorzichtigheid: %d/%d %%"
 
-#: src/desktops.c:136
+#: src/desktops.c:143
 msgid ""
 "Hold down the mouse button and drag\n"
 "the mouse to be able to drag the desktop\n"
@@ -575,7 +489,7 @@ msgstr ""
 "Klik op de middelste muisknop voor een lijst\n"
 "van de applicaties die nu draaien.\n"
 
-#: src/desktops.c:147
+#: src/desktops.c:154
 msgid ""
 "This is the Root desktop.\n"
 "You cannot drag the root desktop around.\n"
@@ -591,7 +505,7 @@ msgstr ""
 "Klik met de muisknop om een lijst van alle\n"
 "programma's te krijgen die nu actief zijn.\n"
 
-#: src/desktops.c:165
+#: src/desktops.c:172
 msgid ""
 "Click here to raise this desktop\n"
 "to the top."
@@ -599,7 +513,7 @@ msgstr ""
 "Klik hier om deze desktop naar\n"
 "boven te brengen"
 
-#: src/desktops.c:177
+#: src/desktops.c:184
 msgid ""
 "Click here to lower this desktop\n"
 "to the bottom."
@@ -607,55 +521,55 @@ msgstr ""
 "Klik hier om deze desktop naar\n"
 "beneden te brengen"
 
-#: src/desktops.c:2496
+#: src/desktops.c:2547
 msgid "Number of virtual desktops:"
 msgstr "Aantal virtuele desktops:"
 
-#: src/desktops.c:2522
+#: src/desktops.c:2573
 msgid "Slide desktops around when changing"
 msgstr "Schuif desktops bij veranderen"
 
-#: src/desktops.c:2528
+#: src/desktops.c:2579
 msgid "Desktop Slide speed:"
 msgstr "Bureaublad Glijsnelheid:"
 
-#: src/desktops.c:2542
+#: src/desktops.c:2593
 msgid "Wrap desktops around"
 msgstr "Bureaubladen rondwikkelen"
 
-#: src/desktops.c:2550
+#: src/desktops.c:2601
 msgid "Display desktop dragbar"
 msgstr "Toon de desktop sleurstrip"
 
-#: src/desktops.c:2556
+#: src/desktops.c:2607
 msgid "Drag bar position:"
 msgstr "Sleurstrip positie:"
 
-#: src/desktops.c:2560
+#: src/desktops.c:2611
 msgid "Top"
 msgstr "Boven"
 
-#: src/desktops.c:2566
+#: src/desktops.c:2617
 msgid "Bottom"
 msgstr "Onder"
 
-#: src/desktops.c:2572 src/pager.c:1902 src/pager.c:1927 src/pager.c:1952
+#: src/desktops.c:2623 src/pager.c:1902 src/pager.c:1927 src/pager.c:1952
 msgid "Left"
 msgstr "Links"
 
-#: src/desktops.c:2578 src/pager.c:1914 src/pager.c:1939 src/pager.c:1964
+#: src/desktops.c:2629 src/pager.c:1914 src/pager.c:1939 src/pager.c:1964
 msgid "Right"
 msgstr "Rechts"
 
-#: src/desktops.c:2586 src/menus-misc.c:564
+#: src/desktops.c:2637 src/menus-misc.c:566
 msgid "Desks"
 msgstr "Bureau's"
 
-#: src/desktops.c:2586
+#: src/desktops.c:2637
 msgid "Multiple Desktop Settings"
 msgstr "Meerdere Desktop Instellingen"
 
-#: src/desktops.c:2590
+#: src/desktops.c:2641
 msgid ""
 "Enlightenment Multiple Desktop\n"
 "Settings Dialog"
@@ -663,39 +577,39 @@ msgstr ""
 "Enlightenment Meerdere Bureaubladen\n"
 "Instellingendialoog"
 
-#: src/desktops.c:2685
+#: src/desktops.c:2736
 msgid "Virtual Desktop size:"
 msgstr "Virtuele Desktop grootte:"
 
-#: src/desktops.c:2721
+#: src/desktops.c:2772
 msgid "Wrap virtual desktops around"
 msgstr "Wikkel virtuele bureaubladen rond"
 
-#: src/desktops.c:2728
+#: src/desktops.c:2779
 msgid "Edge Flip Mode:"
 msgstr "Rand Flip Mode:"
 
-#: src/desktops.c:2736
+#: src/desktops.c:2787
 msgid "On"
 msgstr "Ingeschakeld"
 
-#: src/desktops.c:2741
+#: src/desktops.c:2792
 msgid "Only when moving window"
 msgstr "Enkel bij het verplaatsen van een venster"
 
-#: src/desktops.c:2747
+#: src/desktops.c:2798
 msgid "Resistance at edge of screen:"
 msgstr "Weerstand aan de rand van het scherm:"
 
-#: src/desktops.c:2759
+#: src/desktops.c:2810
 msgid "Areas"
 msgstr "Gebieden"
 
-#: src/desktops.c:2759
+#: src/desktops.c:2810
 msgid "Virtual Desktop Settings"
 msgstr "Virtuele Dektop Instellingen"
 
-#: src/desktops.c:2763
+#: src/desktops.c:2814
 msgid ""
 "Enlightenment Virtual Desktop\n"
 "Settings Dialog"
@@ -1023,7 +937,7 @@ msgstr "Algemene instellingen:"
 msgid "Swap Window Locations"
 msgstr "Vensterlocaties verwisselen"
 
-#: src/groups.c:1117 src/menus-misc.c:623 config/strings.c:138
+#: src/groups.c:1117 src/menus-misc.c:625 config/strings.c:139
 msgid "Groups"
 msgstr "Groepen"
 
@@ -1123,11 +1037,11 @@ msgstr ""
 "Het is hoogst onwaarschijnlijk om een Bus Fout te veroorzaken\n"
 "op volledig werkende hardware.\n"
 
-#: src/hints.c:590
+#: src/hints.c:544
 msgid "Selection Error!"
 msgstr "Selectiefout!"
 
-#: src/hints.c:590
+#: src/hints.c:544
 #, c-format
 msgid "Could not acquire selection: %s"
 msgstr "Kon Selectie niet verkrijgen: %s"
@@ -1140,28 +1054,28 @@ msgstr "Icoonbox Opties"
 msgid "Iconbox Settings"
 msgstr "Icoonbox instellingen"
 
-#: src/ipc.c:198 src/ipc.c:1506 src/ipc.c:1513 src/theme.c:407
+#: src/ipc.c:217 src/ipc.c:1575 src/ipc.c:1582 src/theme.c:407
 msgid "Message"
 msgstr "Bericht"
 
-#: src/ipc.c:1506 src/ipc.c:1513
+#: src/ipc.c:1575 src/ipc.c:1582
 #, c-format
 msgid "e16 was built without %s support"
 msgstr "e16 is gebouwd zonder %s ondersteuning"
 
-#: src/ipc.c:1507
+#: src/ipc.c:1576
 msgid "composite"
 msgstr "composiet"
 
-#: src/ipc.c:1514
+#: src/ipc.c:1583
 msgid "sound"
 msgstr "geluid"
 
-#: src/ipc.c:1858
+#: src/ipc.c:1937
 msgid "Enlightenment IPC Commands Help\n"
 msgstr "Enlightenment IPC Commando's hulp\n"
 
-#: src/ipc.c:1862
+#: src/ipc.c:1941
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
@@ -1171,20 +1085,20 @@ msgstr ""
 "Gebruik \"help <commando>\" voor een individuele beschrijving\n"
 "\n"
 
-#: src/ipc.c:1864 src/ipc.c:1888 src/ipc.c:1900
+#: src/ipc.c:1943 src/ipc.c:1967 src/ipc.c:1979
 msgid "Commands currently available:\n"
 msgstr "Commando's momenteel beschikbaar:\n"
 
-#: src/ipc.c:1886
+#: src/ipc.c:1965
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr ""
 "Gebruik \"help full\" voor een volledige beschrijving van elk commando\n"
 
-#: src/ipc.c:1887
+#: src/ipc.c:1966
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr "Gebruik \"help <commando>\" voor een individuele beschrijving\n"
 
-#: src/ipc.c:1889 src/ipc.c:1901
+#: src/ipc.c:1968 src/ipc.c:1980
 msgid "         <command>     : <description>\n"
 msgstr "         <commando>     : <beschrijving>\n"
 
@@ -1251,40 +1165,40 @@ msgstr ""
 msgid "Magnifier"
 msgstr "Vergrootglas"
 
-#: src/menus-misc.c:408 config/strings.c:79
+#: src/menus-misc.c:410 config/strings.c:79
 msgid "Backgrounds"
 msgstr "Achtergronden"
 
-#: src/menus-misc.c:446 config/strings.c:91 config/strings.c:113
+#: src/menus-misc.c:448 config/strings.c:91 config/strings.c:113
 msgid "Themes"
 msgstr "Thema's"
 
-#: src/menus-misc.c:463
+#: src/menus-misc.c:465
 msgid "Border"
 msgstr "Rand"
 
-#: src/menus-misc.c:525
+#: src/menus-misc.c:527
 msgid "Window List"
 msgstr "Vensterlijst"
 
-#: src/menus-misc.c:547
+#: src/menus-misc.c:549
 msgid "Go to this Desktop"
 msgstr "Ga naar dit Bureaublad"
 
-#: src/menus-misc.c:551 src/menus-misc.c:645
+#: src/menus-misc.c:553 src/menus-misc.c:647
 #, c-format
 msgid "Desktop %i"
 msgstr "Desktop %i"
 
-#: src/menus-misc.c:595
+#: src/menus-misc.c:597
 msgid "Show/Hide this group"
 msgstr "Toon/Verberg deze groep"
 
-#: src/menus-misc.c:599
+#: src/menus-misc.c:601
 msgid "Iconify this group"
 msgstr "Minimaliseer deze groep"
 
-#: src/menus-misc.c:609
+#: src/menus-misc.c:611
 #, c-format
 msgid "Group %i"
 msgstr "Groep %i"
@@ -1317,15 +1231,15 @@ msgstr ""
 "Enlightenment Menu\n"
 "Instellingendialoog"
 
-#: src/pager.c:989 config/strings.c:49 config/strings.c:121
+#: src/pager.c:989 config/strings.c:49 config/strings.c:122
 msgid "Window Options"
 msgstr "Venster Opties"
 
-#: src/pager.c:996 config/strings.c:51 config/strings.c:124
+#: src/pager.c:996 config/strings.c:51 config/strings.c:125
 msgid "Iconify"
 msgstr "Minimaliseer"
 
-#: src/pager.c:1004 config/strings.c:123
+#: src/pager.c:1004 config/strings.c:124
 msgid "Annihilate"
 msgstr "Annihileer"
 
@@ -1467,51 +1381,51 @@ msgstr ""
 "\n"
 "... Hoop ik.\n"
 
-#: src/session.c:602
+#: src/session.c:603
 msgid "Are you sure?"
 msgstr "Weet U het zeker?"
 
-#: src/session.c:604
+#: src/session.c:605
 msgid "Are you sure you wish to log out ?"
 msgstr "Weet U zeker dat U uit wil loggen ?"
 
-#: src/session.c:612
+#: src/session.c:613
 msgid "Yes, Shut Down"
 msgstr "Ja, Sluit Af"
 
-#: src/session.c:614
+#: src/session.c:615
 msgid "Yes, Reboot"
 msgstr "Ja, Herstarten"
 
-#: src/session.c:617
+#: src/session.c:618
 msgid "Yes, Log Out"
 msgstr "Ja, log uit"
 
-#: src/session.c:619
+#: src/session.c:620
 msgid "No"
 msgstr "Nee"
 
-#: src/session.c:740
+#: src/session.c:741
 msgid "Enable Session Script"
 msgstr "Sessiescript Inschakelen"
 
-#: src/session.c:745
+#: src/session.c:746
 msgid "Enable Logout Dialog"
 msgstr "Afmeldialoog Inschakelen"
 
-#: src/session.c:750
+#: src/session.c:751
 msgid "Enable Reboot/Halt on Logout"
 msgstr "Herstarten Inschakelen/Stoppen bij Afmelden"
 
-#: src/session.c:756
+#: src/session.c:757
 msgid "Session"
 msgstr "Sessie"
 
-#: src/session.c:756
+#: src/session.c:757
 msgid "Session Settings"
 msgstr "Sessie Instellingen"
 
-#: src/session.c:760
+#: src/session.c:761
 msgid ""
 "Enlightenment Session\n"
 "Settings Dialog"
@@ -1712,7 +1626,7 @@ msgstr "Schuivende opstartvensters inschakelen"
 msgid "Magwin zoom resolution"
 msgstr ""
 
-#: src/settings.c:548 config/strings.c:136 config/strings.c:152
+#: src/settings.c:548 config/strings.c:137 config/strings.c:153
 msgid "Miscellaneous"
 msgstr "Allerlei"
 
@@ -1860,87 +1774,87 @@ msgstr ""
 "server een, waarvan de auteur van Enlightenment geen toegang\n"
 "toe heeft, of nog nooit van gehoord heeft.\n"
 
-#: src/snaps.c:709
+#: src/snaps.c:717
 msgid "Title:"
 msgstr "Titel:"
 
-#: src/snaps.c:721
+#: src/snaps.c:729
 msgid "Name:"
 msgstr "Naam:"
 
-#: src/snaps.c:734
+#: src/snaps.c:742
 msgid "Class:"
 msgstr "Klasse:"
 
-#: src/snaps.c:747
+#: src/snaps.c:755
 msgid "Role:"
 msgstr "Rol:"
 
-#: src/snaps.c:760
+#: src/snaps.c:768
 msgid "Command:"
 msgstr "Commando:"
 
-#: src/snaps.c:799
+#: src/snaps.c:807
 msgid "Track Changes"
 msgstr "Wijzigingen volgen"
 
-#: src/snaps.c:804
+#: src/snaps.c:812
 msgid "Location"
 msgstr "Locatie"
 
-#: src/snaps.c:809
+#: src/snaps.c:817
 msgid "Border style"
 msgstr "Rand stijl"
 
-#: src/snaps.c:814 config/strings.c:175
+#: src/snaps.c:822 config/strings.c:176
 msgid "Size"
 msgstr "Grootte"
 
-#: src/snaps.c:819 config/strings.c:90 config/strings.c:112
+#: src/snaps.c:827 config/strings.c:90 config/strings.c:112
 msgid "Desktop"
 msgstr "Desktop"
 
-#: src/snaps.c:824
+#: src/snaps.c:832
 msgid "Shaded state"
 msgstr "Shaded staat"
 
-#: src/snaps.c:829
+#: src/snaps.c:837
 msgid "Sticky state"
 msgstr "Sticky staat"
 
-#: src/snaps.c:834
+#: src/snaps.c:842
 msgid "Stacking layer"
 msgstr "Laag van het venster"
 
-#: src/snaps.c:839
+#: src/snaps.c:847
 msgid "Window List Skip"
 msgstr "Vensterlijst Overslaan"
 
-#: src/snaps.c:845 config/strings.c:135 config/strings.c:163
+#: src/snaps.c:853 config/strings.c:136 config/strings.c:164
 msgid "Opacity"
 msgstr "Ondoorzichtigheid"
 
-#: src/snaps.c:850
+#: src/snaps.c:858
 msgid "Shadowing"
 msgstr "Schaduw"
 
-#: src/snaps.c:856
+#: src/snaps.c:864
 msgid "Flags"
 msgstr "Flags"
 
-#: src/snaps.c:875
+#: src/snaps.c:883
 msgid "Restart application on login"
 msgstr "Herstart applicatie bij inloggen"
 
-#: src/snaps.c:894
+#: src/snaps.c:902
 msgid "Remember this window's group(s)"
 msgstr "Herinner de groepen van dit venster"
 
-#: src/snaps.c:901
+#: src/snaps.c:909
 msgid "Remembered Application Attributes"
 msgstr "Onthouden Applicatie Attributen"
 
-#: src/snaps.c:905
+#: src/snaps.c:913
 msgid ""
 "Select the attributes of this\n"
 "window you wish to Remember\n"
@@ -1950,31 +1864,31 @@ msgstr ""
 "venster die je wilt onthouden\n"
 "vanaf nu\n"
 
-#: src/snaps.c:995
+#: src/snaps.c:1003
 msgid "Delete"
 msgstr "Verwijderen"
 
-#: src/snaps.c:1023
+#: src/snaps.c:1031
 msgid "Remembered Settings..."
 msgstr "Onthoude Instellingen..."
 
-#: src/snaps.c:1030
+#: src/snaps.c:1038
 msgid "Unused"
 msgstr "Ongebruikt"
 
-#: src/snaps.c:1043
+#: src/snaps.c:1051
 msgid "There are no active windows with remembered attributes."
 msgstr "Er zijn geen Actieve vensters met onthoude attributen."
 
-#: src/snaps.c:1049
+#: src/snaps.c:1057
 msgid "Remember"
 msgstr "Onthouden"
 
-#: src/snaps.c:1049
+#: src/snaps.c:1057
 msgid "Remembered Windows Settings"
 msgstr "Onthouden Venster Instellingen"
 
-#: src/snaps.c:1053
+#: src/snaps.c:1061
 msgid ""
 "Enlightenment Remembered\n"
 "Windows Settings Dialog"
@@ -1982,7 +1896,7 @@ msgstr ""
 "Enlightenment Onthouden \n"
 "Vensters Instellingendialoog"
 
-#: src/snaps.c:1156
+#: src/snaps.c:1172
 msgid "Error saving snaps file"
 msgstr "Fout bij het opslaan van snap bestanden"
 
@@ -2273,7 +2187,7 @@ msgstr "Snapshot"
 msgid "This button does nothing interesting."
 msgstr "Deze knop doet niets interessants."
 
-#: config/strings.c:47 config/strings.c:128
+#: config/strings.c:47 config/strings.c:129
 msgid "Shade/Unshade"
 msgstr "Schaduw/Ontschaduwen"
 
@@ -2289,7 +2203,7 @@ msgstr "Meer Knoppen"
 msgid "Show more buttons."
 msgstr "Geef meer knoppen weer."
 
-#: config/strings.c:56 config/strings.c:126
+#: config/strings.c:56 config/strings.c:127
 msgid "Raise"
 msgstr "Naar voorgrond"
 
@@ -2297,7 +2211,7 @@ msgstr "Naar voorgrond"
 msgid "Raise this window to the top."
 msgstr "Breng dit venster naar de voorgrond."
 
-#: config/strings.c:58 config/strings.c:127
+#: config/strings.c:58 config/strings.c:128
 msgid "Lower"
 msgstr "Naar achtergrond"
 
@@ -2305,7 +2219,7 @@ msgstr "Naar achtergrond"
 msgid "Lower this window."
 msgstr "Verlaag dit venster."
 
-#: config/strings.c:60 config/strings.c:129
+#: config/strings.c:60 config/strings.c:130
 msgid "Stick/Unstick"
 msgstr "Plak/Ontplak"
 
@@ -2383,7 +2297,7 @@ msgstr "Vergrootglas Weergeven"
 msgid "Enlightenment"
 msgstr "Enlightenment"
 
-#: config/strings.c:88 config/strings.c:189
+#: config/strings.c:88 config/strings.c:190
 msgid "User Menus"
 msgstr "Gebruiker Menu's"
 
@@ -2407,11 +2321,11 @@ msgstr "Over Enlightenment"
 msgid "About this theme"
 msgstr "Over dit thema"
 
-#: config/strings.c:96 config/strings.c:118 config/strings.c:193
+#: config/strings.c:96 config/strings.c:119 config/strings.c:194
 msgid "Restart"
 msgstr "Herstarten"
 
-#: config/strings.c:97 config/strings.c:119 config/strings.c:194
+#: config/strings.c:97 config/strings.c:120 config/strings.c:195
 msgid "Log Out"
 msgstr "Afmelden"
 
@@ -2451,211 +2365,301 @@ msgstr "Query alle cache gebruik"
 msgid "Regenerate Menus"
 msgstr "Menu's regenereren"
 
-#: config/strings.c:125
+#: config/strings.c:118
+#, fuzzy
+#| msgid "Theme Settings"
+msgid "Theme menu"
+msgstr "Thema Instellingen"
+
+#: config/strings.c:126
 msgid "Leave Alone"
 msgstr "Laat alleen"
 
-#: config/strings.c:130
+#: config/strings.c:131
 msgid "Remember..."
 msgstr "Onthouden..."
 
-#: config/strings.c:131
+#: config/strings.c:132
 msgid "Window Size"
 msgstr "Venster Grootte"
 
-#: config/strings.c:132
+#: config/strings.c:133
 msgid "Set Stacking"
 msgstr "Stacking Instellen"
 
-#: config/strings.c:133
+#: config/strings.c:134
 msgid "Set Border Style"
 msgstr "Stel Randstijl in"
 
-#: config/strings.c:134
+#: config/strings.c:135
 msgid "Window Groups"
 msgstr "Venstergroepen"
 
-#: config/strings.c:139
+#: config/strings.c:140
 msgid "Configure this window's group(s)"
 msgstr "Configureer dit venster's groep(en)"
 
-#: config/strings.c:140
+#: config/strings.c:141
 msgid "Start a new group"
 msgstr "Start een nieuwe groep"
 
-#: config/strings.c:141
+#: config/strings.c:142
 msgid "Add this window to the current group"
 msgstr "Voeg dit venster toe aan de huidige groep"
 
-#: config/strings.c:142
+#: config/strings.c:143
 msgid "Select group to add this window to"
 msgstr "Selecteer de groep om dit venster aan toe te voegen"
 
-#: config/strings.c:143
+#: config/strings.c:144
 msgid "Remove this window from a group"
 msgstr "Verwijder dit venster van een groep"
 
-#: config/strings.c:144
+#: config/strings.c:145
 msgid "Destroy a group this window belongs to"
 msgstr "Vernietig de groep waar dit venster toe behoord"
 
-#: config/strings.c:146
+#: config/strings.c:147
 msgid "Stacking"
 msgstr "Stacking"
 
-#: config/strings.c:147
+#: config/strings.c:148
 msgid "Below"
 msgstr "Onder"
 
-#: config/strings.c:148
+#: config/strings.c:149
 msgid "Normal"
 msgstr "Normaal"
 
-#: config/strings.c:149
+#: config/strings.c:150
 msgid "Above"
 msgstr "Boven"
 
-#: config/strings.c:150
+#: config/strings.c:151
 msgid "On Top"
 msgstr "Bovenop"
 
-#: config/strings.c:153
+#: config/strings.c:154
 msgid "Toggle Skip Window Lists"
 msgstr "Wissel tussen vensterlijst overslaan"
 
-#: config/strings.c:154
+#: config/strings.c:155
 msgid "Toggle Fixed Position"
 msgstr "Wissel tussen vaste positie"
 
-#: config/strings.c:155
+#: config/strings.c:156
 msgid "Toggle Fixed Size"
 msgstr "Wissel tussen vaste grootte"
 
-#: config/strings.c:156
+#: config/strings.c:157
 msgid "Toggle Never Focus"
 msgstr "Wissel tussen nooit focussen"
 
-#: config/strings.c:157
+#: config/strings.c:158
 msgid "Toggle Click to Focus"
 msgstr "Wissel tussen klikken om te focussen"
 
-#: config/strings.c:158
+#: config/strings.c:159
 msgid "Toggle Never Use Area"
 msgstr "Wissel tussen Gebied nooit gebruiken"
 
-#: config/strings.c:159
+#: config/strings.c:160
 #, fuzzy
 msgid "Toggle Ignore Arrange"
 msgstr "Wissel tussen Gebied nooit gebruiken"
 
-#: config/strings.c:160
+#: config/strings.c:161
 msgid "Toggle Button Grabs"
 msgstr "Wissel tussen Knop Grepen"
 
-#: config/strings.c:161
+#: config/strings.c:162
 msgid "Toggle Autoshade"
 msgstr "Wissel tussen Autoschaduw"
 
-#: config/strings.c:164
+#: config/strings.c:165
 msgid "Default"
 msgstr "Standaard"
 
-#: config/strings.c:165
+#: config/strings.c:166
 msgid "20%"
 msgstr "20%"
 
-#: config/strings.c:166
+#: config/strings.c:167
 msgid "40%"
 msgstr "40%"
 
-#: config/strings.c:167
+#: config/strings.c:168
 msgid "60%"
 msgstr "60%"
 
-#: config/strings.c:168
+#: config/strings.c:169
 msgid "80%"
 msgstr "80%"
 
-#: config/strings.c:169
+#: config/strings.c:170
 msgid "100%"
 msgstr "100%"
 
-#: config/strings.c:170
+#: config/strings.c:171
 msgid "Focused opacity 100%"
 msgstr "Focus opaciteit 100%"
 
-#: config/strings.c:171
+#: config/strings.c:172
 msgid "Focused opacity follows unfocused"
 msgstr "Focus opaciteit volgt ongefocust"
 
-#: config/strings.c:172
+#: config/strings.c:173
 msgid "Toggle Fading"
 msgstr "Wissel tussen Fading"
 
-#: config/strings.c:173
+#: config/strings.c:174
 msgid "Toggle Shadows"
 msgstr "Wissel tussen Schaduws"
 
-#: config/strings.c:176
+#: config/strings.c:177
 msgid "Max Size Toggle"
 msgstr "Wissel tussen maximale grootte"
 
-#: config/strings.c:177
+#: config/strings.c:178
 msgid "Available Max Size Toggle"
 msgstr "Wissel tussen Beschikbare maximale grootte"
 
-#: config/strings.c:178
+#: config/strings.c:179
 msgid "Absolute Max Size Toggle"
 msgstr "Wissel tussen Absolute maximale grootte"
 
-#: config/strings.c:179
+#: config/strings.c:180
 msgid "Span Xinerama Screens"
 msgstr "Overlap Xinerama Schermen"
 
-#: config/strings.c:180
+#: config/strings.c:181
 msgid "Max Height Toggle"
 msgstr "Maximale Hoogte instellen"
 
-#: config/strings.c:181
+#: config/strings.c:182
 msgid "Available Max Height Toggle"
 msgstr "Beschikbare Maximale hoogte instellen"
 
-#: config/strings.c:182
+#: config/strings.c:183
 msgid "Absolute Max Height Toggle"
 msgstr "Absolute Maximale hoogte instellen"
 
-#: config/strings.c:183
+#: config/strings.c:184
 msgid "Max Width Toggle"
 msgstr "Maximale breedte instellen"
 
-#: config/strings.c:184
+#: config/strings.c:185
 msgid "Available Max Width Toggle"
 msgstr "Beschikbare Maximale Breedte instellen"
 
-#: config/strings.c:185
+#: config/strings.c:186
 msgid "Absolute Max Width Toggle"
 msgstr "Absolute Maximale Breedte instellen"
 
-#: config/strings.c:186
+#: config/strings.c:187
 msgid "Fullscreen/Normal"
 msgstr "Volledig Scherm/Normaal"
 
-#: config/strings.c:187
+#: config/strings.c:188
 msgid "Zoom/Unzoom"
 msgstr "Inzoomen/Uitzoomen"
 
-#: config/strings.c:190
+#: config/strings.c:191
 msgid "User Application List"
 msgstr "Gebruiker Applicatielijst"
 
-#: config/strings.c:191
+#: config/strings.c:192
 #, fuzzy
 msgid "Applications"
 msgstr "Gebruiker Applicatielijst"
 
-#: config/strings.c:192
+#: config/strings.c:193
 msgid "Epplets"
 msgstr "Epplets"
+
+#, c-format
+#~ msgid ""
+#~ "There was an error running the program:\n"
+#~ "%s\n"
+#~ "This program could not be executed.\n"
+#~ "This is because the file does not exist.\n"
+#~ msgstr ""
+#~ "Er is een fout opgetreden bij het uitvoeren van:\n"
+#~ "%s\n"
+#~ "Dit programma kon niet uitgevoerd worden.\n"
+#~ "Dit omdat het bestand niet bestaat.\n"
+
+#, c-format
+#~ msgid ""
+#~ "There was an error running the program:\n"
+#~ "%s\n"
+#~ "This program could not be executed.\n"
+#~ "This is most probably because this program is not in the\n"
+#~ "path for your shell which is %s. I suggest you read the manual\n"
+#~ "page for that shell and read up how to change or add to your\n"
+#~ "execution path.\n"
+#~ msgstr ""
+#~ "Er is een fout opgetreden bij het uitvoeren van:\n"
+#~ "%s\n"
+#~ "Dit programma kon niet uitgevoerd worden.\n"
+#~ "De meest waarschijnlijke reden hiervoor is dat het programma\n"
+#~ "niet in het pad voor uw shell staat, dat is %s. Ik suggereer dat \n"
+#~ "U de documentatie voor uw sheel bekijkt hoe U het pad voor\n"
+#~ "uivoerbare programma's moet aanpassen.\n"
+
+#, c-format
+#~ msgid ""
+#~ "There was an error running the program:\n"
+#~ "%s\n"
+#~ "This program could not be executed.\n"
+#~ "I am unsure as to why you could not do this. The file exists,\n"
+#~ "is a file, and you are allowed to execute it. I suggest you look\n"
+#~ "into this.\n"
+#~ msgstr ""
+#~ "Er is een fout opgetreden bij het uitvoeren van:\n"
+#~ "%s\n"
+#~ "Dit programma kon niet uitgevoerd worden.\n"
+#~ "Ik weet niet hoe het komt dat het niet kan. Het bestand bestaat,\n"
+#~ "en U bent gerechtigd om het uit te voeren. Ik suggereer dat\n"
+#~ "U hier naar kijkt.\n"
+
+#, c-format
+#~ msgid ""
+#~ "There was an error running the program:\n"
+#~ "%s\n"
+#~ "This program could not be executed.\n"
+#~ "This is because the file exists, is a file, but you are unable\n"
+#~ "to execute it because you do not have execute access to this file.\n"
+#~ msgstr ""
+#~ "Er is een fout opgetreden bij het uitvoeren van:\n"
+#~ "%s\n"
+#~ "Dit programma kon niet uitgevoerd worden.\n"
+#~ "De reden hiervoor is dat het bestand bestaat, maar U kan het\n"
+#~ "niet uitvoeren omdat U geen uitvoer rechten voor het bestand heeft.\n"
+
+#, c-format
+#~ msgid ""
+#~ "There was an error running the program:\n"
+#~ "%s\n"
+#~ "This program could not be executed.\n"
+#~ "This is because the file is in fact a directory.\n"
+#~ msgstr ""
+#~ "Er is een fout opgetreden bij het uitvoeren van:\n"
+#~ "%s\n"
+#~ "Dit programma kon niet uitgevoerd worden.\n"
+#~ "De reden hiervoor is dat het bestand in werkelijkheid een directory is.\n"
+
+#, c-format
+#~ msgid ""
+#~ "There was an error running the program:\n"
+#~ "%s\n"
+#~ "This program could not be executed.\n"
+#~ "This is because the file is not a regular file.\n"
+#~ msgstr ""
+#~ "Er was een fout bij het uitvoeren van het programma:\n"
+#~ "%s\n"
+#~ "Dit programma kon niet uitgevoerd worden.\n"
+#~ "Dit is omdat het bestand geen gewoon bestand is.\n"
 
 #~ msgid "Use saveunders to reduce window exposures"
 #~ msgstr "Gebruik saveunders om vensters minder te tonen"
