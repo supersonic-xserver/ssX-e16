@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2018 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -359,7 +359,6 @@ EobjRegisterOR(EX_Window xwin __UNUSED__, XWindowAttributes * pxwa __UNUSED__,
    EobjInit(eo, EOBJ_TYPE_EXT, win, pxwa->x, pxwa->y, pxwa->width, pxwa->height,
 	    0, NULL);
 
-   eo->shaped = 0;		/* FIXME - Assume unshaped for now */
    if (win->argb)
       eo->shadow = 0;
    EobjSetFloating(eo, 1);

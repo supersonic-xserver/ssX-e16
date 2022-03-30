@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1241,7 +1241,7 @@ ECompMgrWinNew(EObj * eo)
    if (eo->type == EOBJ_TYPE_EXT)
      {
 	XShapeSelectInput(disp, EobjGetXwin(eo), ShapeNotifyMask);
-	EShapeUpdate(EobjGetWin(eo));
+	eo->shaped = EShapeUpdate(EobjGetWin(eo));
      }
 
    if (eo->noredir)
