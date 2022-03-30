@@ -163,19 +163,25 @@ EobjSetFloating(EObj * eo, int floating)
    EobjSetLayer(eo, eo->layer);
 }
 
-#if 1				/* FIXME - Remove */
 int
-EobjIsShaped(const EObj * eo)
+EobjShadowOk(const EObj * eo)
 {
+   if (!eo->shadow)
+      return 0;			/* Shadow disabled by configuration */
+   if (eo->shaped)
+      return 0;			/* Shadow disabled if shaped */
+
    switch (eo->type)
      {
      default:
-	return 0;		/* FIXME */
+	break;
      case EOBJ_TYPE_EWIN:
-	return ((EWin *) eo)->state.shaped;
+	if (((EWin *) eo)->state.fullscreen)
+	   return 0;		/* Shadow disabled if fullscreen */
      }
+
+   return 1;
 }
-#endif
 
 #if USE_GLX
 #define WINTYPE(t) ((t == EOBJ_TYPE_GLX) ? WIN_TYPE_GLX : WIN_TYPE_INTERNAL)

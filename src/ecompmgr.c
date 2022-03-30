@@ -745,10 +745,7 @@ ECompMgrWinSetExtents(EObj * eo)
       cw->extents = ERegionCreate();
 
 #if ENABLE_SHADOWS
-   cw->has_shadow = (Mode_compmgr.shadow_mode != ECM_SHADOWS_OFF) &&
-      eo->shadow && (EShapeCheck(EobjGetWin(eo)) >= 0);
-   if (!cw->has_shadow)
-      goto skip_shadow;
+   cw->has_shadow = 0;
 
    switch (Mode_compmgr.shadow_mode)
      {
@@ -757,6 +754,9 @@ ECompMgrWinSetExtents(EObj * eo)
 
      case ECM_SHADOWS_SHARP:
      case ECM_SHADOWS_ECHO:
+	if (!EobjShadowOk(eo))
+	   goto skip_shadow;
+
 	cw->shadow_dx = Conf_compmgr.shadows.offset_x;
 	cw->shadow_dy = Conf_compmgr.shadows.offset_y;
 	cw->shadow_width = cw->rcw;
@@ -764,7 +764,7 @@ ECompMgrWinSetExtents(EObj * eo)
 	break;
 
      case ECM_SHADOWS_BLURRED:
-	if (EobjIsShaped(eo) /* || cw->mode == WINDOW_ARGB */ )
+	if (!EobjShadowOk(eo))
 	   goto skip_shadow;
 
 	if (!gaussianMap)
@@ -802,6 +802,7 @@ ECompMgrWinSetExtents(EObj * eo)
    if (sr.y + sr.height > r.y + r.height)
       r.height = sr.y + sr.height - r.y;
 
+   cw->has_shadow = 1;
    ERegionSetRect(cw->extents, r.x, r.y, r.width, r.height);
    goto done;
 

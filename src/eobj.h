@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -186,7 +186,7 @@ void                EobjChangeOpacity(EObj * eo, unsigned int opacity);
 void                EobjChangeShadow(EObj * eo, int shadow);
 void                EobjSetLayer(EObj * eo, int layer);
 void                EobjSetFloating(EObj * eo, int floating);
-int                 EobjIsShaped(const EObj * eo);
+int                 EobjShadowOk(const EObj * eo);
 
 void                EobjsOpacityUpdate(int op_or);
 
