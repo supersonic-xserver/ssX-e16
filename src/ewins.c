@@ -224,7 +224,7 @@ EwinManage(EWin * ewin)
    if (ewin->state.docked)
       ewin->inh_wm.b.border = 1;
 
-   ewin->serial = NextRequest(disp);
+   ewin->serial = Mode.events.serial;
 
    frame = EoGetWin(ewin);
    if (!frame)
@@ -2435,8 +2435,8 @@ _EwinEventEwinCheck(const char *txt, XEvent * ev, EWin * ewin)
    ser_diff = (int)(ev->xany.serial - ewin->serial);
    if (ser_diff < 0 && ser_diff > -1000)
      {
-	Eprintf("%s: %#lx: Ignore obsolete event %d\n", txt,
-		ev->xany.window, ev->type);
+	Eprintf("%s: %#lx: Ignore obsolete event %d (%#lx<%#x)\n", txt,
+		ev->xany.window, ev->type, ev->xany.serial, ewin->serial);
 	return NULL;
      }
 
