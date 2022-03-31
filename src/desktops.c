@@ -3021,7 +3021,7 @@ static const IpcItem DesksIpcArray[] = {
     "  desk this            Goto this desktop\n"
     "  desk lower <d>       Lower desktop\n"
     "  desk raise <d>       Raise desktop\n"
-    "  desk arrange         Arrange windows on desktop\"\n"
+    "  desk arrange         Arrange windows on desktop\n"
     "  desk clear [on/off]  \"Show Desktop\"\n"}
    ,
    {
