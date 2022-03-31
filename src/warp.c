@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -411,7 +411,10 @@ WarpFocus(int delta)
    WarpFocusShow();
 
    if (!EwinIsOnScreen(ewin))
-      return;
+     {
+	WarpShapeDraw(NULL);
+	return;
+     }
 
    if (Conf.warplist.show_shape)
       WarpShapeDraw(ewin);
@@ -520,6 +523,7 @@ WarpFocusHandleEvent(Win win __UNUSED__, XEvent * ev, void *prm __UNUSED__)
 	switch (keysym)
 	  {
 	  case XK_Escape:
+	     WarpShapeDraw(NULL);
 	     WarpFocusHide();
 	     break;
 	  default:
