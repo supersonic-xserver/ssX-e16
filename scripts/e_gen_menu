@@ -111,6 +111,8 @@ def MakeEppsMenu(name):
 #       D(f'P = {dir}')
         if dir in dirs:
             continue
+        if not os.path.isdir(dir):
+            continue
         dirs.append(dir)
         D2(f'Looking for epplets in {dir}')
         for file in os.listdir(dir):
