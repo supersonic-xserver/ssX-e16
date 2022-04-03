@@ -248,7 +248,6 @@ EwinManage(EWin * ewin)
 			      ewin);
 
 	EobjListFocusAdd(&ewin->o, 1);
-	EobjListOrderAdd(&ewin->o);
      }
 
 #if USE_CONTAINER_WIN
@@ -425,7 +424,6 @@ EwinDestroy(EWin * ewin)
    Efree(lst);
 
    EwinCleanup(ewin);
-   EobjListOrderDel(&ewin->o);
    EobjListFocusDel(&ewin->o);
    EoFini(ewin);
 

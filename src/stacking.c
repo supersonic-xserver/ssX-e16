@@ -293,7 +293,7 @@ EobjListTypeCount(const EobjList * eol, int type)
 
 static EobjList     EobjListStack = EOBJ_LIST("Stack", 1);
 static EobjList     EwinListFocus = EOBJ_LIST("Focus", 0);
-static EobjList     EwinListOrder = EOBJ_LIST("Order", 0);
+static EobjList     EobjListOrder = EOBJ_LIST("Order", 0);
 
 static EObj        *const *
 EobjListGet(EobjList * eol, int *num)
@@ -500,17 +500,17 @@ EwinListStackIsRaised(const EWin * ewin)
 void
 EobjListOrderAdd(EObj * eo)
 {
-   EobjListAdd(&EwinListOrder, eo, 0);
+   EobjListAdd(&EobjListOrder, eo, 0);
 }
 
 void
 EobjListOrderDel(EObj * eo)
 {
-   EobjListDel(&EwinListOrder, eo);
+   EobjListDel(&EobjListOrder, eo);
 }
 
 EWin               *const *
 EwinListOrderGet(int *num)
 {
-   return (EWin * const *)EobjListGet(&EwinListOrder, num);
+   return _EwinListGet(&EobjListOrder, num);
 }

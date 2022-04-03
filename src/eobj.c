@@ -244,7 +244,10 @@ EobjInit(EObj * eo, int type, Win win, int x, int y, int w, int h,
    ECompMgrWinNew(eo);
 #endif
    if (EobjGetXwin(eo) != WinGetXwin(VROOT))
-      EobjListStackAdd(eo, 1);
+     {
+	EobjListOrderAdd(eo);
+	EobjListStackAdd(eo, 1);
+     }
 
    if (EDebug(EDBUG_TYPE_EWINS))
       Eprintf("%s: %#x %s\n", __func__, EobjGetXwin(eo), EobjGetName(eo));
@@ -257,6 +260,7 @@ EobjFini(EObj * eo)
       Eprintf("%s: %#x %s\n", __func__, EobjGetXwin(eo), EobjGetName(eo));
 
    EobjListStackDel(eo);
+   EobjListOrderDel(eo);
 
 #if USE_COMPOSITE
    if (!eo->external)
