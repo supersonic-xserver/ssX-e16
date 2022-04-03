@@ -204,6 +204,7 @@ void                EobjListFocusDel(EObj * eo);
 int                 EobjListFocusRaise(EObj * eo);
 void                EobjListOrderAdd(EObj * eo);
 void                EobjListOrderDel(EObj * eo);
+EObj               *const *EobjListOrderGet(int *num);
 
 /* Hmmm. */
 int                 OpacityFix(int op, int op_0);

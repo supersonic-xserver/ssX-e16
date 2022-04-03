@@ -509,6 +509,12 @@ EobjListOrderDel(EObj * eo)
    EobjListDel(&EobjListOrder, eo);
 }
 
+EObj               *const *
+EobjListOrderGet(int *num)
+{
+   return EobjListGet(&EobjListOrder, num);
+}
+
 EWin               *const *
 EwinListOrderGet(int *num)
 {

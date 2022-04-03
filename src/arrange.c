@@ -731,7 +731,7 @@ ArrangeGetRectList(RectBox ** pfixed, int *nfixed, RectBox ** pfloating,
    fixed = floating = NULL;
    nfix = nflt = 0;
 
-   lst = EobjListStackGet(&num);
+   lst = EobjListOrderGet(&num);
    if (!lst)
       goto done;
 
