@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -940,9 +940,9 @@ ArrangeEwins(const char *params)
 {
    const char         *type;
    int                 method;
-   int                 i, nfix, nflt, num;
+   int                 i, nfix, nflt;
    RectBox            *fixed, *ret, *floating;
-   EWin               *const *lst, *ewin;
+   EWin               *ewin;
 
    type = params;
    method = ARRANGE_BY_SIZE;
@@ -960,10 +960,6 @@ ArrangeEwins(const char *params)
      }
 
    fixed = floating = ret = NULL;
-
-   lst = EwinListGetAll(&num);
-   if (!lst)
-      goto done;
 
    ArrangeGetRectList(&fixed, &nfix, &floating, &nflt, NULL);
 
