@@ -168,16 +168,18 @@ EobjShadowOk(const EObj * eo)
 {
    if (!eo->shadow)
       return 0;			/* Shadow disabled by configuration */
-   if (eo->shaped)
-      return 0;			/* Shadow disabled if shaped */
 
    switch (eo->type)
      {
      default:
+	if (eo->shaped)
+	   return 0;		/* Shadow disabled if shaped */
 	break;
      case EOBJ_TYPE_EWIN:
 	if (((EWin *) eo)->state.fullscreen)
 	   return 0;		/* Shadow disabled if fullscreen */
+	if (((EWin *) eo)->state.shaped)
+	   return 0;		/* Shadow disabled if client is shaped */
      }
 
    return 1;
