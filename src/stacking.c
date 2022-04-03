@@ -273,7 +273,7 @@ EobjListTypeCount(const EobjList * ewl, int type)
 /*
  * The global object/client lists
  */
-static EobjList     EwinListStack = { "Stack", 0, 0, NULL, 1, 0 };
+static EobjList     EobjListStack = { "Stack", 0, 0, NULL, 1, 0 };
 static EobjList     EwinListFocus = { "Focus", 0, 0, NULL, 0, 1 };
 static EobjList     EwinListOrder = { "Order", 0, 0, NULL, 0, 2 };
 
@@ -287,43 +287,43 @@ EobjListGet(EobjList * ewl, int *num)
 int
 EobjListStackCheck(EObj * eo)
 {
-   return EobjListGetIndex(&EwinListStack, eo);
+   return EobjListGetIndex(&EobjListStack, eo);
 }
 
 EObj               *
 EobjListStackFind(EX_Window win)
 {
-   return EobjListFind(&EwinListStack, win);
+   return EobjListFind(&EobjListStack, win);
 }
 
 EObj               *const *
 EobjListStackGet(int *num)
 {
-   return EobjListGet(&EwinListStack, num);
+   return EobjListGet(&EobjListStack, num);
 }
 
 void
 EobjListStackAdd(EObj * eo, int ontop)
 {
-   EobjListAdd(&EwinListStack, eo, ontop);
+   EobjListAdd(&EobjListStack, eo, ontop);
 }
 
 void
 EobjListStackDel(EObj * eo)
 {
-   EobjListDel(&EwinListStack, eo);
+   EobjListDel(&EobjListStack, eo);
 }
 
 int
 EobjListStackRaise(EObj * eo, int test)
 {
-   return EobjListRaise(&EwinListStack, eo, test);
+   return EobjListRaise(&EobjListStack, eo, test);
 }
 
 int
 EobjListStackLower(EObj * eo, int test)
 {
-   return EobjListLower(&EwinListStack, eo, test);
+   return EobjListLower(&EobjListStack, eo, test);
 }
 
 void
@@ -353,7 +353,7 @@ EwinListStackGet(int *num)
    int                 i, j;
    EObj               *eo;
 
-   ewl = &EwinListStack;
+   ewl = &EobjListStack;
 
    for (i = j = 0; i < ewl->nwins; i++)
      {
@@ -389,7 +389,7 @@ EwinListGetForDesk(int *num, Desk * dsk)
    int                 i, j;
    EObj               *eo;
 
-   ewl = &EwinListStack;
+   ewl = &EobjListStack;
 
    for (i = j = 0; i < ewl->nwins; i++)
      {
@@ -419,7 +419,7 @@ EobjListStackGetForDesk(int *num, Desk * dsk)
    int                 i, j;
    EObj               *eo;
 
-   ewl = &EwinListStack;
+   ewl = &EobjListStack;
 
    /* Too many - who cares. */
    if (nalloc < ewl->nwins)
@@ -448,7 +448,7 @@ EwinListStackIsRaised(const EWin * ewin)
    int                 i;
    const EObj         *eo, *eox;
 
-   ewl = &EwinListStack;
+   ewl = &EobjListStack;
    eox = EoObj(ewin);
 
    for (i = 0; i < ewl->nwins; i++)
