@@ -39,9 +39,11 @@ typedef struct {
    } o;
    struct {
       int                 nalloc;
+      int                 nwins;
       EWin              **list;
    } e;
    char                layered;
+   char                changed;	/* Used by _EwinListGet() */
 } EobjList;
 
 static int          EobjListRaise(EobjList * eol, EObj * eo, int test);
@@ -54,7 +56,7 @@ EobjListShow(const char *txt, EobjList * eol)
    int                 i;
    EObj               *eo;
 
-   if (!EDebug(EDBUG_TYPE_STACKING))
+   if (EDebug(EDBUG_TYPE_STACKING) < 2)
       return;
 
    Eprintf("%s-%s:\n", eol->name, txt);
@@ -132,6 +134,8 @@ EobjListAdd(EobjList * eol, EObj * eo, int ontop)
 	eol->o.nobjs++;
      }
 
+   eol->changed = 1;
+
    EobjListShow("EobjListAdd", eol);
 }
 
@@ -157,6 +161,8 @@ EobjListDel(EobjList * eol, EObj * eo)
 	EFREE_NULL(eol->o.list);
 	eol->o.nalloc = 0;
      }
+
+   eol->changed = 1;
 
    EobjListShow("EobjListDel", eol);
 }
@@ -192,6 +198,7 @@ EobjListLower(EobjList * eol, EObj * eo, int test)
 	eol->o.list[j] = eo;
 	if (eol->layered && eo->stacked > 0)
 	   DeskSetDirtyStack(eo->desk, eo);
+	eol->changed = 1;
      }
    else if (n < 0)
      {
@@ -199,6 +206,7 @@ EobjListLower(EobjList * eol, EObj * eo, int test)
 	eol->o.list[j] = eo;
 	if (eol->layered && eo->stacked > 0)
 	   DeskSetDirtyStack(eo->desk, eo);
+	eol->changed = 1;
      }
 
    EobjListShow("EobjListLower", eol);
@@ -236,6 +244,7 @@ EobjListRaise(EobjList * eol, EObj * eo, int test)
 	eol->o.list[j] = eo;
 	if (eol->layered && eo->stacked > 0)
 	   DeskSetDirtyStack(eo->desk, eo);
+	eol->changed = 1;
      }
    else if (n < 0)
      {
@@ -243,6 +252,7 @@ EobjListRaise(EobjList * eol, EObj * eo, int test)
 	eol->o.list[j] = eo;
 	if (eol->layered && eo->stacked > 0)
 	   DeskSetDirtyStack(eo->desk, eo);
+	eol->changed = 1;
      }
 
    EobjListShow("EobjListRaise", eol);
@@ -358,6 +368,12 @@ _EwinListGet(EobjList * eol, int *pnum)
    int                 i, j;
    EObj               *eo;
 
+   if (EDebug(EDBUG_TYPE_STACKING))
+      Eprintf("%s: %s changed=%d\n", __func__, eol->name, eol->changed);
+
+   if (!eol->changed)
+      goto done;
+
    for (i = j = 0; i < eol->o.nobjs; i++)
      {
 	eo = eol->o.list[i];
@@ -373,7 +389,11 @@ _EwinListGet(EobjList * eol, int *pnum)
 	eol->e.list[j++] = (EWin *) eo;
      }
 
-   *pnum = j;
+   eol->e.nwins = j;
+   eol->changed = 0;
+
+ done:
+   *pnum = eol->e.nwins;
    return eol->e.list;
 }
 
