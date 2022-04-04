@@ -335,10 +335,6 @@ struct _ewin {
 #define EwinGetIcccmClass(ewin)         EoGetClass(ewin)
 
 /* arrange.c */
-#define ARRANGE_VERBATIM    0
-#define ARRANGE_BY_SIZE     1
-#define ARRANGE_BY_POSITION 2
-
 void                SnapEwin(EWin * ewin, int dx, int dy, int *new_dx,
 			     int *new_dy);
 void                ArrangeEwin(EWin * ewin);

@@ -30,6 +30,10 @@
 
 #define DEBUG_ARRANGE 0
 
+#define ARRANGE_BY_ORDER    0
+#define ARRANGE_BY_SIZE     1
+#define ARRANGE_BY_POSITION 2
+
 typedef struct {
    void               *data;
    int                 x, y, w, h;
@@ -277,26 +281,22 @@ ArrangeFindSpaces(const int *xarray, int xsize, const int *yarray, int ysize,
    ;
 }
 
-static void
-ArrangeSwapList(RectBox * list, int a, int b)
+static int
+_rects_sort_size(const void *_a, const void *_b)
 {
-   RectBox             bb;
+   const RectBox      *a = _a;
+   const RectBox      *b = _b;
 
-   bb.data = list[a].data;
-   bb.x = list[a].x;
-   bb.y = list[a].y;
-   bb.w = list[a].w;
-   bb.h = list[a].h;
-   list[a].data = list[b].data;
-   list[a].x = list[b].x;
-   list[a].y = list[b].y;
-   list[a].w = list[b].w;
-   list[a].h = list[b].h;
-   list[b].data = bb.data;
-   list[b].x = bb.x;
-   list[b].y = bb.y;
-   list[b].w = bb.w;
-   list[b].h = bb.h;
+   return (b->w * b->h) - (a->h * a->w);
+}
+
+static int
+_rects_sort_pos(const void *_a, const void *_b)
+{
+   const RectBox      *a = _a;
+   const RectBox      *b = _b;
+
+   return (b->x + b->w / 2 + b->y + b->h / 2) - (a->x - a->y);
 }
 
 static void
@@ -313,7 +313,7 @@ ArrangeRects(const RectBox * fixed, int fixed_count, RectBox * floating,
    RectInfo           *spaces;
    int                 num_spaces, alloc_spaces;
    int                 sort;
-   int                 a1, a2;
+   int                 a1;
 
    tx1 = startx;
    ty1 = starty;
@@ -342,44 +342,14 @@ ArrangeRects(const RectBox * fixed, int fixed_count, RectBox * floating,
 
    switch (policy)
      {
-     case ARRANGE_VERBATIM:
+     default:
+     case ARRANGE_BY_ORDER:
 	break;
      case ARRANGE_BY_SIZE:
-	sort = 0;
-	while (!sort)
-	  {
-	     sort = 1;
-	     for (i = 0; i < floating_count - 1; i++)
-	       {
-		  a1 = floating[i].w * floating[i].h;
-		  a2 = floating[i + 1].w * floating[i + 1].h;
-		  if (a2 > a1)
-		    {
-		       sort = 0;
-		       ArrangeSwapList(floating, i, i + 1);
-		    }
-	       }
-	  }
+	qsort(floating, floating_count, sizeof(RectBox), _rects_sort_size);
 	break;
      case ARRANGE_BY_POSITION:
-	sort = 0;
-	while (!sort)
-	  {
-	     sort = 1;
-	     for (i = 0; i < floating_count - 1; i++)
-	       {
-		  a1 = floating[i].x + floating[i].y;
-		  a2 = (floating[i + 1].x + (floating[i + 1].w >> 1)) +
-		     (floating[i + 1].y + (floating[i + 1].h >> 1));
-		  if (a2 < a1)
-		    {
-		       sort = 0;
-		       ArrangeSwapList(floating, i, i + 1);
-		    }
-	       }
-	  }
-	break;
-     default:
+	qsort(floating, floating_count, sizeof(RectBox), _rects_sort_pos);
 	break;
      }
 
@@ -950,13 +920,9 @@ ArrangeEwins(const char *params)
    if (params)
      {
 	if (!strcmp("order", type))
-	  {
-	     method = ARRANGE_VERBATIM;
-	  }
+	   method = ARRANGE_BY_ORDER;
 	else if (!strcmp("place", type))
-	  {
-	     method = ARRANGE_BY_POSITION;
-	  }
+	   method = ARRANGE_BY_POSITION;
      }
 
    fixed = floating = ret = NULL;
