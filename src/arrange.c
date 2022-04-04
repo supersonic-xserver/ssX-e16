@@ -504,7 +504,7 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
    bottom_bound = top_bound + h;
    screen_snap_dist = Mode.constrained ? (w + h) : Conf.snap.screen_snap_dist;
 
-   lst1 = EwinListOrderGet(&num);
+   lst1 = EwinListGetAll(&num);
    if (!lst1)
       return;
 
