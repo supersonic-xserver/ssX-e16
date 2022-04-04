@@ -37,6 +37,10 @@ typedef struct {
       int                 nobjs;
       EObj              **list;
    } o;
+   struct {
+      int                 nalloc;
+      EWin              **list;
+   } e;
    char                layered;
 } EobjList;
 
@@ -348,16 +352,11 @@ EobjListFocusRaise(EObj * eo)
    return EobjListRaise(&EwinListFocus, eo, 0);
 }
 
-EWin               *const *
-EwinListStackGet(int *num)
+static EWin        *const *
+_EwinListGet(EobjList * eol, int *pnum)
 {
-   static EWin       **lst = NULL;
-   static int          nalloc = 0;
-   const EobjList     *eol;
    int                 i, j;
    EObj               *eo;
-
-   eol = &EobjListStack;
 
    for (i = j = 0; i < eol->o.nobjs; i++)
      {
@@ -365,17 +364,23 @@ EwinListStackGet(int *num)
 	if (eo->type != EOBJ_TYPE_EWIN)
 	   continue;
 
-	if (nalloc <= j)
+	if (eol->e.nalloc <= j)
 	  {
-	     nalloc += 16;	/* 16 at the time */
-	     lst = EREALLOC(EWin *, lst, nalloc);
+	     eol->e.nalloc += 16;	/* 16 at the time */
+	     eol->e.list = EREALLOC(EWin *, eol->e.list, eol->e.nalloc);
 	  }
 
-	lst[j++] = (EWin *) eo;
+	eol->e.list[j++] = (EWin *) eo;
      }
 
-   *num = j;
-   return lst;
+   *pnum = j;
+   return eol->e.list;
+}
+
+EWin               *const *
+EwinListStackGet(int *num)
+{
+   return _EwinListGet(&EobjListStack, num);
 }
 
 EWin               *const *
