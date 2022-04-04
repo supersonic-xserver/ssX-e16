@@ -32,7 +32,7 @@
 
 #define ARRANGE_BY_ORDER    0
 #define ARRANGE_BY_SIZE     1
-#define ARRANGE_BY_POSITION 2
+/* fine ARRANGE_BY_POSITION 2 */
 
 typedef struct {
    void               *data;
@@ -290,6 +290,7 @@ _rects_sort_size(const void *_a, const void *_b)
    return (b->w * b->h) - (a->h * a->w);
 }
 
+#ifdef ARRANGE_BY_POSITION
 static int
 _rects_sort_pos(const void *_a, const void *_b)
 {
@@ -298,6 +299,7 @@ _rects_sort_pos(const void *_a, const void *_b)
 
    return (b->x + b->w / 2 + b->y + b->h / 2) - (a->x - a->y);
 }
+#endif
 
 static void
 ArrangeRects(const RectBox * fixed, int fixed_count, RectBox * floating,
@@ -348,9 +350,11 @@ ArrangeRects(const RectBox * fixed, int fixed_count, RectBox * floating,
      case ARRANGE_BY_SIZE:
 	qsort(floating, floating_count, sizeof(RectBox), _rects_sort_size);
 	break;
+#ifdef ARRANGE_BY_POSITION
      case ARRANGE_BY_POSITION:
 	qsort(floating, floating_count, sizeof(RectBox), _rects_sort_pos);
 	break;
+#endif
      }
 
    /* for every floating rect in order, "fit" it into the sorted list */
@@ -921,8 +925,10 @@ ArrangeEwins(const char *params)
      {
 	if (!strcmp("order", type))
 	   method = ARRANGE_BY_ORDER;
+#ifdef ARRANGE_BY_POSITION
 	else if (!strcmp("place", type))
 	   method = ARRANGE_BY_POSITION;
+#endif
      }
 
    fixed = floating = ret = NULL;
