@@ -515,7 +515,6 @@ EWin               *const *EwinListStackGet(int *num);
 EWin               *const *EwinListFocusGet(int *num);
 EWin               *const *EwinListGetForDesk(int *num, Desk * d);
 EWin               *const *EwinListOrderGet(int *num);
-EWin               *EwinListStackGetTop(void);
 int                 EwinListStackIsRaised(const EWin * ewin);
 
 #define EwinListGetAll EwinListStackGet

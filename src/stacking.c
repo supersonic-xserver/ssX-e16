@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -440,27 +440,6 @@ EobjListStackGetForDesk(int *num, Desk * dsk)
    *num = j;
    return lst;
 }
-
-#if 0				/* Unused */
-EWin               *
-EwinListStackGetTop(void)
-{
-   const EobjList     *ewl;
-   int                 i;
-   EObj               *eo;
-
-   ewl = &EwinListStack;
-
-   for (i = 0; i < ewl->nwins; i++)
-     {
-	eo = ewl->list[i];
-	if (eo->type == EOBJ_TYPE_EWIN)
-	   return (EWin *) eo;
-     }
-
-   return NULL;
-}
-#endif
 
 int
 EwinListStackIsRaised(const EWin * ewin)
