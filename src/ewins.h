@@ -155,6 +155,7 @@ struct _ewin {
       unsigned            no_button_grabs:1;
       unsigned            autoshade:1;	/* Autoshade on mouse in/out */
       unsigned            no_argb:1;	/* Do not use ARGB frame */
+      unsigned            pass_pointer:1;	/* Pass thru pointer events */
 
       /* Derived from other properties */
       unsigned            no_border:1;	/* Never apply border (MWM/netwm type) */

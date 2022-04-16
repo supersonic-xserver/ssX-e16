@@ -856,6 +856,13 @@ IpcWinop(const WinOp * wop, EWin * ewin, const char *prm)
 	  }
 	goto ewin_update_snap_flags;
 
+     case EWIN_OP_PASS_POINTER:
+	on = ewin->props.pass_pointer;
+	SetEwinBoolean(wop->name, &on, param1, 1);
+	ewin->props.pass_pointer = on;
+	EWindowPassPointer(EoGetWin(ewin), on);
+	goto ewin_update_snap_flags;
+
      case EWIN_OP_INH_APP_FOCUS:
 	on = EwinInhGetApp(ewin, focus);
 	SetEwinBoolean(wop->name, &on, param1, 1);

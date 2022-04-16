@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1565,6 +1565,29 @@ EX_Pixmap
 EWindowGetShapePixmapInverted(Win win)
 {
    return _EWindowGetShapePixmap(win, 0, 1);
+}
+
+void
+EWindowPassPointer(Win win, int pass)
+{
+   XRectangle          r;
+
+   if (pass)
+     {
+	/* Set input shape to none */
+	XShapeCombineRectangles(disp, win->xwin, ShapeInput, 0,
+				0, NULL, 0, ShapeSet, Unsorted);
+     }
+   else
+     {
+	/* Set input shape to default */
+	r.x = r.y = 0;
+	r.width = win->w;
+	r.height = win->h;
+	XShapeCombineRectangles(disp, win->xwin, ShapeInput, 0,
+				0, &r, 1, ShapeSet, Unsorted);
+     }
+
 }
 
 EX_Pixmap

@@ -90,6 +90,7 @@ static const WinOp  winops[] = {
    {"no_button_grabs", 0, 1, 1, EWIN_OP_NO_BUTTON_GRABS},
    {"skiplists", 4, 1, 1, EWIN_OP_SKIP_LISTS},
    {"autoshade", 0, 1, 1, EWIN_OP_AUTOSHADE},
+   {"pass_ptr", 0, 1, 1, EWIN_OP_PASS_POINTER},
 
    {"no_app_focus", 0, 1, 1, EWIN_OP_INH_APP_FOCUS},
    {"no_app_move", 0, 1, 1, EWIN_OP_INH_APP_MOVE},
