@@ -3,14 +3,14 @@
 # Sylvain GIL <tootella@tootella.com>, 1999-2000.
 # Ludwig Noujarret <ludwig@noujarret.com>, 2004, 2005.
 # Tristan D. <trinine@free.fr>, 2007-2012.
-# similar <similar@orange.fr>, 2020, 2021.
+# similar <similar@orange.fr>, 2020, 2021, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2022-03-10 22:21+0100\n"
-"PO-Revision-Date: 2021-05-26 18:24+0200\n"
+"POT-Creation-Date: 2022-04-18 17:09+0200\n"
+"PO-Revision-Date: 2022-04-18 17:17+0200\n"
 "Last-Translator: Philippe Jean Guillaumie <similar@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Poedit 2.4.3\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: src/about.c:35
 #, c-format
@@ -49,24 +49,22 @@ msgstr ""
 "Kim Woelders - kim@woelders.dk\n"
 
 #: src/aclass.c:222 src/backgrounds.c:257 src/backgrounds.c:286
-#: src/borders.c:790 src/buttons.c:190 src/cursors.c:139 src/iclass.c:281
+#: src/borders.c:790 src/buttons.c:190 src/cursors.c:139 src/iclass.c:287
 #: src/tclass.c:119 src/tooltips.c:136
 #, c-format
 msgid "%u references remain"
 msgstr "Il reste %u références"
 
 #: src/actions.c:111 src/actions.c:132
-#, fuzzy, c-format
-#| msgid ""
-#| "There was an error running the program:\n"
-#| "%s"
+#, c-format
 msgid ""
 "There was a problem running the command\n"
 " '%s'\n"
 "Error: %m"
 msgstr ""
-"Il y a eu une erreur durant l'exécution du programme :\n"
-"%s"
+"Problème pendant l'exécution de la commande :\n"
+"« %s »\n"
+"Erreur : %m"
 
 #: src/alert.c:211
 msgid "Enlightenment Error"
@@ -621,7 +619,7 @@ msgstr ""
 msgid "Apply"
 msgstr "Appliquer"
 
-#: src/ecompmgr.c:2358
+#: src/ecompmgr.c:2359
 msgid ""
 "Cannot enable Composite Manager.\n"
 "Use xdpyinfo to check that\n"
@@ -962,9 +960,9 @@ msgid ""
 msgstr ""
 "Enlightenment a effectué une instruction illégale.\n"
 "\n"
-"Cela peut être dû au fait que vous utilisez un binaire\n"
-"d'Enlightenment compilé pour une autre architecture\n"
-"(AMD, Pentium II, Cyrix, 486...) que votre machine.\n"
+"Cela est probablement dû au fait que vous utilisez un binaire\n"
+"d'Enlightenment compilé pour une architecture différente\n"
+"de celle de votre machine.\n"
 "Veuillez récupérer le paquet adéquat ou bien recompiler\n"
 "Enlightenment, et éventuellement les bibliothèques qu'il utilise.\n"
 
@@ -1045,28 +1043,28 @@ msgstr "Options de la Boîte à icônes"
 msgid "Iconbox Settings"
 msgstr "Paramètres de la Boîte à icônes"
 
-#: src/ipc.c:217 src/ipc.c:1575 src/ipc.c:1582 src/theme.c:407
+#: src/ipc.c:217 src/ipc.c:1582 src/ipc.c:1589 src/theme.c:407
 msgid "Message"
 msgstr "Message"
 
-#: src/ipc.c:1575 src/ipc.c:1582
+#: src/ipc.c:1582 src/ipc.c:1589
 #, c-format
 msgid "e16 was built without %s support"
 msgstr "e16 a été compilé sans prise en charge de %s"
 
-#: src/ipc.c:1576
+#: src/ipc.c:1583
 msgid "composite"
 msgstr "composite"
 
-#: src/ipc.c:1583
+#: src/ipc.c:1590
 msgid "sound"
 msgstr "son"
 
-#: src/ipc.c:1937
+#: src/ipc.c:1944
 msgid "Enlightenment IPC Commands Help\n"
 msgstr "Aide des commandes IPC\n"
 
-#: src/ipc.c:1941
+#: src/ipc.c:1948
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
@@ -1076,19 +1074,19 @@ msgstr ""
 "Tapez « help <commande> » pour une description individuelle\n"
 "\n"
 
-#: src/ipc.c:1943 src/ipc.c:1967 src/ipc.c:1979
+#: src/ipc.c:1950 src/ipc.c:1974 src/ipc.c:1986
 msgid "Commands currently available:\n"
 msgstr "Commandes disponibles actuellement :\n"
 
-#: src/ipc.c:1965
+#: src/ipc.c:1972
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr "Tapez « help full » pour une description de toutes les commandes\n"
 
-#: src/ipc.c:1966
+#: src/ipc.c:1973
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr "Tapez « help <commande> » pour une description individuelle\n"
 
-#: src/ipc.c:1968 src/ipc.c:1980
+#: src/ipc.c:1975 src/ipc.c:1987
 msgid "         <command>     : <description>\n"
 msgstr "         <commande>   :  <description>\n"
 
@@ -2360,10 +2358,8 @@ msgid "Regenerate Menus"
 msgstr "Régénérer les menus"
 
 #: config/strings.c:118
-#, fuzzy
-#| msgid "Theme Settings"
 msgid "Theme menu"
-msgstr "Paramètres du Thème"
+msgstr "Menu du thème"
 
 #: config/strings.c:126
 msgid "Leave Alone"
