@@ -145,10 +145,11 @@ const char         *txt[] = {
    _("Destroy a group this window belongs to"),
 /* winops_layer.menu */
    _("Stacking"),
+   _("Lowest"),
    _("Below"),
    _("Normal"),
    _("Above"),
-   _("On Top"),
+   _("Highest"),
 /* winops_misc.menu */
    _("Miscellaneous"),
    _("Toggle Skip Window Lists"),
