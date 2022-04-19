@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -76,6 +76,14 @@ EwinShapeSet(EWin * ewin)
      }
 }
 
+static void
+_MoveResizeGrabsSet(int kbd, unsigned int csr)
+{
+   if (kbd)
+      GrabKeyboardSet(Mode_mr.events);
+   GrabPointerSet(Mode_mr.events, csr, 1);
+}
+
 void
 MoveResizeMoveStart(EWin * ewin, int kbd, int constrained, int nogroup)
 {
@@ -125,10 +133,7 @@ MoveResizeMoveStart(EWin * ewin, int kbd, int constrained, int nogroup)
      }
    Efree(gwins);
 
-   if (kbd)
-      GrabKeyboardSet(Mode_mr.events);
-   else
-      GrabPointerSet(Mode_mr.events, ECSR_ACT_MOVE, 1);
+   _MoveResizeGrabsSet(kbd, ECSR_ACT_MOVE);
 
    Mode_mr.swapcoord_x = EoGetX(ewin);
    Mode_mr.swapcoord_y = EoGetY(ewin);
@@ -324,7 +329,7 @@ MoveResizeResizeStart(EWin * ewin, int kbd, int hv)
 	if (kbd)
 	  {
 	     Mode_mr.resize_detail = 0;
-	     csr = ECSR_ACT_RESIZE_BR;
+	     csr = ECSR_ACT_RESIZE;
 	     break;
 	  }
 	x = cx - EoGetX(ewin);
@@ -415,10 +420,7 @@ MoveResizeResizeStart(EWin * ewin, int kbd, int hv)
    Mode_mr.win_w = ewin->client.w;
    Mode_mr.win_h = ewin->client.h;
 
-   if (kbd)
-      GrabKeyboardSet(Mode_mr.events);
-   else
-      GrabPointerSet(Mode_mr.events, csr, 1);
+   _MoveResizeGrabsSet(kbd, csr);
 
    EwinShapeSet(ewin);
    ewin->state.show_coords = 1;
@@ -921,6 +923,8 @@ _MoveResizeEventHandler(Win win __UNUSED__, XEvent * ev, void *prm __UNUSED__)
 	break;
 #endif
      case ButtonRelease:
+	if (Mode_mr.using_kbd)
+	   break;
 	ewin = Mode_mr.ewin;
 	if (!ewin)
 	   break;
@@ -928,6 +932,8 @@ _MoveResizeEventHandler(Win win __UNUSED__, XEvent * ev, void *prm __UNUSED__)
 	BorderCheckState(ewin, ev);
 	break;
      case MotionNotify:
+	if (Mode_mr.using_kbd)
+	   break;
 	_MoveResizeHandleMotion();
 	break;
      }
