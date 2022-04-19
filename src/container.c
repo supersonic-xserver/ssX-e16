@@ -1839,7 +1839,7 @@ ContainersConfigSave(void)
    Container          *ct;
 
    Etmp(st);
-   fs = fopen(s, "w");
+   fs = fopen(st, "w");
    if (!fs)
       return;
 
