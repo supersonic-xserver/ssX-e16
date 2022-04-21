@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -83,13 +83,9 @@ _DlgFillMoveResize(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemTableSetOptions(table, 2, 0, 0, 0);
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Move Methods:"));
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Resize Methods:"));
 
    radio1 = di = DialogAddItem(table, DITEM_RADIOBUTTON);
@@ -145,8 +141,6 @@ _DlgFillMoveResize(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_TEXT);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Move/Resize Geometry Info Postion:"));
 
    radio3 = di = DialogAddItem(table, DITEM_RADIOBUTTON);
@@ -173,8 +167,6 @@ _DlgFillMoveResize(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_TEXT);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Default Resize Policy:"));
 
    radio4 = di = DialogAddItem(table, DITEM_RADIOBUTTON);
@@ -225,8 +217,6 @@ _DlgFillMoveResize(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemCheckButtonSetPtr(di, &dd->maximize_animate);
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 1024, 512);
    DialogItemSetText(di, _("Maximization animation speed:"));
 
    di = DialogAddItem(table, DITEM_SLIDER);
@@ -396,8 +386,6 @@ _DlgFillPlacement(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemRadioButtonGroupSetValPtr(radio, &dd->slide_mode);
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 1024, 512);
    DialogItemSetText(di, _("Appear Slide speed:"));
 
    di = DialogAddItem(table, DITEM_SLIDER);
@@ -407,8 +395,6 @@ _DlgFillPlacement(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemSliderSetValPtr(di, &dd->map_slide_speed);
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 1024, 512);
    DialogItemSetText(di, _("Cleanup Slide speed:"));
 
    di = DialogAddItem(table, DITEM_SLIDER);
@@ -426,8 +412,6 @@ _DlgFillPlacement(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemCheckButtonSetPtr(di, &dd->animate_shading);
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 1024, 512);
    DialogItemSetText(di, _("Window Shading speed:"));
 
    di = DialogAddItem(table, DITEM_SLIDER);
@@ -532,7 +516,6 @@ _DlgFillMisc(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_TEXT);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetAlign(di, 1024, 512);
    DialogItemSetText(di, _("Magwin zoom resolution"));
 
    di = DialogAddItem(table, DITEM_SLIDER);
@@ -597,8 +580,6 @@ _DlgFillComposite(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemCheckButtonSetPtr(di, &dd->fading);
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Fading Speed:"));
 
    di = DialogAddItem(table, DITEM_SLIDER);
@@ -639,8 +620,6 @@ _DlgFillComposite(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemSetColSpan(di, 2);
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Default focused window opacity:"));
 
    di = DialogAddItem(table, DITEM_SLIDER);
@@ -650,8 +629,6 @@ _DlgFillComposite(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemSliderSetValPtr(di, &dd->opacity_focused);
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Default unfocused window opacity:"));
 
    di = DialogAddItem(table, DITEM_SLIDER);
@@ -661,8 +638,6 @@ _DlgFillComposite(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemSliderSetValPtr(di, &dd->opacity_unfocused);
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Default pop-up window opacity:"));
 
    di = DialogAddItem(table, DITEM_SLIDER);

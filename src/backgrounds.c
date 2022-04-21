@@ -1980,7 +1980,6 @@ _DlgFillBackground(Dialog * d, DItem * table, void *data)
    DialogItemTableSetOptions(table2, 2, 0, 1, 0);
 
    di = dd->bg_filename = DialogAddItem(table2, DITEM_TEXT);
-   DialogItemSetFill(di, 1, 0);
    BG_DialogSetFileName(dd->bg_filename);
 
    table3 = DialogAddItem(table2, DITEM_TABLE);
@@ -2025,7 +2024,6 @@ _DlgFillBackground(Dialog * d, DItem * table, void *data)
    DialogItemTableSetOptions(table2, 3, 0, 1, 0);
 
    di = DialogAddItem(table2, DITEM_TEXT);
-   DialogItemSetFill(di, 0, 0);
    DialogItemSetAlign(di, 512, 512);
    DialogItemSetText(di,
 		     _("Background\n" "Image\n" "Scaling\n" "and\n"
@@ -2080,12 +2078,10 @@ _DlgFillBackground(Dialog * d, DItem * table, void *data)
 
    di = DialogAddItem(table3, DITEM_TEXT);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetFill(di, 0, 0);
    DialogItemSetAlign(di, 512, 512);
    DialogItemSetText(di, _("BG Colour"));
 
    di = DialogAddItem(table3, DITEM_TEXT);
-   DialogItemSetFill(di, 0, 0);
    DialogItemSetAlign(di, 1024, 512);
    DialogItemSetText(di, _("Red:"));
 
@@ -2096,7 +2092,6 @@ _DlgFillBackground(Dialog * d, DItem * table, void *data)
    DialogItemSliderSetValPtr(di, &dd->bg_r);
 
    di = DialogAddItem(table3, DITEM_TEXT);
-   DialogItemSetFill(di, 0, 0);
    DialogItemSetAlign(di, 1024, 512);
    DialogItemSetText(di, _("Green:"));
 
@@ -2107,7 +2102,6 @@ _DlgFillBackground(Dialog * d, DItem * table, void *data)
    DialogItemSliderSetValPtr(di, &dd->bg_g);
 
    di = DialogAddItem(table3, DITEM_TEXT);
-   DialogItemSetFill(di, 0, 0);
    DialogItemSetAlign(di, 1024, 512);
    DialogItemSetText(di, _("Blue:"));
 
@@ -2196,7 +2190,6 @@ _DlgFillBackground(Dialog * d, DItem * table, void *data)
    DialogAddItem(table, DITEM_SEPARATOR);
 
    di = label = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetAlign(di, 512, 512);
    Esnprintf(s, sizeof(s), _("Unused backgrounds freed after %2i:%02i:%02i"),
 	     dd->bg_timeout / 3600,
 	     (dd->bg_timeout / 60) - (60 * (dd->bg_timeout / 3600)),

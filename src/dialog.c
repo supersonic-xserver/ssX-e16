@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -548,14 +548,15 @@ DialogItemCreate(int type)
       return di;
 
    di->type = type;
-   di->align_h = 512;
+   di->fill_h = 1;
+   di->fill_v = 0;
+   di->align_h = 0;
    di->align_v = 512;
    di->row_span = 1;
    di->col_span = 1;
    di->item.table.num_columns = 1;
 
    DialogItemSetPadding(di, 2, 2, 2, 2);
-   DialogItemSetFill(di, 1, 0);
 
    return di;
 }
@@ -601,6 +602,9 @@ DialogAddItem(DItem * dii, int type)
 	di->item.check_button.onoff_ptr = &(di->item.check_button.onoff);
 	di->item.check_button.orig_w = 10;
 	di->item.check_button.orig_h = 10;
+	break;
+     case DITEM_TEXT:
+	di->fill_h = 0;
 	break;
      case DITEM_TABLE:
 	di->item.table.num_columns = 1;

@@ -713,63 +713,53 @@ _DlgFillSnap(Dialog * d, DItem * table, void *data)
    DialogItemTableSetOptions(table, 4, 0, 0, 0);
 
    di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Title:"));
    DialogItemCheckButtonSetPtr(di, &sd->match.title);
 
    di = DialogAddItem(table, DITEM_TEXT);
    DialogItemSetColSpan(di, 3);
-   DialogItemSetAlign(di, 1024, 512);
    DialogItemSetText(di, EwinGetIcccmName(ewin));
 
    if (EwinGetIcccmCName(ewin))
      {
 	di = DialogAddItem(table, DITEM_CHECKBUTTON);
-	DialogItemSetAlign(di, 0, 512);
 	DialogItemSetText(di, _("Name:"));
 	DialogItemCheckButtonSetPtr(di, &sd->match.name);
 
 	di = DialogAddItem(table, DITEM_TEXT);
 	DialogItemSetColSpan(di, 3);
-	DialogItemSetAlign(di, 1024, 512);
 	DialogItemSetText(di, EwinGetIcccmCName(ewin));
      }
 
    if (EwinGetIcccmClass(ewin))
      {
 	di = DialogAddItem(table, DITEM_CHECKBUTTON);
-	DialogItemSetAlign(di, 0, 512);
 	DialogItemSetText(di, _("Class:"));
 	DialogItemCheckButtonSetPtr(di, &sd->match.clss);
 
 	di = DialogAddItem(table, DITEM_TEXT);
 	DialogItemSetColSpan(di, 3);
-	DialogItemSetAlign(di, 1024, 512);
 	DialogItemSetText(di, EwinGetIcccmClass(ewin));
      }
 
    if (ewin->icccm.wm_role)
      {
 	di = DialogAddItem(table, DITEM_CHECKBUTTON);
-	DialogItemSetAlign(di, 0, 512);
 	DialogItemSetText(di, _("Role:"));
 	DialogItemCheckButtonSetPtr(di, &sd->match.role);
 
 	di = DialogAddItem(table, DITEM_TEXT);
 	DialogItemSetColSpan(di, 3);
-	DialogItemSetAlign(di, 1024, 512);
 	DialogItemSetText(di, ewin->icccm.wm_role);
      }
 
    if (ewin->icccm.wm_command)
      {
 	di = DialogAddItem(table, DITEM_TEXT);
-	DialogItemSetAlign(di, 0, 512);
 	DialogItemSetText(di, _("Command:"));
 
 	di = DialogAddItem(table, DITEM_TEXT);
 	DialogItemSetColSpan(di, 3);
-	DialogItemSetAlign(di, 1024, 512);
 
 	/* if the command is long, cut in into slices of about 80 characters */
 	if (strlen(ewin->icccm.wm_command) > 80)
@@ -998,8 +988,6 @@ _DlgFillRemember(Dialog * d __UNUSED__, DItem * table, void *data __UNUSED__)
      {
 	di = DialogAddItem(table, DITEM_TEXT);
 	DialogItemSetColSpan(di, 3);
-	DialogItemSetFill(di, 0, 0);
-	DialogItemSetAlign(di, 0, 512);
 	DialogItemSetText(di, _("Delete"));
      }
 
@@ -1011,7 +999,6 @@ _DlgFillRemember(Dialog * d __UNUSED__, DItem * table, void *data __UNUSED__)
 
       di = DialogAddItem(table, DITEM_CHECKBUTTON);
       DialogItemSetColSpan(di, 2);
-      DialogItemSetAlign(di, 0, 512);
       if (sn->used)
 	 s = EwinGetTitle(sn->used);
       else if (sn->win_title)
@@ -1027,7 +1014,6 @@ _DlgFillRemember(Dialog * d __UNUSED__, DItem * table, void *data __UNUSED__)
       if (sn->used)
 	{
 	   di = DialogAddItem(table, DITEM_BUTTON);
-	   DialogItemSetAlign(di, 0, 512);
 	   DialogItemSetText(di, _("Remembered Settings..."));
 	   DialogItemSetCallback(di, CB_RememberWindowSettings, 0,
 				 (char *)(&rd_ewin_list[i]));

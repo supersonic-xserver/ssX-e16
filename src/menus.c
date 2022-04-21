@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -2013,7 +2013,6 @@ _DlgFillMenus(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemCheckButtonSetPtr(di, &dd->warp);
 
    di = label = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetAlign(di, 0, 512);
 
    di = DialogAddItem(table, DITEM_SLIDER);
    DialogItemSliderSetBounds(di, 12, 48);

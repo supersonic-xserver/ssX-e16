@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1826,8 +1826,6 @@ _DlgFillPagers(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_TEXT);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Pager Mode:"));
 
    radio = di = DialogAddItem(table, DITEM_RADIOBUTTON);
@@ -1877,8 +1875,6 @@ _DlgFillPagers(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = label = DialogAddItem(table, DITEM_TEXT);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 0, 512);
    Esnprintf(s, sizeof(s), "%s %03i %s", _("Pager scanning speed:"),
 	     dd->pager_scan_speed, _("lines per second"));
    DialogItemSetText(di, s);
@@ -1893,8 +1889,6 @@ _DlgFillPagers(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_TEXT);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Mouse button to select and drag windows:"));
 
    radio = di = DialogAddItem(table, DITEM_RADIOBUTTON);
@@ -1918,8 +1912,6 @@ _DlgFillPagers(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_TEXT);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Mouse button to select desktops:"));
 
    radio = di = DialogAddItem(table, DITEM_RADIOBUTTON);
@@ -1943,8 +1935,6 @@ _DlgFillPagers(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_TEXT);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Mouse button to display pager menu:"));
 
    radio = di = DialogAddItem(table, DITEM_RADIOBUTTON);

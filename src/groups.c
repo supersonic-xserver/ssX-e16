@@ -743,8 +743,6 @@ _DlgFillGroupChoose(Dialog * d, DItem * table, void *data)
    DialogItemTableSetOptions(table, 2, 0, 0, 0);
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, dd->message);
 
    num_groups = dd->group_num;
@@ -926,7 +924,6 @@ _DlgFillGroups(Dialog * d, DItem * table, void *data)
 
    di = DialogAddItem(table, DITEM_TEXT);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Pick the group to configure:"));
 
    group_member_strings = _GrouplistMemberNames(ewin->groups, ewin->num_groups);
@@ -954,7 +951,6 @@ _DlgFillGroups(Dialog * d, DItem * table, void *data)
 
    di = DialogAddItem(table, DITEM_TEXT);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("The following actions are\n"
 			   "applied to all group members:"));
 
@@ -1047,7 +1043,6 @@ _DlgFillGroupDefaults(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_TEXT);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Per-group settings:"));
 
    di = DialogAddItem(table, DITEM_CHECKBUTTON);

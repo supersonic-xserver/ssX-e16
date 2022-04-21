@@ -1545,8 +1545,6 @@ _DlgFillContainer(Dialog * d, DItem * table, void *data)
    DialogItemCheckButtonSetPtr(di, &dd->auto_resize);
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di,
 		     _("Alignment of anchoring when automatically resizing:"));
 
@@ -1559,8 +1557,6 @@ _DlgFillContainer(Dialog * d, DItem * table, void *data)
    DialogAddItem(table, DITEM_SEPARATOR);
 
    label = di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 0, 512);
    Esnprintf(s, sizeof(s), _("Icon size: %2d"), dd->iconsize);
    DialogItemSetText(di, s);
 
@@ -1577,8 +1573,6 @@ _DlgFillContainer(Dialog * d, DItem * table, void *data)
    DialogItemTableSetOptions(table2, 5, 0, 0, 0);
 
    di = DialogAddItem(table2, DITEM_TEXT);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Orientation:"));
 
    radio = di = DialogAddItem(table2, DITEM_RADIOBUTTON);
@@ -1596,8 +1590,6 @@ _DlgFillContainer(Dialog * d, DItem * table, void *data)
    DialogAddItem(table2, DITEM_NONE);
 
    di = DialogAddItem(table2, DITEM_TEXT);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Scrollbar side:"));
 
    radio = di = DialogAddItem(table2, DITEM_RADIOBUTTON);
@@ -1615,8 +1607,6 @@ _DlgFillContainer(Dialog * d, DItem * table, void *data)
    DialogAddItem(table2, DITEM_NONE);
 
    di = DialogAddItem(table2, DITEM_TEXT);
-   DialogItemSetFill(di, 0, 0);
-   DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Scrollbar arrows:"));
 
    radio = di = DialogAddItem(table2, DITEM_RADIOBUTTON);
@@ -1652,8 +1642,6 @@ _DlgFillContainer(Dialog * d, DItem * table, void *data)
 	DialogItemTableSetOptions(table2, 4, 0, 1, 0);
 
 	di = DialogAddItem(table2, DITEM_TEXT);
-	DialogItemSetFill(di, 0, 0);
-	DialogItemSetAlign(di, 0, 512);
 	DialogItemSetText(di, _("Animation mode:"));
 
 	radio = di = DialogAddItem(table2, DITEM_RADIOBUTTON);
@@ -1673,8 +1661,6 @@ _DlgFillContainer(Dialog * d, DItem * table, void *data)
 	DialogItemRadioButtonGroupSetValPtr(radio, &dd->anim_mode);
 
 	di = DialogAddItem(table, DITEM_TEXT);
-	DialogItemSetFill(di, 0, 0);
-	DialogItemSetAlign(di, 0, 512);
 	DialogItemSetText(di, _("Animation speed:"));
 
 	di = DialogAddItem(table, DITEM_SLIDER);
@@ -1686,8 +1672,6 @@ _DlgFillContainer(Dialog * d, DItem * table, void *data)
 	DialogAddItem(table, DITEM_SEPARATOR);
 
 	di = DialogAddItem(table, DITEM_TEXT);
-	DialogItemSetFill(di, 0, 0);
-	DialogItemSetAlign(di, 0, 512);
 	DialogItemSetText(di,
 			  _
 			  ("Icon image display policy (if one operation fails, try the next):"));
