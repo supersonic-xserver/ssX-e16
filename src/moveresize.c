@@ -476,6 +476,7 @@ _MoveResizeMoveHandleMotion(void)
    int                 ndx, ndy;
    char                jumpx, jumpy;
    int                 min_dx, max_dx, min_dy, max_dy;
+   int                 at_screen_edge;
 
    ewin = Mode_mr.ewin;
    if (!ewin)
@@ -580,34 +581,36 @@ _MoveResizeMoveHandleMotion(void)
 	dd = ewin1->req_x - ewin1->shape_x;
 	if (dd < 0)
 	   dd = -dd;
-	if ((ndx != dx) &&
-	    (((ewin1->shape_x == 0) &&
-	      (dd > Conf.snap.screen_snap_dist)) ||
-	     ((ewin1->shape_x == (WinGetW(VROOT) - EoGetW(ewin1))) &&
-	      (dd > Conf.snap.screen_snap_dist)) ||
-	     ((ewin1->shape_x != 0) &&
-	      (ewin1->shape_x != (WinGetW(VROOT) - EoGetW(ewin1)) &&
-	       (dd > Conf.snap.edge_snap_dist)))))
+	if (ndx != dx)
 	  {
-	     jumpx = 1;
-	     ndx = ewin1->req_x - ewin1->shape_x + dx;
+	     at_screen_edge =
+		ewin1->shape_x == 0 ||
+		ewin1->shape_x + EoGetW(ewin1) == WinGetW(VROOT);
+
+	     if ((at_screen_edge && dd > Conf.snap.screen_snap_dist) ||
+		 (!at_screen_edge && dd > Conf.snap.edge_snap_dist))
+	       {
+		  jumpx = 1;
+		  ndx = ewin1->req_x - ewin1->shape_x + dx;
+	       }
 	  }
 
 	/* jump out of snap vertically */
 	dd = ewin1->req_y - ewin1->shape_y;
 	if (dd < 0)
 	   dd = -dd;
-	if ((ndy != dy) &&
-	    (((ewin1->shape_y == 0) &&
-	      (dd > Conf.snap.screen_snap_dist)) ||
-	     ((ewin1->shape_y == (WinGetH(VROOT) - EoGetH(ewin1))) &&
-	      (dd > Conf.snap.screen_snap_dist)) ||
-	     ((ewin1->shape_y != 0) &&
-	      (ewin1->shape_y != (WinGetH(VROOT) - EoGetH(ewin1)) &&
-	       (dd > Conf.snap.edge_snap_dist)))))
+	if (ndy != dy)
 	  {
-	     jumpy = 1;
-	     ndy = ewin1->req_y - ewin1->shape_y + dy;
+	     at_screen_edge =
+		ewin1->shape_y == 0 ||
+		ewin1->shape_y + EoGetH(ewin1) == WinGetH(VROOT);
+
+	     if ((at_screen_edge && dd > Conf.snap.screen_snap_dist) ||
+		 (!at_screen_edge && dd > Conf.snap.edge_snap_dist))
+	       {
+		  jumpy = 1;
+		  ndy = ewin1->req_y - ewin1->shape_y + dy;
+	       }
 	  }
      }
 
