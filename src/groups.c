@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -72,7 +72,6 @@ static              LIST_HEAD(group_list);
 
 static struct {
    GroupConfig         dflt;
-   char                swapmove;
 } Conf_groups;
 
 static struct {
@@ -80,12 +79,6 @@ static struct {
 } Mode_groups;
 
 static void         _GroupsSave(void);
-
-int
-GroupsGetSwapmove(void)
-{
-   return Conf_groups.swapmove;
-}
 
 static Group       *
 _GroupCreate(int gid, int cfg_update)
@@ -1030,7 +1023,6 @@ _EwinGroupsConfig(EWin * ewin)
 
 typedef struct {
    GroupConfig         group_cfg;
-   char                group_swap;
 } GroupCfgDlgData;
 
 static void
@@ -1039,7 +1031,6 @@ _DlgApplyGroupDefaults(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
    GroupCfgDlgData    *dd = DLG_DATA_GET(d, GroupCfgDlgData);
 
    Conf_groups.dflt = dd->group_cfg;
-   Conf_groups.swapmove = dd->group_swap;
 
    autosave();
 }
@@ -1051,7 +1042,6 @@ _DlgFillGroupDefaults(Dialog * d, DItem * table, void *data __UNUSED__)
    DItem              *di;
 
    dd->group_cfg = Conf_groups.dflt;
-   dd->group_swap = Conf_groups.swapmove;
 
    DialogItemTableSetOptions(table, 2, 0, 0, 0);
 
@@ -1059,9 +1049,6 @@ _DlgFillGroupDefaults(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemSetColSpan(di, 2);
    DialogItemSetAlign(di, 0, 512);
    DialogItemSetText(di, _("Per-group settings:"));
-
-   di = DialogAddItem(table, DITEM_SEPARATOR);
-   DialogItemSetColSpan(di, 2);
 
    di = DialogAddItem(table, DITEM_CHECKBUTTON);
    DialogItemSetColSpan(di, 2);
@@ -1097,19 +1084,6 @@ _DlgFillGroupDefaults(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemSetColSpan(di, 2);
    DialogItemSetText(di, _("Shading"));
    DialogItemCheckButtonSetPtr(di, &dd->group_cfg.shade);
-
-   di = DialogAddItem(table, DITEM_SEPARATOR);
-   DialogItemSetColSpan(di, 2);
-
-   di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetAlign(di, 0, 512);
-   DialogItemSetText(di, _("Global settings:"));
-
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Swap Window Locations"));
-   DialogItemCheckButtonSetPtr(di, &dd->group_swap);
 }
 
 const DialogDef     DlgGroupDefaults = {
@@ -1443,7 +1417,6 @@ static const CfgItem GroupsCfgItems[] = {
    CFG_ITEM_BOOL(Conf_groups, dflt.set_border, 1),
    CFG_ITEM_BOOL(Conf_groups, dflt.stick, 1),
    CFG_ITEM_BOOL(Conf_groups, dflt.shade, 1),
-   CFG_ITEM_BOOL(Conf_groups, swapmove, 1),
 };
 
 extern const EModule ModGroups;

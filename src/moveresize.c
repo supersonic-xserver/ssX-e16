@@ -49,7 +49,6 @@ static struct {
    int                 start_x, start_y;
    int                 cur_x, cur_y;
    int                 win_x, win_y, win_w, win_h;
-   int                 swapcoord_x, swapcoord_y;
    int                 resize_detail;
 } Mode_mr;
 
@@ -114,8 +113,7 @@ MoveResizeMoveStart(EWin * ewin, int kbd, int constrained, int nogroup)
    Mode_mr.win_y = Mode_mr.start_y - (EoGetY(ewin) + EoGetY(EoGetDesk(ewin)));
 
    EwinRaise(ewin);
-   gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_MOVE, nogroup
-				      || Mode.move.swap, &num);
+   gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_MOVE, nogroup, &num);
 
    Conf.movres.mode_move = MoveResizeModeValidateMove(Conf.movres.mode_move);
    Mode_mr.mode = Conf.movres.mode_move;
@@ -134,9 +132,6 @@ MoveResizeMoveStart(EWin * ewin, int kbd, int constrained, int nogroup)
    Efree(gwins);
 
    _MoveResizeGrabsSet(kbd, ECSR_ACT_MOVE);
-
-   Mode_mr.swapcoord_x = EoGetX(ewin);
-   Mode_mr.swapcoord_y = EoGetY(ewin);
 }
 
 static void
@@ -160,8 +155,8 @@ _MoveResizeMoveEnd(EWin * ewin)
 
    ewin->state.show_coords = 0;
 
-   gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_MOVE, Mode_mr.nogroup
-				      || Mode.move.swap, &num);
+   gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_MOVE,
+				      Mode_mr.nogroup, &num);
 
    if (Mode.mode == MODE_MOVE)
      {
@@ -197,7 +192,6 @@ _MoveResizeMoveEnd(EWin * ewin)
 
  done:
    Mode.mode = MODE_NONE;
-   Mode.move.swap = 0;
    Mode.place.doing_manual = NULL;
    Mode_mr.ewin = NULL;
 
@@ -492,7 +486,7 @@ _MoveResizeMoveHandleMotion(void)
    EdgeCheckMotion(Mode.events.mx, Mode.events.my);
 
    gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_MOVE,
-				      Mode_mr.nogroup || Mode.move.swap, &num);
+				      Mode_mr.nogroup, &num);
 
    if (Mode.mode == MODE_MOVE_PENDING)
      {
@@ -654,52 +648,6 @@ _MoveResizeMoveHandleMotion(void)
 	/* if we did jump set requested to current shape position */
 	ewin1->req_x = (jumpx) ? ewin1->shape_x : ewin1->req_x + dx;
 	ewin1->req_y = (jumpy) ? ewin1->shape_y : ewin1->req_y + dy;
-
-	/* swapping of group member locations: */
-	if (Mode.move.swap && GroupsGetSwapmove())
-	  {
-	     EWin              **all_gwins, *ewin2;
-	     int                 j, all_gwins_num;
-
-	     all_gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_ANY, 0,
-						    &all_gwins_num);
-
-	     for (j = 0; j < all_gwins_num; j++)
-	       {
-		  ewin2 = all_gwins[j];
-
-		  if (ewin1 == ewin2)
-		     continue;
-
-		  /* check for sufficient overlap and avoid flickering */
-		  if (((ewin1->shape_x >= ewin2->shape_x &&
-			ewin1->shape_x <= ewin2->shape_x + EoGetW(ewin2) / 2 &&
-			dx <= 0) ||
-		       (ewin1->shape_x <= ewin2->shape_x &&
-			ewin1->shape_x + EoGetW(ewin1) / 2 >= ewin2->shape_x &&
-			dx >= 0)) &&
-		      ((ewin1->shape_y >= ewin2->shape_y &&
-			ewin1->shape_y <= ewin2->shape_y + EoGetH(ewin2) / 2 &&
-			dy <= 0) ||
-		       (EoGetY(ewin1) <= EoGetY(ewin2) &&
-			ewin1->shape_y + EoGetH(ewin1) / 2 >= ewin2->shape_y &&
-			dy >= 0)))
-		    {
-		       int                 tmp_swapcoord_x;
-		       int                 tmp_swapcoord_y;
-
-		       tmp_swapcoord_x = Mode_mr.swapcoord_x;
-		       tmp_swapcoord_y = Mode_mr.swapcoord_y;
-		       Mode_mr.swapcoord_x = ewin2->shape_x;
-		       Mode_mr.swapcoord_y = ewin2->shape_y;
-		       EwinOpMove(ewin2, OPSRC_USER,
-				  tmp_swapcoord_x, tmp_swapcoord_y);
-		       break;
-		    }
-	       }
-
-	     Efree(all_gwins);
-	  }
      }
 
  done:

@@ -238,7 +238,6 @@
 #define __A_SKIPWINLIST	wop * skipwinlist
 #define __A_NEVERFOCUS	wop * no_wm_focus
 #define __A_SKIPLISTS	wop * skiplists
-#define __A_SWAPMOVE	wop * swapmove
 
 #define __A_SEND_TO_NEXT_DESK	wop * desk next
 #define __A_SEND_TO_PREV_DESK	wop * desk prev

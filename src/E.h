@@ -373,9 +373,6 @@ typedef struct {
       unsigned int        mod_combos[8];
    } masks;
    struct {
-      char                swap;
-   } move;
-   struct {
       signed char         enable_features;
       EWin               *doing_manual;
    } place;

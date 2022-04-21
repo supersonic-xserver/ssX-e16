@@ -1098,7 +1098,6 @@ groups.dflt.raise = 0
 groups.dflt.set_border = 1
 groups.dflt.stick = 1
 groups.dflt.shade = 1
-groups.swapmove = 1
 
 # [int] Iconbox animation time(ms)
 iconboxes.anim_time = 250

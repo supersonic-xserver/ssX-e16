@@ -487,8 +487,8 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
       return;
    memcpy(lst, lst1, num * sizeof(EWin *));
 
-   gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_MOVE, Mode.nogroup
-				      || Mode.move.swap, &gnum);
+   gwins =
+      ListWinGroupMembersForEwin(ewin, GROUP_ACTION_MOVE, Mode.nogroup, &gnum);
    if (gwins)
      {
 	for (i = 0; i < gnum; i++)
