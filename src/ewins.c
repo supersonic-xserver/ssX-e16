@@ -982,7 +982,7 @@ AddToFamily(EWin * ewin, EX_Window xwin, XWindowAttributes * pxwa, int startup)
 	EwinOpFloatAt(ewin, OPSRC_USER, x, y);
 	EwinShow(ewin);
 	Mode.place.doing_manual = ewin;
-	MoveResizeMoveStart(ewin, 0, 0, 0);
+	MoveResizeMoveStart(ewin, 0, 0);
      }
    else if (doslide)
      {

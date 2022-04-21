@@ -398,14 +398,6 @@ IPC_WinList(const char *params)
    Efree(lst);
 }
 
-#if 0				/* TBD */
-static int
-doMoveConstrained(EWin * ewin, const char *params)
-{
-   return MoveResizeMoveStart(ewin, 0, params, 1, 0);
-}
-#endif
-
 static Timer       *op_timer = NULL;
 
 static int
@@ -609,11 +601,11 @@ IpcWinop(const WinOp * wop, EWin * ewin, const char *prm)
 	  }
 	if (!strcmp(param1, "ptr"))
 	  {
-	     MoveResizeMoveStart(ewin, 0, 0, Mode.nogroup);
+	     MoveResizeMoveStart(ewin, 0, Mode.nogroup);
 	  }
 	else if (!strcmp(param1, "kbd"))
 	  {
-	     MoveResizeMoveStart(ewin, 1, 0, Mode.nogroup);
+	     MoveResizeMoveStart(ewin, 1, Mode.nogroup);
 	  }
 	else if (!strcmp(param1, "?"))
 	  {

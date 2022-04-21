@@ -84,7 +84,7 @@ _MoveResizeGrabsSet(int kbd, unsigned int csr)
 }
 
 void
-MoveResizeMoveStart(EWin * ewin, int kbd, int constrained, int nogroup)
+MoveResizeMoveStart(EWin * ewin, int kbd, int nogroup)
 {
    EWin              **gwins;
    int                 i, num, cx, cy;
@@ -104,7 +104,6 @@ MoveResizeMoveStart(EWin * ewin, int kbd, int constrained, int nogroup)
    SoundPlay(SOUND_MOVE_START);
 
    Mode.mode = MODE_MOVE_PENDING;
-   Mode.constrained = constrained;
 
    Mode_mr.start_x = Mode_mr.cur_x = cx;
    Mode_mr.start_y = Mode_mr.cur_y = cy;
@@ -475,7 +474,6 @@ _MoveResizeMoveHandleMotion(void)
    EWin               *ewin, **gwins, *ewin1;
    int                 i, num;
    int                 ndx, ndy;
-   int                 screen_snap_dist;
    char                jumpx, jumpy;
    int                 min_dx, max_dx, min_dy, max_dy;
 
@@ -574,10 +572,6 @@ _MoveResizeMoveHandleMotion(void)
    else
       ndy = min_dy;
 
-   screen_snap_dist =
-      Mode.constrained ? (WinGetW(VROOT) +
-			  WinGetH(VROOT)) : Conf.snap.screen_snap_dist;
-
    for (i = 0; i < num; i++)
      {
 	ewin1 = gwins[i];
@@ -588,9 +582,9 @@ _MoveResizeMoveHandleMotion(void)
 	   dd = -dd;
 	if ((ndx != dx) &&
 	    (((ewin1->shape_x == 0) &&
-	      (dd > screen_snap_dist)) ||
+	      (dd > Conf.snap.screen_snap_dist)) ||
 	     ((ewin1->shape_x == (WinGetW(VROOT) - EoGetW(ewin1))) &&
-	      (dd > screen_snap_dist)) ||
+	      (dd > Conf.snap.screen_snap_dist)) ||
 	     ((ewin1->shape_x != 0) &&
 	      (ewin1->shape_x != (WinGetW(VROOT) - EoGetW(ewin1)) &&
 	       (dd > Conf.snap.edge_snap_dist)))))
@@ -605,9 +599,9 @@ _MoveResizeMoveHandleMotion(void)
 	   dd = -dd;
 	if ((ndy != dy) &&
 	    (((ewin1->shape_y == 0) &&
-	      (dd > screen_snap_dist)) ||
+	      (dd > Conf.snap.screen_snap_dist)) ||
 	     ((ewin1->shape_y == (WinGetH(VROOT) - EoGetH(ewin1))) &&
-	      (dd > screen_snap_dist)) ||
+	      (dd > Conf.snap.screen_snap_dist)) ||
 	     ((ewin1->shape_y != 0) &&
 	      (ewin1->shape_y != (WinGetH(VROOT) - EoGetH(ewin1)) &&
 	       (dd > Conf.snap.edge_snap_dist)))))

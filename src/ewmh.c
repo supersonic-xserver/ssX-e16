@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2021 Kim Woelders
+ * Copyright (C) 2003-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1033,14 +1033,14 @@ EWMH_ProcessClientClientMessage(EWin * ewin, XClientMessageEvent * ev)
 	     break;
 
 	  case _NET_WM_MOVERESIZE_MOVE:
-	     MoveResizeMoveStart(ewin, 0, 0, 0);
+	     MoveResizeMoveStart(ewin, 0, 0);
 	     break;
 
 	  case _NET_WM_MOVERESIZE_SIZE_KEYBOARD:
 	     MoveResizeResizeStart(ewin, 1, MODE_RESIZE);
 	     break;
 	  case _NET_WM_MOVERESIZE_MOVE_KEYBOARD:
-	     MoveResizeMoveStart(ewin, 1, 0, 0);
+	     MoveResizeMoveStart(ewin, 1, 0);
 	     break;
 	  case _NET_WM_MOVERESIZE_CANCEL:
 	     MoveResizeEnd(ewin);

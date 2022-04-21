@@ -458,7 +458,7 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
 {
    EWin               *const *lst1;
    EWin              **lst, **gwins;
-   int                 gnum, num, i, j, screen_snap_dist, odx, ody;
+   int                 gnum, num, i, j, odx, ody;
    static char         last_res = 0;
    int                 top_bound, bottom_bound, left_bound, right_bound, w, h;
 
@@ -476,7 +476,6 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
 		     &left_bound, &top_bound, &w, &h);
    right_bound = left_bound + w;
    bottom_bound = top_bound + h;
-   screen_snap_dist = Mode.constrained ? (w + h) : Conf.snap.screen_snap_dist;
 
    lst1 = EwinListGetAll(&num);
    if (!lst1)
@@ -506,8 +505,9 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
    ody = dy;
    if (dx < 0)
      {
-	if (IN_BELOW(ewin->shape_x + dx, left_bound, screen_snap_dist)
-	    && (ewin->shape_x >= left_bound))
+	if (IN_BELOW(ewin->shape_x + dx, left_bound,
+		     Conf.snap.screen_snap_dist) &&
+	    (ewin->shape_x >= left_bound))
 	  {
 	     dx = left_bound - ewin->shape_x;
 	  }
@@ -544,9 +544,9 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
      }
    else if (dx > 0)
      {
-	if (IN_ABOVE
-	    (ewin->shape_x + EoGetW(ewin) + dx, right_bound, screen_snap_dist)
-	    && ((ewin->shape_x + EoGetW(ewin)) <= right_bound))
+	if (IN_ABOVE(ewin->shape_x + EoGetW(ewin) + dx, right_bound,
+		     Conf.snap.screen_snap_dist) &&
+	    (ewin->shape_x + EoGetW(ewin) <= right_bound))
 	  {
 	     dx = right_bound - (ewin->shape_x + EoGetW(ewin));
 	  }
@@ -582,8 +582,9 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
 
    if (dy < 0)
      {
-	if (IN_BELOW(ewin->shape_y + dy, top_bound, screen_snap_dist)
-	    && (ewin->shape_y >= top_bound))
+	if (IN_BELOW(ewin->shape_y + dy, top_bound,
+		     Conf.snap.screen_snap_dist) &&
+	    (ewin->shape_y >= top_bound))
 	  {
 	     dy = top_bound - ewin->shape_y;
 	  }
@@ -620,10 +621,9 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
      }
    else if (dy > 0)
      {
-	if (IN_ABOVE
-	    (ewin->shape_y + EoGetH(ewin) + dy, bottom_bound,
-	     screen_snap_dist)
-	    && ((ewin->shape_y + EoGetH(ewin)) <= bottom_bound))
+	if (IN_ABOVE(ewin->shape_y + EoGetH(ewin) + dy, bottom_bound,
+		     Conf.snap.screen_snap_dist) &&
+	    (ewin->shape_y + EoGetH(ewin) <= bottom_bound))
 	  {
 	     dy = bottom_bound - (ewin->shape_y + EoGetH(ewin));
 	  }

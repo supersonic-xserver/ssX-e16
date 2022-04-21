@@ -425,7 +425,6 @@ typedef struct {
    EWin               *context_ewin;
    EX_Colormap         current_cmap;
    Win                 context_win;
-   char                constrained;
    char                nogroup;
    char                showing_desktop;
    EX_Window           button_proxy_win;

@@ -495,8 +495,7 @@ void                EwinSyncRequestWait(EWin * ewin);
 #endif
 
 /* moveresize.c */
-void                MoveResizeMoveStart(EWin * ewin, int kbd, int constrained,
-					int nogroup);
+void                MoveResizeMoveStart(EWin * ewin, int kbd, int nogroup);
 void                MoveResizeResizeStart(EWin * ewin, int kbd, int hv);
 
 void                MoveResizeSuspend(void);
