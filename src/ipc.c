@@ -406,22 +406,10 @@ doMoveConstrained(EWin * ewin, const char *params)
 }
 
 static int
-doMoveNoGroup(EWin * ewin, const char *params)
-{
-   return MoveResizeMoveStart(ewin, 0, params, 0, 1);
-}
-
-static int
 doSwapMove(EWin * ewin, const char *params)
 {
    Mode.move.swap = 1;
    return MoveResizeMoveStart(ewin, 0, params, 0, 0);
-}
-
-static int
-doMoveConstrainedNoGroup(EWin * ewin, const char *params)
-{
-   return MoveResizeMoveStart(ewin, 0, params, 1, 1);
 }
 #endif
 
