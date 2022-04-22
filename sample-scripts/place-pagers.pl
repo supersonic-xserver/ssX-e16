@@ -14,7 +14,7 @@ my $BASE     =     0;
 my $VERBOSE  =     0;
 my $LAYER    =     4;
 
-my (%ID, $X0, $Y0, $H, $W, @DNUMs);
+my (%ID, $X0, $Y0, $W0, $H0, $W, $H, @DNUMs);
 my $last_dnum = -1;
 
 GetOptions(
@@ -67,16 +67,15 @@ $ORIENT =~ m/^[vVhH]\d*$/ or do {
 
 $ORIENT =~ s/(\d+)// and $BASE = $1;
 
-for my $wind (`eesh wl full`) {
-    my ($id, $name, undef, undef, undef, $geo) = split(/\s*:\s*/, $wind);
-    chomp $id;
-    $name =~ /^Pager-(\d)$/ or next;
-    #print "$id, $name, $geo\;
-    my $dnum = $1;
+for (`eesh wl +%i_%P_%S_%T_%n`) {
+#   print "> $_";
+    next unless (/^\s*(\S+)\s+(\S+)\s+(\S+)\s+(\S+)x\s*(\S+)\s+(\S+)x\s*(\S+)\s+Pager-(\d+)/);
+    my $id = $1;
+    my $dnum = $8;
+#   print "$id, $dnum\n";
 
     defined $KEY or $KEY = $dnum;
 
-    $id =~ s/\s+$//;
     $ID{$dnum} = $id;
     push @DNUMs, $dnum;
     if ( $KEY < 0 ) {
@@ -85,12 +84,10 @@ for my $wind (`eesh wl full`) {
     else {
         $dnum == $KEY or next;
     }
-
     $last_dnum = $dnum;
 
-    ($X0, $Y0, my $size, undef) = split( /\s+/, $geo);
-    ($W, $H) = split( /x/, $size);
-    #print "$dnum, $id, $X0, $Y0, $W, $H\n";
+    ($X0, $Y0, $W0, $H0, $W, $H) = ($2, $3, $4, $5, $6, $7);
+#   print "$dnum, $id, $X0, $Y0, $W0, $H0, $W, $H\n";
 }
 
 @DNUMs      or die "No pagers found in window list! (eesh wl full)\n";
@@ -130,8 +127,8 @@ for my $dnum (sort {$a <=> $b} @DNUMs) {
 
     #$dnum == $KEY and next;
 
-    $x = $X0 + $mod_x * ($W + $BORDER);
-    $y = $Y0 + $mod_y * ($H + $BORDER);
+    $x = $X0 + $mod_x * ($W0 + $BORDER);
+    $y = $Y0 + $mod_y * ($H0 + $BORDER);
     system("eesh wop $id size $W");
     system("eesh wop $id move $x $y");
     system("eesh wop $id layer $LAYER");
