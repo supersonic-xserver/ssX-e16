@@ -326,20 +326,100 @@ IPC_MoveResize(const char *params)
 }
 
 static void
-IPC_WinList(const char *params)
+IPC_WinListFmt(char *buf, unsigned int len, const char *fmt, EWin * e)
 {
    static const char  *const TxtPG[] = { "NW", "NE", "SW", "SE" };
-   char                format[8];
-   const char         *match;
+   int                 nw, chf, chp;
+
+   for (nw = 0, chp = '\0';; chp = chf)
+     {
+	chf = *fmt++;
+	if (chf == '\0')
+	   break;
+
+	if (chf == '_')
+	  {
+	     chf = ' ';
+	     goto do_char;
+	  }
+
+	if (chf != '%' || (chf == '%' && chf == chp))
+	   goto do_char;
+
+	chf = *fmt++;
+	if (chf == '\0')
+	   break;
+
+	switch (chf)
+	  {
+	  case 'A':		/* Area x y */
+	     nw += snprintf(buf + nw, len - nw, "%d %d", e->area_x, e->area_y);
+	     break;
+	  case 'D':		/* Desk */
+	     nw += snprintf(buf + nw, len - nw, "%2d",
+			    EoIsSticky(e) ? -1 : (int)EoGetDeskNum(e));
+	     break;
+	  case 'G':		/* Gravity */
+	     nw += snprintf(buf + nw, len - nw, "%s %4d,%4d %2d,%2d",
+			    TxtPG[e->place.gravity & 3], e->place.gx,
+			    e->place.gy, e->place.ax, e->place.ay);
+	     break;
+	  case 'P':		/* Win X Y */
+	     nw += snprintf(buf + nw, len - nw, "%5d %5d",
+			    EoGetX(e), EoGetY(e));
+	     break;
+	  case 'S':		/* Win WxH */
+	     nw += snprintf(buf + nw, len - nw, "%4dx%4d",
+			    EoGetW(e), EoGetH(e));
+	     break;
+	  case 'T':		/* Client WxH */
+	     nw += snprintf(buf + nw, len - nw, "%4dx%4d",
+			    e->client.w, e->client.h);
+	     break;
+	  case 'i':		/* Client XID */
+	     nw += snprintf(buf + nw, len - nw, "%#10x", EwinGetClientXwin(e));
+	     break;
+	  case 'c':		/* CName */
+	     nw += snprintf(buf + nw, len - nw, "%s", SS(EwinGetIcccmCName(e)));
+	     break;
+	  case 'd':		/* Class */
+	     nw += snprintf(buf + nw, len - nw, "%s", SS(EwinGetIcccmClass(e)));
+	     break;
+	  case 'n':		/* Name */
+	     nw += snprintf(buf + nw, len - nw, "%s", SS(EwinGetIcccmName(e)));
+	     break;
+	  case 'r':		/* Role */
+	     nw += snprintf(buf + nw, len - nw, "%s", SS(e->icccm.wm_role));
+	     break;
+	  }
+	continue;
+
+      do_char:
+	buf[nw++] = chf;
+	if (nw >= (int)len - 2)
+	   break;
+     }
+
+   buf[nw] = '\0';
+
+   IpcPrintf("%s\n", buf);
+}
+
+static void
+IPC_WinList(const char *params)
+{
+   char                buf[1024];
+   char                format[64];
+   const char         *match, *fmt;
    EWin              **lst, *e;
    int                 num, i;
 
    format[0] = '\0';
    match = params;
-   if (match)
+   if (params)
      {
 	num = 0;
-	sscanf(params, "%7s %n", format, &num);
+	sscanf(params, "%63s %n", format, &num);
 	match += num;
      }
    if (!match || !match[0])
@@ -358,42 +438,25 @@ IPC_WinList(const char *params)
 	switch (format[0])
 	  {
 	  case '\0':
-	     IpcPrintf("%#x : %s\n", EwinGetClientXwin(e),
-		       SS(EwinGetIcccmName(e)));
+	     fmt = "%i : %n";
 	     break;
-
 	  default:
-	     IpcPrintf("%#x : %s :: %d : %d %d : %d %d %dx%d\n",
-		       EwinGetClientXwin(e), SS(EwinGetIcccmName(e)),
-		       (EoIsSticky(e)) ? -1 : (int)EoGetDeskNum(e), e->area_x,
-		       e->area_y, EoGetX(e), EoGetY(e), EoGetW(e), EoGetH(e));
+	     fmt = "%i : %n :: %D : %A : %P %S";
 	     break;
-
 	  case 'a':
-	     IpcPrintf("%#10x : %5d %5d %4dx%4d :: %2d : %d %d : %s\n",
-		       EwinGetClientXwin(e), EoGetX(e), EoGetY(e), EoGetW(e),
-		       EoGetH(e), (EoIsSticky(e)) ? -1 : (int)EoGetDeskNum(e),
-		       e->area_x, e->area_y, SS(EwinGetIcccmName(e)));
+	     fmt = "%i : %P %S :: %D : %A : %n";
 	     break;
-
 	  case 'g':
-	     IpcPrintf
-		("%#10x : %5d %5d %4dx%4d :: %2d : %s %4d,%4d %2d,%2d : %s\n",
-		 EwinGetClientXwin(e), EoGetX(e), EoGetY(e), EoGetW(e),
-		 EoGetH(e), (EoIsSticky(e)) ? -1 : (int)EoGetDeskNum(e),
-		 TxtPG[e->place.gravity & 3], e->place.gx, e->place.gy,
-		 e->place.ax, e->place.ay, SS(EwinGetIcccmName(e)));
+	     fmt = "%i : %P %S :: %D : %G : %n";
 	     break;
-
 	  case 'p':
-	     IpcPrintf
-		("%#10x : %5d %5d %4dx%4d :: %2d : \"%s\" \"%s\" : \"%s\" : \"%s\"\n",
-		 EwinGetClientXwin(e), EoGetX(e), EoGetY(e), EoGetW(e),
-		 EoGetH(e), (EoIsSticky(e)) ? -1 : (int)EoGetDeskNum(e),
-		 SS(EwinGetIcccmCName(e)), SS(EwinGetIcccmClass(e)),
-		 SS(EwinGetIcccmName(e)), SS(e->icccm.wm_role));
+	     fmt = "%i : %P %S :: %D : \"%c\" \"%d\" : \"%n\" : \"%r\"";
+	     break;
+	  case '+':
+	     fmt = format + 1;
 	     break;
 	  }
+	IPC_WinListFmt(buf, sizeof(buf), fmt, e);
      }
    Efree(lst);
 }
