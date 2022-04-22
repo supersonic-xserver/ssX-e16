@@ -8,3 +8,4 @@
 "Toggle Ignore Arrange"	NULL "wop * ignore_arrange"
 "Toggle Button Grabs"	NULL "wop * no_button_grabs"
 "Toggle Autoshade"	NULL "wop * autoshade"
+"Toggle Pass Pointer"	NULL "wop * pass_ptr"
