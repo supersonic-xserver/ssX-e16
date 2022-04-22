@@ -1205,14 +1205,17 @@ static const IpcItem FocusIpcArray[] = {
     FocusIpc,
     "focus", "sf",
     "Focus functions",
-    "  focus ?                     Show focus info\n"
-    "  focus mode                  Set focus mode. Modes:\n"
-    "    click:       The traditional click-to-focus mode.\n"
-    "    clicknograb: A similar focus mode, but without the grabbing of the click\n"
-    "      (you cannot click anywhere in a window to focus it)\n"
-    "    pointer:     The focus will follow the mouse pointer\n"
-    "    sloppy:      The focus follows the mouse, but when over the desktop background\n"
-    "                 the last window does not lose the focus\n"}
+    "  focus ?              Show focused window id\n"
+    "  focus mode MODE      Set focus mode. MODEs:\n"
+    "    click        The traditional click-to-focus mode\n"
+    "    clicknograb  A similar focus mode, but without the grabbing of the click\n"
+    "                 (you cannot click anywhere in a window to focus it)\n"
+    "    pointer      The focus will follow the mouse pointer\n"
+    "    sloppy       The focus follows the mouse, but when over the desktop\n"
+    "                 background the last window does not lose the focus\n"
+    "    ?            Show currrent focus mode\n"
+    "  focus next           Focus previously focused window\n"
+    "  focus prev           Focus least recently focused window\n"}
    ,
 };
 
