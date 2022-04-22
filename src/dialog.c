@@ -403,7 +403,6 @@ DialogArrange(Dialog * d, int resize)
 	DialogRedraw(d);
 	DialogUpdate(d);
 	d->resize = 0;
-	ArrangeEwinCentered(d->ewin);
      }
 }
 
