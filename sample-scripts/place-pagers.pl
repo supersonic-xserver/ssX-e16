@@ -12,7 +12,7 @@ my $ORIENT   =   "v";
 
 my $BASE     =     0;
 my $VERBOSE  =     0;
-my $UNDER    =     1;
+my $LAYER    =     4;
 
 my (%ID, $X0, $Y0, $H, $W, @DNUMs);
 my $last_dnum = -1;
@@ -21,6 +21,8 @@ GetOptions(
     "border=i" => \$BORDER,
     "key=i"    => \$KEY,
     "orient=s" => \$ORIENT,
+    above      => sub { $LAYER = 6 },
+    under      => sub { $LAYER = 2 },
     verbose    => \$VERBOSE,
     help       => sub { usage() },
 ) or exit 2;
@@ -36,9 +38,11 @@ is to key off the most recently adjusted pager.  The default
 orientiation is a vertical line.
 
 Options:
+  -a, --above      Place pagers above other windows
   -b, --border=N   Put N pixels between pagers
   -h, --help       Show this usage
   -k, --key=N      Key off of pager N (-1 for max)
+  -u, --under      Place pagers below other windows
   -v, --verbose    Print more.
 
   -o, --orient={v|h}[N]
@@ -130,8 +134,7 @@ for my $dnum (sort {$a <=> $b} @DNUMs) {
     $y = $Y0 + $mod_y * ($H + $BORDER);
     system("eesh wop $id size $W");
     system("eesh wop $id move $x $y");
-    $UNDER and system("eesh wop $id layer 1");
-
+    system("eesh wop $id layer $LAYER");
 }
 
 sub modular {
