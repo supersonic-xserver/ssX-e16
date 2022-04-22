@@ -87,12 +87,12 @@ $DoIconv = `which iconv`;
 );
 
 @MainMenu = (
-	"t:User Menus",
-	"m:User Application List:user_apps.menu",
+	"t:User menus",
+	"m:User application list:user_apps.menu",
 	"m:Applications:menus_apps/index.menu",
 	"m:Epplets:epplets.menu",
 	"c:Restart:exit restart",
-	"c:Log Out:exit logout"
+	"c:Log out:exit logout"
 );
 
 @UserAppsMenu = (

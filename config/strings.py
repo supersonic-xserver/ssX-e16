@@ -76,12 +76,12 @@ def do_line_menu(line):
 
 # From e_gen_menu
 sl = [
-    'User Menus',
-    'User Application List',
+    'User menus',
+    'User application list',
     'Applications',
     'Epplets',
     'Restart',
-    'Log Out',
+    'Log out',
 ]
 
 #

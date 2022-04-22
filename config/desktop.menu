@@ -1,8 +1,8 @@
 "Desktop Operations" "ROOT"
 "Backgrounds"		NULL menu backgrounds
-"Cleanup Desktop"	NULL "desk arrange"
-"Goto Next Desktop"	NULL "desk next"
-"Goto Previous Desktop"	NULL "desk prev"
-"Create New Iconbox"	NULL "ibox new"
-"Create Systray"	NULL "ibox new _ST_"
-"Show Magnifier"	NULL mag
+"Cleanup desktop"	NULL "desk arrange"
+"Goto next desktop"	NULL "desk next"
+"Goto previous desktop"	NULL "desk prev"
+"Create new iconbox"	NULL "ibox new"
+"Create systray"	NULL "ibox new _ST_"
+"Show magnifier"	NULL mag

@@ -8,4 +8,4 @@
 "About this theme"	NULL exec "edox $ETHEME/ABOUT"
 "Theme menu"		NULL menu theme.menu
 "Restart"		NULL "exit restart"
-"Log Out"		NULL "exit logout"
+"Log out"		NULL "exit logout"

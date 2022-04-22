@@ -7,4 +7,4 @@
 "Query pager background cache usage"	NULL exec "${EROOT}/scripts/e_cache_query pager"
 "Query background selector cache usage"	NULL exec "${EROOT}/scripts/e_cache_query bgsel"
 "Query all cache usage"			NULL exec "${EROOT}/scripts/e_cache_query all"
-"Regenerate Menus"			NULL exec "${EROOT}/scripts/e_gen_menu"
+"Regenerate menus"			NULL exec "${EROOT}/scripts/e_gen_menu"

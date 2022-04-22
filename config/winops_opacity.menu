@@ -7,5 +7,5 @@
 "100%"			NULL "wop * op 100"
 "Focused opacity 100%"	NULL "wop * focused_opacity 100"
 "Focused opacity follows unfocused" NULL "wop * focused_opacity 0"
-"Toggle Fading"		NULL "wop * fade"
-"Toggle Shadows"	NULL "wop * shadow"
+"Toggle fading"		NULL "wop * fade"
+"Toggle shadows"	NULL "wop * shadow"
