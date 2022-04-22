@@ -956,7 +956,7 @@ _DlgFillGroups(Dialog * d, DItem * table, void *data)
 
    di = DialogAddItem(table, DITEM_CHECKBUTTON);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Changing Border Style"));
+   DialogItemSetText(di, _("Changing border style"));
    DialogItemCheckButtonSetPtr(di, &(dd->cfg.set_border));
 
    di = DialogAddItem(table, DITEM_CHECKBUTTON);
@@ -976,7 +976,7 @@ _DlgFillGroups(Dialog * d, DItem * table, void *data)
 
    di = DialogAddItem(table, DITEM_CHECKBUTTON);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Raising/Lowering"));
+   DialogItemSetText(di, _("Raising/lowering"));
    DialogItemCheckButtonSetPtr(di, &(dd->cfg.raise));
 
    di = DialogAddItem(table, DITEM_CHECKBUTTON);
@@ -1047,7 +1047,7 @@ _DlgFillGroupDefaults(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_CHECKBUTTON);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Changing Border Style"));
+   DialogItemSetText(di, _("Changing border style"));
    DialogItemCheckButtonSetPtr(di, &dd->group_cfg.set_border);
 
    di = DialogAddItem(table, DITEM_CHECKBUTTON);
@@ -1067,7 +1067,7 @@ _DlgFillGroupDefaults(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_CHECKBUTTON);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Raising/Lowering"));
+   DialogItemSetText(di, _("Raising/lowering"));
    DialogItemCheckButtonSetPtr(di, &dd->group_cfg.raise);
 
    di = DialogAddItem(table, DITEM_CHECKBUTTON);

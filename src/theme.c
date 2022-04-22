@@ -430,7 +430,7 @@ _DlgThemeFill(Dialog * d __UNUSED__, DItem * table, void *data __UNUSED__)
    di = DialogAddItem(table, DITEM_CHECKBUTTON);
    DialogItemSetColSpan(di, 2);
    Esnprintf(buf, sizeof(buf), _("Use alternate font configuration (%s)"),
-	     Conf.theme.font_cfg ? Conf.theme.font_cfg : _("Not set"));
+	     Conf.theme.font_cfg ? Conf.theme.font_cfg : _("not set"));
    DialogItemSetText(di, buf);
    DialogItemCheckButtonSetPtr(di, &tmp_use_alt_font);
 }

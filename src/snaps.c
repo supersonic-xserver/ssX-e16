@@ -1014,7 +1014,7 @@ _DlgFillRemember(Dialog * d __UNUSED__, DItem * table, void *data __UNUSED__)
       if (sn->used)
 	{
 	   di = DialogAddItem(table, DITEM_BUTTON);
-	   DialogItemSetText(di, _("Remembered Settings..."));
+	   DialogItemSetText(di, _("Remembered settings..."));
 	   DialogItemSetCallback(di, CB_RememberWindowSettings, 0,
 				 (char *)(&rd_ewin_list[i]));
 	}

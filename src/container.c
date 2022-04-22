@@ -1189,7 +1189,7 @@ ContainerShowMenu(Container * ct)
 
    if (ct->type == IB_TYPE_ICONBOX)
      {
-	mi = MenuItemCreate(_("Create New Iconbox"), NULL, "ibox new", NULL);
+	mi = MenuItemCreate(_("Create new iconbox"), NULL, "ibox new", NULL);
 	MenuAddItem(m, mi);
      }
 

@@ -83,10 +83,10 @@ _DlgFillMoveResize(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemTableSetOptions(table, 2, 0, 0, 0);
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Move Methods:"));
+   DialogItemSetText(di, _("Move methods:"));
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Resize Methods:"));
+   DialogItemSetText(di, _("Resize methods:"));
 
    radio1 = di = DialogAddItem(table, DITEM_RADIOBUTTON);
    DialogItemSetText(di, _("Opaque"));
@@ -141,17 +141,17 @@ _DlgFillMoveResize(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_TEXT);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Move/Resize Geometry Info Postion:"));
+   DialogItemSetText(di, _("Move/resize geometry info postion:"));
 
    radio3 = di = DialogAddItem(table, DITEM_RADIOBUTTON);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Window Center (O/T/B Methods)"));
+   DialogItemSetText(di, _("Window center (O/T/B methods)"));
    DialogItemRadioButtonSetFirst(di, radio3);
    DialogItemRadioButtonGroupSetVal(di, 1);
 
    di = DialogAddItem(table, DITEM_RADIOBUTTON);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Always Screen corner"));
+   DialogItemSetText(di, _("Always screen corner"));
    DialogItemRadioButtonSetFirst(di, radio3);
    DialogItemRadioButtonGroupSetVal(di, 2);
 
@@ -167,7 +167,7 @@ _DlgFillMoveResize(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_TEXT);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Default Resize Policy:"));
+   DialogItemSetText(di, _("Default resize policy:"));
 
    radio4 = di = DialogAddItem(table, DITEM_RADIOBUTTON);
    DialogItemSetColSpan(di, 2);
@@ -361,7 +361,7 @@ _DlgFillPlacement(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_TEXT);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Slide Method:"));
+   DialogItemSetText(di, _("Slide method:"));
 
    radio = di = DialogAddItem(table, DITEM_RADIOBUTTON);
    DialogItemSetText(di, _("Opaque"));
@@ -386,7 +386,7 @@ _DlgFillPlacement(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemRadioButtonGroupSetValPtr(radio, &dd->slide_mode);
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Appear Slide speed:"));
+   DialogItemSetText(di, _("Appear slide speed:"));
 
    di = DialogAddItem(table, DITEM_SLIDER);
    DialogItemSliderSetBounds(di, 0, 20000);
@@ -395,7 +395,7 @@ _DlgFillPlacement(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemSliderSetValPtr(di, &dd->map_slide_speed);
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Cleanup Slide speed:"));
+   DialogItemSetText(di, _("Cleanup slide speed:"));
 
    di = DialogAddItem(table, DITEM_SLIDER);
    DialogItemSliderSetBounds(di, 0, 20000);
@@ -412,7 +412,7 @@ _DlgFillPlacement(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemCheckButtonSetPtr(di, &dd->animate_shading);
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Window Shading speed:"));
+   DialogItemSetText(di, _("Window shading speed:"));
 
    di = DialogAddItem(table, DITEM_SLIDER);
    DialogItemSliderSetBounds(di, 0, 20000);
@@ -490,13 +490,13 @@ _DlgFillMisc(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_CHECKBUTTON);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Enable Dialog Headers"));
+   DialogItemSetText(di, _("Enable dialog headers"));
    DialogItemCheckButtonSetPtr(di, &dd->dialog_headers);
 
 #if 0				/* Not functional */
    di = DialogAddItem(table, DITEM_CHECKBUTTON);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Enable Button Images"));
+   DialogItemSetText(di, _("Enable button images"));
    DialogItemCheckButtonSetPtr(di, &dd->button_image);
 #endif
 
@@ -568,7 +568,7 @@ _DlgFillComposite(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_CHECKBUTTON);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Enable Composite"));
+   DialogItemSetText(di, _("Enable composite"));
    DialogItemCheckButtonSetPtr(di, &dd->enable);
 
    di = DialogAddItem(table, DITEM_SEPARATOR);
@@ -576,11 +576,11 @@ _DlgFillComposite(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_CHECKBUTTON);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Enable Fading"));
+   DialogItemSetText(di, _("Enable fading"));
    DialogItemCheckButtonSetPtr(di, &dd->fading);
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Fading Speed:"));
+   DialogItemSetText(di, _("Fading speed:"));
 
    di = DialogAddItem(table, DITEM_SLIDER);
    DialogItemSliderSetBounds(di, 0, 100);
@@ -593,7 +593,7 @@ _DlgFillComposite(Dialog * d, DItem * table, void *data __UNUSED__)
 
    radio = di = DialogAddItem(table, DITEM_RADIOBUTTON);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Shadows Off"));
+   DialogItemSetText(di, _("Shadows off"));
    DialogItemRadioButtonSetFirst(di, radio);
    DialogItemRadioButtonGroupSetVal(di, 0);
 

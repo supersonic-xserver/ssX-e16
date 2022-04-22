@@ -1035,13 +1035,13 @@ _DlgFillFocus(Dialog * d, DItem * table, void *data __UNUSED__)
 
    radio = di = DialogAddItem(table, DITEM_RADIOBUTTON);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("First E Icon, then App Icon"));
+   DialogItemSetText(di, _("First E icon, then App icon"));
    DialogItemRadioButtonSetFirst(di, radio);
    DialogItemRadioButtonGroupSetVal(di, EWIN_ICON_MODE_IMG_APP);
 
    di = DialogAddItem(table, DITEM_RADIOBUTTON);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("First App Icon, then E Icon"));
+   DialogItemSetText(di, _("First App icon, then E icon"));
    DialogItemRadioButtonSetFirst(di, radio);
    DialogItemRadioButtonGroupSetVal(di, EWIN_ICON_MODE_APP_IMG);
 

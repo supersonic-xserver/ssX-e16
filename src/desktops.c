@@ -2578,7 +2578,7 @@ _DlgFillDesks(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_TEXT);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Desktop Slide speed:"));
+   DialogItemSetText(di, _("Desktop slide speed:"));
 
    di = DialogAddItem(table, DITEM_SLIDER);
    DialogItemSetColSpan(di, 2);
@@ -2605,7 +2605,7 @@ _DlgFillDesks(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_TEXT);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Drag bar position:"));
+   DialogItemSetText(di, _("Dragbar position:"));
 
    radio = di = DialogAddItem(table, DITEM_RADIOBUTTON);
    DialogItemSetColSpan(di, 2);
@@ -2734,7 +2734,7 @@ _DlgFillAreas(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemTableSetOptions(table, 1, 0, 0, 0);
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Virtual Desktop size:"));
+   DialogItemSetText(di, _("Virtual desktop size:"));
    DialogItemSetAlign(di, 512, 512);
 
    di = dd->area_text = DialogAddItem(table, DITEM_TEXT);
@@ -2779,7 +2779,7 @@ _DlgFillAreas(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogAddItem(table, DITEM_SEPARATOR);
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Edge Flip Mode:"));
+   DialogItemSetText(di, _("Edge flip mode:"));
 
    radio = di = DialogAddItem(table, DITEM_RADIOBUTTON);
    DialogItemSetText(di, _("Off"));

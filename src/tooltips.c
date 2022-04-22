@@ -847,16 +847,16 @@ _DlgFillTooltips(Dialog * d __UNUSED__, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_CHECKBUTTON);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Display Tooltips"));
+   DialogItemSetText(di, _("Display tooltips"));
    DialogItemCheckButtonSetPtr(di, &tmp_tooltips);
 
    di = DialogAddItem(table, DITEM_CHECKBUTTON);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Display Root Window Tips"));
+   DialogItemSetText(di, _("Display root window tips"));
    DialogItemCheckButtonSetPtr(di, &tmp_roottip);
 
    di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Tooltip Delay:"));
+   DialogItemSetText(di, _("Tooltip delay:"));
 
    di = DialogAddItem(table, DITEM_SLIDER);
    DialogItemSliderSetBounds(di, 0, 300);

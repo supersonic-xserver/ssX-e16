@@ -1826,7 +1826,7 @@ _DlgFillPagers(Dialog * d, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_TEXT);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Pager Mode:"));
+   DialogItemSetText(di, _("Pager mode:"));
 
    radio = di = DialogAddItem(table, DITEM_RADIOBUTTON);
    DialogItemSetColSpan(di, 2);
@@ -1843,7 +1843,7 @@ _DlgFillPagers(Dialog * d, DItem * table, void *data __UNUSED__)
 #if USE_COMPOSITE
    di = DialogAddItem(table, DITEM_RADIOBUTTON);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Live Update"));
+   DialogItemSetText(di, _("Live update"));
    DialogItemRadioButtonSetFirst(di, radio);
    DialogItemRadioButtonGroupSetVal(di, 2);
 #endif

@@ -738,17 +738,17 @@ _DlgFillSession(Dialog * d __UNUSED__, DItem * table, void *data __UNUSED__)
 
    di = DialogAddItem(table, DITEM_CHECKBUTTON);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Enable Session Script"));
+   DialogItemSetText(di, _("Enable session script"));
    DialogItemCheckButtonSetPtr(di, &tmp_session_script);
 
    di = DialogAddItem(table, DITEM_CHECKBUTTON);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Enable Logout Dialog"));
+   DialogItemSetText(di, _("Enable logout dialog"));
    DialogItemCheckButtonSetPtr(di, &tmp_logout_dialog);
 
    di = DialogAddItem(table, DITEM_CHECKBUTTON);
    DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Enable Reboot/Halt on Logout"));
+   DialogItemSetText(di, _("Enable reboot/halt on logout"));
    DialogItemCheckButtonSetPtr(di, &tmp_reboot_halt);
 }
 

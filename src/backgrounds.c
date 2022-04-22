@@ -2002,7 +2002,7 @@ _DlgFillBackground(Dialog * d, DItem * table, void *data)
    DialogItemSetAlign(table2, 512, 0);
 
    di = DialogAddItem(table2, DITEM_BUTTON);
-   DialogItemSetText(di, _("Move to Front"));
+   DialogItemSetText(di, _("Move to front"));
    DialogItemSetCallback(di, CB_ConfigureFrontBG, 0, NULL);
    DialogBindKey(d, "F", CB_ConfigureFrontBG, 0, NULL);
 
@@ -2016,7 +2016,7 @@ _DlgFillBackground(Dialog * d, DItem * table, void *data)
    DialogBindKey(d, "D", CB_ConfigureDelBG, 0, NULL);
 
    di = DialogAddItem(table2, DITEM_BUTTON);
-   DialogItemSetText(di, _("Delete File"));
+   DialogItemSetText(di, _("Delete file"));
    DialogItemSetCallback(di, CB_ConfigureDelBG, 1, NULL);
    DialogBindKey(d, "Delete", CB_ConfigureDelBG, 1, NULL);
 
@@ -2026,8 +2026,8 @@ _DlgFillBackground(Dialog * d, DItem * table, void *data)
    di = DialogAddItem(table2, DITEM_TEXT);
    DialogItemSetAlign(di, 512, 512);
    DialogItemSetText(di,
-		     _("Background\n" "Image\n" "Scaling\n" "and\n"
-		       "Alignment\n"));
+		     _("Background\n" "image\n" "scaling\n" "and\n"
+		       "alignment\n"));
 
    table3 = DialogAddItem(table2, DITEM_TABLE);
    DialogItemTableSetOptions(table3, 3, 0, 0, 0);
@@ -2079,7 +2079,7 @@ _DlgFillBackground(Dialog * d, DItem * table, void *data)
    di = DialogAddItem(table3, DITEM_TEXT);
    DialogItemSetColSpan(di, 2);
    DialogItemSetAlign(di, 512, 512);
-   DialogItemSetText(di, _("BG Colour"));
+   DialogItemSetText(di, _("BG colour"));
 
    di = DialogAddItem(table3, DITEM_TEXT);
    DialogItemSetAlign(di, 1024, 512);
@@ -2144,18 +2144,18 @@ _DlgFillBackground(Dialog * d, DItem * table, void *data)
 
    di = DialogAddItem(table3, DITEM_BUTTON);
    DialogItemSetFill(di, 0, 0);
-   DialogItemSetText(di, _("Sort by File"));
+   DialogItemSetText(di, _("Sort by file"));
    DialogItemSetCallback(di, CB_BGSortFile, 0, NULL);
 
    di = DialogAddItem(table3, DITEM_BUTTON);
    DialogItemSetFill(di, 0, 0);
-   DialogItemSetText(di, _("Sort by Attr."));
+   DialogItemSetText(di, _("Sort by attr."));
    DialogItemSetCallback(di, CB_BGSortAttrib, 0, NULL);
 
 #if 0				/* Doesn't do anything useful */
    di = DialogAddItem(table3, DITEM_BUTTON);
    DialogItemSetFill(di, 0, 0);
-   DialogItemSetText(di, _("Sort by Image"));
+   DialogItemSetText(di, _("Sort by image"));
    DialogItemSetCallback(di, CB_BGSortContent, 0, NULL);
 #endif
 
