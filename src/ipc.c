@@ -1810,7 +1810,7 @@ IpcExec(const char *params)
    const IpcItem     **lst, *ipc;
 
    if (EDebug(EDBUG_TYPE_IPC))
-      Eprintf("%s: %s\n", __func__, params);
+      Eprintf("%s: '%s'\n", __func__, params);
 
    cmd[0] = 0;
    num = 0;
@@ -1848,8 +1848,13 @@ IpcExecReply(const char *params, IpcReplyFunc * reply, void *data)
    int                 ok;
 
    IpcPrintInit();
+
    ok = IpcExec(params);
+
+   if (EDebug(EDBUG_TYPE_IPC))
+      Eprintf("%s: '%s'\n", __func__, IpcPrintGetBuffer());
    reply(data, IpcPrintGetBuffer());
+
    IpcPrintDone();
 
    return ok;
