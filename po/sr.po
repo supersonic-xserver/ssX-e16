@@ -2310,7 +2310,7 @@ msgid "Above"
 msgstr "Изнад"
 
 #: config/strings.c:151
-msgid "On Top"
+msgid "Highest"
 msgstr "Изнад осталих"
 
 #: config/strings.c:154

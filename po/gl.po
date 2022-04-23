@@ -2252,7 +2252,7 @@ msgid "Above"
 msgstr "Enriba"
 
 #: config/strings.c:151
-msgid "On Top"
+msgid "Highest"
 msgstr "Enriba"
 
 #: config/strings.c:154

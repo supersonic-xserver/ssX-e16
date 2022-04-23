@@ -2372,7 +2372,7 @@ msgid "Above"
 msgstr "Acima"
 
 #: config/strings.c:151
-msgid "On Top"
+msgid "Highest"
 msgstr "No topo"
 
 #: config/strings.c:154

@@ -2430,7 +2430,7 @@ msgid "Above"
 msgstr "Над"
 
 #: config/strings.c:151
-msgid "On Top"
+msgid "Highest"
 msgstr "На верху"
 
 #: config/strings.c:154

@@ -2211,7 +2211,7 @@ msgid "Above"
 msgstr "فوق"
 
 #: config/strings.c:151
-msgid "On Top"
+msgid "Highest"
 msgstr "في الأعلى"
 
 #: config/strings.c:154

@@ -2204,7 +2204,7 @@ msgid "Above"
 msgstr "Uppi yvir"
 
 #: config/strings.c:151
-msgid "On Top"
+msgid "Highest"
 msgstr "Ovast"
 
 #: config/strings.c:154

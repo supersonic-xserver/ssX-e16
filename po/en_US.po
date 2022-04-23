@@ -2183,7 +2183,7 @@ msgid "Above"
 msgstr ""
 
 #: config/strings.c:151
-msgid "On Top"
+msgid "Highest"
 msgstr ""
 
 #: config/strings.c:154

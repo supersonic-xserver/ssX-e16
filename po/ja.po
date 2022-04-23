@@ -2513,7 +2513,7 @@ msgid "Above"
 msgstr "上に"
 
 #: config/strings.c:151
-msgid "On Top"
+msgid "Highest"
 msgstr "常に上に"
 
 #: config/strings.c:154

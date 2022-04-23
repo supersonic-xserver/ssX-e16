@@ -2436,7 +2436,7 @@ msgid "Above"
 msgstr "Boven"
 
 #: config/strings.c:151
-msgid "On Top"
+msgid "Highest"
 msgstr "Bovenop"
 
 #: config/strings.c:154

@@ -2278,7 +2278,7 @@ msgid "Above"
 msgstr "Iznad"
 
 #: config/strings.c:151
-msgid "On Top"
+msgid "Highest"
 msgstr "Na Vrhu"
 
 #: config/strings.c:154

@@ -2440,7 +2440,7 @@ msgid "Above"
 msgstr "A sobre"
 
 #: config/strings.c:151
-msgid "On Top"
+msgid "Highest"
 msgstr "A dalt"
 
 #: config/strings.c:154

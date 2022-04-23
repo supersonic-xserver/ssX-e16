@@ -2813,7 +2813,7 @@ msgstr "Im Vordergrund"
 
 # src/settings.c:1878
 #: config/strings.c:151
-msgid "On Top"
+msgid "Highest"
 msgstr "In den Vordergrund"
 
 #: config/strings.c:154

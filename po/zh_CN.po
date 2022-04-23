@@ -2336,7 +2336,7 @@ msgid "Above"
 msgstr "上方"
 
 #: config/strings.c:151
-msgid "On Top"
+msgid "Highest"
 msgstr "置顶"
 
 #: config/strings.c:154
