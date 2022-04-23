@@ -161,6 +161,7 @@ const char         *txt[] = {
    _("Toggle Ignore Arrange"),
    _("Toggle Button Grabs"),
    _("Toggle Autoshade"),
+   _("Toggle Pass Pointer"),
 /* winops_opacity.menu */
    _("Opacity"),
    _("Default"),
