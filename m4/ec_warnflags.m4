@@ -20,6 +20,8 @@ AC_DEFUN([EC_C_WARNINGS], [
     CFLAGS_WARNINGS="-W -Wall -Waggregate-return -Wcast-align -Wpointer-arith -Wshadow -Wwrite-strings"
     ifelse(ec_c_compile_cpp, no, [
       CFLAGS_WARNINGS="$CFLAGS_WARNINGS -Wmissing-prototypes -Wmissing-declarations -Wstrict-prototypes"
+    ], [
+      CFLAGS_WARNINGS="$CFLAGS_WARNINGS -Wno-missing-field-initializers"
     ])
 
     if test "x$enable_werror" = "xyes"; then
