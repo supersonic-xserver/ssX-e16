@@ -135,7 +135,7 @@ msgid "Tile image across background"
 msgstr "Plaats plaatjes naast elkaar op achtergrond"
 
 #: src/backgrounds.c:2005
-msgid "Move to Front"
+msgid "Move to front"
 msgstr "Verplaats naar voren"
 
 #: src/backgrounds.c:2010
@@ -147,16 +147,16 @@ msgid "Unlist"
 msgstr "Haal uit de lijst"
 
 #: src/backgrounds.c:2019
-msgid "Delete File"
+msgid "Delete file"
 msgstr "Verwijder bestand"
 
 #: src/backgrounds.c:2029
 msgid ""
 "Background\n"
-"Image\n"
-"Scaling\n"
+"image\n"
+"scaling\n"
 "and\n"
-"Alignment\n"
+"alignment\n"
 msgstr ""
 "Achtergrond\n"
 "Plaatje\n"
@@ -165,7 +165,7 @@ msgstr ""
 "Plaatsing\n"
 
 #: src/backgrounds.c:2082
-msgid "BG Colour"
+msgid "BG colour"
 msgstr "Achtergrond kleur"
 
 #: src/backgrounds.c:2086
@@ -185,15 +185,15 @@ msgid "Pre-scan BG's"
 msgstr "Prescan Achtergronden"
 
 #: src/backgrounds.c:2147
-msgid "Sort by File"
+msgid "Sort by file"
 msgstr "Sorteer op bestand"
 
 #: src/backgrounds.c:2152
-msgid "Sort by Attr."
+msgid "Sort by attr."
 msgstr "Sorteer op attribuut"
 
 #: src/backgrounds.c:2158
-msgid "Sort by Image"
+msgid "Sort by image"
 msgstr "Sorteer op plaatje"
 
 #: src/backgrounds.c:2178
@@ -341,7 +341,7 @@ msgid "Close"
 msgstr "Sluit"
 
 #: src/container.c:1192 config/strings.c:83
-msgid "Create New Iconbox"
+msgid "Create new iconbox"
 msgstr "Maak een nieuwe Icoonbox"
 
 #: src/container.c:1492 src/container.c:1560 src/menus.c:1983
@@ -530,7 +530,7 @@ msgid "Slide desktops around when changing"
 msgstr "Schuif desktops bij veranderen"
 
 #: src/desktops.c:2581
-msgid "Desktop Slide speed:"
+msgid "Desktop slide speed:"
 msgstr "Bureaublad Glijsnelheid:"
 
 #: src/desktops.c:2595
@@ -542,7 +542,7 @@ msgid "Display desktop dragbar"
 msgstr "Toon de desktop sleurstrip"
 
 #: src/desktops.c:2608
-msgid "Drag bar position:"
+msgid "Dragbar position:"
 msgstr "Sleurstrip positie:"
 
 #: src/desktops.c:2612
@@ -578,7 +578,7 @@ msgstr ""
 "Instellingendialoog"
 
 #: src/desktops.c:2737
-msgid "Virtual Desktop size:"
+msgid "Virtual desktop size:"
 msgstr "Virtuele Desktop grootte:"
 
 #: src/desktops.c:2776
@@ -586,7 +586,7 @@ msgid "Wrap virtual desktops around"
 msgstr "Wikkel virtuele bureaubladen rond"
 
 #: src/desktops.c:2782
-msgid "Edge Flip Mode:"
+msgid "Edge flip mode:"
 msgstr "Rand Flip Mode:"
 
 #: src/desktops.c:2790
@@ -765,11 +765,11 @@ msgstr ""
 "volgende):"
 
 #: src/focus.c:1038
-msgid "First E Icon, then App Icon"
+msgid "First E icon, then App icon"
 msgstr "Eerst E Icoon, dan App Icoon"
 
 #: src/focus.c:1044
-msgid "First App Icon, then E Icon"
+msgid "First App icon, then E icon"
 msgstr "Eerst App Icoon, dan E Icoon"
 
 #: src/focus.c:1058
@@ -882,7 +882,7 @@ msgstr ""
 "toegepast op alle groepsleden:"
 
 #: src/groups.c:959 src/groups.c:1050
-msgid "Changing Border Style"
+msgid "Changing border style"
 msgstr "Verander van rand stijl"
 
 #: src/groups.c:964 src/groups.c:1055
@@ -898,7 +898,7 @@ msgid "Moving"
 msgstr "Verplaatsen"
 
 #: src/groups.c:979 src/groups.c:1070
-msgid "Raising/Lowering"
+msgid "Raising/lowering"
 msgstr "Omhoog/Omlaag brengen"
 
 #: src/groups.c:984 src/groups.c:1075
@@ -1284,8 +1284,8 @@ msgid "Enable pager display"
 msgstr "Toon pager"
 
 #: src/pager.c:1829
-msgid "Pager Mode:"
-msgstr "Pager Mode:"
+msgid "Pager mode:"
+msgstr "Pager mode:"
 
 #: src/pager.c:1833
 msgid "Simple"
@@ -1296,8 +1296,8 @@ msgid "Make miniature snapshots of the screen"
 msgstr "Maak miniatuur snapshots van het scherm"
 
 #: src/pager.c:1846
-msgid "Live Update"
-msgstr "Live Update"
+msgid "Live update"
+msgstr "Live update"
 
 #: src/pager.c:1857
 msgid "Smooth high quality snapshots in snapshot mode"
@@ -1398,15 +1398,15 @@ msgid "No"
 msgstr "Nee"
 
 #: src/session.c:741
-msgid "Enable Session Script"
+msgid "Enable session script"
 msgstr "Sessiescript Inschakelen"
 
 #: src/session.c:746
-msgid "Enable Logout Dialog"
+msgid "Enable logout dialog"
 msgstr "Afmeldialoog Inschakelen"
 
 #: src/session.c:751
-msgid "Enable Reboot/Halt on Logout"
+msgid "Enable reboot/halt on logout"
 msgstr "Herstarten Inschakelen/Stoppen bij Afmelden"
 
 #: src/session.c:757
@@ -1426,11 +1426,11 @@ msgstr ""
 "Instellingendialoog"
 
 #: src/settings.c:86
-msgid "Move Methods:"
+msgid "Move methods:"
 msgstr "Verplaats methoden:"
 
 #: src/settings.c:89
-msgid "Resize Methods:"
+msgid "Resize methods:"
 msgstr "Vergroot/Verklein methoden:"
 
 #: src/settings.c:92 src/settings.c:97 src/settings.c:367
@@ -1451,15 +1451,15 @@ msgid "Avoid server grab"
 msgstr "Server greep vermijden"
 
 #: src/settings.c:144
-msgid "Move/Resize Geometry Info Postion:"
+msgid "Move/resize geometry info postion:"
 msgstr "Verplaats/Wijzig grootte van Geometrie Informatie positie"
 
 #: src/settings.c:148
-msgid "Window Center (O/T/B Methods)"
+msgid "Window center (O/T/B methods)"
 msgstr "Venster Centreren (O/T/B Methoden)"
 
 #: src/settings.c:154
-msgid "Always Screen corner"
+msgid "Always screen corner"
 msgstr "Altijd Scherm Hoek"
 
 #: src/settings.c:160
@@ -1467,7 +1467,7 @@ msgid "Don't show"
 msgstr "Niet weergeven"
 
 #: src/settings.c:170
-msgid "Default Resize Policy:"
+msgid "Default resize policy:"
 msgstr "Standaard herschalingsbeleid:"
 
 #: src/settings.c:174
@@ -1551,15 +1551,15 @@ msgid "Slide windows around when cleaning up"
 msgstr "Verschuif vensters bij het opschonen"
 
 #: src/settings.c:364
-msgid "Slide Method:"
+msgid "Slide method:"
 msgstr "Schuif Methode:"
 
 #: src/settings.c:389
-msgid "Appear Slide speed:"
+msgid "Appear slide speed:"
 msgstr "Schuifsnelheid bij verschijnen:"
 
 #: src/settings.c:398
-msgid "Cleanup Slide speed:"
+msgid "Cleanup slide speed:"
 msgstr "Schuifsnelheid bij opruimen:"
 
 #: src/settings.c:411
@@ -1567,7 +1567,7 @@ msgid "Animate shading and unshading of windows"
 msgstr "Animeer het shaden en de-shaden van vensters"
 
 #: src/settings.c:415
-msgid "Window Shading speed:"
+msgid "Window shading speed:"
 msgstr "Snelheid van shaden:"
 
 #: src/settings.c:428
@@ -1603,11 +1603,11 @@ msgstr ""
 "Instellingendialoog"
 
 #: src/settings.c:493
-msgid "Enable Dialog Headers"
+msgid "Enable dialog headers"
 msgstr "Dialoog headers inschakelen"
 
 #: src/settings.c:499
-msgid "Enable Button Images"
+msgid "Enable button images"
 msgstr "Knopafbeeldingen inschakelen"
 
 #: src/settings.c:508
@@ -1635,19 +1635,19 @@ msgstr ""
 "Instelingendialoog"
 
 #: src/settings.c:571
-msgid "Enable Composite"
+msgid "Enable composite"
 msgstr "Composiet inschakelen"
 
 #: src/settings.c:579
-msgid "Enable Fading"
+msgid "Enable fading"
 msgstr "Fading Inschakelen"
 
 #: src/settings.c:583
-msgid "Fading Speed:"
+msgid "Fading speed:"
 msgstr "Fading Snelheid:"
 
 #: src/settings.c:596
-msgid "Shadows Off"
+msgid "Shadows off"
 msgstr "Schaduw Uit"
 
 #: src/settings.c:602
@@ -1861,7 +1861,7 @@ msgid "Delete"
 msgstr "Verwijderen"
 
 #: src/snaps.c:1017
-msgid "Remembered Settings..."
+msgid "Remembered settings..."
 msgstr "Onthoude Instellingen..."
 
 #: src/snaps.c:1024
@@ -1995,7 +1995,7 @@ msgid "Use alternate font configuration (%s)"
 msgstr "Gebruik alternatieve lettertype configuratie (%s)"
 
 #: src/theme.c:433
-msgid "Not set"
+msgid "not set"
 msgstr "Niet ingesteld"
 
 #: src/theme.c:440
@@ -2015,15 +2015,15 @@ msgstr ""
 "Instellingendialoog"
 
 #: src/tooltips.c:850
-msgid "Display Tooltips"
+msgid "Display tooltips"
 msgstr "Toon Tooltips"
 
 #: src/tooltips.c:855
-msgid "Display Root Window Tips"
+msgid "Display root window tips"
 msgstr "Toon Tooltips op de achtergrond van desktop"
 
 #: src/tooltips.c:859
-msgid "Tooltip Delay:"
+msgid "Tooltip delay:"
 msgstr "Wachttijd voor het tonen:"
 
 #: src/tooltips.c:870
@@ -2051,15 +2051,15 @@ msgstr ""
 "(op elk bureaublad behalve bureaublad 0)"
 
 #: config/strings.c:6 config/strings.c:8
-msgid "Switch Desktops"
+msgid "Switch desktops"
 msgstr "Bureaubladen Wisselen"
 
 #: config/strings.c:7
-msgid "Go to the next desktop."
+msgid "Go to the next desktop"
 msgstr "Ga naar volgende bureaublad."
 
 #: config/strings.c:9
-msgid "Go to the previous desktop."
+msgid "Go to the previous desktop"
 msgstr "Ga naar vorige bureaublad."
 
 #: config/strings.c:10
@@ -2068,39 +2068,39 @@ msgstr "Verplaatsen"
 
 #: config/strings.c:11 config/strings.c:23 config/strings.c:26
 #: config/strings.c:29
-msgid "Move this window."
+msgid "Move this window"
 msgstr "Verplaats dit venster."
 
 #: config/strings.c:12 config/strings.c:14 config/strings.c:48
-msgid "Shade/Unshade this window."
+msgid "Shade/unshade this window"
 msgstr "Schaduw/Ontschaduw dit venster."
 
 #: config/strings.c:13 config/strings.c:50 config/strings.c:53
-msgid "Show the Window Options menu."
+msgid "Show the Window Options menu"
 msgstr "Geef het vensteropties menu weer."
 
 #: config/strings.c:15
-msgid "Show/Hide group borders."
+msgid "Show/hide group borders"
 msgstr "Geef weer/Verberg groep randen."
 
 #: config/strings.c:16
-msgid "Start a group."
+msgid "Start a group"
 msgstr "Start een groep."
 
 #: config/strings.c:17
-msgid "Add to current group."
+msgid "Add to current group"
 msgstr "Voeg toe aan huidige groep."
 
 #: config/strings.c:18
-msgid "Break this window's group."
+msgid "Break this window's group"
 msgstr "Breek dit venster's groep."
 
 #: config/strings.c:19
-msgid "Shade."
+msgid "Shade"
 msgstr "Schaduw."
 
 #: config/strings.c:20
-msgid "Unshade."
+msgid "Unshade"
 msgstr "Ontschaduw."
 
 #: config/strings.c:21
@@ -2108,47 +2108,47 @@ msgid "Resize"
 msgstr "Verander formaat"
 
 #: config/strings.c:22
-msgid "Resize this window."
+msgid "Resize this window"
 msgstr "Verander formaat van dit venster."
 
 #: config/strings.c:24
-msgid "Resize Horizontally"
+msgid "Resize horizontally"
 msgstr "Verander formaat horizontaal"
 
 #: config/strings.c:25
-msgid "Resize this window horizontally."
+msgid "Resize this window horizontally"
 msgstr "Verander het formaat van dit venster horizontaal."
 
 #: config/strings.c:27
-msgid "Resize Vertically"
+msgid "Resize vertically"
 msgstr "Verander formaat verticaal"
 
 #: config/strings.c:28
-msgid "Resize this window vertically."
+msgid "Resize this window vertically"
 msgstr "Verander het formaat van dit venster verticaal."
 
 #: config/strings.c:31
-msgid "Close this window."
+msgid "Close this window"
 msgstr "Sluit dit scherm."
 
 #: config/strings.c:32
-msgid "Forcibly destroy this window."
+msgid "Forcibly destroy this window"
 msgstr "Vernietigt dit venster"
 
 #: config/strings.c:33
-msgid "Maximize Height"
+msgid "Maximize height"
 msgstr "Maximale Hoogte"
 
 #: config/strings.c:34 config/strings.c:40
-msgid "Toggle between maximum screen height and normal height."
+msgid "Toggle between maximum screen height and normal height"
 msgstr "Wissel tussen maximum schermhoogte en normale hoogte."
 
 #: config/strings.c:35
-msgid "Maximize Width"
+msgid "Maximize width"
 msgstr "Maximum Breedte"
 
 #: config/strings.c:36 config/strings.c:39
-msgid "Toggle between maximum screen width and normal width."
+msgid "Toggle between maximum screen width and normal width"
 msgstr "Wissel tussen maximum schermbreedte en normale breedte."
 
 #: config/strings.c:37
@@ -2156,19 +2156,19 @@ msgid "Maximize"
 msgstr "Maximaliseren"
 
 #: config/strings.c:38
-msgid "Toggle between maximum screen size and normal size."
+msgid "Toggle between maximum screen size and normal size"
 msgstr "Wissel tussen maximale schermgrootte en normale grootte."
 
 #: config/strings.c:41 config/strings.c:43
-msgid "Send To Another Desktop"
+msgid "Send to another desktop"
 msgstr "Zend naar een ander bureaublad"
 
 #: config/strings.c:42
-msgid "Send this Window to the next desktop."
+msgid "Send this window to the next desktop"
 msgstr "Stuur dit venster naar het volgende bureaublad."
 
 #: config/strings.c:44
-msgid "Send this Window to the previous desktop."
+msgid "Send this window to the previous desktop"
 msgstr "Stuur dit venster naar het vorige bureaublad."
 
 #: config/strings.c:45
@@ -2176,11 +2176,11 @@ msgid "Snapshot"
 msgstr "Snapshot"
 
 #: config/strings.c:46
-msgid "This button does nothing interesting."
+msgid "This button does nothing interesting"
 msgstr "Deze knop doet niets interessants."
 
 #: config/strings.c:47 config/strings.c:129
-msgid "Shade/Unshade"
+msgid "Shade/unshade"
 msgstr "Schaduw/Ontschaduwen"
 
 #: config/strings.c:52
@@ -2188,11 +2188,11 @@ msgid "Iconify (Minimize) this window."
 msgstr "Iconifiëer (Minimaliseer) dit venster."
 
 #: config/strings.c:54
-msgid "More Buttons"
+msgid "More buttons"
 msgstr "Meer Knoppen"
 
 #: config/strings.c:55
-msgid "Show more buttons."
+msgid "Show more buttons"
 msgstr "Geef meer knoppen weer."
 
 #: config/strings.c:56 config/strings.c:127
@@ -2200,7 +2200,7 @@ msgid "Raise"
 msgstr "Naar voorgrond"
 
 #: config/strings.c:57
-msgid "Raise this window to the top."
+msgid "Raise this window to the top"
 msgstr "Breng dit venster naar de voorgrond."
 
 #: config/strings.c:58 config/strings.c:128
@@ -2208,11 +2208,11 @@ msgid "Lower"
 msgstr "Naar achtergrond"
 
 #: config/strings.c:59
-msgid "Lower this window."
+msgid "Lower this window"
 msgstr "Verlaag dit venster."
 
 #: config/strings.c:60 config/strings.c:130
-msgid "Stick/Unstick"
+msgid "Stick/unstick"
 msgstr "Plak/Ontplak"
 
 #: config/strings.c:61
@@ -2230,35 +2230,35 @@ msgstr ""
 "de volgende acties uitvoeren"
 
 #: config/strings.c:64
-msgid "Display User Menus"
+msgid "Display User menus"
 msgstr "Gebruikers Menu Weergeven"
 
 #: config/strings.c:65 config/strings.c:67
-msgid "Display Enlightenment Menu"
+msgid "Display Enlightenment menu"
 msgstr "Enlightenment Menu Weergeven"
 
 #: config/strings.c:66 config/strings.c:71
-msgid "Display Settings Menu"
+msgid "Display Settings menu"
 msgstr "Instellingen Menu Weergeven"
 
 #: config/strings.c:68
-msgid "Display Task List Menu"
+msgid "Display Task List menu"
 msgstr "Takenlijst Menu Weergeven"
 
 #: config/strings.c:69
-msgid "Display Desktop Menu"
+msgid "Display Desktop menu"
 msgstr "Bureaublad Menu Weergeven"
 
 #: config/strings.c:70
-msgid "Display Group Menu"
+msgid "Display Group menu"
 msgstr "Groep Menu Weergeven"
 
 #: config/strings.c:72
-msgid "Go Back a Desktop"
+msgid "Go back a desktop"
 msgstr "Terug naar Bureaublad"
 
 #: config/strings.c:73
-msgid "Go Forward a Desktop"
+msgid "Go forward a desktop"
 msgstr "Ga een Bureaublad Verder"
 
 #: config/strings.c:78
@@ -2266,23 +2266,23 @@ msgid "Desktop Operations"
 msgstr "Bureaublad Operaties"
 
 #: config/strings.c:80
-msgid "Cleanup Desktop"
+msgid "Cleanup desktop"
 msgstr "Bureaublad Opkuisen"
 
 #: config/strings.c:81
-msgid "Goto Next Desktop"
+msgid "Goto next desktop"
 msgstr "Ga naar Volgende Bureaublad"
 
 #: config/strings.c:82
-msgid "Goto Previous Desktop"
+msgid "Goto previous desktop"
 msgstr "Ga naar Vorige Bureaublad"
 
 #: config/strings.c:84
-msgid "Create Systray"
+msgid "Create systray"
 msgstr "Systray aanmaken"
 
 #: config/strings.c:85
-msgid "Show Magnifier"
+msgid "Show magnifier"
 msgstr "Vergrootglas Weergeven"
 
 #: config/strings.c:87
@@ -2290,7 +2290,7 @@ msgid "Enlightenment"
 msgstr "Enlightenment"
 
 #: config/strings.c:88 config/strings.c:192
-msgid "User Menus"
+msgid "User menus"
 msgstr "Gebruiker Menu's"
 
 #: config/strings.c:89 config/strings.c:110 config/strings.c:111
@@ -2318,7 +2318,7 @@ msgid "Restart"
 msgstr "Herstarten"
 
 #: config/strings.c:97 config/strings.c:120 config/strings.c:197
-msgid "Log Out"
+msgid "Log out"
 msgstr "Afmelden"
 
 #: config/strings.c:100
@@ -2354,7 +2354,7 @@ msgid "Query all cache usage"
 msgstr "Query alle cache gebruik"
 
 #: config/strings.c:108
-msgid "Regenerate Menus"
+msgid "Regenerate menus"
 msgstr "Menu's regenereren"
 
 #: config/strings.c:118
@@ -2364,7 +2364,7 @@ msgid "Theme menu"
 msgstr "Thema Instellingen"
 
 #: config/strings.c:126
-msgid "Leave Alone"
+msgid "Leave alone"
 msgstr "Laat alleen"
 
 #: config/strings.c:131
@@ -2372,19 +2372,19 @@ msgid "Remember..."
 msgstr "Onthouden..."
 
 #: config/strings.c:132
-msgid "Window Size"
+msgid "Window size"
 msgstr "Venster Grootte"
 
 #: config/strings.c:133
-msgid "Set Stacking"
+msgid "Set stacking"
 msgstr "Stacking Instellen"
 
 #: config/strings.c:134
-msgid "Set Border Style"
+msgid "Set border style"
 msgstr "Stel Randstijl in"
 
 #: config/strings.c:135
-msgid "Window Groups"
+msgid "Window groups"
 msgstr "Venstergroepen"
 
 #: config/strings.c:140
@@ -2438,46 +2438,46 @@ msgid "Highest"
 msgstr "Bovenop"
 
 #: config/strings.c:155
-msgid "Toggle Skip Window Lists"
+msgid "Toggle skip window lists"
 msgstr "Wissel tussen vensterlijst overslaan"
 
 #: config/strings.c:156
-msgid "Toggle Fixed Position"
+msgid "Toggle fixed position"
 msgstr "Wissel tussen vaste positie"
 
 #: config/strings.c:157
-msgid "Toggle Fixed Size"
+msgid "Toggle fixed size"
 msgstr "Wissel tussen vaste grootte"
 
 #: config/strings.c:158
-msgid "Toggle Never Focus"
+msgid "Toggle never focus"
 msgstr "Wissel tussen nooit focussen"
 
 #: config/strings.c:159
-msgid "Toggle Click to Focus"
+msgid "Toggle click to focus"
 msgstr "Wissel tussen klikken om te focussen"
 
 #: config/strings.c:160
-msgid "Toggle Never Use Area"
+msgid "Toggle never use area"
 msgstr "Wissel tussen Gebied nooit gebruiken"
 
 #: config/strings.c:161
 #, fuzzy
-msgid "Toggle Ignore Arrange"
+msgid "Toggle ignore arrange"
 msgstr "Wissel tussen Gebied nooit gebruiken"
 
 #: config/strings.c:162
-msgid "Toggle Button Grabs"
+msgid "Toggle button grabs"
 msgstr "Wissel tussen Knop Grepen"
 
 #: config/strings.c:163
-msgid "Toggle Autoshade"
+msgid "Toggle autoshade"
 msgstr "Wissel tussen Autoschaduw"
 
 #: config/strings.c:164
 #, fuzzy
-#| msgid "Toggle Fading"
-msgid "Toggle Pass Pointer"
+#| msgid "Toggle fading"
+msgid "Toggle pass pointer"
 msgstr "Wissel tussen Fading"
 
 #: config/strings.c:167
@@ -2513,63 +2513,63 @@ msgid "Focused opacity follows unfocused"
 msgstr "Focus opaciteit volgt ongefocust"
 
 #: config/strings.c:175
-msgid "Toggle Fading"
+msgid "Toggle fading"
 msgstr "Wissel tussen Fading"
 
 #: config/strings.c:176
-msgid "Toggle Shadows"
+msgid "Toggle shadows"
 msgstr "Wissel tussen Schaduws"
 
 #: config/strings.c:179
-msgid "Max Size Toggle"
+msgid "Toggle max size"
 msgstr "Wissel tussen maximale grootte"
 
 #: config/strings.c:180
-msgid "Available Max Size Toggle"
+msgid "Toggle max size - available"
 msgstr "Wissel tussen Beschikbare maximale grootte"
 
 #: config/strings.c:181
-msgid "Absolute Max Size Toggle"
+msgid "Toggle max size - absolute"
 msgstr "Wissel tussen Absolute maximale grootte"
 
 #: config/strings.c:182
-msgid "Span Xinerama Screens"
+msgid "Span Xinerama screens"
 msgstr "Overlap Xinerama Schermen"
 
 #: config/strings.c:183
-msgid "Max Height Toggle"
+msgid "Toggle max height"
 msgstr "Maximale Hoogte instellen"
 
 #: config/strings.c:184
-msgid "Available Max Height Toggle"
+msgid "Toggle max height available"
 msgstr "Beschikbare Maximale hoogte instellen"
 
 #: config/strings.c:185
-msgid "Absolute Max Height Toggle"
+msgid "Toggle max height absolute"
 msgstr "Absolute Maximale hoogte instellen"
 
 #: config/strings.c:186
-msgid "Max Width Toggle"
+msgid "Toggle max width"
 msgstr "Maximale breedte instellen"
 
 #: config/strings.c:187
-msgid "Available Max Width Toggle"
+msgid "Toggle max width available"
 msgstr "Beschikbare Maximale Breedte instellen"
 
 #: config/strings.c:188
-msgid "Absolute Max Width Toggle"
+msgid "Toggle max width absolute"
 msgstr "Absolute Maximale Breedte instellen"
 
 #: config/strings.c:189
-msgid "Fullscreen/Normal"
+msgid "Toggle fullscreen"
 msgstr "Volledig Scherm/Normaal"
 
 #: config/strings.c:190
-msgid "Zoom/Unzoom"
+msgid "Toggle zoom"
 msgstr "Inzoomen/Uitzoomen"
 
 #: config/strings.c:193
-msgid "User Application List"
+msgid "User application list"
 msgstr "Gebruiker Applicatielijst"
 
 #: config/strings.c:194

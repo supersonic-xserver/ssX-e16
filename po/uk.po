@@ -136,7 +136,7 @@ msgid "Tile image across background"
 msgstr "Розташувати зображення черепицею"
 
 #: src/backgrounds.c:2005
-msgid "Move to Front"
+msgid "Move to front"
 msgstr "Перемістити вперед"
 
 #: src/backgrounds.c:2010
@@ -148,16 +148,16 @@ msgid "Unlist"
 msgstr "Прибрати"
 
 #: src/backgrounds.c:2019
-msgid "Delete File"
+msgid "Delete file"
 msgstr "Стерти файл"
 
 #: src/backgrounds.c:2029
 msgid ""
 "Background\n"
-"Image\n"
-"Scaling\n"
+"image\n"
+"scaling\n"
 "and\n"
-"Alignment\n"
+"alignment\n"
 msgstr ""
 "Зображення\n"
 "Фону\n"
@@ -166,7 +166,7 @@ msgstr ""
 "Вирівнювання\n"
 
 #: src/backgrounds.c:2082
-msgid "BG Colour"
+msgid "BG colour"
 msgstr "Колір фону"
 
 #: src/backgrounds.c:2086
@@ -186,15 +186,15 @@ msgid "Pre-scan BG's"
 msgstr "Попереднє сканування"
 
 #: src/backgrounds.c:2147
-msgid "Sort by File"
+msgid "Sort by file"
 msgstr "Сортувати за файлами"
 
 #: src/backgrounds.c:2152
-msgid "Sort by Attr."
+msgid "Sort by attr."
 msgstr "Сортувати за атрибутами"
 
 #: src/backgrounds.c:2158
-msgid "Sort by Image"
+msgid "Sort by image"
 msgstr "Сортувати за зображенням"
 
 #: src/backgrounds.c:2178
@@ -341,7 +341,7 @@ msgid "Close"
 msgstr "Закрити"
 
 #: src/container.c:1192 config/strings.c:83
-msgid "Create New Iconbox"
+msgid "Create new iconbox"
 msgstr "Створити новий Iconbox"
 
 #: src/container.c:1492 src/container.c:1560 src/menus.c:1983
@@ -531,7 +531,7 @@ msgid "Slide desktops around when changing"
 msgstr "Ковзання під час зміни стільниць"
 
 #: src/desktops.c:2581
-msgid "Desktop Slide speed:"
+msgid "Desktop slide speed:"
 msgstr "Швидкість ковзання стільниці:"
 
 #: src/desktops.c:2595
@@ -543,7 +543,7 @@ msgid "Display desktop dragbar"
 msgstr "Показати панель перетягування"
 
 #: src/desktops.c:2608
-msgid "Drag bar position:"
+msgid "Dragbar position:"
 msgstr "Розташування панелі перетягування:"
 
 #: src/desktops.c:2612
@@ -579,7 +579,7 @@ msgstr ""
 "стільниць Enlightenment"
 
 #: src/desktops.c:2737
-msgid "Virtual Desktop size:"
+msgid "Virtual desktop size:"
 msgstr "Розмір віртуальної стільниці:"
 
 #: src/desktops.c:2776
@@ -587,7 +587,7 @@ msgid "Wrap virtual desktops around"
 msgstr "Переміщення віртуальних стільниць по колу"
 
 #: src/desktops.c:2782
-msgid "Edge Flip Mode:"
+msgid "Edge flip mode:"
 msgstr "Режим перегортання з вказівником біля краю:"
 
 #: src/desktops.c:2790
@@ -764,11 +764,11 @@ msgstr ""
 "вдала, спробуйте наступну):"
 
 #: src/focus.c:1038
-msgid "First E Icon, then App Icon"
+msgid "First E icon, then App icon"
 msgstr "Спочатку піктограма E, потім піктограма програми"
 
 #: src/focus.c:1044
-msgid "First App Icon, then E Icon"
+msgid "First App icon, then E icon"
 msgstr "Спочатку піктограма програми, потім піктограма E"
 
 #: src/focus.c:1058
@@ -880,7 +880,7 @@ msgstr ""
 "до всіх членів групи:"
 
 #: src/groups.c:959 src/groups.c:1050
-msgid "Changing Border Style"
+msgid "Changing border style"
 msgstr "Змінити стиль рамки вікна"
 
 #: src/groups.c:964 src/groups.c:1055
@@ -896,7 +896,7 @@ msgid "Moving"
 msgstr "Перемістити"
 
 #: src/groups.c:979 src/groups.c:1070
-msgid "Raising/Lowering"
+msgid "Raising/lowering"
 msgstr "Підняти/опустити"
 
 #: src/groups.c:984 src/groups.c:1075
@@ -1280,7 +1280,7 @@ msgid "Enable pager display"
 msgstr "Ввімкнути відображення пейджера"
 
 #: src/pager.c:1829
-msgid "Pager Mode:"
+msgid "Pager mode:"
 msgstr "Режим пейджера:"
 
 #: src/pager.c:1833
@@ -1292,7 +1292,7 @@ msgid "Make miniature snapshots of the screen"
 msgstr "Створити мініатюру копії еарана"
 
 #: src/pager.c:1846
-msgid "Live Update"
+msgid "Live update"
 msgstr "Чинне оновлення"
 
 #: src/pager.c:1857
@@ -1394,15 +1394,15 @@ msgid "No"
 msgstr "Ні"
 
 #: src/session.c:741
-msgid "Enable Session Script"
+msgid "Enable session script"
 msgstr "Дозволити сценарій сеансу"
 
 #: src/session.c:746
-msgid "Enable Logout Dialog"
+msgid "Enable logout dialog"
 msgstr "Дозволити діалог завершення сеансу"
 
 #: src/session.c:751
-msgid "Enable Reboot/Halt on Logout"
+msgid "Enable reboot/halt on logout"
 msgstr "Дозволити перезавантаження/зупинку під час завершення сеансу"
 
 #: src/session.c:757
@@ -1422,11 +1422,11 @@ msgstr ""
 "сеансу Enlightenment"
 
 #: src/settings.c:86
-msgid "Move Methods:"
+msgid "Move methods:"
 msgstr "Методи переміщення:"
 
 #: src/settings.c:89
-msgid "Resize Methods:"
+msgid "Resize methods:"
 msgstr "Методи зміни розміру:"
 
 #: src/settings.c:92 src/settings.c:97 src/settings.c:367
@@ -1447,15 +1447,15 @@ msgid "Avoid server grab"
 msgstr "Уникати захоплення сервером"
 
 #: src/settings.c:144
-msgid "Move/Resize Geometry Info Postion:"
+msgid "Move/resize geometry info postion:"
 msgstr "Переміщення/зміна геометрії та позиції вікна:"
 
 #: src/settings.c:148
-msgid "Window Center (O/T/B Methods)"
+msgid "Window center (O/T/B methods)"
 msgstr "Центр вікна (різні методи)"
 
 #: src/settings.c:154
-msgid "Always Screen corner"
+msgid "Always screen corner"
 msgstr "Завжди в куті екрана"
 
 #: src/settings.c:160
@@ -1463,7 +1463,7 @@ msgid "Don't show"
 msgstr "Не показувати"
 
 #: src/settings.c:170
-msgid "Default Resize Policy:"
+msgid "Default resize policy:"
 msgstr "Типова політика зміни розміру:"
 
 #: src/settings.c:174
@@ -1547,15 +1547,15 @@ msgid "Slide windows around when cleaning up"
 msgstr "Ковзання вікон навколо під час очищення"
 
 #: src/settings.c:364
-msgid "Slide Method:"
+msgid "Slide method:"
 msgstr "Метод ковзання:"
 
 #: src/settings.c:389
-msgid "Appear Slide speed:"
+msgid "Appear slide speed:"
 msgstr "Швидкість ковзання проявлення:"
 
 #: src/settings.c:398
-msgid "Cleanup Slide speed:"
+msgid "Cleanup slide speed:"
 msgstr "Очищення швидкості ковзання:"
 
 #: src/settings.c:411
@@ -1563,7 +1563,7 @@ msgid "Animate shading and unshading of windows"
 msgstr "Анімувати згортання та розгортання вікон"
 
 #: src/settings.c:415
-msgid "Window Shading speed:"
+msgid "Window shading speed:"
 msgstr "Швидкість згортання вікна:"
 
 #: src/settings.c:428
@@ -1599,11 +1599,11 @@ msgstr ""
 "вікон Enlightenment"
 
 #: src/settings.c:493
-msgid "Enable Dialog Headers"
+msgid "Enable dialog headers"
 msgstr "Ввімкнути заголовки діалогів"
 
 #: src/settings.c:499
-msgid "Enable Button Images"
+msgid "Enable button images"
 msgstr "Ввімкнути зображення на кнопках"
 
 #: src/settings.c:508
@@ -1631,19 +1631,19 @@ msgstr ""
 "різного в Enlightenment"
 
 #: src/settings.c:571
-msgid "Enable Composite"
+msgid "Enable composite"
 msgstr "Ввімкнути композит"
 
 #: src/settings.c:579
-msgid "Enable Fading"
+msgid "Enable fading"
 msgstr "Ввімкнути згасання"
 
 #: src/settings.c:583
-msgid "Fading Speed:"
+msgid "Fading speed:"
 msgstr "Швидкість згасання:"
 
 #: src/settings.c:596
-msgid "Shadows Off"
+msgid "Shadows off"
 msgstr "Вимкнути тіні"
 
 #: src/settings.c:602
@@ -1857,7 +1857,7 @@ msgid "Delete"
 msgstr "Вилучити"
 
 #: src/snaps.c:1017
-msgid "Remembered Settings..."
+msgid "Remembered settings..."
 msgstr "Пам'ятати налаштування..."
 
 #: src/snaps.c:1024
@@ -1991,7 +1991,7 @@ msgid "Use alternate font configuration (%s)"
 msgstr "Використовувати алтернативну конфігурацію шрифтів (%s)"
 
 #: src/theme.c:433
-msgid "Not set"
+msgid "not set"
 msgstr "Не встановлено"
 
 #: src/theme.c:440
@@ -2011,15 +2011,15 @@ msgstr ""
 "теми Enlightenment"
 
 #: src/tooltips.c:850
-msgid "Display Tooltips"
+msgid "Display tooltips"
 msgstr "Показувати підказки"
 
 #: src/tooltips.c:855
-msgid "Display Root Window Tips"
+msgid "Display root window tips"
 msgstr "Показувати поради адміністратора"
 
 #: src/tooltips.c:859
-msgid "Tooltip Delay:"
+msgid "Tooltip delay:"
 msgstr "Затримка підказок:"
 
 #: src/tooltips.c:870
@@ -2047,15 +2047,15 @@ msgstr ""
 "(на будь-яку, окрім стільниці 0)"
 
 #: config/strings.c:6 config/strings.c:8
-msgid "Switch Desktops"
+msgid "Switch desktops"
 msgstr "Перемикання стільниць"
 
 #: config/strings.c:7
-msgid "Go to the next desktop."
+msgid "Go to the next desktop"
 msgstr "Перейти на наступну стільницю."
 
 #: config/strings.c:9
-msgid "Go to the previous desktop."
+msgid "Go to the previous desktop"
 msgstr "Перейти на попередню стільницю."
 
 #: config/strings.c:10
@@ -2064,39 +2064,39 @@ msgstr "Перемістити"
 
 #: config/strings.c:11 config/strings.c:23 config/strings.c:26
 #: config/strings.c:29
-msgid "Move this window."
+msgid "Move this window"
 msgstr "Перемістити це вікно."
 
 #: config/strings.c:12 config/strings.c:14 config/strings.c:48
-msgid "Shade/Unshade this window."
+msgid "Shade/unshade this window"
 msgstr "Згорнути/розгорнути це вікно."
 
 #: config/strings.c:13 config/strings.c:50 config/strings.c:53
-msgid "Show the Window Options menu."
+msgid "Show the Window Options menu"
 msgstr "Показати меню опцій цього вікна."
 
 #: config/strings.c:15
-msgid "Show/Hide group borders."
+msgid "Show/hide group borders"
 msgstr "Показати/приховати рамки групи."
 
 #: config/strings.c:16
-msgid "Start a group."
+msgid "Start a group"
 msgstr "Створити групу."
 
 #: config/strings.c:17
-msgid "Add to current group."
+msgid "Add to current group"
 msgstr "Додати до чинної групи."
 
 #: config/strings.c:18
-msgid "Break this window's group."
+msgid "Break this window's group"
 msgstr "Розірвати групу цього вікна."
 
 #: config/strings.c:19
-msgid "Shade."
+msgid "Shade"
 msgstr "Згорнути."
 
 #: config/strings.c:20
-msgid "Unshade."
+msgid "Unshade"
 msgstr "Розгорнути."
 
 #: config/strings.c:21
@@ -2104,47 +2104,47 @@ msgid "Resize"
 msgstr "Змінити розмір"
 
 #: config/strings.c:22
-msgid "Resize this window."
+msgid "Resize this window"
 msgstr "Змінити розмір цього вікна."
 
 #: config/strings.c:24
-msgid "Resize Horizontally"
+msgid "Resize horizontally"
 msgstr "Змінити горизонтальний розмір."
 
 #: config/strings.c:25
-msgid "Resize this window horizontally."
+msgid "Resize this window horizontally"
 msgstr "Змінити горизонтальний розмір цього вікна."
 
 #: config/strings.c:27
-msgid "Resize Vertically"
+msgid "Resize vertically"
 msgstr "Змінити вертикальний розмір."
 
 #: config/strings.c:28
-msgid "Resize this window vertically."
+msgid "Resize this window vertically"
 msgstr "Змінити вертикальний розмір цього вікна."
 
 #: config/strings.c:31
-msgid "Close this window."
+msgid "Close this window"
 msgstr "Закрити це вікно."
 
 #: config/strings.c:32
-msgid "Forcibly destroy this window."
+msgid "Forcibly destroy this window"
 msgstr "Примусово закрити це вікно."
 
 #: config/strings.c:33
-msgid "Maximize Height"
+msgid "Maximize height"
 msgstr "Розгорнути у висоту"
 
 #: config/strings.c:34 config/strings.c:40
-msgid "Toggle between maximum screen height and normal height."
+msgid "Toggle between maximum screen height and normal height"
 msgstr "Перемикання між максимальною висотою екрана і нормальною висотою."
 
 #: config/strings.c:35
-msgid "Maximize Width"
+msgid "Maximize width"
 msgstr "Розгорнути в ширину"
 
 #: config/strings.c:36 config/strings.c:39
-msgid "Toggle between maximum screen width and normal width."
+msgid "Toggle between maximum screen width and normal width"
 msgstr "Перемикання між максимальною шириною екрана і нормальною шириною."
 
 #: config/strings.c:37
@@ -2152,19 +2152,19 @@ msgid "Maximize"
 msgstr "Розгорнути"
 
 #: config/strings.c:38
-msgid "Toggle between maximum screen size and normal size."
+msgid "Toggle between maximum screen size and normal size"
 msgstr "Перемикання між максимальним розміром екрана і нормальним розміром."
 
 #: config/strings.c:41 config/strings.c:43
-msgid "Send To Another Desktop"
+msgid "Send to another desktop"
 msgstr "Переслати на іншу стільницю"
 
 #: config/strings.c:42
-msgid "Send this Window to the next desktop."
+msgid "Send this window to the next desktop"
 msgstr "Переслати це вікно на наступну стільницю."
 
 #: config/strings.c:44
-msgid "Send this Window to the previous desktop."
+msgid "Send this window to the previous desktop"
 msgstr "Переслати це вікно на попередню стільницю."
 
 #: config/strings.c:45
@@ -2172,11 +2172,11 @@ msgid "Snapshot"
 msgstr "Моментальний знімок"
 
 #: config/strings.c:46
-msgid "This button does nothing interesting."
+msgid "This button does nothing interesting"
 msgstr "Ця кнопка нічого цікавого не робить."
 
 #: config/strings.c:47 config/strings.c:129
-msgid "Shade/Unshade"
+msgid "Shade/unshade"
 msgstr "Згорнути/розгорнути"
 
 #: config/strings.c:52
@@ -2184,11 +2184,11 @@ msgid "Iconify (Minimize) this window."
 msgstr "Згорнути (мінімізувати) це вікно."
 
 #: config/strings.c:54
-msgid "More Buttons"
+msgid "More buttons"
 msgstr "Більше кнопок"
 
 #: config/strings.c:55
-msgid "Show more buttons."
+msgid "Show more buttons"
 msgstr "Показати більше кнопок."
 
 #: config/strings.c:56 config/strings.c:127
@@ -2196,7 +2196,7 @@ msgid "Raise"
 msgstr "Підняти"
 
 #: config/strings.c:57
-msgid "Raise this window to the top."
+msgid "Raise this window to the top"
 msgstr "Підняти це вікно уверх."
 
 #: config/strings.c:58 config/strings.c:128
@@ -2204,11 +2204,11 @@ msgid "Lower"
 msgstr "Опустити"
 
 #: config/strings.c:59
-msgid "Lower this window."
+msgid "Lower this window"
 msgstr "Опустити це вікно."
 
 #: config/strings.c:60 config/strings.c:130
-msgid "Stick/Unstick"
+msgid "Stick/unstick"
 msgstr "Прикріпити/звільнити"
 
 #: config/strings.c:61
@@ -2224,35 +2224,35 @@ msgstr ""
 "виконуватиме такі дії"
 
 #: config/strings.c:64
-msgid "Display User Menus"
+msgid "Display User menus"
 msgstr "Показати меню користувача"
 
 #: config/strings.c:65 config/strings.c:67
-msgid "Display Enlightenment Menu"
+msgid "Display Enlightenment menu"
 msgstr "Показати меню Enlightenment"
 
 #: config/strings.c:66 config/strings.c:71
-msgid "Display Settings Menu"
+msgid "Display Settings menu"
 msgstr "Показати меню параметрів"
 
 #: config/strings.c:68
-msgid "Display Task List Menu"
+msgid "Display Task List menu"
 msgstr "Показати меню списку завдань"
 
 #: config/strings.c:69
-msgid "Display Desktop Menu"
+msgid "Display Desktop menu"
 msgstr "Показати меню стільниці"
 
 #: config/strings.c:70
-msgid "Display Group Menu"
+msgid "Display Group menu"
 msgstr "Показати меню групи"
 
 #: config/strings.c:72
-msgid "Go Back a Desktop"
+msgid "Go back a desktop"
 msgstr "Перейти на попередню стільницю"
 
 #: config/strings.c:73
-msgid "Go Forward a Desktop"
+msgid "Go forward a desktop"
 msgstr "Перейти на наступну стільницю"
 
 #: config/strings.c:78
@@ -2260,23 +2260,23 @@ msgid "Desktop Operations"
 msgstr "Керування стільницею"
 
 #: config/strings.c:80
-msgid "Cleanup Desktop"
+msgid "Cleanup desktop"
 msgstr "Очистити стільницю"
 
 #: config/strings.c:81
-msgid "Goto Next Desktop"
+msgid "Goto next desktop"
 msgstr "Перейти до наступної стільниці"
 
 #: config/strings.c:82
-msgid "Goto Previous Desktop"
+msgid "Goto previous desktop"
 msgstr "Перейти до попередньої стільниці"
 
 #: config/strings.c:84
-msgid "Create Systray"
+msgid "Create systray"
 msgstr "Створити системний лоток"
 
 #: config/strings.c:85
-msgid "Show Magnifier"
+msgid "Show magnifier"
 msgstr "Показати лупу"
 
 #: config/strings.c:87
@@ -2284,7 +2284,7 @@ msgid "Enlightenment"
 msgstr "Enlightenment"
 
 #: config/strings.c:88 config/strings.c:192
-msgid "User Menus"
+msgid "User menus"
 msgstr "Меню користувача"
 
 #: config/strings.c:89 config/strings.c:110 config/strings.c:111
@@ -2312,7 +2312,7 @@ msgid "Restart"
 msgstr "Перезапуск"
 
 #: config/strings.c:97 config/strings.c:120 config/strings.c:197
-msgid "Log Out"
+msgid "Log out"
 msgstr "Завершення сеансу"
 
 #: config/strings.c:100
@@ -2348,7 +2348,7 @@ msgid "Query all cache usage"
 msgstr "Запит на звернення до всіх кешів"
 
 #: config/strings.c:108
-msgid "Regenerate Menus"
+msgid "Regenerate menus"
 msgstr "Відновити меню"
 
 #: config/strings.c:118
@@ -2358,7 +2358,7 @@ msgid "Theme menu"
 msgstr "Налаштування теми"
 
 #: config/strings.c:126
-msgid "Leave Alone"
+msgid "Leave alone"
 msgstr "Залишити єдиним"
 
 #: config/strings.c:131
@@ -2366,19 +2366,19 @@ msgid "Remember..."
 msgstr "Пам'ятати..."
 
 #: config/strings.c:132
-msgid "Window Size"
+msgid "Window size"
 msgstr "Розмір вікна"
 
 #: config/strings.c:133
-msgid "Set Stacking"
+msgid "Set stacking"
 msgstr "Налаштувати позиціювання"
 
 #: config/strings.c:134
-msgid "Set Border Style"
+msgid "Set border style"
 msgstr "Встановити стиль рамки"
 
 #: config/strings.c:135
-msgid "Window Groups"
+msgid "Window groups"
 msgstr "Групи вікон"
 
 #: config/strings.c:140
@@ -2432,46 +2432,46 @@ msgid "Highest"
 msgstr "На верху"
 
 #: config/strings.c:155
-msgid "Toggle Skip Window Lists"
+msgid "Toggle skip window lists"
 msgstr "Ввімкнути пропуск списків вікон"
 
 #: config/strings.c:156
-msgid "Toggle Fixed Position"
+msgid "Toggle fixed position"
 msgstr "Ввімкнути фіксовану позицію"
 
 #: config/strings.c:157
-msgid "Toggle Fixed Size"
+msgid "Toggle fixed size"
 msgstr "Ввімкнути фіксований розмір"
 
 #: config/strings.c:158
-msgid "Toggle Never Focus"
+msgid "Toggle never focus"
 msgstr "Ввімкнути стан \"ніколи не фокусувати\""
 
 #: config/strings.c:159
-msgid "Toggle Click to Focus"
+msgid "Toggle click to focus"
 msgstr "Ввімкнути стан \"клацнути для фокусу\""
 
 #: config/strings.c:160
-msgid "Toggle Never Use Area"
+msgid "Toggle never use area"
 msgstr "Ввімкнути стан \"не використовувати цю область\""
 
 #: config/strings.c:161
 #, fuzzy
-msgid "Toggle Ignore Arrange"
+msgid "Toggle ignore arrange"
 msgstr "Ввімкнути стан \"не використовувати цю область\""
 
 #: config/strings.c:162
-msgid "Toggle Button Grabs"
+msgid "Toggle button grabs"
 msgstr "Ввімкнути захоплення кнопок"
 
 #: config/strings.c:163
-msgid "Toggle Autoshade"
+msgid "Toggle autoshade"
 msgstr "Ввімкнути автозатінення"
 
 #: config/strings.c:164
 #, fuzzy
-#| msgid "Toggle Fading"
-msgid "Toggle Pass Pointer"
+#| msgid "Toggle fading"
+msgid "Toggle pass pointer"
 msgstr "Ввімкнути затухання"
 
 #: config/strings.c:167
@@ -2507,63 +2507,63 @@ msgid "Focused opacity follows unfocused"
 msgstr "Focused opacity follows unfocused"
 
 #: config/strings.c:175
-msgid "Toggle Fading"
+msgid "Toggle fading"
 msgstr "Ввімкнути затухання"
 
 #: config/strings.c:176
-msgid "Toggle Shadows"
+msgid "Toggle shadows"
 msgstr "Ввімкнути тіні"
 
 #: config/strings.c:179
-msgid "Max Size Toggle"
+msgid "Toggle max size"
 msgstr "Перемикач максимального розміру"
 
 #: config/strings.c:180
-msgid "Available Max Size Toggle"
+msgid "Toggle max size - available"
 msgstr "Перемикач доступного максимального розміру"
 
 #: config/strings.c:181
-msgid "Absolute Max Size Toggle"
+msgid "Toggle max size - absolute"
 msgstr "Перемикач абсолютного максимального розміру"
 
 #: config/strings.c:182
-msgid "Span Xinerama Screens"
+msgid "Span Xinerama screens"
 msgstr "Керування екранами Xinerama"
 
 #: config/strings.c:183
-msgid "Max Height Toggle"
+msgid "Toggle max height"
 msgstr "Перемикач максимальної висоти"
 
 #: config/strings.c:184
-msgid "Available Max Height Toggle"
+msgid "Toggle max height available"
 msgstr "Перемикач доступної максимальної висоти"
 
 #: config/strings.c:185
-msgid "Absolute Max Height Toggle"
+msgid "Toggle max height absolute"
 msgstr "Перемикач абсолютної максимальної висоти"
 
 #: config/strings.c:186
-msgid "Max Width Toggle"
+msgid "Toggle max width"
 msgstr "Перемикач максимальної ширини"
 
 #: config/strings.c:187
-msgid "Available Max Width Toggle"
+msgid "Toggle max width available"
 msgstr "Перемикач доступної максимальної ширини"
 
 #: config/strings.c:188
-msgid "Absolute Max Width Toggle"
+msgid "Toggle max width absolute"
 msgstr "Перемикач абсолютної максимальної ширини"
 
 #: config/strings.c:189
-msgid "Fullscreen/Normal"
+msgid "Toggle fullscreen"
 msgstr "Повноекранний/звичайний"
 
 #: config/strings.c:190
-msgid "Zoom/Unzoom"
+msgid "Toggle zoom"
 msgstr "Збільшити/зменшити"
 
 #: config/strings.c:193
-msgid "User Application List"
+msgid "User application list"
 msgstr "Список програм користувача"
 
 #: config/strings.c:194

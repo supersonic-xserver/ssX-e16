@@ -135,7 +135,7 @@ msgid "Tile image across background"
 msgstr "Affianca immagine sullo sfondo"
 
 #: src/backgrounds.c:2005
-msgid "Move to Front"
+msgid "Move to front"
 msgstr "Sposta all'inizio"
 
 #: src/backgrounds.c:2010
@@ -147,16 +147,16 @@ msgid "Unlist"
 msgstr "Rimuovi dalla lista"
 
 #: src/backgrounds.c:2019
-msgid "Delete File"
+msgid "Delete file"
 msgstr "Elimina file"
 
 #: src/backgrounds.c:2029
 msgid ""
 "Background\n"
-"Image\n"
-"Scaling\n"
+"image\n"
+"scaling\n"
 "and\n"
-"Alignment\n"
+"alignment\n"
 msgstr ""
 "Scalatura e\n"
 "allineamento\n"
@@ -164,7 +164,7 @@ msgstr ""
 "sfondo\n"
 
 #: src/backgrounds.c:2082
-msgid "BG Colour"
+msgid "BG colour"
 msgstr "Colore dello sfondo"
 
 #: src/backgrounds.c:2086
@@ -184,15 +184,15 @@ msgid "Pre-scan BG's"
 msgstr "Pre-analisi degli sfondi"
 
 #: src/backgrounds.c:2147
-msgid "Sort by File"
+msgid "Sort by file"
 msgstr "Ordina per nome file"
 
 #: src/backgrounds.c:2152
-msgid "Sort by Attr."
+msgid "Sort by attr."
 msgstr "Ordina per attributi"
 
 #: src/backgrounds.c:2158
-msgid "Sort by Image"
+msgid "Sort by image"
 msgstr "Ordina per immagine"
 
 #: src/backgrounds.c:2178
@@ -340,7 +340,7 @@ msgid "Close"
 msgstr "Chiudi"
 
 #: src/container.c:1192 config/strings.c:83
-msgid "Create New Iconbox"
+msgid "Create new iconbox"
 msgstr "Crea nuovo Iconbox"
 
 #: src/container.c:1492 src/container.c:1560 src/menus.c:1983
@@ -529,7 +529,7 @@ msgid "Slide desktops around when changing"
 msgstr "Scorri desktop al cambio"
 
 #: src/desktops.c:2581
-msgid "Desktop Slide speed:"
+msgid "Desktop slide speed:"
 msgstr "Velocitá scorrimento desktop:"
 
 #: src/desktops.c:2595
@@ -541,7 +541,7 @@ msgid "Display desktop dragbar"
 msgstr "Mostra barra trascinamento desktop"
 
 #: src/desktops.c:2608
-msgid "Drag bar position:"
+msgid "Dragbar position:"
 msgstr "Posizione barra trascinamento:"
 
 #: src/desktops.c:2612
@@ -577,7 +577,7 @@ msgstr ""
 "multipli di Enlightenment"
 
 #: src/desktops.c:2737
-msgid "Virtual Desktop size:"
+msgid "Virtual desktop size:"
 msgstr "Dimensione desktop virtuale:"
 
 #: src/desktops.c:2776
@@ -585,7 +585,7 @@ msgid "Wrap virtual desktops around"
 msgstr "Concatena desktop virtuali estremi"
 
 #: src/desktops.c:2782
-msgid "Edge Flip Mode:"
+msgid "Edge flip mode:"
 msgstr "Cambio desktop con puntatore al confine:"
 
 #: src/desktops.c:2790
@@ -762,11 +762,11 @@ msgstr ""
 "seguente):"
 
 #: src/focus.c:1038
-msgid "First E Icon, then App Icon"
+msgid "First E icon, then App icon"
 msgstr "Prima icona di E, poi icona della app."
 
 #: src/focus.c:1044
-msgid "First App Icon, then E Icon"
+msgid "First App icon, then E icon"
 msgstr "Prima icona della app., poi icona di E"
 
 #: src/focus.c:1058
@@ -878,7 +878,7 @@ msgstr ""
 "a tutti i membri del gruppo:"
 
 #: src/groups.c:959 src/groups.c:1050
-msgid "Changing Border Style"
+msgid "Changing border style"
 msgstr "Cambio stile del bordo"
 
 #: src/groups.c:964 src/groups.c:1055
@@ -894,7 +894,7 @@ msgid "Moving"
 msgstr "Spostamento"
 
 #: src/groups.c:979 src/groups.c:1070
-msgid "Raising/Lowering"
+msgid "Raising/lowering"
 msgstr "Elevazione/abbassamento"
 
 #: src/groups.c:984 src/groups.c:1075
@@ -1279,7 +1279,7 @@ msgid "Enable pager display"
 msgstr "Abilita visualizzazione Pager"
 
 #: src/pager.c:1829
-msgid "Pager Mode:"
+msgid "Pager mode:"
 msgstr "Modalitá Pager:"
 
 #: src/pager.c:1833
@@ -1291,7 +1291,7 @@ msgid "Make miniature snapshots of the screen"
 msgstr "Crea miniature dello schermo"
 
 #: src/pager.c:1846
-msgid "Live Update"
+msgid "Live update"
 msgstr "Aggiornamento in tempo reale"
 
 #: src/pager.c:1857
@@ -1393,15 +1393,15 @@ msgid "No"
 msgstr "No"
 
 #: src/session.c:741
-msgid "Enable Session Script"
+msgid "Enable session script"
 msgstr "Abilita script di sessione"
 
 #: src/session.c:746
-msgid "Enable Logout Dialog"
+msgid "Enable logout dialog"
 msgstr "Abilita finestra di uscita"
 
 #: src/session.c:751
-msgid "Enable Reboot/Halt on Logout"
+msgid "Enable reboot/halt on logout"
 msgstr "Abilita riavvio/arresto all'uscita"
 
 #: src/session.c:757
@@ -1421,11 +1421,11 @@ msgstr ""
 "sessione di Enlightenment"
 
 #: src/settings.c:86
-msgid "Move Methods:"
+msgid "Move methods:"
 msgstr "Metodi di spostamento:"
 
 #: src/settings.c:89
-msgid "Resize Methods:"
+msgid "Resize methods:"
 msgstr "Metodi di ridimensionamento:"
 
 #: src/settings.c:92 src/settings.c:97 src/settings.c:367
@@ -1445,15 +1445,15 @@ msgid "Avoid server grab"
 msgstr "Evita coinvolgimento server"
 
 #: src/settings.c:144
-msgid "Move/Resize Geometry Info Postion:"
+msgid "Move/resize geometry info postion:"
 msgstr "Posizione informazioni spostamento/ridimensionamento:"
 
 #: src/settings.c:148
-msgid "Window Center (O/T/B Methods)"
+msgid "Window center (O/T/B methods)"
 msgstr "Centro finestra (Metodi O/T/B)"
 
 #: src/settings.c:154
-msgid "Always Screen corner"
+msgid "Always screen corner"
 msgstr "Sempre angolo dello schermo"
 
 #: src/settings.c:160
@@ -1461,7 +1461,7 @@ msgid "Don't show"
 msgstr "Non mostrare"
 
 #: src/settings.c:170
-msgid "Default Resize Policy:"
+msgid "Default resize policy:"
 msgstr "Regola predefinita ridimensionamento:"
 
 #: src/settings.c:174
@@ -1545,15 +1545,15 @@ msgid "Slide windows around when cleaning up"
 msgstr "Animazione riordinamento finestre"
 
 #: src/settings.c:364
-msgid "Slide Method:"
+msgid "Slide method:"
 msgstr "Metodi di animazione:"
 
 #: src/settings.c:389
-msgid "Appear Slide speed:"
+msgid "Appear slide speed:"
 msgstr "Velocitá animazione apparizione:"
 
 #: src/settings.c:398
-msgid "Cleanup Slide speed:"
+msgid "Cleanup slide speed:"
 msgstr "Velocitá animazione riordinamento:"
 
 #: src/settings.c:411
@@ -1561,7 +1561,7 @@ msgid "Animate shading and unshading of windows"
 msgstr "Animazione contrazione/decontrazione finestre"
 
 #: src/settings.c:415
-msgid "Window Shading speed:"
+msgid "Window shading speed:"
 msgstr "Velocitá contrazione finestre:"
 
 #: src/settings.c:428
@@ -1597,11 +1597,11 @@ msgstr ""
 "finestre di Enlightenment"
 
 #: src/settings.c:493
-msgid "Enable Dialog Headers"
+msgid "Enable dialog headers"
 msgstr "Abilita intestazioni di dialogo"
 
 #: src/settings.c:499
-msgid "Enable Button Images"
+msgid "Enable button images"
 msgstr "Abilita immagini dei bottoni"
 
 #: src/settings.c:508
@@ -1629,19 +1629,19 @@ msgstr ""
 "varie di Enlightenment"
 
 #: src/settings.c:571
-msgid "Enable Composite"
+msgid "Enable composite"
 msgstr "Abilita estensioni composite"
 
 #: src/settings.c:579
-msgid "Enable Fading"
+msgid "Enable fading"
 msgstr "Abilita dissolvenza"
 
 #: src/settings.c:583
-msgid "Fading Speed:"
+msgid "Fading speed:"
 msgstr "Velocitá dissolvenza:"
 
 #: src/settings.c:596
-msgid "Shadows Off"
+msgid "Shadows off"
 msgstr "Ombre disattivate"
 
 #: src/settings.c:602
@@ -1857,7 +1857,7 @@ msgid "Delete"
 msgstr "Elimina"
 
 #: src/snaps.c:1017
-msgid "Remembered Settings..."
+msgid "Remembered settings..."
 msgstr "Impostazioni memorizzate..."
 
 #: src/snaps.c:1024
@@ -1991,7 +1991,7 @@ msgid "Use alternate font configuration (%s)"
 msgstr "Usa configurazione font alternativa (%s)"
 
 #: src/theme.c:433
-msgid "Not set"
+msgid "not set"
 msgstr "Non impostato"
 
 #: src/theme.c:440
@@ -2011,15 +2011,15 @@ msgstr ""
 "tema di Enlightenment"
 
 #: src/tooltips.c:850
-msgid "Display Tooltips"
+msgid "Display tooltips"
 msgstr "Mostra popup suggerimenti"
 
 #: src/tooltips.c:855
-msgid "Display Root Window Tips"
+msgid "Display root window tips"
 msgstr "Mostra suggerimenti finestra principale"
 
 #: src/tooltips.c:859
-msgid "Tooltip Delay:"
+msgid "Tooltip delay:"
 msgstr "Ritardo popup suggerimenti:"
 
 #: src/tooltips.c:870
@@ -2047,15 +2047,15 @@ msgstr ""
 "(su qualunque desktop tranne il numero 0)"
 
 #: config/strings.c:6 config/strings.c:8
-msgid "Switch Desktops"
+msgid "Switch desktops"
 msgstr "Cambia desktop"
 
 #: config/strings.c:7
-msgid "Go to the next desktop."
+msgid "Go to the next desktop"
 msgstr "Vai al desktop successivo"
 
 #: config/strings.c:9
-msgid "Go to the previous desktop."
+msgid "Go to the previous desktop"
 msgstr "Vai al desktop precedente"
 
 #: config/strings.c:10
@@ -2064,39 +2064,39 @@ msgstr "Sposta"
 
 #: config/strings.c:11 config/strings.c:23 config/strings.c:26
 #: config/strings.c:29
-msgid "Move this window."
+msgid "Move this window"
 msgstr "Sposta questa finestra."
 
 #: config/strings.c:12 config/strings.c:14 config/strings.c:48
-msgid "Shade/Unshade this window."
+msgid "Shade/unshade this window"
 msgstr "Contrai/decontrai questa finestra."
 
 #: config/strings.c:13 config/strings.c:50 config/strings.c:53
-msgid "Show the Window Options menu."
+msgid "Show the Window Options menu"
 msgstr "Mostra menú opzioni finestra."
 
 #: config/strings.c:15
-msgid "Show/Hide group borders."
+msgid "Show/hide group borders"
 msgstr "Mostra/nascondi bordi gruppo."
 
 #: config/strings.c:16
-msgid "Start a group."
+msgid "Start a group"
 msgstr "Inizia un gruppo."
 
 #: config/strings.c:17
-msgid "Add to current group."
+msgid "Add to current group"
 msgstr "Aggiungi al gruppo attuale."
 
 #: config/strings.c:18
-msgid "Break this window's group."
+msgid "Break this window's group"
 msgstr "Spezza il gruppo di questa finestra."
 
 #: config/strings.c:19
-msgid "Shade."
+msgid "Shade"
 msgstr "Contrai."
 
 #: config/strings.c:20
-msgid "Unshade."
+msgid "Unshade"
 msgstr "Decontrai."
 
 #: config/strings.c:21
@@ -2104,47 +2104,47 @@ msgid "Resize"
 msgstr "Ridimensiona"
 
 #: config/strings.c:22
-msgid "Resize this window."
+msgid "Resize this window"
 msgstr "Ridimensiona questa finestra."
 
 #: config/strings.c:24
-msgid "Resize Horizontally"
+msgid "Resize horizontally"
 msgstr "Ridimensiona orizzontalmente"
 
 #: config/strings.c:25
-msgid "Resize this window horizontally."
+msgid "Resize this window horizontally"
 msgstr "Ridimensiona questa finestra orizzontalmente."
 
 #: config/strings.c:27
-msgid "Resize Vertically"
+msgid "Resize vertically"
 msgstr "Ridimensiona verticalmente"
 
 #: config/strings.c:28
-msgid "Resize this window vertically."
+msgid "Resize this window vertically"
 msgstr "Ridimensiona questa finestra verticalmente."
 
 #: config/strings.c:31
-msgid "Close this window."
+msgid "Close this window"
 msgstr "Chiudi questa finestra."
 
 #: config/strings.c:32
-msgid "Forcibly destroy this window."
+msgid "Forcibly destroy this window"
 msgstr "Uccidi questa finestra."
 
 #: config/strings.c:33
-msgid "Maximize Height"
+msgid "Maximize height"
 msgstr "Massimizza in altezza"
 
 #: config/strings.c:34 config/strings.c:40
-msgid "Toggle between maximum screen height and normal height."
+msgid "Toggle between maximum screen height and normal height"
 msgstr "Commuta tra altezza massima e altezza normale."
 
 #: config/strings.c:35
-msgid "Maximize Width"
+msgid "Maximize width"
 msgstr "Massimizza in larghezza"
 
 #: config/strings.c:36 config/strings.c:39
-msgid "Toggle between maximum screen width and normal width."
+msgid "Toggle between maximum screen width and normal width"
 msgstr "Commuta tra larghezza massima e larghezza normale."
 
 #: config/strings.c:37
@@ -2152,19 +2152,19 @@ msgid "Maximize"
 msgstr "Massimizza"
 
 #: config/strings.c:38
-msgid "Toggle between maximum screen size and normal size."
+msgid "Toggle between maximum screen size and normal size"
 msgstr "Commuta tra dimensione massima e dimensione normale."
 
 #: config/strings.c:41 config/strings.c:43
-msgid "Send To Another Desktop"
+msgid "Send to another desktop"
 msgstr "Invia a un altro desktop"
 
 #: config/strings.c:42
-msgid "Send this Window to the next desktop."
+msgid "Send this window to the next desktop"
 msgstr "Invia questa finestra al desktop successivo."
 
 #: config/strings.c:44
-msgid "Send this Window to the previous desktop."
+msgid "Send this window to the previous desktop"
 msgstr "Invia questa finestra al desktop precedente."
 
 #: config/strings.c:45
@@ -2172,11 +2172,11 @@ msgid "Snapshot"
 msgstr "Istantanea"
 
 #: config/strings.c:46
-msgid "This button does nothing interesting."
+msgid "This button does nothing interesting"
 msgstr "Questo bottone non fa nulla di interessante."
 
 #: config/strings.c:47 config/strings.c:129
-msgid "Shade/Unshade"
+msgid "Shade/unshade"
 msgstr "Contrai/decontrai"
 
 #: config/strings.c:52
@@ -2184,11 +2184,11 @@ msgid "Iconify (Minimize) this window."
 msgstr "Iconifica (minimizza) questa finestra."
 
 #: config/strings.c:54
-msgid "More Buttons"
+msgid "More buttons"
 msgstr "Ulteriori bottoni"
 
 #: config/strings.c:55
-msgid "Show more buttons."
+msgid "Show more buttons"
 msgstr "Mostra altri bottoni."
 
 #: config/strings.c:56 config/strings.c:127
@@ -2196,7 +2196,7 @@ msgid "Raise"
 msgstr "Eleva"
 
 #: config/strings.c:57
-msgid "Raise this window to the top."
+msgid "Raise this window to the top"
 msgstr "Eleva questa finestra in cima."
 
 #: config/strings.c:58 config/strings.c:128
@@ -2204,11 +2204,11 @@ msgid "Lower"
 msgstr "Abbassa"
 
 #: config/strings.c:59
-msgid "Lower this window."
+msgid "Lower this window"
 msgstr "Abbassa questa finestra."
 
 #: config/strings.c:60 config/strings.c:130
-msgid "Stick/Unstick"
+msgid "Stick/unstick"
 msgstr "Appiccica/stacca"
 
 #: config/strings.c:61
@@ -2226,35 +2226,35 @@ msgstr ""
 "le seguenti azioni"
 
 #: config/strings.c:64
-msgid "Display User Menus"
+msgid "Display User menus"
 msgstr "Mostra menú utente"
 
 #: config/strings.c:65 config/strings.c:67
-msgid "Display Enlightenment Menu"
+msgid "Display Enlightenment menu"
 msgstr "Mostra menú di Enlightenment"
 
 #: config/strings.c:66 config/strings.c:71
-msgid "Display Settings Menu"
+msgid "Display Settings menu"
 msgstr "Mostra menú impostazioni"
 
 #: config/strings.c:68
-msgid "Display Task List Menu"
+msgid "Display Task List menu"
 msgstr "Mostra menú lista applicazioni"
 
 #: config/strings.c:69
-msgid "Display Desktop Menu"
+msgid "Display Desktop menu"
 msgstr "Mostra menú del desktop"
 
 #: config/strings.c:70
-msgid "Display Group Menu"
+msgid "Display Group menu"
 msgstr "Mostra menú dei gruppi"
 
 #: config/strings.c:72
-msgid "Go Back a Desktop"
+msgid "Go back a desktop"
 msgstr "Va indietro di un desktop"
 
 #: config/strings.c:73
-msgid "Go Forward a Desktop"
+msgid "Go forward a desktop"
 msgstr "Va avanti di un desktop"
 
 #: config/strings.c:78
@@ -2262,23 +2262,23 @@ msgid "Desktop Operations"
 msgstr "Operazioni sul desktop"
 
 #: config/strings.c:80
-msgid "Cleanup Desktop"
+msgid "Cleanup desktop"
 msgstr "Pulisci desktop"
 
 #: config/strings.c:81
-msgid "Goto Next Desktop"
+msgid "Goto next desktop"
 msgstr "Vai al desktop successivo"
 
 #: config/strings.c:82
-msgid "Goto Previous Desktop"
+msgid "Goto previous desktop"
 msgstr "Vai al desktop precedente"
 
 #: config/strings.c:84
-msgid "Create Systray"
+msgid "Create systray"
 msgstr "Crea vassoio di sistema"
 
 #: config/strings.c:85
-msgid "Show Magnifier"
+msgid "Show magnifier"
 msgstr "Mostra ingranditore"
 
 #: config/strings.c:87
@@ -2286,7 +2286,7 @@ msgid "Enlightenment"
 msgstr "Enlightenment"
 
 #: config/strings.c:88 config/strings.c:192
-msgid "User Menus"
+msgid "User menus"
 msgstr "Menú utente"
 
 #: config/strings.c:89 config/strings.c:110 config/strings.c:111
@@ -2314,7 +2314,7 @@ msgid "Restart"
 msgstr "Riavvia"
 
 #: config/strings.c:97 config/strings.c:120 config/strings.c:197
-msgid "Log Out"
+msgid "Log out"
 msgstr "Esci"
 
 #: config/strings.c:100
@@ -2350,7 +2350,7 @@ msgid "Query all cache usage"
 msgstr "Utilizzo di tutte le cache"
 
 #: config/strings.c:108
-msgid "Regenerate Menus"
+msgid "Regenerate menus"
 msgstr "Rigenera menú"
 
 #: config/strings.c:118
@@ -2360,7 +2360,7 @@ msgid "Theme menu"
 msgstr "Impostazioni tema"
 
 #: config/strings.c:126
-msgid "Leave Alone"
+msgid "Leave alone"
 msgstr "Lascia solitaria"
 
 #: config/strings.c:131
@@ -2368,19 +2368,19 @@ msgid "Remember..."
 msgstr "Ricorda..."
 
 #: config/strings.c:132
-msgid "Window Size"
+msgid "Window size"
 msgstr "Dimensione finestra"
 
 #: config/strings.c:133
-msgid "Set Stacking"
+msgid "Set stacking"
 msgstr "Imposta livello"
 
 #: config/strings.c:134
-msgid "Set Border Style"
+msgid "Set border style"
 msgstr "Imposta stile del bordo"
 
 #: config/strings.c:135
-msgid "Window Groups"
+msgid "Window groups"
 msgstr "Gruppi di finestre"
 
 #: config/strings.c:140
@@ -2434,45 +2434,45 @@ msgid "Highest"
 msgstr "In cima"
 
 #: config/strings.c:155
-msgid "Toggle Skip Window Lists"
+msgid "Toggle skip window lists"
 msgstr "Attiva/disattiva \"Salta lista finestre\""
 
 #: config/strings.c:156
-msgid "Toggle Fixed Position"
+msgid "Toggle fixed position"
 msgstr "Attiva/disattiva posizione fissa"
 
 #: config/strings.c:157
-msgid "Toggle Fixed Size"
+msgid "Toggle fixed size"
 msgstr "Attiva/disattiva dimensione fissa"
 
 #: config/strings.c:158
-msgid "Toggle Never Focus"
+msgid "Toggle never focus"
 msgstr "Attiva/disattiva \"Non dare mai fuoco\""
 
 #: config/strings.c:159
-msgid "Toggle Click to Focus"
+msgid "Toggle click to focus"
 msgstr "Attiva/disattiva \"Clicca per dare fuoco\""
 
 #: config/strings.c:160
-msgid "Toggle Never Use Area"
+msgid "Toggle never use area"
 msgstr "Attiva/disattiva \"Non usare mai area\""
 
 #: config/strings.c:161
-msgid "Toggle Ignore Arrange"
+msgid "Toggle ignore arrange"
 msgstr "Attiva/disattiva \"Ignora ordinamento\""
 
 #: config/strings.c:162
-msgid "Toggle Button Grabs"
+msgid "Toggle button grabs"
 msgstr "Attiva/disattiva \"Prese bottoni\""
 
 #: config/strings.c:163
-msgid "Toggle Autoshade"
+msgid "Toggle autoshade"
 msgstr "Attiva/disattiva contrazione automatica"
 
 #: config/strings.c:164
 #, fuzzy
-#| msgid "Toggle Fading"
-msgid "Toggle Pass Pointer"
+#| msgid "Toggle fading"
+msgid "Toggle pass pointer"
 msgstr "Attiva/disattiva dissolvenza"
 
 #: config/strings.c:167
@@ -2508,63 +2508,63 @@ msgid "Focused opacity follows unfocused"
 msgstr "Opacitá \"a fuoco\" segue \"fuori fuoco\""
 
 #: config/strings.c:175
-msgid "Toggle Fading"
+msgid "Toggle fading"
 msgstr "Attiva/disattiva dissolvenza"
 
 #: config/strings.c:176
-msgid "Toggle Shadows"
+msgid "Toggle shadows"
 msgstr "Attiva/disattiva ombreggiatura"
 
 #: config/strings.c:179
-msgid "Max Size Toggle"
+msgid "Toggle max size"
 msgstr "Attiva/disattiva dimensione massima"
 
 #: config/strings.c:180
-msgid "Available Max Size Toggle"
+msgid "Toggle max size - available"
 msgstr "Attiva/disattiva dimensione massima disponibile"
 
 #: config/strings.c:181
-msgid "Absolute Max Size Toggle"
+msgid "Toggle max size - absolute"
 msgstr "Attiva/disattiva dimensione massima assoluta"
 
 #: config/strings.c:182
-msgid "Span Xinerama Screens"
+msgid "Span Xinerama screens"
 msgstr "Estendi schermi Xinerama"
 
 #: config/strings.c:183
-msgid "Max Height Toggle"
+msgid "Toggle max height"
 msgstr "Attiva/disattiva altezza massima"
 
 #: config/strings.c:184
-msgid "Available Max Height Toggle"
+msgid "Toggle max height available"
 msgstr "Attiva/disattiva altezza massima disponibile"
 
 #: config/strings.c:185
-msgid "Absolute Max Height Toggle"
+msgid "Toggle max height absolute"
 msgstr "Attiva/disattiva altezza massima assoluta"
 
 #: config/strings.c:186
-msgid "Max Width Toggle"
+msgid "Toggle max width"
 msgstr "Attiva/disattiva larghezza massima"
 
 #: config/strings.c:187
-msgid "Available Max Width Toggle"
+msgid "Toggle max width available"
 msgstr "Attiva/disattiva larghezza massima disponibile"
 
 #: config/strings.c:188
-msgid "Absolute Max Width Toggle"
+msgid "Toggle max width absolute"
 msgstr "Attiva/disattiva larghezza massima assoluta"
 
 #: config/strings.c:189
-msgid "Fullscreen/Normal"
+msgid "Toggle fullscreen"
 msgstr "Tutto schermo/Normale"
 
 #: config/strings.c:190
-msgid "Zoom/Unzoom"
+msgid "Toggle zoom"
 msgstr "Ingrandisci/Rimpicciolisci"
 
 #: config/strings.c:193
-msgid "User Application List"
+msgid "User application list"
 msgstr "Lista applicazioni utente"
 
 #: config/strings.c:194

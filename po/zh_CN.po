@@ -136,7 +136,7 @@ msgid "Tile image across background"
 msgstr "图像覆盖背景"
 
 #: src/backgrounds.c:2005
-msgid "Move to Front"
+msgid "Move to front"
 msgstr "移至前端"
 
 #: src/backgrounds.c:2010
@@ -148,16 +148,16 @@ msgid "Unlist"
 msgstr "不列出"
 
 #: src/backgrounds.c:2019
-msgid "Delete File"
+msgid "Delete file"
 msgstr "删除文件"
 
 #: src/backgrounds.c:2029
 msgid ""
 "Background\n"
-"Image\n"
-"Scaling\n"
+"image\n"
+"scaling\n"
 "and\n"
-"Alignment\n"
+"alignment\n"
 msgstr ""
 "背景\n"
 "图像\n"
@@ -166,7 +166,7 @@ msgstr ""
 "对齐\n"
 
 #: src/backgrounds.c:2082
-msgid "BG Colour"
+msgid "BG colour"
 msgstr "背景色"
 
 #: src/backgrounds.c:2086
@@ -186,15 +186,15 @@ msgid "Pre-scan BG's"
 msgstr "预览背景"
 
 #: src/backgrounds.c:2147
-msgid "Sort by File"
+msgid "Sort by file"
 msgstr "按文件排序"
 
 #: src/backgrounds.c:2152
-msgid "Sort by Attr."
+msgid "Sort by attr."
 msgstr "按属性排序"
 
 #: src/backgrounds.c:2158
-msgid "Sort by Image"
+msgid "Sort by image"
 msgstr "按图像排序"
 
 #: src/backgrounds.c:2178
@@ -329,7 +329,7 @@ msgid "Close"
 msgstr "关闭"
 
 #: src/container.c:1192 config/strings.c:83
-msgid "Create New Iconbox"
+msgid "Create new iconbox"
 msgstr "创建新图标架"
 
 #: src/container.c:1492 src/container.c:1560 src/menus.c:1983
@@ -517,7 +517,7 @@ msgid "Slide desktops around when changing"
 msgstr "更改桌面时拉幕式切换"
 
 #: src/desktops.c:2581
-msgid "Desktop Slide speed:"
+msgid "Desktop slide speed:"
 msgstr "桌面切换速度："
 
 #: src/desktops.c:2595
@@ -529,7 +529,7 @@ msgid "Display desktop dragbar"
 msgstr "显示桌面拖动栏"
 
 #: src/desktops.c:2608
-msgid "Drag bar position:"
+msgid "Dragbar position:"
 msgstr "拖动栏位置："
 
 #: src/desktops.c:2612
@@ -565,7 +565,7 @@ msgstr ""
 "设置对话框"
 
 #: src/desktops.c:2737
-msgid "Virtual Desktop size:"
+msgid "Virtual desktop size:"
 msgstr "虚拟桌面尺寸："
 
 #: src/desktops.c:2776
@@ -573,7 +573,7 @@ msgid "Wrap virtual desktops around"
 msgstr "包围虚拟桌面"
 
 #: src/desktops.c:2782
-msgid "Edge Flip Mode:"
+msgid "Edge flip mode:"
 msgstr "边缘翻转模式："
 
 #: src/desktops.c:2790
@@ -746,11 +746,11 @@ msgid "Focuslist image display policy (if one operation fails, try the next):"
 msgstr "聚焦图片显示策略（加入一个进程出错，将尝试下一个）："
 
 #: src/focus.c:1038
-msgid "First E Icon, then App Icon"
+msgid "First E icon, then App icon"
 msgstr "首先E图标，然后应用程序图标"
 
 #: src/focus.c:1044
-msgid "First App Icon, then E Icon"
+msgid "First App icon, then E icon"
 msgstr "首先应用程序图标，然后E图标"
 
 #: src/focus.c:1058
@@ -862,7 +862,7 @@ msgstr ""
 "所有组内成员："
 
 #: src/groups.c:959 src/groups.c:1050
-msgid "Changing Border Style"
+msgid "Changing border style"
 msgstr "更改边框风格"
 
 #: src/groups.c:964 src/groups.c:1055
@@ -878,7 +878,7 @@ msgid "Moving"
 msgstr "移动"
 
 #: src/groups.c:979 src/groups.c:1070
-msgid "Raising/Lowering"
+msgid "Raising/lowering"
 msgstr "提升/降低"
 
 #: src/groups.c:984 src/groups.c:1075
@@ -1207,7 +1207,7 @@ msgid "Enable pager display"
 msgstr "启用分页器显示"
 
 #: src/pager.c:1829
-msgid "Pager Mode:"
+msgid "Pager mode:"
 msgstr "分页器模式："
 
 #: src/pager.c:1833
@@ -1219,7 +1219,7 @@ msgid "Make miniature snapshots of the screen"
 msgstr "显示屏幕微缩快照"
 
 #: src/pager.c:1846
-msgid "Live Update"
+msgid "Live update"
 msgstr "实时更新"
 
 #: src/pager.c:1857
@@ -1320,15 +1320,15 @@ msgid "No"
 msgstr "不是"
 
 #: src/session.c:741
-msgid "Enable Session Script"
+msgid "Enable session script"
 msgstr "启用会话脚本"
 
 #: src/session.c:746
-msgid "Enable Logout Dialog"
+msgid "Enable logout dialog"
 msgstr "启用注销对话框"
 
 #: src/session.c:751
-msgid "Enable Reboot/Halt on Logout"
+msgid "Enable reboot/halt on logout"
 msgstr "在注销中启用重启和关机"
 
 #: src/session.c:757
@@ -1348,11 +1348,11 @@ msgstr ""
 "设置对话框"
 
 #: src/settings.c:86
-msgid "Move Methods:"
+msgid "Move methods:"
 msgstr "移动方式："
 
 #: src/settings.c:89
-msgid "Resize Methods:"
+msgid "Resize methods:"
 msgstr "尺寸调整方式："
 
 #: src/settings.c:92 src/settings.c:97 src/settings.c:367
@@ -1373,15 +1373,15 @@ msgid "Avoid server grab"
 msgstr "避免服务器获取"
 
 #: src/settings.c:144
-msgid "Move/Resize Geometry Info Postion:"
+msgid "Move/resize geometry info postion:"
 msgstr "移动和尺寸调整的信息位置："
 
 #: src/settings.c:148
-msgid "Window Center (O/T/B Methods)"
+msgid "Window center (O/T/B methods)"
 msgstr "窗口中心 (O/T/B 方式)"
 
 #: src/settings.c:154
-msgid "Always Screen corner"
+msgid "Always screen corner"
 msgstr "屏幕角落"
 
 #: src/settings.c:160
@@ -1389,7 +1389,7 @@ msgid "Don't show"
 msgstr "不显示"
 
 #: src/settings.c:170
-msgid "Default Resize Policy:"
+msgid "Default resize policy:"
 msgstr "默认的尺寸调整策略："
 
 #: src/settings.c:174
@@ -1474,15 +1474,15 @@ msgid "Slide windows around when cleaning up"
 msgstr "清理窗口时使用滑动方式"
 
 #: src/settings.c:364
-msgid "Slide Method:"
+msgid "Slide method:"
 msgstr "滑动方式："
 
 #: src/settings.c:389
-msgid "Appear Slide speed:"
+msgid "Appear slide speed:"
 msgstr "滑动速度："
 
 #: src/settings.c:398
-msgid "Cleanup Slide speed:"
+msgid "Cleanup slide speed:"
 msgstr "清理速度："
 
 #: src/settings.c:411
@@ -1490,7 +1490,7 @@ msgid "Animate shading and unshading of windows"
 msgstr "窗口卷起动画"
 
 #: src/settings.c:415
-msgid "Window Shading speed:"
+msgid "Window shading speed:"
 msgstr "窗口卷起速度："
 
 #: src/settings.c:428
@@ -1526,11 +1526,11 @@ msgstr ""
 "设置对话框"
 
 #: src/settings.c:493
-msgid "Enable Dialog Headers"
+msgid "Enable dialog headers"
 msgstr "开启对话框顶部信息"
 
 #: src/settings.c:499
-msgid "Enable Button Images"
+msgid "Enable button images"
 msgstr "启用按钮图像"
 
 #: src/settings.c:508
@@ -1558,19 +1558,19 @@ msgstr ""
 "设置对话框"
 
 #: src/settings.c:571
-msgid "Enable Composite"
+msgid "Enable composite"
 msgstr "启用Composite"
 
 #: src/settings.c:579
-msgid "Enable Fading"
+msgid "Enable fading"
 msgstr "启用淡入淡出"
 
 #: src/settings.c:583
-msgid "Fading Speed:"
+msgid "Fading speed:"
 msgstr "淡入淡出速度："
 
 #: src/settings.c:596
-msgid "Shadows Off"
+msgid "Shadows off"
 msgstr "关闭阴影"
 
 #: src/settings.c:602
@@ -1766,7 +1766,7 @@ msgid "Delete"
 msgstr "删除"
 
 #: src/snaps.c:1017
-msgid "Remembered Settings..."
+msgid "Remembered settings..."
 msgstr "记忆设置..."
 
 #: src/snaps.c:1024
@@ -1899,7 +1899,7 @@ msgid "Use alternate font configuration (%s)"
 msgstr "使用另一种字体设置(%s)"
 
 #: src/theme.c:433
-msgid "Not set"
+msgid "not set"
 msgstr "未设定"
 
 #: src/theme.c:440
@@ -1919,15 +1919,15 @@ msgstr ""
 "设置对话框"
 
 #: src/tooltips.c:850
-msgid "Display Tooltips"
+msgid "Display tooltips"
 msgstr "显示工具条提示"
 
 #: src/tooltips.c:855
-msgid "Display Root Window Tips"
+msgid "Display root window tips"
 msgstr "显示根窗口提示"
 
 #: src/tooltips.c:859
-msgid "Tooltip Delay:"
+msgid "Tooltip delay:"
 msgstr "工具条提示延迟："
 
 #: src/tooltips.c:870
@@ -1955,15 +1955,15 @@ msgstr ""
 "（除了桌面 0）"
 
 #: config/strings.c:6 config/strings.c:8
-msgid "Switch Desktops"
+msgid "Switch desktops"
 msgstr "切换桌面"
 
 #: config/strings.c:7
-msgid "Go to the next desktop."
+msgid "Go to the next desktop"
 msgstr "转到下一个桌面。"
 
 #: config/strings.c:9
-msgid "Go to the previous desktop."
+msgid "Go to the previous desktop"
 msgstr "转到上一个桌面。"
 
 #: config/strings.c:10
@@ -1972,39 +1972,39 @@ msgstr "移动"
 
 #: config/strings.c:11 config/strings.c:23 config/strings.c:26
 #: config/strings.c:29
-msgid "Move this window."
+msgid "Move this window"
 msgstr "移动此窗口。"
 
 #: config/strings.c:12 config/strings.c:14 config/strings.c:48
-msgid "Shade/Unshade this window."
+msgid "Shade/unshade this window"
 msgstr "卷起/不卷起此窗口。"
 
 #: config/strings.c:13 config/strings.c:50 config/strings.c:53
-msgid "Show the Window Options menu."
+msgid "Show the Window Options menu"
 msgstr "显示窗口选项菜单。"
 
 #: config/strings.c:15
-msgid "Show/Hide group borders."
+msgid "Show/hide group borders"
 msgstr "显示/隐藏分组边框。"
 
 #: config/strings.c:16
-msgid "Start a group."
+msgid "Start a group"
 msgstr "开始新分组。"
 
 #: config/strings.c:17
-msgid "Add to current group."
+msgid "Add to current group"
 msgstr "添加至当前分组。"
 
 #: config/strings.c:18
-msgid "Break this window's group."
+msgid "Break this window's group"
 msgstr "取消此窗口的分组。"
 
 #: config/strings.c:19
-msgid "Shade."
+msgid "Shade"
 msgstr "卷起。"
 
 #: config/strings.c:20
-msgid "Unshade."
+msgid "Unshade"
 msgstr "不卷起。"
 
 #: config/strings.c:21
@@ -2012,47 +2012,47 @@ msgid "Resize"
 msgstr "调整尺寸"
 
 #: config/strings.c:22
-msgid "Resize this window."
+msgid "Resize this window"
 msgstr "调整此窗口尺寸。"
 
 #: config/strings.c:24
-msgid "Resize Horizontally"
+msgid "Resize horizontally"
 msgstr "水平方向调整大小"
 
 #: config/strings.c:25
-msgid "Resize this window horizontally."
+msgid "Resize this window horizontally"
 msgstr "水平方向调整此窗口的大小。"
 
 #: config/strings.c:27
-msgid "Resize Vertically"
+msgid "Resize vertically"
 msgstr "垂直方向调整大小"
 
 #: config/strings.c:28
-msgid "Resize this window vertically."
+msgid "Resize this window vertically"
 msgstr "垂直方向调整此窗口的大小。"
 
 #: config/strings.c:31
-msgid "Close this window."
+msgid "Close this window"
 msgstr "关闭此窗口。"
 
 #: config/strings.c:32
-msgid "Forcibly destroy this window."
+msgid "Forcibly destroy this window"
 msgstr "强力破坏此窗口"
 
 #: config/strings.c:33
-msgid "Maximize Height"
+msgid "Maximize height"
 msgstr "最大化高度"
 
 #: config/strings.c:34 config/strings.c:40
-msgid "Toggle between maximum screen height and normal height."
+msgid "Toggle between maximum screen height and normal height"
 msgstr "在最大化屏幕高度和普通高度间切换。"
 
 #: config/strings.c:35
-msgid "Maximize Width"
+msgid "Maximize width"
 msgstr "最大化宽度"
 
 #: config/strings.c:36 config/strings.c:39
-msgid "Toggle between maximum screen width and normal width."
+msgid "Toggle between maximum screen width and normal width"
 msgstr "在最大化屏幕宽度和普通宽度间切换。"
 
 #: config/strings.c:37
@@ -2060,19 +2060,19 @@ msgid "Maximize"
 msgstr "最大化"
 
 #: config/strings.c:38
-msgid "Toggle between maximum screen size and normal size."
+msgid "Toggle between maximum screen size and normal size"
 msgstr "在最大化屏幕尺寸和普通尺寸间切换。"
 
 #: config/strings.c:41 config/strings.c:43
-msgid "Send To Another Desktop"
+msgid "Send to another desktop"
 msgstr "发送至另一个桌面"
 
 #: config/strings.c:42
-msgid "Send this Window to the next desktop."
+msgid "Send this window to the next desktop"
 msgstr "把此窗口送至下一个桌面"
 
 #: config/strings.c:44
-msgid "Send this Window to the previous desktop."
+msgid "Send this window to the previous desktop"
 msgstr "把此窗口送至前一个桌面"
 
 #: config/strings.c:45
@@ -2080,11 +2080,11 @@ msgid "Snapshot"
 msgstr "快照"
 
 #: config/strings.c:46
-msgid "This button does nothing interesting."
+msgid "This button does nothing interesting"
 msgstr "此按钮不会诱发什么有趣的玩意儿"
 
 #: config/strings.c:47 config/strings.c:129
-msgid "Shade/Unshade"
+msgid "Shade/unshade"
 msgstr "卷起/不卷起"
 
 #: config/strings.c:52
@@ -2092,11 +2092,11 @@ msgid "Iconify (Minimize) this window."
 msgstr "图标化此窗口"
 
 #: config/strings.c:54
-msgid "More Buttons"
+msgid "More buttons"
 msgstr "更多按钮"
 
 #: config/strings.c:55
-msgid "Show more buttons."
+msgid "Show more buttons"
 msgstr "显示更多按钮。"
 
 #: config/strings.c:56 config/strings.c:127
@@ -2104,7 +2104,7 @@ msgid "Raise"
 msgstr "提升"
 
 #: config/strings.c:57
-msgid "Raise this window to the top."
+msgid "Raise this window to the top"
 msgstr "提升此窗口至顶层"
 
 #: config/strings.c:58 config/strings.c:128
@@ -2112,11 +2112,11 @@ msgid "Lower"
 msgstr "降低"
 
 #: config/strings.c:59
-msgid "Lower this window."
+msgid "Lower this window"
 msgstr "降低此窗口"
 
 #: config/strings.c:60 config/strings.c:130
-msgid "Stick/Unstick"
+msgid "Stick/unstick"
 msgstr "固定/解除固定"
 
 #: config/strings.c:61
@@ -2130,35 +2130,35 @@ msgid ""
 msgstr "在桌面点击鼠标将会执行"
 
 #: config/strings.c:64
-msgid "Display User Menus"
+msgid "Display User menus"
 msgstr "显示用户菜单"
 
 #: config/strings.c:65 config/strings.c:67
-msgid "Display Enlightenment Menu"
+msgid "Display Enlightenment menu"
 msgstr "显示 Enlightenment 菜单"
 
 #: config/strings.c:66 config/strings.c:71
-msgid "Display Settings Menu"
+msgid "Display Settings menu"
 msgstr "显示设置菜单"
 
 #: config/strings.c:68
-msgid "Display Task List Menu"
+msgid "Display Task List menu"
 msgstr "显示任务列表菜单"
 
 #: config/strings.c:69
-msgid "Display Desktop Menu"
+msgid "Display Desktop menu"
 msgstr "显示桌面菜单"
 
 #: config/strings.c:70
-msgid "Display Group Menu"
+msgid "Display Group menu"
 msgstr "显示分组菜单"
 
 #: config/strings.c:72
-msgid "Go Back a Desktop"
+msgid "Go back a desktop"
 msgstr "后退桌面"
 
 #: config/strings.c:73
-msgid "Go Forward a Desktop"
+msgid "Go forward a desktop"
 msgstr "前进桌面"
 
 #: config/strings.c:78
@@ -2166,23 +2166,23 @@ msgid "Desktop Operations"
 msgstr "桌面操作"
 
 #: config/strings.c:80
-msgid "Cleanup Desktop"
+msgid "Cleanup desktop"
 msgstr "清理桌面"
 
 #: config/strings.c:81
-msgid "Goto Next Desktop"
+msgid "Goto next desktop"
 msgstr "转到下一个桌面"
 
 #: config/strings.c:82
-msgid "Goto Previous Desktop"
+msgid "Goto previous desktop"
 msgstr "转到上一个桌面"
 
 #: config/strings.c:84
-msgid "Create Systray"
+msgid "Create systray"
 msgstr "创建系统托盘"
 
 #: config/strings.c:85
-msgid "Show Magnifier"
+msgid "Show magnifier"
 msgstr "显示放大镜"
 
 #: config/strings.c:87
@@ -2190,7 +2190,7 @@ msgid "Enlightenment"
 msgstr "Enlightenment"
 
 #: config/strings.c:88 config/strings.c:192
-msgid "User Menus"
+msgid "User menus"
 msgstr "用户菜单"
 
 #: config/strings.c:89 config/strings.c:110 config/strings.c:111
@@ -2218,7 +2218,7 @@ msgid "Restart"
 msgstr "重启"
 
 #: config/strings.c:97 config/strings.c:120 config/strings.c:197
-msgid "Log Out"
+msgid "Log out"
 msgstr "注销"
 
 #: config/strings.c:100
@@ -2254,7 +2254,7 @@ msgid "Query all cache usage"
 msgstr "查询所有缓存用法"
 
 #: config/strings.c:108
-msgid "Regenerate Menus"
+msgid "Regenerate menus"
 msgstr "重新生成菜单"
 
 #: config/strings.c:118
@@ -2264,7 +2264,7 @@ msgid "Theme menu"
 msgstr "主题设置"
 
 #: config/strings.c:126
-msgid "Leave Alone"
+msgid "Leave alone"
 msgstr "独挡一面"
 
 #: config/strings.c:131
@@ -2272,19 +2272,19 @@ msgid "Remember..."
 msgstr "记忆 ..."
 
 #: config/strings.c:132
-msgid "Window Size"
+msgid "Window size"
 msgstr "窗口尺寸"
 
 #: config/strings.c:133
-msgid "Set Stacking"
+msgid "Set stacking"
 msgstr "设定叠放"
 
 #: config/strings.c:134
-msgid "Set Border Style"
+msgid "Set border style"
 msgstr "设定边框风格"
 
 #: config/strings.c:135
-msgid "Window Groups"
+msgid "Window groups"
 msgstr "窗口分组"
 
 #: config/strings.c:140
@@ -2338,46 +2338,46 @@ msgid "Highest"
 msgstr "置顶"
 
 #: config/strings.c:155
-msgid "Toggle Skip Window Lists"
+msgid "Toggle skip window lists"
 msgstr "切换跳过窗口列表"
 
 #: config/strings.c:156
-msgid "Toggle Fixed Position"
+msgid "Toggle fixed position"
 msgstr "切换固定位置"
 
 #: config/strings.c:157
-msgid "Toggle Fixed Size"
+msgid "Toggle fixed size"
 msgstr "切换固定尺寸"
 
 #: config/strings.c:158
-msgid "Toggle Never Focus"
+msgid "Toggle never focus"
 msgstr "切换从不聚焦"
 
 #: config/strings.c:159
-msgid "Toggle Click to Focus"
+msgid "Toggle click to focus"
 msgstr "切换点击聚焦"
 
 #: config/strings.c:160
-msgid "Toggle Never Use Area"
+msgid "Toggle never use area"
 msgstr "切换非使用区"
 
 #: config/strings.c:161
 #, fuzzy
-msgid "Toggle Ignore Arrange"
+msgid "Toggle ignore arrange"
 msgstr "切换非使用区"
 
 #: config/strings.c:162
-msgid "Toggle Button Grabs"
+msgid "Toggle button grabs"
 msgstr "切换按钮捕捉"
 
 #: config/strings.c:163
-msgid "Toggle Autoshade"
+msgid "Toggle autoshade"
 msgstr "切换自动卷起"
 
 #: config/strings.c:164
 #, fuzzy
-#| msgid "Toggle Fading"
-msgid "Toggle Pass Pointer"
+#| msgid "Toggle fading"
+msgid "Toggle pass pointer"
 msgstr "切换淡入淡出"
 
 #: config/strings.c:167
@@ -2413,63 +2413,63 @@ msgid "Focused opacity follows unfocused"
 msgstr "聚焦的透明度跟随解除聚焦的"
 
 #: config/strings.c:175
-msgid "Toggle Fading"
+msgid "Toggle fading"
 msgstr "切换淡入淡出"
 
 #: config/strings.c:176
-msgid "Toggle Shadows"
+msgid "Toggle shadows"
 msgstr "切换阴影"
 
 #: config/strings.c:179
-msgid "Max Size Toggle"
+msgid "Toggle max size"
 msgstr "最大大小切换"
 
 #: config/strings.c:180
-msgid "Available Max Size Toggle"
+msgid "Toggle max size - available"
 msgstr "可用最大大小切换"
 
 #: config/strings.c:181
-msgid "Absolute Max Size Toggle"
+msgid "Toggle max size - absolute"
 msgstr "绝对最大大小切换"
 
 #: config/strings.c:182
-msgid "Span Xinerama Screens"
+msgid "Span Xinerama screens"
 msgstr "贯穿 Xinerama 屏幕"
 
 #: config/strings.c:183
-msgid "Max Height Toggle"
+msgid "Toggle max height"
 msgstr "最大高度切换"
 
 #: config/strings.c:184
-msgid "Available Max Height Toggle"
+msgid "Toggle max height available"
 msgstr "可用最大高度切换"
 
 #: config/strings.c:185
-msgid "Absolute Max Height Toggle"
+msgid "Toggle max height absolute"
 msgstr "绝对最大高度切换"
 
 #: config/strings.c:186
-msgid "Max Width Toggle"
+msgid "Toggle max width"
 msgstr "最大宽度切换"
 
 #: config/strings.c:187
-msgid "Available Max Width Toggle"
+msgid "Toggle max width available"
 msgstr "可用最大宽度切换"
 
 #: config/strings.c:188
-msgid "Absolute Max Width Toggle"
+msgid "Toggle max width absolute"
 msgstr "绝对最大宽度切换"
 
 #: config/strings.c:189
-msgid "Fullscreen/Normal"
+msgid "Toggle fullscreen"
 msgstr "全屏/普通"
 
 #: config/strings.c:190
-msgid "Zoom/Unzoom"
+msgid "Toggle zoom"
 msgstr "缩放/不缩放"
 
 #: config/strings.c:193
-msgid "User Application List"
+msgid "User application list"
 msgstr "自定义程序列表"
 
 #: config/strings.c:194

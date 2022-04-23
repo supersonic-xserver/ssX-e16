@@ -136,7 +136,7 @@ msgid "Tile image across background"
 msgstr "Mosaic d'imatges en el fons"
 
 #: src/backgrounds.c:2005
-msgid "Move to Front"
+msgid "Move to front"
 msgstr "Mou cap endavant"
 
 #: src/backgrounds.c:2010
@@ -148,16 +148,16 @@ msgid "Unlist"
 msgstr "No llistat"
 
 #: src/backgrounds.c:2019
-msgid "Delete File"
+msgid "Delete file"
 msgstr "Suprimeix el fitxer"
 
 #: src/backgrounds.c:2029
 msgid ""
 "Background\n"
-"Image\n"
-"Scaling\n"
+"image\n"
+"scaling\n"
 "and\n"
-"Alignment\n"
+"alignment\n"
 msgstr ""
 "Fons\n"
 "Imatge\n"
@@ -166,7 +166,7 @@ msgstr ""
 "Alineació\n"
 
 #: src/backgrounds.c:2082
-msgid "BG Colour"
+msgid "BG colour"
 msgstr "Color BG"
 
 #: src/backgrounds.c:2086
@@ -186,15 +186,15 @@ msgid "Pre-scan BG's"
 msgstr "Pre-escaneig fons"
 
 #: src/backgrounds.c:2147
-msgid "Sort by File"
+msgid "Sort by file"
 msgstr "Ordena per nom"
 
 #: src/backgrounds.c:2152
-msgid "Sort by Attr."
+msgid "Sort by attr."
 msgstr "Ordena per atribut"
 
 #: src/backgrounds.c:2158
-msgid "Sort by Image"
+msgid "Sort by image"
 msgstr "Ordena per imatge"
 
 #: src/backgrounds.c:2178
@@ -341,7 +341,7 @@ msgid "Close"
 msgstr "Tanca"
 
 #: src/container.c:1192 config/strings.c:83
-msgid "Create New Iconbox"
+msgid "Create new iconbox"
 msgstr "Crea nova caixa d'icona"
 
 #: src/container.c:1492 src/container.c:1560 src/menus.c:1983
@@ -532,7 +532,7 @@ msgid "Slide desktops around when changing"
 msgstr "Mostra presentació d'escriptoris quan es canviï"
 
 #: src/desktops.c:2581
-msgid "Desktop Slide speed:"
+msgid "Desktop slide speed:"
 msgstr "Velocitat presentació d'escriptoris:"
 
 #: src/desktops.c:2595
@@ -544,7 +544,7 @@ msgid "Display desktop dragbar"
 msgstr "Mostra barra d'arrossegament d'escriptori"
 
 #: src/desktops.c:2608
-msgid "Drag bar position:"
+msgid "Dragbar position:"
 msgstr "Posició de la barra d'arrossegament:"
 
 #: src/desktops.c:2612
@@ -580,7 +580,7 @@ msgstr ""
 "Diàleg de paràmetres"
 
 #: src/desktops.c:2737
-msgid "Virtual Desktop size:"
+msgid "Virtual desktop size:"
 msgstr "Mida escriptori virtual:"
 
 #: src/desktops.c:2776
@@ -588,7 +588,7 @@ msgid "Wrap virtual desktops around"
 msgstr "Minimitza tots els escriptoris virtuals"
 
 #: src/desktops.c:2782
-msgid "Edge Flip Mode:"
+msgid "Edge flip mode:"
 msgstr "Mode vora intercanvi:"
 
 #: src/desktops.c:2790
@@ -764,11 +764,11 @@ msgstr ""
 "Política al mostrar imatges Focuslist (si una operació falla, prova això):"
 
 #: src/focus.c:1038
-msgid "First E Icon, then App Icon"
+msgid "First E icon, then App icon"
 msgstr "Primer icona E, després icona App"
 
 #: src/focus.c:1044
-msgid "First App Icon, then E Icon"
+msgid "First App icon, then E icon"
 msgstr "Primer icona App, després icona E"
 
 #: src/focus.c:1058
@@ -880,7 +880,7 @@ msgstr ""
 "a tots els membres del grup:"
 
 #: src/groups.c:959 src/groups.c:1050
-msgid "Changing Border Style"
+msgid "Changing border style"
 msgstr "Canvi d'estil de la vora"
 
 #: src/groups.c:964 src/groups.c:1055
@@ -896,7 +896,7 @@ msgid "Moving"
 msgstr "Moviment"
 
 #: src/groups.c:979 src/groups.c:1070
-msgid "Raising/Lowering"
+msgid "Raising/lowering"
 msgstr "Elevar/Abaixar"
 
 #: src/groups.c:984 src/groups.c:1075
@@ -1282,7 +1282,7 @@ msgid "Enable pager display"
 msgstr "Activa el paginador"
 
 #: src/pager.c:1829
-msgid "Pager Mode:"
+msgid "Pager mode:"
 msgstr "Mode del paginador:"
 
 #: src/pager.c:1833
@@ -1294,7 +1294,7 @@ msgid "Make miniature snapshots of the screen"
 msgstr "Fer miniatures de les captures de la pantalla"
 
 #: src/pager.c:1846
-msgid "Live Update"
+msgid "Live update"
 msgstr "Actualització en viu"
 
 #: src/pager.c:1857
@@ -1398,15 +1398,15 @@ msgid "No"
 msgstr "No"
 
 #: src/session.c:741
-msgid "Enable Session Script"
+msgid "Enable session script"
 msgstr "Activa l'script de sessió"
 
 #: src/session.c:746
-msgid "Enable Logout Dialog"
+msgid "Enable logout dialog"
 msgstr "Activa el diàleg de sortida"
 
 #: src/session.c:751
-msgid "Enable Reboot/Halt on Logout"
+msgid "Enable reboot/halt on logout"
 msgstr "Activa Reinicia/Atura al sortir"
 
 #: src/session.c:757
@@ -1426,11 +1426,11 @@ msgstr ""
 "Diàleg de paràmetres"
 
 #: src/settings.c:86
-msgid "Move Methods:"
+msgid "Move methods:"
 msgstr "Mètodes de moviment:"
 
 #: src/settings.c:89
-msgid "Resize Methods:"
+msgid "Resize methods:"
 msgstr "Mètodes de canvi de tamany:"
 
 #: src/settings.c:92 src/settings.c:97 src/settings.c:367
@@ -1450,15 +1450,15 @@ msgid "Avoid server grab"
 msgstr "Evita la captura del servidor"
 
 #: src/settings.c:144
-msgid "Move/Resize Geometry Info Postion:"
+msgid "Move/resize geometry info postion:"
 msgstr "Mou/Redimensiona la posició de la informació de geometria:"
 
 #: src/settings.c:148
-msgid "Window Center (O/T/B Methods)"
+msgid "Window center (O/T/B methods)"
 msgstr "Centrat de finestra (Mètodes O/T/B)"
 
 #: src/settings.c:154
-msgid "Always Screen corner"
+msgid "Always screen corner"
 msgstr "Sempre amb cantonada de pantalla"
 
 #: src/settings.c:160
@@ -1466,7 +1466,7 @@ msgid "Don't show"
 msgstr "No mostris"
 
 #: src/settings.c:170
-msgid "Default Resize Policy:"
+msgid "Default resize policy:"
 msgstr "Política predeterminada de redimensionat:"
 
 #: src/settings.c:174
@@ -1552,15 +1552,15 @@ msgid "Slide windows around when cleaning up"
 msgstr "Diapositives de les finestres al voltant quan es netegi"
 
 #: src/settings.c:364
-msgid "Slide Method:"
+msgid "Slide method:"
 msgstr "Mètode de diapositiva"
 
 #: src/settings.c:389
-msgid "Appear Slide speed:"
+msgid "Appear slide speed:"
 msgstr "Velocitat de l'aparició de la diapositiva:"
 
 #: src/settings.c:398
-msgid "Cleanup Slide speed:"
+msgid "Cleanup slide speed:"
 msgstr "Velocitat de la neteja de la diapositiva:"
 
 #: src/settings.c:411
@@ -1568,7 +1568,7 @@ msgid "Animate shading and unshading of windows"
 msgstr "Animació de l'ombrejat de les finestres"
 
 #: src/settings.c:415
-msgid "Window Shading speed:"
+msgid "Window shading speed:"
 msgstr "Velocitat de l'ombrejat de la finestra:"
 
 #: src/settings.c:428
@@ -1605,11 +1605,11 @@ msgstr ""
 "Diàleg de paràmetres"
 
 #: src/settings.c:493
-msgid "Enable Dialog Headers"
+msgid "Enable dialog headers"
 msgstr "Activa les capçaleres de diàleg"
 
 #: src/settings.c:499
-msgid "Enable Button Images"
+msgid "Enable button images"
 msgstr "Activa les imatges de botó"
 
 #: src/settings.c:508
@@ -1637,19 +1637,19 @@ msgstr ""
 "Diversos"
 
 #: src/settings.c:571
-msgid "Enable Composite"
+msgid "Enable composite"
 msgstr "Activa composició"
 
 #: src/settings.c:579
-msgid "Enable Fading"
+msgid "Enable fading"
 msgstr "Activa esvaïment"
 
 #: src/settings.c:583
-msgid "Fading Speed:"
+msgid "Fading speed:"
 msgstr "Velocitat d'esvaïment:"
 
 #: src/settings.c:596
-msgid "Shadows Off"
+msgid "Shadows off"
 msgstr "Ombres desactivades"
 
 #: src/settings.c:602
@@ -1864,7 +1864,7 @@ msgid "Delete"
 msgstr "Suprimeix"
 
 #: src/snaps.c:1017
-msgid "Remembered Settings..."
+msgid "Remembered settings..."
 msgstr "Configuracions memoritzades..."
 
 #: src/snaps.c:1024
@@ -1999,7 +1999,7 @@ msgid "Use alternate font configuration (%s)"
 msgstr "Utilitza la configuració alternativa del tipus de lletra del tema (%s)"
 
 #: src/theme.c:433
-msgid "Not set"
+msgid "not set"
 msgstr "No establert"
 
 #: src/theme.c:440
@@ -2019,15 +2019,15 @@ msgstr ""
 "del tema"
 
 #: src/tooltips.c:850
-msgid "Display Tooltips"
+msgid "Display tooltips"
 msgstr "Mostra indicadors de funció"
 
 #: src/tooltips.c:855
-msgid "Display Root Window Tips"
+msgid "Display root window tips"
 msgstr "Mostra inicadors de funció a la finestra arrel"
 
 #: src/tooltips.c:859
-msgid "Tooltip Delay:"
+msgid "Tooltip delay:"
 msgstr "Retard en l'indicador de funció"
 
 #: src/tooltips.c:870
@@ -2055,15 +2055,15 @@ msgstr ""
 "(a qualsevol escriptori menys escriptori 0)"
 
 #: config/strings.c:6 config/strings.c:8
-msgid "Switch Desktops"
+msgid "Switch desktops"
 msgstr "Commuta escriptoris"
 
 #: config/strings.c:7
-msgid "Go to the next desktop."
+msgid "Go to the next desktop"
 msgstr "Vés a l'escriptori següent"
 
 #: config/strings.c:9
-msgid "Go to the previous desktop."
+msgid "Go to the previous desktop"
 msgstr "Vés a l'escriptori anterior"
 
 #: config/strings.c:10
@@ -2072,39 +2072,39 @@ msgstr "Mou"
 
 #: config/strings.c:11 config/strings.c:23 config/strings.c:26
 #: config/strings.c:29
-msgid "Move this window."
+msgid "Move this window"
 msgstr "Mou aquesta finestra"
 
 #: config/strings.c:12 config/strings.c:14 config/strings.c:48
-msgid "Shade/Unshade this window."
+msgid "Shade/unshade this window"
 msgstr "Plega/desplega aquesta finestra"
 
 #: config/strings.c:13 config/strings.c:50 config/strings.c:53
-msgid "Show the Window Options menu."
+msgid "Show the Window Options menu"
 msgstr "Mostra el menú d'opcions de la finestra"
 
 #: config/strings.c:15
-msgid "Show/Hide group borders."
+msgid "Show/hide group borders"
 msgstr "Mostra/amaga vores del grup."
 
 #: config/strings.c:16
-msgid "Start a group."
+msgid "Start a group"
 msgstr "Crea un grup."
 
 #: config/strings.c:17
-msgid "Add to current group."
+msgid "Add to current group"
 msgstr "Afegeix al grup actual."
 
 #: config/strings.c:18
-msgid "Break this window's group."
+msgid "Break this window's group"
 msgstr "Trenca aquest grup de finestres"
 
 #: config/strings.c:19
-msgid "Shade."
+msgid "Shade"
 msgstr "Ombreja."
 
 #: config/strings.c:20
-msgid "Unshade."
+msgid "Unshade"
 msgstr "No ombregis."
 
 #: config/strings.c:21
@@ -2112,47 +2112,47 @@ msgid "Resize"
 msgstr "Canvia la mida"
 
 #: config/strings.c:22
-msgid "Resize this window."
+msgid "Resize this window"
 msgstr "Redimensiona aquesta finestra."
 
 #: config/strings.c:24
-msgid "Resize Horizontally"
+msgid "Resize horizontally"
 msgstr "Redimensiona horitzontalment"
 
 #: config/strings.c:25
-msgid "Resize this window horizontally."
+msgid "Resize this window horizontally"
 msgstr "Redimesiona aquesta finestra horitzontalment."
 
 #: config/strings.c:27
-msgid "Resize Vertically"
+msgid "Resize vertically"
 msgstr "Redimensiona verticalment"
 
 #: config/strings.c:28
-msgid "Resize this window vertically."
+msgid "Resize this window vertically"
 msgstr "Redimesiona aquesta finestra verticalment."
 
 #: config/strings.c:31
-msgid "Close this window."
+msgid "Close this window"
 msgstr "Tanca aquesta finestra."
 
 #: config/strings.c:32
-msgid "Forcibly destroy this window."
+msgid "Forcibly destroy this window"
 msgstr "Força la destrucció d'aquesta finestra."
 
 #: config/strings.c:33
-msgid "Maximize Height"
+msgid "Maximize height"
 msgstr "Alçada d'ampliació."
 
 #: config/strings.c:34 config/strings.c:40
-msgid "Toggle between maximum screen height and normal height."
+msgid "Toggle between maximum screen height and normal height"
 msgstr "Commuta entre l'alçada màxima de la pantalla i l'alçada normal."
 
 #: config/strings.c:35
-msgid "Maximize Width"
+msgid "Maximize width"
 msgstr "Augmenta l'amplada"
 
 #: config/strings.c:36 config/strings.c:39
-msgid "Toggle between maximum screen width and normal width."
+msgid "Toggle between maximum screen width and normal width"
 msgstr "Commuta entre l'amplada màxima de la pantalla i l'amplada normal."
 
 #: config/strings.c:37
@@ -2160,19 +2160,19 @@ msgid "Maximize"
 msgstr "Maximitza"
 
 #: config/strings.c:38
-msgid "Toggle between maximum screen size and normal size."
+msgid "Toggle between maximum screen size and normal size"
 msgstr "Commuta entre la mida màxima de la pantalla i la mida normal."
 
 #: config/strings.c:41 config/strings.c:43
-msgid "Send To Another Desktop"
+msgid "Send to another desktop"
 msgstr "Envia cap a un altre escriptori"
 
 #: config/strings.c:42
-msgid "Send this Window to the next desktop."
+msgid "Send this window to the next desktop"
 msgstr "Envia aquesta finestra a l'escriptori següent."
 
 #: config/strings.c:44
-msgid "Send this Window to the previous desktop."
+msgid "Send this window to the previous desktop"
 msgstr "Envia aquesta finestra a l'escriptori anterior."
 
 #: config/strings.c:45
@@ -2180,11 +2180,11 @@ msgid "Snapshot"
 msgstr "Instantània"
 
 #: config/strings.c:46
-msgid "This button does nothing interesting."
+msgid "This button does nothing interesting"
 msgstr "Aquest botó no fa res interessant."
 
 #: config/strings.c:47 config/strings.c:129
-msgid "Shade/Unshade"
+msgid "Shade/unshade"
 msgstr "Plega/Desplega"
 
 #: config/strings.c:52
@@ -2192,11 +2192,11 @@ msgid "Iconify (Minimize) this window."
 msgstr "Minimitza aquesta finestra"
 
 #: config/strings.c:54
-msgid "More Buttons"
+msgid "More buttons"
 msgstr "Més botons"
 
 #: config/strings.c:55
-msgid "Show more buttons."
+msgid "Show more buttons"
 msgstr "Mostra més botons."
 
 #: config/strings.c:56 config/strings.c:127
@@ -2204,7 +2204,7 @@ msgid "Raise"
 msgstr "Puja"
 
 #: config/strings.c:57
-msgid "Raise this window to the top."
+msgid "Raise this window to the top"
 msgstr "Puja aquesta finestra a dalt de tot."
 
 #: config/strings.c:58 config/strings.c:128
@@ -2212,11 +2212,11 @@ msgid "Lower"
 msgstr "Baixa"
 
 #: config/strings.c:59
-msgid "Lower this window."
+msgid "Lower this window"
 msgstr "Abaixa aquesta finestra"
 
 #: config/strings.c:60 config/strings.c:130
-msgid "Stick/Unstick"
+msgid "Stick/unstick"
 msgstr "Enganxa/Desengantxa"
 
 #: config/strings.c:61
@@ -2234,35 +2234,35 @@ msgstr ""
 "les següents accions"
 
 #: config/strings.c:64
-msgid "Display User Menus"
+msgid "Display User menus"
 msgstr "Mostra el menús d'usuari"
 
 #: config/strings.c:65 config/strings.c:67
-msgid "Display Enlightenment Menu"
+msgid "Display Enlightenment menu"
 msgstr "Mostra el mení Enlightenment"
 
 #: config/strings.c:66 config/strings.c:71
-msgid "Display Settings Menu"
+msgid "Display Settings menu"
 msgstr "Mostra el menú de configuració"
 
 #: config/strings.c:68
-msgid "Display Task List Menu"
+msgid "Display Task List menu"
 msgstr "Mostra el menú de llista de tasques"
 
 #: config/strings.c:69
-msgid "Display Desktop Menu"
+msgid "Display Desktop menu"
 msgstr "Mostra el menú d'escriptori"
 
 #: config/strings.c:70
-msgid "Display Group Menu"
+msgid "Display Group menu"
 msgstr "Mostra el menú de grup"
 
 #: config/strings.c:72
-msgid "Go Back a Desktop"
+msgid "Go back a desktop"
 msgstr "Vés a l'escriptori anterior"
 
 #: config/strings.c:73
-msgid "Go Forward a Desktop"
+msgid "Go forward a desktop"
 msgstr "Vés a l'escriptori següent"
 
 #: config/strings.c:78
@@ -2270,23 +2270,23 @@ msgid "Desktop Operations"
 msgstr "Operacions d'escriptori"
 
 #: config/strings.c:80
-msgid "Cleanup Desktop"
+msgid "Cleanup desktop"
 msgstr "Neteja escriptori"
 
 #: config/strings.c:81
-msgid "Goto Next Desktop"
+msgid "Goto next desktop"
 msgstr "Vés al següent escriptori"
 
 #: config/strings.c:82
-msgid "Goto Previous Desktop"
+msgid "Goto previous desktop"
 msgstr "Vés a l'anterior escriptori"
 
 #: config/strings.c:84
-msgid "Create Systray"
+msgid "Create systray"
 msgstr "Crea safata de sistema"
 
 #: config/strings.c:85
-msgid "Show Magnifier"
+msgid "Show magnifier"
 msgstr "Mostra ampliador"
 
 #: config/strings.c:87
@@ -2294,7 +2294,7 @@ msgid "Enlightenment"
 msgstr "Enlightenment"
 
 #: config/strings.c:88 config/strings.c:192
-msgid "User Menus"
+msgid "User menus"
 msgstr "Menús d'usuari"
 
 #: config/strings.c:89 config/strings.c:110 config/strings.c:111
@@ -2322,7 +2322,7 @@ msgid "Restart"
 msgstr "Reinicia"
 
 #: config/strings.c:97 config/strings.c:120 config/strings.c:197
-msgid "Log Out"
+msgid "Log out"
 msgstr "Finalitza sessió"
 
 #: config/strings.c:100
@@ -2358,7 +2358,7 @@ msgid "Query all cache usage"
 msgstr "Pregunta l'ús de tota memòria cau"
 
 #: config/strings.c:108
-msgid "Regenerate Menus"
+msgid "Regenerate menus"
 msgstr "Regenera menus"
 
 #: config/strings.c:118
@@ -2368,7 +2368,7 @@ msgid "Theme menu"
 msgstr "Configuració tema"
 
 #: config/strings.c:126
-msgid "Leave Alone"
+msgid "Leave alone"
 msgstr "Deixa sol"
 
 #: config/strings.c:131
@@ -2376,19 +2376,19 @@ msgid "Remember..."
 msgstr "Memoritza..."
 
 #: config/strings.c:132
-msgid "Window Size"
+msgid "Window size"
 msgstr "Mida finestra"
 
 #: config/strings.c:133
-msgid "Set Stacking"
+msgid "Set stacking"
 msgstr "Estableix apilament"
 
 #: config/strings.c:134
-msgid "Set Border Style"
+msgid "Set border style"
 msgstr "Estableix estil de vora"
 
 #: config/strings.c:135
-msgid "Window Groups"
+msgid "Window groups"
 msgstr "Grups de finestra"
 
 #: config/strings.c:140
@@ -2442,45 +2442,45 @@ msgid "Highest"
 msgstr "A dalt"
 
 #: config/strings.c:155
-msgid "Toggle Skip Window Lists"
+msgid "Toggle skip window lists"
 msgstr "Commuta Llista de salt a finestra"
 
 #: config/strings.c:156
-msgid "Toggle Fixed Position"
+msgid "Toggle fixed position"
 msgstr "Commuta Posició fixa"
 
 #: config/strings.c:157
-msgid "Toggle Fixed Size"
+msgid "Toggle fixed size"
 msgstr "Commuta Mida fixa"
 
 #: config/strings.c:158
-msgid "Toggle Never Focus"
+msgid "Toggle never focus"
 msgstr "Commuta Mai focus"
 
 #: config/strings.c:159
-msgid "Toggle Click to Focus"
+msgid "Toggle click to focus"
 msgstr "Commuta Clic per enfocar"
 
 #: config/strings.c:160
-msgid "Toggle Never Use Area"
+msgid "Toggle never use area"
 msgstr "Commuta Mai utilitzis àrea"
 
 #: config/strings.c:161
-msgid "Toggle Ignore Arrange"
+msgid "Toggle ignore arrange"
 msgstr "Commuta Ignora organització"
 
 #: config/strings.c:162
-msgid "Toggle Button Grabs"
+msgid "Toggle button grabs"
 msgstr "Commuta captures botó"
 
 #: config/strings.c:163
-msgid "Toggle Autoshade"
+msgid "Toggle autoshade"
 msgstr "Commuta Amaga automàticament"
 
 #: config/strings.c:164
 #, fuzzy
-#| msgid "Toggle Fading"
-msgid "Toggle Pass Pointer"
+#| msgid "Toggle fading"
+msgid "Toggle pass pointer"
 msgstr "Commuta esvaïment"
 
 #: config/strings.c:167
@@ -2516,63 +2516,63 @@ msgid "Focused opacity follows unfocused"
 msgstr "Opacitat enfoc segueix desenfocat"
 
 #: config/strings.c:175
-msgid "Toggle Fading"
+msgid "Toggle fading"
 msgstr "Commuta esvaïment"
 
 #: config/strings.c:176
-msgid "Toggle Shadows"
+msgid "Toggle shadows"
 msgstr "Commuta ombrejat"
 
 #: config/strings.c:179
-msgid "Max Size Toggle"
+msgid "Toggle max size"
 msgstr "Commuta Mida màxima"
 
 #: config/strings.c:180
-msgid "Available Max Size Toggle"
+msgid "Toggle max size - available"
 msgstr "Commuta Mides màximes disponibles"
 
 #: config/strings.c:181
-msgid "Absolute Max Size Toggle"
+msgid "Toggle max size - absolute"
 msgstr "Commuta Mida màxima absoluta"
 
 #: config/strings.c:182
-msgid "Span Xinerama Screens"
+msgid "Span Xinerama screens"
 msgstr "Interval de finestres Xinerama"
 
 #: config/strings.c:183
-msgid "Max Height Toggle"
+msgid "Toggle max height"
 msgstr "Commuta Alçada màxima"
 
 #: config/strings.c:184
-msgid "Available Max Height Toggle"
+msgid "Toggle max height available"
 msgstr "Commuta Alçades màximes disponibles"
 
 #: config/strings.c:185
-msgid "Absolute Max Height Toggle"
+msgid "Toggle max height absolute"
 msgstr "Commuta Alçada màxima absoluta"
 
 #: config/strings.c:186
-msgid "Max Width Toggle"
+msgid "Toggle max width"
 msgstr "Commuta Amplada màxima"
 
 #: config/strings.c:187
-msgid "Available Max Width Toggle"
+msgid "Toggle max width available"
 msgstr "Commuta Amplades màximes disponibles"
 
 #: config/strings.c:188
-msgid "Absolute Max Width Toggle"
+msgid "Toggle max width absolute"
 msgstr "Commuta Amplada màxima absoluta"
 
 #: config/strings.c:189
-msgid "Fullscreen/Normal"
+msgid "Toggle fullscreen"
 msgstr "Pantalla completa/Normal"
 
 #: config/strings.c:190
-msgid "Zoom/Unzoom"
+msgid "Toggle zoom"
 msgstr "Amplia/Redueix"
 
 #: config/strings.c:193
-msgid "User Application List"
+msgid "User application list"
 msgstr "Llista d'aplicacions d'usuari"
 
 #: config/strings.c:194
