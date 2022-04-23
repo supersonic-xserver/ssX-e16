@@ -284,8 +284,8 @@ ArrangeFindSpaces(const int *xarray, int xsize, const int *yarray, int ysize,
 static int
 _rects_sort_size(const void *_a, const void *_b)
 {
-   const RectBox      *a = _a;
-   const RectBox      *b = _b;
+   const RectBox      *a = (const RectBox *)_a;
+   const RectBox      *b = (const RectBox *)_b;
 
    return (b->w * b->h) - (a->h * a->w);
 }
@@ -294,8 +294,8 @@ _rects_sort_size(const void *_a, const void *_b)
 static int
 _rects_sort_pos(const void *_a, const void *_b)
 {
-   const RectBox      *a = _a;
-   const RectBox      *b = _b;
+   const RectBox      *a = (const RectBox *)_a;
+   const RectBox      *b = (const RectBox *)_b;
 
    return (b->x + b->w / 2 + b->y + b->h / 2) - (a->x - a->y);
 }
