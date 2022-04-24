@@ -1821,6 +1821,7 @@ DialogOKstr(const char *title, const char *txt)
    di = DialogItemAddButton(table, _("OK"), DialogCallbackClose, 0, 1,
 			    DLG_BUTTON_OK);
    DialogItemSetFill(di, 0, 0);
+   DialogItemSetAlign(di, 512, 512);
 
    DialogBindKey(d, "Return", DialogCallbackClose, 0, NULL);
    DialogBindKey(d, "Escape", DialogCallbackClose, 0, NULL);
