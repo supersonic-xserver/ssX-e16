@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
 "POT-Creation-Date: 2022-04-23 09:56+0200\n"
-"PO-Revision-Date: 2022-03-11 06:47+0100\n"
+"PO-Revision-Date: 2022-04-24 17:44+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
 "Language: da\n"
@@ -1944,7 +1944,7 @@ msgstr "Brug alternativ fontkonfiguration (%s)"
 
 #: src/theme.c:433
 msgid "not set"
-msgstr "Ikke sat"
+msgstr "ikke sat"
 
 #: src/theme.c:440
 msgid "Theme"
@@ -2000,11 +2000,11 @@ msgstr "Skift skrivebord"
 
 #: config/strings.c:7
 msgid "Go to the next desktop"
-msgstr "Gå til næste skrivebord."
+msgstr "Gå til næste skrivebord"
 
 #: config/strings.c:9
 msgid "Go to the previous desktop"
-msgstr "Gå til forrige skrivebord."
+msgstr "Gå til forrige skrivebord"
 
 #: config/strings.c:10
 msgid "Move"
@@ -2013,39 +2013,39 @@ msgstr "Flyt"
 #: config/strings.c:11 config/strings.c:23 config/strings.c:26
 #: config/strings.c:29
 msgid "Move this window"
-msgstr "Flyt dette vindue."
+msgstr "Flyt dette vindue"
 
 #: config/strings.c:12 config/strings.c:14 config/strings.c:48
 msgid "Shade/unshade this window"
-msgstr "Rul dette vindue op/ned."
+msgstr "Rul dette vindue op/ned"
 
 #: config/strings.c:13 config/strings.c:50 config/strings.c:53
 msgid "Show the Window Options menu"
-msgstr "Vis menuen vinduesindstillinger."
+msgstr "Vis menuen vinduesindstillinger"
 
 #: config/strings.c:15
 msgid "Show/hide group borders"
-msgstr "Vis/skjul rammer for denne gruppe."
+msgstr "Vis/skjul rammer for denne gruppe"
 
 #: config/strings.c:16
 msgid "Start a group"
-msgstr "Start en gruppe."
+msgstr "Start en gruppe"
 
 #: config/strings.c:17
 msgid "Add to current group"
-msgstr "Tilføj til aktiv gruppe."
+msgstr "Tilføj til aktiv gruppe"
 
 #: config/strings.c:18
 msgid "Break this window's group"
-msgstr "Slet denne vinduesgruppe."
+msgstr "Slet denne vinduesgruppe"
 
 #: config/strings.c:19
 msgid "Shade"
-msgstr "Rul op."
+msgstr "Rul op"
 
 #: config/strings.c:20
 msgid "Unshade"
-msgstr "Rul ned."
+msgstr "Rul ned"
 
 #: config/strings.c:21
 msgid "Resize"
@@ -2053,7 +2053,7 @@ msgstr "Størrelse"
 
 #: config/strings.c:22
 msgid "Resize this window"
-msgstr "Tilpas vinduets størrelse."
+msgstr "Tilpas vinduets størrelse"
 
 #: config/strings.c:24
 msgid "Resize horizontally"
@@ -2061,7 +2061,7 @@ msgstr "Horisontal størrelse"
 
 #: config/strings.c:25
 msgid "Resize this window horizontally"
-msgstr "Ændr vinduets bredde."
+msgstr "Ændr vinduets bredde"
 
 #: config/strings.c:27
 msgid "Resize vertically"
@@ -2069,15 +2069,15 @@ msgstr "Lodret størrelse"
 
 #: config/strings.c:28
 msgid "Resize this window vertically"
-msgstr "Ændr vinduets højde."
+msgstr "Ændr vinduets højde"
 
 #: config/strings.c:31
 msgid "Close this window"
-msgstr "Luk vinduet."
+msgstr "Luk vinduet"
 
 #: config/strings.c:32
 msgid "Forcibly destroy this window"
-msgstr "Ødelæg vinduet."
+msgstr "Ødelæg vinduet"
 
 #: config/strings.c:33
 msgid "Maximize height"
@@ -2085,7 +2085,7 @@ msgstr "Maksimer højde"
 
 #: config/strings.c:34 config/strings.c:40
 msgid "Toggle between maximum screen height and normal height"
-msgstr "Skift mellem maksimal højde og normal højde."
+msgstr "Skift mellem maksimal højde og normal højde"
 
 #: config/strings.c:35
 msgid "Maximize width"
@@ -2093,7 +2093,7 @@ msgstr "Maksimer bredde"
 
 #: config/strings.c:36 config/strings.c:39
 msgid "Toggle between maximum screen width and normal width"
-msgstr "Skift mellem maksimal bredde og normal bredde."
+msgstr "Skift mellem maksimal bredde og normal bredde"
 
 #: config/strings.c:37
 msgid "Maximize"
@@ -2101,7 +2101,7 @@ msgstr "Maksimer"
 
 #: config/strings.c:38
 msgid "Toggle between maximum screen size and normal size"
-msgstr "Skift mellem maksimal størrelse og normal størrelse."
+msgstr "Skift mellem maksimal størrelse og normal størrelse"
 
 #: config/strings.c:41 config/strings.c:43
 msgid "Send to another desktop"
@@ -2109,11 +2109,11 @@ msgstr "Send til et andet skrivebord"
 
 #: config/strings.c:42
 msgid "Send this window to the next desktop"
-msgstr "Send vindue til næste skrivebord."
+msgstr "Send vindue til næste skrivebord"
 
 #: config/strings.c:44
 msgid "Send this window to the previous desktop"
-msgstr "Send vindue til forrige skrivebord."
+msgstr "Send vindue til forrige skrivebord"
 
 #: config/strings.c:45
 msgid "Snapshot"
@@ -2121,7 +2121,7 @@ msgstr "Husk tilstand"
 
 #: config/strings.c:46
 msgid "This button does nothing interesting"
-msgstr "Denne knap gør ikke noget interessant."
+msgstr "Denne knap gør ikke noget interessant"
 
 #: config/strings.c:47 config/strings.c:129
 msgid "Shade/unshade"
@@ -2137,7 +2137,7 @@ msgstr "Flere knapper"
 
 #: config/strings.c:55
 msgid "Show more buttons"
-msgstr "Vis flere knapper."
+msgstr "Vis flere knapper"
 
 #: config/strings.c:56 config/strings.c:127
 msgid "Raise"
@@ -2145,7 +2145,7 @@ msgstr "Løft"
 
 #: config/strings.c:57
 msgid "Raise this window to the top"
-msgstr "Bring dette vindue i front."
+msgstr "Bring dette vindue i front"
 
 #: config/strings.c:58 config/strings.c:128
 msgid "Lower"
@@ -2153,7 +2153,7 @@ msgstr "Sænk"
 
 #: config/strings.c:59
 msgid "Lower this window"
-msgstr "Sænk dette vindue."
+msgstr "Sænk dette vindue"
 
 #: config/strings.c:60 config/strings.c:130
 msgid "Stick/unstick"
@@ -2354,10 +2354,8 @@ msgid "Stacking"
 msgstr "Stabling"
 
 #: config/strings.c:148
-#, fuzzy
-#| msgid "Lower"
 msgid "Lowest"
-msgstr "Sænk"
+msgstr "Lavest"
 
 #: config/strings.c:149
 msgid "Below"
@@ -2412,10 +2410,8 @@ msgid "Toggle autoshade"
 msgstr "Aktivér/deaktivér automatisk oprulning"
 
 #: config/strings.c:164
-#, fuzzy
-#| msgid "Toggle fading"
 msgid "Toggle pass pointer"
-msgstr "Aktivér/deaktivér fading"
+msgstr "Aktivér/deaktivér transparens for museklik"
 
 #: config/strings.c:167
 msgid "Default"
