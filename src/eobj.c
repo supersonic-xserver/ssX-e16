@@ -163,26 +163,30 @@ EobjSetFloating(EObj * eo, int floating)
    EobjSetLayer(eo, eo->layer);
 }
 
-int
-EobjShadowOk(const EObj * eo)
+bool
+EobjShadowOk(const EObj * eo, bool sharp)
 {
    if (!eo->shadow)
-      return 0;			/* Shadow disabled by configuration */
+      return false;		/* Disabled by configuration */
 
    switch (eo->type)
      {
      default:
+	if (sharp)
+	   return true;		/* Enabled if sharp */
 	if (eo->shaped)
-	   return 0;		/* Shadow disabled if shaped */
+	   return false;	/* Disabled if shaped */
 	break;
      case EOBJ_TYPE_EWIN:
 	if (((EWin *) eo)->state.fullscreen)
-	   return 0;		/* Shadow disabled if fullscreen */
+	   return false;	/* Disabled if fullscreen */
+	if (sharp)
+	   return true;		/* Enabled if sharp */
 	if (((EWin *) eo)->state.shaped)
-	   return 0;		/* Shadow disabled if client is shaped */
+	   return false;	/* Disabled if client is shaped */
      }
 
-   return 1;
+   return true;
 }
 
 #if USE_GLX

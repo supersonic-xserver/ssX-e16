@@ -754,7 +754,7 @@ ECompMgrWinSetExtents(EObj * eo)
 
      case ECM_SHADOWS_SHARP:
      case ECM_SHADOWS_ECHO:
-	if (!EobjShadowOk(eo))
+	if (!EobjShadowOk(eo, true))
 	   goto skip_shadow;
 
 	cw->shadow_dx = Conf_compmgr.shadows.offset_x;
@@ -764,7 +764,7 @@ ECompMgrWinSetExtents(EObj * eo)
 	break;
 
      case ECM_SHADOWS_BLURRED:
-	if (!EobjShadowOk(eo))
+	if (!EobjShadowOk(eo, false))
 	   goto skip_shadow;
 
 	if (!gaussianMap)

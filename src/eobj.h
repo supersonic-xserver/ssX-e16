@@ -23,6 +23,7 @@
 #ifndef _EOBJ_H_
 #define _EOBJ_H_
 
+#include <stdbool.h>
 #include "etypes.h"
 #include "xwin.h"
 
@@ -186,7 +187,7 @@ void                EobjChangeOpacity(EObj * eo, unsigned int opacity);
 void                EobjChangeShadow(EObj * eo, int shadow);
 void                EobjSetLayer(EObj * eo, int layer);
 void                EobjSetFloating(EObj * eo, int floating);
-int                 EobjShadowOk(const EObj * eo);
+bool                EobjShadowOk(const EObj * eo, bool sharp);
 
 void                EobjsOpacityUpdate(int op_or);
 
