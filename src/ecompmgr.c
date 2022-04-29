@@ -1869,7 +1869,6 @@ ECompMgrRepaintObj(EX_Picture pbuf, EX_SrvRegion region, EObj * eo, int mode)
 	if (clip == NoXID)
 	   clip = ECompMgrRepaintObjSetClip(rgn_clip, region, cw->clip, x, y);
 	ERegionSubtractOffset(clip, x, y, cw->shape, Mode_compmgr.rgn_tmp);
-	EPictureSetClip(pbuf, clip);
 
 	switch (Mode_compmgr.shadow_mode)
 	  {
@@ -1882,6 +1881,9 @@ ECompMgrRepaintObj(EX_Picture pbuf, EX_SrvRegion region, EObj * eo, int mode)
 					       Mode_compmgr.opac_sharp),
 				       Conf_compmgr.shadows.color);
 	     alpha = cw->shadow_alpha ? cw->shadow_alpha : transBlackPicture;
+	     ERegionIntersectOffset(clip, cw->shadow_dx, cw->shadow_dy,
+				    cw->shape, Mode_compmgr.rgn_tmp);
+	     EPictureSetClip(pbuf, clip);
 	     if (Mode_compmgr.shadow_mode == ECM_SHADOWS_SHARP)
 		XRenderComposite(disp, PictOpOver, alpha, cw->picture, pbuf,
 				 0, 0, 0, 0,
@@ -1906,6 +1908,7 @@ ECompMgrRepaintObj(EX_Picture pbuf, EX_SrvRegion region, EObj * eo, int mode)
 				       OP32To8(cw->opacity),
 				       Conf_compmgr.shadows.color);
 	     alpha = (cw->pict_alpha) ? cw->pict_alpha : transBlackPicture;
+	     EPictureSetClip(pbuf, clip);
 	     XRenderComposite(disp, PictOpOver, alpha, cw->shadow_pict, pbuf,
 			      0, 0, 0, 0,
 			      x + cw->rcx + cw->shadow_dx,
