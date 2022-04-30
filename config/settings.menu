@@ -3,7 +3,6 @@
 "Desktop"		NULL menu desktop.menu
 "Themes"		NULL menu themes
 "Maintenance"		NULL menu maintenance.menu
-"Help"			NULL exec "edox $EROOT/E-docs"
 "About Enlightenment"	NULL about
 "About this theme"	NULL exec "edox $ETHEME/ABOUT"
 "Theme menu"		NULL menu theme.menu
