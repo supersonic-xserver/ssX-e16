@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -461,21 +461,6 @@ EoptHelp(void)
 }
 
 static void
-RunDocBrowser(void)
-{
-   char                buf[FILEPATH_LEN_MAX];
-
-   Esnprintf(buf, sizeof(buf), "%s/edox", EDirBin());
-   if (!canexec(buf))
-      return;
-   Esnprintf(buf, sizeof(buf), "%s/E-docs/MAIN", EDirRoot());
-   if (!canread(buf))
-      return;
-
-   Espawn("%s/edox %s/E-docs", EDirBin(), EDirRoot());
-}
-
-static void
 RunMenuGen(void)
 {
    Espawn("%s/scripts/e_gen_menu", EDirRoot());
@@ -492,7 +477,6 @@ RunInitPrograms(void)
    if (Mode.firsttime && Mode.wm.master)
      {
 	RunMenuGen();
-	RunDocBrowser();
      }
 }
 
