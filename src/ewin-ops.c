@@ -320,6 +320,17 @@ doEwinMoveResize(EWin * ewin, Desk * dsk, int x, int y, int w, int h, int flags)
 	  }
      }
 
+   /* Clamp window position or weirdness may happen.
+    * Not sure where the exact limit is. */
+   if (x < -32000)
+      x = -32000;
+   else if (x > 32000 - w)
+      x = 32000 - w;
+   if (y < -32000)
+      y = -32000;
+   else if (y > 32000 - h)
+      y = 32000 - h;
+
    dx = x - EoGetX(ewin);
    dy = y - EoGetY(ewin);
    if ((dx != 0) || (dy != 0))
