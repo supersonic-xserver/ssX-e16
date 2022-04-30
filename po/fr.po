@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2022-04-23 09:56+0200\n"
-"PO-Revision-Date: 2022-04-18 17:17+0200\n"
+"POT-Creation-Date: 2022-04-30 06:19+0200\n"
+"PO-Revision-Date: 2022-04-30 09:51+0200\n"
 "Last-Translator: Philippe Jean Guillaumie <similar@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -511,13 +511,15 @@ msgstr ""
 msgid ""
 "Click here to raise this desktop\n"
 "to the top."
-msgstr "Cliquez ici pour élever ce bureau."
+msgstr ""
+"Cliquez ici pour élever ce bureau\n"
+"au premier plan."
 
 #: src/desktops.c:184
 msgid ""
 "Click here to lower this desktop\n"
 "to the bottom."
-msgstr "Cliquez ici pour abaisser ce bureau."
+msgstr "Cliquez ici pour abaisser ce bureau"
 
 #: src/desktops.c:2548
 msgid "Number of virtual desktops:"
@@ -619,7 +621,7 @@ msgstr ""
 msgid "Apply"
 msgstr "Appliquer"
 
-#: src/ecompmgr.c:2359
+#: src/ecompmgr.c:2362
 msgid ""
 "Cannot enable Composite Manager.\n"
 "Use xdpyinfo to check that\n"
@@ -1035,28 +1037,28 @@ msgstr "Options de la Boîte à icônes"
 msgid "Iconbox Settings"
 msgstr "Paramètres de la Boîte à icônes"
 
-#: src/ipc.c:217 src/ipc.c:1555 src/ipc.c:1562 src/theme.c:407
+#: src/ipc.c:217 src/ipc.c:1618 src/ipc.c:1625 src/theme.c:407
 msgid "Message"
 msgstr "Message"
 
-#: src/ipc.c:1555 src/ipc.c:1562
+#: src/ipc.c:1618 src/ipc.c:1625
 #, c-format
 msgid "e16 was built without %s support"
 msgstr "e16 a été compilé sans prise en charge de %s"
 
-#: src/ipc.c:1556
+#: src/ipc.c:1619
 msgid "composite"
 msgstr "composite"
 
-#: src/ipc.c:1563
+#: src/ipc.c:1626
 msgid "sound"
 msgstr "son"
 
-#: src/ipc.c:1924
+#: src/ipc.c:1987
 msgid "Enlightenment IPC Commands Help\n"
 msgstr "Aide des commandes IPC\n"
 
-#: src/ipc.c:1928
+#: src/ipc.c:1991
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
@@ -1066,19 +1068,19 @@ msgstr ""
 "Tapez « help <commande> » pour une description individuelle\n"
 "\n"
 
-#: src/ipc.c:1930 src/ipc.c:1954 src/ipc.c:1966
+#: src/ipc.c:1993 src/ipc.c:2017 src/ipc.c:2029
 msgid "Commands currently available:\n"
 msgstr "Commandes disponibles actuellement :\n"
 
-#: src/ipc.c:1952
+#: src/ipc.c:2015
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr "Tapez « help full » pour une description de toutes les commandes\n"
 
-#: src/ipc.c:1953
+#: src/ipc.c:2016
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr "Tapez « help <commande> » pour une description individuelle\n"
 
-#: src/ipc.c:1955 src/ipc.c:1967
+#: src/ipc.c:2018 src/ipc.c:2030
 msgid "         <command>     : <description>\n"
 msgstr "         <commande>   :  <description>\n"
 
@@ -2049,11 +2051,11 @@ msgstr "Basculer Bureaux"
 
 #: config/strings.c:7
 msgid "Go to the next desktop"
-msgstr "Aller au Bureau suivant."
+msgstr "Aller au Bureau suivant"
 
 #: config/strings.c:9
 msgid "Go to the previous desktop"
-msgstr "Aller au Bureau précédent."
+msgstr "Aller au Bureau précédent"
 
 #: config/strings.c:10
 msgid "Move"
@@ -2062,39 +2064,39 @@ msgstr "Déplacement"
 #: config/strings.c:11 config/strings.c:23 config/strings.c:26
 #: config/strings.c:29
 msgid "Move this window"
-msgstr "Déplacer cette fenêtre."
+msgstr "Déplacer cette fenêtre"
 
 #: config/strings.c:12 config/strings.c:14 config/strings.c:48
 msgid "Shade/unshade this window"
-msgstr "Enrouler / Dérouler cette fenêtre."
+msgstr "Enrouler / Dérouler cette fenêtre"
 
 #: config/strings.c:13 config/strings.c:50 config/strings.c:53
 msgid "Show the Window Options menu"
-msgstr "Afficher le menu Options de Fenêtre."
+msgstr "Afficher le menu Options de Fenêtre"
 
 #: config/strings.c:15
 msgid "Show/hide group borders"
-msgstr "Afficher / Masquer les bordures du groupe."
+msgstr "Afficher / Masquer les bordures du groupe"
 
 #: config/strings.c:16
 msgid "Start a group"
-msgstr "Créer un groupe."
+msgstr "Créer un groupe"
 
 #: config/strings.c:17
 msgid "Add to current group"
-msgstr "Ajouter au groupe actuel."
+msgstr "Ajouter au groupe actuel"
 
 #: config/strings.c:18
 msgid "Break this window's group"
-msgstr "Casser le groupe de cette fenêtre."
+msgstr "Casser le groupe de cette fenêtre"
 
 #: config/strings.c:19
 msgid "Shade"
-msgstr "Enrouler."
+msgstr "Enrouler"
 
 #: config/strings.c:20
 msgid "Unshade"
-msgstr "Dérouler."
+msgstr "Dérouler"
 
 #: config/strings.c:21
 msgid "Resize"
@@ -2102,7 +2104,7 @@ msgstr "Redimensionner"
 
 #: config/strings.c:22
 msgid "Resize this window"
-msgstr "Redimensionner cette fenêtre."
+msgstr "Redimensionner cette fenêtre"
 
 #: config/strings.c:24
 msgid "Resize horizontally"
@@ -2110,7 +2112,7 @@ msgstr "Redimensionner horizontalement"
 
 #: config/strings.c:25
 msgid "Resize this window horizontally"
-msgstr "Redimensionner cette fenêtre horizontalement."
+msgstr "Redimensionner cette fenêtre horizontalement"
 
 #: config/strings.c:27
 msgid "Resize vertically"
@@ -2118,15 +2120,15 @@ msgstr "Redimensionner verticalement"
 
 #: config/strings.c:28
 msgid "Resize this window vertically"
-msgstr "Redimensionner cette fenêtre verticalement."
+msgstr "Redimensionner cette fenêtre verticalement"
 
 #: config/strings.c:31
 msgid "Close this window"
-msgstr "Fermer cette fenêtre."
+msgstr "Fermer cette fenêtre"
 
 #: config/strings.c:32
 msgid "Forcibly destroy this window"
-msgstr "Forcer la fermeture de cette fenêtre."
+msgstr "Forcer la fermeture de cette fenêtre"
 
 #: config/strings.c:33
 msgid "Maximize height"
@@ -2134,7 +2136,7 @@ msgstr "Hauteur maximum"
 
 #: config/strings.c:34 config/strings.c:40
 msgid "Toggle between maximum screen height and normal height"
-msgstr "Basculer la hauteur d'écran maximale / normale."
+msgstr "Basculer la hauteur d'écran maximale / normale"
 
 #: config/strings.c:35
 msgid "Maximize width"
@@ -2142,7 +2144,7 @@ msgstr "Largeur maximum"
 
 #: config/strings.c:36 config/strings.c:39
 msgid "Toggle between maximum screen width and normal width"
-msgstr "Basculer la largeur d'écran maximale / normale."
+msgstr "Basculer la largeur d'écran maximale / normale"
 
 #: config/strings.c:37
 msgid "Maximize"
@@ -2150,7 +2152,7 @@ msgstr "Maximiser"
 
 #: config/strings.c:38
 msgid "Toggle between maximum screen size and normal size"
-msgstr "Basculer la taille d'écran maximale / normale."
+msgstr "Basculer la taille d'écran maximale / normale"
 
 #: config/strings.c:41 config/strings.c:43
 msgid "Send to another desktop"
@@ -2158,11 +2160,11 @@ msgstr "Envoyer vers un autre bureau"
 
 #: config/strings.c:42
 msgid "Send this window to the next desktop"
-msgstr "Envoyer cette fenêtre sur le bureau suivant."
+msgstr "Envoyer cette fenêtre sur le bureau suivant"
 
 #: config/strings.c:44
 msgid "Send this window to the previous desktop"
-msgstr "Envoyer cette fenêtre sur le bureau précédent."
+msgstr "Envoyer cette fenêtre sur le bureau précédent"
 
 #: config/strings.c:45
 msgid "Snapshot"
@@ -2170,7 +2172,7 @@ msgstr "Capture d'écran"
 
 #: config/strings.c:46
 msgid "This button does nothing interesting"
-msgstr "Ce bouton ne fait rien d'intéressant."
+msgstr "Ce bouton ne fait rien d'intéressant"
 
 #: config/strings.c:47 config/strings.c:129
 msgid "Shade/unshade"
@@ -2186,7 +2188,7 @@ msgstr "Plus de Boutons"
 
 #: config/strings.c:55
 msgid "Show more buttons"
-msgstr "Afficher plus de boutons."
+msgstr "Afficher plus de boutons"
 
 #: config/strings.c:56 config/strings.c:127
 msgid "Raise"
@@ -2194,7 +2196,7 @@ msgstr "Élever d'un niveau"
 
 #: config/strings.c:57
 msgid "Raise this window to the top"
-msgstr "Élever ce bureau au premier plan."
+msgstr "Élever cette fenêtre au premier plan"
 
 #: config/strings.c:58 config/strings.c:128
 msgid "Lower"
@@ -2202,7 +2204,7 @@ msgstr "Descendre d'un niveau"
 
 #: config/strings.c:59
 msgid "Lower this window"
-msgstr "Descendre cette fenêtre d'un niveau."
+msgstr "Descendre cette fenêtre"
 
 #: config/strings.c:60 config/strings.c:130
 msgid "Stick/unstick"
@@ -2355,7 +2357,7 @@ msgstr "Menu du thème"
 
 #: config/strings.c:126
 msgid "Leave alone"
-msgstr "Laisser cette fenêtre seule"
+msgstr "Laisser cette seule fenêtre"
 
 #: config/strings.c:131
 msgid "Remember..."
@@ -2406,10 +2408,8 @@ msgid "Stacking"
 msgstr "Empilement"
 
 #: config/strings.c:148
-#, fuzzy
-#| msgid "Lower"
 msgid "Lowest"
-msgstr "Descendre d'un niveau"
+msgstr "Tout en bas"
 
 #: config/strings.c:149
 msgid "Below"
@@ -2464,10 +2464,8 @@ msgid "Toggle autoshade"
 msgstr "Enroulement automatique (Actif / Inactif)"
 
 #: config/strings.c:164
-#, fuzzy
-#| msgid "Toggle fading"
 msgid "Toggle pass pointer"
-msgstr "Fondu (Actif / Inactif)"
+msgstr "Oublier le pointeur (Actif / Inactif)"
 
 #: config/strings.c:167
 msgid "Default"
