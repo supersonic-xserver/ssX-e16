@@ -355,8 +355,6 @@ ice_init(void)
       callbacks.save_complete.client_data =
       callbacks.shutdown_cancelled.client_data = (SmPointer) NULL;
 
-   client_id = Estrdup(sm_client_id);
-
    error_string_ret[0] = '\0';
 
    sm_conn =
@@ -364,8 +362,9 @@ ice_init(void)
 			SmcSaveYourselfProcMask | SmcDieProcMask |
 			SmcSaveCompleteProcMask |
 			SmcShutdownCancelledProcMask, &callbacks,
-			client_id, &sm_client_id, 4096, error_string_ret);
-   Efree(client_id);
+			sm_client_id, &client_id, 4096, error_string_ret);
+
+   EFREE_SET(sm_client_id, client_id);
 
    if (error_string_ret[0])
       Eprintf("While connecting to session manager: %s.", error_string_ret);
