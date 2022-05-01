@@ -1436,10 +1436,11 @@ SnapshotEwinApply(EWin * ewin)
       sn->track_changes = 1;
 
    use_flags = sn->use_flags;
-   /* If restarting don't override stuff set in attributes/properties */
+   /* If restarting don't override stuff set in attributes/properties.
+    * Sticky state is handled too because of pinning. */
    if (ewin->state.identified)
-      use_flags &= SNAP_USE_LAYER | SNAP_USE_SHADOW | SNAP_USE_GROUPS |
-	 SNAP_USE_OPACITY;
+      use_flags &= SNAP_USE_LAYER | SNAP_USE_STICKY | SNAP_USE_GROUPS |
+	 SNAP_USE_OPACITY | SNAP_USE_SHADOW;
 
    if (use_flags & SNAP_USE_STICKY)
      {
