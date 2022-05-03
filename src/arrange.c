@@ -461,6 +461,7 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
    int                 gnum, num, i, j, k, odx, ody;
    static char         last_res = 0;
    int                 top_bound, bottom_bound, left_bound, right_bound, w, h;
+   int                 top_strut, bottom_strut, left_strut, right_strut;
 
    if (!ewin)
       return;
@@ -476,6 +477,11 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
 		     &left_bound, &top_bound, &w, &h);
    right_bound = left_bound + w;
    bottom_bound = top_bound + h;
+
+   left_strut = left_bound + Conf.place.screen_struts.left;
+   right_strut = right_bound - Conf.place.screen_struts.right;
+   top_strut = top_bound + Conf.place.screen_struts.top;
+   bottom_strut = bottom_bound - Conf.place.screen_struts.bottom;
 
    /* Find the list of windows to check against */
    lst1 = EwinListGetAll(&num);
@@ -527,6 +533,13 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
 	  {
 	     dx = left_bound - ewin->shape_x;
 	  }
+	else if (left_strut > left_bound &&
+		 IN_BELOW(ewin->shape_x + dx, left_strut,
+			  Conf.snap.screen_snap_dist) &&
+		 (ewin->shape_x >= left_strut))
+	  {
+	     dx = left_strut - ewin->shape_x;
+	  }
 	else
 	  {
 	     for (i = 0; i < num; i++)
@@ -554,6 +567,13 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
 	    (ewin->shape_x + EoGetW(ewin) <= right_bound))
 	  {
 	     dx = right_bound - (ewin->shape_x + EoGetW(ewin));
+	  }
+	else if (right_strut < right_bound &&
+		 IN_ABOVE(ewin->shape_x + EoGetW(ewin) + dx, right_strut,
+			  Conf.snap.screen_snap_dist) &&
+		 (ewin->shape_x + EoGetW(ewin) <= right_strut))
+	  {
+	     dx = right_strut - (ewin->shape_x + EoGetW(ewin));
 	  }
 	else
 	  {
@@ -583,6 +603,13 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
 	  {
 	     dy = top_bound - ewin->shape_y;
 	  }
+	else if (top_strut > top_bound &&
+		 IN_BELOW(ewin->shape_y + dy, top_strut,
+			  Conf.snap.screen_snap_dist) &&
+		 (ewin->shape_y >= top_strut))
+	  {
+	     dy = top_strut - ewin->shape_y;
+	  }
 	else
 	  {
 	     for (i = 0; i < num; i++)
@@ -610,6 +637,13 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
 	    (ewin->shape_y + EoGetH(ewin) <= bottom_bound))
 	  {
 	     dy = bottom_bound - (ewin->shape_y + EoGetH(ewin));
+	  }
+	else if (bottom_strut < bottom_bound &&
+		 IN_ABOVE(ewin->shape_y + EoGetH(ewin) + dy, bottom_strut,
+			  Conf.snap.screen_snap_dist) &&
+		 (ewin->shape_y + EoGetH(ewin) <= bottom_strut))
+	  {
+	     dy = bottom_strut - (ewin->shape_y + EoGetH(ewin));
 	  }
 	else
 	  {

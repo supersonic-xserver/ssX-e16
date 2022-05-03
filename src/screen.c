@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2003-2019 Kim Woelders
+ * Copyright (C) 2003-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -379,7 +379,11 @@ _VRootGetAvailableArea(int *px, int *py, int *pw, int *ph)
    EWin               *const *lst, *ewin;
    int                 i, num, l, r, t, b;
 
-   l = r = t = b = 0;
+   l = Conf.place.screen_struts.left;
+   r = Conf.place.screen_struts.right;
+   t = Conf.place.screen_struts.top;
+   b = Conf.place.screen_struts.bottom;
+
    lst = EwinListGetAll(&num);
    for (i = 0; i < num; i++)
      {

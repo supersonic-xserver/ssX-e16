@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2021 Kim Woelders
+ * Copyright (C) 2003-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -179,6 +179,10 @@ static const CfgItem MiscCfgItems[] = {
    CFG_ITEM_BOOL(Conf, place.ignore_struts, 0),
    CFG_ITEM_BOOL(Conf, place.ignore_struts_fullscreen, 0),
    CFG_ITEM_BOOL(Conf, place.ignore_struts_maximize, 0),
+   CFG_ITEM_INT(Conf, place.screen_struts.left, 0),
+   CFG_ITEM_INT(Conf, place.screen_struts.right, 0),
+   CFG_ITEM_INT(Conf, place.screen_struts.top, 0),
+   CFG_ITEM_INT(Conf, place.screen_struts.bottom, 0),
    CFG_ITEM_BOOL(Conf, place.raise_fullscreen, 0),
    CFG_ITEM_BOOL(Conf, place.slidein, 0),
    CFG_ITEM_BOOL(Conf, place.cleanupslide, 1),

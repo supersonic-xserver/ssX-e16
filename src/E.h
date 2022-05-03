@@ -253,6 +253,9 @@ typedef struct {
 #ifdef USE_XINERAMA_no		/* Not implemented */
       char                extra_head;	/* Not used */
 #endif
+      struct {
+	 int                 left, right, top, bottom;
+      } screen_struts;
    } place;
    struct {
       char                enable_script;
