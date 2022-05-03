@@ -457,8 +457,8 @@ void
 SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
 {
    EWin               *const *lst1;
-   EWin              **lst, **gwins;
-   int                 gnum, num, i, j, odx, ody;
+   EWin              **lst, **gwins, *e;
+   int                 gnum, num, i, j, k, odx, ody;
    static char         last_res = 0;
    int                 top_bound, bottom_bound, left_bound, right_bound, w, h;
 
@@ -477,6 +477,7 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
    right_bound = left_bound + w;
    bottom_bound = top_bound + h;
 
+   /* Find the list of windows to check against */
    lst1 = EwinListGetAll(&num);
    if (!lst1)
       return;
@@ -484,21 +485,36 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
    lst = EMALLOC(EWin *, num);
    if (!lst)
       return;
-   memcpy(lst, lst1, num * sizeof(EWin *));
 
    gwins =
       ListWinGroupMembersForEwin(ewin, GROUP_ACTION_MOVE, Mode.nogroup, &gnum);
    if (gwins)
      {
-	for (i = 0; i < gnum; i++)
+	for (j = k = 0; j < num; j++)
 	  {
-	     for (j = 0; j < num; j++)
+	     e = lst1[j];
+	     if (e == ewin)	/* Skip self */
+		continue;
+	     if (!EoIsSticky(e) && EoGetDesk(ewin) != EoGetDesk(e))
+		continue;	/* Skip if other desk */
+	     if (EoIsFloating(e) || e->state.iconified ||
+		 e->props.ignorearrange)
+		continue;
+	     for (i = 0; i < gnum; i++)
 	       {
-		  if ((lst[j] == gwins[i]) || (lst[j] == ewin))
-		     lst[j] = NULL;
+		  if (lst1[j] == gwins[i])
+		     goto skip;	/* Skip group members */
 	       }
+	     lst[k++] = e;	/* Add to list */
+	   skip:
+	     ;
 	  }
+	num = k;
 	Efree(gwins);
+     }
+   else
+     {
+	num = 0;		/* We should never go here */
      }
 
    odx = dx;
@@ -515,27 +531,16 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
 	  {
 	     for (i = 0; i < num; i++)
 	       {
-		  if (!lst[i])
-		     continue;
-
-		  if ((EoGetDesk(ewin) == EoGetDesk(lst[i]) ||
-		       EoIsSticky(lst[i])) && !(EoIsFloating(lst[i])) &&
-		      !lst[i]->state.iconified && !lst[i]->props.ignorearrange)
+		  e = lst[i];
+		  if (IN_BELOW(ewin->shape_x + dx,
+			       EoGetX(e) + EoGetW(e) - 1,
+			       Conf.snap.edge_snap_dist) &&
+		      SPANS_COMMON(ewin->shape_y, EoGetH(ewin),
+				   EoGetY(e), EoGetH(e)) &&
+		      (ewin->shape_x >= (EoGetX(e) + EoGetW(e))))
 		    {
-		       if (IN_BELOW
-			   (ewin->shape_x + dx,
-			    EoGetX(lst[i]) + EoGetW(lst[i]) - 1,
-			    Conf.snap.edge_snap_dist)
-			   && SPANS_COMMON(ewin->shape_y, EoGetH(ewin),
-					   EoGetY(lst[i]), EoGetH(lst[i]))
-			   && (ewin->shape_x >=
-			       (EoGetX(lst[i]) + EoGetW(lst[i]))))
-			 {
-			    dx =
-			       (EoGetX(lst[i]) + EoGetW(lst[i])) -
-			       ewin->shape_x;
-			    break;
-			 }
+		       dx = (EoGetX(e) + EoGetW(e)) - ewin->shape_x;
+		       break;
 		    }
 	       }
 	  }
@@ -554,25 +559,15 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
 	  {
 	     for (i = 0; i < num; i++)
 	       {
-		  if (!lst[i])
-		     continue;
-
-		  if ((EoGetDesk(ewin) == EoGetDesk(lst[i]) ||
-		       EoIsSticky(lst[i])) && !(EoIsFloating(lst[i])) &&
-		      !lst[i]->state.iconified && !lst[i]->props.ignorearrange)
+		  e = lst[i];
+		  if (IN_ABOVE(ewin->shape_x + EoGetW(ewin) + dx - 1,
+			       EoGetX(e), Conf.snap.edge_snap_dist) &&
+		      SPANS_COMMON(ewin->shape_y, EoGetH(ewin),
+				   EoGetY(e), EoGetH(e)) &&
+		      ((ewin->shape_x + EoGetW(ewin)) <= EoGetX(e)))
 		    {
-		       if (IN_ABOVE
-			   (ewin->shape_x + EoGetW(ewin) + dx - 1,
-			    EoGetX(lst[i]), Conf.snap.edge_snap_dist)
-			   && SPANS_COMMON(ewin->shape_y, EoGetH(ewin),
-					   EoGetY(lst[i]), EoGetH(lst[i]))
-			   && ((ewin->shape_x + EoGetW(ewin)) <=
-			       EoGetX(lst[i])))
-			 {
-			    dx =
-			       EoGetX(lst[i]) - (ewin->shape_x + EoGetW(ewin));
-			    break;
-			 }
+		       dx = EoGetX(e) - (ewin->shape_x + EoGetW(ewin));
+		       break;
 		    }
 	       }
 	  }
@@ -592,27 +587,16 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
 	  {
 	     for (i = 0; i < num; i++)
 	       {
-		  if (!lst[i])
-		     continue;
-
-		  if ((EoGetDesk(ewin) == EoGetDesk(lst[i]) ||
-		       EoIsSticky(lst[i])) && !(EoIsFloating(lst[i])) &&
-		      !lst[i]->state.iconified && !lst[i]->props.ignorearrange)
+		  e = lst[i];
+		  if (IN_BELOW(ewin->shape_y + dy,
+			       EoGetY(e) + EoGetH(e) - 1,
+			       Conf.snap.edge_snap_dist) &&
+		      SPANS_COMMON(ewin->shape_x, EoGetW(ewin),
+				   EoGetX(e), EoGetW(e)) &&
+		      (ewin->shape_y >= (EoGetY(e) + EoGetH(e))))
 		    {
-		       if (IN_BELOW
-			   (ewin->shape_y + dy,
-			    EoGetY(lst[i]) + EoGetH(lst[i]) - 1,
-			    Conf.snap.edge_snap_dist)
-			   && SPANS_COMMON(ewin->shape_x, EoGetW(ewin),
-					   EoGetX(lst[i]), EoGetW(lst[i]))
-			   && (ewin->shape_y >=
-			       (EoGetY(lst[i]) + EoGetH(lst[i]))))
-			 {
-			    dy =
-			       (EoGetY(lst[i]) + EoGetH(lst[i])) -
-			       ewin->shape_y;
-			    break;
-			 }
+		       dy = (EoGetY(e) + EoGetH(e)) - ewin->shape_y;
+		       break;
 		    }
 	       }
 	  }
@@ -631,25 +615,15 @@ SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
 	  {
 	     for (i = 0; i < num; i++)
 	       {
-		  if (!lst[i])
-		     continue;
-
-		  if ((EoGetDesk(ewin) == EoGetDesk(lst[i]) ||
-		       EoIsSticky(lst[i])) && !(EoIsFloating(lst[i])) &&
-		      !lst[i]->state.iconified && !lst[i]->props.ignorearrange)
+		  e = lst[i];
+		  if (IN_ABOVE(ewin->shape_y + EoGetH(ewin) + dy - 1,
+			       EoGetY(e), Conf.snap.edge_snap_dist) &&
+		      SPANS_COMMON(ewin->shape_x, EoGetW(ewin),
+				   EoGetX(e), EoGetW(e)) &&
+		      (ewin->shape_y + EoGetH(ewin) <= EoGetY(e)))
 		    {
-		       if (IN_ABOVE
-			   (ewin->shape_y + EoGetH(ewin) + dy - 1,
-			    EoGetY(lst[i]), Conf.snap.edge_snap_dist)
-			   && SPANS_COMMON(ewin->shape_x, EoGetW(ewin),
-					   EoGetX(lst[i]), EoGetW(lst[i]))
-			   && ((ewin->shape_y + EoGetH(ewin)) <=
-			       EoGetY(lst[i])))
-			 {
-			    dy =
-			       EoGetY(lst[i]) - (ewin->shape_y + EoGetH(ewin));
-			    break;
-			 }
+		       dy = EoGetY(e) - (ewin->shape_y + EoGetH(ewin));
+		       break;
 		    }
 	       }
 	  }
