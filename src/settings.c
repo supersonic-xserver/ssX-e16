@@ -40,6 +40,8 @@ typedef struct {
    char                avoid_server_grab;
    char                update_while_moving;
    char                sync_request;
+   int                 snap_dist_screen;
+   int                 snap_dist_window;
 } MovResDlgData;
 
 static void
@@ -58,6 +60,10 @@ _DlgApplyMoveResize(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
    Conf.movres.enable_smart_max_hv = dd->enable_smart_max_hv;
    Conf.movres.maximize_speed = dd->maximize_speed;
    Conf.movres.maximize_animate = dd->maximize_animate;
+   Conf.snap.screen_snap_dist =
+      dd->snap_dist_screen > 1 ? dd->snap_dist_screen : 1;
+   Conf.snap.edge_snap_dist =
+      dd->snap_dist_window > 1 ? dd->snap_dist_window : 1;
 
    autosave();
 }
@@ -79,6 +85,8 @@ _DlgFillMoveResize(Dialog * d, DItem * table, void *data __UNUSED__)
    dd->enable_smart_max_hv = Conf.movres.enable_smart_max_hv;
    dd->maximize_speed = Conf.movres.maximize_speed;
    dd->maximize_animate = Conf.movres.maximize_animate;
+   dd->snap_dist_screen = Conf.snap.screen_snap_dist;
+   dd->snap_dist_window = Conf.snap.edge_snap_dist;
 
    DialogItemTableSetOptions(table, 2, 0, 0, 0);
 
@@ -224,6 +232,29 @@ _DlgFillMoveResize(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemSliderSetUnits(di, 500);
    DialogItemSliderSetJump(di, 1000);
    DialogItemSliderSetValPtr(di, &dd->maximize_speed);
+
+   di = DialogAddItem(table, DITEM_SEPARATOR);
+   DialogItemSetColSpan(di, 2);
+
+   di = DialogAddItem(table, DITEM_TEXT);
+   DialogItemSetText(di, _("Resistance at screen boundaries:"));
+
+   di = DialogAddItem(table, DITEM_SLIDER);
+   DialogItemSliderSetMinLength(di, 1);
+   DialogItemSliderSetBounds(di, 1, 100);
+   DialogItemSliderSetUnits(di, 4);
+   DialogItemSliderSetJump(di, 8);
+   DialogItemSliderSetValPtr(di, &dd->snap_dist_screen);
+
+   di = DialogAddItem(table, DITEM_TEXT);
+   DialogItemSetText(di, _("Resistance at window boundaries:"));
+
+   di = DialogAddItem(table, DITEM_SLIDER);
+   DialogItemSliderSetMinLength(di, 1);
+   DialogItemSliderSetBounds(di, 1, 100);
+   DialogItemSliderSetUnits(di, 4);
+   DialogItemSliderSetJump(di, 8);
+   DialogItemSliderSetValPtr(di, &dd->snap_dist_window);
 }
 
 const DialogDef     DlgMoveResize = {
