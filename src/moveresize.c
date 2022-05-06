@@ -804,7 +804,8 @@ _MoveResizeMoveHandleMotion(void)
    else
       ndy = min_dy;
 
-   for (i = 0; i < num; i++)
+   /* Loop over windows, top to bottom */
+   for (i = num - 1; i >= 0; i--)
      {
 	ewin1 = gwins[i];
 
@@ -818,11 +819,22 @@ _MoveResizeMoveHandleMotion(void)
 		ewin1->shape_x == 0 ||
 		ewin1->shape_x + EoGetW(ewin1) == WinGetW(VROOT);
 
-	     if ((at_screen_edge && dd > Conf.snap.screen_snap_dist) ||
-		 (!at_screen_edge && dd > Conf.snap.edge_snap_dist))
+	     if (at_screen_edge)
 	       {
-		  jumpx = 1;
-		  ndx = ewin1->req_x - ewin1->shape_x + dx;
+		  if (dd > Conf.snap.screen_snap_dist)
+		    {
+		       jumpx = 1;
+		       ndx = ewin1->req_x - ewin1->shape_x + dx;
+		    }
+		  break;
+	       }
+	     else
+	       {
+		  if (dd > Conf.snap.edge_snap_dist)
+		    {
+		       jumpx = 1;
+		       ndx = ewin1->req_x - ewin1->shape_x + dx;
+		    }
 	       }
 	  }
 
@@ -836,11 +848,22 @@ _MoveResizeMoveHandleMotion(void)
 		ewin1->shape_y == 0 ||
 		ewin1->shape_y + EoGetH(ewin1) == WinGetH(VROOT);
 
-	     if ((at_screen_edge && dd > Conf.snap.screen_snap_dist) ||
-		 (!at_screen_edge && dd > Conf.snap.edge_snap_dist))
+	     if (at_screen_edge)
 	       {
-		  jumpy = 1;
-		  ndy = ewin1->req_y - ewin1->shape_y + dy;
+		  if (dd > Conf.snap.screen_snap_dist)
+		    {
+		       jumpy = 1;
+		       ndy = ewin1->req_y - ewin1->shape_y + dy;
+		    }
+		  break;
+	       }
+	     else
+	       {
+		  if (dd > Conf.snap.edge_snap_dist)
+		    {
+		       jumpy = 1;
+		       ndy = ewin1->req_y - ewin1->shape_y + dy;
+		    }
 	       }
 	  }
      }
