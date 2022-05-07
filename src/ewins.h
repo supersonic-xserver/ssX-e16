@@ -336,8 +336,6 @@ struct _ewin {
 #define EwinGetIcccmClass(ewin)         EoGetClass(ewin)
 
 /* arrange.c */
-void                SnapEwin(EWin * ewin, int dx, int dy, int *new_dx,
-			     int *new_dy);
 void                ArrangeEwin(EWin * ewin);
 void                ArrangeEwinCentered(EWin * ewin);
 void                ArrangeEwinXY(EWin * ewin, int *px, int *py);

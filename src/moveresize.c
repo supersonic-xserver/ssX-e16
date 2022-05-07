@@ -36,6 +36,7 @@
 #include "grabs.h"
 #include "groups.h"
 #include "hints.h"
+#include "screen.h"
 #include "timers.h"
 #include "xwin.h"
 
@@ -468,6 +469,236 @@ _MoveResizeResizeEnd(EWin * ewin)
 }
 
 static void
+_SnapEwin(EWin * ewin, int dx, int dy, int *new_dx, int *new_dy)
+{
+   EWin               *const *lst1;
+   EWin              **lst, **gwins, *e;
+   int                 gnum, num, i, j, k, odx, ody;
+   static char         last_res = 0;
+   int                 top_bound, bottom_bound, left_bound, right_bound, w, h;
+   int                 top_strut, bottom_strut, left_strut, right_strut;
+
+   if (!ewin)
+      return;
+
+   if (!Conf.snap.enable)
+     {
+	*new_dx = dx;
+	*new_dy = dy;
+	return;
+     }
+
+   ScreenGetGeometry(ewin->shape_x, ewin->shape_y,
+		     &left_bound, &top_bound, &w, &h);
+   right_bound = left_bound + w;
+   bottom_bound = top_bound + h;
+
+   left_strut = left_bound + Conf.place.screen_struts.left;
+   right_strut = right_bound - Conf.place.screen_struts.right;
+   top_strut = top_bound + Conf.place.screen_struts.top;
+   bottom_strut = bottom_bound - Conf.place.screen_struts.bottom;
+
+   /* Find the list of windows to check against */
+   lst1 = EwinListGetAll(&num);
+   if (!lst1)
+      return;
+
+   lst = EMALLOC(EWin *, num);
+   if (!lst)
+      return;
+
+   gwins =
+      ListWinGroupMembersForEwin(ewin, GROUP_ACTION_MOVE, Mode.nogroup, &gnum);
+   if (gwins)
+     {
+	for (j = k = 0; j < num; j++)
+	  {
+	     e = lst1[j];
+	     if (e == ewin)	/* Skip self */
+		continue;
+	     if (!EoIsSticky(e) && EoGetDesk(ewin) != EoGetDesk(e))
+		continue;	/* Skip if other desk */
+	     if (EoIsFloating(e) || e->state.iconified ||
+		 e->props.ignorearrange)
+		continue;
+	     for (i = 0; i < gnum; i++)
+	       {
+		  if (lst1[j] == gwins[i])
+		     goto skip;	/* Skip group members */
+	       }
+	     lst[k++] = e;	/* Add to list */
+	   skip:
+	     ;
+	  }
+	num = k;
+	Efree(gwins);
+     }
+   else
+     {
+	num = 0;		/* We should never go here */
+     }
+
+   odx = dx;
+   ody = dy;
+   if (dx < 0)
+     {
+	if (IN_BELOW(ewin->shape_x + dx, left_bound,
+		     Conf.snap.screen_snap_dist) &&
+	    (ewin->shape_x >= left_bound))
+	  {
+	     dx = left_bound - ewin->shape_x;
+	  }
+	else if (left_strut > left_bound &&
+		 IN_BELOW(ewin->shape_x + dx, left_strut,
+			  Conf.snap.screen_snap_dist) &&
+		 (ewin->shape_x >= left_strut))
+	  {
+	     dx = left_strut - ewin->shape_x;
+	  }
+	else
+	  {
+	     for (i = 0; i < num; i++)
+	       {
+		  e = lst[i];
+		  if (IN_BELOW(ewin->shape_x + dx,
+			       EoGetX(e) + EoGetW(e) - 1,
+			       Conf.snap.edge_snap_dist) &&
+		      SPANS_COMMON(ewin->shape_y, EoGetH(ewin),
+				   EoGetY(e), EoGetH(e)) &&
+		      (ewin->shape_x >= (EoGetX(e) + EoGetW(e))))
+		    {
+		       dx = (EoGetX(e) + EoGetW(e)) - ewin->shape_x;
+		       break;
+		    }
+	       }
+	  }
+	if ((ewin->req_x - ewin->shape_x) > 0)
+	   dx = 0;
+     }
+   else if (dx > 0)
+     {
+	if (IN_ABOVE(ewin->shape_x + EoGetW(ewin) + dx, right_bound,
+		     Conf.snap.screen_snap_dist) &&
+	    (ewin->shape_x + EoGetW(ewin) <= right_bound))
+	  {
+	     dx = right_bound - (ewin->shape_x + EoGetW(ewin));
+	  }
+	else if (right_strut < right_bound &&
+		 IN_ABOVE(ewin->shape_x + EoGetW(ewin) + dx, right_strut,
+			  Conf.snap.screen_snap_dist) &&
+		 (ewin->shape_x + EoGetW(ewin) <= right_strut))
+	  {
+	     dx = right_strut - (ewin->shape_x + EoGetW(ewin));
+	  }
+	else
+	  {
+	     for (i = 0; i < num; i++)
+	       {
+		  e = lst[i];
+		  if (IN_ABOVE(ewin->shape_x + EoGetW(ewin) + dx - 1,
+			       EoGetX(e), Conf.snap.edge_snap_dist) &&
+		      SPANS_COMMON(ewin->shape_y, EoGetH(ewin),
+				   EoGetY(e), EoGetH(e)) &&
+		      ((ewin->shape_x + EoGetW(ewin)) <= EoGetX(e)))
+		    {
+		       dx = EoGetX(e) - (ewin->shape_x + EoGetW(ewin));
+		       break;
+		    }
+	       }
+	  }
+	if ((ewin->req_x - ewin->shape_x) < 0)
+	   dx = 0;
+     }
+
+   if (dy < 0)
+     {
+	if (IN_BELOW(ewin->shape_y + dy, top_bound,
+		     Conf.snap.screen_snap_dist) &&
+	    (ewin->shape_y >= top_bound))
+	  {
+	     dy = top_bound - ewin->shape_y;
+	  }
+	else if (top_strut > top_bound &&
+		 IN_BELOW(ewin->shape_y + dy, top_strut,
+			  Conf.snap.screen_snap_dist) &&
+		 (ewin->shape_y >= top_strut))
+	  {
+	     dy = top_strut - ewin->shape_y;
+	  }
+	else
+	  {
+	     for (i = 0; i < num; i++)
+	       {
+		  e = lst[i];
+		  if (IN_BELOW(ewin->shape_y + dy,
+			       EoGetY(e) + EoGetH(e) - 1,
+			       Conf.snap.edge_snap_dist) &&
+		      SPANS_COMMON(ewin->shape_x, EoGetW(ewin),
+				   EoGetX(e), EoGetW(e)) &&
+		      (ewin->shape_y >= (EoGetY(e) + EoGetH(e))))
+		    {
+		       dy = (EoGetY(e) + EoGetH(e)) - ewin->shape_y;
+		       break;
+		    }
+	       }
+	  }
+	if ((ewin->req_y - ewin->shape_y) > 0)
+	   dy = 0;
+     }
+   else if (dy > 0)
+     {
+	if (IN_ABOVE(ewin->shape_y + EoGetH(ewin) + dy, bottom_bound,
+		     Conf.snap.screen_snap_dist) &&
+	    (ewin->shape_y + EoGetH(ewin) <= bottom_bound))
+	  {
+	     dy = bottom_bound - (ewin->shape_y + EoGetH(ewin));
+	  }
+	else if (bottom_strut < bottom_bound &&
+		 IN_ABOVE(ewin->shape_y + EoGetH(ewin) + dy, bottom_strut,
+			  Conf.snap.screen_snap_dist) &&
+		 (ewin->shape_y + EoGetH(ewin) <= bottom_strut))
+	  {
+	     dy = bottom_strut - (ewin->shape_y + EoGetH(ewin));
+	  }
+	else
+	  {
+	     for (i = 0; i < num; i++)
+	       {
+		  e = lst[i];
+		  if (IN_ABOVE(ewin->shape_y + EoGetH(ewin) + dy - 1,
+			       EoGetY(e), Conf.snap.edge_snap_dist) &&
+		      SPANS_COMMON(ewin->shape_x, EoGetW(ewin),
+				   EoGetX(e), EoGetW(e)) &&
+		      (ewin->shape_y + EoGetH(ewin) <= EoGetY(e)))
+		    {
+		       dy = EoGetY(e) - (ewin->shape_y + EoGetH(ewin));
+		       break;
+		    }
+	       }
+	  }
+	if ((ewin->req_y - ewin->shape_y) < 0)
+	   dy = 0;
+     }
+
+   Efree(lst);
+
+   if ((odx != dx) || (ody != dy))
+     {
+	if (!last_res)
+	  {
+	     /* SoundPlay(SOUND_MOVE_RESIST); */
+	     last_res = 1;
+	  }
+     }
+   else
+     {
+	last_res = 0;
+     }
+   *new_dx = dx;
+   *new_dy = dy;
+}
+
+static void
 _MoveResizeMoveHandleMotion(void)
 {
    int                 dx, dy, dd;
@@ -534,7 +765,7 @@ _MoveResizeMoveHandleMotion(void)
 	ndx = dx;
 	ndy = dy;
 	/* make our ewin resist other ewins around the place */
-	SnapEwin(gwins[i], dx, dy, &ndx, &ndy);
+	_SnapEwin(gwins[i], dx, dy, &ndx, &ndy);
 	if ((dx < 0) && (ndx <= 0))
 	  {
 	     if (ndx > min_dx)
