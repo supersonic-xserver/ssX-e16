@@ -473,11 +473,11 @@ if test "x$enable_dialogs" = "xyes"; then
   AC_DEFINE(ENABLE_DIALOGS, 1, [Configuration dialog support])
 fi
 
-AC_ARG_ENABLE(container,
-  AS_HELP_STRING([--enable-container],
-                 [use container window (experimental) @<:@default=yes@:>@]),,
-  enable_container=yes)
-if test "x$enable_container" = "xyes"; then
+AC_ARG_ENABLE(no-container,
+  AS_HELP_STRING([--enable-no-container],
+                 [do not use container window (experimental) @<:@default=no@:>@]),,
+  enable_no_container=no)
+if test "x$enable_no_container" = "xyes"; then
   AC_DEFINE(USE_CONTAINER_WIN, 1, [Use container window])
 fi
 
@@ -581,7 +581,7 @@ echo "  ScreenSaver .................. $enable_xscrnsaver"
 echo "  D-Bus ........................ $enable_dbus"
 echo "  XI2 .......................... $enable_xi2"
 echo "  Present....................... $enable_xpresent"
-echo "  Use container window ......... $enable_container"
+echo "  Do not use container window .. $enable_no_container"
 echo
 echo "Installation path .............. $prefix"
 echo "  Install HTML docs ............ $enable_docs"
