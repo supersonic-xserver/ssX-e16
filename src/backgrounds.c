@@ -1409,6 +1409,22 @@ static void         BG_RedrawView(Dialog * d);
 static void         BGSettingsGoTo(Dialog * d, Background * bg);
 
 static void
+_BackgroundsClean(void)
+{
+   Background         *bg, *tmp;
+
+   LIST_FOR_EACH_SAFE(Background, &bg_list, bg, tmp)
+   {
+      /* Get full path to files */
+      _BackgroundGetBgFile(bg);
+
+      /* Discard if bg file is given but cannot be found (ignore bad fg) */
+      if (bg->bg.file && !exists(bg->bg.file))
+	 BackgroundDestroy(bg);
+   }
+}
+
+static void
 _DlgApplyBG(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
 {
    BgDlgData          *dd = DLG_DATA_GET(d, BgDlgData);
@@ -1951,6 +1967,7 @@ _DlgFillBackground(Dialog * d, DItem * table, void *data)
 
    if (!Conf.backgrounds.no_scan)
       ScanBackgroundMenu();
+   _BackgroundsClean();
 
    if (!bg)
       bg = DeskBackgroundGet(DesksGetCurrent());
