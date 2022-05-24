@@ -41,18 +41,19 @@
 extern const ContainerOps IconboxOps;
 extern const ContainerOps SystrayOps;
 
-static void         ContainersConfigSave(void);
+static void         _ContainersConfigSave(void);
 
-static void         ContainerLayout(Container * ct, int *px, int *py, int *pw,
-				    int *ph);
-static void         ContainerDraw(Container * ct);
+static void         _ContainerLayout(Container * ct, int *px, int *py, int *pw,
+				     int *ph);
+static void         _ContainerDraw(Container * ct);
 
-static void         ContainerEventScrollWin(Win win, XEvent * ev, void *prm);
-static void         ContainerEventScrollbarWin(Win win, XEvent * ev, void *prm);
-static void         ContainerEventCoverWin(Win win, XEvent * ev, void *prm);
-static void         ContainerEventArrow1Win(Win win, XEvent * ev, void *prm);
-static void         ContainerEventArrow2Win(Win win, XEvent * ev, void *prm);
-static void         ContainerEventIconWin(Win win, XEvent * ev, void *prm);
+static void         _ContainerEventScrollWin(Win win, XEvent * ev, void *prm);
+static void         _ContainerEventScrollbarWin(Win win, XEvent * ev,
+						void *prm);
+static void         _ContainerEventCoverWin(Win win, XEvent * ev, void *prm);
+static void         _ContainerEventArrow1Win(Win win, XEvent * ev, void *prm);
+static void         _ContainerEventArrow2Win(Win win, XEvent * ev, void *prm);
+static void         _ContainerEventIconWin(Win win, XEvent * ev, void *prm);
 
 /* Widget state */
 #define WS_HILITE 0x01
@@ -73,17 +74,17 @@ _ContainerMatchName(const void *data, const void *match)
 }
 
 static Container   *
-ContainerFind(const char *name)
+_ContainerFind(const char *name)
 {
    return LIST_FIND(Container, &container_list, _ContainerMatchName, name);
 }
 
 static Container   *
-ContainerCreate(const char *name)
+_ContainerCreate(const char *name)
 {
    Container          *ct;
 
-   if (ContainerFind(name))
+   if (_ContainerFind(name))
       return NULL;
 
    ct = ECALLOC(Container, 1);
@@ -126,17 +127,17 @@ ContainerCreate(const char *name)
 
    ct->win = ECreateClientWindow(VROOT, 0, 0, 1, 1);
    ct->icon_win = ECreateWindow(ct->win, 0, 0, 128, 26, 0);
-   EventCallbackRegister(ct->icon_win, ContainerEventIconWin, ct);
+   EventCallbackRegister(ct->icon_win, _ContainerEventIconWin, ct);
    ct->cover_win = ECreateWindow(ct->win, 0, 0, 128, 26, 0);
-   EventCallbackRegister(ct->cover_win, ContainerEventCoverWin, ct);
+   EventCallbackRegister(ct->cover_win, _ContainerEventCoverWin, ct);
    ct->scroll_win = ECreateWindow(ct->win, 6, 26, 116, 6, 0);
-   EventCallbackRegister(ct->scroll_win, ContainerEventScrollWin, ct);
+   EventCallbackRegister(ct->scroll_win, _ContainerEventScrollWin, ct);
    ct->arrow1_win = ECreateWindow(ct->win, 0, 26, 6, 6, 0);
-   EventCallbackRegister(ct->arrow1_win, ContainerEventArrow1Win, ct);
+   EventCallbackRegister(ct->arrow1_win, _ContainerEventArrow1Win, ct);
    ct->arrow2_win = ECreateWindow(ct->win, 122, 26, 6, 6, 0);
-   EventCallbackRegister(ct->arrow2_win, ContainerEventArrow2Win, ct);
+   EventCallbackRegister(ct->arrow2_win, _ContainerEventArrow2Win, ct);
    ct->scrollbar_win = ECreateWindow(ct->scroll_win, 122, 26, 6, 6, 0);
-   EventCallbackRegister(ct->scrollbar_win, ContainerEventScrollbarWin, ct);
+   EventCallbackRegister(ct->scrollbar_win, _ContainerEventScrollbarWin, ct);
    ct->scrollbarknob_win = ECreateWindow(ct->scrollbar_win, -20, -20, 4, 4, 0);
 
    ESelectInput(ct->icon_win,
@@ -176,7 +177,7 @@ ContainerCreate(const char *name)
 }
 
 static void
-ContainerDestroy(Container * ct, int exiting)
+_ContainerDestroy(Container * ct, int exiting)
 {
    LIST_REMOVE(Container, &container_list, ct);
 
@@ -188,11 +189,11 @@ ContainerDestroy(Container * ct, int exiting)
    Efree(ct);
 
    if (!exiting)
-      ContainersConfigSave();
+      _ContainersConfigSave();
 }
 
 static void
-ContainerReconfigure(Container * ct)
+_ContainerReconfigure(Container * ct)
 {
    unsigned int        wmin, hmin, wmax, hmax;
 
@@ -242,7 +243,7 @@ _ContainerEwinLayout(EWin * ewin, int *px, int *py, int *pw, int *ph)
 
    w = ct->w;
    h = ct->h;
-   ContainerLayout(ct, px, py, pw, ph);
+   _ContainerLayout(ct, px, py, pw, ph);
 
    if (*pw != w || *ph != h)
       ct->do_update = 1;
@@ -259,15 +260,15 @@ _ContainerEwinMoveResize(EWin * ewin, int resize)
    ct->w = ewin->client.w;
    ct->h = ewin->client.h;
 
-   ContainerReconfigure(ct);
-   ContainerDraw(ct);
+   _ContainerReconfigure(ct);
+   _ContainerDraw(ct);
    ct->do_update = 0;
 }
 
 static void
 _ContainerEwinClose(EWin * ewin)
 {
-   ContainerDestroy((Container *) ewin->data, 0);
+   _ContainerDestroy((Container *) ewin->data, 0);
    ewin->data = NULL;
 }
 
@@ -279,7 +280,7 @@ static const EWinOps _ContainerEwinOps = {
 };
 
 static void
-ContainerShow(Container * ct)
+_ContainerShow(Container * ct)
 {
    EWin               *ewin;
 
@@ -378,7 +379,7 @@ ContainerObjectFindByXY(Container * ct, int px, int py)
 }
 
 static void
-ContainerLayoutImageWin(Container * ct)
+_ContainerLayoutImageWin(Container * ct)
 {
    int                 i, xo, yo;
    int                 item_pad, padl, padr, padt, padb;
@@ -522,7 +523,7 @@ ContainerLayoutImageWin(Container * ct)
 }
 
 static void
-ContainerLayoutScroll(Container * ct)
+_ContainerLayoutScroll(Container * ct)
 {
    ImageClass         *ic, *ic_sbb;
    EImageBorder       *pad;
@@ -872,11 +873,11 @@ ContainerLayoutScroll(Container * ct)
 }
 
 static void
-ContainerDrawScroll(Container * ct)
+_ContainerDrawScroll(Container * ct)
 {
    ImageClass         *ic_base, *ic_knob, *ic_snob, *ic_arr1, *ic_arr2;
 
-   ContainerLayoutScroll(ct);
+   _ContainerLayoutScroll(ct);
 
    if (!WinIsMapped(ct->scroll_win))
       return;
@@ -921,7 +922,7 @@ ContainerDrawScroll(Container * ct)
 }
 
 static void
-ContainerFixPos(Container * ct)
+_ContainerFixPos(Container * ct)
 {
    int                 v;
 
@@ -937,7 +938,7 @@ ContainerFixPos(Container * ct)
 }
 
 static void
-ContainerLayout(Container * ct, int *px, int *py, int *pw, int *ph)
+_ContainerLayout(Container * ct, int *px, int *py, int *pw, int *ph)
 {
    int                 x, y, w, h;
    EWin               *ewin = ct->ewin;
@@ -947,7 +948,7 @@ ContainerLayout(Container * ct, int *px, int *py, int *pw, int *ph)
    w = *pw;
    h = *ph;
 
-   ContainerLayoutImageWin(ct);	/* Find iwin_maxl, iwin_fixh */
+   _ContainerLayoutImageWin(ct);	/* Find iwin_maxl, iwin_fixh */
 
    /* Possibly change "length" if autosizing */
    if (ct->auto_resize)
@@ -1003,8 +1004,8 @@ ContainerLayout(Container * ct, int *px, int *py, int *pw, int *ph)
 	  }
      }
 
-   ContainerLayoutScroll(ct);	/* Find scroll_thickness_set, uses h/w, iwin_maxl */
-   ContainerFixPos(ct);
+   _ContainerLayoutScroll(ct);	/* Find scroll_thickness_set, uses h/w, iwin_maxl */
+   _ContainerFixPos(ct);
 
    /* Possibly change "height" if hiding scrollbar */
    if (ct->orientation)
@@ -1023,7 +1024,7 @@ ContainerLayout(Container * ct, int *px, int *py, int *pw, int *ph)
 }
 
 static void
-ContainerDraw(Container * ct)
+_ContainerDraw(Container * ct)
 {
    int                 i, w, h;
    ImageClass         *ib_ic_cover;
@@ -1035,7 +1036,7 @@ ContainerDraw(Container * ct)
    w = ct->w;
    h = ct->h;
 
-   ContainerDrawScroll(ct);
+   _ContainerDrawScroll(ct);
 
    /* Geometry of iconbox window, excluding scrollbar */
    ib_xlt = 0;
@@ -1152,22 +1153,22 @@ ContainerRedraw(Container * ct)
 }
 
 static int
-ContainerScroll(Container * ct, int dir)
+_ContainerScroll(Container * ct, int dir)
 {
    int                 ppos;
 
    ppos = ct->pos;
    ct->pos += dir;
-   ContainerFixPos(ct);
+   _ContainerFixPos(ct);
    if (ct->pos == ppos)
       return 0;
 
-   ContainerDraw(ct);
+   _ContainerDraw(ct);
    return 1;
 }
 
 static void
-ContainerShowMenu(Container * ct)
+_ContainerShowMenu(Container * ct)
 {
    Menu               *m;
    MenuItem           *mi;
@@ -1197,24 +1198,24 @@ ContainerShowMenu(Container * ct)
 }
 
 static void
-ContainersShow(void)
+_ContainersShow(void)
 {
    Container          *ct;
 
    if (!LIST_IS_EMPTY(&container_list))
      {
-	LIST_FOR_EACH(Container, &container_list, ct) ContainerShow(ct);
+	LIST_FOR_EACH(Container, &container_list, ct) _ContainerShow(ct);
      }
    else if (Conf.startup.firsttime)
      {
-	ct = ContainerCreate("_IB_0");
-	ContainerShow(ct);
-	ContainersConfigSave();
+	ct = _ContainerCreate("_IB_0");
+	_ContainerShow(ct);
+	_ContainersConfigSave();
      }
 }
 
 static void
-ContainerEventScrollWin(Win win __UNUSED__, XEvent * ev, void *prm)
+_ContainerEventScrollWin(Win win __UNUSED__, XEvent * ev, void *prm)
 {
    Container          *ct = (Container *) prm;
    Win                 sbwin;
@@ -1225,7 +1226,7 @@ ContainerEventScrollWin(Win win __UNUSED__, XEvent * ev, void *prm)
 	if (ev->xbutton.button == 1)
 	   ct->scrollbox_clicked = 1;
 	else if (ev->xbutton.button == 3)
-	   ContainerShowMenu(ct);
+	   _ContainerShowMenu(ct);
 	break;
 
      case ButtonRelease:
@@ -1236,23 +1237,23 @@ ContainerEventScrollWin(Win win __UNUSED__, XEvent * ev, void *prm)
 	if (ct->orientation)
 	  {
 	     if (ev->xbutton.y < WinGetY(sbwin))
-		ContainerScroll(ct, -8);
+		_ContainerScroll(ct, -8);
 	     else if (ev->xbutton.y > WinGetY(sbwin) + WinGetH(sbwin))
-		ContainerScroll(ct, 8);
+		_ContainerScroll(ct, 8);
 	  }
 	else
 	  {
 	     if (ev->xbutton.x < WinGetX(sbwin))
-		ContainerScroll(ct, -8);
+		_ContainerScroll(ct, -8);
 	     else if (ev->xbutton.x > WinGetX(sbwin) + WinGetW(sbwin))
-		ContainerScroll(ct, 8);
+		_ContainerScroll(ct, 8);
 	  }
 	break;
      }
 }
 
 static void
-ContainerEventScrollbarWin(Win win __UNUSED__, XEvent * ev, void *prm)
+_ContainerEventScrollbarWin(Win win __UNUSED__, XEvent * ev, void *prm)
 {
    Container          *ct = (Container *) prm;
    static int          px, py, pos0;
@@ -1271,7 +1272,7 @@ ContainerEventScrollbarWin(Win win __UNUSED__, XEvent * ev, void *prm)
 	     ct->scrollbar_state |= WS_CLICK;
 	  }
 	else if (ev->xbutton.button == 3)
-	   ContainerShowMenu(ct);
+	   _ContainerShowMenu(ct);
 	goto draw_scoll;
 
      case ButtonRelease:
@@ -1314,24 +1315,24 @@ ContainerEventScrollbarWin(Win win __UNUSED__, XEvent * ev, void *prm)
 	  }
 	dp = pos0 + (dp * ct->iwin_maxl) / bs - ct->pos;
 	if (dp)
-	   ContainerScroll(ct, dp);
+	   _ContainerScroll(ct, dp);
 	break;
 
       draw_scoll:
-	ContainerDrawScroll(ct);
+	_ContainerDrawScroll(ct);
 	break;
      }
 }
 
 static void
-ContainerEventCoverWin(Win win __UNUSED__, XEvent * ev, void *prm)
+_ContainerEventCoverWin(Win win __UNUSED__, XEvent * ev, void *prm)
 {
    Container          *ct = (Container *) prm;
 
    switch (ev->type)
      {
      case ButtonPress:
-	ContainerShowMenu(ct);
+	_ContainerShowMenu(ct);
 	break;
      case ButtonRelease:
 	break;
@@ -1339,7 +1340,7 @@ ContainerEventCoverWin(Win win __UNUSED__, XEvent * ev, void *prm)
 }
 
 static void
-ContainerEventArrow1Win(Win win __UNUSED__, XEvent * ev, void *prm)
+_ContainerEventArrow1Win(Win win __UNUSED__, XEvent * ev, void *prm)
 {
    Container          *ct = (Container *) prm;
 
@@ -1349,14 +1350,14 @@ ContainerEventArrow1Win(Win win __UNUSED__, XEvent * ev, void *prm)
 	if (ev->xbutton.button == 1)
 	   ct->arrow1_state |= WS_CLICK;
 	else if (ev->xbutton.button == 3)
-	   ContainerShowMenu(ct);
+	   _ContainerShowMenu(ct);
 	goto draw_scoll;
 
      case ButtonRelease:
 	if (!(ct->arrow1_state & WS_CLICK))
 	   goto draw_scoll;
 	ct->arrow1_state &= ~WS_CLICK;
-	if (ContainerScroll(ct, -8))
+	if (_ContainerScroll(ct, -8))
 	   return;
 	goto draw_scoll;
 
@@ -1369,13 +1370,13 @@ ContainerEventArrow1Win(Win win __UNUSED__, XEvent * ev, void *prm)
 	goto draw_scoll;
 
       draw_scoll:
-	ContainerDrawScroll(ct);
+	_ContainerDrawScroll(ct);
 	break;
      }
 }
 
 static void
-ContainerEventArrow2Win(Win win __UNUSED__, XEvent * ev, void *prm)
+_ContainerEventArrow2Win(Win win __UNUSED__, XEvent * ev, void *prm)
 {
    Container          *ct = (Container *) prm;
 
@@ -1385,14 +1386,14 @@ ContainerEventArrow2Win(Win win __UNUSED__, XEvent * ev, void *prm)
 	if (ev->xbutton.button == 1)
 	   ct->arrow2_state |= WS_CLICK;
 	else if (ev->xbutton.button == 3)
-	   ContainerShowMenu(ct);
+	   _ContainerShowMenu(ct);
 	goto draw_scoll;
 
      case ButtonRelease:
 	if (!(ct->arrow2_state & WS_CLICK))
 	   goto draw_scoll;
 	ct->arrow2_state &= ~WS_CLICK;
-	if (ContainerScroll(ct, 8))
+	if (_ContainerScroll(ct, 8))
 	   return;
 	goto draw_scoll;
 
@@ -1405,13 +1406,13 @@ ContainerEventArrow2Win(Win win __UNUSED__, XEvent * ev, void *prm)
 	goto draw_scoll;
 
       draw_scoll:
-	ContainerDrawScroll(ct);
+	_ContainerDrawScroll(ct);
 	break;
      }
 }
 
 static void
-ContainerEventIconWin(Win win __UNUSED__, XEvent * ev, void *prm)
+_ContainerEventIconWin(Win win __UNUSED__, XEvent * ev, void *prm)
 {
    Container          *ct = (Container *) prm;
 
@@ -1420,7 +1421,7 @@ ContainerEventIconWin(Win win __UNUSED__, XEvent * ev, void *prm)
      case ButtonPress:
 	if (ev->xbutton.button != 3)
 	   break;
-	ContainerShowMenu(ct);
+	_ContainerShowMenu(ct);
 	return;
      }
 
@@ -1478,12 +1479,12 @@ _DlgApplyContainer(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
 
    ContainerRedraw(ct);
 
-   ContainersConfigSave();
+   _ContainersConfigSave();
    autosave();
 }
 
 static void
-CB_IconSizeSlider(Dialog * d, int val __UNUSED__, void *data)
+_CB_IconSizeSlider(Dialog * d, int val __UNUSED__, void *data)
 {
    ContainerDlgData   *dd = DLG_DATA_GET(d, ContainerDlgData);
    DItem              *di = (DItem *) data;
@@ -1565,7 +1566,7 @@ _DlgFillContainer(Dialog * d, DItem * table, void *data)
    DialogItemSliderSetUnits(di, 1);
    DialogItemSliderSetJump(di, 8);
    DialogItemSliderSetValPtr(di, &dd->iconsize);
-   DialogItemSetCallback(di, CB_IconSizeSlider, 0, label);
+   DialogItemSetCallback(di, _CB_IconSizeSlider, 0, label);
 
    DialogAddItem(table, DITEM_SEPARATOR);
 
@@ -1716,7 +1717,7 @@ static const DialogDef DlgContainer = {
 #include "conf.h"
 
 static int
-_ContainersConfigLoad(FILE * fs)
+_ContainersConfigLoad1(FILE * fs)
 {
    int                 err = 0;
    char                s[FILEPATH_LEN_MAX];
@@ -1740,10 +1741,10 @@ _ContainersConfigLoad(FILE * fs)
 	     err = 0;
 	     continue;
 	  case CONFIG_CLASSNAME:	/* __NAME %s */
-	     ct = ContainerFind(s2);
+	     ct = _ContainerFind(s2);
 	     if (ct)
 		EwinHide(ct->ewin);
-	     ct = ContainerCreate(s2);
+	     ct = _ContainerCreate(s2);
 	     continue;
 	  }
 
@@ -1806,17 +1807,17 @@ _ContainersConfigLoad(FILE * fs)
 }
 
 static void
-ContainersConfigLoad(void)
+_ContainersConfigLoad(void)
 {
    char                s[4096];
 
    Esnprintf(s, sizeof(s), "%s.ibox", EGetSavePrefix());
 
-   ConfigFileLoad(s, NULL, _ContainersConfigLoad, 0);
+   ConfigFileLoad(s, NULL, _ContainersConfigLoad1, 0);
 }
 
 static void
-ContainersConfigSave(void)
+_ContainersConfigSave(void)
 {
    char                s[FILEPATH_LEN_MAX], st[FILEPATH_LEN_MAX];
    FILE               *fs;
@@ -1859,15 +1860,15 @@ ContainersConfigSave(void)
  */
 
 static void
-ContainersSighan(int sig, void *prm)
+_ContainersSighan(int sig, void *prm)
 {
    switch (sig)
      {
      case ESIGNAL_CONFIGURE:
 	break;
      case ESIGNAL_START:
-	ContainersConfigLoad();
-	ContainersShow();
+	_ContainersConfigLoad();
+	_ContainersShow();
 	break;
      }
 
@@ -1884,14 +1885,14 @@ ContainersSighan(int sig, void *prm)
 
 #if ENABLE_DIALOGS
 static void
-ContainersConfigure(const char *params)
+_ContainersConfigure(const char *params)
 {
    Container          *ct;
 
    if (!params || !params[0])
       params = "DEFAULT";
 
-   ct = ContainerFind(params);
+   ct = _ContainerFind(params);
    if (ct)
       DialogShowSimple(&DlgContainer, ct);
 }
@@ -1923,7 +1924,7 @@ ContainersGetList(int *pnum)
  * IPC functions
  */
 static void
-ContainerIpc(const char *params)
+_ContainerIpc(const char *params)
 {
    const char         *p;
    char                cmd[128], prm[128];
@@ -1945,7 +1946,7 @@ ContainerIpc(const char *params)
 #if ENABLE_DIALOGS
    else if (!strncmp(cmd, "cfg", 3))
      {
-	ContainersConfigure(prm);
+	_ContainersConfigure(prm);
      }
 #endif
    else if (!strncmp(cmd, "new", 3))
@@ -1957,15 +1958,15 @@ ContainerIpc(const char *params)
 	     num = LIST_GET_COUNT(&container_list);
 	     Esnprintf(prm, sizeof(prm), "_IB_%i", num);
 	  }
-	ct = ContainerCreate(prm);
-	ContainerShow(ct);
-	ContainersConfigSave();
+	ct = _ContainerCreate(prm);
+	_ContainerShow(ct);
+	_ContainersConfigSave();
      }
 }
 
 static const IpcItem ContainersIpcArray[] = {
    {
-    ContainerIpc,
+    _ContainerIpc,
     "iconbox", "ibox",
     "Iconbox functions",
     "  iconbox new <name>   Create new iconbox\n"
@@ -1986,7 +1987,7 @@ extern const EModule ModIconboxes;
 
 const EModule       ModIconboxes = {
    "iconboxes", "ibox",
-   ContainersSighan,
+   _ContainersSighan,
    MOD_ITEMS(ContainersIpcArray),
    MOD_ITEMS(ContainersCfgItems)
 };
