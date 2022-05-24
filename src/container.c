@@ -1920,6 +1920,19 @@ ContainersGetList(int *pnum)
    return LIST_GET_ITEMS(Container, &container_list, pnum);
 }
 
+static void
+_ContainersNewName(char *nbuf, unsigned int nlen, const char *pfx)
+{
+   int                 i;
+
+   for (i = 1;; i++)
+     {
+	Esnprintf(nbuf, nlen, "%s%i", pfx, i);
+	if (!_ContainerFind(nbuf))
+	   break;
+     }
+}
+
 /*
  * IPC functions
  */
@@ -1928,7 +1941,7 @@ _ContainerIpc(const char *params)
 {
    const char         *p;
    char                cmd[128], prm[128];
-   int                 len, num;
+   int                 len;
 
    cmd[0] = prm[0] = '\0';
    p = params;
@@ -1954,10 +1967,7 @@ _ContainerIpc(const char *params)
 	Container          *ct;
 
 	if (!prm[0])
-	  {
-	     num = LIST_GET_COUNT(&container_list);
-	     Esnprintf(prm, sizeof(prm), "_IB_%i", num);
-	  }
+	   _ContainersNewName(prm, sizeof(prm), "_IB_");
 	ct = _ContainerCreate(prm);
 	_ContainerShow(ct);
 	_ContainersConfigSave();
