@@ -175,7 +175,7 @@ ShowAlert(const char *title,
    unsigned long       cols[5];
    XColor              xcl;
    Colormap            cmap;
-   int                 cnum, fh, x, y, ww, hh, bw, bh;
+   int                 cnum, fh, x, y, ww, hh, bw, bh, bx;
    char               *str1, *str2, *str3, *p;
    int                 button;
    char              **missing_charset_list_return, *def_string_return;
@@ -418,20 +418,20 @@ ShowAlert(const char *title,
 	     if (!(ev.xbutton.y >= BY && ev.xbutton.y < BY + bh))
 		break;
 
-	     x = BX(0);
-	     if (b1 && ev.xbutton.x >= x && ev.xbutton.x < x + bw)
+	     bx = BX(0);
+	     if (b1 && ev.xbutton.x >= bx && ev.xbutton.x < bx + bw)
 	       {
 		  btn = b1;
 		  goto do_ButtonPress;
 	       }
-	     x = BX(1);
-	     if (b2 && ev.xbutton.x >= x && ev.xbutton.x < x + bw)
+	     bx = BX(1);
+	     if (b2 && ev.xbutton.x >= bx && ev.xbutton.x < bx + bw)
 	       {
 		  btn = b2;
 		  goto do_ButtonPress;
 	       }
-	     x = BX(2);
-	     if (b3 && ev.xbutton.x >= x && ev.xbutton.x < x + bw)
+	     bx = BX(2);
+	     if (b3 && ev.xbutton.x >= bx && ev.xbutton.x < bx + bw)
 	       {
 		  btn = b3;
 		  goto do_ButtonPress;
@@ -445,22 +445,22 @@ ShowAlert(const char *title,
 	     if (!(ev.xbutton.y >= BY && ev.xbutton.y < BY + bh))
 		break;
 
-	     x = BX(0);
-	     if (b1 && ev.xbutton.x >= x && ev.xbutton.x < x + bw)
+	     bx = BX(0);
+	     if (b1 && ev.xbutton.x >= bx && ev.xbutton.x < bx + bw)
 	       {
 		  button = 1;
 		  btn = b1;
 		  goto do_ButtonRelease;
 	       }
-	     x = BX(1);
-	     if (b2 && ev.xbutton.x >= x && ev.xbutton.x < x + bw)
+	     bx = BX(1);
+	     if (b2 && ev.xbutton.x >= bx && ev.xbutton.x < bx + bw)
 	       {
 		  button = 2;
 		  btn = b2;
 		  goto do_ButtonRelease;
 	       }
-	     x = BX(2);
-	     if (b3 && ev.xbutton.x >= x && ev.xbutton.x < x + bw)
+	     bx = BX(2);
+	     if (b3 && ev.xbutton.x >= bx && ev.xbutton.x < bx + bw)
 	       {
 		  button = 3;
 		  btn = b3;
@@ -521,6 +521,7 @@ ShowAlert(const char *title,
 	       }
 	   do_sync:
 	     XSync(dd, False);
+	     SleepUs(200000);
 	     break;
 
 	  default:
