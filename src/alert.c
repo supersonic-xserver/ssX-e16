@@ -162,7 +162,7 @@ ShowAlert(const char *title,
 	  const char *fmt, va_list args)
 {
    char                text[4096], buf1[64], buf2[64], buf3[64];
-   Window              win, b1 = 0, b2 = 0, b3 = 0, root;
+   Window              win, b1 = 0, b2 = 0, b3 = 0, root, btn;
    Display            *dd;
    int                 wid, hih, w, h, i, k, mask;
    XGCValues           gcv;
@@ -379,6 +379,7 @@ ShowAlert(const char *title,
      }
    XSync(dd, False);
 
+   btn = 0;
    button = 0;
    for (; button == 0;)
      {
@@ -389,32 +390,29 @@ ShowAlert(const char *title,
 	  case KeyPress:
 	     if (str1 && ev.xkey.keycode == XKeysymToKeycode(dd, XK_F1))
 	       {
-		  DRAW_BOX_IN(dd, gc, b1, 0, 0, bw, bh);
-		  XSync(dd, False);
-		  SleepUs(500000);
-		  DRAW_BOX_OUT(dd, gc, b1, 0, 0, bw, bh);
 		  button = 1;
-		  goto do_sync;
+		  btn = b1;
+		  goto do_KeyPress;
 	       }
 	     if (str2 && ev.xkey.keycode == XKeysymToKeycode(dd, XK_F2))
 	       {
-		  DRAW_BOX_IN(dd, gc, b2, 0, 0, bw, bh);
-		  XSync(dd, False);
-		  SleepUs(500000);
-		  DRAW_BOX_OUT(dd, gc, b2, 0, 0, bw, bh);
 		  button = 2;
-		  goto do_sync;
+		  btn = b2;
+		  goto do_KeyPress;
 	       }
 	     if (str3 && ev.xkey.keycode == XKeysymToKeycode(dd, XK_F3))
 	       {
-		  DRAW_BOX_IN(dd, gc, b3, 0, 0, bw, bh);
-		  XSync(dd, False);
-		  SleepUs(500000);
-		  DRAW_BOX_OUT(dd, gc, b3, 0, 0, bw, bh);
 		  button = 3;
-		  goto do_sync;
+		  btn = b3;
+		  goto do_KeyPress;
 	       }
 	     break;
+	   do_KeyPress:
+	     DRAW_BOX_IN(dd, gc, btn, 0, 0, bw, bh);
+	     XSync(dd, False);
+	     SleepUs(500000);
+	     DRAW_BOX_OUT(dd, gc, btn, 0, 0, bw, bh);
+	     goto do_sync;
 
 	  case ButtonPress:
 	     if (!(ev.xbutton.y >= BY && ev.xbutton.y < BY + bh))
@@ -423,22 +421,25 @@ ShowAlert(const char *title,
 	     x = BX(0);
 	     if (b1 && ev.xbutton.x >= x && ev.xbutton.x < x + bw)
 	       {
-		  DRAW_BOX_IN(dd, gc, b1, 0, 0, bw, bh);
-		  goto do_sync;
+		  btn = b1;
+		  goto do_ButtonPress;
 	       }
 	     x = BX(1);
 	     if (b2 && ev.xbutton.x >= x && ev.xbutton.x < x + bw)
 	       {
-		  DRAW_BOX_IN(dd, gc, b2, 0, 0, bw, bh);
-		  goto do_sync;
+		  btn = b2;
+		  goto do_ButtonPress;
 	       }
 	     x = BX(2);
 	     if (b3 && ev.xbutton.x >= x && ev.xbutton.x < x + bw)
 	       {
-		  DRAW_BOX_IN(dd, gc, b3, 0, 0, bw, bh);
-		  goto do_sync;
+		  btn = b3;
+		  goto do_ButtonPress;
 	       }
 	     break;
+	   do_ButtonPress:
+	     DRAW_BOX_IN(dd, gc, btn, 0, 0, bw, bh);
+	     goto do_sync;
 
 	  case ButtonRelease:
 	     if (!(ev.xbutton.y >= BY && ev.xbutton.y < BY + bh))
@@ -447,25 +448,28 @@ ShowAlert(const char *title,
 	     x = BX(0);
 	     if (b1 && ev.xbutton.x >= x && ev.xbutton.x < x + bw)
 	       {
-		  DRAW_BOX_OUT(dd, gc, b1, 0, 0, bw, bh);
 		  button = 1;
-		  goto do_sync;
+		  btn = b1;
+		  goto do_ButtonRelease;
 	       }
 	     x = BX(1);
 	     if (b2 && ev.xbutton.x >= x && ev.xbutton.x < x + bw)
 	       {
-		  DRAW_BOX_OUT(dd, gc, b2, 0, 0, bw, bh);
 		  button = 2;
-		  goto do_sync;
+		  btn = b2;
+		  goto do_ButtonRelease;
 	       }
 	     x = BX(2);
 	     if (b3 && ev.xbutton.x >= x && ev.xbutton.x < x + bw)
 	       {
-		  DRAW_BOX_OUT(dd, gc, b3, 0, 0, bw, bh);
 		  button = 3;
-		  goto do_sync;
+		  btn = b3;
+		  goto do_ButtonRelease;
 	       }
 	     break;
+	   do_ButtonRelease:
+	     DRAW_BOX_OUT(dd, gc, btn, 0, 0, bw, bh);
+	     goto do_sync;
 
 	  case Expose:
 	     /* Flush all other Expose events */
