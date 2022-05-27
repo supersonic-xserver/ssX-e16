@@ -140,17 +140,9 @@ EwinDetermineArea(EWin * ewin)
    ewin->vx = dsk->current_area_x * EoGetW(dsk) + EoGetX(ewin);
    ewin->vy = dsk->current_area_y * EoGetH(dsk) + EoGetY(ewin);
 
-   if (EwinIsOnScreen(ewin))
-     {
-	ax = dsk->current_area_x;
-	ay = dsk->current_area_y;
-     }
-   else
-     {
-	ax = (ewin->vx + EoGetW(ewin) / 2) / EoGetW(dsk);
-	ay = (ewin->vy + EoGetH(ewin) / 2) / EoGetH(dsk);
-	DesksFixArea(&ax, &ay);
-     }
+   ax = (ewin->vx + EoGetW(ewin) / 2) / EoGetW(dsk);
+   ay = (ewin->vy + EoGetH(ewin) / 2) / EoGetH(dsk);
+   DesksFixArea(&ax, &ay);
 
    if (ax != ewin->area_x || ay != ewin->area_y)
      {
