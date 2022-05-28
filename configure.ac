@@ -481,7 +481,7 @@ if test "x$enable_no_container" = "xyes"; then
   AC_DEFINE(USE_CONTAINER_WIN, 1, [Use container window])
 fi
 
-AM_MISSING_PROG(XMLTO, xmlto)
+AM_MISSING_PROG(ASCIIDOC, asciidoc)
 AC_ARG_ENABLE(mans,
   AS_HELP_STRING([--enable-mans], [install man page @<:@default=yes@:>@]),,
   enable_mans=yes)

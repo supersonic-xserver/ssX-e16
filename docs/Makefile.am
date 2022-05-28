@@ -1,6 +1,6 @@
 e16docdir = ${datadir}/doc/${PACKAGE}
 
-EXTRA_DIST = e16.xml e16.man.in e16.html
+EXTRA_DIST = e16.asc e16.man.in e16.html
 
 CLEANFILES = e16.1
 MAINTAINERCLEANFILES = e16.html
@@ -12,8 +12,10 @@ MANSUBST = \
 e16.1: e16.man.in
 	sed $(MANSUBST) $< > $@
 
-e16.html: e16.xml
-	$(XMLTO) html-nochunks $<
+ AD_OPTIONS = -a toc -a icons
+
+e16.html: e16.asc
+	$(ASCIIDOC) $(AD_OPTIONS) -o $@ $<
 
 if INSTALL_MANS
 
