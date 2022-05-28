@@ -37,7 +37,6 @@
 #include "focus.h"
 #include "groups.h"
 #include "hints.h"
-#include "iclass.h"		/* FIXME - Should not be here */
 #include "screen.h"
 #include "snaps.h"
 #include "xwin.h"
