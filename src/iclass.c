@@ -1111,8 +1111,8 @@ ImageclassGetFallback(void)
    ic->norm.normal = ImagestateCreateX(255, 255, 0, 0, 160, 160, 160);
    ic->norm.hilited = ImagestateCreateX(255, 255, 0, 0, 192, 192, 192);
    ic->norm.clicked = ImagestateCreateX(0, 0, 255, 255, 192, 192, 192);
-   ic->active.normal = ImagestateCreateX(255, 255, 0, 0, 180, 140, 160);
-   ic->active.hilited = ImagestateCreateX(255, 255, 0, 0, 230, 190, 210);
+   ic->active.normal = ImagestateCreateX(255, 255, 0, 0, 220, 0, 0);
+   ic->active.hilited = ImagestateCreateX(255, 255, 0, 0, 255, 0, 0);
    ic->active.clicked = ImagestateCreateX(0, 0, 255, 255, 230, 190, 210);
 
    ic->padding.left = 4;
