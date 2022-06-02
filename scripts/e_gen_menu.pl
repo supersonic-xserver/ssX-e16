@@ -97,10 +97,7 @@ $DoIconv = `which iconv`;
 
 @UserAppsMenu = (
 	"t:User Application List",
-	"x:Eterm:Eterm",
-	"x:Terminal:Terminal",
 	"x:XTerm:xterm",
-	"x:rxvt:rxvt",
 	"x:urxvt:urxvt",
 	"x:Firefox:firefox",
 	"x:Thunderbird:thunderbird",
@@ -115,7 +112,6 @@ $DoIconv = `which iconv`;
 	"x:XMag:xmag",
 	"x:Grip:grip",
 	"x:Audacious:audacious",
-	"x:XMMS:xmms"
 );
 
 # Remove duplicates and nulls in ':' separated dir list
