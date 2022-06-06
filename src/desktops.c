@@ -75,6 +75,7 @@ typedef struct {
    Desk               *previous;
    Desk               *desk[ENLIGHTENMENT_CONF_NUM_DESKTOPS];
    unsigned int        order[ENLIGHTENMENT_CONF_NUM_DESKTOPS];
+   char               *names[ENLIGHTENMENT_CONF_NUM_DESKTOPS];
    int                 drag_x0, drag_y0;
    unsigned int        prev_num;
    Animator           *anim_slide;
@@ -382,6 +383,15 @@ _DeskConfigure(Desk * dsk)
    ModulesSignal(ESIGNAL_DESK_ADDED, dsk);
 }
 
+static void
+_DeskSetDefaultName(unsigned int desk)
+{
+   char                buf[64];
+
+   Esnprintf(buf, sizeof(buf), "Desk-%d", desk);
+   EFREE_DUP(desks.names[desk], buf);
+}
+
 static Desk        *
 _DeskCreate(int desk, int configure)
 {
@@ -390,7 +400,6 @@ _DeskCreate(int desk, int configure)
 #endif
    Desk               *dsk;
    Win                 win;
-   char                buf[64];
 
    if (desk < 0 || desk >= ENLIGHTENMENT_CONF_NUM_DESKTOPS)
       return NULL;
@@ -405,10 +414,12 @@ _DeskCreate(int desk, int configure)
 
    win = (desk == 0) ? VROOT : NULL;
 
-   Esnprintf(buf, sizeof(buf), "Desk-%d", desk);
+   if (!desks.names[desk])
+      _DeskSetDefaultName(desk);
+
    EoSetNoRedirect(dsk, 1);
    EoInit(dsk, EOBJ_TYPE_DESK, win,
-	  0, 0, WinGetW(VROOT), WinGetH(VROOT), 0, buf);
+	  0, 0, WinGetW(VROOT), WinGetH(VROOT), 0, desks.names[desk]);
    EventCallbackRegister(EoGetWin(dsk), _DeskHandleEvents, dsk);
    dsk->bg.o = EoObj(dsk);
    if (desk == 0)
@@ -823,8 +834,7 @@ DesksGetNumber(void)
 const char        **
 DesksGetNames(void)
 {
-   /* Fall back to defaults */
-   return NULL;
+   return (const char **)desks.names;
 }
 
 Desk               *
@@ -2338,6 +2348,38 @@ doDeskray(EWin * edummy, const char *params)
 #endif /* ENABLE_DESKRAY */
 
 static void
+_DesksSetNames(void *item __UNUSED__, const char *sval)
+{
+   unsigned int        i;
+   int                 ncnt;
+   char              **names;
+
+   if (Conf.desks.names != sval)
+      EFREE_DUP(Conf.desks.names, sval);
+
+   ncnt = 0;
+   names = StrlistDecodeEscaped(sval, &ncnt);
+   if (ncnt >= ENLIGHTENMENT_CONF_NUM_DESKTOPS)
+      ncnt = ENLIGHTENMENT_CONF_NUM_DESKTOPS - 1;
+   for (i = 0; i < Conf.desks.num; i++)
+     {
+	if ((int)i < ncnt)
+	   EFREE_DUP(desks.names[i], names[i]);
+	else
+	   _DeskSetDefaultName(i);
+     }
+   StrlistFree(names, ncnt);
+
+   for (i = 0; i < Conf.desks.num; i++)
+     {
+	if (desks.desk[i])
+	   EobjSetName(EoObj(desks.desk[i]), desks.names[i]);
+     }
+
+   HintsSetDesktopNames();
+}
+
+static void
 _DesksInit(void)
 {
    unsigned int        i;
@@ -2356,6 +2398,8 @@ _DesksInit(void)
 
    desks.previous = NULL;
 
+   _DesksSetNames(NULL, Conf.desks.names);
+
    for (i = 0; i < Conf.desks.num; i++)
       _DeskCreate(i, 0);
 
@@ -2365,7 +2409,6 @@ _DesksInit(void)
    EHintsGetDeskInfo();
 
    HintsSetDesktopConfig();
-   HintsSetDesktopNames();
    HintsSetDesktopViewport();
 }
 
@@ -3101,6 +3144,8 @@ static const CfgItem DesksCfgItems[] = {
 
    CFG_ITEM_INT(Conf.desks, edge_flip_mode, EDGE_FLIP_ON),
    CFG_ITEM_INT(Conf.desks, edge_flip_resistance, 25),
+
+   CFG_FUNC_STR(Conf.desks, names, _DesksSetNames),
 };
 
 /*

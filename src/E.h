@@ -171,6 +171,7 @@ typedef struct {
       char                areas_wraparound;
       int                 edge_flip_mode;
       int                 edge_flip_resistance;
+      char               *names;	/* The desktop names */
    } desks;
    struct {
       char                headers;
