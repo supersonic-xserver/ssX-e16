@@ -185,6 +185,7 @@ struct _glhook     *EobjGetTexture(EObj * eo);
 void                EobjChangeOpacityNow(EObj * eo, unsigned int opacity);
 void                EobjChangeOpacity(EObj * eo, unsigned int opacity);
 void                EobjChangeShadow(EObj * eo, int shadow);
+void                EobjSetName(EObj * eo, const char *name);
 void                EobjSetLayer(EObj * eo, int layer);
 void                EobjSetFloating(EObj * eo, int floating);
 bool                EobjShadowOk(const EObj * eo, bool sharp);

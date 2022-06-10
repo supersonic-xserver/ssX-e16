@@ -79,6 +79,15 @@ EobjGetNameSafe(const EObj * eo)
 }
 
 void
+EobjSetName(EObj * eo, const char *name)
+{
+   if (name != eo->icccm.wm_name)
+      EFREE_DUP(eo->icccm.wm_name, name);
+
+   HintsSetWindowName(EobjGetWin(eo), eo->icccm.wm_name);
+}
+
+void
 EobjSetLayer(EObj * eo, int layer)
 {
    int                 ilayer = eo->ilayer;
