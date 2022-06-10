@@ -196,8 +196,8 @@ EWMH_SetDesktopRoots(void)
 void
 EWMH_SetDesktopNames(void)
 {
-   /* Fall back to defaults */
-   ex_netwm_desk_names_set(WinGetXwin(VROOT), NULL, DesksGetNumber());
+   ex_netwm_desk_names_set(WinGetXwin(VROOT), DesksGetNames(),
+			   DesksGetNumber());
 }
 
 void

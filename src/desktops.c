@@ -820,6 +820,13 @@ DesksGetNumber(void)
    return Conf.desks.num;
 }
 
+const char        **
+DesksGetNames(void)
+{
+   /* Fall back to defaults */
+   return NULL;
+}
+
 Desk               *
 DesksGetCurrent(void)
 {
