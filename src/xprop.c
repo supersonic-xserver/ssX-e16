@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -755,7 +755,7 @@ void
 ex_netwm_desk_names_set(EX_Window root, const char **names,
 			unsigned int n_desks)
 {
-   char                ss[32], *buf, *buf_r;
+   char               *buf, *buf_r;
    const char         *s;
    unsigned int        i;
    int                 l, len;
@@ -765,14 +765,7 @@ ex_netwm_desk_names_set(EX_Window root, const char **names,
 
    for (i = 0; i < n_desks; i++)
      {
-	s = (names) ? names[i] : NULL;
-	if (!s)
-	  {
-	     /* Default to "Desk-<number>" */
-	     sprintf(ss, "Desk-%u", i);
-	     s = ss;
-	  }
-
+	s = (names) ? names[i] : "?";
 	l = strlen(s) + 1;
 	buf_r = EREALLOC(char, buf, len + l);
 
