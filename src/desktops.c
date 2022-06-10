@@ -899,6 +899,7 @@ ChangeNumberOfDesktops(unsigned int quantity)
       DeskGotoNum(Conf.desks.num - 1);
 
    HintsSetDesktopConfig();
+   HintsSetDesktopNames();
 
    autosave();
 }
@@ -2357,6 +2358,7 @@ DesksInit(void)
    EHintsGetDeskInfo();
 
    HintsSetDesktopConfig();
+   HintsSetDesktopNames();
    HintsSetDesktopViewport();
 }
 

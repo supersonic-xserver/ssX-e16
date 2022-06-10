@@ -57,6 +57,7 @@ int                 EWMH_ProcessRootClientMessage(XClientMessageEvent * event);
 
 /* hints.c */
 void                HintsInit(void);
+void                HintsSetDesktopNames(void);
 void                HintsSetDesktopConfig(void);
 void                HintsSetViewportConfig(void);
 void                HintsSetCurrentDesktop(void);

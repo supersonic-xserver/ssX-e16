@@ -92,11 +92,16 @@ HintsSetClientStacking(void)
 }
 
 void
+HintsSetDesktopNames(void)
+{
+   EWMH_SetDesktopNames();
+}
+
+void
 HintsSetDesktopConfig(void)
 {
    EWMH_SetDesktopCount();
    EWMH_SetDesktopRoots();
-   EWMH_SetDesktopNames();
    EWMH_SetWorkArea();
 }
 
