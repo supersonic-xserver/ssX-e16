@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
 "POT-Creation-Date: 2022-06-11 20:40+0200\n"
-"PO-Revision-Date: 2022-04-24 17:44+0200\n"
+"PO-Revision-Date: 2022-06-11 21:05+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
 "Language: da\n"
@@ -1463,16 +1463,12 @@ msgid "Maximization animation speed:"
 msgstr "Animationshastighed under maksimering:"
 
 #: src/settings.c:240
-#, fuzzy
-#| msgid "Resistance at edge of screen:"
 msgid "Resistance at screen boundaries:"
 msgstr "Modstand ved kanten af skærmen:"
 
 #: src/settings.c:250
-#, fuzzy
-#| msgid "Resistance at edge of screen:"
 msgid "Resistance at window boundaries:"
-msgstr "Modstand ved kanten af skærmen:"
+msgstr "Modstand ved kanten af vinduer:"
 
 #: src/settings.c:262
 msgid "Move/Resize"
