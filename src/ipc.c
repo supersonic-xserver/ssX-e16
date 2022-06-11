@@ -1709,7 +1709,7 @@ static const IpcItem IPCArray[] = {
    {
     IPC_WinOps,
     "win_op", "wop",
-    "Change a property of a specific window",
+    "Change a property of one or more window(s)",
     "Use \"win_op <windowid> <property> <value>\" to change the property of a window\n"
     "You can use the \"window_list\" command to retrieve a list of available windows\n"
     "You can use ? after most of these commands to receive the current\n"
@@ -1748,7 +1748,14 @@ static const IpcItem IPCArray[] = {
     "  win_op <windowid> <no_user_close/move/size> [on|off]\n"
     "  win_op <windowid> <no_wm_focus> [on|off]\n"
     "  win_op <windowid> pass_ptr [on|off]\n"
-    "<windowid> may be substituted with \"current\" to use the current window\n"},
+    "<windowid> may be one of\n"
+    "  \"*\" or \"current\" : the current window (group operation)\n"
+    "  \"=\"              : the current window (non-group operation)\n"
+    "  <xid>            : the window XID\n"
+    "  <string>         : the first window with name containing <string>\n"
+    "  <pattern>        : the window(s) with name matching <pattern>\n"
+    "                     <pattern> is a string containing at least one *\n"
+   },
    {
     IPC_WinList,
     "window_list", "wl",
