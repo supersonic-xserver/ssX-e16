@@ -47,6 +47,8 @@
 "Stick / Unstick Window", 0, "wop * stick"
 "Iconify Window", 0, "wop * iconify"
 "Shade / Unshade Window", 0, "wop * shade"
+"Pin Window", 0, "wop * pin on *"
+"Un-pin Window", 0, "wop * pin off *"
 "Maximise Height of Window", 0, "wop * th conservative"
 "Maximise Height of Window to available space", 0, "wop * th available"
 "Maximise Height of Window to whole screen", 0, "wop * th"
