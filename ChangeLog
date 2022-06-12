@@ -1,5 +1,136 @@
 
-e16 1.0.24 - 2021-11-14
+e16 v1.0.25 - 2022-06-13
+------------------------
+- 1.0.25
+- arrange: Keep upper left corner on screen when centering window
+- Danish translation update
+- Update po
+- ipc: Improve help for win_op target specification
+- bindings.cfg: Add bindings for pinning
+- Update config/e16keyedit.db (pinning)
+- Update docs/e16.asc (desktops.names)
+- xprop: Drop setting default desktop names in ex_netwm_desk_names_set()
+- desktops: Enable setting desktop names
+- desktops: Introduce DesksGetNames()
+- desktops: Cosmetics
+- Introduce HintsSetDesktopNames()
+- Introduce EobjSetName()
+- docs: Corrections after conversion, remove obsolete stuff, updates
+- docs: Convert xml to asciidoc
+- Menu and bindings cleanups
+- iclass: Remove unneeded header
+- iclass: Make active state more visible in fallback icon class
+- ewins: Fix ewin area calculation
+- GSOD: Fix repaint after quit by button press
+- GSOD: Some refactoring
+- containers: Fix creating new iconboxes
+- containers: Cosmetics
+- French translation update (Philippe J. Guillaumie)
+- background: Discard broken backgrounds when opening configuration dialog
+- Update winter theme
+- autofoo: Invert no-container option logic
+- moveresize: Fix screen edge resistance for grouped windows
+- moveresize: Move SnapEwin() to where it is used.
+- moveresize: Enable configuring edge restistance in dialog
+- arrange: Introduce screen struts
+- arrange: Refactor SnapEwin()
+- session: Fix broken session id handling
+- pinning: Remember across restart
+- menus: Drop (edox) Help
+- main: Don't start edox on first startup
+- French translation update (Philippe J. Guillaumie)
+- Clamp window position on move
+- CM: Adjust shadowing conditions some more
+- CM: Fix sharp shadows when window is shaped
+- place-pagers.pl: Behave properly when pagers have borders
+- ipc: Add custom format window_list
+- Danish translation update
+- po: Patch po files in accordance with text changes
+- config/menus: Text cleanups
+- dialogs: Text cleanups
+- Update config/strings.c and po
+- po: On Top -> Highest
+- dialogs: Fixup after recent layout changes
+- Fix C++ build
+- arrange: Fix C++ build
+- epp: Fix potential compiler warning
+- focus: IPC help tweaks
+- menus: Add pass_ptr option to winops menu
+- place-pagers.pl: Only optionally stack below(or above)
+- ipc: Debug tweaks
+- dialogs: Drop re-centering combined dialog on item change
+- Dialog layout adjustments
+- moveresize: Refactor some conditions for readability
+- moveresize: Remove long time unused constrained move code
+- moveresize: Remove long time unused swapmove code
+- moveresize: Remove disabled nogroup move functions
+- containers: Configuration saving tweaks - fixup
+- Fix some problems with resize-by-keyboard
+- Winops layer menu: Add "Lowest"
+- ipc: win_op help updates
+- French translation update (Philippe J. Guillaumie)
+- Add window option to pass-through pointer events
+- arrange: Disable ARRANGE_BY_POSITION mode
+- arrange: Simplify/speed up by using qsort(), cosmetics
+- arrange: Minor tweak in SnapEwin()
+- arrange: Use object order list when arranging
+- arrange: Remove pointless call to EwinListGetAll()
+- stacking: Hold all objects in the order list
+- stacking: Cache EWin lists
+- stacking: Refactor EwinListStackGet()
+- stacking: Cosmetics, preparing for other changes
+- stacking: Rename EwinListStack to EobjListStack
+- stacking: Remove unused EwinListStackGetTop()
+- Update winder theme
+- CM: Adjust shadowing conditions some more
+- e_gen_menu: Fix breakage when PATH contains non-existing directory
+- Fix imageclass flip/rotate for real
+- focus list: Fix a couple of glitches with outline window
+- Accept client window events a bit earlier
+- Remove stray quote in help text
+- CM: Adjust shadowing conditions
+- CM: Fix initial shaped state on OR windows
+- Danish translation update.
+- Update po
+- backgrounds: Drop 'use_bg' IPC command (but not entirely)
+- backgrounds: Drop most calls to autosave()
+- ipc: Return error message on unknown command
+- session: Do call module exit functions on X disconnect
+- glwin: Drop close on exit
+- containers: Configuration saving tweaks
+- Move XFontSet based text rendering module to separate file
+- Drop XFontStruct based font handling
+- Simplify src/Makefile.am
+- Add python versions of perl sample-scripts
+- Sample script fixes and tweaks
+- sample-scripts: Tabs -> spaces
+- e_gen_menu: Some icon search updates
+- e_gen_menu: Drop old gnome/kde stuff
+- e_gen_menu: New python version
+- e_gen_menu: Rename to e_gen_menu.pl
+- config: Convert string update script to python and update
+- menus: No longer need to pass through shell
+- Remove now unused usershell()
+- Drop using shell to run menu (ipc exec) commands
+- Introduce EnvSubst()
+- actions.c: Drop elaborate GSOD messages on ipc exec errors
+- actions.c: Let Eexec() use ExecSetupEnv() too
+- ipc: Only include dialog_ok if ENABLE_DIALOGS
+- Disable setting internal window title via ipc (properly)
+- ipc: Enable setting dialog_ok title
+- Update COMPLIANCE
+- Remove gnome1 hint support
+- extinitwin: Fix errors in window mode when using old window cursor mode
+- New feature - Making windows stick on specific desks/areas
+- snaps.c: Cosmetics
+- Introduce Ememdup()
+- 1.0.24.000
+- edox: Don't try rendering text outside edox window
+- Do focus windows to be manually placed
+- matches.cfg: Correct help text regarding size matching
+- Implement matchregexp() using fnmatch()
+
+e16 v1.0.24 - 2021-11-14
 ------------------------
 - 1.0.24
 - Update po
