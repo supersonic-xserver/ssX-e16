@@ -468,6 +468,10 @@ ArrangeEwinCentered(EWin * ewin)
    int                 x, y;
 
    ArrangeEwinCenteredXY(ewin, &x, &y);
+   if (x < 0)
+      x = 0;
+   if (y < 0)
+      y = 0;
    EwinMove(ewin, x, y, 0);
 }
 
