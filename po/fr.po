@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
 "POT-Creation-Date: 2022-06-11 20:40+0200\n"
-"PO-Revision-Date: 2022-05-16 08:08+0200\n"
+"PO-Revision-Date: 2022-06-18 12:23+0200\n"
 "Last-Translator: Philippe Jean Guillaumie <similar@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1\n"
 
 #: src/about.c:35
 #, c-format
@@ -72,7 +72,7 @@ msgstr "Erreur d'Enlightenment"
 
 #: src/alert.c:582
 msgid "Enlightenment Message Dialog"
-msgstr "Dialogue Enlightenment"
+msgstr "Message d'Enlightenment"
 
 #: src/alert.c:582
 msgid "Ignore this"
@@ -199,7 +199,7 @@ msgstr "Trier par Image"
 
 #: src/backgrounds.c:2195
 msgid "Use dithering in Hi-Colour"
-msgstr "Utiliser le tramage (dithering) en mode Couleur (16 bits)"
+msgstr "Utiliser le tramage (dithering) en couleur 16 bits"
 
 #: src/backgrounds.c:2199
 msgid "Background overrides theme"
@@ -254,7 +254,7 @@ msgstr "CONFIG : omission des données superflues dans « %s »"
 #: src/config.c:206 src/config.c:299
 #, c-format
 msgid "CONFIG: missing required data in \"%s\""
-msgstr "CONFIG : absence des données requises dans « ghjkl%s »"
+msgstr "CONFIG : absence des données requises dans « %s »"
 
 #: src/config.c:216
 #, c-format
@@ -323,10 +323,10 @@ msgstr ""
 "changer le numéro de version.\n"
 "\n"
 "Si la version du thème est supérieure à celle\n"
-"d'Enlightenment, cela voudrait dire que vous ne l'avez\n"
-"pas mis à jour depuis quelques temps et que ce thème\n"
-"prend avantage de nouvelles fonctionnalités\n"
-"d'Enlightenment.\n"
+"d'Enlightenment, il se peut que vous ne l'ayez pas\n"
+"pas mis à jour depuis quelques temps, alors que ce\n"
+"thème utilise des nouvelles fonctionnalités ajoutées\n"
+"depuis dans Enlightenment.\n"
 
 #: src/config.c:609
 msgid "Enlightenment Starting..."
@@ -519,7 +519,7 @@ msgstr ""
 msgid ""
 "Click here to lower this desktop\n"
 "to the bottom."
-msgstr "Cliquez ici pour abaisser ce bureau"
+msgstr "Cliquez ici pour abaisser ce bureau."
 
 #: src/desktops.c:2600
 msgid "Number of virtual desktops:"
@@ -998,8 +998,8 @@ msgid ""
 msgstr ""
 "Enlightenment a causé une erreur de segmentation (Segfault)\n"
 "\n"
-"Cela signifie qu'Enlightenment (ou une des bibliothèques associées) a\n"
-"accédé à une zone de mémoire système qui ne lui était pas autorisée.\n"
+"Cela signifie que Enlightenment (ou une des bibliothèques associées) a\n"
+"accédé à une zone de mémoire système non autorisée.\n"
 "Il s'agit sûrement d'un bogue, il est recommandé de relancer\n"
 "Enlightenment maintenant. Si vous souhaitez aider à corriger ce bogue,\n"
 "compilez E16 avec les symboles de débogage (-g) et exécutez-le à\n"
@@ -1323,7 +1323,7 @@ msgstr "Bouton de la souris pour afficher le menu du Pager :"
 
 #: src/pager.c:1962
 msgid "Pagers"
-msgstr "Pager"
+msgstr "Pagers"
 
 #: src/pager.c:1962
 msgid "Pager Settings"
@@ -1361,7 +1361,7 @@ msgstr ""
 "Je survivrai quand même.\n"
 "\n"
 "\n"
-"... Enfin j'espère.\n"
+"... Enfin je l'espère.\n"
 
 #: src/session.c:602
 msgid "Are you sure?"
@@ -1441,8 +1441,7 @@ msgstr "Opaque+Tech."
 
 #: src/settings.c:144
 msgid "Avoid server grab"
-msgstr ""
-"Éviter de figer l'affichage pendant les changements de taille / position"
+msgstr "Éviter d'accaparer le serveur"
 
 #: src/settings.c:152
 msgid "Move/resize geometry info postion:"
@@ -1610,7 +1609,7 @@ msgstr "Activer les en-têtes sur les dialogues"
 
 #: src/settings.c:530
 msgid "Enable button images"
-msgstr "Images de Bouton (NdT : fonction désormais désactivée)"
+msgstr "Images de Bouton"
 
 #: src/settings.c:539
 msgid "Enable sliding startup windows"
@@ -1714,7 +1713,7 @@ msgstr ""
 "changer cette variable pour indiquer sur quel affichage Enlightenment\n"
 "doit se connecter. Il est possible que vous n'ayez aucun serveur X\n"
 "démarré (et donc en mesure de répondre à la demande de connexion), ou\n"
-"encore que vous ne soyez pas autorisé à vous connecter à l'affichage\n"
+"encore que vous ne soyez pas autorisé(e) à vous connecter à l'affichage\n"
 "défini dans la variable. Vous pouvez démarrer un serveur X en tapant\n"
 "xdm, startx, ou vous pouvez contacter votre administrateur, ou encore\n"
 "lire la documentation (man startx, man xdm, man X).\n"
@@ -1999,7 +1998,7 @@ msgstr "Utiliser d'autres réglages de police (%s)"
 
 #: src/theme.c:433
 msgid "not set"
-msgstr "Non défini"
+msgstr "non défini"
 
 #: src/theme.c:440
 msgid "Theme"
@@ -2228,7 +2227,7 @@ msgid ""
 "Clicking your mouse on the desktop will perform\n"
 "the following actions"
 msgstr ""
-"Cliquer sur le bureau pour exécuter les\n"
+"Cliquer sur le bureau effectuera les\n"
 "actions suivantes"
 
 #: config/strings.c:64
