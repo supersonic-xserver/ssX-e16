@@ -767,6 +767,27 @@ EventsCompress(XEvent * evq, int count)
 	   loop_quit_DestroyNotify:
 	     break;
 
+	  case ReparentNotify:
+	     /* Discard all but last reparent event for window */
+	     n = 0;
+	     for (j = i - 1; j >= 0; j--)
+	       {
+		  ev2 = evq + j;
+		  if (ev2->type == type &&
+		      ev2->xany.window == ev->xany.window &&
+		      ev2->xreparent.window == ev->xreparent.window)
+		    {
+		       n++;
+		       ev2->type = 0;
+		    }
+	       }
+#if ENABLE_DEBUG_EVENTS
+	     if (n && EDebug(EDBUG_TYPE_COMPRESSION))
+		Eprintf("%s: n=%4d %s %#lx\n", __func__,
+			n, EventName(type), ev->xreparent.window);
+#endif
+	     break;
+
 	  case Expose:
 	     n = 0;
 	     xa = ev->xexpose.x;
