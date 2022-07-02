@@ -1,8 +1,4 @@
-m4_define([pkg_version],  [1.0.25])
-#m4_define([pkg_revision], [000])
-m4_define([pkg_version],  m4_ifdef([pkg_revision], [pkg_version.pkg_revision], [pkg_version]))
-
-AC_INIT([e16],[pkg_version],[enlightenment-devel@lists.sourceforge.net])
+AC_INIT([e16],[1.0.25],[enlightenment-devel@lists.sourceforge.net])
 AM_INIT_AUTOMAKE([foreign dist-xz])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
