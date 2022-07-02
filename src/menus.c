@@ -1150,13 +1150,16 @@ MenusShowNamed(const char *name, const char *param)
    if (name2)
       name = name2;
 
+   m = MenuFind(name, param);
+   if (m && m->shown)
+      return;			/* Quit if already shown */
+
    /* Hide any menus currently up */
    if (MenusActive())
       MenusHide();
 
-   m = MenuFind(name, param);
    if (!m)
-      return;
+      return;			/* Quit if menu not found */
 
    if (!m->ewin)		/* Don't show if already shown */
       MenuShow(m, 0);
