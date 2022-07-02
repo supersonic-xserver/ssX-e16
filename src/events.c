@@ -668,9 +668,8 @@ EventsCompress(XEvent * evq, int count)
 
 	  case MotionNotify:
 	     /* Discard all but last motion event */
-	     j = i - 1;
 	     n = 0;
-	     for (; j >= 0; j--)
+	     for (j = i - 1; j >= 0; j--)
 	       {
 		  ev2 = evq + j;
 		  if (ev2->type == type)
