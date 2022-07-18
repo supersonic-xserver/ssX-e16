@@ -182,10 +182,24 @@ EdgeCheckMotion(int x, int y)
    EdgeEvent(dir);
 }
 
+static EObj        *
+EdgeWindowCreate(int which, int x, int y, int w, int h)
+{
+   static const char  *const names[] =
+      { "Edge-L", "Edge-R", "Edge-T", "Edge-B" };
+   EObj               *eo;
+
+   eo = EobjWindowCreate(EOBJ_TYPE_EVENT, x, y, w, h, 0, names[which & 3]);
+   ESelectInput(EobjGetWin(eo), EnterWindowMask | LeaveWindowMask);
+   EventCallbackRegister(EobjGetWin(eo), EdgeHandleEvents, INT2PTR(which));
+
+   return eo;
+}
+
 static void
 EdgeWindowShow(int which, int on)
 {
-   EObj               *eo;
+   EObj               *eo, **peo;
    int                 x, y, w, h;
 
    x = y = 0;
@@ -195,23 +209,31 @@ EdgeWindowShow(int which, int on)
      {
      default:
      case EW_L:		/* Left */
-	eo = w1;
+	peo = &w1;
 	h = WinGetH(VROOT);
 	break;
      case EW_R:		/* Right */
-	eo = w2;
+	peo = &w2;
 	x = WinGetW(VROOT) - 1;
 	h = WinGetH(VROOT);
 	break;
      case EW_T:		/* Top */
-	eo = w3;
+	peo = &w3;
 	w = WinGetW(VROOT);
 	break;
      case EW_B:		/* Bottom */
-	eo = w4;
+	peo = &w4;
 	y = WinGetH(VROOT) - 1;
 	w = WinGetW(VROOT);
 	break;
+     }
+
+   eo = *peo;
+   if (!eo)
+     {
+	eo = *peo = EdgeWindowCreate(which, x, y, w, h);
+	if (!eo)
+	   return;
      }
 
    if (on)
@@ -236,27 +258,6 @@ EdgeWindowsShow(void)
 	return;
      }
 
-   if (!w1)
-     {
-	w1 = EobjWindowCreate(EOBJ_TYPE_EVENT,
-			      0, 0, 1, WinGetH(VROOT), 0, "Edge-L");
-	w2 = EobjWindowCreate(EOBJ_TYPE_EVENT,
-			      WinGetW(VROOT) - 1, 0, 1, WinGetH(VROOT),
-			      0, "Edge-R");
-	w3 = EobjWindowCreate(EOBJ_TYPE_EVENT,
-			      0, 0, WinGetW(VROOT), 1, 0, "Edge-T");
-	w4 = EobjWindowCreate(EOBJ_TYPE_EVENT,
-			      0, WinGetH(VROOT) - 1, WinGetW(VROOT), 1,
-			      0, "Edge-B");
-	ESelectInput(EobjGetWin(w1), EnterWindowMask | LeaveWindowMask);
-	ESelectInput(EobjGetWin(w2), EnterWindowMask | LeaveWindowMask);
-	ESelectInput(EobjGetWin(w3), EnterWindowMask | LeaveWindowMask);
-	ESelectInput(EobjGetWin(w4), EnterWindowMask | LeaveWindowMask);
-	EventCallbackRegister(EobjGetWin(w1), EdgeHandleEvents, (void *)EW_L);
-	EventCallbackRegister(EobjGetWin(w2), EdgeHandleEvents, (void *)EW_R);
-	EventCallbackRegister(EobjGetWin(w3), EdgeHandleEvents, (void *)EW_T);
-	EventCallbackRegister(EobjGetWin(w4), EdgeHandleEvents, (void *)EW_B);
-     }
    DeskCurrentGetArea(&cx, &cy);
    DesksGetAreaSize(&ax, &ay);
 
