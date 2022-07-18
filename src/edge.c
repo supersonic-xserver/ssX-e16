@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2015 Kim Woelders
+ * Copyright (C) 2004-2021 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -32,6 +32,11 @@
 #include "menus.h"		/* FIXME - Should not be here */
 #include "timers.h"
 #include "xwin.h"
+
+#define EW_L	0		/* Left   */
+#define EW_R	1		/* Right  */
+#define EW_T	2		/* Top    */
+#define EW_B	3		/* Bottom */
 
 static EObj        *w1 = NULL, *w2 = NULL, *w3 = NULL, *w4 = NULL;
 static Timer       *edge_timer = NULL;
@@ -66,25 +71,25 @@ EdgeTimeout(void *data)
    day = 0;
    switch (val)
      {
-     case 0:
+     case EW_L:
 	if (ax == 0 && !Conf.desks.areas_wraparound)
 	   goto done;
 	dx = WinGetW(VROOT) - 2;
 	dax = -1;
 	break;
-     case 1:
+     case EW_R:
 	if (ax == (aw - 1) && !Conf.desks.areas_wraparound)
 	   goto done;
 	dx = -(WinGetW(VROOT) - 2);
 	dax = 1;
 	break;
-     case 2:
+     case EW_T:
 	if (ay == 0 && !Conf.desks.areas_wraparound)
 	   goto done;
 	dy = WinGetH(VROOT) - 2;
 	day = -1;
 	break;
-     case 3:
+     case EW_B:
 	if (ay == (ah - 1) && !Conf.desks.areas_wraparound)
 	   goto done;
 	dy = -(WinGetH(VROOT) - 2);
@@ -173,6 +178,7 @@ EdgeCheckMotion(int x, int y)
       dir = 3;
    else
       dir = -1;
+
    EdgeEvent(dir);
 }
 
@@ -188,20 +194,20 @@ EdgeWindowShow(int which, int on)
    switch (which)
      {
      default:
-     case 1:			/* Left */
+     case EW_L:		/* Left */
 	eo = w1;
 	h = WinGetH(VROOT);
 	break;
-     case 2:			/* Right */
+     case EW_R:		/* Right */
 	eo = w2;
 	x = WinGetW(VROOT) - 1;
 	h = WinGetH(VROOT);
 	break;
-     case 3:			/* Top */
+     case EW_T:		/* Top */
 	eo = w3;
 	w = WinGetW(VROOT);
 	break;
-     case 4:			/* Bottom */
+     case EW_B:		/* Bottom */
 	eo = w4;
 	y = WinGetH(VROOT) - 1;
 	w = WinGetW(VROOT);
@@ -246,18 +252,18 @@ EdgeWindowsShow(void)
 	ESelectInput(EobjGetWin(w2), EnterWindowMask | LeaveWindowMask);
 	ESelectInput(EobjGetWin(w3), EnterWindowMask | LeaveWindowMask);
 	ESelectInput(EobjGetWin(w4), EnterWindowMask | LeaveWindowMask);
-	EventCallbackRegister(EobjGetWin(w1), EdgeHandleEvents, (void *)0);
-	EventCallbackRegister(EobjGetWin(w2), EdgeHandleEvents, (void *)1);
-	EventCallbackRegister(EobjGetWin(w3), EdgeHandleEvents, (void *)2);
-	EventCallbackRegister(EobjGetWin(w4), EdgeHandleEvents, (void *)3);
+	EventCallbackRegister(EobjGetWin(w1), EdgeHandleEvents, (void *)EW_L);
+	EventCallbackRegister(EobjGetWin(w2), EdgeHandleEvents, (void *)EW_R);
+	EventCallbackRegister(EobjGetWin(w3), EdgeHandleEvents, (void *)EW_T);
+	EventCallbackRegister(EobjGetWin(w4), EdgeHandleEvents, (void *)EW_B);
      }
    DeskCurrentGetArea(&cx, &cy);
    DesksGetAreaSize(&ax, &ay);
 
-   EdgeWindowShow(1, cx != 0 || Conf.desks.areas_wraparound);
-   EdgeWindowShow(2, cx != (ax - 1) || Conf.desks.areas_wraparound);
-   EdgeWindowShow(3, cy != 0 || Conf.desks.areas_wraparound);
-   EdgeWindowShow(4, cy != (ay - 1) || Conf.desks.areas_wraparound);
+   EdgeWindowShow(EW_L, cx != 0 || Conf.desks.areas_wraparound);
+   EdgeWindowShow(EW_R, cx != (ax - 1) || Conf.desks.areas_wraparound);
+   EdgeWindowShow(EW_T, cy != 0 || Conf.desks.areas_wraparound);
+   EdgeWindowShow(EW_B, cy != (ay - 1) || Conf.desks.areas_wraparound);
 }
 
 void
