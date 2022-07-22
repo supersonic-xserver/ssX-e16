@@ -187,10 +187,14 @@ EdgeWindowCreate(int which, int x, int y, int w, int h)
 {
    static const char  *const names[] =
       { "Edge-L", "Edge-R", "Edge-T", "Edge-B" };
+   XSetWindowAttributes att;
    EObj               *eo;
 
    eo = EobjWindowCreate(EOBJ_TYPE_EVENT, x, y, w, h, 0, names[which & 3]);
    ESelectInput(EobjGetWin(eo), EnterWindowMask | LeaveWindowMask);
+   att.do_not_propagate_mask =
+      ButtonPressMask | ButtonReleaseMask | PointerMotionMask;
+   EChangeWindowAttributes(EobjGetWin(eo), CWDontPropagate, &att);
    EventCallbackRegister(EobjGetWin(eo), EdgeHandleEvents, INT2PTR(which));
 
    return eo;
