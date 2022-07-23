@@ -4,7 +4,7 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 AC_CONFIG_MACRO_DIR([m4])
 
-AM_CONDITIONAL(SRC_IS_GIT, m4_ifdef([pkg_revision], [test -d $srcdir/.git], [false]))
+AM_CONDITIONAL(SRC_IS_GIT, test -d $srcdir/.git)
 
 AC_USE_SYSTEM_EXTENSIONS
 
