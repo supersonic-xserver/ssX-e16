@@ -1996,7 +1996,7 @@ _DlgFillBackground(Dialog * d, DItem * table, void *data)
    table2 = DialogAddItem(table, DITEM_TABLE);
    DialogItemTableSetOptions(table2, 2, 0, 1, 0);
 
-   di = dd->bg_filename = DialogAddItem(table2, DITEM_TEXT);
+   dd->bg_filename = DialogAddItem(table2, DITEM_TEXT);
    BG_DialogSetFileName(dd->bg_filename);
 
    table3 = DialogAddItem(table2, DITEM_TABLE);

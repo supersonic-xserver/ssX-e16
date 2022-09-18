@@ -716,6 +716,8 @@ ArrangeEwins(const char *params)
    fixed = floating = ret = NULL;
 
    ArrangeGetRectList(&fixed, &nfix, &floating, &nflt, NULL);
+   if (!floating)
+      goto done;
 
    ret = ECALLOC(RectBox, nflt + nfix);
    if (!ret)

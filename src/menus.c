@@ -2015,7 +2015,7 @@ _DlgFillMenus(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemSetText(di, _("Warp pointer after moving menus"));
    DialogItemCheckButtonSetPtr(di, &dd->warp);
 
-   di = label = DialogAddItem(table, DITEM_TEXT);
+   label = DialogAddItem(table, DITEM_TEXT);
 
    di = DialogAddItem(table, DITEM_SLIDER);
    DialogItemSliderSetBounds(di, 12, 48);

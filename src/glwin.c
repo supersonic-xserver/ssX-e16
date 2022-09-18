@@ -441,6 +441,9 @@ SceneDraw(void)
    t = GetDTime();
 
    ewins = GlwinEwins(&num);
+   if (num <= 0)
+      goto done;
+
    if (sel_ewin < 0)
       sel_ewin = num - 1;
    else if (sel_ewin >= num)
@@ -459,6 +462,7 @@ SceneDraw(void)
 
    glXSwapBuffers(disp, EobjGetXwin(GLWin.eo));
 
+ done:
    Efree(ewins);
 
    rot_x += speed_x;

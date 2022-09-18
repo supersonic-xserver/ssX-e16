@@ -87,7 +87,7 @@ EnvSubst(const char *str, char *bptr, unsigned int blen)
 	p1 = strchr(si, '$');
 	if (!p1)
 	  {
-	     nw += snprintf(bptr + nw, blen - nw, "%s", si);
+	     snprintf(bptr + nw, blen - nw, "%s", si);
 	     break;
 	  }
 	len = p1 - si;

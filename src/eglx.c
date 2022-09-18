@@ -195,30 +195,30 @@ EGlInit(void)
 	   continue;
 
 #if 1
-	value = FBCATTR(fbc[i], GLX_FBCONFIG_ID, -1);
-	value = FBCATTR(fbc[i], GLX_CONFIG_CAVEAT, GLX_NONE);
-	value = FBCATTR(fbc[i], GLX_DRAWABLE_TYPE, GLX_PIXMAP_BIT);
-	value = FBCATTR(fbc[i], GLX_RENDER_TYPE, -1);
-	value = FBCATTR(fbc[i], GLX_X_VISUAL_TYPE, -1);
-	value = FBCATTR(fbc[i], GLX_X_RENDERABLE, -1);
-	value = FBCATTR(fbc[i], GLX_BUFFER_SIZE, -1);
-	value = FBCATTR(fbc[i], GLX_LEVEL, -1);
-	value = FBCATTR(fbc[i], GLX_TRANSPARENT_TYPE, -1);
+	FBCATTR(fbc[i], GLX_FBCONFIG_ID, -1);
+	FBCATTR(fbc[i], GLX_CONFIG_CAVEAT, GLX_NONE);
+	FBCATTR(fbc[i], GLX_DRAWABLE_TYPE, GLX_PIXMAP_BIT);
+	FBCATTR(fbc[i], GLX_RENDER_TYPE, -1);
+	FBCATTR(fbc[i], GLX_X_VISUAL_TYPE, -1);
+	FBCATTR(fbc[i], GLX_X_RENDERABLE, -1);
+	FBCATTR(fbc[i], GLX_BUFFER_SIZE, -1);
+	FBCATTR(fbc[i], GLX_LEVEL, -1);
+	FBCATTR(fbc[i], GLX_TRANSPARENT_TYPE, -1);
 #endif
 
 #if 1
-	value = FBCATTR(fbc[i], GLX_BIND_TO_TEXTURE_RGBA_EXT, 1);
+	FBCATTR(fbc[i], GLX_BIND_TO_TEXTURE_RGBA_EXT, 1);
 	value = FBCATTR(fbc[i], GLX_BIND_TO_TEXTURE_RGB_EXT, 1);
 	if (!value)
 	   continue;
-	value = FBCATTR(fbc[i], GLX_BIND_TO_MIPMAP_TEXTURE_EXT, -1);
-	value = FBCATTR(fbc[i], GLX_BIND_TO_TEXTURE_TARGETS_EXT,
-			GLX_TEXTURE_2D_BIT_EXT);
+	FBCATTR(fbc[i], GLX_BIND_TO_MIPMAP_TEXTURE_EXT, -1);
+	FBCATTR(fbc[i], GLX_BIND_TO_TEXTURE_TARGETS_EXT,
+		GLX_TEXTURE_2D_BIT_EXT);
 #if 0
 	if (!(value & GLX_TEXTURE_2D_BIT_EXT))
 	   continue;
 #endif
-	value = FBCATTR(fbc[i], GLX_Y_INVERTED_EXT, -1);
+	FBCATTR(fbc[i], GLX_Y_INVERTED_EXT, -1);
 #endif
 
 #if 1

@@ -379,7 +379,6 @@ ShowAlert(const char *title,
      }
    XSync(dd, False);
 
-   btn = 0;
    button = 0;
    for (; button == 0;)
      {
