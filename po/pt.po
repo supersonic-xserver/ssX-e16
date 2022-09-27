@@ -1,26 +1,25 @@
 # Portuguese translation for e16
 # This file is distributed under the same license as the enlightenment package.
-# Pedro Alexandre <miguel@linuxfreak.com>, 1999-2000.
-# Daniel Vieira Pereira <gunsmithcat@ip.pt>, 1999-2000.
-# Sérgio Marques <smarquespt@gmail.com>, 2010-2011
-# Adaptado ao acordo ortográfico de 1990
+# Pedro Alexandre <miguel@linuxfreak.com>, 1999, 2000.
+# Daniel Vieira Pereira <gunsmithcat@ip.pt>, 1999, 2000.
+# Sérgio Marques <smarquespt@gmail.com>, 2010, 2011.
+# Hugo Carvalho <hugokarvalho@hotmail.com>, 2020, 2021, 2022.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
 "POT-Creation-Date: 2022-06-11 20:40+0200\n"
-"PO-Revision-Date: 2011-04-05 11:11-0000\n"
-"Last-Translator: Sérgio Marques <smarquespt@gmail.com>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2022-09-27 15:38+0100\n"
+"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
+"Language-Team: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Launchpad-Export-Date: 2010-05-09 01:32+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
-"X-Poedit-Language: Portuguese\n"
-"X-Poedit-Country: Portugal\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: src/about.c:35
 #, c-format
@@ -44,7 +43,7 @@ msgstr ""
 "versão %s.\n"
 "Se encontrar erros, não hesite\n"
 "em nos enviar um relatório de erros.\n"
-"Esperamos que aprecie a programa.\n"
+"Esperamos que aprecie o software.\n"
 "\n"
 "The Rasterman - raster@rasterman.com\n"
 "Mandrake - mandrake@mandrake.net\n"
@@ -58,17 +57,15 @@ msgid "%u references remain"
 msgstr "Restam %u referências"
 
 #: src/actions.c:111 src/actions.c:132
-#, fuzzy, c-format
-#| msgid ""
-#| "There was an error running the program:\n"
-#| "%s"
+#, c-format
 msgid ""
 "There was a problem running the command\n"
 " '%s'\n"
 "Error: %m"
 msgstr ""
-"Ocorreu um erro ao executar o programa:\n"
-"%s"
+"Ocorreu um problema ao executar o comando\n"
+" '%s'\n"
+"Erro: %m"
 
 #: src/alert.c:211
 msgid "Enlightenment Error"
@@ -84,7 +81,7 @@ msgstr "Ignorar"
 
 #: src/alert.c:583
 msgid "Restart Enlightenment"
-msgstr "Reiniciar Enlightenment"
+msgstr "Reiniciar o Enlightenment"
 
 #: src/alert.c:583 src/setup.c:184
 msgid "Quit Enlightenment"
@@ -106,13 +103,13 @@ msgid ""
 "Name: %s\n"
 "File: %s"
 msgstr ""
-"Informações sobre as definições do fundo:\n"
+"Acerca da imagem de fundo:\n"
 "Nome: %s\n"
 "Ficheiro: %s"
 
 #: src/backgrounds.c:1515
 msgid "-NONE-"
-msgstr "-NENHUM-"
+msgstr "-NENHUMA-"
 
 #: src/backgrounds.c:1688 src/backgrounds.c:1690
 msgid ""
@@ -141,7 +138,7 @@ msgstr "Criar mosaico em todo ecrã"
 
 #: src/backgrounds.c:2022
 msgid "Move to front"
-msgstr "Mover para a rrente"
+msgstr "Mover para a frente"
 
 #: src/backgrounds.c:2027
 msgid "Duplicate"
@@ -153,7 +150,7 @@ msgstr "Tirar da lista"
 
 #: src/backgrounds.c:2036
 msgid "Delete file"
-msgstr "Apagar ficheiro"
+msgstr "Eliminar ficheiro"
 
 #: src/backgrounds.c:2046
 msgid ""
@@ -164,14 +161,14 @@ msgid ""
 "alignment\n"
 msgstr ""
 "Imagem de fundo\n"
-"Imagem\n"
-"Escala\n"
+"imagem\n"
+"escala\n"
 "e\n"
-"Alinhamento\n"
+"alinhamento\n"
 
 #: src/backgrounds.c:2099
 msgid "BG colour"
-msgstr "Côr da imagem de fundo"
+msgstr "Cor da imagem de fundo"
 
 #: src/backgrounds.c:2103
 msgid "Red:"
@@ -207,7 +204,7 @@ msgstr "Usar \"dithering\" em alta definição"
 
 #: src/backgrounds.c:2199
 msgid "Background overrides theme"
-msgstr "Imagem de fundo sobrepôe-se à do tema"
+msgstr "Imagem de fundo sobrepõe-se à do tema"
 
 #: src/backgrounds.c:2204
 msgid "Enable background transparency compatibility mode"
@@ -219,7 +216,7 @@ msgstr "Imagem de fundo"
 
 #: src/backgrounds.c:2227
 msgid "Desktop Background Settings"
-msgstr "Definições do ambiente de trabalho"
+msgstr "Definições da área de trabalho"
 
 #: src/backgrounds.c:2231
 msgid ""
@@ -332,7 +329,7 @@ msgstr ""
 
 #: src/config.c:609
 msgid "Enlightenment Starting..."
-msgstr "Inicializando o Enlightenment ..."
+msgstr "A iniciar o Enlightenment ..."
 
 #: src/container.c:1184
 msgid "Settings..."
@@ -394,11 +391,11 @@ msgstr "Localização da barra:"
 
 #: src/container.c:1597
 msgid "Left / Top"
-msgstr "Esquerda / Topo"
+msgstr "Esquerda / Superior"
 
 #: src/container.c:1602
 msgid "Right / Bottom"
-msgstr "Direita / Base"
+msgstr "Direita / Inferior"
 
 #: src/container.c:1611
 msgid "Scrollbar arrows:"
@@ -406,7 +403,7 @@ msgstr "Setas da barra:"
 
 #: src/container.c:1614
 msgid "Start"
-msgstr "Iniciar"
+msgstr "Início"
 
 #: src/container.c:1619
 msgid "Both ends"
@@ -485,12 +482,12 @@ msgid ""
 "applications currently running.\n"
 msgstr ""
 "Prima o botão do rato e arraste-o para\n"
-"poder mover o ambiente de trabalho\n"
+"poder mover a área de trabalho\n"
 "para trás e para a frente.\n"
 "Prima o botão direito do rato para uma lista\n"
-"de todos os ambientes e respetivas aplicações.\n"
-"Prima o botão do meio do rato para uma lista\n"
-"de todas as aplicações ativas.\n"
+"de todas as áreas de trabalho e respetivas\n"
+"aplicações. Prima o botão do meio do rato\n"
+"para uma lista de todas as aplicações ativas.\n"
 
 #: src/desktops.c:155
 msgid ""
@@ -501,10 +498,10 @@ msgid ""
 "Click middle mouse button for a list of all\n"
 "applications currently running.\n"
 msgstr ""
-"Este é o ambiente de trabalho \"root\".\n"
-"Este ambiente não pode ser arrastado.\n"
+"Esta é a área de trabalho \"root\".\n"
+"Esta área de trabalho não pode ser arrastada.\n"
 "Prima no botão direito do rato para uma lista\n"
-"de todos os ambientes e as suas aplicações\n"
+"de todas as áreas de trabalho e as suas aplicações\n"
 "Prima no botão do meio do rato para uma lista\n"
 "de todas as aplicações ativas.\n"
 
@@ -513,24 +510,24 @@ msgid ""
 "Click here to raise this desktop\n"
 "to the top."
 msgstr ""
-"Prima aqui para mover este\n"
-"ambiente de trabalho para o topo."
+"Prima aqui para mover esta área de\n"
+"trabalho para a parte superior."
 
 #: src/desktops.c:185
 msgid ""
 "Click here to lower this desktop\n"
 "to the bottom."
 msgstr ""
-"Prima aqui para mover este\n"
-"ambiente de trabalho para a base."
+"Prima aqui para mover esta área de\n"
+"trabalho para a parte inferior."
 
 #: src/desktops.c:2600
 msgid "Number of virtual desktops:"
-msgstr "Número de ambientes virtuais:"
+msgstr "Número de áreas de trabalho virtuais:"
 
 #: src/desktops.c:2628
 msgid "Slide desktops around when changing"
-msgstr "Deslizar ambiente de trabalho ao trocar"
+msgstr "Deslizar área de trabalho ao trocar"
 
 #: src/desktops.c:2633
 msgid "Desktop slide speed:"
@@ -538,23 +535,23 @@ msgstr "Velocidade do deslizamento:"
 
 #: src/desktops.c:2647
 msgid "Wrap desktops around"
-msgstr "Translineação dos ambientes"
+msgstr "Translineação das áreas de trabalho"
 
 #: src/desktops.c:2655
 msgid "Display desktop dragbar"
-msgstr "Exibir barra de arrasto do ambiente"
+msgstr "Exibir barra de arrastar da área de trabalho"
 
 #: src/desktops.c:2660
 msgid "Dragbar position:"
-msgstr "Posição da barra de arrasto:"
+msgstr "Posição da barra de arrastar:"
 
 #: src/desktops.c:2664
 msgid "Top"
-msgstr "Topo"
+msgstr "Superior"
 
 #: src/desktops.c:2670
 msgid "Bottom"
-msgstr "Base"
+msgstr "Inferior"
 
 #: src/desktops.c:2676 src/pager.c:1896 src/pager.c:1919 src/pager.c:1942
 msgid "Left"
@@ -566,27 +563,27 @@ msgstr "Direita"
 
 #: src/desktops.c:2690 src/menus-misc.c:566
 msgid "Desks"
-msgstr "Ambientes"
+msgstr "Áreas"
 
 #: src/desktops.c:2690
 msgid "Multiple Desktop Settings"
-msgstr "Opções dos ambientes de trabalho múltiplos"
+msgstr "Opções de várias áreas de trabalho"
 
 #: src/desktops.c:2694
 msgid ""
 "Enlightenment Multiple Desktop\n"
 "Settings Dialog"
 msgstr ""
-"Janela de definições dos ambientes\n"
+"Janela de definições das áreas\n"
 "de trabalho do Enlightenment"
 
 #: src/desktops.c:2789
 msgid "Virtual desktop size:"
-msgstr "Tamanho do ecrã virtual:"
+msgstr "Tamanho da área de trabalho virtual:"
 
 #: src/desktops.c:2828
 msgid "Wrap virtual desktops around"
-msgstr "Translinear ambientes virtuais"
+msgstr "Translinear áreas de trabalho virtuais"
 
 #: src/desktops.c:2834
 msgid "Edge flip mode:"
@@ -610,14 +607,14 @@ msgstr "Áreas"
 
 #: src/desktops.c:2865
 msgid "Virtual Desktop Settings"
-msgstr "Definições dos ambientes virtuais"
+msgstr "Definições das áreas de trabalho virtuais"
 
 #: src/desktops.c:2869
 msgid ""
 "Enlightenment Virtual Desktop\n"
 "Settings Dialog"
 msgstr ""
-"Janela de definições dos ambientes\n"
+"Janela de definições das áreas\n"
 "de trabalho do Enlightenment"
 
 #: src/dialog.c:688
@@ -631,7 +628,7 @@ msgid ""
 "Composite, Damage, Fixes, and Render\n"
 "extensions are loaded."
 msgstr ""
-"Não é possivel ativar o gestor de composição.\n"
+"Não é possível ativar o gestor de composição.\n"
 "Utilize xdpyinfo para verificar se as extensões\n"
 "Composite, Damage, Fixes e Render\n"
 "estão ativas."
@@ -673,18 +670,16 @@ msgid "Focus follows mouse clicks"
 msgstr "Foco segue clique do rato"
 
 #: src/focus.c:901
-#, fuzzy
 msgid "Clicking in a window does not raise it"
-msgstr "Ao clicar numa janela eleva-a sempre"
+msgstr "Clicar numa janela não a eleva"
 
 #: src/focus.c:907
 msgid "Clicking in a window always raises it"
 msgstr "Ao clicar numa janela eleva-a sempre"
 
 #: src/focus.c:913
-#, fuzzy
 msgid "Only primary mouse button can raise window"
-msgstr "Botão do rato para selecionar e arrastar janelas:"
+msgstr "Apenas o botão principal do rato pode elevar a janela"
 
 #: src/focus.c:923
 msgid "All new windows first get the focus"
@@ -700,8 +695,7 @@ msgstr "Apenas as novas janelas ganham foco"
 
 #: src/focus.c:942
 msgid "Only new dialogs whose owner is focused get the focus"
-msgstr ""
-"Apenas as novas caixas janelas que o proprietário tenha foco ganham foco"
+msgstr "Apenas as novas caixas janelas que o proprietário tenha foco ganham foco"
 
 #: src/focus.c:947
 msgid "Raise windows while switching focus"
@@ -741,7 +735,7 @@ msgstr "Incluir janelas minimizadas na lista de foco"
 
 #: src/focus.c:1004
 msgid "Include windows on other desks in focus list"
-msgstr "Incluir janelas de outros ambientes na lista de foco"
+msgstr "Incluir janelas de outras áreas na lista de foco"
 
 #: src/focus.c:1009
 msgid "Focus windows while switching"
@@ -761,8 +755,7 @@ msgstr "Enviar ponteiro do rato até janela ao mudar o foco"
 
 #: src/focus.c:1034
 msgid "Focuslist image display policy (if one operation fails, try the next):"
-msgstr ""
-"Política de exibição de imagens (se uma operação falhar, tentar a próxima):"
+msgstr "Política de exibição de imagens (se uma operação falhar, tentar a próxima):"
 
 #: src/focus.c:1038
 msgid "First E icon, then App icon"
@@ -941,6 +934,8 @@ msgid ""
 "Enlightenment Default\n"
 "Group Control Settings Dialog"
 msgstr ""
+"Predefinição Enlightenment\n"
+"Diálogo de definições de controlo de grupo"
 
 #: src/handlers.c:65
 #, c-format
@@ -954,6 +949,14 @@ msgid ""
 "re-compile Enlightenment and possibly any support libraries\n"
 "that you got in binary format to run Enlightenment.\n"
 msgstr ""
+"O Enlightenment executou uma instrução ilegal.\n"
+"\n"
+"Isto deve-se muito provavelmente ao facto de ter instalado e executado\n"
+"um binário do Enlightenment que foi compilado para uma marca ou\n"
+"modelo de CPU não 100%% idêntica ou compatível com a sua. Obtenha\n"
+"o pacote correto para o seu sistema, ou Recompile o Enlightenment e\n"
+"possivelmente quaisquer bibliotecas de suporte que obteve em formato\n"
+"binário para executar o Enlightenment.\n"
 
 #: src/handlers.c:76
 msgid ""
@@ -968,6 +971,15 @@ msgid ""
 "send in a useful bug report with backtrace information and variable\n"
 "dumps etc.\n"
 msgstr ""
+"O Enlightenment causou uma exceção de ponto flutuante.\n"
+"\n"
+"Isto significa que o Enlightenment ou as rotinas da biblioteca de suporte\n"
+"a que chama realizaram uma operação matemática ilegal (muito provavelmente\n"
+"dividindo um número por zero). Isto é muito provavelmente um erro. Recomenda-se\n"
+"que reinicie agora. Se deseja ajudar a corrigir isto, Compile o Enlightenment\n"
+"com símbolos de depuração dentro e execute o Enlightenment sob gdb para\n"
+"que possa retroceder para onde falhou e enviar um relatório de erro útil com\n"
+"informação de rasto e dumps variáveis, etc.\n"
 
 #: src/handlers.c:89
 msgid ""
@@ -982,6 +994,16 @@ msgid ""
 "useful bug report with backtrace information and variable\n"
 "dumps etc.\n"
 msgstr ""
+"O Enlightenment causou violação do segmento (Segfault)\n"
+"\n"
+"Isto significa que o Enlightenment ou as rotinas da biblioteca de suporte\n"
+"a que chama acederam a áreas da memória do seu sistema que não é\n"
+"permitido o acesso. Isto é muito provavelmente um erro. Recomenda-se\n"
+"que reinicie agora. Se deseja ajudar a corrigir isto, por favor compile\n"
+"o Enlightenment com símbolos de depuração e funcionamento Enlightenment\n"
+"sob gdb para que possa retroceder para onde falhou e enviar um\n"
+"relatório de erros útil com informação e variável de rasto\n"
+"dumps, etc.\n"
 
 #: src/handlers.c:102
 msgid ""
@@ -991,6 +1013,11 @@ msgid ""
 "It is highly unusual to cause Bus Errors on operational\n"
 "hardware.\n"
 msgstr ""
+"O Enlightenment causou um erro no Bus.\n"
+"\n"
+"Sugere-se que verifique o seu equipamento e instalação do.\n"
+"sistemas operativo. É altamente invulgar causar erros de Bus\n"
+"em hardware funcional.\n"
 
 #: src/hints.c:549
 msgid "Selection Error!"
@@ -1037,7 +1064,7 @@ msgid ""
 "\n"
 msgstr ""
 "Utilize \"help all\" para uma descrição de cada comando\n"
-"Utilize \"help <command>\" para a descrição de um comando\n"
+"Utilize \"help <command>\" para uma descrição individual\n"
 "\n"
 
 #: src/ipc.c:2000 src/ipc.c:2024 src/ipc.c:2036
@@ -1137,12 +1164,12 @@ msgstr "Lista de janelas"
 
 #: src/menus-misc.c:549
 msgid "Go to this Desktop"
-msgstr "Ir para este ambiente"
+msgstr "Ir para esta área de trabalho"
 
 #: src/menus-misc.c:553 src/menus-misc.c:647
 #, c-format
 msgid "Desktop %i"
-msgstr "Ambiente de trabalho %i"
+msgstr "Área de trabalho %i"
 
 #: src/menus-misc.c:597
 msgid "Show/Hide this group"
@@ -1203,7 +1230,7 @@ msgstr "Colar / Descolar"
 
 #: src/pager.c:1015
 msgid "Desktop Options"
-msgstr "Opções do ambiente de trabalho"
+msgstr "Opções da área de trabalho"
 
 #: src/pager.c:1021
 msgid "Pager Settings..."
@@ -1235,7 +1262,7 @@ msgstr "Ativar ampliação"
 
 #: src/pager.c:1791 src/pager.c:1878
 msgid "Pager scanning speed:"
-msgstr "Velocidade do paginador"
+msgstr "Velocidade do paginador:"
 
 #: src/pager.c:1792 src/pager.c:1879
 msgid "lines per second"
@@ -1287,7 +1314,7 @@ msgstr "Central"
 
 #: src/pager.c:1915
 msgid "Mouse button to select desktops:"
-msgstr "Botão do rato para selecionar ambientes de trabalho:"
+msgstr "Botão do rato para selecionar áreas de trabalho:"
 
 #: src/pager.c:1938
 msgid "Mouse button to display pager menu:"
@@ -1306,6 +1333,8 @@ msgid ""
 "Enlightenment Desktop & Area\n"
 "Pager Settings Dialog"
 msgstr ""
+"Janela de definições da área do paginador\n"
+"e do ambiente de trabalho Enlightenment"
 
 #: src/session.c:321
 msgid ""
@@ -1371,7 +1400,7 @@ msgstr "Ativar reiniciar/desligar ao terminar sessão"
 
 #: src/session.c:756
 msgid "Session"
-msgstr "sessão"
+msgstr "Sessão"
 
 #: src/session.c:756
 msgid "Session Settings"
@@ -1402,17 +1431,16 @@ msgid "Technical"
 msgstr "Técnico"
 
 #: src/settings.c:120 src/settings.c:125 src/settings.c:408
-#, fuzzy
 msgid "TechOpaque"
-msgstr "Opaco"
+msgstr "Opaco+Tech"
 
 #: src/settings.c:144
 msgid "Avoid server grab"
-msgstr ""
+msgstr "Evite a captura do servidor"
 
 #: src/settings.c:152
 msgid "Move/resize geometry info postion:"
-msgstr ""
+msgstr "Coordenadas geométricas da janela:"
 
 #: src/settings.c:156
 msgid "Window center (O/T/B methods)"
@@ -1420,7 +1448,7 @@ msgstr "Centralização da janela (métodos O/T/B/)"
 
 #: src/settings.c:162
 msgid "Always screen corner"
-msgstr ""
+msgstr "Sempre no canto do ecrã"
 
 #: src/settings.c:168
 msgid "Don't show"
@@ -1428,7 +1456,7 @@ msgstr "Não mostrar"
 
 #: src/settings.c:178
 msgid "Default resize policy:"
-msgstr "Política de ajustamento por omissão:"
+msgstr "Política de ajustamento predefinida:"
 
 #: src/settings.c:182
 msgid "Conservative"
@@ -1448,58 +1476,55 @@ msgstr "Atualizar janela ao mover"
 
 #: src/settings.c:209
 msgid "Synchronize move/resize with application"
-msgstr "Sincronizar movimentação/ajustamento com a aplicação"
+msgstr "Sincronizar mover/redimensionar com a aplicação"
 
 #: src/settings.c:214
 msgid "Do not cover dragbar"
-msgstr "Não cobrir a barra de arrasto"
+msgstr "Não cobrir a barra de arrastar"
 
 #: src/settings.c:219
 msgid "Enable smart maximization"
-msgstr ""
+msgstr "Ativar maximização inteligente"
 
 #: src/settings.c:224
 msgid "Animate window maximization"
-msgstr ""
+msgstr "Animar o maximizar da janela"
 
 #: src/settings.c:228
-#, fuzzy
 msgid "Maximization animation speed:"
-msgstr "Velocidade da animação:"
+msgstr "Velocidade de animação da maximização:"
 
 #: src/settings.c:240
-#, fuzzy
-#| msgid "Resistance at edge of screen:"
 msgid "Resistance at screen boundaries:"
-msgstr "Resistência no limiar do ecrã:"
+msgstr "Resistência nos limites do ecrã:"
 
 #: src/settings.c:250
-#, fuzzy
-#| msgid "Resistance at edge of screen:"
 msgid "Resistance at window boundaries:"
-msgstr "Resistência no limiar do ecrã:"
+msgstr "Resistência nos limites da janela:"
 
 #: src/settings.c:262
 msgid "Move/Resize"
-msgstr "Mover/Ajustar"
+msgstr "Mover/Redimensionar"
 
 #: src/settings.c:262
 msgid "Move & Resize Settings"
-msgstr "Definições de movimentação e ajuste"
+msgstr "Definições do mover e redimensionar"
 
 #: src/settings.c:266
 msgid ""
 "Enlightenment Move & Resize\n"
 "Method Settings Dialog"
 msgstr ""
+"Janela das definições do método do\n"
+"mover e redimensionar do Enlightenment"
 
 #: src/settings.c:357
 msgid "Dialog windows appear together with their owner"
-msgstr "Janela de diálogo aparece sempre com o seu proprietário"
+msgstr "Janelas de diálogo aparecem juntas com o seu dono"
 
 #: src/settings.c:362
 msgid "Switch to desktop where dialog appears"
-msgstr "Mudar para o ambiente onde apareçe a janela"
+msgstr "Mudar para a área de trabalho onde a janela aparece"
 
 #: src/settings.c:370
 msgid "Place windows manually"
@@ -1527,31 +1552,31 @@ msgstr "Método de deslize:"
 
 #: src/settings.c:420
 msgid "Appear slide speed:"
-msgstr ""
+msgstr "Velocidade de aparecimento das janelas:"
 
 #: src/settings.c:429
 msgid "Cleanup slide speed:"
-msgstr ""
+msgstr "Velocidade de limpeza das janelas:"
 
 #: src/settings.c:442
 msgid "Animate shading and unshading of windows"
-msgstr "Animar o escurecimento e o clarear das janelas"
+msgstr "Animar o enrolamento e o desenrolamento das janelas"
 
 #: src/settings.c:446
 msgid "Window shading speed:"
-msgstr "Velocidade do escurecimento da janela:"
+msgstr "Velocidade do enrolamento da janela:"
 
 #: src/settings.c:459
 msgid "Ignore struts/panels for placing normal windows"
-msgstr ""
+msgstr "Ignorar suportes/painéis para colocar janelas normais"
 
 #: src/settings.c:464
 msgid "Ignore struts/panels when windows are fullscreen"
-msgstr ""
+msgstr "Ignorar suportes/painéis quando as janelas estiverem em ecrã completo"
 
 #: src/settings.c:469
 msgid "Ignore struts/panels when maximizing windows"
-msgstr ""
+msgstr "Ignorar suportes/painéis ao maximizar janelas"
 
 #: src/settings.c:474
 msgid "Raise fullscreen windows"
@@ -1571,7 +1596,7 @@ msgid ""
 "Settings Dialog"
 msgstr ""
 "Janela de definições do posicionamento\n"
-"das janelas do Enlightenment "
+"das janelas do Enlightenment"
 
 #: src/settings.c:524
 msgid "Enable dialog headers"
@@ -1583,11 +1608,11 @@ msgstr "Ativar imagem nos botões"
 
 #: src/settings.c:539
 msgid "Enable sliding startup windows"
-msgstr ""
+msgstr "Ativar janelas de arranque deslizantes"
 
 #: src/settings.c:550
 msgid "Magwin zoom resolution"
-msgstr ""
+msgstr "Resolução da lupa"
 
 #: src/settings.c:562 config/strings.c:137 config/strings.c:154
 msgid "Miscellaneous"
@@ -1595,13 +1620,15 @@ msgstr "Diversos"
 
 #: src/settings.c:562
 msgid "Miscellaneous Settings"
-msgstr "Definições diversas"
+msgstr "Definições de diversos"
 
 #: src/settings.c:566
 msgid ""
 "Enlightenment Miscellaneous\n"
 "Settings Dialog"
 msgstr ""
+"Janela das definições de\n"
+"diversos do Enlightenment"
 
 #: src/settings.c:602
 msgid "Enable composite"
@@ -1621,11 +1648,11 @@ msgstr "Desligar sombras"
 
 #: src/settings.c:633
 msgid "Shadows Sharp"
-msgstr "Precisão das sombras"
+msgstr "Sombras nítidas"
 
 #: src/settings.c:639
 msgid "Shadows Sharp2"
-msgstr "Precisão das sombras 2"
+msgstr "Sombras nítidas2"
 
 #: src/settings.c:645
 msgid "Shadows Blurred"
@@ -1633,15 +1660,15 @@ msgstr "Sombras desfocadas"
 
 #: src/settings.c:654
 msgid "Default focused window opacity:"
-msgstr ""
+msgstr "Opacidade predefinida das janelas com foco:"
 
 #: src/settings.c:663
 msgid "Default unfocused window opacity:"
-msgstr ""
+msgstr "Opacidade predefinida das janelas sem foco:"
 
 #: src/settings.c:672
 msgid "Default pop-up window opacity:"
-msgstr ""
+msgstr "Opacidade predefinida da janela pop-up:"
 
 #: src/settings.c:683
 msgid "Composite"
@@ -1656,6 +1683,8 @@ msgid ""
 "Enlightenment Composite\n"
 "Settings Dialog"
 msgstr ""
+"Janela de definições da\n"
+"composição do Enlightenment"
 
 #: src/settings.c:767
 msgid "Enlightenment Settings"
@@ -1679,14 +1708,14 @@ msgstr ""
 "variável o nome do ecrã no qual deseja que o Enlightenment\n"
 "se ligue. Pode ser que não tenha um servidor X ativo para\n"
 "servir de ligação ou que não tenha permissões para se ligar\n"
-"a esse ecrã. Por favor, verifique estas condições antes de\n"
-"tentar novamente. Execute o servidor X com xdm ou startx ou\n"
+"a esse ecrã. Verifique estas condições antes de tentar\n"
+"novamente. Execute o servidor X com xdm ou startx ou\n"
 "contacte o seu fornecedor/administrador de sistemas ou então\n"
 "leia os manuais do X, xdm e startx, antes de continuar.\n"
 
 #: src/setup.c:162
 msgid "Another Window Manager is already running"
-msgstr "Já está ativo outro gestor de janelas"
+msgstr "Outro Gestor de Janelas já está em execução"
 
 #: src/setup.c:164
 msgid ""
@@ -1695,14 +1724,18 @@ msgid ""
 "You will have to quit your current Window Manager first before\n"
 "you can successfully run Enlightenment.\n"
 msgstr ""
+"Outro Gestor de Janelas já está em execução.\n"
+"\n"
+"Terá que sair primeiro do seu Gestor de Janelas atual antes\n"
+"de poder executar com sucesso o Enlightenment.\n"
 
 #: src/setup.c:175
 msgid "Cannot select root window button press events"
-msgstr ""
+msgstr "Não é possível selecionar os eventos do pressionar do botão da área de trabalho principal"
 
 #: src/setup.c:177
 msgid "Root window button actions will not work.\n"
-msgstr ""
+msgstr "As ações do botão de janela do root não funcionarão.\n"
 
 #: src/setup.c:183
 msgid "X server version error"
@@ -1767,7 +1800,7 @@ msgstr "Tamanho"
 
 #: src/snaps.c:817 config/strings.c:90 config/strings.c:112
 msgid "Desktop"
-msgstr "Ambiente de trabalho"
+msgstr "Área de trabalho"
 
 #: src/snaps.c:822
 msgid "Shaded state"
@@ -1803,11 +1836,11 @@ msgstr "Reiniciar aplicação ao iniciar sessão"
 
 #: src/snaps.c:892
 msgid "Remember this window's group(s)"
-msgstr "Lembrar o(s) grupo(s) desta janela"
+msgstr "Memorizar o(s) grupo(s) desta janela"
 
 #: src/snaps.c:899
 msgid "Remembered Application Attributes"
-msgstr "Lembrar atributos das aplicações"
+msgstr "Memorizar atributos das aplicações"
 
 #: src/snaps.c:903
 msgid ""
@@ -1815,14 +1848,17 @@ msgid ""
 "window you wish to Remember\n"
 "from now on\n"
 msgstr ""
+"Selecione os atributos desta\n"
+"janela que deseja Memorizar\n"
+"a partir de agora\n"
 
 #: src/snaps.c:991
 msgid "Delete"
-msgstr "Apagar"
+msgstr "Eliminar"
 
 #: src/snaps.c:1017
 msgid "Remembered settings..."
-msgstr "Definições gravadas..."
+msgstr "Definições memorizadas..."
 
 #: src/snaps.c:1024
 msgid "Unused"
@@ -1834,17 +1870,19 @@ msgstr "Não existem janelas ativas para os atributos memorizados."
 
 #: src/snaps.c:1043
 msgid "Remember"
-msgstr "Lembrar"
+msgstr "Memorizar"
 
 #: src/snaps.c:1043
 msgid "Remembered Windows Settings"
-msgstr "Definições de janelas gravadas"
+msgstr "Definições de janelas memorizadas"
 
 #: src/snaps.c:1047
 msgid ""
 "Enlightenment Remembered\n"
 "Windows Settings Dialog"
 msgstr ""
+"Janela de definições de janelas\n"
+"memorizadas do Enlightenment"
 
 #: src/snaps.c:1158
 msgid "Error saving snaps file"
@@ -1863,7 +1901,8 @@ msgid ""
 "Enlightenment will continue to operate, but you\n"
 "may wish to check your configuration settings.\n"
 msgstr ""
-"Atenção! O Enlightenment não conseguiu carregarno seguinte ficheiro de som:\n"
+"Atenção! O Enlightenment não conseguiu carregar o\n"
+"seguinte ficheiro de som:\n"
 "%s\n"
 "O Enlightenment continuará a funcionar, mas\n"
 "aconselhamos que verifique a sua configuração.\n"
@@ -1879,6 +1918,9 @@ msgid ""
 "communicating with the audio server (%s).\n"
 "Audio will now be disabled.\n"
 msgstr ""
+"O áudio foi ativado para o Enlightenment, mas ocorreu um erro\n"
+"ao comunicar com o servidor de áudio (%s).\n"
+"O áudio será agora desativado.\n"
 
 #: src/sound.c:533
 msgid "Enable sounds"
@@ -1897,30 +1939,32 @@ msgid ""
 "Enlightenment Audio\n"
 "Settings Dialog"
 msgstr ""
+"Janela de definições áudio\n"
+"do Enlightenment"
 
 #: src/systray.c:331 src/systray.c:431 src/systray.c:439
 msgid "Systray Error!"
-msgstr "Erro do \"systray\""
+msgstr "Erro da área de notificação!"
 
 #: src/systray.c:331
 msgid "Systray went elsewhere?!?"
-msgstr "Para onde foi o \"systray\"???"
+msgstr "Para onde foi a área de notificação?!?"
 
 #: src/systray.c:431
 msgid "Only one systray is allowed"
-msgstr "Só é permitido um \"systray\""
+msgstr "Apenas é permitida uma área de notificação"
 
 #: src/systray.c:439
 msgid "Could not activate systray"
-msgstr "Não foi possível ativar o \"systray\""
+msgstr "Não foi possível ativar a área de notificação"
 
 #: src/systray.c:449
 msgid "Systray Options"
-msgstr "Opções do \"Systray\""
+msgstr "Opções da Área de notificação"
 
 #: src/systray.c:450
 msgid "Systray Settings"
-msgstr "Definições do \"Systray\""
+msgstr "Definições da Área de notificação"
 
 #: src/theme.c:366
 #, c-format
@@ -1948,7 +1992,7 @@ msgstr "Utilizar configuração alternativa (%s)"
 
 #: src/theme.c:433
 msgid "not set"
-msgstr "Não definido"
+msgstr "não definido"
 
 #: src/theme.c:440
 msgid "Theme"
@@ -1991,26 +2035,28 @@ msgid ""
 "Enlightenment Tooltip\n"
 "Settings Dialog"
 msgstr ""
+"Janela de definições de\n"
+"dica do Enlightenment"
 
 #: config/strings.c:5
 msgid ""
 "Click and drag to move desktop\n"
 "(on any desktop but desktop 0)"
 msgstr ""
-"Clique e arraste para mover o ambiente\n"
-"(para qualquer um excepto o ambiente 0)"
+"Clique e arraste para mover a área de trabalho\n"
+"(para qualquer uma excepto a área de trabalho 0)"
 
 #: config/strings.c:6 config/strings.c:8
 msgid "Switch desktops"
-msgstr "Trocar de ambientes"
+msgstr "Trocar de áreas de trabalho"
 
 #: config/strings.c:7
 msgid "Go to the next desktop"
-msgstr "Ir para o ecrã seguinte."
+msgstr "Ir para a área de trabalho seguinte"
 
 #: config/strings.c:9
 msgid "Go to the previous desktop"
-msgstr "Ir para o ecrã anterior."
+msgstr "Ir para a área de trabalho anterior"
 
 #: config/strings.c:10
 msgid "Move"
@@ -2019,23 +2065,23 @@ msgstr "Mover"
 #: config/strings.c:11 config/strings.c:23 config/strings.c:26
 #: config/strings.c:29
 msgid "Move this window"
-msgstr "Mover esta janela."
+msgstr "Mover esta janela"
 
 #: config/strings.c:12 config/strings.c:14 config/strings.c:48
 msgid "Shade/unshade this window"
-msgstr "Escurecer/clarear esta janela."
+msgstr "Escurecer/clarear esta janela"
 
 #: config/strings.c:13 config/strings.c:50 config/strings.c:53
 msgid "Show the Window Options menu"
-msgstr "Mostrar o menu de opções da janela."
+msgstr "Mostrar o menu de opções da janela"
 
 #: config/strings.c:15
 msgid "Show/hide group borders"
-msgstr "Mostrar/ocultar contornos dos grupos."
+msgstr "Mostrar/ocultar contornos dos grupos"
 
 #: config/strings.c:16
 msgid "Start a group"
-msgstr "Iniciar um grupo."
+msgstr "Iniciar um grupo"
 
 #: config/strings.c:17
 msgid "Add to current group"
@@ -2043,7 +2089,7 @@ msgstr "Adicionar ao grupo atual"
 
 #: config/strings.c:18
 msgid "Break this window's group"
-msgstr "Quebrar este grupo de janelas."
+msgstr "Quebrar este grupo de janelas"
 
 #: config/strings.c:19
 msgid "Shade"
@@ -2059,7 +2105,7 @@ msgstr "Ajustar"
 
 #: config/strings.c:22
 msgid "Resize this window"
-msgstr "Ajustar esta janela."
+msgstr "Redimensionar esta janela"
 
 #: config/strings.c:24
 msgid "Resize horizontally"
@@ -2067,7 +2113,7 @@ msgstr "Ajustar horizontalmente"
 
 #: config/strings.c:25
 msgid "Resize this window horizontally"
-msgstr "Ajustar esta janela horizontalmente."
+msgstr "Redimensionar esta janela horizontalmente"
 
 #: config/strings.c:27
 msgid "Resize vertically"
@@ -2079,11 +2125,11 @@ msgstr "Ajustar esta janela verticalmente"
 
 #: config/strings.c:31
 msgid "Close this window"
-msgstr "Fechar esta janela."
+msgstr "Fechar esta janela"
 
 #: config/strings.c:32
 msgid "Forcibly destroy this window"
-msgstr "Destruir esta janela."
+msgstr "Destruir à força esta janela"
 
 #: config/strings.c:33
 msgid "Maximize height"
@@ -2091,7 +2137,7 @@ msgstr "Altura máxima"
 
 #: config/strings.c:34 config/strings.c:40
 msgid "Toggle between maximum screen height and normal height"
-msgstr ""
+msgstr "Alternar entre a altura máxima do ecrã e a altura normal"
 
 #: config/strings.c:35
 msgid "Maximize width"
@@ -2099,7 +2145,7 @@ msgstr "Maximizar altura"
 
 #: config/strings.c:36 config/strings.c:39
 msgid "Toggle between maximum screen width and normal width"
-msgstr ""
+msgstr "Alternar entre a largura máxima do ecrã e a largura normal"
 
 #: config/strings.c:37
 msgid "Maximize"
@@ -2107,19 +2153,19 @@ msgstr "Maximizar"
 
 #: config/strings.c:38
 msgid "Toggle between maximum screen size and normal size"
-msgstr ""
+msgstr "Alternar entre o tamanho máximo do ecrã e o tamanho normal"
 
 #: config/strings.c:41 config/strings.c:43
 msgid "Send to another desktop"
-msgstr "Enviar para outro ambiente de trabalho"
+msgstr "Enviar para outra área de trabalho"
 
 #: config/strings.c:42
 msgid "Send this window to the next desktop"
-msgstr "Enviar esta janela para o ecrã seguinte."
+msgstr "Enviar esta janela para a área de trabalho seguinte"
 
 #: config/strings.c:44
 msgid "Send this window to the previous desktop"
-msgstr "Enviar esta janela para o ecrã anterior."
+msgstr "Enviar esta janela para a área de trabalho anterior"
 
 #: config/strings.c:45
 msgid "Snapshot"
@@ -2127,7 +2173,7 @@ msgstr "Captura"
 
 #: config/strings.c:46
 msgid "This button does nothing interesting"
-msgstr "Este botão não faz nada de interessante."
+msgstr "Este botão não faz nada de interessante"
 
 #: config/strings.c:47 config/strings.c:129
 msgid "Shade/unshade"
@@ -2135,7 +2181,7 @@ msgstr "Escurecer/clarear"
 
 #: config/strings.c:52
 msgid "Iconify (Minimize) this window."
-msgstr "Minimizar esta janela"
+msgstr "Minimizar esta janela."
 
 #: config/strings.c:54
 msgid "More buttons"
@@ -2151,7 +2197,7 @@ msgstr "Elevar"
 
 #: config/strings.c:57
 msgid "Raise this window to the top"
-msgstr "Elevar esta janela para o topo."
+msgstr "Elevar esta janela para o topo"
 
 #: config/strings.c:58 config/strings.c:128
 msgid "Lower"
@@ -2167,14 +2213,14 @@ msgstr "Colar/Descolar"
 
 #: config/strings.c:61
 msgid "Toggle the Omnipresent (visible on all Desktops) state of this window."
-msgstr "Alternar a omnipresência desta janela (visível em todos os ambientes)."
+msgstr "Alternar o estado Omnipresente (visível em todas as áreas de trabalho) desta janela."
 
 #: config/strings.c:63
 msgid ""
 "Clicking your mouse on the desktop will perform\n"
 "the following actions"
 msgstr ""
-"Ao clicar com o rato no ambiente de trabalho vai\n"
+"Ao clicar com o rato na área de trabalho irá\n"
 "executar as seguintes ações"
 
 #: config/strings.c:64
@@ -2195,7 +2241,7 @@ msgstr "Exibir menu da lista de tarefas"
 
 #: config/strings.c:69
 msgid "Display Desktop menu"
-msgstr "Exibir menu do ambiente de trabalho"
+msgstr "Exibir menu da área de trabalho"
 
 #: config/strings.c:70
 msgid "Display Group menu"
@@ -2203,31 +2249,31 @@ msgstr "Exibir menu de grupos"
 
 #: config/strings.c:72
 msgid "Go back a desktop"
-msgstr "Recuar para um ambiente"
+msgstr "Recuar uma área de trabalho"
 
 #: config/strings.c:73
 msgid "Go forward a desktop"
-msgstr "Avançar para um ambiente"
+msgstr "Avançar uma área de trabalho"
 
 #: config/strings.c:78
 msgid "Desktop Operations"
-msgstr "Operações do ambiente de trabalho"
+msgstr "Operações da área de trabalho"
 
 #: config/strings.c:80
 msgid "Cleanup desktop"
-msgstr "Limpar ambiente"
+msgstr "Limpar área de trabalho"
 
 #: config/strings.c:81
 msgid "Goto next desktop"
-msgstr "Ir para o ecrã seguinte"
+msgstr "Ir para a área de trabalho seguinte"
 
 #: config/strings.c:82
 msgid "Goto previous desktop"
-msgstr "Ir para o ecrã anterior"
+msgstr "Ir para a área de trabalho anterior"
 
 #: config/strings.c:84
 msgid "Create systray"
-msgstr "Criar \"systray\""
+msgstr "Criar uma área de notificação"
 
 #: config/strings.c:85
 msgid "Show magnifier"
@@ -2271,53 +2317,51 @@ msgstr "Sair"
 
 #: config/strings.c:100
 msgid "Purge config file cache"
-msgstr "Excluir ficheiros de configuração"
+msgstr "Limpar ficheiros de configuração"
 
 #: config/strings.c:101
 msgid "Purge pager background cache"
-msgstr ""
+msgstr "Limpar cache de fundo do paginador"
 
 #: config/strings.c:102
 msgid "Purge background selector cache"
-msgstr ""
+msgstr "Limpar cache do seletor de fundo"
 
 #: config/strings.c:103
 msgid "Purge all caches"
-msgstr "Eliminar todas as caches"
+msgstr "Limpar todas as caches"
 
 #: config/strings.c:104
 msgid "Query config file cache usage"
-msgstr ""
+msgstr "Verificar o tamanho da cache dos ficheiros de configuração"
 
 #: config/strings.c:105
 msgid "Query pager background cache usage"
-msgstr ""
+msgstr "Verificar o tamanho da cache de fundo do paginador"
 
 #: config/strings.c:106
 msgid "Query background selector cache usage"
-msgstr ""
+msgstr "Verificar o tamanho da cache do seletor de fundo"
 
 #: config/strings.c:107
 msgid "Query all cache usage"
-msgstr ""
+msgstr "Verificar o tamanho de todas as caches"
 
 #: config/strings.c:108
 msgid "Regenerate menus"
 msgstr "Regenerar os menus"
 
 #: config/strings.c:118
-#, fuzzy
-#| msgid "Theme Settings"
 msgid "Theme menu"
-msgstr "Definições do tema"
+msgstr "Menu do tema"
 
 #: config/strings.c:126
 msgid "Leave alone"
-msgstr "Deixar como está"
+msgstr "Deixar sozinha"
 
 #: config/strings.c:131
 msgid "Remember..."
-msgstr "Lembrar..."
+msgstr "Memorizar..."
 
 #: config/strings.c:132
 msgid "Window size"
@@ -2325,11 +2369,11 @@ msgstr "Tamanho da janela"
 
 #: config/strings.c:133
 msgid "Set stacking"
-msgstr "Defina o empilhamento"
+msgstr "Definir empilhamento"
 
 #: config/strings.c:134
 msgid "Set border style"
-msgstr "Definir os contornos"
+msgstr "Definir o estilo do contorno"
 
 #: config/strings.c:135
 msgid "Window groups"
@@ -2337,7 +2381,7 @@ msgstr "Grupos de janelas"
 
 #: config/strings.c:140
 msgid "Configure this window's group(s)"
-msgstr "Configurar o(s) grupo(s) desta janela "
+msgstr "Configurar o(s) grupo(s) desta janela"
 
 #: config/strings.c:141
 msgid "Start a new group"
@@ -2349,7 +2393,7 @@ msgstr "Adicionar esta janela ao grupo atual"
 
 #: config/strings.c:143
 msgid "Select group to add this window to"
-msgstr "Selecione o grupo ao qual quer adicionar esta janela"
+msgstr "Selecionar o grupo ao qual quer adicionar esta janela"
 
 #: config/strings.c:144
 msgid "Remove this window from a group"
@@ -2364,10 +2408,8 @@ msgid "Stacking"
 msgstr "Empilhar"
 
 #: config/strings.c:148
-#, fuzzy
-#| msgid "Lower"
 msgid "Lowest"
-msgstr "Baixar"
+msgstr "Mais baixo"
 
 #: config/strings.c:149
 msgid "Below"
@@ -2383,53 +2425,51 @@ msgstr "Acima"
 
 #: config/strings.c:152
 msgid "Highest"
-msgstr "No topo"
+msgstr "Mais alto"
 
 #: config/strings.c:155
 msgid "Toggle skip window lists"
-msgstr ""
+msgstr "Alternar ignorar listas de janelas"
 
 #: config/strings.c:156
 msgid "Toggle fixed position"
-msgstr ""
+msgstr "Alternar posição fixa"
 
 #: config/strings.c:157
 msgid "Toggle fixed size"
-msgstr ""
+msgstr "Alternar tamanho fixo"
 
 #: config/strings.c:158
 msgid "Toggle never focus"
-msgstr ""
+msgstr "Alternar nunca focar"
 
 #: config/strings.c:159
 msgid "Toggle click to focus"
-msgstr ""
+msgstr "Alternar clicar para focar"
 
 #: config/strings.c:160
 msgid "Toggle never use area"
-msgstr ""
+msgstr "Alternar nunca usar área"
 
 #: config/strings.c:161
 msgid "Toggle ignore arrange"
-msgstr ""
+msgstr "Alternar ignorar organizar"
 
 #: config/strings.c:162
 msgid "Toggle button grabs"
-msgstr ""
+msgstr "Alternar agarrar de botões"
 
 #: config/strings.c:163
 msgid "Toggle autoshade"
-msgstr ""
+msgstr "Alternar enrolar automático"
 
 #: config/strings.c:164
-#, fuzzy
-#| msgid "Toggle fading"
 msgid "Toggle pass pointer"
-msgstr "Alternar desvanecimento"
+msgstr "Alternar ignorar ponteiro"
 
 #: config/strings.c:167
 msgid "Default"
-msgstr "Omissões"
+msgstr "Predefinição"
 
 #: config/strings.c:168
 msgid "20%"
@@ -2453,11 +2493,11 @@ msgstr "100%"
 
 #: config/strings.c:173
 msgid "Focused opacity 100%"
-msgstr ""
+msgstr "100% de opacidade ao focar"
 
 #: config/strings.c:174
 msgid "Focused opacity follows unfocused"
-msgstr ""
+msgstr "Mesma opacidade com ou sem foco"
 
 #: config/strings.c:175
 msgid "Toggle fading"
@@ -2469,47 +2509,47 @@ msgstr "Alternar sombras"
 
 #: config/strings.c:179
 msgid "Toggle max size"
-msgstr ""
+msgstr "Alternar tamanho máximo"
 
 #: config/strings.c:180
 msgid "Toggle max size - available"
-msgstr ""
+msgstr "Alternar tamanho máximo - disponível"
 
 #: config/strings.c:181
 msgid "Toggle max size - absolute"
-msgstr ""
+msgstr "Alternar tamanho máximo - absoluto"
 
 #: config/strings.c:182
 msgid "Span Xinerama screens"
-msgstr ""
+msgstr "Expandir ao ecrãs Xinerama"
 
 #: config/strings.c:183
 msgid "Toggle max height"
-msgstr ""
+msgstr "Alternar altura máxima"
 
 #: config/strings.c:184
 msgid "Toggle max height available"
-msgstr ""
+msgstr "Alternar altura máxima disponível"
 
 #: config/strings.c:185
 msgid "Toggle max height absolute"
-msgstr ""
+msgstr "Alternar altura máxima absoluta"
 
 #: config/strings.c:186
 msgid "Toggle max width"
-msgstr ""
+msgstr "Alternar largura máxima"
 
 #: config/strings.c:187
 msgid "Toggle max width available"
-msgstr ""
+msgstr "Alternar largura máxima disponível"
 
 #: config/strings.c:188
 msgid "Toggle max width absolute"
-msgstr ""
+msgstr "Alternar largura máxima absoluta"
 
 #: config/strings.c:189
 msgid "Toggle fullscreen"
-msgstr "Ecrã completo / Normal"
+msgstr "Alternar ecrã completo"
 
 #: config/strings.c:190
 msgid "Toggle zoom"
@@ -2520,13 +2560,12 @@ msgid "User application list"
 msgstr "Lista de aplicações do utilizador"
 
 #: config/strings.c:194
-#, fuzzy
 msgid "Applications"
-msgstr "Lista de aplicações do utilizador"
+msgstr "Aplicações"
 
 #: config/strings.c:195
 msgid "Epplets"
-msgstr "\"Epplets\""
+msgstr "Epplets"
 
 #~ msgid "Global settings:"
 #~ msgstr "Definições globais:"
