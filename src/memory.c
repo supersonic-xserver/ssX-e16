@@ -238,6 +238,92 @@ StrlistEncodeEscaped(char *buf, int len, char **lst, int num)
    return buf;
 }
 
+static int
+_StrlistDecodeArgLen(const char *str, const char **pnext)
+{
+   int                 len, ch, delim;
+   const char         *s;
+
+   len = 0;
+   delim = '\0';
+   for (s = str;; s++)
+     {
+	ch = *s;
+	switch (ch)
+	  {
+	  default:
+	     break;
+
+	  case '\0':
+	     len = s - str;
+	     goto done;
+
+	  case ' ':
+	     if (delim)
+		break;
+	     if (s > str && s[-1] == '\\')
+		break;
+	     len = s - str;
+	     s += 1;
+	     goto done;
+
+	  case '\'':
+	  case '"':
+	     if (ch == delim)
+		delim = '\0';
+	     else
+		delim = ch;
+	     break;
+	  }
+     }
+
+ done:
+   *pnext = s;
+   return len;
+}
+
+static char        *
+_StrlistDecodeArgParse(const char *str, int len)
+{
+   char               *buf, *p;
+   int                 i, ch, ch_last, delim;
+
+   buf = Emalloc(len + 1);
+
+   p = buf;
+   ch_last = '\0';
+   delim = '\0';
+   for (i = 0; i < len; i++)
+     {
+	ch = str[i];
+	switch (ch)
+	  {
+	  default:
+	     if (ch_last == '\\' && ch != ' ')
+		*p++ = '\\';	/* TBD!!! */
+	     *p++ = ch;
+	     break;
+
+	  case '\\':
+	     break;
+
+	  case '\'':
+	  case '"':
+	     if (!delim)
+		delim = ch;	/* Quote start */
+	     else if (delim == ch)
+		delim = '\0';	/* Quote end */
+	     else
+		*p++ = ch;
+	     break;
+	  }
+	ch_last = ch;
+     }
+
+   *p++ = '\0';
+   return buf;
+}
+
 char              **
 StrlistDecodeEscaped(const char *str, int *pnum)
 {
@@ -251,48 +337,20 @@ StrlistDecodeEscaped(const char *str, int *pnum)
    lst = NULL;
    num = 0;
    s = str;
-   for (;;)
+   for (;; s = p)
      {
+	/* Find next token */
 	while (*s == ' ')
 	   s++;
 	if (*s == '\0')
 	   break;
 
+	/* Find token extents (including quoting etc.) */
+	len = _StrlistDecodeArgLen(s, &p);
+
+	/* Add token */
 	lst = EREALLOC(char *, lst, num + 1);
-
-	lst[num] = NULL;
-	len = 0;
-
-	for (;;)
-	  {
-	     p = strchr(s, ' ');
-	     if (!p)
-		p = s + strlen(s);
-
-	     lst[num] = EREALLOC(char, lst[num], len + p - s + 1);
-
-	     memcpy(lst[num] + len, s, p - s);
-	     len += p - s;
-	     lst[num][len] = '\0';
-
-	     s = p;
-	     if (p[-1] == '\\')
-	       {
-		  if (*p)
-		     lst[num][len - 1] = ' ';
-		  else
-		     break;
-	       }
-	     else
-	       {
-		  break;
-	       }
-	     while (*s == ' ')
-		s++;
-	     if (*s == '\0')
-		break;
-	  }
-	num++;
+	lst[num++] = _StrlistDecodeArgParse(s, len);
      }
 
    /* Append NULL item */
