@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -171,12 +171,16 @@ main(int argc, char **argv)
 	len = 0;
 	for (; i < argc; i++)
 	  {
-	     l = strlen(argv[i]);
-	     command = EREALLOC(char, command, len + l + 2);
+	     s = argv[i];
+	     l = strlen(s);
+	     command = EREALLOC(char, command, len + l + 4);
 
 	     if (len)
 		command[len++] = ' ';
-	     strcpy(command + len, argv[i]);
+	     if (strchr(s, ' '))
+		l = snprintf(command + len, l + 4, "'%s'", s);
+	     else
+		l = snprintf(command + len, l + 4, "%s", s);
 	     len += l;
 	  }
      }
