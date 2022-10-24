@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2022-06-11 20:40+0200\n"
+"POT-Creation-Date: 2022-10-24 08:19+0200\n"
 "PO-Revision-Date: 2010-05-09 01:20+0000\n"
 "Last-Translator: luojie-dune <Unknown>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
@@ -70,27 +70,27 @@ msgstr ""
 msgid "Enlightenment Error"
 msgstr "Enlightenment 错误"
 
-#: src/alert.c:582
+#: src/alert.c:581
 msgid "Enlightenment Message Dialog"
 msgstr "Enlightenment 消息对话框"
 
-#: src/alert.c:582
+#: src/alert.c:581
 msgid "Ignore this"
 msgstr "忽略这个"
 
-#: src/alert.c:583
+#: src/alert.c:582
 msgid "Restart Enlightenment"
 msgstr "重启 Enlightenment"
 
-#: src/alert.c:583 src/setup.c:184
+#: src/alert.c:582 src/setup.c:184
 msgid "Quit Enlightenment"
 msgstr "退出 Enlightenment"
 
-#: src/alert.c:593
+#: src/alert.c:592
 msgid "Attention !!!"
 msgstr "注意！！！"
 
-#: src/alert.c:593 src/dialog.c:683 src/dialog.c:1821 src/events.c:108
+#: src/alert.c:592 src/dialog.c:683 src/dialog.c:1821 src/events.c:108
 #: src/setup.c:163 src/setup.c:176
 msgid "OK"
 msgstr "确定"
@@ -332,7 +332,7 @@ msgstr "关闭"
 msgid "Create new iconbox"
 msgstr "创建新图标架"
 
-#: src/container.c:1493 src/container.c:1561 src/menus.c:1983
+#: src/container.c:1493 src/container.c:1561 src/menus.c:1986
 #, c-format
 msgid "Icon size: %2d"
 msgstr "图标尺寸：%2d"
@@ -1118,27 +1118,27 @@ msgstr "图标化该组"
 msgid "Group %i"
 msgstr "组 %i"
 
-#: src/menus.c:2002
+#: src/menus.c:2005
 msgid "Animated display of menus"
 msgstr "动画显示菜单"
 
-#: src/menus.c:2007
+#: src/menus.c:2010
 msgid "Always pop up menus on screen"
 msgstr "总是在屏幕上弹出菜单"
 
-#: src/menus.c:2012
+#: src/menus.c:2015
 msgid "Warp pointer after moving menus"
 msgstr "移动菜单后折返光标位置"
 
-#: src/menus.c:2028
+#: src/menus.c:2031
 msgid "Menus"
 msgstr "菜单"
 
-#: src/menus.c:2028
+#: src/menus.c:2031
 msgid "Menu Settings"
 msgstr "菜单设置"
 
-#: src/menus.c:2032
+#: src/menus.c:2035
 msgid ""
 "Enlightenment Menu\n"
 "Settings Dialog"

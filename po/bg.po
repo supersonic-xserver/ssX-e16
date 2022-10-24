@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2022-06-11 20:40+0200\n"
+"POT-Creation-Date: 2022-10-24 08:19+0200\n"
 "PO-Revision-Date: 2010-05-09 01:24+0000\n"
 "Last-Translator: Aron Xu <Unknown>\n"
 "Language-Team: Bulgarian\n"
@@ -55,27 +55,27 @@ msgstr ""
 msgid "Enlightenment Error"
 msgstr "Грешка на Enlightenment"
 
-#: src/alert.c:582
+#: src/alert.c:581
 msgid "Enlightenment Message Dialog"
 msgstr "Диалог за съобщения на Enlightenment"
 
-#: src/alert.c:582
+#: src/alert.c:581
 msgid "Ignore this"
 msgstr "Игнорирайте това"
 
-#: src/alert.c:583
+#: src/alert.c:582
 msgid "Restart Enlightenment"
 msgstr "Рестартирайте Enlightenment"
 
-#: src/alert.c:583 src/setup.c:184
+#: src/alert.c:582 src/setup.c:184
 msgid "Quit Enlightenment"
 msgstr "Излезте от Enlightenment"
 
-#: src/alert.c:593
+#: src/alert.c:592
 msgid "Attention !!!"
 msgstr "Внимание !!!"
 
-#: src/alert.c:593 src/dialog.c:683 src/dialog.c:1821 src/events.c:108
+#: src/alert.c:592 src/dialog.c:683 src/dialog.c:1821 src/events.c:108
 #: src/setup.c:163 src/setup.c:176
 msgid "OK"
 msgstr "Да"
@@ -324,7 +324,7 @@ msgstr "Затвори"
 msgid "Create new iconbox"
 msgstr "Създай нов Iconbox"
 
-#: src/container.c:1493 src/container.c:1561 src/menus.c:1983
+#: src/container.c:1493 src/container.c:1561 src/menus.c:1986
 #, c-format
 msgid "Icon size: %2d"
 msgstr "Размер на иконата: %2d"
@@ -1168,27 +1168,27 @@ msgstr "Игнорирай тази група"
 msgid "Group %i"
 msgstr "Група %i"
 
-#: src/menus.c:2002
+#: src/menus.c:2005
 msgid "Animated display of menus"
 msgstr "Анимирай менютата"
 
-#: src/menus.c:2007
+#: src/menus.c:2010
 msgid "Always pop up menus on screen"
 msgstr "Винаги показвай менютата върху екрана"
 
-#: src/menus.c:2012
+#: src/menus.c:2015
 msgid "Warp pointer after moving menus"
 msgstr "Застъпвай показалеца след движение на менютата"
 
-#: src/menus.c:2028
+#: src/menus.c:2031
 msgid "Menus"
 msgstr ""
 
-#: src/menus.c:2028
+#: src/menus.c:2031
 msgid "Menu Settings"
 msgstr ""
 
-#: src/menus.c:2032
+#: src/menus.c:2035
 msgid ""
 "Enlightenment Menu\n"
 "Settings Dialog"

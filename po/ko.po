@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2022-06-11 20:40+0200\n"
+"POT-Creation-Date: 2022-10-24 08:19+0200\n"
 "PO-Revision-Date: 2009-12-02 09:48+0000\n"
 "Last-Translator: Michael Kim <Unknown>\n"
 "Language-Team: Korean <translation-team-ko@lists.sourceforge.net>\n"
@@ -55,27 +55,27 @@ msgstr ""
 msgid "Enlightenment Error"
 msgstr "인라이튼먼트 오류"
 
-#: src/alert.c:582
+#: src/alert.c:581
 msgid "Enlightenment Message Dialog"
 msgstr "인라이튼먼트 메시지 대화상자"
 
-#: src/alert.c:582
+#: src/alert.c:581
 msgid "Ignore this"
 msgstr "무시"
 
-#: src/alert.c:583
+#: src/alert.c:582
 msgid "Restart Enlightenment"
 msgstr "인라이튼먼트 재시작"
 
-#: src/alert.c:583 src/setup.c:184
+#: src/alert.c:582 src/setup.c:184
 msgid "Quit Enlightenment"
 msgstr "인라이튼먼트 종료"
 
-#: src/alert.c:593
+#: src/alert.c:592
 msgid "Attention !!!"
 msgstr "주목 !!!"
 
-#: src/alert.c:593 src/dialog.c:683 src/dialog.c:1821 src/events.c:108
+#: src/alert.c:592 src/dialog.c:683 src/dialog.c:1821 src/events.c:108
 #: src/setup.c:163 src/setup.c:176
 msgid "OK"
 msgstr "확인"
@@ -307,7 +307,7 @@ msgstr "닫기"
 msgid "Create new iconbox"
 msgstr "새 아이콘상자 생성"
 
-#: src/container.c:1493 src/container.c:1561 src/menus.c:1983
+#: src/container.c:1493 src/container.c:1561 src/menus.c:1986
 #, c-format
 msgid "Icon size: %2d"
 msgstr ""
@@ -1140,27 +1140,27 @@ msgstr "이 그룹 아이콘화"
 msgid "Group %i"
 msgstr "그룹 %i"
 
-#: src/menus.c:2002
+#: src/menus.c:2005
 msgid "Animated display of menus"
 msgstr "메뉴 표시 에니메이트"
 
-#: src/menus.c:2007
+#: src/menus.c:2010
 msgid "Always pop up menus on screen"
 msgstr "항상 화면에 메뉴를 팝업"
 
-#: src/menus.c:2012
+#: src/menus.c:2015
 msgid "Warp pointer after moving menus"
 msgstr "메뉴를 움직인 후에 포인터 뒤집기"
 
-#: src/menus.c:2028
+#: src/menus.c:2031
 msgid "Menus"
 msgstr ""
 
-#: src/menus.c:2028
+#: src/menus.c:2031
 msgid "Menu Settings"
 msgstr ""
 
-#: src/menus.c:2032
+#: src/menus.c:2035
 msgid ""
 "Enlightenment Menu\n"
 "Settings Dialog"

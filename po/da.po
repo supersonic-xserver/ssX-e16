@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2022-06-11 20:40+0200\n"
+"POT-Creation-Date: 2022-10-24 08:19+0200\n"
 "PO-Revision-Date: 2022-06-11 21:05+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -68,27 +68,27 @@ msgstr ""
 msgid "Enlightenment Error"
 msgstr "Enlightenment fejl"
 
-#: src/alert.c:582
+#: src/alert.c:581
 msgid "Enlightenment Message Dialog"
 msgstr "Enlightenment meddelelsesdialog"
 
-#: src/alert.c:582
+#: src/alert.c:581
 msgid "Ignore this"
 msgstr "Ignorér dette"
 
-#: src/alert.c:583
+#: src/alert.c:582
 msgid "Restart Enlightenment"
 msgstr "Genstart Enlightenment"
 
-#: src/alert.c:583 src/setup.c:184
+#: src/alert.c:582 src/setup.c:184
 msgid "Quit Enlightenment"
 msgstr "Afslut Enlightenment"
 
-#: src/alert.c:593
+#: src/alert.c:592
 msgid "Attention !!!"
 msgstr "Vigtigt !!!"
 
-#: src/alert.c:593 src/dialog.c:683 src/dialog.c:1821 src/events.c:108
+#: src/alert.c:592 src/dialog.c:683 src/dialog.c:1821 src/events.c:108
 #: src/setup.c:163 src/setup.c:176
 msgid "OK"
 msgstr "OK"
@@ -330,7 +330,7 @@ msgstr "Luk"
 msgid "Create new iconbox"
 msgstr "Opret ny ikonboks"
 
-#: src/container.c:1493 src/container.c:1561 src/menus.c:1983
+#: src/container.c:1493 src/container.c:1561 src/menus.c:1986
 #, c-format
 msgid "Icon size: %2d"
 msgstr "Ikonstørrelse: %2d"
@@ -1156,27 +1156,27 @@ msgstr "Ikonificér denne gruppe"
 msgid "Group %i"
 msgstr "Gruppe %i"
 
-#: src/menus.c:2002
+#: src/menus.c:2005
 msgid "Animated display of menus"
 msgstr "Animeret visning af menuer"
 
-#: src/menus.c:2007
+#: src/menus.c:2010
 msgid "Always pop up menus on screen"
 msgstr "Hold menuer inden for skærmen"
 
-#: src/menus.c:2012
+#: src/menus.c:2015
 msgid "Warp pointer after moving menus"
 msgstr "Flyt markør efter flytning af menuer"
 
-#: src/menus.c:2028
+#: src/menus.c:2031
 msgid "Menus"
 msgstr "Menuer"
 
-#: src/menus.c:2028
+#: src/menus.c:2031
 msgid "Menu Settings"
 msgstr "Menuindstillinger"
 
-#: src/menus.c:2032
+#: src/menus.c:2035
 msgid ""
 "Enlightenment Menu\n"
 "Settings Dialog"

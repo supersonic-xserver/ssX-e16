@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2022-06-11 20:40+0200\n"
+"POT-Creation-Date: 2022-10-24 08:19+0200\n"
 "PO-Revision-Date: 2022-09-27 15:38+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
@@ -71,27 +71,27 @@ msgstr ""
 msgid "Enlightenment Error"
 msgstr "Erro no Enlightenment"
 
-#: src/alert.c:582
+#: src/alert.c:581
 msgid "Enlightenment Message Dialog"
 msgstr "Caixa de diálogo do Enlightement"
 
-#: src/alert.c:582
+#: src/alert.c:581
 msgid "Ignore this"
 msgstr "Ignorar"
 
-#: src/alert.c:583
+#: src/alert.c:582
 msgid "Restart Enlightenment"
 msgstr "Reiniciar o Enlightenment"
 
-#: src/alert.c:583 src/setup.c:184
+#: src/alert.c:582 src/setup.c:184
 msgid "Quit Enlightenment"
 msgstr "Sair do Enlightenment"
 
-#: src/alert.c:593
+#: src/alert.c:592
 msgid "Attention !!!"
 msgstr "Atenção !!!"
 
-#: src/alert.c:593 src/dialog.c:683 src/dialog.c:1821 src/events.c:108
+#: src/alert.c:592 src/dialog.c:683 src/dialog.c:1821 src/events.c:108
 #: src/setup.c:163 src/setup.c:176
 msgid "OK"
 msgstr "OK"
@@ -344,7 +344,7 @@ msgstr "Fechar"
 msgid "Create new iconbox"
 msgstr "Criar nova caixa de ícones"
 
-#: src/container.c:1493 src/container.c:1561 src/menus.c:1983
+#: src/container.c:1493 src/container.c:1561 src/menus.c:1986
 #, c-format
 msgid "Icon size: %2d"
 msgstr "Tamanho dos ícones: %2d"
@@ -695,7 +695,8 @@ msgstr "Apenas as novas janelas ganham foco"
 
 #: src/focus.c:942
 msgid "Only new dialogs whose owner is focused get the focus"
-msgstr "Apenas as novas caixas janelas que o proprietário tenha foco ganham foco"
+msgstr ""
+"Apenas as novas caixas janelas que o proprietário tenha foco ganham foco"
 
 #: src/focus.c:947
 msgid "Raise windows while switching focus"
@@ -755,7 +756,8 @@ msgstr "Enviar ponteiro do rato até janela ao mudar o foco"
 
 #: src/focus.c:1034
 msgid "Focuslist image display policy (if one operation fails, try the next):"
-msgstr "Política de exibição de imagens (se uma operação falhar, tentar a próxima):"
+msgstr ""
+"Política de exibição de imagens (se uma operação falhar, tentar a próxima):"
 
 #: src/focus.c:1038
 msgid "First E icon, then App icon"
@@ -975,10 +977,13 @@ msgstr ""
 "\n"
 "Isto significa que o Enlightenment ou as rotinas da biblioteca de suporte\n"
 "a que chama realizaram uma operação matemática ilegal (muito provavelmente\n"
-"dividindo um número por zero). Isto é muito provavelmente um erro. Recomenda-se\n"
-"que reinicie agora. Se deseja ajudar a corrigir isto, Compile o Enlightenment\n"
+"dividindo um número por zero). Isto é muito provavelmente um erro. Recomenda-"
+"se\n"
+"que reinicie agora. Se deseja ajudar a corrigir isto, Compile o "
+"Enlightenment\n"
 "com símbolos de depuração dentro e execute o Enlightenment sob gdb para\n"
-"que possa retroceder para onde falhou e enviar um relatório de erro útil com\n"
+"que possa retroceder para onde falhou e enviar um relatório de erro útil "
+"com\n"
 "informação de rasto e dumps variáveis, etc.\n"
 
 #: src/handlers.c:89
@@ -1184,27 +1189,27 @@ msgstr "Minimizar este grupo"
 msgid "Group %i"
 msgstr "Grupo %i"
 
-#: src/menus.c:2002
+#: src/menus.c:2005
 msgid "Animated display of menus"
 msgstr "Mostrar menus animados"
 
-#: src/menus.c:2007
+#: src/menus.c:2010
 msgid "Always pop up menus on screen"
 msgstr "Mostrar sempre menus no ecrã"
 
-#: src/menus.c:2012
+#: src/menus.c:2015
 msgid "Warp pointer after moving menus"
 msgstr "Posicionar ponteiro após mover menus"
 
-#: src/menus.c:2028
+#: src/menus.c:2031
 msgid "Menus"
 msgstr "Menus"
 
-#: src/menus.c:2028
+#: src/menus.c:2031
 msgid "Menu Settings"
 msgstr "Definições do menu"
 
-#: src/menus.c:2032
+#: src/menus.c:2035
 msgid ""
 "Enlightenment Menu\n"
 "Settings Dialog"
@@ -1731,7 +1736,9 @@ msgstr ""
 
 #: src/setup.c:175
 msgid "Cannot select root window button press events"
-msgstr "Não é possível selecionar os eventos do pressionar do botão da área de trabalho principal"
+msgstr ""
+"Não é possível selecionar os eventos do pressionar do botão da área de "
+"trabalho principal"
 
 #: src/setup.c:177
 msgid "Root window button actions will not work.\n"
@@ -2213,7 +2220,9 @@ msgstr "Colar/Descolar"
 
 #: config/strings.c:61
 msgid "Toggle the Omnipresent (visible on all Desktops) state of this window."
-msgstr "Alternar o estado Omnipresente (visível em todas as áreas de trabalho) desta janela."
+msgstr ""
+"Alternar o estado Omnipresente (visível em todas as áreas de trabalho) desta "
+"janela."
 
 #: config/strings.c:63
 msgid ""
