@@ -1,4 +1,24 @@
 
+e16 v1.0.26 - 2022-10-24
+------------------------
+- 1.0.26
+- Update po
+- autofoo: Rework git tag/release stuff
+- autofoo: Fix incorrect handling of no-container option
+- Handle quoting in StrlistDecodeEscaped()
+- eesh: Improve argument passing
+- Portuguese translation update (Hugo Carvalho)
+- Fix some clang-analyzer complaints
+- autofoo: Drop pkg_revision some more
+- edge: Prevent pointer click and motion events propagating to root
+- edge: Refactor window creation
+- edge: Cosmetics
+- events: Discard all but last reparent event in queue for window
+- events: Trivial cleanup
+- menus: Fix potential crash
+- autofoo: Drop pkg_revision
+- French translation update (Philippe J. Guillaumie)
+
 e16 v1.0.25 - 2022-06-13
 ------------------------
 - 1.0.25
