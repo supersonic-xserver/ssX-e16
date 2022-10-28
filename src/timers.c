@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2006-2019 Kim Woelders
+ * Copyright (C) 2006-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -141,6 +141,7 @@ TimersRun(unsigned int t_ms)
 	for (timer = q_old; timer; timer = q_old)
 	  {
 	     q_old = timer->next;
+	     timer->next = NULL;
 	     if (timer->again)
 	       {
 		  timer->at_time += timer->in_time;
