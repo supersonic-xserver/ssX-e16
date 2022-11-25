@@ -1,4 +1,11 @@
 
+e16 v1.0.27 - 2022-11-25
+------------------------
+- 1.0.27
+- e_gen_menu: Fix menu generation
+- timers: Properly fix timer lockup issue
+- timers: Fix potential lockup when switching desks fast
+
 e16 v1.0.26 - 2022-10-24
 ------------------------
 - 1.0.26
