@@ -288,7 +288,7 @@ _StrlistDecodeArgParse(const char *str, int len)
    char               *buf, *p;
    int                 i, ch, ch_last, delim;
 
-   buf = Emalloc(len + 1);
+   buf = EMALLOC(char, len + 1);
 
    p = buf;
    ch_last = '\0';
