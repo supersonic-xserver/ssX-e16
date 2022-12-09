@@ -1307,6 +1307,10 @@ EwinOpFullscreen(EWin * ewin, int source __UNUSED__, int on)
 	EwinStateUpdate(ewin);
 	EwinRaise(ewin);
 	EwinMoveResize(ewin, x, y, w, h, MRF_KEEP_MAXIMIZED);
+
+	/* Keep focus if focused */
+	if (ewin->state.active)
+	   FocusToEWin(ewin, FOCUS_SET);
      }
 
    HintsSetWindowState(ewin);
