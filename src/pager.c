@@ -94,7 +94,13 @@ typedef struct {
    EWin               *ewin;
    Win                 win;
    int                 w, h;
-   EX_Pixmap           bgpmap;
+   EX_Pixmap           pmap;	/* Pager window background pixmap */
+#if USE_XRENDER
+   EX_Picture          pict;	/* Pager window background picture */
+   EX_Picture          bgpict;	/* Desktop background picture */
+#else
+   EX_Pixmap           bgpmap;	/* Desktop background pixmap */
+#endif
    Desk               *dsk;
    int                 dw, dh;
    int                 screen_w, screen_h;
@@ -156,14 +162,65 @@ PagerCreate(void)
 }
 
 static void
+_PagerCanvasInit(Pager * p, bool create)
+{
+   if (p->pmap != NoXID)
+      EFreePixmap(p->pmap);
+   p->pmap = NoXID;
+#if USE_XRENDER
+   if (p->pict != NoXID)
+      EPictureDestroy(p->pict);
+   p->pict = NoXID;
+#endif
+
+   if (!create)
+      return;			/* Just cleaning up */
+
+   p->pmap = ECreatePixmap(p->win, p->w, p->h, 0);
+#if USE_XRENDER
+   p->pict = EPictureCreate(NULL, p->pmap);
+#endif
+
+   ESetWindowBackgroundPixmap(p->win, p->pmap, 1);
+}
+
+static void
+_PagerBgBufferInit(Pager * p, EX_Pixmap * ppmap)
+{
+#if USE_XRENDER
+   XRenderPictureAttributes pa;
+
+   if (p->bgpict != NoXID)
+      EPictureDestroy(p->bgpict);
+   p->bgpict = NoXID;
+#else
+   if (p->bgpmap != NoXID)
+      EFreePixmap(p->bgpmap);
+   p->bgpmap = NoXID;
+#endif
+
+   if (!ppmap)
+      return;			/* Just cleaning up */
+
+#if USE_XRENDER
+   p->bgpict = EPictureCreateBuffer(p->win, p->dw, p->dh, 0, ppmap);
+   pa.repeat = True;
+   XRenderChangePicture(disp, p->bgpict, CPRepeat, &pa);
+#else
+   p->bgpmap = ECreatePixmap(p->win, p->dw, p->dh, 0);
+   *ppmap = p->bgpmap;
+#endif
+}
+
+static void
 PagerDestroy(Pager * p)
 {
    LIST_REMOVE(Pager, &pager_list, p);
 
    PagerScanCancel(p);
    PagerHiwinHide();
-   if (p->bgpmap != NoXID)
-      EFreePixmap(p->bgpmap);
+   _PagerBgBufferInit(p, NULL);
+   _PagerCanvasInit(p, false);
 
    Efree(p);
 }
@@ -349,12 +406,6 @@ doPagerUpdate(Pager * p)
    EWin               *const *lst;
    int                 i, num, update_screen_included, update_screen_only;
    int                 pager_mode = PagersGetMode();
-   EX_Pixmap           pmap;
-
-#if USE_COMPOSITE
-   EX_Picture          pager_pict, pict, alpha;
-   XRenderPictureAttributes pa;
-#endif
 
    p->update_phase = 0;
    DeskGetArea(p->dsk, &cx, &cy);
@@ -378,7 +429,8 @@ doPagerUpdate(Pager * p)
    p->x1 = p->y1 = 99999;
    p->x2 = p->y2 = -99999;
 
-   pmap = EGetWindowBackgroundPixmap(p->win);
+   if (p->pmap == NoXID)
+      _PagerCanvasInit(p, true);
 
    if (update_screen_only)
       goto do_screen_update;
@@ -405,16 +457,11 @@ doPagerUpdate(Pager * p)
    Dprintf("%s %d: Repaint\n", __func__, p->dsk->num);
 
    /* Tile background over pager areas */
-#if USE_COMPOSITE
-   pager_pict = EPictureCreate(NULL, pmap);
-   pict = EPictureCreate(NULL, p->bgpmap);
-   pa.repeat = True;
-   XRenderChangePicture(disp, pict, CPRepeat, &pa);
-   XRenderComposite(disp, PictOpSrc, pict, NoXID, pager_pict,
+#if USE_XRENDER
+   XRenderComposite(disp, PictOpSrc, p->bgpict, NoXID, p->pict,
 		    0, 0, 0, 0, 0, 0, p->w, p->h);
-   EPictureDestroy(pict);
 #else
-   EXCopyAreaTiled(p->bgpmap, NoXID, pmap, 0, 0, p->w, p->h, 0, 0);
+   EXCopyAreaTiled(p->bgpmap, NoXID, p->pmap, 0, 0, p->w, p->h, 0, 0);
 #endif
 
    for (i = num - 1; i >= 0; i--)
@@ -438,11 +485,13 @@ doPagerUpdate(Pager * p)
 	      * PagerEwinUpdateMini()           ewin
 	      * PagerEwinUpdateFromPager()      p->win
 	      */
+	     EX_Picture          pict, alpha;
+
 	     pict = EPictureCreate(ewin->mini_pmm.depth == WinGetDepth(p->win) ?
 				   p->win : EoGetWin(ewin),
 				   ewin->mini_pmm.pmap);
 	     alpha = ECompMgrWinGetAlphaPict(EoObj(ewin));
-	     XRenderComposite(disp, PictOpOver, pict, alpha, pager_pict,
+	     XRenderComposite(disp, PictOpOver, pict, alpha, p->pict,
 			      0, 0, 0, 0, wx, wy, ww, wh);
 	     EPictureDestroy(pict);
 #else
@@ -453,7 +502,7 @@ doPagerUpdate(Pager * p)
 		  XSetClipOrigin(disp, gc, wx, wy);
 	       }
 #endif
-	     EXCopyArea(ewin->mini_pmm.pmap, pmap, 0, 0, ww, wh, wx, wy);
+	     EXCopyArea(ewin->mini_pmm.pmap, p->pmap, 0, 0, ww, wh, wx, wy);
 #if 0				/* Mask is currently not set anywhere */
 	     if (ewin->mini_pmm.mask)
 		XSetClipMask(disp, gc, NoXID);
@@ -462,13 +511,10 @@ doPagerUpdate(Pager * p)
 	  }
 	else
 	  {
-	     EXPaintRectangle(pmap, wx, wy, ww, wh,
+	     EXPaintRectangle(p->pmap, wx, wy, ww, wh,
 			      Dpy.pixel_black, Dpy.pixel_white);
 	  }
      }
-#if USE_COMPOSITE
-   EPictureDestroy(pager_pict);
-#endif
 
    if (!update_screen_included)
      {
@@ -480,7 +526,7 @@ doPagerUpdate(Pager * p)
    EobjsRepaint();
    Dprintf("%s %d: Snap screen\n", __func__, p->dsk->num);
    /* Update pager area by snapshotting entire screen */
-   ScaleRect(VROOT, WinGetXwin(VROOT), p->win, pmap, 0, 0,
+   ScaleRect(VROOT, WinGetXwin(VROOT), p->win, p->pmap, 0, 0,
 	     WinGetW(VROOT), WinGetH(VROOT), cx * p->dw, cy * p->dh,
 	     p->dw, p->dh, HIQ);
 
@@ -565,10 +611,7 @@ PagerUpdateBg(Pager * p)
    p->x1 = p->y1 = 0;
    p->x2 = p->y2 = 99999;
 
-   pmap = p->bgpmap;
-   if (pmap != NoXID)
-      EFreePixmap(pmap);
-   pmap = p->bgpmap = ECreatePixmap(p->win, p->dw, p->dh, 0);
+   _PagerBgBufferInit(p, &pmap);
 
    bg = DeskBackgroundGet(p->dsk);
    if (pager_mode != PAGER_MODE_SIMPLE && bg)
@@ -599,14 +642,14 @@ PagerUpdateBg(Pager * p)
 	     EImageDecache(im);
 	  }
 #endif
-	return;
+	goto done;
      }
 
    if (pager_mode != PAGER_MODE_SIMPLE && p->dsk->bg.pmap)
      {
 	ScaleTile(VROOT, p->dsk->bg.pmap, p->win, pmap,
 		  0, 0, p->dw, p->dh, HIQ);
-	return;
+	goto done;
      }
 
    ic = ImageclassFind("PAGER_BACKGROUND", 1);
@@ -614,10 +657,16 @@ PagerUpdateBg(Pager * p)
      {
 	ImageclassApplySimple(ic, p->win, pmap, STATE_NORMAL,
 			      0, 0, p->dw, p->dh);
-	return;
+	goto done;
      }
 
    EXPaintRectangle(pmap, 0, 0, p->dw, p->dh, Dpy.pixel_black, Dpy.pixel_white);
+
+ done:
+#if USE_XRENDER
+   EFreePixmap(pmap);		/* Using bgpict as of now */
+#endif
+   return;
 }
 
 static void
@@ -665,6 +714,8 @@ _PagerEwinMoveResize(EWin * ewin, int resize __UNUSED__)
    p->h = h;
    p->dw = w / ax;
    p->dh = h / ay;
+
+   _PagerCanvasInit(p, false);
 
    if (p->scale <= 0.f || Mode.op_source == OPSRC_USER)
       p->scale = ((float)WinGetW(VROOT) / p->dw +
