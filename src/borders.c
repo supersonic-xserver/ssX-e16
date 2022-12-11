@@ -697,11 +697,6 @@ EwinBorderSetTo(EWin * ewin, const Border * b)
       Efree(wl);
    }
 
-#if USE_CONTAINER_WIN
-   if (!ewin->state.shaded)
-      EMoveWindow(ewin->win_container, b->border.left, b->border.top);
-#endif
-
    ewin->update.shape = 1;
    EwinBorderCalcSizes(ewin, 0);
    EwinStateUpdate(ewin);
