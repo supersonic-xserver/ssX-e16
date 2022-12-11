@@ -1135,6 +1135,30 @@ EwinWithdraw(EWin * ewin, Win to)
 }
 
 static void
+_EwinRemanage(EWin * ewin, const char *str)
+{
+   int                 reparent, move = 0;
+#if USE_CONTAINER_WIN
+   int                 x = 0, y = 0;
+#else
+   const EImageBorder *pad = BorderGetSize(ewin->border);
+   int                 x = (pad) ? pad->left : 0;
+   int                 y = (pad) ? pad->top : 0;
+
+   move = WinGetX(EwinGetContainerWin(ewin)) != x ||
+      WinGetY(EwinGetContainerWin(ewin)) != y;
+#endif
+
+   reparent = WinGetParent(EwinGetClientWin(ewin)) != EwinGetContainerWin(ewin);
+
+   Eprintf("%s: Already managing %s %#x %s: rp=%d mo=%d\n", __func__, str,
+	   EwinGetClientXwin(ewin), EwinGetTitle(ewin), reparent, move);
+
+   if (reparent || move)
+      EReparentWindow(EwinGetClientWin(ewin), EwinGetContainerWin(ewin), x, y);
+}
+
+static void
 EwinEventMapRequest(EWin * ewin, XEvent * ev)
 {
    EX_Window           xwin;
@@ -1148,13 +1172,7 @@ EwinEventMapRequest(EWin * ewin, XEvent * ev)
 	else if (ewin->state.state == EWIN_STATE_WITHDRAWN)
 	   AddToFamily(ewin, xwin, NULL, 0);
 	else
-	  {
-	     if (EDebug(EDBUG_TYPE_EWINS))
-		Eprintf("%s: Already managing %s %#x\n", __func__, "A",
-			EwinGetClientXwin(ewin));
-	     EReparentWindow(EwinGetClientWin(ewin), EwinGetContainerWin(ewin),
-			     0, 0);
-	  }
+	   _EwinRemanage(ewin, "A");
      }
    else
      {
@@ -1164,11 +1182,8 @@ EwinEventMapRequest(EWin * ewin, XEvent * ev)
 	/* Some clients MapRequest more than once ?!? */
 	if (ewin)
 	  {
-	     if (EDebug(EDBUG_TYPE_EWINS))
-		Eprintf("%s: Already managing %s %#x\n", __func__, "B",
-			EwinGetClientXwin(ewin));
-	     EReparentWindow(EwinGetClientWin(ewin), EwinGetContainerWin(ewin),
-			     0, 0);
+	     /* Client has probably issued multiple XMapWindow()s */
+	     _EwinRemanage(ewin, "B");
 	     EwinShow(ewin);
 	  }
 	else
@@ -2559,7 +2574,7 @@ EwinHandleEventsToplevel(Win win __UNUSED__, XEvent * ev, void *prm)
 	if (EwinHandleContainerEvents(ewin, ev))
 	   break;
 #if DEBUG_EWIN_EVENTS
-	Eprintf("%s: type=%2d win=%#lx: %s\n", __func__,
+	Eprintf("%s: type=%2d win=%#x: %s\n", __func__,
 		ev->type, EwinGetClientXwin(ewin), EwinGetTitle(ewin));
 #endif
 	break;
