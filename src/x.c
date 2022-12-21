@@ -34,6 +34,10 @@
 #include <X11/extensions/Xrender.h>
 #define RENDER_VERSION VERS(RENDER_MAJOR, RENDER_MINOR)
 #endif
+#if USE_COMPOSITE
+#include <X11/extensions/Xcomposite.h>
+#include <X11/extensions/Xfixes.h>
+#endif
 #if USE_XI2
 #include <X11/extensions/XInput2.h>
 #endif
@@ -1991,8 +1995,6 @@ EGetTimestamp(void)
 }
 
 #if USE_COMPOSITE
-
-#include <X11/extensions/Xcomposite.h>
 
 EX_Pixmap
 EWindowGetPixmap(const Win win)
