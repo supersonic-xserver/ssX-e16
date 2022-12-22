@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -725,10 +725,9 @@ PmapMaskFree(PmapMask * pmm)
 
 #if USE_XRENDER
 
-EX_Cursor
-EImageDefineCursor(EImage * im, int xh, int yh)
+static              EX_Picture
+EPictureFromImage(EImage * im)
 {
-   EX_Cursor           curs;
    int                 w, h;
    EX_Pixmap           pmap;
    EX_Picture          pict;
@@ -740,7 +739,19 @@ EImageDefineCursor(EImage * im, int xh, int yh)
    EImageRenderOnDrawableARGB(im, pmap, w, h);
    EFreePixmap(pmap);
 
+   return pict;
+}
+
+EX_Cursor
+EImageDefineCursor(EImage * im, int xh, int yh)
+{
+   EX_Cursor           curs;
+   EX_Picture          pict;
+
+   pict = EPictureFromImage(im);
+
    curs = XRenderCreateCursor(disp, pict, xh, yh);
+
    XRenderFreePicture(disp, pict);
 
    return curs;
