@@ -110,8 +110,8 @@ ECreatePixmapCursor(EX_Pixmap cpmap, EX_Pixmap cmask,
 #endif
 
 static void
-ECursorCreate(const char *name, const char *image, int native_id,
-	      unsigned int fg, unsigned int bg)
+_ECursorCreate(const char *name, const char *image, int native_id,
+	       unsigned int fg, unsigned int bg)
 {
    ECursor            *ec;
 
@@ -133,7 +133,7 @@ ECursorCreate(const char *name, const char *image, int native_id,
 }
 
 static void
-ECursorDestroy(ECursor * ec)
+_ECursorDestroy(ECursor * ec)
 {
    if (!ec)
       return;
@@ -153,7 +153,7 @@ ECursorDestroy(ECursor * ec)
 }
 
 static ECursor     *
-ECursorRealize(ECursor * ec)
+_ECursorRealize(ECursor * ec)
 {
    Pixmap              pmap, mask;
    int                 xh, yh;
@@ -206,7 +206,7 @@ ECursorRealize(ECursor * ec)
  done:
    if (ec->cursor == NoXID)
      {
-	ECursorDestroy(ec);
+	_ECursorDestroy(ec);
 	ec = NULL;
      }
 
@@ -220,7 +220,7 @@ _ECursorMatchName(const void *data, const void *match)
 }
 
 static ECursor     *
-ECursorFind(const char *name)
+_ECursorFind(const char *name)
 {
    if (!name || !name[0])
       return NULL;
@@ -235,12 +235,12 @@ ECursorAlloc(const char *name)
    if (!name)
       return NULL;
 
-   ec = ECursorFind(name);
+   ec = _ECursorFind(name);
    if (!ec)
       return NULL;
 
    if (ec->cursor == NoXID)
-      ec = ECursorRealize(ec);
+      ec = _ECursorRealize(ec);
    if (!ec)
       return NULL;
 
@@ -290,12 +290,12 @@ ECursorConfigLoad(FILE * fs)
 	     native_id = -1;
 	     break;
 	  case CONFIG_CLOSE:
-	     ECursorCreate(pname, pfile, native_id, cfg, cbg);
+	     _ECursorCreate(pname, pfile, native_id, cfg, cbg);
 	     err = 0;
 	     break;
 
 	  case CONFIG_CLASSNAME:
-	     if (ECursorFind(s2))
+	     if (_ECursorFind(s2))
 	       {
 		  SkipTillEnd(fs);
 		  goto done;
@@ -341,7 +341,7 @@ ECursorApply(ECursor * ec, Win win)
 }
 
 static              EX_Cursor
-ECursorGetByName(const char *name, const char *name2, unsigned int fallback)
+_ECursorGetByName(const char *name, const char *name2, unsigned int fallback)
 {
    ECursor            *ec;
 
@@ -384,8 +384,8 @@ ECsrGet(int which)
    if (which < 0 || which >= ECSR_COUNT)
       return NoXID;
    if (ECsrs[which] == 1)
-      ECsrs[which] = ECursorGetByName(ECData[which].pri, ECData[which].sec,
-				      ECData[which].fallback);
+      ECsrs[which] = _ECursorGetByName(ECData[which].pri, ECData[which].sec,
+				       ECData[which].fallback);
 
    return ECsrs[which];
 }
@@ -397,7 +397,7 @@ ECsrApply(int which, EX_Window win)
 }
 
 static void
-CursorsIpc(const char *params)
+_CursorsIpc(const char *params)
 {
    const char         *p;
    char                cmd[128], prm[4096];
@@ -420,7 +420,7 @@ CursorsIpc(const char *params)
 
 static const IpcItem CursorIpcArray[] = {
    {
-    CursorsIpc,
+    _CursorsIpc,
     "cursor", "csr",
     "Cursor functions",
     "  cursor list                       Show all cursors\n"}
