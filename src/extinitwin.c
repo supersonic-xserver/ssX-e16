@@ -85,24 +85,34 @@ _eiw_render_loop(EX_Window win, EImage * im, EiwData * d)
 
 static void         _eiw_window_loop(EX_Window win, EImage * im, EiwData * d);
 
+static              EX_Cursor
+_DefineNullCursor(EX_Window win)
+{
+   EX_Cursor           curs;
+   EX_Pixmap           pmap, mask;
+   XColor              cl = { };
+
+   pmap = XCreatePixmap(disp, win, 16, 16, 1);
+   EXFillAreaSolid(pmap, 0, 0, 16, 16, 0);
+   mask = pmap;
+
+   curs = XCreatePixmapCursor(disp, pmap, mask, &cl, &cl, 0, 0);
+
+   XFreePixmap(disp, pmap);
+
+   return curs;
+}
+
 static EiwLoopFunc *
 _eiw_window_init(EX_Window win, EiwData * d)
 {
-   EX_Pixmap           pmap, mask;
-   XColor              cl;
-
    d->cwin = XCreateWindow(disp, WinGetXwin(RROOT), 0, 0, 32, 32, 0,
 			   CopyFromParent, InputOutput, CopyFromParent,
 			   CWOverrideRedirect | CWBackingStore | CWBackPixel,
 			   &d->attr);
 
-   pmap = XCreatePixmap(disp, d->cwin, 16, 16, 1);
-   EXFillAreaSolid(pmap, 0, 0, 16, 16, 0);
+   d->curs = _DefineNullCursor(d->cwin);
 
-   mask = XCreatePixmap(disp, d->cwin, 16, 16, 1);
-   EXFillAreaSolid(mask, 0, 0, 16, 16, 0);
-
-   d->curs = XCreatePixmapCursor(disp, pmap, mask, &cl, &cl, 0, 0);
    XDefineCursor(disp, win, d->curs);
    XDefineCursor(disp, d->cwin, d->curs);
 
