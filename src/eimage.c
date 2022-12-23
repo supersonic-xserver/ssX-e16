@@ -757,4 +757,46 @@ EImageDefineCursor(EImage * im, int xh, int yh)
    return curs;
 }
 
+EX_Cursor
+EImageCursorCreateFromBitmapData(int w, int h, const unsigned char *cdata,
+				 const unsigned char *cmask, int xh, int yh,
+				 unsigned int fg, unsigned int bg)
+{
+   EX_Cursor           curs;
+   uint32_t           *data, pixel;
+   int                 i, j;
+   Imlib_Image         im;
+
+   /* Looks like the pmap (not mask) bits in all theme cursors are inverted.
+    * Fix by swapping fg and bg colors. */
+
+   im = imlib_create_image(w, h);
+   imlib_context_set_image(im);
+   imlib_image_set_has_alpha(1);
+   data = imlib_image_get_data();
+
+   for (i = 0; i < h; i++)
+     {
+	for (j = 0; j < w; j++)
+	  {
+	     int                 ix = i * ((w + 7) / 8) + j / 8;
+	     int                 bit = j % 8, bits_i, bits_m;
+	     bits_i = cdata[ix];
+	     bits_m = cmask ? cmask[ix] : 0;
+	     if ((bits_m & (1 << bit)) == 0)
+		pixel = 0;
+	     else if (bits_i & (1 << bit))
+		pixel = bg;	/* fg/bg swapped */
+	     else
+		pixel = fg;
+	     *data++ = pixel;
+	  }
+     }
+
+   curs = EImageDefineCursor(im, xh, yh);
+   imlib_free_image_and_decache();
+
+   return curs;
+}
+
 #endif /* USE_XRENDER */

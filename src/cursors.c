@@ -25,9 +25,6 @@
 
 #include <X11/Xlib.h>
 #include <X11/cursorfont.h>
-#if USE_COMPOSITE
-#include <X11/extensions/Xrender.h>
-#endif
 
 #include "E.h"
 #include "conf.h"
@@ -35,6 +32,9 @@
 #include "emodule.h"
 #include "list.h"
 #include "xwin.h"
+#if USE_XRENDER
+#include "eimage.h"
+#endif
 
 struct _ecursor {
    dlist_t             list;
@@ -49,65 +49,96 @@ struct _ecursor {
 
 static              LIST_HEAD(cursor_list);
 
-#if USE_COMPOSITE
-/* Assuming we have XRenderCreateCursor (render >= 0.5) */
+#if !USE_XRENDER
+
 static              EX_Cursor
-ECreatePixmapCursor(EX_Pixmap cpmap, EX_Pixmap cmask, unsigned int w,
-		    unsigned int h, int xh, int yh, unsigned int fg,
-		    unsigned int bg)
+_ECursorCreateFromBitmapData(int w, int h, unsigned char *cdata,
+			     unsigned char *cmask, int xh, int yh,
+			     unsigned int fg, unsigned int bg)
 {
    EX_Cursor           curs;
-   EX_Picture          pict;
-   EX_SrvRegion        rgn1, rgn2;
-
-   /* Looks like the pmap (not mask) bits in all theme cursors are inverted.
-    * Fix by swapping fg and bg colors */
-
-   pict = EPictureCreateBuffer(VROOT, w, h, 1, NULL);
-
-   /* Clear entirely (alpha = 0) */
-   EPictureFillRect(pict, 0, 0, w, h, 0);
-
-   /* Paint fg color where cmask bits are set */
-   rgn1 = ERegionCreateFromBitmap(cmask);
-   EPictureSetClip(pict, rgn1);
-   EPictureFillRect(pict, 0, 0, w, h, fg);
-
-   /* Paint bg color where cpmap bits are set */
-   rgn2 = ERegionCreateFromBitmap(cpmap);
-   ERegionIntersect(rgn1, rgn2);
-   EPictureSetClip(pict, rgn1);
-   EPictureFillRect(pict, 0, 0, w, h, bg);
-
-   curs = XRenderCreateCursor(disp, pict, xh, yh);
-
-   ERegionDestroy(rgn1);
-   ERegionDestroy(rgn2);
-   EPictureDestroy(pict);
-
-   return curs;
-}
-#else
-static              EX_Cursor
-ECreatePixmapCursor(EX_Pixmap cpmap, EX_Pixmap cmask,
-		    unsigned int w __UNUSED__, unsigned int h __UNUSED__,
-		    int xh, int yh, unsigned int fg, unsigned int bg)
-{
-   EX_Cursor           curs;
+   Pixmap              pmap, mask;
    XColor              fgxc, bgxc;
 
+   curs = NoXID;
+   mask = NoXID;
+
+   pmap = XCreateBitmapFromData(disp, WinGetXwin(VROOT), (char *)cdata, w, h);
+   if (!pmap)
+      goto done;
+
+   if (cmask)
+      mask =
+	 XCreateBitmapFromData(disp, WinGetXwin(VROOT), (char *)cmask, w, h);
+
    /* Looks like the pmap (not mask) bits in all theme cursors are inverted.
-    * Fix by swapping fg and bg colors */
+    * Fix by swapping fg and bg colors. */
    COLOR32_TO_RGB16(bg, fgxc.red, fgxc.green, fgxc.blue);
    COLOR32_TO_RGB16(fg, bgxc.red, bgxc.green, bgxc.blue);
    XAllocColor(disp, WinGetCmap(VROOT), &fgxc);
    XAllocColor(disp, WinGetCmap(VROOT), &bgxc);
 
-   curs = XCreatePixmapCursor(disp, cpmap, cmask, &fgxc, &bgxc, xh, yh);
+   curs = XCreatePixmapCursor(disp, pmap, mask, &fgxc, &bgxc, xh, yh);
+
+   EFreePixmap(pmap);
+   if (mask)
+      EFreePixmap(mask);
+
+ done:
+   return curs;
+}
+
+#endif /* !USE_XRENDER */
+
+static              EX_Cursor
+_ECursorCreateFromBitmaps(const char *img, unsigned int fg, unsigned int bg)
+{
+   EX_Cursor           curs;
+   unsigned char      *cdata, *cmask;
+   unsigned int        w, h, wm, hm;
+   int                 xh, yh;
+   char                msk[FILEPATH_LEN_MAX];
+
+   curs = NoXID;
+   w = h = 0;
+   xh = yh = 0;
+   cdata = cmask = NULL;
+
+   XReadBitmapFileData(img, &w, &h, &cdata, &xh, &yh);
+   if (!cdata)
+      goto done;
+   XQueryBestCursor(disp, WinGetXwin(VROOT), w, h, &wm, &hm);
+   if (w > wm || h > hm)
+      goto done;
+
+   Esnprintf(msk, sizeof(msk), "%s.mask", img);
+   XReadBitmapFileData(msk, &wm, &hm, &cmask, NULL, NULL);
+   if (cmask && (w != wm || h != hm))
+     {
+	/* Dimension mismatch - drop mask */
+	XFree(cmask);
+	cmask = NULL;
+     }
+
+   if (xh < 0 || xh >= (int)w)
+      xh = w / 2;
+   if (yh < 0 || yh >= (int)h)
+      yh = h / 2;
+
+#if USE_XRENDER
+   curs = EImageCursorCreateFromBitmapData(w, h, cdata, cmask, xh, yh, fg, bg);
+#else
+   curs = _ECursorCreateFromBitmapData(w, h, cdata, cmask, xh, yh, fg, bg);
+#endif
+
+   if (cmask)
+      XFree(cmask);
+ done:
+   if (cdata)
+      XFree(cdata);
 
    return curs;
 }
-#endif
 
 static void
 _ECursorCreate(const char *name, const char *image, int native_id,
@@ -155,10 +186,7 @@ _ECursorDestroy(ECursor * ec)
 static ECursor     *
 _ECursorRealize(ECursor * ec)
 {
-   Pixmap              pmap, mask;
-   int                 xh, yh;
-   unsigned int        w, h, ww, hh;
-   char               *img, msk[FILEPATH_LEN_MAX];
+   char               *img;
 
    if (ec->file)
      {
@@ -167,34 +195,13 @@ _ECursorRealize(ECursor * ec)
 	if (!img)
 	   goto done;
 
-	Esnprintf(msk, sizeof(msk), "%s.mask", img);
-	pmap = 0;
-	mask = 0;
-	xh = 0;
-	yh = 0;
-	XReadBitmapFile(disp, WinGetXwin(VROOT), msk, &w, &h, &mask, &xh, &yh);
-	XReadBitmapFile(disp, WinGetXwin(VROOT), img, &w, &h, &pmap, &xh, &yh);
-	XQueryBestCursor(disp, WinGetXwin(VROOT), w, h, &ww, &hh);
-	if ((w <= ww) && (h <= hh) && (pmap))
-	  {
-	     if (xh < 0 || xh >= (int)w)
-		xh = (int)w / 2;
-	     if (yh < 0 || yh >= (int)h)
-		yh = (int)h / 2;
-	     ec->cursor =
-		ECreatePixmapCursor(pmap, mask, w, h, xh, yh, ec->fg, ec->bg);
-	  }
-
+	ec->cursor = _ECursorCreateFromBitmaps(img, ec->fg, ec->bg);
 	if (ec->cursor == NoXID)
 	  {
-	     Eprintf("*** Failed to create cursor \"%s\" from %s,%s\n",
-		     ec->name, img, msk);
+	     Eprintf("*** Failed to create cursor \"%s\" from %s,%s.mask\n",
+		     ec->name, img, img);
 	  }
 
-	if (pmap)
-	   EFreePixmap(pmap);
-	if (mask)
-	   EFreePixmap(mask);
 	Efree(img);
      }
    else

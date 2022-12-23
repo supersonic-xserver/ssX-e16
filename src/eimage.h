@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2022 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -118,6 +118,12 @@ void                ScaleTile(Win wsrc, EX_Drawable src, Win wdst,
 			      int flags);
 
 EX_Cursor           EImageDefineCursor(EImage * im, int xh, int yh);
+EX_Cursor           EImageCursorCreateFromBitmapData(int w, int h,
+						     const unsigned char *cdata,
+						     const unsigned char *cmask,
+						     int xh, int yh,
+						     unsigned int fg,
+						     unsigned int bg);
 
 void                EDrawableDumpImage(EX_Drawable draw, const char *txt);
 
