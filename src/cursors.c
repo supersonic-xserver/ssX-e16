@@ -60,21 +60,24 @@ ECreatePixmapCursor(EX_Pixmap cpmap, EX_Pixmap cmask, unsigned int w,
    EX_Picture          pict;
    EX_SrvRegion        rgn1, rgn2;
 
+   /* Looks like the pmap (not mask) bits in all theme cursors are inverted.
+    * Fix by swapping fg and bg colors */
+
    pict = EPictureCreateBuffer(VROOT, w, h, 1, NULL);
 
    /* Clear entirely (alpha = 0) */
    EPictureFillRect(pict, 0, 0, w, h, 0);
 
-   /* Set bg color (cursor shape) */
+   /* Paint fg color where cmask bits are set */
    rgn1 = ERegionCreateFromBitmap(cmask);
    EPictureSetClip(pict, rgn1);
-   EPictureFillRect(pict, 0, 0, w, h, bg);
+   EPictureFillRect(pict, 0, 0, w, h, fg);
 
-   /* Set fg color */
+   /* Paint bg color where cpmap bits are set */
    rgn2 = ERegionCreateFromBitmap(cpmap);
    ERegionIntersect(rgn1, rgn2);
    EPictureSetClip(pict, rgn1);
-   EPictureFillRect(pict, 0, 0, w, h, fg);
+   EPictureFillRect(pict, 0, 0, w, h, bg);
 
    curs = XRenderCreateCursor(disp, pict, xh, yh);
 
@@ -93,8 +96,10 @@ ECreatePixmapCursor(EX_Pixmap cpmap, EX_Pixmap cmask,
    EX_Cursor           curs;
    XColor              fgxc, bgxc;
 
-   COLOR32_TO_RGB16(fg, fgxc.red, fgxc.green, fgxc.blue);
-   COLOR32_TO_RGB16(bg, bgxc.red, bgxc.green, bgxc.blue);
+   /* Looks like the pmap (not mask) bits in all theme cursors are inverted.
+    * Fix by swapping fg and bg colors */
+   COLOR32_TO_RGB16(bg, fgxc.red, fgxc.green, fgxc.blue);
+   COLOR32_TO_RGB16(fg, bgxc.red, bgxc.green, bgxc.blue);
    XAllocColor(disp, WinGetCmap(VROOT), &fgxc);
    XAllocColor(disp, WinGetCmap(VROOT), &bgxc);
 
@@ -255,7 +260,7 @@ int
 ECursorConfigLoad(FILE * fs)
 {
    int                 err = 0;
-   unsigned int        clr, clr2;
+   unsigned int        cbg, cfg;
    char                s[FILEPATH_LEN_MAX];
    char                s2[FILEPATH_LEN_MAX];
    char               *p2;
@@ -264,8 +269,8 @@ ECursorConfigLoad(FILE * fs)
    char                file[FILEPATH_LEN_MAX], *pfile;
    int                 native_id = -1;
 
-   COLOR32_FROM_RGB(clr, 0, 0, 0);
-   COLOR32_FROM_RGB(clr2, 255, 255, 255);
+   COLOR32_FROM_RGB(cbg, 0, 0, 0);
+   COLOR32_FROM_RGB(cfg, 255, 255, 255);
 
    pname = pfile = NULL;
 
@@ -279,13 +284,13 @@ ECursorConfigLoad(FILE * fs)
 	     i2 = atoi(s2);
 	     if (i2 != CONFIG_OPEN)
 		goto done;
-	     COLOR32_FROM_RGB(clr, 0, 0, 0);
-	     COLOR32_FROM_RGB(clr2, 255, 255, 255);
+	     COLOR32_FROM_RGB(cbg, 0, 0, 0);
+	     COLOR32_FROM_RGB(cfg, 255, 255, 255);
 	     pname = pfile = NULL;
 	     native_id = -1;
 	     break;
 	  case CONFIG_CLOSE:
-	     ECursorCreate(pname, pfile, native_id, clr, clr2);
+	     ECursorCreate(pname, pfile, native_id, cfg, cbg);
 	     err = 0;
 	     break;
 
@@ -301,12 +306,12 @@ ECursorConfigLoad(FILE * fs)
 	  case CURS_BG_RGB:
 	     r = g = b = 0;
 	     sscanf(p2, "%d %d %d", &r, &g, &b);
-	     COLOR32_FROM_RGB(clr, r, g, b);
+	     COLOR32_FROM_RGB(cbg, r, g, b);
 	     break;
 	  case CURS_FG_RGB:
 	     r = g = b = 255;
 	     sscanf(p2, "%d %d %d", &r, &g, &b);
-	     COLOR32_FROM_RGB(clr2, r, g, b);
+	     COLOR32_FROM_RGB(cfg, r, g, b);
 	     break;
 	  case XBM_FILE:
 	     strcpy(file, s2);
