@@ -22,6 +22,7 @@
  */
 #include "config.h"
 
+#include <stdint.h>
 #include <Imlib2.h>
 #include <X11/Xlib.h>
 #if USE_XRENDER
