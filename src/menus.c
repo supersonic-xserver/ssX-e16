@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1958,6 +1958,7 @@ typedef struct {
    char                warp;
    char                animate;
    char                onscreen;
+   char                show_icons;
    int                 icon_size;
 } MenudDlgData;
 
@@ -1969,6 +1970,7 @@ _DlgApplyMenus(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
    Conf.menus.warp = dd->warp;
    Conf.menus.animate = dd->animate;
    Conf.menus.onscreen = dd->onscreen;
+   Conf.menus.show_icons = dd->show_icons;
    Conf.menus.icon_size = dd->icon_size;
 
    MenusTouch();
@@ -1996,6 +1998,7 @@ _DlgFillMenus(Dialog * d, DItem * table, void *data __UNUSED__)
    dd->warp = Conf.menus.warp;
    dd->animate = Conf.menus.animate;
    dd->onscreen = Conf.menus.onscreen;
+   dd->show_icons = Conf.menus.show_icons;
    dd->icon_size = Conf.menus.icon_size;
 
    DialogItemTableSetOptions(table, 2, 0, 0, 0);
@@ -2014,6 +2017,11 @@ _DlgFillMenus(Dialog * d, DItem * table, void *data __UNUSED__)
    DialogItemSetColSpan(di, 2);
    DialogItemSetText(di, _("Warp pointer after moving menus"));
    DialogItemCheckButtonSetPtr(di, &dd->warp);
+
+   di = DialogAddItem(table, DITEM_CHECKBUTTON);
+   DialogItemSetColSpan(di, 2);
+   DialogItemSetText(di, _("Show menu icons"));
+   DialogItemCheckButtonSetPtr(di, &dd->show_icons);
 
    label = DialogAddItem(table, DITEM_TEXT);
 
