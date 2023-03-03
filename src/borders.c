@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -696,6 +696,11 @@ EwinBorderSetTo(EWin * ewin, const Border * b)
       EXRestackWindows(wl, j);
       Efree(wl);
    }
+
+#if USE_CONTAINER_WIN
+   if (!ewin->state.shaded)
+      EMoveWindow(ewin->win_container, b->border.left, b->border.top);
+#endif
 
    ewin->update.shape = 1;
    EwinBorderCalcSizes(ewin, 0);
