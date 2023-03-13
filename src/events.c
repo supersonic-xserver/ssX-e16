@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1014,11 +1014,11 @@ _EventFetchGeneric(XEvent * ev)
 #endif /* USE_GENERIC */
 
 static int
-EventsFetch(XEvent ** evq_p, int *evq_n)
+EventsFetch(XEvent ** evq_ptr, int *evq_alloc)
 {
    int                 i, n, count;
-   XEvent             *evq = *evq_p, *ev;
-   int                 qsz = *evq_n;
+   XEvent             *evq = *evq_ptr, *ev;
+   int                 qsz = *evq_alloc;
 
    /* Fetch the entire event queue */
    for (i = count = 0; (n = XPending(disp)) > 0;)
@@ -1065,21 +1065,21 @@ EventsFetch(XEvent ** evq_p, int *evq_n)
 
    EventsCompress(evq, count);
 
-   *evq_p = evq;
-   *evq_n = qsz;
+   *evq_ptr = evq;
+   *evq_alloc = qsz;
 
    return count;
 }
 
 static int
-EventsProcess(XEvent ** evq_p, int *evq_n, int *evq_f)
+EventsProcess(XEvent ** evq_ptr, int *evq_alloc, int *evq_fetch)
 {
    int                 i, n, count;
    XEvent             *evq;
 
    /* Fetch the entire event queue */
-   n = EventsFetch(evq_p, evq_n);
-   evq = *evq_p;
+   n = EventsFetch(evq_ptr, evq_alloc);
+   evq = *evq_ptr;
 
    if (EDebug(EDBUG_TYPE_EVENTS) > 1)
       Eprintf("%s-B %d\n", __func__, n);
@@ -1100,8 +1100,8 @@ EventsProcess(XEvent ** evq_p, int *evq_n, int *evq_f)
    if (EDebug(EDBUG_TYPE_EVENTS) > 1)
       Eprintf("%s-E %d/%d\n", __func__, count, n);
 
-   if (n > *evq_f)
-      *evq_f = n;
+   if (n > *evq_fetch)
+      *evq_fetch = n;
 
    return count;
 }
