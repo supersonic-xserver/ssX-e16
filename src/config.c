@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -591,13 +591,12 @@ ThemeConfigLoad(void)
       "menustyles.cfg",
    };
    Progressbar        *p = NULL;
-   unsigned int        i;
+   unsigned int        i, delay_ms;
 
    /* Font mappings */
    FontConfigLoad();
 
    for (i = 0; i < E_ARRAY_SIZE(config_files); i++)
-
      {
 	if (!Mode.wm.restart && Conf.startup.animate)
 	  {
@@ -611,15 +610,20 @@ ThemeConfigLoad(void)
 		  if (p)
 		     ProgressbarShow(p);
 	       }
+	     delay_ms =
+		Conf.desks.slidespeed > 0 ? 120000 / Conf.desks.slidespeed : 20;
 	  }
 
 	ConfigFileLoad(config_files[i], Mode.theme.path, ConfigFileRead, 1);
 
 	if (p)
-	   ProgressbarSet(p, (i * 100) / E_ARRAY_SIZE(config_files));
+	  {
+	     ProgressbarSet(p, ((i + 1) * 100) / E_ARRAY_SIZE(config_files));
 
-	/* Hack - We are not running in the event loop here */
-	EobjsRepaint();
+	     /* Hack - We are not running in the event loop here */
+	     EobjsRepaint();
+	     SleepUs(1000 * delay_ms);
+	  }
      }
 
    if (p)
