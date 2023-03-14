@@ -1014,15 +1014,23 @@ _EventFetchGeneric(XEvent * ev)
 #endif /* USE_GENERIC */
 
 static int
-EventsFetch(XEvent ** evq_ptr, int *evq_alloc)
+EventsFetch(XEvent ** evq_ptr, int *evq_size, int *evq_alloc)
 {
-   int                 i, n, count;
+   int                 i, n;
    XEvent             *evq = *evq_ptr, *ev;
+   int                 count = *evq_size;
    int                 qsz = *evq_alloc;
+   int                 fetched;
+
+   if (EDebug(EDBUG_TYPE_EVENTS))
+      Eprintf("%s-B n=%d/%d block=%d\n", __func__,
+	      *evq_size, *evq_alloc, Mode.events.block);
 
    /* Fetch the entire event queue */
-   for (i = count = 0; (n = XPending(disp)) > 0;)
+   fetched = 0;
+   for (i = count; (n = XPending(disp)) > 0;)
      {
+	fetched += n;
 	count += n;
 	if (count > qsz)
 	  {
@@ -1063,26 +1071,30 @@ EventsFetch(XEvent ** evq_ptr, int *evq_alloc)
 	  }
      }
 
-   EventsCompress(evq, count);
-
    *evq_ptr = evq;
    *evq_alloc = qsz;
+   *evq_size = count;
 
-   return count;
+   if (EDebug(EDBUG_TYPE_EVENTS))
+      Eprintf("%s-E n=%d/%d fetched=%d\n", __func__,
+	      *evq_size, *evq_alloc, fetched);
+
+   return fetched;		/* Return number of fetched events */
 }
 
 static int
-EventsProcess(XEvent ** evq_ptr, int *evq_alloc, int *evq_fetch)
+EventsProcess(XEvent ** evq_ptr, int *evq_size)
 {
    int                 i, n, count;
    XEvent             *evq;
 
-   /* Fetch the entire event queue */
-   n = EventsFetch(evq_ptr, evq_alloc);
    evq = *evq_ptr;
+   n = *evq_size;
+
+   EventsCompress(evq, n);
 
    if (EDebug(EDBUG_TYPE_EVENTS) > 1)
-      Eprintf("%s-B %d\n", __func__, n);
+      Eprintf("%s-B n=%d\n", __func__, n);
 
    for (i = count = 0; i < n; i++)
      {
@@ -1100,10 +1112,9 @@ EventsProcess(XEvent ** evq_ptr, int *evq_alloc, int *evq_fetch)
    if (EDebug(EDBUG_TYPE_EVENTS) > 1)
       Eprintf("%s-E %d/%d\n", __func__, count, n);
 
-   if (n > *evq_fetch)
-      *evq_fetch = n;
+   *evq_size = 0;		/* All events are now processed */
 
-   return count;
+   return count;		/* Return number of processed events */
 }
 
 /*
@@ -1115,6 +1126,7 @@ void
 EventsMain(void)
 {
    static int          evq_alloc = 0;
+   static int          evq_size = 0;
    static int          evq_fetch = 0;
    static XEvent      *evq_ptr = NULL;
 #if USE_EVHAN_SELECT
@@ -1133,15 +1145,21 @@ EventsMain(void)
      {
 	pfetch = 0;
 	if (!Mode.events.block)
-	   count = EventsProcess(&evq_ptr, &evq_alloc, &pfetch);
+	  {
+	     /* Fetch the entire event queue */
+	     EventsFetch(&evq_ptr, &evq_size, &evq_alloc);
+	     pfetch = evq_size;
+
+	     EventsProcess(&evq_ptr, &evq_size);
+	  }
 
 	if (pfetch)
 	  {
 	     evq_fetch =
 		(pfetch > evq_fetch) ? pfetch : (3 * evq_fetch + pfetch) / 4;
 	     if (EDebug(EDBUG_TYPE_EVENTS) > 1)
-		Eprintf("%s - Alloc/fetch/pfetch/peak=%d/%d/%d/%d)\n",
-			__func__, evq_alloc, evq_fetch, pfetch, count);
+		Eprintf("%s - Alloc/fetch/peak=%d/%d/%d)\n",
+			__func__, evq_alloc, pfetch, evq_fetch);
 	     if ((evq_ptr) && ((evq_alloc - evq_fetch) > 64))
 	       {
 		  evq_alloc = 0;
