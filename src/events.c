@@ -1143,27 +1143,26 @@ EventsMain(void)
 
    for (;;)
      {
-	pfetch = 0;
+	/* Fetch the entire event queue */
+	EventsFetch(&evq_ptr, &evq_size, &evq_alloc);
+	pfetch = evq_size;
+
 	if (!Mode.events.block)
 	  {
-	     /* Fetch the entire event queue */
-	     EventsFetch(&evq_ptr, &evq_size, &evq_alloc);
-	     pfetch = evq_size;
-
 	     EventsProcess(&evq_ptr, &evq_size);
-	  }
 
-	if (pfetch)
-	  {
-	     evq_fetch =
-		(pfetch > evq_fetch) ? pfetch : (3 * evq_fetch + pfetch) / 4;
-	     if (EDebug(EDBUG_TYPE_EVENTS) > 1)
-		Eprintf("%s - Alloc/fetch/peak=%d/%d/%d)\n",
-			__func__, evq_alloc, pfetch, evq_fetch);
-	     if ((evq_ptr) && ((evq_alloc - evq_fetch) > 64))
+	     if (pfetch)
 	       {
-		  evq_alloc = 0;
-		  EFREE_NULL(evq_ptr);
+		  evq_fetch = (pfetch > evq_fetch) ?
+		     pfetch : (3 * evq_fetch + pfetch) / 4;
+		  if (EDebug(EDBUG_TYPE_EVENTS) > 1)
+		     Eprintf("%s - Alloc/fetch/peak=%d/%d/%d)\n",
+			     __func__, evq_alloc, pfetch, evq_fetch);
+		  if ((evq_ptr) && ((evq_alloc - evq_fetch) > 64))
+		    {
+		       evq_alloc = 0;
+		       EFREE_NULL(evq_ptr);
+		    }
 	       }
 	  }
 
