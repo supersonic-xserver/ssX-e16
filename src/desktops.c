@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -78,6 +78,7 @@ typedef struct {
    char               *names[ENLIGHTENMENT_CONF_NUM_DESKTOPS];
    int                 drag_x0, drag_y0;
    unsigned int        prev_num;
+   Animator           *anim_switch;
    Animator           *anim_slide;
 } Desktops;
 
@@ -1231,6 +1232,8 @@ _doDeskGotoEndDeferred(void *data __UNUSED__)
     * initial area but not on the target area. */
    EwinsMovePinnedToDesk(desks.current);
 
+   desks.anim_switch = NULL;
+
    return 0;
 }
 
@@ -1278,6 +1281,9 @@ _DeskGotoRun(EObj * eo, int run, void *state)
    x = (run * xy[0]) >> 10;
    y = (run * xy[1]) >> 10;
 
+   if (EDebug(EDBUG_TYPE_DESKS))
+      Eprintf("%s: dx,y=%d,%d\n", __func__, x, y);
+
    EobjMove(eo, x, y);
 
    if (run == 0)
@@ -1295,6 +1301,9 @@ _DeskGotoRun(EObj * eo, int run, void *state)
 void
 DeskGoto(Desk * dsk)
 {
+   if (desks.anim_switch)
+      return;
+
    if (!dsk || dsk == desks.previous)
       return;
 
@@ -1332,16 +1341,20 @@ DeskGoto(Desk * dsk)
 		  _DeskMove(dsk, x, y);
 		  int                 xy[3] = { x, y, 0 };
 		  _DeskEnter(dsk);
-		  AnimatorAdd(EoObj(dsk), ANIM_SLIDE, _DeskGotoRun,
-			      1000000 / Conf.desks.slidespeed,
-			      0, sizeof(xy), xy);
+		  desks.anim_switch = AnimatorAdd(EoObj(dsk), ANIM_SLIDE,
+						  _DeskGotoRun,
+						  1000000 /
+						  Conf.desks.slidespeed, 0,
+						  sizeof(xy), xy);
 	       }
 	     else
 	       {
 		  int                 xy[3] = { EoGetX(dsk), EoGetY(dsk), 1 };
-		  AnimatorAdd(EoObj(dsk), ANIM_SLIDE, _DeskGotoRun,
-			      1000000 / Conf.desks.slidespeed,
-			      0, sizeof(xy), xy);
+		  desks.anim_switch = AnimatorAdd(EoObj(dsk), ANIM_SLIDE,
+						  _DeskGotoRun,
+						  1000000 /
+						  Conf.desks.slidespeed, 0,
+						  sizeof(xy), xy);
 	       }
 	     return;
 	  }
@@ -1857,6 +1870,9 @@ _DeskCurrentGotoAreaRun(EObj * eo __UNUSED__, int run, void *state)
 
    dx = (run * sad->slide_dx) >> 10;
    dy = (run * sad->slide_dy) >> 10;
+
+   if (EDebug(EDBUG_TYPE_DESKS))
+      Eprintf("%s: dx,y=%d,%d\n", __func__, dx, dy);
 
    for (i = 0; i < sad->n_ewins_slide; i++)
      {
@@ -2395,8 +2411,6 @@ _DesksInit(void)
    /* Backward compatibility hack */
    if (Conf.desks.edge_flip_resistance <= 0)
       Conf.desks.edge_flip_mode = EDGE_FLIP_OFF;
-
-   desks.previous = NULL;
 
    _DesksSetNames(NULL, Conf.desks.names);
 
