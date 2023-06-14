@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -94,7 +94,6 @@ main(int argc, char **argv)
 
    mode = 0;
    display_name = NULL;
-   command = NULL;
 #ifdef __clang_analyzer__
    /* Seems not to understand asm FD_ZERO() */
    memset(&fd, 0, sizeof(fd));
@@ -156,16 +155,9 @@ main(int argc, char **argv)
 
    CommsSend(e, "set clientname eesh");
    CommsSend(e, "set version 0.2");
-#if 0				/* Speed it up */
-   CommsSend(e, "set author The Rasterman");
-   CommsSend(e, "set email raster@rasterman.com");
-   CommsSend(e, "set web http://www.enlightenment.org");
-/* CommsSend(e, "set address NONE"); */
-   CommsSend(e, "set info Enlightenment IPC Shell - talk to E direct");
-/* CommsSend(e, "set pixmap 0"); */
-#endif
 
-   if (!command && i < argc)
+   command = NULL;
+   if (i < argc)
      {
 	mode = 1;
 	len = 0;
