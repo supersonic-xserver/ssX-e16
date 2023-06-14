@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -37,6 +37,8 @@
 #if USE_COMPOSITE
 #include <X11/extensions/Xcomposite.h>
 #endif
+
+void                EUngrabServer(void);
 
 #define ExTextExtents XmbTextExtents
 #define ExDrawString XmbDrawString
@@ -187,6 +189,8 @@ ShowAlert(const char *title,
    /* Don't play sound here (maybe if not forked/in signal handler - later) */
    SoundPlay(SOUND_ALERT);
 #endif
+
+   EUngrabServer();
 
    if (!fmt)
       return;
