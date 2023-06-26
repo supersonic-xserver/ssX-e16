@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -97,11 +97,19 @@ void                EfreeDup(char **p, const char *s);
 
 #define STRCPY(dst, src) do { src[sizeof(dst)-1] = '\0'; strcpy(dst, src); } while(0)
 
-char               *Estrtrim(char *s);
-
 char               *Estrdup(const char *s);
 char               *Estrndup(const char *s, size_t n);
 char               *Estrdupcat2(char *ss, const char *s1, const char *s2);
+
+void                Esetenv(const char *name, const char *value);
+
+/* misc.c */
+void __PRINTF__     Eprintf(const char *fmt, ...);
+
+/* string.c */
+void                EnvSubst(const char *str, char *bptr, unsigned int blen);
+
+char               *Estrtrim(char *s);
 
 char              **StrlistDup(char **lst, int num);
 void                StrlistFree(char **lst, int num);
@@ -112,14 +120,6 @@ char              **StrlistDecodeEscaped(const char *str, int *pnum);
 char              **StrlistFromString(const char *str, int delim, int *num);
 
 void                StrlistSort(char **lst, int num);
-
-void                Esetenv(const char *name, const char *value);
-
-/* misc.c */
-void __PRINTF__     Eprintf(const char *fmt, ...);
-
-/* string.c */
-void                EnvSubst(const char *str, char *bptr, unsigned int blen);
 
 #define Evsnprintf vsnprintf
 #define Esnprintf snprintf
