@@ -693,10 +693,7 @@ AclassConfigLineParse(char *s, ActionClass ** pac, Action ** paa)
    Action             *aa = *paa;
    int                 len, len2;
 
-   len = strcspn(s, "#\r\n");
-   if (len <= 0)
-      return;
-   s[len] = '\0';
+   s = Estrtrim2(s);
 
    prm2[0] = prm3[0] = '\0';
    len2 = 0;

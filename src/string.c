@@ -142,6 +142,51 @@ Estrtrim(char *s)
    return s;
 }
 
+/*
+ * Trim comments and trailing whitespace
+ */
+char               *
+Estrtrim2(char *s)
+{
+   int                 len, len2, ch, quote;
+
+   while (isspace(*s) == ' ')
+      s++;
+
+   quote = '\0';
+   for (len = len2 = 0;; len++)
+     {
+	ch = s[len];
+	switch (ch)
+	  {
+	  default:
+	     break;
+	  case '\0':
+	  case '\n':
+	  case '\r':
+	     goto got_len;
+	  case '\'':
+	  case '"':
+	     quote = (ch == quote) ? '\0' : ch;
+	     break;
+	  case '#':
+	     if (quote)
+		break;
+	     goto got_len;
+	  case ' ':
+	  case '\t':
+	     if (quote)
+		break;
+	     continue;
+	  }
+	len2 = len + 1;
+     }
+ got_len:
+   s[len2] = '\0';
+
+   return s;
+}
+
 #if 0				/* Unused */
 char              **
 StrlistDup(char **lst, int num)

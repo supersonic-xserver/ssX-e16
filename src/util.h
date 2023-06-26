@@ -110,6 +110,7 @@ void __PRINTF__     Eprintf(const char *fmt, ...);
 void                EnvSubst(const char *str, char *bptr, unsigned int blen);
 
 char               *Estrtrim(char *s);
+char               *Estrtrim2(char *s);
 
 char              **StrlistDup(char **lst, int num);
 void                StrlistFree(char **lst, int num);
