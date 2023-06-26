@@ -91,6 +91,7 @@ main(int argc, char **argv)
    char               *command, *s;
    char                mode;
    int                 len, l;
+   const char         *space;
 
    mode = 0;
    display_name = NULL;
@@ -157,6 +158,7 @@ main(int argc, char **argv)
    CommsSend(e, "set version 0.2");
 
    command = NULL;
+   space = "";
    if (i < argc)
      {
 	mode = 1;
@@ -167,13 +169,12 @@ main(int argc, char **argv)
 	     l = strlen(s);
 	     command = EREALLOC(char, command, len + l + 4);
 
-	     if (len)
-		command[len++] = ' ';
 	     if (strchr(s, ' '))
-		l = snprintf(command + len, l + 4, "'%s'", s);
+		l = snprintf(command + len, l + 4, "%s'%s'", space, s);
 	     else
-		l = snprintf(command + len, l + 4, "%s", s);
+		l = snprintf(command + len, l + 4, "%s%s", space, s);
 	     len += l;
+	     space = " ";
 	  }
      }
 
