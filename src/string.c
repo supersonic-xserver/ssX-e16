@@ -150,7 +150,7 @@ Estrtrim2(char *s)
 {
    int                 len, len2, ch, quote;
 
-   while (isspace(*s) == ' ')
+   while (isspace(*s))
       s++;
 
    quote = '\0';
@@ -167,7 +167,10 @@ Estrtrim2(char *s)
 	     goto got_len;
 	  case '\'':
 	  case '"':
-	     quote = (ch == quote) ? '\0' : ch;
+	     if (!quote)
+		quote = ch;
+	     else if (ch == quote)
+		quote = '\0';
 	     break;
 	  case '#':
 	     if (quote)
