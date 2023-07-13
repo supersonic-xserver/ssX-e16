@@ -1,4 +1,38 @@
 
+e16 v1.0.28 - 2023-07-13
+------------------------
+- 1.0.28
+- Update po
+- Fix a couple of bugs in new quoting/comment handling
+- bindings: Handle quoting in AclassConfigLineParse()
+- ipc: Avoid potential crash in AclassConfigParseIpc()
+- Move some string handling functions around
+- eesh: Workaround problem with _FORTIFY_SOURCE=3
+- events: Fetch events also when blocked
+- events: Separate event fetching and processing
+- events: Change some variable names
+- eesh: Trivial cleanups
+- GSOD: Ungrab server before opening new connection
+- startup: Only repaint if animating
+- desks: Prevent nested desk switches
+- Revert "ewins: Remove redundant container window move"
+- menus: Expose option to show/hide menu icons in configuration dialog
+- e_gen_menu.pl: Fix for new IPC parser
+- Add missing include
+- cursors: Rework cursor creation
+- cursors: Mostly cosmetic function name changes
+- cursors: Mostly cosmetic adjustments around fore/background colors
+- extinitwin: Move null cursor definition to separate function
+- eimage: Split EImageDefineCursor
+- Some include tweaks
+- matches.cfg: Ignore virtualbox move requests
+- pagers: Avoid some overhead
+- Forgot some 2022
+- ewins: Tweak spurious MapRequest handling
+- ewins: Remove redundant container window move
+- memory.c: Consistently use EMALLOC()
+- focus: Keep focus when un-fullscreened
+
 e16 v1.0.27 - 2022-11-25
 ------------------------
 - 1.0.27
