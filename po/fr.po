@@ -3,14 +3,14 @@
 # Sylvain GIL <tootella@tootella.com>, 1999-2000.
 # Ludwig Noujarret <ludwig@noujarret.com>, 2004, 2005.
 # Tristan D. <trinine@free.fr>, 2007-2012.
-# similar <similar@orange.fr>, 2020, 2021, 2022.
+# similar <similar@orange.fr>, 2020, 2021, 2022, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
 "POT-Creation-Date: 2023-07-13 08:52+0200\n"
-"PO-Revision-Date: 2022-06-18 12:23+0200\n"
+"PO-Revision-Date: 2023-07-23 07:40+0200\n"
 "Last-Translator: Philippe Jean Guillaumie <similar@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Poedit 3.1\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: src/about.c:35
 #, c-format
@@ -1198,10 +1198,8 @@ msgid "Warp pointer after moving menus"
 msgstr "Déplacer le pointeur après déplacement des menus"
 
 #: src/menus.c:2023
-#, fuzzy
-#| msgid "Show more buttons"
 msgid "Show menu icons"
-msgstr "Afficher plus de boutons"
+msgstr "Afficher les icônes des menus"
 
 #: src/menus.c:2039
 msgid "Menus"
