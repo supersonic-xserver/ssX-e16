@@ -3,14 +3,14 @@
 # Pedro Alexandre <miguel@linuxfreak.com>, 1999, 2000.
 # Daniel Vieira Pereira <gunsmithcat@ip.pt>, 1999, 2000.
 # Sérgio Marques <smarquespt@gmail.com>, 2010, 2011.
-# Hugo Carvalho <hugokarvalho@hotmail.com>, 2020, 2021, 2022.
+# Hugo Carvalho <hugokarvalho@hotmail.com>, 2020, 2021, 2022, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
 "POT-Creation-Date: 2023-07-13 08:52+0200\n"
-"PO-Revision-Date: 2022-09-27 15:38+0100\n"
+"PO-Revision-Date: 2023-07-23 10:08+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language: pt\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Launchpad-Export-Date: 2010-05-09 01:32+0000\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: src/about.c:35
 #, c-format
@@ -1048,7 +1048,7 @@ msgstr "Mensagem"
 #: src/ipc.c:1618 src/ipc.c:1625
 #, c-format
 msgid "e16 was built without %s support"
-msgstr "O e16 foi compilado sem suporte a %s"
+msgstr "e16 foi compilado sem suporte a %s"
 
 #: src/ipc.c:1619
 msgid "composite"
@@ -1094,8 +1094,8 @@ msgid ""
 "%s must be a directory in which you have\n"
 "read, write, and execute permission.\n"
 msgstr ""
-"%s tem que ser um diretório no qual você\n"
-"tenha permissão de escrita, leitura e execução.\n"
+"%s tem que ser um diretório no qual tem\n"
+"permissão de leitura, escrita e execução.\n"
 
 #: src/main.c:616
 #, c-format
@@ -1178,7 +1178,7 @@ msgstr "Área de trabalho %i"
 
 #: src/menus-misc.c:597
 msgid "Show/Hide this group"
-msgstr "Mostar/ocultar este grupo"
+msgstr "Mostrar/Ocultar este grupo"
 
 #: src/menus-misc.c:601
 msgid "Iconify this group"
@@ -1202,10 +1202,8 @@ msgid "Warp pointer after moving menus"
 msgstr "Posicionar ponteiro após mover menus"
 
 #: src/menus.c:2023
-#, fuzzy
-#| msgid "Show more buttons"
 msgid "Show menu icons"
-msgstr "Mostrar mais botões"
+msgstr "Mostrar ícones de menu"
 
 #: src/menus.c:2039
 msgid "Menus"
@@ -1583,7 +1581,7 @@ msgstr "Ignorar suportes/painéis para colocar janelas normais"
 
 #: src/settings.c:464
 msgid "Ignore struts/panels when windows are fullscreen"
-msgstr "Ignorar suportes/painéis quando as janelas estiverem em ecrã completo"
+msgstr "Ignorar suportes/painéis quando as janelas estiverem em ecrã inteiro"
 
 #: src/settings.c:469
 msgid "Ignore struts/panels when maximizing windows"
@@ -1591,7 +1589,7 @@ msgstr "Ignorar suportes/painéis ao maximizar janelas"
 
 #: src/settings.c:474
 msgid "Raise fullscreen windows"
-msgstr "Elevar janelas em ecrã completo"
+msgstr "Elevar janelas em ecrã inteiro"
 
 #: src/settings.c:480
 msgid "Placement"
@@ -2564,7 +2562,7 @@ msgstr "Alternar largura máxima absoluta"
 
 #: config/strings.c:189
 msgid "Toggle fullscreen"
-msgstr "Alternar ecrã completo"
+msgstr "Alternar ecrã inteiro"
 
 #: config/strings.c:190
 msgid "Toggle zoom"
