@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
 "POT-Creation-Date: 2023-07-13 08:52+0200\n"
-"PO-Revision-Date: 2022-06-11 21:05+0200\n"
+"PO-Revision-Date: 2023-07-23 10:33+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
 "Language: da\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: src/about.c:35
 #, c-format
@@ -1169,10 +1169,8 @@ msgid "Warp pointer after moving menus"
 msgstr "Flyt markør efter flytning af menuer"
 
 #: src/menus.c:2023
-#, fuzzy
-#| msgid "Show more buttons"
 msgid "Show menu icons"
-msgstr "Vis flere knapper"
+msgstr "Vis ikoner i menuer"
 
 #: src/menus.c:2039
 msgid "Menus"
