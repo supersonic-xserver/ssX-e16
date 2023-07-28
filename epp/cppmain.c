@@ -44,11 +44,7 @@ main(int argc, char **argv)
    int                 got_text;
 
    p = argv[0] + strlen(argv[0]);
-#ifndef __EMX__
    while (p != argv[0] && p[-1] != '/')
-#else
-   while (p != argv[0] && p[-1] != '/' && p[-1] != '\\')
-#endif
       --p;
    progname = p;
 

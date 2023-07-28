@@ -28,9 +28,6 @@
 #include "cpplib.h"
 #include "cpphash.h"
 
-#ifdef __EMX__
-#include <strings.h>
-#endif
 
 #ifdef MULTIBYTE_CHARS
 #include <locale.h>

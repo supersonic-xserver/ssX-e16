@@ -636,6 +636,3 @@ void               *xmalloc(unsigned size);
 void               *xrealloc(void *old, unsigned size);
 void               *xcalloc(unsigned number, unsigned size);
 
-#ifdef __EMX__
-#define PATH_SEPARATOR ';'
-#endif

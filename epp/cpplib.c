@@ -27,9 +27,6 @@ const char         *version_string = "0.0.0";
 
 #include "config.h"
 
-#ifdef __EMX__
-#include <strings.h>
-#endif
 
 #ifndef STANDARD_INCLUDE_DIR
 #define STANDARD_INCLUDE_DIR "/usr/include"
@@ -3320,11 +3317,7 @@ do_include(cpp_reader * pfile, struct directive *keyword,
 
    /* If specified file name is absolute, just open it.  */
 
-#ifndef __EMX__
    if (*fbeg == '/')
-#else
-   if (_fnisabs(fbeg))
-#endif
      {
 	strncpy(fname, (const char *)fbeg, flen);
 	fname[flen] = 0;
@@ -5380,11 +5373,7 @@ read_name_map(cpp_reader * pfile, const char *dirname)
    if (*dirname)
       strcat(name, "/");
    strcat(name, FILE_NAME_MAP_FILE);
-#ifndef __EMX__
    f = fopen(name, "r");
-#else
-   f = fopen(name, "rt");
-#endif
    if (!f)
       map_list_ptr->map_list_map = NULL;
    else
