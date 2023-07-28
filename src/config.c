@@ -240,7 +240,7 @@ ConfigFilePreparse(const char *src, const char *dst, const char *themepath)
    variant = (Mode.theme.variant) ? Mode.theme.variant : "";
 
    Esystem("%s/epp -P -nostdinc -undef "
-	   "-include %s/config/definitions -I%s -I%s/config "
+	   "-I%s -I%s/config "
 	   "-D ENLIGHTENMENT_VERSION=%s "
 	   "-D ENLIGHTENMENT_ROOT=%s "
 	   "-D ENLIGHTENMENT_BIN=%s "
@@ -253,7 +253,7 @@ ConfigFilePreparse(const char *src, const char *dst, const char *themepath)
 	   "-D SCREEN_HEIGHT_%i=1 "
 	   "-D SCREEN_DEPTH_%i=1 "
 	   "%s %s",
-	   EDirBin(), EDirRoot(), themepath, EDirRoot(),
+	   EDirBin(), themepath, EDirRoot(),
 	   e_wm_version, EDirRoot(), EDirBin(), themepath, variant,
 	   EDirUserConf(), EDirUserCache(),
 	   WinGetW(VROOT), WinGetH(VROOT), WinGetW(VROOT), WinGetH(VROOT),
