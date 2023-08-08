@@ -516,9 +516,6 @@ ImageclassConfigLoad(FILE * fs)
 	     is->border->right = r;
 	     is->border->top = t;
 	     is->border->bottom = b;
-	     /* Hmmm... imlib2 works better with this */
-	     is->border->right++;
-	     is->border->bottom++;
 	     continue;
 	  case ICLASS_FILLRULE:
 	     is->pixmapfillstyle = atoi(s2);
