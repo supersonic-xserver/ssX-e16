@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -2265,25 +2265,6 @@ EwinListTransientFor(const EWin * ewin, int *num)
 }
 
 static void
-EwinsTouch(Desk * dsk)
-{
-   int                 i, num;
-   EWin               *const *lst, *ewin;
-
-   if (!dsk)
-      lst = EwinListGetAll(&num);
-   else
-      lst = EwinListGetForDesk(&num, dsk);
-
-   for (i = num - 1; i >= 0; i--)
-     {
-	ewin = lst[i];
-	if (EoIsMapped(ewin) && EwinIsOnScreen(ewin))
-	   EwinMove(ewin, EoGetX(ewin), EoGetY(ewin), 0);
-     }
-}
-
-static void
 EwinsReposition(void)
 {
    int                 i, num;
@@ -2752,7 +2733,7 @@ EwinsInit(void)
  */
 
 static void
-EwinsSighan(int sig, void *prm)
+EwinsSighan(int sig, void *prm __UNUSED__)
 {
    switch (sig)
      {
@@ -2766,12 +2747,6 @@ EwinsSighan(int sig, void *prm)
 #endif
      case ESIGNAL_DESK_RESIZE:
 	EwinsReposition();
-	break;
-     case ESIGNAL_THEME_TRANS_CHANGE:
-	EwinsTouch(DesksGetCurrent());
-	break;
-     case ESIGNAL_BACKGROUND_CHANGE:
-	EwinsTouch((Desk *) prm);
 	break;
      }
 }

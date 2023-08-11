@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2021 Kim Woelders
+ * Copyright (C) 2003-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -61,7 +61,6 @@ typedef enum {
    ESIGNAL_EWIN_CHANGE_ICON,
    ESIGNAL_EWIN_CHANGE,
    ESIGNAL_EWIN_DAMAGE,
-   ESIGNAL_THEME_TRANS_CHANGE,
 } esignal_e;
 
 #if 0				/* Maybe later */

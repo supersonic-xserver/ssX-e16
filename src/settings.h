@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006-2009 Kim Woelders
+ * Copyright (C) 2006-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -45,7 +45,6 @@ extern const DialogDef DlgRemember;
 extern const DialogDef DlgSession;
 extern const DialogDef DlgSound;
 extern const DialogDef DlgTheme;
-extern const DialogDef DlgThemeTrans;
 extern const DialogDef DlgTooltips;
 #endif
 

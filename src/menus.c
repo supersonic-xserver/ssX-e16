@@ -1188,6 +1188,8 @@ MenusHide(void)
    TooltipsEnable(1);
 }
 
+#if ENABLE_DIALOGS
+
 static void
 MenusTouch(void)
 {
@@ -1195,6 +1197,8 @@ MenusTouch(void)
 
    LIST_FOR_EACH(Menu, &menu_list, m) m->redraw = 1;
 }
+
+#endif /* ENABLE_DIALOGS */
 
 /*
  * Menu event handlers
@@ -1941,10 +1945,6 @@ MenusSighan(int sig, void *prm __UNUSED__)
      case ESIGNAL_EWIN_UNMAP:
 	if ((EWin *) prm == Mode_menus.context_ewin)
 	   MenusHide();
-	break;
-
-     case ESIGNAL_THEME_TRANS_CHANGE:
-	MenusTouch();
 	break;
      }
 }
