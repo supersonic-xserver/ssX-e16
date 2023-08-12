@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -29,6 +29,7 @@
 
 #define USE_BG_WIN_ON_ALL_DESKS 0
 
+#define DESK_BG_CHANGED         0
 #define DESK_BG_REFRESH         1
 #define DESK_BG_FREE            2
 #define DESK_BG_TIMEOUT         3

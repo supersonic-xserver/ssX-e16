@@ -611,13 +611,12 @@ _DeskBackgroundRefresh(Desk * dsk, int why)
 
    switch (why)
      {
+     case DESK_BG_CHANGED:
+	changed = 1;
+	/* FALLTHROUGH */
      case DESK_BG_REFRESH:
 	if (bg && dsk->viewable)
 	   BackgroundTouch(bg);
-	break;
-
-     case DESK_BG_RECONFIGURE_ALL:
-	reconfigure = 1;
 	break;
 
      case DESK_BG_TIMEOUT:
@@ -628,6 +627,10 @@ _DeskBackgroundRefresh(Desk * dsk, int why)
      case DESK_BG_FREE:
 	if (!bg || dsk->viewable)
 	   return;
+	break;
+
+     case DESK_BG_RECONFIGURE_ALL:
+	reconfigure = 1;
 	break;
      }
 
@@ -652,9 +655,10 @@ _DeskBackgroundRefresh(Desk * dsk, int why)
 	  }
 	else
 	  {
+#if 0				/* FIXME - Does removing this break something? */
 	     if (dsk->bg.pmap == NoXID)
 		return;
-
+#endif
 	     pmap = NoXID;
 	     pixel = 0;
 	     dsk->bg.seq_no = 0;
@@ -705,7 +709,7 @@ DeskBackgroundSet(Desk * dsk, Background * bg)
 
    dsk->bg.bg = bg;
 
-   _DeskBackgroundRefresh(dsk, DESK_BG_REFRESH);
+   _DeskBackgroundRefresh(dsk, DESK_BG_CHANGED);
 }
 
 void
@@ -2170,7 +2174,7 @@ _DeskPropertyChange(Desk * dsk, XEvent * ev)
 	   return;
 	Mode.root.ext_pmap = pmap;
 	Mode.root.ext_pmap_valid = EXDrawableOk(pmap);
-	DesksBackgroundRefresh(NULL, DESK_BG_REFRESH);
+	DesksBackgroundRefresh(NULL, DESK_BG_CHANGED);
      }
    else if (ev->xproperty.atom == ea_m._XROOTCOLOR_PIXEL)
      {
