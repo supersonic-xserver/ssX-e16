@@ -57,4 +57,4 @@ xpager)
 esac
 
 rm -rf $ECACHEDIR/cached/$dir/* $ECACHEDIR/cached/$dir/.* >/dev/null 2>&1
-eesh -e "dialog_ok $txt purged."
+eesh -e dialog_ok "$txt purged."
