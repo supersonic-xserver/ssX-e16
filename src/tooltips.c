@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -758,9 +758,6 @@ ToolTipTimeout(void *data __UNUSED__)
 void
 TooltipsSetPending(int type, CB_GetAclass * func, void *data)
 {
-   if (!Mode_tooltips.ac_func && !func)
-      return;
-
    Mode_tooltips.ac_func = func;
    Mode_tooltips.ac_data = data;
 
