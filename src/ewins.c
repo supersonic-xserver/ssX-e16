@@ -315,7 +315,12 @@ EwinSetGeometry(EWin * ewin)
    int                 grav;
    const EImageBorder *pad;
 
-   grav = (ewin->state.identified) ? StaticGravity : ewin->icccm.grav;
+   if (ewin->state.identified)
+      grav = StaticGravity;
+   else if (Conf.place.ignore_client_gravity)
+      grav = NorthWestGravity;
+   else
+      grav = ewin->icccm.grav;
 
    EwinGetPosition(ewin, ewin->client.x, ewin->client.y, grav, &x, &y);
 
