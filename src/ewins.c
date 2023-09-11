@@ -1119,10 +1119,9 @@ EwinWithdraw(EWin * ewin, Win to)
 	const EImageBorder *pad = BorderGetSize(ewin->border);
 
 	/* Park the client window on the new root */
-	x = ewin->client.x;
-	y = ewin->client.y;
+	EwinGetPosition(ewin, pad->left, pad->top, ewin->icccm.grav, &x, &y);
 	ETranslateCoordinates(EwinGetClientWin(ewin), VROOT,
-			      -pad->left, -pad->top, &x, &y, NULL);
+			      -x, -y, &x, &y, NULL);
 	EReparentWindow(EwinGetClientWin(ewin), to, x, y);
 	HintsDelWindowHints(ewin);
      }
