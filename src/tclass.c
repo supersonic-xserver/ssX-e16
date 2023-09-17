@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -448,7 +448,7 @@ TextclassIpc(const char *params)
 	if (!win)
 	   return;
 
-	TextDraw(tc, win, NoXID, 0, 0, st, p, x, y, 99999, 99999, 17, 0);
+	TextDraw(tc, win, NoXID, 0, 0, st, p, x, y, 99999, 99999, 0);
 	EDestroyWin(win);
      }
    else if (!strcmp(param2, "query_size"))
@@ -461,7 +461,7 @@ TextclassIpc(const char *params)
 	   return;
 
 	w = h = 0;
-	TextSize(tc, 0, 0, STATE_NORMAL, p, &w, &h, 17);
+	TextSize(tc, 0, 0, STATE_NORMAL, p, &w, &h);
 	IpcPrintf("%i %i\n", w, h);
      }
    else if (!strcmp(param2, "query"))

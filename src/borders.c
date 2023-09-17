@@ -397,8 +397,7 @@ _BorderWinpartCalc(const EWin * ewin, int i, int ww, int hh)
 	tclass = ewin->border->part[i].tclass;
 	pad = ImageclassGetPadding(iclass);
 	TextSize(tclass, ewin->state.active, EoIsSticky(ewin),
-		 ewin->bits[i].state, EwinGetTitle(ewin), &max, &dummywidth,
-		 w - (pad->top + pad->bottom));
+		 ewin->bits[i].state, EwinGetTitle(ewin), &max, &dummywidth);
 	max += pad->left + pad->right;
 	if (h > max)
 	  {
@@ -446,7 +445,7 @@ _BorderWinpartCalc(const EWin * ewin, int i, int ww, int hh)
 	     pad = ImageclassGetPadding(iclass);
 	     TextSize(tclass, ewin->state.active, EoIsSticky(ewin),
 		      ewin->bits[i].state, EwinGetTitle(ewin), &max,
-		      &dummyheight, h - (pad->top + pad->bottom));
+		      &dummyheight);
 	     max += pad->left + pad->right;
 
 	     if (w > max)

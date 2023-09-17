@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -102,15 +102,15 @@ void                TextstateTextFit(TextState * ts, char **ptext, int *pw,
 void                TextstateTextDraw(TextState * ts, Win win,
 				      EX_Drawable draw, const char *text,
 				      int x, int y, int w, int h,
-				      const EImageBorder * pad, int fsize,
+				      const EImageBorder * pad,
 				      int justh, int justv);
 void                TextSize(TextClass * tclass, int active, int sticky,
-			     int state, const char *text, int *width,
-			     int *height, int fsize);
+			     int state, const char *text,
+			     int *width, int *height);
 void                TextDraw(TextClass * tclass, Win win, EX_Drawable draw,
 			     int active, int sticky, int state,
 			     const char *text, int x, int y, int w, int h,
-			     int fsize, int justification);
+			     int justification);
 
 int                 _xft_FdcInit(TextState * ts, Win win, EX_Drawable draw);
 void                _xft_FdcFini(TextState * ts);

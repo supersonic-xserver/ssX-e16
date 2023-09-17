@@ -304,15 +304,14 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 		continue;
 	     tts = _(tts);
 
-	     TextSize(tt->tclass, 0, 0, STATE_NORMAL, tts, &temp_w, &temp_h,
-		      17);
+	     TextSize(tt->tclass, 0, 0, STATE_NORMAL, tts, &temp_w, &temp_h);
 	     if (temp_w > labels_width)
 		labels_width = temp_w;
 
 	     if (ActionGetEvent(aa) == EVENT_DOUBLE_DOWN)
 	       {
 		  TextSize(tt->tclass, 0, 0, STATE_NORMAL, "2x", &double_w,
-			   &temp_h, 17);
+			   &temp_h);
 		  if (cols[0] < double_w)
 		     cols[0] = double_w;
 	       }
@@ -390,7 +389,7 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 	  }
      }
 
-   TextSize(tt->tclass, 0, 0, STATE_NORMAL, text, &headline_w, &headline_h, 17);
+   TextSize(tt->tclass, 0, 0, STATE_NORMAL, text, &headline_w, &headline_h);
    if (headline_w < icons_width + labels_width)
       w = icons_width + labels_width;
    else
@@ -564,7 +563,7 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 
    /* draw the ordinary tooltip text */
    TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), NoXID, 0, 0, STATE_NORMAL, text,
-	    xx, pad->top, headline_w, headline_h, 17, 512);
+	    xx, pad->top, headline_w, headline_h, 512);
 
    /* draw the icons and labels, if any */
    if (ac)
@@ -590,7 +589,7 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 	       {
 		  TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), NoXID, 0, 0,
 			   STATE_NORMAL, "2x", xx + iw - double_w, y, double_w,
-			   heights[i], 17, 0);
+			   heights[i], 0);
 	       }
 
 	     if (ActionGetAnybutton(aa))
@@ -642,7 +641,7 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 
 	     TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), NoXID, 0, 0,
 		      STATE_NORMAL, tts, pad->left + icons_width + iw, y,
-		      labels_width, heights[i], 17, 0);
+		      labels_width, heights[i], 0);
 	     y += heights[i];
 
 	  }

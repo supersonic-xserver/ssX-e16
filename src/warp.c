@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -175,7 +175,7 @@ WarpFocusWinShow(WarpFocusWin * fw)
 	  }
 	Esnprintf(s, sizeof(s), fmt, ss, EwinGetTitle(ewin));
 	wi->txt = Estrdup(s);
-	TextSize(fw->tc, 0, 0, 0, wi->txt, &ww, &hh, 17);
+	TextSize(fw->tc, 0, 0, 0, wi->txt, &ww, &hh);
 	if (ww > w)
 	   w = ww;
 	if (hh > h)
@@ -280,7 +280,7 @@ WarpFocusWinPaint(WarpFocusWin * fw)
 	  }
 
 	TextDraw(fw->tc, wi->win, NoXID, 0, 0, state, wi->txt,
-		 pad->left + iw, pad->top, fw->tw, fw->th, 0, 0);
+		 pad->left + iw, pad->top, fw->tw, fw->th, 0);
      }
 
    /* FIXME - Check shape */

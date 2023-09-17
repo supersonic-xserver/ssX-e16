@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1685,10 +1685,10 @@ BG_RedrawView(Dialog * d)
 		     int                 tw, th;
 
 		     TextSize(tc, 0, 0, STATE_NORMAL,
-			      _("No\nBackground"), &tw, &th, 17);
+			      _("No\nBackground"), &tw, &th);
 		     TextDraw(tc, win, pmap, 0, 0, STATE_NORMAL,
 			      _("No\nBackground"), x + 4,
-			      4 + ((mini_h - th) / 2), mini_w, mini_h, 17, 512);
+			      4 + ((mini_h - th) / 2), mini_w, mini_h, 512);
 		  }
 	     }
 	   else

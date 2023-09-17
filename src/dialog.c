@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -978,7 +978,7 @@ DialogRealizeItem(Dialog * d, DItem * di)
 	break;
      case DITEM_BUTTON:
 	pad = ImageclassGetPadding(di->iclass);
-	TextSize(di->tclass, 0, 0, STATE_NORMAL, di->text, &iw, &ih, 17);
+	TextSize(di->tclass, 0, 0, STATE_NORMAL, di->text, &iw, &ih);
 	iw += pad->left + pad->right;
 	ih += pad->top + pad->bottom;
 	di->win = ECreateWindow(d->win, -20, -20, 2, 2, 0);
@@ -1015,7 +1015,7 @@ DialogRealizeItem(Dialog * d, DItem * di)
 			   &di->item.check_button.orig_h);
 	     EImageFree(im);
 	  }
-	TextSize(di->tclass, 0, 0, STATE_NORMAL, di->text, &iw, &ih, 17);
+	TextSize(di->tclass, 0, 0, STATE_NORMAL, di->text, &iw, &ih);
 	if (ih < di->item.check_button.orig_h)
 	   ih = di->item.check_button.orig_h;
 	iw += di->item.check_button.orig_w + pad->left;
@@ -1031,7 +1031,7 @@ DialogRealizeItem(Dialog * d, DItem * di)
 	di->h = ih;
 	break;
      case DITEM_TEXT:
-	TextSize(di->tclass, 0, 0, STATE_NORMAL, di->text, &iw, &ih, 17);
+	TextSize(di->tclass, 0, 0, STATE_NORMAL, di->text, &iw, &ih);
 	di->w = iw;
 	di->h = ih;
 	break;
@@ -1065,7 +1065,7 @@ DialogRealizeItem(Dialog * d, DItem * di)
 			   &di->item.radio_button.orig_h);
 	     EImageFree(im);
 	  }
-	TextSize(di->tclass, 0, 0, STATE_NORMAL, di->text, &iw, &ih, 17);
+	TextSize(di->tclass, 0, 0, STATE_NORMAL, di->text, &iw, &ih);
 	if (ih < di->item.radio_button.orig_h)
 	   ih = di->item.radio_button.orig_h;
 	iw += di->item.radio_button.orig_w + pad->left;
@@ -1452,7 +1452,7 @@ DialogDrawItem(Dialog * d, DItem * di)
 	   EXCopyArea(d->pmm_bg.pmap, WinGetPmap(d->win),
 		      di->x, di->y, di->w, di->h, di->x, di->y);
 	TextDraw(di->tclass, d->win, WinGetPmap(d->win), 0, 0, state, di->text,
-		 x, di->y, w, 99999, 17, TextclassGetJustification(di->tclass));
+		 x, di->y, w, 99999, TextclassGetJustification(di->tclass));
 	break;
      }
 

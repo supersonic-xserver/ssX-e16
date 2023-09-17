@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2021 Kim Woelders
+ * Copyright (C) 2007-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -80,9 +80,9 @@ MagwinDrawText(MagWindow * mw, int x, int y, const char *txt)
    if (!tc)
       return;
 
-   TextSize(tc, 0, 0, 0, txt, &cw, &ch, 17);
+   TextSize(tc, 0, 0, 0, txt, &cw, &ch);
    TextDraw(tc, EwinGetClientWin(mw->ewin), NoXID, 0, 0, 0,
-	    txt, x, y, cw, ch, 17, 0);
+	    txt, x, y, cw, ch, 0);
 }
 
 static unsigned int

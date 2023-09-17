@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2006-2018 Kim Woelders
+ * Copyright (C) 2006-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -58,7 +58,7 @@ ProgressbarCreate(const char *name, int w, int h)
    p->tnc = TextclassAlloc("PROGRESS_TEXT_NUMBER", 1);
 
    pad = ImageclassGetPadding(p->ic);
-   TextSize(p->tc, 0, 0, 0, name, &tw, &th, 0);
+   TextSize(p->tc, 0, 0, 0, name, &tw, &th);
    if (h < th + pad->top + pad->bottom)
       h = th + pad->top + pad->bottom;
 
@@ -157,8 +157,7 @@ ProgressbarSet(Progressbar * p, int progress)
    EClearWindow(EobjGetWin(p->n_win));
    TextDraw(p->tnc, EobjGetWin(p->n_win), NoXID, 0, 0, STATE_CLICKED, s,
 	    pad->left, pad->top, p->h * 5 - (pad->left + pad->right),
-	    p->h - (pad->top + pad->bottom), p->h - (pad->top + pad->bottom),
-	    TextclassGetJustification(p->tnc));
+	    p->h - (pad->top + pad->bottom), TextclassGetJustification(p->tnc));
 
    /* Hack - We may not be running in the event loop here */
    EobjDamage(p->n_win);
@@ -181,6 +180,5 @@ ProgressbarShow(Progressbar * p)
    TextDraw(p->tc, EobjGetWin(p->win), NoXID, 0, 0, STATE_NORMAL,
 	    EobjGetName(p->win), pad->left, pad->top,
 	    p->w - (p->h * 5) - (pad->left + pad->right),
-	    p->h - (pad->top + pad->bottom), p->h - (pad->top + pad->bottom),
-	    TextclassGetJustification(p->tnc));
+	    p->h - (pad->top + pad->bottom), TextclassGetJustification(p->tnc));
 }

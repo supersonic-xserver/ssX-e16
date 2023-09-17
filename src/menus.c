@@ -743,8 +743,7 @@ MenuRealize(Menu * m)
 
 	if ((m->style->tclass) && (m->items[i]->text))
 	  {
-	     TextSize(m->style->tclass, 0, 0, 0, _(m->items[i]->text), &w, &h,
-		      17);
+	     TextSize(m->style->tclass, 0, 0, 0, _(m->items[i]->text), &w, &h);
 	     if (h > maxh)
 		maxh = h;
 	     if (w > maxtw)
@@ -1002,8 +1001,7 @@ MenuDrawItem(Menu * m, MenuItem * mi, char shape, int state)
 	  {
 	     TextDraw(m->style->tclass, mi->win, mi_pmm->pmap, 0, 0, mi->state,
 		      _(mi->text), mi->text_x, mi->text_y, mi->text_w,
-		      mi->text_h, 17,
-		      TextclassGetJustification(m->style->tclass));
+		      mi->text_h, TextclassGetJustification(m->style->tclass));
 	  }
 	if (mi->icon && Conf.menus.show_icons)
 	  {
