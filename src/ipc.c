@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -80,7 +80,7 @@ IpcPrintGetBuffer(void)
 void
 IpcPrintf(const char *fmt, ...)
 {
-   char                tmp[FILEPATH_LEN_MAX];
+   char                tmp[16384];
    int                 len;
    va_list             args;
 
@@ -89,6 +89,8 @@ IpcPrintf(const char *fmt, ...)
 
    va_start(args, fmt);
    len = Evsnprintf(tmp, sizeof(tmp), fmt, args);
+   if (len >= (int)sizeof(tmp))
+      len = sizeof(tmp) - 1;
    va_end(args);
 
    ipc_bufptr = EREALLOC(char, ipc_bufptr, ipc_bufsiz + len + 1);
