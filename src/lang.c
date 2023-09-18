@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -43,6 +43,7 @@
 
 #if HAVE_ICONV
 
+#include <errno.h>
 #include <iconv.h>
 #define BAD_CD ((iconv_t)-1)
 
@@ -229,12 +230,17 @@ EwcStrToWcs(const char *str, int len, wchar_t *wcs, int wcl)
 
    if (!wcs)
      {
-	no = 4096;
-	po = buf;
-	rc = iconv(iconv_cd_str2wcs, &pi, &ni, &po, &no);
-	if (rc == (size_t)(-1) || no == 0)
-	   return -1;
-	wcl = (4096 - no) / sizeof(wchar_t);
+	for (wcl = 0;;)
+	  {
+	     no = sizeof(buf);
+	     po = buf;
+	     rc = iconv(iconv_cd_str2wcs, &pi, &ni, &po, &no);
+	     if (rc == (size_t)(-1) && errno != E2BIG)
+		return -1;
+	     wcl += (sizeof(buf) - no) / sizeof(wchar_t);
+	     if (ni == 0)
+		break;
+	  }
 	return wcl;
      }
 
