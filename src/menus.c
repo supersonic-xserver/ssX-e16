@@ -696,7 +696,7 @@ MenuAddItem(Menu * m, MenuItem * item)
 static void
 MenuRealize(Menu * m)
 {
-   int                 i, maxh, maxw, nmaxy;
+   int                 i, maxh, maxw, nmaxy, maxtw;
    int                 maxx1, maxx2, w, h, x, y, r, mmw, mmh;
    char               *s;
    EImage             *im;
@@ -720,6 +720,7 @@ MenuRealize(Menu * m)
      }
 
    maxh = maxw = 0;
+   maxtw = WinGetW(VROOT) / 3;
    maxx1 = 0;
    maxx2 = 0;
    has_i = 0;
@@ -746,6 +747,8 @@ MenuRealize(Menu * m)
 		      17);
 	     if (h > maxh)
 		maxh = h;
+	     if (w > maxtw)
+		w = maxtw;
 	     if (w > maxx1)
 		maxx1 = w;
 	     m->items[i]->text_w = w;
