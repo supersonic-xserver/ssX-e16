@@ -310,13 +310,11 @@ TextstateTextFitMB(TextState * ts, char **ptext, int *pw, int textwidth_limit)
 	nuke_count++;
 	if (nuke_count >= wc_len - 1)
 	  {
-	     int                 mlen;
+	     len_mb = EwcWcsToStr(wc_line, 1, new_line, MB_CUR_MAX);
+	     if (len_mb < 0)
+		len_mb = 1;
 
-	     mlen = EwcWcsToStr(wc_line, 1, new_line, MB_CUR_MAX);
-	     if (mlen < 0)
-		mlen = 1;
-
-	     strcpy(new_line + mlen, "...");
+	     strcpy(new_line + len_mb, "...");
 	     break;
 	  }
 
