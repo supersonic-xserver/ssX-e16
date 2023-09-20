@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -740,7 +740,7 @@ _DlgFillGroupChoose(Dialog * d, DItem * table, void *data)
 
    *dd = *(GroupSelDlgData *) data;
 
-   DialogItemTableSetOptions(table, 2, 0, 0, 0);
+   DialogItemTableSetOptions(table, 1, 0, 0, 0);
 
    di = DialogAddItem(table, DITEM_TEXT);
    DialogItemSetText(di, dd->message);
@@ -756,7 +756,6 @@ _DlgFillGroupChoose(Dialog * d, DItem * table, void *data)
 	di = DialogAddItem(table, DITEM_RADIOBUTTON);
 	if (i == 0)
 	   radio = di;
-	DialogItemSetColSpan(di, 2);
 	DialogItemSetCallback(di, _DlgSelectCbGroupChoose, i, NULL);
 	DialogItemSetText(di, group_member_strings[i]);
 	DialogItemRadioButtonSetFirst(di, radio);
