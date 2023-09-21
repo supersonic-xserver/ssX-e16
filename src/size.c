@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2003-2021 Kim Woelders
+ * Copyright (C) 2003-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -845,9 +845,12 @@ MaxSizeHV(EWin * ewin, const char *resize_type, int hor, int ver, int flags)
    else if (!strcmp(resize_type, "half_W"))
       type = MAX_HALF_W;
 
-   if (ewin->state.inhibit_max_hor && hor)
-      return;
-   if (ewin->state.inhibit_max_ver && ver)
+   if (ewin->state.inhibit_max_hor)
+      hor = 0;
+   if (ewin->state.inhibit_max_ver)
+      ver = 0;
+
+   if (!hor && !ver)
       return;
 
    if ((type == MAX_HALF_E || type == MAX_HALF_W) && hor && !ver)
