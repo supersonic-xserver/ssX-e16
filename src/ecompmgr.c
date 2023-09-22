@@ -2196,6 +2196,9 @@ ECompMgrStart(void)
 
    Mode_compmgr.mode = Conf_compmgr.mode;
 
+   ESync(0);
+   Dpy.last_error_code = 0;
+
    switch (Mode_compmgr.mode)
      {
      case ECM_MODE_ROOT:
@@ -2214,6 +2217,14 @@ ECompMgrStart(void)
 	XCompositeRedirectSubwindows(disp, WinGetXwin(VROOT),
 				     CompositeRedirectAutomatic);
 	break;
+     }
+
+   ESync(0);
+   if (Dpy.last_error_code != 0)
+     {
+	Eprintf("Error: Compositing init failed\n");
+	Conf_compmgr.enable = 0;
+	return;
      }
 
    Conf_compmgr.enable = Mode_compmgr.active = 1;
