@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2022 Kim Woelders
+ * Copyright (C) 2003-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -529,6 +529,8 @@ SelectionAcquire(const char *name, EventCallbackFunc * func, void *data)
 {
    ESelection         *sel;
    char                buf[128];
+   EX_Window           powner;
+   int                 i;
 
    sel = ECALLOC(ESelection, 1);
    if (!sel)
@@ -543,14 +545,26 @@ SelectionAcquire(const char *name, EventCallbackFunc * func, void *data)
    sel->func = func;
    sel->data = data;
 
+   /* Get current selection owner */
+   powner = XGetSelectionOwner(disp, sel->atom);
+
    XSetSelectionOwner(disp, sel->atom, WinGetXwin(sel->win), sel->time);
    if (XGetSelectionOwner(disp, sel->atom) != WinGetXwin(sel->win))
+      goto bail;
+
+   if (powner != NoXID)
      {
-	DialogOK(_("Selection Error!"), _("Could not acquire selection: %s"),
-		 buf);
-	EDestroyWindow(sel->win);
-	Efree(sel);
-	return NULL;
+	/* Wait for previous selection owner to be destroyed (max 200 ms) */
+	for (i = 2; i > 0; i--)
+	  {
+	     if (EDebug(EDBUG_TYPE_SELECTION))
+		Eprintf("Check old %s owner %#x\n", buf, powner);
+	     if (!EXWindowOk(powner))
+		break;
+	     SleepUs(100000);
+	  }
+	if (i == 0)
+	   goto bail;
      }
 
    if (sel->func)
@@ -568,6 +582,12 @@ SelectionAcquire(const char *name, EventCallbackFunc * func, void *data)
 	      WinGetXwin(sel->win), buf, sel->time);
 
    return sel;
+
+ bail:
+   DialogOK(_("Selection Error!"), _("Could not acquire selection: %s"), buf);
+   EDestroyWindow(sel->win);
+   Efree(sel);
+   return NULL;
 }
 
 void
