@@ -1801,7 +1801,10 @@ DialogOK(const char *title, const char *fmt, ...)
    Evsnprintf(text, sizeof(text), fmt, args);
    va_end(args);
 
-   DialogOKstr(title, text);
+   if (Mode.wm.startup)
+      Eprintf("%s: %s\n", title, text);
+   else
+      DialogOKstr(title, text);
 }
 
 void
