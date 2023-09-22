@@ -450,7 +450,7 @@ EventShowError(const XEvent * evp)
    else
       Esnprintf(buf, sizeof(buf), "%s.%d",
 		EventsGetExtensionName(ev->request_code), ev->minor_code);
-   XGetErrorDatabaseText(disp, "XRequest", buf, "", buf1, sizeof(buf1));
+   XGetErrorDatabaseText(disp, "XRequest", buf, buf, buf1, sizeof(buf1));
    XGetErrorText(disp, ev->error_code, buf, sizeof(buf));
    Eprintf("*** ERROR: xid=%#lx req=%i/%i err=%i: %s: %s\n",
 	   ev->resourceid, ev->request_code, ev->minor_code,
