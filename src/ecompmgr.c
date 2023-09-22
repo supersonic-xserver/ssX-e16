@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -2189,8 +2189,34 @@ ECompMgrStart(void)
 
    if (Mode_compmgr.active || Conf_compmgr.mode == ECM_MODE_OFF)
       return;
-   Conf_compmgr.enable = Mode_compmgr.active = 1;
+
+   wm_cm_sel = SelectionAcquire("_NET_WM_CM_S", NULL, NULL);
+   if (!wm_cm_sel)
+      return;
+
    Mode_compmgr.mode = Conf_compmgr.mode;
+
+   switch (Mode_compmgr.mode)
+     {
+     case ECM_MODE_ROOT:
+	XCompositeRedirectSubwindows(disp, WinGetXwin(VROOT),
+				     CompositeRedirectManual);
+#if USE_DESK_EXPOSE		/* FIXME - Remove? */
+	ESelectInputChange(VROOT, ExposureMask, 0);
+#endif
+	break;
+     case ECM_MODE_WINDOW:
+#if USE_DESK_EXPOSE		/* FIXME - Remove? */
+	ESelectInputChange(VROOT, ExposureMask, 0);
+#endif
+	break;
+     case ECM_MODE_AUTO:
+	XCompositeRedirectSubwindows(disp, WinGetXwin(VROOT),
+				     CompositeRedirectAutomatic);
+	break;
+     }
+
+   Conf_compmgr.enable = Mode_compmgr.active = 1;
 
    Conf_compmgr.override_redirect.opacity =
       OpacityFix(Conf_compmgr.override_redirect.opacity, 100);
@@ -2230,31 +2256,9 @@ ECompMgrStart(void)
 
    ECompMgrShadowsInit(Conf_compmgr.shadows.mode, 0);
 
-   EGrabServer();
-
-   switch (Mode_compmgr.mode)
-     {
-     case ECM_MODE_ROOT:
-	XCompositeRedirectSubwindows(disp, WinGetXwin(VROOT),
-				     CompositeRedirectManual);
-#if USE_DESK_EXPOSE		/* FIXME - Remove? */
-	ESelectInputChange(VROOT, ExposureMask, 0);
-#endif
-	break;
-     case ECM_MODE_WINDOW:
-#if USE_DESK_EXPOSE		/* FIXME - Remove? */
-	ESelectInputChange(VROOT, ExposureMask, 0);
-#endif
-	break;
-     case ECM_MODE_AUTO:
-	XCompositeRedirectSubwindows(disp, WinGetXwin(VROOT),
-				     CompositeRedirectAutomatic);
-	break;
-     }
-
    EventCallbackRegister(VROOT, ECompMgrHandleRootEvent, NULL);
 
-   wm_cm_sel = SelectionAcquire("_NET_WM_CM_S", NULL, NULL);
+   EGrabServer();
 
    lst = EobjListStackGet(&num);
    for (i = 0; i < num; i++)
