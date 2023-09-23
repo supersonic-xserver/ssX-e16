@@ -261,6 +261,7 @@ ECompMgrChildClipRegion(void)
    EObj               *const *lst, *eoi;
    int                 i, num;
    EX_SrvRegion        rgn = Mode_compmgr.rgn_tmp2;
+   Desk               *dsk = DesksGetCurrent();
 
    if (!Mode_compmgr.active)
       return NoXID;
@@ -271,6 +272,8 @@ ECompMgrChildClipRegion(void)
    for (i = 0; i < num; i++)
      {
 	eoi = lst[i];
+	if (eoi->desk != dsk)
+	   continue;
 	if (eoi->cmhook && eoi->cmhook->shape &&
 	    (eoi->type == EOBJ_TYPE_EWIN || eoi->type == EOBJ_TYPE_BUTTON ||
 	     eoi->type == EOBJ_TYPE_MISC))
