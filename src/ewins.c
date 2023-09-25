@@ -703,9 +703,10 @@ EwinPropagateShapes(EWin * ewin)
 void
 EwinStateUpdate(EWin * ewin)
 {
-   int                 fs_zo;
+   int                 fs_zo, ic_sh;
 
    fs_zo = ewin->state.fullscreen || ewin->state.zoomed;
+   ic_sh = ewin->state.iconified || ewin->state.shaded;
 
    ewin->state.inhibit_actions = ewin->props.no_actions;
    ewin->state.inhibit_focus =
@@ -713,19 +714,20 @@ EwinStateUpdate(EWin * ewin)
       EwinInhGetWM(ewin, focus) || ewin->state.iconified;
 
    ewin->state.inhibit_move = EwinInhGetUser(ewin, move) || fs_zo;
-   ewin->state.inhibit_resize = ewin->state.iconified || ewin->state.shaded ||
+   ewin->state.inhibit_resize =
       (ewin->props.no_resize_h && ewin->props.no_resize_v) ||
-      EwinInhGetUser(ewin, size) || fs_zo;
+      EwinInhGetUser(ewin, size) || fs_zo || ic_sh;
    ewin->state.inhibit_iconify = EwinInhGetWM(ewin, iconify);
    ewin->state.inhibit_shade = ewin->state.no_border ||
       ewin->state.iconified || fs_zo;
    ewin->state.inhibit_stick = 0;
-   ewin->state.inhibit_max_hor = ewin->state.inhibit_resize ||
-      ewin->props.no_resize_h || fs_zo;
-   ewin->state.inhibit_max_ver = ewin->state.inhibit_resize ||
-      ewin->props.no_resize_v || fs_zo;
-   ewin->state.inhibit_fullscreeen =
-      ewin->state.inhibit_move || ewin->state.inhibit_resize;
+   ewin->state.inhibit_max_hor = ewin->props.no_resize_h ||
+      EwinInhGetUser(ewin, size) || fs_zo || ic_sh;
+   ewin->state.inhibit_max_ver = ewin->props.no_resize_v ||
+      EwinInhGetUser(ewin, size) || fs_zo || ic_sh;
+   ewin->state.inhibit_fullscreeen = ewin->state.inhibit_move ||
+      ewin->props.no_resize_h || ewin->props.no_resize_v ||
+      EwinInhGetUser(ewin, size) || fs_zo || ic_sh;
    ewin->state.inhibit_change_desk = ewin->state.iconified;
    ewin->state.inhibit_close = EwinInhGetApp(ewin, close) ||
       EwinInhGetUser(ewin, close);
