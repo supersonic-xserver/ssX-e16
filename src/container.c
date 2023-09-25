@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -212,6 +212,8 @@ _ContainerReconfigure(Container * ct)
 
    ICCCM_SetSizeConstraints(ct->ewin, wmin, hmin, wmax, hmax, 0, 0, 1, 1,
 			    0.f, 65535.f);
+   EwinStateUpdate(ct->ewin);
+   HintsSetWindowState(ct->ewin);
 }
 
 static void
