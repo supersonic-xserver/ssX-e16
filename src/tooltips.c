@@ -61,8 +61,8 @@ struct _tooltip {
    ImageClass         *iclass[5];
    TextClass          *tclass;
    int                 dist;
-   Win                 iwin;
    EObj               *win[5];
+   PmapMask            pmm4;
    ImageClass         *tooltippic;
 };
 
@@ -86,7 +86,6 @@ TooltipRealize(ToolTip * tt)
 	EobjChangeOpacity(eo, OpacityFromPercent(Conf.opacity.tooltips));
 	tt->win[i] = eo;
      }
-   tt->iwin = ECreateWindow(EobjGetWin(tt->TTWIN), 0, 0, 1, 1, 0);
 }
 
 static ToolTip     *
@@ -248,8 +247,8 @@ TooltipIclassPaste(ToolTip * tt, const char *ic_name, int x, int y, int *px)
       return;
 
    EImageGetSize(im, &w, &h);
-   EImageRenderOnDrawable(im, EobjGetWin(tt->TTWIN), NoXID, EIMAGE_BLEND, x, y,
-			  w, h);
+   EImageRenderOnDrawable(im, EobjGetWin(tt->TTWIN), tt->pmm4.pmap,
+			  EIMAGE_BLEND, x, y, w, h);
 
    *px = x + w;
 }
@@ -263,7 +262,6 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
       0, labels_width = 0, double_w = 0;
    EImage             *im;
    int                *heights = NULL;
-   ImageClass         *ic;
    EImageBorder       *pad;
    int                 cols[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
    int                 num, modifiers;
@@ -396,35 +394,21 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
       w = headline_w;
    h += headline_h;
 
-   ic = tt->TTICL;
-   pad = ImageclassGetPadding(ic);
+   pad = ImageclassGetPadding(tt->TTICL);
+   im = NULL;
    iw = 0;
    ih = 0;
    if (tt->tooltippic)
      {
 	im = ImageclassGetImage(tt->tooltippic, 0, 0, 0);
 	if (im)
-	  {
-	     EImageGetSize(im, &iw, &ih);
-	     EImageFree(im);
-	  }
+	   EImageGetSize(im, &iw, &ih);
 	w += iw;
 	if (h < ih)
 	   h = ih;
      }
    w += pad->left + pad->right;
    h += pad->top + pad->bottom;
-
-   if ((tt->tooltippic) && (iw > 0) && (ih > 0))
-     {
-	ix = pad->left;
-	iy = (h - ih) / 2;
-	EMoveResizeWindow(tt->iwin, ix, iy, iw, ih);
-	EMapWindow(tt->iwin);
-	ImageclassApply(tt->tooltippic, tt->iwin, 0, 0, STATE_NORMAL);
-     }
-   else
-      EUnmapWindow(tt->iwin);
 
    dx = x - WinGetW(VROOT) / 2;
    dy = y - WinGetH(VROOT) / 2;
@@ -554,16 +538,38 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 	eo = tt->win[i];
 	if (!eo)
 	   continue;
-	ImageclassApply(tt->iclass[i], EobjGetWin(eo), 0, 0, STATE_NORMAL);
+
+	if (i < 4)
+	  {
+	     ImageclassApply(tt->iclass[i], EobjGetWin(eo), 0, 0, STATE_NORMAL);
+	  }
+	else
+	  {
+	     ImageclassApplyCopy(tt->iclass[i], EobjGetWin(eo),
+				 EobjGetW(eo), EobjGetH(eo),
+				 0, 0, STATE_NORMAL, &tt->pmm4,
+				 IC_FLAG_MAKE_MASK);
+	     ESetWindowBackgroundPixmap(EobjGetWin(eo), tt->pmm4.pmap, 1);
+	     EShapeSetMask(EobjGetWin(eo), 0, 0, tt->pmm4.mask);
+	  }
 	EobjShapeUpdate(eo, 0);
 	EobjMap(eo, 0);
+     }
+
+   if (im)
+     {
+	ix = pad->left;
+	iy = (h - ih) / 2;
+	EImageRenderOnDrawable(im, EobjGetWin(tt->TTWIN), tt->pmm4.pmap,
+			       EIMAGE_BLEND, ix, iy, iw, ih);
+	EImageFree(im);
      }
 
    xx = pad->left + iw;
 
    /* draw the ordinary tooltip text */
-   TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), NoXID, 0, 0, STATE_NORMAL, text,
-	    xx, pad->top, headline_w, headline_h, 512);
+   TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), tt->pmm4.pmap, 0, 0,
+	    STATE_NORMAL, text, xx, pad->top, headline_w, headline_h, 512);
 
    /* draw the icons and labels, if any */
    if (ac)
@@ -587,9 +593,9 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 
 	     if (ActionGetEvent(aa) == EVENT_DOUBLE_DOWN)
 	       {
-		  TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), NoXID, 0, 0,
-			   STATE_NORMAL, "2x", xx + iw - double_w, y, double_w,
-			   heights[i], 0);
+		  TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), tt->pmm4.pmap,
+			   0, 0, STATE_NORMAL, "2x", xx + iw - double_w, y,
+			   double_w, heights[i], 0);
 	       }
 
 	     if (ActionGetAnybutton(aa))
@@ -639,14 +645,17 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 		     TooltipIclassPaste(tt, "TOOLTIP_KEY_MOD5", x, y, &x);
 	       }
 
-	     TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), NoXID, 0, 0,
-		      STATE_NORMAL, tts, pad->left + icons_width + iw, y,
+	     TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), tt->pmm4.pmap,
+		      0, 0, STATE_NORMAL, tts, pad->left + icons_width + iw, y,
 		      labels_width, heights[i], 0);
 	     y += heights[i];
 
 	  }
      }
 
+   EClearWindow(EobjGetWin(tt->TTWIN));
+
+   PmapMaskFree(&tt->pmm4);
    Efree(heights);
 }
 
