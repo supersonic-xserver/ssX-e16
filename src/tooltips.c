@@ -258,12 +258,12 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 {
    int                 i, w, h, ix, iy, iw, ih, dx, dy, xx, yy;
    int                 ww, hh, adx, ady, dist;
-   int                 headline_h = 0, headline_w = 0, icons_width =
-      0, labels_width = 0, double_w = 0;
+   int                 headline_h, headline_w;
+   int                 icons_width, labels_width, double_w;
    EImage             *im;
    int                *heights = NULL;
    EImageBorder       *pad;
-   int                 cols[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+   int                 cols[10];
    int                 num, modifiers;
    Action             *aa;
    const char         *tts;
@@ -280,18 +280,22 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
      }
 
    /* if we get an actionclass, look for tooltip action texts */
+   icons_width = labels_width = double_w = 0;
    h = 0;
    if (ac)
      {
 	num = ActionclassGetActionCount(ac);
 	heights = EMALLOC(int, num);
+	cols[0] = 0;
 
 	for (i = 0; i < num; i++)
 	  {
-	     int                 temp_w, temp_h;
+	     int                 temp_w, temp_h, j;
 
 	     temp_w = 0;
 	     temp_h = 0;
+	     for (j = 1; j < 10; j++)
+		cols[j] = 0;
 
 	     aa = ActionclassGetAction(ac, i);
 	     if (!aa)
@@ -377,7 +381,7 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 					 "pix/key_mod5.png", &cols[9], &temp_h);
 	       }
 
-	     temp_w = cols[0] + cols[1] + cols[2] + cols[3] + cols[4] +
+	     temp_w = cols[1] + cols[2] + cols[3] + cols[4] +
 		cols[5] + cols[6] + cols[7] + cols[8] + cols[9];
 
 	     if (temp_w > icons_width)
@@ -385,8 +389,10 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 	     heights[i] = temp_h;
 	     h += temp_h;
 	  }
+	icons_width += cols[0] + 2;
      }
 
+   headline_h = headline_w = 0;
    TextSize(tt->tclass, 0, 0, STATE_NORMAL, text, &headline_w, &headline_h);
    if (headline_w < icons_width + labels_width)
       w = icons_width + labels_width;
