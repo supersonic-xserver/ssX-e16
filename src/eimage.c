@@ -54,6 +54,7 @@ EImageInit(void)
    imlib_context_set_mask_alpha_threshold(Conf.testing.mask_alpha_threshold);
 #endif
 
+   imlib_context_set_blend(0);
    imlib_context_set_anti_alias(0);
    imlib_context_set_dither(1);
 }
