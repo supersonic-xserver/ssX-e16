@@ -561,6 +561,8 @@ SessionLogout(void)
 #define LOGOUT_EXIT         1
 #define LOGOUT_REBOOT       2
 #define LOGOUT_HALT         3
+#define LOGOUT_SUSPEND      4
+#define LOGOUT_HIBERNATE    5
 
 static void
 LogoutCB(Dialog * d, int val, void *data __UNUSED__)
@@ -588,11 +590,19 @@ LogoutCB(Dialog * d, int val, void *data __UNUSED__)
 	  case LOGOUT_HALT:
 	     SessionExit(EEXIT_EXEC, Conf.session.cmd_halt);
 	     break;
+	  case LOGOUT_SUSPEND:
+	     SessionExit(EEXIT_EXEC, Conf.session.cmd_suspend);
+	     break;
+	  case LOGOUT_HIBERNATE:
+	     SessionExit(EEXIT_EXEC, Conf.session.cmd_hibernate);
+	     break;
 	  }
      }
 
    DialogClose(d);
 }
+
+#define ISSET(s) (s && *s != '\0')
 
 static void
 SessionLogoutConfirm(void)
@@ -615,6 +625,18 @@ SessionLogoutConfirm(void)
 	DialogItemSetAlign(table, 512, 0);
 	DialogItemSetFill(table, 0, 0);
 	tcols = 0;
+	if (ISSET(Conf.session.cmd_hibernate))
+	  {
+	     tcols += 1;
+	     DialogItemAddButton(table, _("Yes, Hibernate"), LogoutCB,
+				 LOGOUT_HIBERNATE, 1, DLG_BUTTON_OK);
+	  }
+	if (ISSET(Conf.session.cmd_suspend))
+	  {
+	     tcols += 1;
+	     DialogItemAddButton(table, _("Yes, Suspend"), LogoutCB,
+				 LOGOUT_SUSPEND, 1, DLG_BUTTON_OK);
+	  }
 	if (Conf.session.enable_reboot_halt)
 	  {
 
