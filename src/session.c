@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -486,6 +486,8 @@ doSMExit(int mode, const char *params)
    switch (mode)
      {
      case EEXIT_EXEC:
+	if (!params || params[0] == '\0')
+	   break;
 	SoundPlay(SOUND_EXIT);
 	EDisplayClose();
 
@@ -555,6 +557,11 @@ SessionLogout(void)
 }
 
 #if ENABLE_DIALOGS
+
+#define LOGOUT_EXIT         1
+#define LOGOUT_REBOOT       2
+#define LOGOUT_HALT         3
+
 static void
 LogoutCB(Dialog * d, int val, void *data __UNUSED__)
 {
@@ -572,13 +579,13 @@ LogoutCB(Dialog * d, int val, void *data __UNUSED__)
 	  {
 	  default:
 	     break;
-	  case 1:
+	  case LOGOUT_EXIT:
 	     SessionExit(EEXIT_EXIT, NULL);
 	     break;
-	  case 2:
+	  case LOGOUT_REBOOT:
 	     SessionExit(EEXIT_EXEC, Conf.session.cmd_reboot);
 	     break;
-	  case 3:
+	  case LOGOUT_HALT:
 	     SessionExit(EEXIT_EXEC, Conf.session.cmd_halt);
 	     break;
 	  }
@@ -592,6 +599,7 @@ SessionLogoutConfirm(void)
 {
    Dialog             *d;
    DItem              *table, *di;
+   int                 tcols;
 
    d = DialogFind("LOGOUT_DIALOG");
    if (!d)
@@ -602,23 +610,27 @@ SessionLogoutConfirm(void)
 	DialogSetTitle(d, _("Are you sure?"));
 	di = DialogAddItem(table, DITEM_TEXT);
 	DialogItemSetText(di, _("Are you sure you wish to log out ?"));
+	DialogItemSetAlign(di, 512, 0);
 	table = DialogAddItem(table, DITEM_TABLE);
 	DialogItemSetAlign(table, 512, 0);
 	DialogItemSetFill(table, 0, 0);
-	DialogItemTableSetOptions(table, 2, 0, 1, 0);
+	tcols = 0;
 	if (Conf.session.enable_reboot_halt)
 	  {
-	     DialogItemTableSetOptions(table, 4, 0, 1, 0);
-	     DialogItemAddButton(table, _("Yes, Shut Down"), LogoutCB, 3,
-				 1, DLG_BUTTON_OK);
-	     DialogItemAddButton(table, _("Yes, Reboot"), LogoutCB, 2,
-				 1, DLG_BUTTON_OK);
+
+	     tcols += 2;
+	     DialogItemAddButton(table, _("Yes, Shut Down"), LogoutCB,
+				 LOGOUT_HALT, 1, DLG_BUTTON_OK);
+	     DialogItemAddButton(table, _("Yes, Reboot"), LogoutCB,
+				 LOGOUT_REBOOT, 1, DLG_BUTTON_OK);
 	  }
-	DialogItemAddButton(table, _("Yes, Log Out"), LogoutCB, 1,
-			    1, DLG_BUTTON_OK);
+	DialogItemAddButton(table, _("Yes, Log Out"), LogoutCB,
+			    LOGOUT_EXIT, 1, DLG_BUTTON_OK);
 	DialogItemAddButton(table, _("No"), NULL, 0, 1, DLG_BUTTON_CANCEL);
+	tcols += 2;
+	DialogItemTableSetOptions(table, tcols, 0, 1, 0);
 	DialogBindKey(d, "Escape", DialogCallbackClose, 0, NULL);
-	DialogBindKey(d, "Return", LogoutCB, 1, NULL);
+	DialogBindKey(d, "Return", LogoutCB, LOGOUT_EXIT, NULL);
      }
 
    DialogShowCentered(d);
