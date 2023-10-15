@@ -447,6 +447,11 @@ _DeskCreate(int desk, int configure)
         HintsSetRootInfo(EoGetWin(dsk), NoXID, 0);
     }
 
+    dsk->workarea.x = 0;
+    dsk->workarea.y = 0;
+    dsk->workarea.w = EoGetW(dsk);
+    dsk->workarea.h = EoGetH(dsk);
+
 #if USE_BG_WIN_ON_ALL_DESKS     /* TBD - Use per virtual root bg window? */
 #if USE_COMPOSITE
     /* Add background window */
@@ -749,6 +754,11 @@ _DeskResize(int desk, int w, int h)
     _DeskControlsDestroy(dsk, 1);
     _DeskControlsCreate(dsk);
     _DeskControlsShow(dsk, 1);
+
+    dsk->workarea.x = 0;
+    dsk->workarea.y = 0;
+    dsk->workarea.w = w;
+    dsk->workarea.h = h;
 }
 
 Desk           *

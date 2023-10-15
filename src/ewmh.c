@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2022 Kim Woelders
+ * Copyright (C) 2003-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -213,27 +213,25 @@ EWMH_SetDesktopSize(void)
 void
 EWMH_SetWorkArea(void)
 {
-    unsigned int   *p_coord;
-    int             n_coord, i, n_desks;
+    Area           *wa;
+    int             i, n_desks;
+    Desk           *dsk;
 
     n_desks = DesksGetNumber();
-    n_coord = 4 * n_desks;
-    p_coord = EMALLOC(unsigned int, n_coord);
+    wa = EMALLOC(Area, n_desks);
 
-    if (!p_coord)
+    if (!wa)
         return;
 
     for (i = 0; i < n_desks; i++)
     {
-        p_coord[4 * i] = 0;
-        p_coord[4 * i + 1] = 0;
-        p_coord[4 * i + 2] = WinGetW(VROOT);
-        p_coord[4 * i + 3] = WinGetH(VROOT);
+        dsk = DeskGet(i);
+        wa[i] = dsk->workarea;
     }
 
-    ex_netwm_desk_workareas_set(WinGetXwin(VROOT), p_coord, n_desks);
+    ex_netwm_desk_workareas_set(WinGetXwin(VROOT), (unsigned int *)wa, n_desks);
 
-    Efree(p_coord);
+    Efree(wa);
 }
 
 void

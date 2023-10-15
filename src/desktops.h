@@ -43,6 +43,7 @@ struct _desk {
     Button         *tag;
     int             current_area_x;
     int             current_area_y;
+    Area            workarea;
     struct {
         Background     *bg;
         EObj           *o;
