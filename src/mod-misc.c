@@ -196,6 +196,7 @@ static const CfgItem MiscCfgItems[] = {
    CFG_ITEM_BOOL(Conf, session.enable_reboot_halt, 0),
    CFG_ITEM_STR(Conf, session.cmd_reboot),
    CFG_ITEM_STR(Conf, session.cmd_halt),
+   CFG_ITEM_STR(Conf, session.cmd_lock),
    CFG_ITEM_STR(Conf, session.cmd_suspend),
    CFG_ITEM_STR(Conf, session.cmd_hibernate),
 

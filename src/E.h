@@ -265,6 +265,7 @@ typedef struct {
       char                enable_reboot_halt;
       char               *cmd_reboot;
       char               *cmd_halt;
+      char               *cmd_lock;
       char               *cmd_suspend;
       char               *cmd_hibernate;
    } session;
