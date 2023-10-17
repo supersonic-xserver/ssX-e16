@@ -606,14 +606,14 @@ LogoutCB(Dialog * d, int val, void *data __UNUSED__)
    DialogClose(d);
 }
 
-#define ISSET(s) (s && *s != '\0')
+#define ISSET(s) ((s && *s != '\0') ? 1 : 0)
 
 static void
 SessionLogoutConfirm(void)
 {
    Dialog             *d;
-   DItem              *table, *di, *tr;
-   int                 tcols;
+   DItem              *table, *di;
+   int                 tcols, ncols;
 
    d = DialogFind("LOGOUT_DIALOG");
    if (!d)
@@ -632,54 +632,58 @@ SessionLogoutConfirm(void)
 	DialogItemSetAlign(table, 512, 0);
 	DialogItemSetFill(table, 0, 0);
 
-	if (ISSET(Conf.session.cmd_lock) ||
-	    ISSET(Conf.session.cmd_suspend) ||
-	    ISSET(Conf.session.cmd_hibernate))
+	tcols = ISSET(Conf.session.cmd_lock) +
+	   ISSET(Conf.session.cmd_suspend) + ISSET(Conf.session.cmd_hibernate);
+	if (Conf.session.enable_reboot_halt || tcols >= 3)
+	   ncols = 3;
+	else if (tcols >= 2)
+	   ncols = 2;
+	else
+	   ncols = 1;
+	DialogItemTableSetOptions(table, ncols, 0, 1, 0);
+
+	if (tcols > 0)
 	  {
-	     tr = DialogAddItem(table, DITEM_TABLE);
-	     DialogItemSetAlign(tr, 512, 0);
-	     DialogItemSetFill(tr, 0, 0);
 	     tcols = 0;
 	     if (ISSET(Conf.session.cmd_hibernate))
 	       {
 		  tcols += 1;
-		  DialogItemAddButton(tr, _("Hibernate"), LogoutCB,
+		  DialogItemAddButton(table, _("Hibernate"), LogoutCB,
 				      LOGOUT_HIBERNATE, 1, DLG_BUTTON_OK);
 	       }
 	     if (ISSET(Conf.session.cmd_suspend))
 	       {
 		  tcols += 1;
-		  DialogItemAddButton(tr, _("Suspend"), LogoutCB,
+		  DialogItemAddButton(table, _("Suspend"), LogoutCB,
 				      LOGOUT_SUSPEND, 1, DLG_BUTTON_OK);
 	       }
 	     if (ISSET(Conf.session.cmd_lock))
 	       {
 		  tcols += 1;
-		  DialogItemAddButton(tr, _("Lock"), LogoutCB,
+		  DialogItemAddButton(table, _("Lock"), LogoutCB,
 				      LOGOUT_LOCK, 1, DLG_BUTTON_OK);
 	       }
-	     DialogItemTableSetOptions(tr, tcols, 0, 1, 0);
+	     for (; tcols < ncols; tcols++)
+		DialogAddItem(table, DITEM_NONE);
 	  }
 
-	tr = DialogAddItem(table, DITEM_TABLE);
-	DialogItemSetAlign(tr, 512, 0);
-	DialogItemSetFill(tr, 0, 0);
 	tcols = 0;
 	if (Conf.session.enable_reboot_halt)
 	  {
-
 	     tcols += 2;
-	     DialogItemAddButton(tr, _("Yes, Shut Down"), LogoutCB,
+	     DialogItemAddButton(table, _("Yes, Shut Down"), LogoutCB,
 				 LOGOUT_HALT, 1, DLG_BUTTON_OK);
-	     DialogItemAddButton(tr, _("Yes, Reboot"), LogoutCB,
+	     DialogItemAddButton(table, _("Yes, Reboot"), LogoutCB,
 				 LOGOUT_REBOOT, 1, DLG_BUTTON_OK);
 	  }
 	tcols += 1;
-	DialogItemAddButton(tr, _("Yes, Log Out"), LogoutCB,
+	DialogItemAddButton(table, _("Yes, Log Out"), LogoutCB,
 			    LOGOUT_EXIT, 1, DLG_BUTTON_OK);
-	DialogItemTableSetOptions(tr, tcols, 0, 1, 0);
+	for (; tcols < ncols; tcols++)
+	   DialogAddItem(table, DITEM_NONE);
 
-	DialogItemAddButton(table, _("No"), NULL, 0, 1, DLG_BUTTON_CANCEL);
+	di = DialogItemAddButton(table, _("No"), NULL, 0, 1, DLG_BUTTON_CANCEL);
+	DialogItemSetColSpan(di, ncols);
 
 	DialogBindKey(d, "Escape", DialogCallbackClose, 0, NULL);
 	DialogBindKey(d, "Return", LogoutCB, LOGOUT_EXIT, NULL);
