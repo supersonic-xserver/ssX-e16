@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2023-10-13 08:11+0200\n"
+"POT-Creation-Date: 2023-10-17 15:30+0200\n"
 "PO-Revision-Date: 2009-11-09 14:39+0000\n"
 "Last-Translator: Yentl <y.v.t@scarlet.be>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -1379,61 +1379,65 @@ msgstr ""
 "\n"
 "... Hoop ik.\n"
 
-#: src/session.c:620
+#: src/session.c:623
 msgid "Are you sure?"
 msgstr "Weet U het zeker?"
 
-#: src/session.c:622
+#: src/session.c:626
 msgid "Are you sure you wish to log out ?"
 msgstr "Weet U zeker dat U uit wil loggen ?"
 
-#: src/session.c:631
-msgid "Yes, Hibernate"
+#: src/session.c:649
+msgid "Hibernate"
 msgstr ""
 
-#: src/session.c:637
+#: src/session.c:655
 #, fuzzy
 #| msgid "Yes, Shut Down"
-msgid "Yes, Suspend"
+msgid "Suspend"
 msgstr "Ja, Sluit Af"
 
-#: src/session.c:644
+#: src/session.c:661
+msgid "Lock"
+msgstr ""
+
+#: src/session.c:672
 msgid "Yes, Shut Down"
 msgstr "Ja, Sluit Af"
 
-#: src/session.c:646
+#: src/session.c:674
 msgid "Yes, Reboot"
 msgstr "Ja, Herstarten"
 
-#: src/session.c:649
+#: src/session.c:678
 msgid "Yes, Log Out"
 msgstr "Ja, log uit"
 
-#: src/session.c:651
+#: src/session.c:683
 msgid "No"
 msgstr "Nee"
 
-#: src/session.c:774
+#: src/session.c:806
 msgid "Enable session script"
 msgstr "Sessiescript Inschakelen"
 
-#: src/session.c:779
+#: src/session.c:811
 msgid "Enable logout dialog"
 msgstr "Afmeldialoog Inschakelen"
 
-#: src/session.c:784
+#: src/session.c:816
 msgid "Enable reboot/halt on logout"
 msgstr "Herstarten Inschakelen/Stoppen bij Afmelden"
 
-#: src/session.c:790
+#: src/session.c:822
 msgid "Session"
 msgstr "Sessie"
 
-#: src/session.c:790
+#: src/session.c:822
 msgid "Session Settings"
 msgstr "Sessie Instellingen"
 
-#: src/session.c:794
+#: src/session.c:826
 msgid ""
 "Enlightenment Session\n"
 "Settings Dialog"

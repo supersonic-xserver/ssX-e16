@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2023-10-13 08:11+0200\n"
+"POT-Creation-Date: 2023-10-17 15:30+0200\n"
 "PO-Revision-Date: 2012-12-07 19:51+0100\n"
 "Last-Translator: Massimo Maiurana <Unknown>\n"
 "Language-Team: none\n"
@@ -1374,61 +1374,65 @@ msgstr ""
 "\n"
 "... almeno spero.\n"
 
-#: src/session.c:620
+#: src/session.c:623
 msgid "Are you sure?"
 msgstr "Siete sicuri?"
 
-#: src/session.c:622
+#: src/session.c:626
 msgid "Are you sure you wish to log out ?"
 msgstr "Siete sicuri di voler uscire?"
 
-#: src/session.c:631
-msgid "Yes, Hibernate"
+#: src/session.c:649
+msgid "Hibernate"
 msgstr ""
 
-#: src/session.c:637
+#: src/session.c:655
 #, fuzzy
 #| msgid "Yes, Shut Down"
-msgid "Yes, Suspend"
+msgid "Suspend"
 msgstr "Sí, spegni"
 
-#: src/session.c:644
+#: src/session.c:661
+msgid "Lock"
+msgstr ""
+
+#: src/session.c:672
 msgid "Yes, Shut Down"
 msgstr "Sí, spegni"
 
-#: src/session.c:646
+#: src/session.c:674
 msgid "Yes, Reboot"
 msgstr "Sí, riavvia"
 
-#: src/session.c:649
+#: src/session.c:678
 msgid "Yes, Log Out"
 msgstr "Sí, esci"
 
-#: src/session.c:651
+#: src/session.c:683
 msgid "No"
 msgstr "No"
 
-#: src/session.c:774
+#: src/session.c:806
 msgid "Enable session script"
 msgstr "Abilita script di sessione"
 
-#: src/session.c:779
+#: src/session.c:811
 msgid "Enable logout dialog"
 msgstr "Abilita finestra di uscita"
 
-#: src/session.c:784
+#: src/session.c:816
 msgid "Enable reboot/halt on logout"
 msgstr "Abilita riavvio/arresto all'uscita"
 
-#: src/session.c:790
+#: src/session.c:822
 msgid "Session"
 msgstr "Sessione"
 
-#: src/session.c:790
+#: src/session.c:822
 msgid "Session Settings"
 msgstr "Impostazioni sessione"
 
-#: src/session.c:794
+#: src/session.c:826
 msgid ""
 "Enlightenment Session\n"
 "Settings Dialog"

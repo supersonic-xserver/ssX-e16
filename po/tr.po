@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2023-10-13 08:11+0200\n"
+"POT-Creation-Date: 2023-10-17 15:30+0200\n"
 "PO-Revision-Date: 2014-05-24 08:31+0000\n"
 "Last-Translator: Eliovir <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -1369,61 +1369,65 @@ msgstr ""
 "\n"
 "... inþallah !\n"
 
-#: src/session.c:620
+#: src/session.c:623
 msgid "Are you sure?"
 msgstr "Emin misiniz?"
 
-#: src/session.c:622
+#: src/session.c:626
 msgid "Are you sure you wish to log out ?"
 msgstr "Enlightenment'den çýkmak istediðinden emin misin ?"
 
-#: src/session.c:631
-msgid "Yes, Hibernate"
+#: src/session.c:649
+msgid "Hibernate"
 msgstr ""
 
-#: src/session.c:637
+#: src/session.c:655
 #, fuzzy
 #| msgid "Yes, Shut Down"
-msgid "Yes, Suspend"
+msgid "Suspend"
 msgstr "Evet, Kapat"
 
-#: src/session.c:644
+#: src/session.c:661
+msgid "Lock"
+msgstr ""
+
+#: src/session.c:672
 msgid "Yes, Shut Down"
 msgstr "Evet, Kapat"
 
-#: src/session.c:646
+#: src/session.c:674
 msgid "Yes, Reboot"
 msgstr "Evet, Yeniden Baþlat"
 
-#: src/session.c:649
+#: src/session.c:678
 msgid "Yes, Log Out"
 msgstr "Evet, çýk"
 
-#: src/session.c:651
+#: src/session.c:683
 msgid "No"
 msgstr "Hayýr"
 
-#: src/session.c:774
+#: src/session.c:806
 msgid "Enable session script"
 msgstr "Oturum Betiðini Etkinleþtir"
 
-#: src/session.c:779
+#: src/session.c:811
 msgid "Enable logout dialog"
 msgstr "Çýkýþ Diyalogunu Etkinleþtir"
 
-#: src/session.c:784
+#: src/session.c:816
 msgid "Enable reboot/halt on logout"
 msgstr "Çýkýþ yapýldýðýnda Sistemi yeniden Yükleme/Durdurma uygun"
 
-#: src/session.c:790
+#: src/session.c:822
 msgid "Session"
 msgstr "Oturum"
 
-#: src/session.c:790
+#: src/session.c:822
 msgid "Session Settings"
 msgstr "Oturum Ayarlarý"
 
-#: src/session.c:794
+#: src/session.c:826
 msgid ""
 "Enlightenment Session\n"
 "Settings Dialog"
