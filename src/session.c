@@ -568,6 +568,8 @@ SessionLogout(void)
 static void
 LogoutCB(Dialog * d, int val, void *data __UNUSED__)
 {
+   DialogClose(d);
+
 #if USE_SM
    if (sm_conn)
      {
@@ -576,8 +578,6 @@ LogoutCB(Dialog * d, int val, void *data __UNUSED__)
    else
 #endif /* USE_SM */
      {
-	/* 0:LogOut -: No    -or-        */
-	/* 0:Halt 1:Reboot 2:LogOut -:No */
 	switch (val)
 	  {
 	  default:
@@ -592,18 +592,16 @@ LogoutCB(Dialog * d, int val, void *data __UNUSED__)
 	     SessionExit(EEXIT_EXEC, Conf.session.cmd_halt);
 	     break;
 	  case LOGOUT_LOCK:
-	     Espawn(Conf.session.cmd_lock);
+	     Espawn("%s", Conf.session.cmd_lock);
 	     break;
 	  case LOGOUT_SUSPEND:
-	     Espawn(Conf.session.cmd_suspend);
+	     Espawn("%s", Conf.session.cmd_suspend);
 	     break;
 	  case LOGOUT_HIBERNATE:
-	     Espawn(Conf.session.cmd_hibernate);
+	     Espawn("%s", Conf.session.cmd_hibernate);
 	     break;
 	  }
      }
-
-   DialogClose(d);
 }
 
 #define ISSET(s) ((s && *s != '\0') ? 1 : 0)
