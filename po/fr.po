@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
 "POT-Creation-Date: 2023-10-17 15:30+0200\n"
-"PO-Revision-Date: 2023-07-23 07:40+0200\n"
+"PO-Revision-Date: 2023-10-18 13:20+0200\n"
 "Last-Translator: Philippe Jean Guillaumie <similar@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4\n"
 
 #: src/about.c:35
 #, c-format
@@ -1377,17 +1377,15 @@ msgstr "Voulez-vous vraiment quitter la session ?"
 
 #: src/session.c:649
 msgid "Hibernate"
-msgstr ""
+msgstr "En hibernation"
 
 #: src/session.c:655
-#, fuzzy
-#| msgid "Yes, Shut Down"
 msgid "Suspend"
-msgstr "Oui, Éteindre"
+msgstr "En veille"
 
 #: src/session.c:661
 msgid "Lock"
-msgstr ""
+msgstr "Verrouiller"
 
 #: src/session.c:672
 msgid "Yes, Shut Down"
