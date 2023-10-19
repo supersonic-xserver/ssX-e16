@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
 "POT-Creation-Date: 2023-10-17 15:30+0200\n"
-"PO-Revision-Date: 2023-07-23 10:08+0100\n"
+"PO-Revision-Date: 2023-10-19 11:49+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language: pt\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Launchpad-Export-Date: 2010-05-09 01:32+0000\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4\n"
 
 #: src/about.c:35
 #, c-format
@@ -1377,21 +1377,19 @@ msgstr "Tem a certeza?"
 
 #: src/session.c:626
 msgid "Are you sure you wish to log out ?"
-msgstr "Tem a certeza que quer sair da sessão ?"
+msgstr "Tem a certeza de que pretende sair da sessão ?"
 
 #: src/session.c:649
 msgid "Hibernate"
-msgstr ""
+msgstr "Hibernar"
 
 #: src/session.c:655
-#, fuzzy
-#| msgid "Yes, Shut Down"
 msgid "Suspend"
-msgstr "Sim, desligar"
+msgstr "Suspender"
 
 #: src/session.c:661
 msgid "Lock"
-msgstr ""
+msgstr "Bloquear"
 
 #: src/session.c:672
 msgid "Yes, Shut Down"
