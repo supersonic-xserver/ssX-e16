@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
 "POT-Creation-Date: 2023-10-17 15:30+0200\n"
-"PO-Revision-Date: 2023-07-23 10:33+0200\n"
+"PO-Revision-Date: 2023-10-20 17:16+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
 "Language: da\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4\n"
 
 #: src/about.c:35
 #, c-format
@@ -1346,17 +1346,15 @@ msgstr "Er du sikker på at du ønsker at logge ud ?"
 
 #: src/session.c:649
 msgid "Hibernate"
-msgstr ""
+msgstr "Gå i dvale"
 
 #: src/session.c:655
-#, fuzzy
-#| msgid "Yes, Shut Down"
 msgid "Suspend"
-msgstr "Ja, luk ned"
+msgstr "Gå i hvile"
 
 #: src/session.c:661
 msgid "Lock"
-msgstr ""
+msgstr "Aktiver skærmlås"
 
 #: src/session.c:672
 msgid "Yes, Shut Down"
