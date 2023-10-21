@@ -34,21 +34,21 @@
 #include <fcntl.h>
 
 #if HAVE_STRDUP
-#define USE_LIBC_STRDUP  1	/* Use libc strdup if present */
+#define USE_LIBC_STRDUP  1      /* Use libc strdup if present */
 #endif
 
 typedef struct {
-   Window              win;
-   char               *msg;
+    Window          win;
+    char           *msg;
 } Client;
 
-void                CommsInit(void);
-Window              CommsSetup(Window win);
-Window              CommsFindCommsWindow(void);
-void                CommsSend(Client * c, const char *s);
-char               *CommsGet(Client * c, XEvent * ev);
-Client             *ClientCreate(Window win);
-void                ClientDestroy(Client * c);
+void            CommsInit(void);
+Window          CommsSetup(Window win);
+Window          CommsFindCommsWindow(void);
+void            CommsSend(Client * c, const char *s);
+char           *CommsGet(Client * c, XEvent * ev);
+Client         *ClientCreate(Window win);
+void            ClientDestroy(Client * c);
 
 #define Ecalloc     calloc
 #define Emalloc     malloc
@@ -65,7 +65,7 @@ void                ClientDestroy(Client * c);
 #if USE_LIBC_STRDUP
 #define Estrdup(s) ((s) ? strdup(s) : NULL)
 #else
-char               *Estrdup(const char *s);
+char           *Estrdup(const char *s);
 #endif
 
-extern Display     *disp;
+extern Display *disp;

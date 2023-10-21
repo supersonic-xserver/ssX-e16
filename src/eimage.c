@@ -40,763 +40,763 @@
 void
 EImageInit(void)
 {
-   EImageSetCacheSize(Conf.testing.image_cache_size);
-   EImageSetXImageCacheSize(Conf.testing.ximage_cache_count, -1);
-   imlib_set_font_cache_size(512 * 1024);
+    EImageSetCacheSize(Conf.testing.image_cache_size);
+    EImageSetXImageCacheSize(Conf.testing.ximage_cache_count, -1);
+    imlib_set_font_cache_size(512 * 1024);
 
-   imlib_set_color_usage(128);
+    imlib_set_color_usage(128);
 
-   imlib_context_set_display(disp);
-   imlib_context_set_visual(WinGetVisual(VROOT));
-   imlib_context_set_colormap(WinGetCmap(VROOT));
+    imlib_context_set_display(disp);
+    imlib_context_set_visual(WinGetVisual(VROOT));
+    imlib_context_set_colormap(WinGetCmap(VROOT));
 
 #ifdef HAVE_IMLIB_CONTEXT_SET_MASK_ALPHA_THRESHOLD
-   imlib_context_set_mask_alpha_threshold(Conf.testing.mask_alpha_threshold);
+    imlib_context_set_mask_alpha_threshold(Conf.testing.mask_alpha_threshold);
 #endif
 
-   imlib_context_set_blend(0);
-   imlib_context_set_anti_alias(0);
-   imlib_context_set_dither(1);
+    imlib_context_set_blend(0);
+    imlib_context_set_anti_alias(0);
+    imlib_context_set_dither(1);
 }
 
 void
 EImageExit(int quit __UNUSED__)
 {
 #if HAVE_IMLIB_CONTEXT_DISCONNECT_DISPLAY
-   imlib_context_disconnect_display();
+    imlib_context_disconnect_display();
 #endif
 }
 
 void
 EImageSetCacheSize(int size)
 {
-   Conf.testing.image_cache_size = size;
-   if (size < 0)
-      size = IMG_CACHE_DEFAULT_SIZE;
-   imlib_set_cache_size(size);
+    Conf.testing.image_cache_size = size;
+    if (size < 0)
+        size = IMG_CACHE_DEFAULT_SIZE;
+    imlib_set_cache_size(size);
 }
 
 void
 EImageSetXImageCacheSize(int count, int size __UNUSED__)
 {
-   Conf.testing.ximage_cache_count = count;
+    Conf.testing.ximage_cache_count = count;
 #if HAVE_IMLIB_XIMAGE_CACHE_CONTROL
-   if (count < 0)
-      count = XIM_CACHE_DEFAULT_COUNT;
-   imlib_set_ximage_cache_count_max(count);
+    if (count < 0)
+        count = XIM_CACHE_DEFAULT_COUNT;
+    imlib_set_ximage_cache_count_max(count);
 #endif
 }
 
 void
-EImageGetCacheInfo(ECacheInfo * ci)
+EImageGetCacheInfo(ECacheInfo *ci)
 {
-   memset(ci, 0, sizeof(ECacheInfo));
-   ci->img.max_mem = imlib_get_cache_size();
+    memset(ci, 0, sizeof(ECacheInfo));
+    ci->img.max_mem = imlib_get_cache_size();
 #if HAVE_IMLIB_XIMAGE_CACHE_CONTROL
-   ci->img.used_mem = imlib_get_cache_used();
-   ci->xim.max_mem = imlib_get_ximage_cache_size_max();
-   ci->xim.used_mem = imlib_get_ximage_cache_size_used();
-   ci->xim.max_cnt = imlib_get_ximage_cache_count_max();
-   ci->xim.used_cnt = imlib_get_ximage_cache_count_used();
+    ci->img.used_mem = imlib_get_cache_used();
+    ci->xim.max_mem = imlib_get_ximage_cache_size_max();
+    ci->xim.used_mem = imlib_get_ximage_cache_size_used();
+    ci->xim.max_cnt = imlib_get_ximage_cache_count_max();
+    ci->xim.used_cnt = imlib_get_ximage_cache_count_used();
 #endif
 }
 
 static void
 _EImageFlagsSet(int flags)
 {
-   if (flags & EIMAGE_ANTI_ALIAS)
-      imlib_context_set_anti_alias(1);
-   if (flags & EIMAGE_BLEND)
-      imlib_context_set_blend(1);
+    if (flags & EIMAGE_ANTI_ALIAS)
+        imlib_context_set_anti_alias(1);
+    if (flags & EIMAGE_BLEND)
+        imlib_context_set_blend(1);
 #ifdef HAVE_IMLIB_CONTEXT_SET_MASK_ALPHA_THRESHOLD
-   if (flags & EIMAGE_HIGH_MASK_THR)
-      imlib_context_set_mask_alpha_threshold(128);
+    if (flags & EIMAGE_HIGH_MASK_THR)
+        imlib_context_set_mask_alpha_threshold(128);
 #endif
 }
 
 static void
 _EImageFlagsReset(void)
 {
-   imlib_context_set_anti_alias(0);
-   imlib_context_set_blend(0);
+    imlib_context_set_anti_alias(0);
+    imlib_context_set_blend(0);
 #ifdef HAVE_IMLIB_CONTEXT_SET_MASK_ALPHA_THRESHOLD
-   imlib_context_set_mask_alpha_threshold(Conf.testing.mask_alpha_threshold);
+    imlib_context_set_mask_alpha_threshold(Conf.testing.mask_alpha_threshold);
 #endif
 }
 
-EImage             *
+EImage         *
 EImageLoad(const char *file)
 {
-   return imlib_load_image(file);
+    return imlib_load_image(file);
 }
 
-EImage             *
+EImage         *
 EImageLoadOrientate(const char *file, int orientation)
 {
-   EImage             *im, *im2;
-   char                name[2048], path[4096], *s, *s2;
+    EImage         *im, *im2;
+    char            name[2048], path[4096], *s, *s2;
 
-   snprintf(name, sizeof(name), "%s", file);
-   for (s = name, s2 = NULL; *s; s++)
-     {
-	if (*s == '/')
-	   *s = '.';
-	else if (*s == '.')
-	   s2 = s;
-     }
-   if (s2)
-      *s2 = '\0';
-   snprintf(path, sizeof(path), "%s/cached/cfg/%s-%d.png",
-	    EDirUserCache(), name, orientation);
+    snprintf(name, sizeof(name), "%s", file);
+    for (s = name, s2 = NULL; *s; s++)
+    {
+        if (*s == '/')
+            *s = '.';
+        else if (*s == '.')
+            s2 = s;
+    }
+    if (s2)
+        *s2 = '\0';
+    snprintf(path, sizeof(path), "%s/cached/cfg/%s-%d.png",
+             EDirUserCache(), name, orientation);
 
-   if (!exists(path))
-     {
-	im = imlib_load_image(file);
-	if (!im)
-	   return NULL;
+    if (!exists(path))
+    {
+        im = imlib_load_image(file);
+        if (!im)
+            return NULL;
 
-	imlib_context_set_image(im);
-	im2 = imlib_clone_image();
-	imlib_free_image();
+        imlib_context_set_image(im);
+        im2 = imlib_clone_image();
+        imlib_free_image();
 
-	imlib_context_set_image(im2);
-	imlib_image_orientate(orientation);
-	imlib_image_set_format("png");
-	imlib_save_image(path);
-	imlib_free_image();
-     }
+        imlib_context_set_image(im2);
+        imlib_image_orientate(orientation);
+        imlib_image_set_format("png");
+        imlib_save_image(path);
+        imlib_free_image();
+    }
 
-   im = imlib_load_image(path);
+    im = imlib_load_image(path);
 
-   return im;
+    return im;
 }
 
 void
-EImageSave(EImage * im, const char *file)
+EImageSave(EImage *im, const char *file)
 {
-   imlib_context_set_image(im);
-   imlib_image_set_format("png");
-   imlib_save_image(file);
+    imlib_context_set_image(im);
+    imlib_image_set_format("png");
+    imlib_save_image(file);
 }
 
-EImage             *
+EImage         *
 EImageCreate(int w, int h)
 {
-   EImage             *im;
+    EImage         *im;
 
-   im = imlib_create_image(w, h);
+    im = imlib_create_image(w, h);
 
-   return im;
+    return im;
 }
 
-EImage             *
+EImage         *
 EImageCreateFromData(int w, int h, unsigned int *data)
 {
-   EImage             *im;
+    EImage         *im;
 
-   im = imlib_create_image_using_copied_data(w, h, data);
+    im = imlib_create_image_using_copied_data(w, h, data);
 
-   return im;
+    return im;
 }
 
-EImage             *
-EImageCreateScaled(EImage * im, int sx, int sy, int sw, int sh, int dw, int dh)
+EImage         *
+EImageCreateScaled(EImage *im, int sx, int sy, int sw, int sh, int dw, int dh)
 {
-   imlib_context_set_image(im);
-   if (sw <= 0)
-      sw = imlib_image_get_width();
-   if (sh <= 0)
-      sh = imlib_image_get_height();
-   if (dw <= 0)
-      dw = sw;
-   if (dh <= 0)
-      dh = sh;
-   return imlib_create_cropped_scaled_image(sx, sy, sw, sh, dw, dh);
-}
-
-void
-EImageFree(EImage * im)
-{
-   imlib_context_set_image(im);
-   imlib_free_image();
+    imlib_context_set_image(im);
+    if (sw <= 0)
+        sw = imlib_image_get_width();
+    if (sh <= 0)
+        sh = imlib_image_get_height();
+    if (dw <= 0)
+        dw = sw;
+    if (dh <= 0)
+        dh = sh;
+    return imlib_create_cropped_scaled_image(sx, sy, sw, sh, dw, dh);
 }
 
 void
-EImageDecache(EImage * im)
+EImageFree(EImage *im)
 {
-   imlib_context_set_image(im);
-   imlib_free_image_and_decache();
+    imlib_context_set_image(im);
+    imlib_free_image();
+}
+
+void
+EImageDecache(EImage *im)
+{
+    imlib_context_set_image(im);
+    imlib_free_image_and_decache();
 }
 
 static int
 _EImageCheckAlpha(void)
 {
-   static const short  oink = 3;	/* For endianness checking */
-   unsigned char      *pb, *pe;
+    static const short oink = 3;        /* For endianness checking */
+    unsigned char  *pb, *pe;
 
-   if (!imlib_image_has_alpha())
-      return 0;
+    if (!imlib_image_has_alpha())
+        return 0;
 
-   pb = (unsigned char *)imlib_image_get_data_for_reading_only();
-   if (!pb)
-      return 0;
+    pb = (unsigned char *)imlib_image_get_data_for_reading_only();
+    if (!pb)
+        return 0;
 
-   pe = pb + 4 * imlib_image_get_width() * imlib_image_get_height();
-   pb += *((char *)(&oink));
-   for (; pb < pe; pb += 4)
-      if (*pb != 0xff)
-	 return 1;
+    pe = pb + 4 * imlib_image_get_width() * imlib_image_get_height();
+    pb += *((char *)(&oink));
+    for (; pb < pe; pb += 4)
+        if (*pb != 0xff)
+            return 1;
 
-   return 0;
+    return 0;
 }
 
 void
-EImageCheckAlpha(EImage * im)
+EImageCheckAlpha(EImage *im)
 {
-   imlib_context_set_image(im);
+    imlib_context_set_image(im);
 
-   if (imlib_image_has_alpha() && !_EImageCheckAlpha())
-     {
+    if (imlib_image_has_alpha() && !_EImageCheckAlpha())
+    {
 #if 0
-	Eprintf("Alpha set but no shape %s\n", is->real_file);
+        Eprintf("Alpha set but no shape %s\n", is->real_file);
 #endif
-	imlib_image_set_has_alpha(0);
-     }
+        imlib_image_set_has_alpha(0);
+    }
 }
 
 void
-EImageSetHasAlpha(EImage * im, int has_alpha)
+EImageSetHasAlpha(EImage *im, int has_alpha)
 {
-   imlib_context_set_image(im);
-   imlib_image_set_has_alpha(has_alpha);
+    imlib_context_set_image(im);
+    imlib_image_set_has_alpha(has_alpha);
 }
 
 void
-EImageSetBorder(EImage * im, EImageBorder * border)
+EImageSetBorder(EImage *im, EImageBorder *border)
 {
-   Imlib_Border        ib;
+    Imlib_Border    ib;
 
-   ib.left = border->left;
-   ib.right = border->right;
-   ib.top = border->top;
-   ib.bottom = border->bottom;
-   imlib_context_set_image(im);
-   imlib_image_set_border(&ib);
+    ib.left = border->left;
+    ib.right = border->right;
+    ib.top = border->top;
+    ib.bottom = border->bottom;
+    imlib_context_set_image(im);
+    imlib_image_set_border(&ib);
 
-   if (EDebug(1))
-     {
-	int                 l;
+    if (EDebug(1))
+    {
+        int             l;
 
-	l = imlib_image_get_width();
-	if ((l < ib.left + ib.right) || (ib.left < 0) || (ib.left < 0))
-	   Eprintf("%s: %s: Image W = %d < border L+R = %d+%d\n", __func__,
-		   imlib_image_get_filename(), l, ib.left, ib.right);
-	l = imlib_image_get_height();
-	if ((l < ib.top + ib.bottom) || (ib.top < 0) || (ib.bottom < 0))
-	   Eprintf("%s: %s: Image H = %d < border T+B = %d+%d\n", __func__,
-		   imlib_image_get_filename(), l, ib.top, ib.bottom);
-     }
+        l = imlib_image_get_width();
+        if ((l < ib.left + ib.right) || (ib.left < 0) || (ib.left < 0))
+            Eprintf("%s: %s: Image W = %d < border L+R = %d+%d\n", __func__,
+                    imlib_image_get_filename(), l, ib.left, ib.right);
+        l = imlib_image_get_height();
+        if ((l < ib.top + ib.bottom) || (ib.top < 0) || (ib.bottom < 0))
+            Eprintf("%s: %s: Image H = %d < border T+B = %d+%d\n", __func__,
+                    imlib_image_get_filename(), l, ib.top, ib.bottom);
+    }
 }
 
 int
-EImageHasAlpha(EImage * im)
+EImageHasAlpha(EImage *im)
 {
-   imlib_context_set_image(im);
-   return imlib_image_has_alpha();
+    imlib_context_set_image(im);
+    return imlib_image_has_alpha();
 }
 
 void
-EImageGetSize(EImage * im, int *pw, int *ph)
+EImageGetSize(EImage *im, int *pw, int *ph)
 {
-   imlib_context_set_image(im);
-   *pw = imlib_image_get_width();
-   *ph = imlib_image_get_height();
+    imlib_context_set_image(im);
+    *pw = imlib_image_get_width();
+    *ph = imlib_image_get_height();
 }
 
-void               *
-EImageGetData(EImage * im)
+void           *
+EImageGetData(EImage *im)
 {
-   imlib_context_set_image(im);
-   return imlib_image_get_data_for_reading_only();
-}
-
-void
-EImageFill(EImage * im, int x, int y, int w, int h, unsigned int color)
-{
-   int                 a, r, g, b;
-
-   imlib_context_set_image(im);
-   COLOR32_TO_ARGB(color, a, r, g, b);
-   imlib_context_set_color(r, g, b, a);
-   imlib_image_fill_rectangle(x, y, w, h);
+    imlib_context_set_image(im);
+    return imlib_image_get_data_for_reading_only();
 }
 
 void
-EImageOrientate(EImage * im, int orientation)
+EImageFill(EImage *im, int x, int y, int w, int h, unsigned int color)
 {
-   imlib_context_set_image(im);
-   imlib_image_orientate(orientation);
+    int             a, r, g, b;
+
+    imlib_context_set_image(im);
+    COLOR32_TO_ARGB(color, a, r, g, b);
+    imlib_context_set_color(r, g, b, a);
+    imlib_image_fill_rectangle(x, y, w, h);
 }
 
 void
-EImageBlend(EImage * im, EImage * src, int flags,
-	    int sx, int sy, int sw, int sh,
-	    int dx, int dy, int dw, int dh, int merge_alpha)
+EImageOrientate(EImage *im, int orientation)
 {
-   imlib_context_set_image(im);
-   if (flags)
-      _EImageFlagsSet(flags);
-   imlib_blend_image_onto_image(src, merge_alpha, sx, sy, sw, sh,
-				dx, dy, dw, dh);
-   if (flags)
-      _EImageFlagsReset();
+    imlib_context_set_image(im);
+    imlib_image_orientate(orientation);
 }
 
 void
-EImageTile(EImage * im, EImage * tile, int flags, int tw, int th,
-	   int dx, int dy, int dw, int dh, int ox, int oy)
+EImageBlend(EImage *im, EImage *src, int flags,
+            int sx, int sy, int sw, int sh,
+            int dx, int dy, int dw, int dh, int merge_alpha)
 {
-   Imlib_Image         tim;
-   int                 x, y, tx, ty, ww, hh;
-   int                 sw, sh;
-
-   if (tw <= 0 || th <= 0)
-      return;
-
-   if (flags)
-      _EImageFlagsSet(flags);
-
-   imlib_context_set_image(tile);
-   sw = imlib_image_get_width();
-   sh = imlib_image_get_height();
-   if (sw == tw && sh == th)
-     {
-	tim = tile;
-     }
-   else
-     {
-	tim = imlib_create_image(tw, th);
-	imlib_context_set_image(tim);
-	imlib_context_set_anti_alias(1);
-	imlib_blend_image_onto_image(tile, 0, 0, 0, sw, sh, 0, 0, tw, th);
-	imlib_context_set_anti_alias(0);
-     }
-   imlib_context_set_image(im);
-
-   if (ox)
-     {
-	ox = tw - ox;
-	ox %= tw;
-	if (ox < 0)
-	   ox += tw;
-     }
-   if (oy)
-     {
-	oy = th - oy;
-	oy %= th;
-	if (oy < 0)
-	   oy += th;
-     }
-   dw += dx;
-   dh += dy;
-   y = dy;
-   ty = oy;
-   hh = th - oy;
-   for (;;)
-     {
-	if (y + hh >= dh)
-	   hh = dh - y;
-	if (hh <= 0)
-	   break;
-	x = dx;
-	tx = ox;
-	ww = tw - ox;
-	for (;;)
-	  {
-	     if (x + ww >= dw)
-		ww = dw - x;
-	     if (ww <= 0)
-		break;
-	     imlib_blend_image_onto_image(tim, 0, tx, ty, ww, hh, x, y, ww, hh);
-	     tx = 0;
-	     x += ww;
-	     ww = tw;
-	  }
-	ty = 0;
-	y += hh;
-	hh = th;
-     }
-   if (tim != tile)
-     {
-	imlib_context_set_image(tim);
-	imlib_free_image();
-	imlib_context_set_image(im);	/* FIXME - Remove */
-     }
-
-   if (flags)
-      _EImageFlagsReset();
+    imlib_context_set_image(im);
+    if (flags)
+        _EImageFlagsSet(flags);
+    imlib_blend_image_onto_image(src, merge_alpha, sx, sy, sw, sh,
+                                 dx, dy, dw, dh);
+    if (flags)
+        _EImageFlagsReset();
 }
 
-EImage             *
+void
+EImageTile(EImage *im, EImage *tile, int flags, int tw, int th,
+           int dx, int dy, int dw, int dh, int ox, int oy)
+{
+    Imlib_Image     tim;
+    int             x, y, tx, ty, ww, hh;
+    int             sw, sh;
+
+    if (tw <= 0 || th <= 0)
+        return;
+
+    if (flags)
+        _EImageFlagsSet(flags);
+
+    imlib_context_set_image(tile);
+    sw = imlib_image_get_width();
+    sh = imlib_image_get_height();
+    if (sw == tw && sh == th)
+    {
+        tim = tile;
+    }
+    else
+    {
+        tim = imlib_create_image(tw, th);
+        imlib_context_set_image(tim);
+        imlib_context_set_anti_alias(1);
+        imlib_blend_image_onto_image(tile, 0, 0, 0, sw, sh, 0, 0, tw, th);
+        imlib_context_set_anti_alias(0);
+    }
+    imlib_context_set_image(im);
+
+    if (ox)
+    {
+        ox = tw - ox;
+        ox %= tw;
+        if (ox < 0)
+            ox += tw;
+    }
+    if (oy)
+    {
+        oy = th - oy;
+        oy %= th;
+        if (oy < 0)
+            oy += th;
+    }
+    dw += dx;
+    dh += dy;
+    y = dy;
+    ty = oy;
+    hh = th - oy;
+    for (;;)
+    {
+        if (y + hh >= dh)
+            hh = dh - y;
+        if (hh <= 0)
+            break;
+        x = dx;
+        tx = ox;
+        ww = tw - ox;
+        for (;;)
+        {
+            if (x + ww >= dw)
+                ww = dw - x;
+            if (ww <= 0)
+                break;
+            imlib_blend_image_onto_image(tim, 0, tx, ty, ww, hh, x, y, ww, hh);
+            tx = 0;
+            x += ww;
+            ww = tw;
+        }
+        ty = 0;
+        y += hh;
+        hh = th;
+    }
+    if (tim != tile)
+    {
+        imlib_context_set_image(tim);
+        imlib_free_image();
+        imlib_context_set_image(im);    /* FIXME - Remove */
+    }
+
+    if (flags)
+        _EImageFlagsReset();
+}
+
+EImage         *
 EImageGrabDrawable(EX_Drawable draw, EX_Pixmap mask, int x, int y, int w,
-		   int h, int grab)
+                   int h, int grab)
 {
-   EImage             *im;
-   EX_Colormap         cm;
+    EImage         *im;
+    EX_Colormap     cm;
 
-   cm = imlib_context_get_colormap();
-   imlib_context_set_colormap(NoXID);	/* Fix for grabbing bitmaps */
-   imlib_context_set_drawable(draw);
-   im = imlib_create_image_from_drawable(mask, x, y, w, h, grab);
-   imlib_context_set_colormap(cm);
+    cm = imlib_context_get_colormap();
+    imlib_context_set_colormap(NoXID);  /* Fix for grabbing bitmaps */
+    imlib_context_set_drawable(draw);
+    im = imlib_create_image_from_drawable(mask, x, y, w, h, grab);
+    imlib_context_set_colormap(cm);
 
-   return im;
+    return im;
 }
 
-EImage             *
+EImage         *
 EImageGrabDrawableScaled(Win win, EX_Drawable draw, EX_Pixmap mask,
-			 int x, int y, int w, int h,
-			 int iw, int ih, int grab, int get_mask_from_shape)
+                         int x, int y, int w, int h,
+                         int iw, int ih, int grab, int get_mask_from_shape)
 {
-   EImage             *im;
-   Visual             *vis;
+    EImage         *im;
+    Visual         *vis;
 
-   imlib_context_set_drawable(draw);
-   vis = (win) ? WinGetVisual(win) : NULL;
-   if (vis)
-      imlib_context_set_visual(vis);
+    imlib_context_set_drawable(draw);
+    vis = (win) ? WinGetVisual(win) : NULL;
+    if (vis)
+        imlib_context_set_visual(vis);
 
-   im = imlib_create_scaled_image_from_drawable(mask, x, y, w, h, iw, ih, grab,
-						get_mask_from_shape);
+    im = imlib_create_scaled_image_from_drawable(mask, x, y, w, h, iw, ih, grab,
+                                                 get_mask_from_shape);
 
-   if (vis)
-      imlib_context_set_visual(WinGetVisual(VROOT));
+    if (vis)
+        imlib_context_set_visual(WinGetVisual(VROOT));
 
-   return im;
+    return im;
 }
 
 void
-EImageRenderOnDrawable(EImage * im, Win win, EX_Drawable draw, int flags,
-		       int x, int y, int w, int h)
+EImageRenderOnDrawable(EImage *im, Win win, EX_Drawable draw, int flags,
+                       int x, int y, int w, int h)
 {
-   Visual             *vis;
+    Visual         *vis;
 
-   imlib_context_set_image(im);
-   imlib_context_set_drawable((draw != NoXID) ? draw : WinGetXwin(win));
-   vis = (win) ? WinGetVisual(win) : NULL;
-   if (vis)
-      imlib_context_set_visual(vis);
+    imlib_context_set_image(im);
+    imlib_context_set_drawable((draw != NoXID) ? draw : WinGetXwin(win));
+    vis = (win) ? WinGetVisual(win) : NULL;
+    if (vis)
+        imlib_context_set_visual(vis);
 
-   if (flags)
-      _EImageFlagsSet(flags);
-   imlib_render_image_on_drawable_at_size(x, y, w, h);
-   if (flags)
-      _EImageFlagsReset();
+    if (flags)
+        _EImageFlagsSet(flags);
+    imlib_render_image_on_drawable_at_size(x, y, w, h);
+    if (flags)
+        _EImageFlagsReset();
 
-   if (vis)
-      imlib_context_set_visual(WinGetVisual(VROOT));
+    if (vis)
+        imlib_context_set_visual(WinGetVisual(VROOT));
 }
 
 #if USE_XRENDER
 
 void
-EImageRenderOnDrawableARGB(EImage * im, EX_Drawable draw, int w, int h)
+EImageRenderOnDrawableARGB(EImage *im, EX_Drawable draw, int w, int h)
 {
-   Visual             *vis;
+    Visual         *vis;
 
-   imlib_context_set_image(im);
-   imlib_context_set_drawable(draw);
-   vis = EVisualFindARGB();
-   if (vis)
-      imlib_context_set_visual(vis);
+    imlib_context_set_image(im);
+    imlib_context_set_drawable(draw);
+    vis = EVisualFindARGB();
+    if (vis)
+        imlib_context_set_visual(vis);
 
-   imlib_render_image_on_drawable_at_size(0, 0, w, h);
+    imlib_render_image_on_drawable_at_size(0, 0, w, h);
 
-   if (vis)
-      imlib_context_set_visual(WinGetVisual(VROOT));
+    if (vis)
+        imlib_context_set_visual(WinGetVisual(VROOT));
 }
 
 #endif
 
 void
-EImageRenderPixmaps(EImage * im, Win win, int flags,
-		    EX_Pixmap * ppmap, EX_Pixmap * pmask, int w, int h)
+EImageRenderPixmaps(EImage *im, Win win, int flags,
+                    EX_Pixmap *ppmap, EX_Pixmap *pmask, int w, int h)
 {
-   Visual             *vis;
-   Pixmap              pmap, mask, *pm;
+    Visual         *vis;
+    Pixmap          pmap, mask, *pm;
 
-   imlib_context_set_image(im);
-   imlib_context_set_drawable((win) ? WinGetXwin(win) : WinGetXwin(VROOT));
-   vis = (win) ? WinGetVisual(win) : NULL;
-   if (vis)
-      imlib_context_set_visual(vis);
+    imlib_context_set_image(im);
+    imlib_context_set_drawable((win) ? WinGetXwin(win) : WinGetXwin(VROOT));
+    vis = (win) ? WinGetVisual(win) : NULL;
+    if (vis)
+        imlib_context_set_visual(vis);
 
-   pmap = mask = NoXID;
-   pm = pmask ? &mask : NULL;
+    pmap = mask = NoXID;
+    pm = pmask ? &mask : NULL;
 
-   if (flags)
-      _EImageFlagsSet(flags);
-   if (w <= 0 || h <= 0)
-      imlib_render_pixmaps_for_whole_image(&pmap, pm);
-   else
-      imlib_render_pixmaps_for_whole_image_at_size(&pmap, pm, w, h);
-   if (flags)
-      _EImageFlagsReset();
+    if (flags)
+        _EImageFlagsSet(flags);
+    if (w <= 0 || h <= 0)
+        imlib_render_pixmaps_for_whole_image(&pmap, pm);
+    else
+        imlib_render_pixmaps_for_whole_image_at_size(&pmap, pm, w, h);
+    if (flags)
+        _EImageFlagsReset();
 
-   if (vis)
-      imlib_context_set_visual(WinGetVisual(VROOT));
+    if (vis)
+        imlib_context_set_visual(WinGetVisual(VROOT));
 
-   *ppmap = pmap;
-   if (pmask)
-      *pmask = mask;
+    *ppmap = pmap;
+    if (pmask)
+        *pmask = mask;
 }
 
 void
 EImagePixmapsFree(EX_Pixmap pmap, EX_Pixmap mask __UNUSED__)
 {
-   imlib_free_pixmap_and_mask(pmap);
+    imlib_free_pixmap_and_mask(pmap);
 }
 
 void
-EImageApplyToWin(EImage * im, Win win, int flags, int w, int h)
+EImageApplyToWin(EImage *im, Win win, int flags, int w, int h)
 {
-   EX_Pixmap           pmap, mask;
+    EX_Pixmap       pmap, mask;
 
-   EImageRenderPixmaps(im, win, flags, &pmap, &mask, w, h);
-   ESetWindowBackgroundPixmap(win, pmap, 0);
-   if ((mask != NoXID) || (mask == NoXID && WinIsShaped(win)))
-      EShapeSetMask(win, 0, 0, mask);
-   EImagePixmapsFree(pmap, mask);
-   EClearWindow(win);
+    EImageRenderPixmaps(im, win, flags, &pmap, &mask, w, h);
+    ESetWindowBackgroundPixmap(win, pmap, 0);
+    if ((mask != NoXID) || (mask == NoXID && WinIsShaped(win)))
+        EShapeSetMask(win, 0, 0, mask);
+    EImagePixmapsFree(pmap, mask);
+    EClearWindow(win);
 }
 
 void
 ScaleRect(Win wsrc, EX_Drawable src, Win wdst, EX_Pixmap dst,
-	  int sx, int sy, int sw, int sh,
-	  int dx, int dy, int dw, int dh, int flags)
+          int sx, int sy, int sw, int sh,
+          int dx, int dy, int dw, int dh, int flags)
 {
 #if USE_XRENDER
-   if (Conf.testing.use_render_for_scaling)
-     {
-	XTransform          tr;
-	EX_Picture          psrc, pdst;
-	double              scale_x, scale_y;
+    if (Conf.testing.use_render_for_scaling)
+    {
+        XTransform      tr;
+        EX_Picture      psrc, pdst;
+        double          scale_x, scale_y;
 
-	scale_x = (double)sw / (double)dw;
-	scale_y = (double)sh / (double)dh;
-	memset(&tr, 0, sizeof(tr));
-	tr.matrix[0][0] = XDoubleToFixed(scale_x);
-	tr.matrix[1][1] = XDoubleToFixed(scale_y);
-	tr.matrix[2][2] = XDoubleToFixed(1.);
+        scale_x = (double)sw / (double)dw;
+        scale_y = (double)sh / (double)dh;
+        memset(&tr, 0, sizeof(tr));
+        tr.matrix[0][0] = XDoubleToFixed(scale_x);
+        tr.matrix[1][1] = XDoubleToFixed(scale_y);
+        tr.matrix[2][2] = XDoubleToFixed(1.);
 
-	psrc = EPictureCreateII(wsrc, src);
-	pdst = EPictureCreateII(wdst, dst);
+        psrc = EPictureCreateII(wsrc, src);
+        pdst = EPictureCreateII(wdst, dst);
 
-	XRenderSetPictureFilter(disp, psrc, (flags & EIMAGE_ANTI_ALIAS) ?
-				FilterBest : FilterNearest, NULL, 0);
-	XRenderSetPictureTransform(disp, psrc, &tr);
-	XRenderComposite(disp, PictOpSrc, psrc, NoXID, pdst,
-			 (int)(sx / scale_x + .5), (int)(sy / scale_y + .5),
-			 0, 0, dx, dy, dw, dh);
-	XRenderFreePicture(disp, psrc);
-	XRenderFreePicture(disp, pdst);
-     }
-   else
+        XRenderSetPictureFilter(disp, psrc, (flags & EIMAGE_ANTI_ALIAS) ?
+                                FilterBest : FilterNearest, NULL, 0);
+        XRenderSetPictureTransform(disp, psrc, &tr);
+        XRenderComposite(disp, PictOpSrc, psrc, NoXID, pdst,
+                         (int)(sx / scale_x + .5), (int)(sy / scale_y + .5),
+                         0, 0, dx, dy, dw, dh);
+        XRenderFreePicture(disp, psrc);
+        XRenderFreePicture(disp, pdst);
+    }
+    else
 #endif
-     {
-	int                 scale;
-	Imlib_Image         im;
+    {
+        int             scale;
+        Imlib_Image     im;
 
-	if (flags & (EIMAGE_ISCALE))
-	  {
-	     scale = (flags & EIMAGE_ISCALE) >> 8;
-	     im = EImageGrabDrawableScaled(wsrc, src, NoXID, sx, sy, sw, sh,
-					   scale * dw, scale * dh, 0, 0);
-	     flags |= EIMAGE_ANTI_ALIAS;
-	  }
-	else
-	  {
-	     im = EImageGrabDrawableScaled(wsrc, src, NoXID, sx, sy, sw, sh,
-					   sw, sh, 0, 0);
-	  }
+        if (flags & (EIMAGE_ISCALE))
+        {
+            scale = (flags & EIMAGE_ISCALE) >> 8;
+            im = EImageGrabDrawableScaled(wsrc, src, NoXID, sx, sy, sw, sh,
+                                          scale * dw, scale * dh, 0, 0);
+            flags |= EIMAGE_ANTI_ALIAS;
+        }
+        else
+        {
+            im = EImageGrabDrawableScaled(wsrc, src, NoXID, sx, sy, sw, sh,
+                                          sw, sh, 0, 0);
+        }
 
-	EImageRenderOnDrawable(im, wdst, dst, flags, dx, dy, dw, dh);
-	imlib_free_image();
-     }
+        EImageRenderOnDrawable(im, wdst, dst, flags, dx, dy, dw, dh);
+        imlib_free_image();
+    }
 }
 
 void
 ScaleTile(Win wsrc, EX_Drawable src, Win wdst, EX_Pixmap dst,
-	  int dx, int dy, int dw, int dh, int scale)
+          int dx, int dy, int dw, int dh, int scale)
 {
-   Imlib_Image         im, tim;
-   int                 sw, sh, stw, sth, tw, th;
+    Imlib_Image     im, tim;
+    int             sw, sh, stw, sth, tw, th;
 
-   sw = WinGetW(wsrc);
-   sh = WinGetH(wsrc);
-   EXGetSize(src, &stw, &sth);
-   if (stw >= sw && sth >= sh)
-     {
-	ScaleRect(wsrc, src, wdst, dst, 0, 0, sw, sh, dx, dy, dw, dh, scale);
-	return;
-     }
+    sw = WinGetW(wsrc);
+    sh = WinGetH(wsrc);
+    EXGetSize(src, &stw, &sth);
+    if (stw >= sw && sth >= sh)
+    {
+        ScaleRect(wsrc, src, wdst, dst, 0, 0, sw, sh, dx, dy, dw, dh, scale);
+        return;
+    }
 
-   /* Source Drawawble is smaller than source window - do scaled tiling */
+    /* Source Drawawble is smaller than source window - do scaled tiling */
 
-   scale = (scale) ? 2 : 1;
+    scale = (scale) ? 2 : 1;
 
-   tw = (int)((float)(stw * scale * dw) / sw + .5f);
-   th = (int)((float)(sth * scale * dh) / sh + .5f);
+    tw = (int)((float)(stw * scale * dw) / sw + .5f);
+    th = (int)((float)(sth * scale * dh) / sh + .5f);
 #if 0
-   Eprintf("%s: Tile %#x %dx%d -> %dx%d T %dx%d -> %dx%d\n", __func__,
-	   src, stw, sth, tw, th, scale * dw, scale * dh, dw, dh);
+    Eprintf("%s: Tile %#x %dx%d -> %dx%d T %dx%d -> %dx%d\n", __func__,
+            src, stw, sth, tw, th, scale * dw, scale * dh, dw, dh);
 #endif
-   tim =
-      EImageGrabDrawableScaled(wsrc, src, NoXID, 0, 0, stw, sth, tw, th, 0, 0);
-   im = EImageCreate(scale * dw, scale * dh);
-   EImageTile(im, tim, 0, tw, th, 0, 0, scale * dw, scale * dh, 0, 0);
-   EImageFree(tim);
+    tim = EImageGrabDrawableScaled(wsrc, src, NoXID, 0, 0, stw, sth,
+                                   tw, th, 0, 0);
+    im = EImageCreate(scale * dw, scale * dh);
+    EImageTile(im, tim, 0, tw, th, 0, 0, scale * dw, scale * dh, 0, 0);
+    EImageFree(tim);
 
-   EImageRenderOnDrawable(im, wdst, dst, EIMAGE_ANTI_ALIAS, dx, dy, dw, dh);
-   imlib_free_image();
+    EImageRenderOnDrawable(im, wdst, dst, EIMAGE_ANTI_ALIAS, dx, dy, dw, dh);
+    imlib_free_image();
 }
 
-#if 0				/* Unused */
+#if 0                           /* Unused */
 void
 EDrawableDumpImage(EX_Drawable draw, const char *txt)
 {
-   static int          seqn = 0;
-   char                buf[1024];
-   Imlib_Image         im;
-   int                 w, h;
+    static int      seqn = 0;
+    char            buf[1024];
+    Imlib_Image     im;
+    int             w, h;
 
-   EXGetSize(draw, &w, &h);
-   if (w <= 0 || h <= 0)
-      return;
-   im = EImageGrabDrawableScaled(ELookupXwin(draw), draw, NoXID,
-				 0, 0, w, h, w, h, 0, 0);
-   imlib_context_set_image(im);
-   imlib_image_set_format("png");
-   sprintf(buf, "%s-%#x-%d.png", txt, draw, seqn++);
-   Eprintf("%s: %s\n", __func__, buf);
-   imlib_save_image(buf);
-   imlib_free_image_and_decache();
+    EXGetSize(draw, &w, &h);
+    if (w <= 0 || h <= 0)
+        return;
+    im = EImageGrabDrawableScaled(ELookupXwin(draw), draw, NoXID,
+                                  0, 0, w, h, w, h, 0, 0);
+    imlib_context_set_image(im);
+    imlib_image_set_format("png");
+    sprintf(buf, "%s-%#x-%d.png", txt, draw, seqn++);
+    Eprintf("%s: %s\n", __func__, buf);
+    imlib_save_image(buf);
+    imlib_free_image_and_decache();
 }
 #endif
 
 void
-PmapMaskInit(PmapMask * pmm, Win win, int w, int h)
+PmapMaskInit(PmapMask *pmm, Win win, int w, int h)
 {
-   if (pmm->pmap)
-     {
-	if (pmm->w == w && pmm->h == h && pmm->depth == WinGetDepth(win))
-	   return;
-	PmapMaskFree(pmm);
-     }
+    if (pmm->pmap)
+    {
+        if (pmm->w == w && pmm->h == h && pmm->depth == WinGetDepth(win))
+            return;
+        PmapMaskFree(pmm);
+    }
 
-   pmm->type = 0;
-   pmm->depth = WinGetDepth(win);
-   pmm->pmap = ECreatePixmap(win, w, h, 0);
-   pmm->mask = NoXID;
-   pmm->w = w;
-   pmm->h = h;
+    pmm->type = 0;
+    pmm->depth = WinGetDepth(win);
+    pmm->pmap = ECreatePixmap(win, w, h, 0);
+    pmm->mask = NoXID;
+    pmm->w = w;
+    pmm->h = h;
 }
 
 void
-PmapMaskFree(PmapMask * pmm)
+PmapMaskFree(PmapMask *pmm)
 {
-   /* type !=0: Created by imlib_render_pixmaps_for_whole_image... */
-   if (pmm->pmap)
-     {
-	if (pmm->type == 0)
-	   EFreePixmap(pmm->pmap);
-	else
-	   imlib_free_pixmap_and_mask(pmm->pmap);
-	pmm->pmap = 0;
-     }
+    /* type !=0: Created by imlib_render_pixmaps_for_whole_image... */
+    if (pmm->pmap)
+    {
+        if (pmm->type == 0)
+            EFreePixmap(pmm->pmap);
+        else
+            imlib_free_pixmap_and_mask(pmm->pmap);
+        pmm->pmap = 0;
+    }
 
-   if (pmm->mask)
-     {
-	if (pmm->type == 0)
-	   EFreePixmap(pmm->mask);
-	pmm->mask = 0;
-     }
+    if (pmm->mask)
+    {
+        if (pmm->type == 0)
+            EFreePixmap(pmm->mask);
+        pmm->mask = 0;
+    }
 }
 
 #if USE_XRENDER
 
-static              EX_Picture
-EPictureFromImage(EImage * im)
+static          EX_Picture
+EPictureFromImage(EImage *im)
 {
-   int                 w, h;
-   EX_Pixmap           pmap;
-   EX_Picture          pict;
+    int             w, h;
+    EX_Pixmap       pmap;
+    EX_Picture      pict;
 
-   EImageGetSize(im, &w, &h);
+    EImageGetSize(im, &w, &h);
 
-   pict = EPictureCreateBuffer(RROOT, w, h, 1, &pmap);
+    pict = EPictureCreateBuffer(RROOT, w, h, 1, &pmap);
 
-   EImageRenderOnDrawableARGB(im, pmap, w, h);
-   EFreePixmap(pmap);
+    EImageRenderOnDrawableARGB(im, pmap, w, h);
+    EFreePixmap(pmap);
 
-   return pict;
+    return pict;
 }
 
 EX_Cursor
-EImageDefineCursor(EImage * im, int xh, int yh)
+EImageDefineCursor(EImage *im, int xh, int yh)
 {
-   EX_Cursor           curs;
-   EX_Picture          pict;
+    EX_Cursor       curs;
+    EX_Picture      pict;
 
-   pict = EPictureFromImage(im);
+    pict = EPictureFromImage(im);
 
-   curs = XRenderCreateCursor(disp, pict, xh, yh);
+    curs = XRenderCreateCursor(disp, pict, xh, yh);
 
-   XRenderFreePicture(disp, pict);
+    XRenderFreePicture(disp, pict);
 
-   return curs;
+    return curs;
 }
 
 EX_Cursor
 EImageCursorCreateFromBitmapData(int w, int h, const unsigned char *cdata,
-				 const unsigned char *cmask, int xh, int yh,
-				 unsigned int fg, unsigned int bg)
+                                 const unsigned char *cmask, int xh, int yh,
+                                 unsigned int fg, unsigned int bg)
 {
-   EX_Cursor           curs;
-   uint32_t           *data, pixel;
-   int                 i, j;
-   Imlib_Image         im;
+    EX_Cursor       curs;
+    uint32_t       *data, pixel;
+    int             i, j;
+    Imlib_Image     im;
 
-   /* Looks like the pmap (not mask) bits in all theme cursors are inverted.
-    * Fix by swapping fg and bg colors. */
+    /* Looks like the pmap (not mask) bits in all theme cursors are inverted.
+     * Fix by swapping fg and bg colors. */
 
-   im = imlib_create_image(w, h);
-   imlib_context_set_image(im);
-   imlib_image_set_has_alpha(1);
-   data = imlib_image_get_data();
+    im = imlib_create_image(w, h);
+    imlib_context_set_image(im);
+    imlib_image_set_has_alpha(1);
+    data = imlib_image_get_data();
 
-   for (i = 0; i < h; i++)
-     {
-	for (j = 0; j < w; j++)
-	  {
-	     int                 ix = i * ((w + 7) / 8) + j / 8;
-	     int                 bit = j % 8, bits_i, bits_m;
-	     bits_i = cdata[ix];
-	     bits_m = cmask ? cmask[ix] : 0;
-	     if ((bits_m & (1 << bit)) == 0)
-		pixel = 0;
-	     else if (bits_i & (1 << bit))
-		pixel = bg;	/* fg/bg swapped */
-	     else
-		pixel = fg;
-	     *data++ = pixel;
-	  }
-     }
+    for (i = 0; i < h; i++)
+    {
+        for (j = 0; j < w; j++)
+        {
+            int             ix = i * ((w + 7) / 8) + j / 8;
+            int             bit = j % 8, bits_i, bits_m;
+            bits_i = cdata[ix];
+            bits_m = cmask ? cmask[ix] : 0;
+            if ((bits_m & (1 << bit)) == 0)
+                pixel = 0;
+            else if (bits_i & (1 << bit))
+                pixel = bg;     /* fg/bg swapped */
+            else
+                pixel = fg;
+            *data++ = pixel;
+        }
+    }
 
-   curs = EImageDefineCursor(im, xh, yh);
-   imlib_free_image_and_decache();
+    curs = EImageDefineCursor(im, xh, yh);
+    imlib_free_image_and_decache();
 
-   return curs;
+    return curs;
 }
 
-#endif /* USE_XRENDER */
+#endif                          /* USE_XRENDER */

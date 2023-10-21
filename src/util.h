@@ -52,21 +52,21 @@
 #define __PRINTF_5__ __PRINTF_N__(5)
 
 #if HAVE_STRDUP
-#define USE_LIBC_STRDUP  1	/* Use libc strdup if present */
+#define USE_LIBC_STRDUP  1      /* Use libc strdup if present */
 #endif
 #if HAVE_STRNDUP
-#define USE_LIBC_STRNDUP 1	/* Use libc strndup if present */
+#define USE_LIBC_STRNDUP 1      /* Use libc strndup if present */
 #endif
 
 #ifdef HAVE_STRCASECMP
 #define Estrcasecmp(s1, s2) strcasecmp(s1, s2)
 #else
-int                 Estrcasecmp(const char *s1, const char *s2);
+int             Estrcasecmp(const char *s1, const char *s2);
 #endif
 #ifdef HAVE_STRCASESTR
 #define Estrcasestr(haystack, needle) strcasestr(haystack, needle)
 #else
-const char         *Estrcasestr(const char *haystack, const char *needle);
+const char     *Estrcasestr(const char *haystack, const char *needle);
 #endif
 
 /* memory.c */
@@ -79,7 +79,7 @@ const char         *Estrcasestr(const char *haystack, const char *needle);
 #define Efree       free
 #endif
 
-void               *Ememdup(const void *ptr, unsigned int len);
+void           *Ememdup(const void *ptr, unsigned int len);
 
 #define ECALLOC(type, num) (type*)Ecalloc(num, sizeof(type))
 #define EMALLOC(type, num) (type*)Emalloc((num)*sizeof(type))
@@ -87,9 +87,9 @@ void               *Ememdup(const void *ptr, unsigned int len);
 
 #define EMEMDUP(type, ptr, num) (type*)Ememdup(ptr, (num)*sizeof(type))
 
-void                EfreeNull(void **p);
-void                EfreeSet(void **p, void *s);
-void                EfreeDup(char **p, const char *s);
+void            EfreeNull(void **p);
+void            EfreeSet(void **p, void *s);
+void            EfreeDup(char **p, const char *s);
 
 #define EFREE_NULL(p)   EfreeNull((void**)(&p))
 #define EFREE_SET(p, s) EfreeSet((void**)(&p), s)
@@ -97,30 +97,29 @@ void                EfreeDup(char **p, const char *s);
 
 #define STRCPY(dst, src) do { src[sizeof(dst)-1] = '\0'; strcpy(dst, src); } while(0)
 
-char               *Estrdup(const char *s);
-char               *Estrndup(const char *s, size_t n);
-char               *Estrdupcat2(char *ss, const char *s1, const char *s2);
+char           *Estrdup(const char *s);
+char           *Estrndup(const char *s, size_t n);
+char           *Estrdupcat2(char *ss, const char *s1, const char *s2);
 
-void                Esetenv(const char *name, const char *value);
+void            Esetenv(const char *name, const char *value);
 
 /* misc.c */
-void __PRINTF__     Eprintf(const char *fmt, ...);
+void __PRINTF__ Eprintf(const char *fmt, ...);
 
 /* string.c */
-void                EnvSubst(const char *str, char *bptr, unsigned int blen);
+void            EnvSubst(const char *str, char *bptr, unsigned int blen);
 
-char               *Estrtrim(char *s);
-char               *Estrtrim2(char *s);
+char           *Estrtrim(char *s);
+char           *Estrtrim2(char *s);
 
-char              **StrlistDup(char **lst, int num);
-void                StrlistFree(char **lst, int num);
-char               *StrlistJoin(char **lst, int num);
-char               *StrlistEncodeEscaped(char *buf, int len, char **lst,
-					 int num);
-char              **StrlistDecodeEscaped(const char *str, int *pnum);
-char              **StrlistFromString(const char *str, int delim, int *num);
+char          **StrlistDup(char **lst, int num);
+void            StrlistFree(char **lst, int num);
+char           *StrlistJoin(char **lst, int num);
+char           *StrlistEncodeEscaped(char *buf, int len, char **lst, int num);
+char          **StrlistDecodeEscaped(const char *str, int *pnum);
+char          **StrlistFromString(const char *str, int delim, int *num);
 
-void                StrlistSort(char **lst, int num);
+void            StrlistSort(char **lst, int num);
 
 #define Evsnprintf vsnprintf
 #define Esnprintf snprintf
@@ -129,22 +128,21 @@ void                StrlistSort(char **lst, int num);
 #define EXEC_SET_STARTUP_ID 0x02
 #define EXEC_NO_LIBHACK     0x04
 
-void                Eexec(const char *cmd);
-int                 EspawnApplication(const char *params, int flags);
-void __PRINTF__     Espawn(const char *fmt, ...);
-int __PRINTF__      Esystem(const char *fmt, ...);
+void            Eexec(const char *cmd);
+int             EspawnApplication(const char *params, int flags);
+void __PRINTF__ Espawn(const char *fmt, ...);
+int __PRINTF__  Esystem(const char *fmt, ...);
 
 #if USE_MODULES
 /* Dynamic loading */
-const void         *ModLoadSym(const char *lib, const char *sym,
-			       const char *name);
+const void     *ModLoadSym(const char *lib, const char *sym, const char *name);
 #endif
 
-unsigned int        GetTimeMs(void);
-unsigned int        GetTimeUs(void);
+unsigned int    GetTimeMs(void);
+unsigned int    GetTimeUs(void);
 
-void                SleepUs(unsigned int tus);
+void            SleepUs(unsigned int tus);
 
 #define E_ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
-#endif /* _UTIL_H_ */
+#endif                          /* _UTIL_H_ */

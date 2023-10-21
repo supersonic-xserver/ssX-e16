@@ -42,19 +42,17 @@
 #endif
 
 /* lang.c */
-void                LangInit(void);
-void                LangExit(void);
-void                LangExport(void);
+void            LangInit(void);
+void            LangExit(void);
+void            LangExport(void);
 
-char               *EstrUtf82Int(const char *str, int len);
-const char         *EstrInt2Enc(const char *str, int want_utf8);
-void                EstrInt2EncFree(const char *str, int want_utf8);
+char           *EstrUtf82Int(const char *str, int len);
+const char     *EstrInt2Enc(const char *str, int want_utf8);
+void            EstrInt2EncFree(const char *str, int want_utf8);
 
-int                 EwcOpen(int utf8);
-void                EwcClose(void);
-int                 EwcStrToWcs(const char *str, int len, wchar_t *wcs,
-				int wcl);
-int                 EwcWcsToStr(const wchar_t *wcs, int wcl, char *str,
-				int len);
+int             EwcOpen(int utf8);
+void            EwcClose(void);
+int             EwcStrToWcs(const char *str, int len, wchar_t *wcs, int wcl);
+int             EwcWcsToStr(const wchar_t *wcs, int wcl, char *str, int len);
 
-#endif /* _LANG_H_ */
+#endif                          /* _LANG_H_ */

@@ -27,13 +27,13 @@
 #include "eimage.h"
 #include "ewins.h"
 
-#define EWIN_ICON_MODE_SNAP         0	/* Iconbox    */
-#define EWIN_ICON_MODE_NONE         0	/* Focus list */
+#define EWIN_ICON_MODE_SNAP         0   /* Iconbox    */
+#define EWIN_ICON_MODE_NONE         0   /* Focus list */
 #define EWIN_ICON_MODE_APP_IMG_SNAP 1
 #define EWIN_ICON_MODE_IMG_APP_SNAP 2
 #define EWIN_ICON_MODE_APP_IMG      3
 #define EWIN_ICON_MODE_IMG_APP      4
 
-EImage             *EwinIconImageGet(EWin * ewin, int size, int mode);
+EImage         *EwinIconImageGet(EWin * ewin, int size, int mode);
 
-#endif /* _ICONS_H_ */
+#endif                          /* _ICONS_H_ */

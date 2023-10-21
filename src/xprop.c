@@ -47,27 +47,27 @@
 EX_Atom
 ex_atom_get(const char *name)
 {
-   return XInternAtom(_ex_disp, name, False);
+    return XInternAtom(_ex_disp, name, False);
 }
 
 void
-ex_atoms_get(const char *const *names, unsigned int num, EX_Atom * atoms)
+ex_atoms_get(const char *const *names, unsigned int num, EX_Atom *atoms)
 {
 #if SIZEOF_INT == SIZEOF_LONG
-   XInternAtoms(_ex_disp, (char **)names, num, False, (Atom *) atoms);
+    XInternAtoms(_ex_disp, (char **)names, num, False, (Atom *) atoms);
 #else
-   unsigned int        i;
-   Atom               *_atoms;
+    unsigned int    i;
+    Atom           *_atoms;
 
-   _atoms = EMALLOC(Atom, num);
-   if (!_atoms)
-      return;
+    _atoms = EMALLOC(Atom, num);
+    if (!_atoms)
+        return;
 
-   XInternAtoms(_ex_disp, (char **)names, num, False, _atoms);
-   for (i = 0; i < num; i++)
-      atoms[i] = _atoms[i];
+    XInternAtoms(_ex_disp, (char **)names, num, False, _atoms);
+    for (i = 0; i < num; i++)
+        atoms[i] = _atoms[i];
 
-   Efree(_atoms);
+    Efree(_atoms);
 #endif
 }
 
@@ -76,23 +76,23 @@ ex_atoms_get(const char *const *names, unsigned int num, EX_Atom * atoms)
  */
 int
 ex_client_message32_send(EX_Window win, EX_Atom type,
-			 unsigned int mask,
-			 unsigned int d0, unsigned int d1,
-			 unsigned int d2, unsigned int d3, unsigned int d4)
+                         unsigned int mask,
+                         unsigned int d0, unsigned int d1,
+                         unsigned int d2, unsigned int d3, unsigned int d4)
 {
-   XEvent              xev;
+    XEvent          xev;
 
-   xev.xclient.type = ClientMessage;
-   xev.xclient.window = win;
-   xev.xclient.message_type = type;
-   xev.xclient.format = 32;
-   xev.xclient.data.l[0] = d0;
-   xev.xclient.data.l[1] = d1;
-   xev.xclient.data.l[2] = d2;
-   xev.xclient.data.l[3] = d3;
-   xev.xclient.data.l[4] = d4;
+    xev.xclient.type = ClientMessage;
+    xev.xclient.window = win;
+    xev.xclient.message_type = type;
+    xev.xclient.format = 32;
+    xev.xclient.data.l[0] = d0;
+    xev.xclient.data.l[1] = d1;
+    xev.xclient.data.l[2] = d2;
+    xev.xclient.data.l[3] = d3;
+    xev.xclient.data.l[4] = d4;
 
-   return XSendEvent(_ex_disp, win, False, mask, &xev);
+    return XSendEvent(_ex_disp, win, False, mask, &xev);
 }
 
 /*
@@ -100,24 +100,24 @@ ex_client_message32_send(EX_Window win, EX_Atom type,
  */
 static void
 _ex_window_prop32_set(EX_Window win, EX_Atom atom,
-		      EX_Atom type, const unsigned int *val, int num)
+                      EX_Atom type, const unsigned int *val, int num)
 {
 #if SIZEOF_INT == SIZEOF_LONG
-   XChangeProperty(_ex_disp, win, atom, type, 32, PropModeReplace,
-		   (unsigned char *)val, num);
+    XChangeProperty(_ex_disp, win, atom, type, 32, PropModeReplace,
+                    (unsigned char *)val, num);
 #else
-   unsigned long      *pl;
-   int                 i;
+    unsigned long  *pl;
+    int             i;
 
-   pl = EMALLOC(unsigned long, num);
+    pl = EMALLOC(unsigned long, num);
 
-   if (!pl)
-      return;
-   for (i = 0; i < num; i++)
-      pl[i] = val[i];
-   XChangeProperty(_ex_disp, win, atom, type, 32, PropModeReplace,
-		   (unsigned char *)pl, num);
-   Efree(pl);
+    if (!pl)
+        return;
+    for (i = 0; i < num; i++)
+        pl[i] = val[i];
+    XChangeProperty(_ex_disp, win, atom, type, 32, PropModeReplace,
+                    (unsigned char *)pl, num);
+    Efree(pl);
 #endif
 }
 
@@ -131,59 +131,60 @@ _ex_window_prop32_set(EX_Window win, EX_Atom atom,
  */
 static int
 _ex_window_prop32_list_get(EX_Window win, EX_Atom atom,
-			   EX_Atom type, unsigned int **val, int num)
+                           EX_Atom type, unsigned int **val, int num)
 {
-   unsigned long      *prop_ret;
-   Atom                type_ret;
-   unsigned long       bytes_after, num_ret;
-   int                 format_ret;
-   unsigned int       *lst;
-   int                 i;
+    unsigned long  *prop_ret;
+    Atom            type_ret;
+    unsigned long   bytes_after, num_ret;
+    int             format_ret;
+    unsigned int   *lst;
+    int             i;
 
-   prop_ret = NULL;
-   if (XGetWindowProperty(_ex_disp, win, atom, 0, 0x7fffffff, False,
-			  type, &type_ret, &format_ret, &num_ret,
-			  &bytes_after, (unsigned char **)&prop_ret) != Success)
-      return -1;
+    prop_ret = NULL;
+    if (XGetWindowProperty(_ex_disp, win, atom, 0, 0x7fffffff, False,
+                           type, &type_ret, &format_ret, &num_ret,
+                           &bytes_after,
+                           (unsigned char **)&prop_ret) != Success)
+        return -1;
 
-   if (type_ret != type || format_ret != 32)
-     {
-	num = -1;
-     }
-   else if (num_ret == 0 || !prop_ret)
-     {
-	num = 0;
-     }
-   else
-     {
-	if (num >= 0)
-	  {
-	     if ((int)num_ret < num)
-		num = (int)num_ret;
-	     lst = *val;
-	  }
-	else
-	  {
-	     num = (int)num_ret;
-	     lst = EMALLOC(unsigned int, num);
+    if (type_ret != type || format_ret != 32)
+    {
+        num = -1;
+    }
+    else if (num_ret == 0 || !prop_ret)
+    {
+        num = 0;
+    }
+    else
+    {
+        if (num >= 0)
+        {
+            if ((int)num_ret < num)
+                num = (int)num_ret;
+            lst = *val;
+        }
+        else
+        {
+            num = (int)num_ret;
+            lst = EMALLOC(unsigned int, num);
 
-	     *val = lst;
-	     if (!lst)
-		return 0;
-	  }
-	for (i = 0; i < num; i++)
-	   lst[i] = prop_ret[i];
-     }
-   if (prop_ret)
-      XFree(prop_ret);
+            *val = lst;
+            if (!lst)
+                return 0;
+        }
+        for (i = 0; i < num; i++)
+            lst[i] = prop_ret[i];
+    }
+    if (prop_ret)
+        XFree(prop_ret);
 
-   return num;
+    return num;
 }
 
 void
 ex_window_prop_del(EX_Window win, EX_Atom atom)
 {
-   XDeleteProperty(_ex_disp, win, atom);
+    XDeleteProperty(_ex_disp, win, atom);
 }
 
 /*
@@ -191,9 +192,9 @@ ex_window_prop_del(EX_Window win, EX_Atom atom)
  */
 void
 ex_window_prop_card32_set(EX_Window win, EX_Atom atom,
-			  const unsigned int *val, unsigned int num)
+                          const unsigned int *val, unsigned int num)
 {
-   _ex_window_prop32_set(win, atom, XA_CARDINAL, val, (int)num);
+    _ex_window_prop32_set(win, atom, XA_CARDINAL, val, (int)num);
 }
 
 /*
@@ -206,9 +207,9 @@ ex_window_prop_card32_set(EX_Window win, EX_Atom atom,
  */
 int
 ex_window_prop_card32_get(EX_Window win, EX_Atom atom,
-			  unsigned int *val, unsigned int len)
+                          unsigned int *val, unsigned int len)
 {
-   return _ex_window_prop32_list_get(win, atom, XA_CARDINAL, &val, (int)len);
+    return _ex_window_prop32_list_get(win, atom, XA_CARDINAL, &val, (int)len);
 }
 
 /*
@@ -221,7 +222,7 @@ ex_window_prop_card32_get(EX_Window win, EX_Atom atom,
 int
 ex_window_prop_card32_list_get(EX_Window win, EX_Atom atom, unsigned int **plst)
 {
-   return _ex_window_prop32_list_get(win, atom, XA_CARDINAL, plst, -1);
+    return _ex_window_prop32_list_get(win, atom, XA_CARDINAL, plst, -1);
 }
 
 /*
@@ -230,13 +231,13 @@ ex_window_prop_card32_list_get(EX_Window win, EX_Atom atom, unsigned int **plst)
 void
 ex_window_prop_string_list_set(EX_Window win, EX_Atom atom, char **lst, int num)
 {
-   XTextProperty       xtp;
+    XTextProperty   xtp;
 
-   if (XmbTextListToTextProperty(_ex_disp, lst, num,
-				 XStdICCTextStyle, &xtp) != Success)
-      return;
-   XSetTextProperty(_ex_disp, win, &xtp, atom);
-   XFree(xtp.value);
+    if (XmbTextListToTextProperty(_ex_disp, lst, num,
+                                  XStdICCTextStyle, &xtp) != Success)
+        return;
+    XSetTextProperty(_ex_disp, win, &xtp, atom);
+    XFree(xtp.value);
 }
 
 /*
@@ -249,53 +250,53 @@ ex_window_prop_string_list_set(EX_Window win, EX_Atom atom, char **lst, int num)
 int
 ex_window_prop_string_list_get(EX_Window win, EX_Atom atom, char ***plst)
 {
-   char              **pstr = NULL;
-   XTextProperty       xtp;
-   int                 i, items;
-   char              **list;
-   Status              s;
+    char          **pstr = NULL;
+    XTextProperty   xtp;
+    int             i, items;
+    char          **list;
+    Status          s;
 
-   *plst = NULL;
+    *plst = NULL;
 
-   if (!XGetTextProperty(_ex_disp, win, &xtp, atom))
-      return -1;
+    if (!XGetTextProperty(_ex_disp, win, &xtp, atom))
+        return -1;
 
-   if (xtp.format == 8)
-     {
-	s = XmbTextPropertyToTextList(_ex_disp, &xtp, &list, &items);
-	if (s == Success)
-	  {
-	     if (items > 0)
-	       {
-		  pstr = EMALLOC(char *, items);
+    if (xtp.format == 8)
+    {
+        s = XmbTextPropertyToTextList(_ex_disp, &xtp, &list, &items);
+        if (s == Success)
+        {
+            if (items > 0)
+            {
+                pstr = EMALLOC(char *, items);
 
-		  if (!pstr)
-		     goto done;
-		  for (i = 0; i < items; i++)
-		     pstr[i] = (list[i] && (*list[i] || i < items - 1)) ?
-			Estrdup(list[i]) : NULL;
-	       }
-	     if (list)
-		XFreeStringList(list);
-	     goto done;
-	  }
-     }
+                if (!pstr)
+                    goto done;
+                for (i = 0; i < items; i++)
+                    pstr[i] = (list[i] && (*list[i] || i < items - 1)) ?
+                        Estrdup(list[i]) : NULL;
+            }
+            if (list)
+                XFreeStringList(list);
+            goto done;
+        }
+    }
 
-   /* Bad format or XmbTextPropertyToTextList failed - Now what? */
-   items = 1;
-   pstr = EMALLOC(char *, 1);
+    /* Bad format or XmbTextPropertyToTextList failed - Now what? */
+    items = 1;
+    pstr = EMALLOC(char *, 1);
 
-   if (!pstr)
-      goto done;
-   pstr[0] = (xtp.value) ? Estrdup((char *)xtp.value) : NULL;
+    if (!pstr)
+        goto done;
+    pstr[0] = (xtp.value) ? Estrdup((char *)xtp.value) : NULL;
 
- done:
-   XFree(xtp.value);
+  done:
+    XFree(xtp.value);
 
-   *plst = pstr;
-   if (!pstr)
-      items = 0;
-   return items;
+    *plst = pstr;
+    if (!pstr)
+        items = 0;
+    return items;
 }
 
 /*
@@ -304,41 +305,41 @@ ex_window_prop_string_list_get(EX_Window win, EX_Atom atom, char ***plst)
 void
 ex_window_prop_string_set(EX_Window win, EX_Atom atom, const char *str)
 {
-   ex_window_prop_string_list_set(win, atom, (char **)(&str), 1);
+    ex_window_prop_string_list_set(win, atom, (char **)(&str), 1);
 }
 
 /*
  * Get simple string property
  */
-char               *
+char           *
 ex_window_prop_string_get(EX_Window win, EX_Atom atom)
 {
-   XTextProperty       xtp;
-   char               *str;
-   int                 items;
-   char              **list;
-   Status              s;
+    XTextProperty   xtp;
+    char           *str;
+    int             items;
+    char          **list;
+    Status          s;
 
-   if (!XGetTextProperty(_ex_disp, win, &xtp, atom))
-      return NULL;
+    if (!XGetTextProperty(_ex_disp, win, &xtp, atom))
+        return NULL;
 
-   if (xtp.format == 8)
-     {
-	s = XmbTextPropertyToTextList(_ex_disp, &xtp, &list, &items);
-	if ((s == Success) && (items > 0))
-	  {
-	     str = (*list) ? Estrdup(*list) : NULL;
-	     XFreeStringList(list);
-	  }
-	else
-	   str = (xtp.value) ? Estrdup((char *)xtp.value) : NULL;
-     }
-   else
-      str = (xtp.value) ? Estrdup((char *)xtp.value) : NULL;
+    if (xtp.format == 8)
+    {
+        s = XmbTextPropertyToTextList(_ex_disp, &xtp, &list, &items);
+        if ((s == Success) && (items > 0))
+        {
+            str = (*list) ? Estrdup(*list) : NULL;
+            XFreeStringList(list);
+        }
+        else
+            str = (xtp.value) ? Estrdup((char *)xtp.value) : NULL;
+    }
+    else
+        str = (xtp.value) ? Estrdup((char *)xtp.value) : NULL;
 
-   XFree(xtp.value);
+    XFree(xtp.value);
 
-   return str;
+    return str;
 }
 
 /*
@@ -347,41 +348,41 @@ ex_window_prop_string_get(EX_Window win, EX_Atom atom)
 static void
 _ex_window_prop_string_utf8_set(EX_Window win, EX_Atom atom, const char *str)
 {
-   XChangeProperty(_ex_disp, win, atom, ea_m.UTF8_STRING, 8,
-		   PropModeReplace, (unsigned char *)str, strlen(str));
+    XChangeProperty(_ex_disp, win, atom, ea_m.UTF8_STRING, 8,
+                    PropModeReplace, (unsigned char *)str, strlen(str));
 }
 
 /*
  * Get UTF-8 string property
  */
-static char        *
+static char    *
 _ex_window_prop_string_utf8_get(EX_Window win, EX_Atom atom)
 {
-   char               *str;
-   unsigned char      *prop_ret;
-   Atom                type_ret;
-   unsigned long       bytes_after, num_ret;
-   int                 format_ret;
+    char           *str;
+    unsigned char  *prop_ret;
+    Atom            type_ret;
+    unsigned long   bytes_after, num_ret;
+    int             format_ret;
 
-   str = NULL;
-   prop_ret = NULL;
-   XGetWindowProperty(_ex_disp, win, atom, 0, 0x7fffffff, False,
-		      ea_m.UTF8_STRING, &type_ret,
-		      &format_ret, &num_ret, &bytes_after, &prop_ret);
-   if (prop_ret && num_ret > 0 && format_ret == 8)
-     {
-	str = EMALLOC(char, num_ret + 1);
+    str = NULL;
+    prop_ret = NULL;
+    XGetWindowProperty(_ex_disp, win, atom, 0, 0x7fffffff, False,
+                       ea_m.UTF8_STRING, &type_ret,
+                       &format_ret, &num_ret, &bytes_after, &prop_ret);
+    if (prop_ret && num_ret > 0 && format_ret == 8)
+    {
+        str = EMALLOC(char, num_ret + 1);
 
-	if (str)
-	  {
-	     memcpy(str, prop_ret, num_ret);
-	     str[num_ret] = '\0';
-	  }
-     }
-   if (prop_ret)
-      XFree(prop_ret);
+        if (str)
+        {
+            memcpy(str, prop_ret, num_ret);
+            str[num_ret] = '\0';
+        }
+    }
+    if (prop_ret)
+        XFree(prop_ret);
 
-   return str;
+    return str;
 }
 
 /*
@@ -389,9 +390,9 @@ _ex_window_prop_string_utf8_get(EX_Window win, EX_Atom atom)
  */
 void
 ex_window_prop_xid_set(EX_Window win, EX_Atom atom, EX_Atom type,
-		       const EX_ID * lst, unsigned int num)
+                       const EX_ID *lst, unsigned int num)
 {
-   _ex_window_prop32_set(win, atom, type, lst, (int)num);
+    _ex_window_prop32_set(win, atom, type, lst, (int)num);
 }
 
 /*
@@ -404,9 +405,9 @@ ex_window_prop_xid_set(EX_Window win, EX_Atom atom, EX_Atom type,
  */
 int
 ex_window_prop_xid_get(EX_Window win, EX_Atom atom, EX_Atom type,
-		       EX_ID * lst, unsigned int len)
+                       EX_ID *lst, unsigned int len)
 {
-   return _ex_window_prop32_list_get(win, atom, type, &lst, (int)len);
+    return _ex_window_prop32_list_get(win, atom, type, &lst, (int)len);
 }
 
 /*
@@ -419,9 +420,9 @@ ex_window_prop_xid_get(EX_Window win, EX_Atom atom, EX_Atom type,
  */
 int
 ex_window_prop_xid_list_get(EX_Window win, EX_Atom atom,
-			    EX_Atom type, EX_ID ** val)
+                            EX_Atom type, EX_ID **val)
 {
-   return _ex_window_prop32_list_get(win, atom, type, val, -1);
+    return _ex_window_prop32_list_get(win, atom, type, val, -1);
 }
 
 /*
@@ -429,51 +430,51 @@ ex_window_prop_xid_list_get(EX_Window win, EX_Atom atom,
  */
 void
 ex_window_prop_xid_list_change(EX_Window win, EX_Atom atom,
-			       EX_Atom type, EX_ID item, int op)
+                               EX_Atom type, EX_ID item, int op)
 {
-   EX_ID              *lst, *lst_r;
-   int                 i, num;
+    EX_ID          *lst, *lst_r;
+    int             i, num;
 
-   lst = NULL;
-   num = ex_window_prop_xid_list_get(win, atom, type, &lst);
-   if (num < 0)
-      return;			/* Error - assuming invalid window */
+    lst = NULL;
+    num = ex_window_prop_xid_list_get(win, atom, type, &lst);
+    if (num < 0)
+        return;                 /* Error - assuming invalid window */
 
-   /* Is it there? */
-   for (i = 0; i < num; i++)
-     {
-	if (lst[i] == item)
-	   break;
-     }
+    /* Is it there? */
+    for (i = 0; i < num; i++)
+    {
+        if (lst[i] == item)
+            break;
+    }
 
-   if (i < num)
-     {
-	/* Was in list */
-	if (op == EX_PROP_LIST_ADD)
-	   goto done;
-	/* Remove it */
-	num--;
-	for (; i < num; i++)
-	   lst[i] = lst[i + 1];
-     }
-   else
-     {
-	/* Was not in list */
-	if (op == EX_PROP_LIST_REMOVE)
-	   goto done;
-	/* Add it */
-	num++;
-	lst_r = EREALLOC(EX_ID, lst, num);
-	if (!lst_r)
-	   goto done;
-	lst = lst_r;
-	lst[i] = item;
-     }
+    if (i < num)
+    {
+        /* Was in list */
+        if (op == EX_PROP_LIST_ADD)
+            goto done;
+        /* Remove it */
+        num--;
+        for (; i < num; i++)
+            lst[i] = lst[i + 1];
+    }
+    else
+    {
+        /* Was not in list */
+        if (op == EX_PROP_LIST_REMOVE)
+            goto done;
+        /* Add it */
+        num++;
+        lst_r = EREALLOC(EX_ID, lst, num);
+        if (!lst_r)
+            goto done;
+        lst = lst_r;
+        lst[i] = item;
+    }
 
-   ex_window_prop_xid_set(win, atom, type, lst, num);
+    ex_window_prop_xid_set(win, atom, type, lst, num);
 
- done:
-   Efree(lst);
+  done:
+    Efree(lst);
 }
 
 /*
@@ -481,9 +482,9 @@ ex_window_prop_xid_list_change(EX_Window win, EX_Atom atom,
  */
 void
 ex_window_prop_atom_set(EX_Window win, EX_Atom atom,
-			const EX_Atom * lst, unsigned int num)
+                        const EX_Atom *lst, unsigned int num)
 {
-   ex_window_prop_xid_set(win, atom, XA_ATOM, lst, num);
+    ex_window_prop_xid_set(win, atom, XA_ATOM, lst, num);
 }
 
 /*
@@ -496,9 +497,9 @@ ex_window_prop_atom_set(EX_Window win, EX_Atom atom,
  */
 int
 ex_window_prop_atom_get(EX_Window win, EX_Atom atom,
-			EX_Atom * lst, unsigned int len)
+                        EX_Atom *lst, unsigned int len)
 {
-   return ex_window_prop_xid_get(win, atom, XA_ATOM, lst, len);
+    return ex_window_prop_xid_get(win, atom, XA_ATOM, lst, len);
 }
 
 /*
@@ -510,9 +511,9 @@ ex_window_prop_atom_get(EX_Window win, EX_Atom atom,
  * Note: Return value 0 means that the property exists but has no elements.
  */
 int
-ex_window_prop_atom_list_get(EX_Window win, EX_Atom atom, EX_Atom ** plst)
+ex_window_prop_atom_list_get(EX_Window win, EX_Atom atom, EX_Atom **plst)
 {
-   return ex_window_prop_xid_list_get(win, atom, XA_ATOM, plst);
+    return ex_window_prop_xid_list_get(win, atom, XA_ATOM, plst);
 }
 
 /*
@@ -520,9 +521,9 @@ ex_window_prop_atom_list_get(EX_Window win, EX_Atom atom, EX_Atom ** plst)
  */
 void
 ex_window_prop_atom_list_change(EX_Window win, EX_Atom atom,
-				EX_Atom item, int op)
+                                EX_Atom item, int op)
 {
-   ex_window_prop_xid_list_change(win, atom, XA_ATOM, item, op);
+    ex_window_prop_xid_list_change(win, atom, XA_ATOM, item, op);
 }
 
 /*
@@ -530,9 +531,9 @@ ex_window_prop_atom_list_change(EX_Window win, EX_Atom atom,
  */
 void
 ex_window_prop_window_set(EX_Window win, EX_Atom atom,
-			  const EX_Window * lst, unsigned int num)
+                          const EX_Window *lst, unsigned int num)
 {
-   ex_window_prop_xid_set(win, atom, XA_WINDOW, lst, num);
+    ex_window_prop_xid_set(win, atom, XA_WINDOW, lst, num);
 }
 
 /*
@@ -545,9 +546,9 @@ ex_window_prop_window_set(EX_Window win, EX_Atom atom,
  */
 int
 ex_window_prop_window_get(EX_Window win, EX_Atom atom,
-			  EX_Window * lst, unsigned int len)
+                          EX_Window *lst, unsigned int len)
 {
-   return ex_window_prop_xid_get(win, atom, XA_WINDOW, lst, len);
+    return ex_window_prop_xid_get(win, atom, XA_WINDOW, lst, len);
 }
 
 /*
@@ -559,9 +560,9 @@ ex_window_prop_window_get(EX_Window win, EX_Atom atom,
  * Note: Return value 0 means that the property exists but has no elements.
  */
 int
-ex_window_prop_window_list_get(EX_Window win, EX_Atom atom, EX_Window ** plst)
+ex_window_prop_window_list_get(EX_Window win, EX_Atom atom, EX_Window **plst)
 {
-   return ex_window_prop_xid_list_get(win, atom, XA_WINDOW, plst);
+    return ex_window_prop_xid_list_get(win, atom, XA_WINDOW, plst);
 }
 
 #define S_ATOM_COUNT(s) (sizeof(s) / sizeof(EX_Atom))
@@ -570,154 +571,154 @@ ex_window_prop_window_list_get(EX_Window win, EX_Atom atom, EX_Window ** plst)
  * Misc atom stuff
  */
 
-static const char  *const ea_m_names[] = {
+static const char *const ea_m_names[] = {
 #define DEFINE_ATOM_MISC(a) #a,
 #include "xpropdefs.h"
 #undef DEFINE_ATOM_MISC
 };
 
-e_atoms_misc_t      ea_m;
+e_atoms_misc_t  ea_m;
 
 void
 ex_atoms_init(void)
 {
-   ex_atoms_get(ea_m_names, E_ARRAY_SIZE(ea_m_names), (EX_Atom *) & ea_m);
+    ex_atoms_get(ea_m_names, E_ARRAY_SIZE(ea_m_names), (EX_Atom *) & ea_m);
 }
 
 /*
  * ICCCM stuff
  */
 
-static const char  *const ea_i_names[] = {
+static const char *const ea_i_names[] = {
 #define DEFINE_ATOM_ICCCM(a) #a,
 #include "xpropdefs.h"
 #undef DEFINE_ATOM_ICCCM
 };
 
-e_atoms_icccm_t     ea_i;
+e_atoms_icccm_t ea_i;
 
 void
 ex_icccm_init(void)
 {
-   ex_atoms_get(ea_i_names, E_ARRAY_SIZE(ea_i_names), (EX_Atom *) & ea_i);
+    ex_atoms_get(ea_i_names, E_ARRAY_SIZE(ea_i_names), (EX_Atom *) & ea_i);
 }
 
 static void
 ex_icccm_state_set(EX_Window win, unsigned int state)
 {
-   unsigned long       c[2];
+    unsigned long   c[2];
 
-   c[0] = state;
-   c[1] = 0;
-   XChangeProperty(_ex_disp, win, ea_i.WM_STATE, ea_i.WM_STATE,
-		   32, PropModeReplace, (unsigned char *)c, 2);
+    c[0] = state;
+    c[1] = 0;
+    XChangeProperty(_ex_disp, win, ea_i.WM_STATE, ea_i.WM_STATE,
+                    32, PropModeReplace, (unsigned char *)c, 2);
 }
 
 void
 ex_icccm_state_set_iconic(EX_Window win)
 {
-   ex_icccm_state_set(win, IconicState);
+    ex_icccm_state_set(win, IconicState);
 }
 
 void
 ex_icccm_state_set_normal(EX_Window win)
 {
-   ex_icccm_state_set(win, NormalState);
+    ex_icccm_state_set(win, NormalState);
 }
 
 void
 ex_icccm_state_set_withdrawn(EX_Window win)
 {
-   ex_icccm_state_set(win, WithdrawnState);
+    ex_icccm_state_set(win, WithdrawnState);
 }
 
 static void
 ex_icccm_client_message_send(EX_Window win, EX_Atom atom, EX_Time ts)
 {
-   ex_client_message32_send(win, ea_i.WM_PROTOCOLS, NoEventMask,
-			    atom, ts, 0, 0, 0);
+    ex_client_message32_send(win, ea_i.WM_PROTOCOLS, NoEventMask,
+                             atom, ts, 0, 0, 0);
 }
 
 void
 ex_icccm_delete_window_send(EX_Window win, EX_Time ts)
 {
-   ex_icccm_client_message_send(win, ea_i.WM_DELETE_WINDOW, ts);
+    ex_icccm_client_message_send(win, ea_i.WM_DELETE_WINDOW, ts);
 }
 
 void
 ex_icccm_take_focus_send(EX_Window win, EX_Time ts)
 {
-   ex_icccm_client_message_send(win, ea_i.WM_TAKE_FOCUS, ts);
+    ex_icccm_client_message_send(win, ea_i.WM_TAKE_FOCUS, ts);
 }
 
 #if 0
 void
 ex_icccm_save_yourself_send(EX_Window win, EX_Time ts)
 {
-   ex_icccm_client_message_send(win, ea_i.WM_SAVE_YOURSELF, ts);
+    ex_icccm_client_message_send(win, ea_i.WM_SAVE_YOURSELF, ts);
 }
 #endif
 
 void
 ex_icccm_title_set(EX_Window win, const char *title)
 {
-   ex_window_prop_string_set(win, ea_i.WM_NAME, title);
+    ex_window_prop_string_set(win, ea_i.WM_NAME, title);
 }
 
-char               *
+char           *
 ex_icccm_title_get(EX_Window win)
 {
-   return ex_window_prop_string_get(win, ea_i.WM_NAME);
+    return ex_window_prop_string_get(win, ea_i.WM_NAME);
 }
 
 void
 ex_icccm_name_class_set(EX_Window win, const char *name, const char *clss)
 {
-   XClassHint         *xch;
+    XClassHint     *xch;
 
-   xch = XAllocClassHint();
-   if (!xch)
-      return;
-   xch->res_name = (char *)name;
-   xch->res_class = (char *)clss;
-   XSetClassHint(_ex_disp, win, xch);
-   XFree(xch);
+    xch = XAllocClassHint();
+    if (!xch)
+        return;
+    xch->res_name = (char *)name;
+    xch->res_class = (char *)clss;
+    XSetClassHint(_ex_disp, win, xch);
+    XFree(xch);
 }
 
 void
 ex_icccm_name_class_get(EX_Window win, char **name, char **clss)
 {
-   XClassHint          xch;
+    XClassHint      xch;
 
-   *name = *clss = NULL;
-   xch.res_name = NULL;
-   xch.res_class = NULL;
-   if (XGetClassHint(_ex_disp, win, &xch))
-     {
-	if (name && xch.res_name)
-	   *name = Estrdup(xch.res_name);
-	if (clss && xch.res_class)
-	   *clss = Estrdup(xch.res_class);
-	XFree(xch.res_name);
-	XFree(xch.res_class);
-     }
+    *name = *clss = NULL;
+    xch.res_name = NULL;
+    xch.res_class = NULL;
+    if (XGetClassHint(_ex_disp, win, &xch))
+    {
+        if (name && xch.res_name)
+            *name = Estrdup(xch.res_name);
+        if (clss && xch.res_class)
+            *clss = Estrdup(xch.res_class);
+        XFree(xch.res_name);
+        XFree(xch.res_class);
+    }
 }
 
 /*
  * _NET_WM hints (EWMH)
  */
 
-static const char  *const ea_n_names[] = {
+static const char *const ea_n_names[] = {
 #define DEFINE_ATOM_NETWM(a) #a,
 #include "xpropdefs.h"
 #undef DEFINE_ATOM_NETWM
 };
-e_atoms_netwm_t     ea_n;
+e_atoms_netwm_t ea_n;
 
 void
 ex_netwm_init(void)
 {
-   ex_atoms_get(ea_n_names, E_ARRAY_SIZE(ea_n_names), (EX_Atom *) & ea_n);
+    ex_atoms_get(ea_n_names, E_ARRAY_SIZE(ea_n_names), (EX_Atom *) & ea_n);
 }
 
 /*
@@ -726,12 +727,12 @@ ex_netwm_init(void)
 void
 ex_netwm_wm_identify(EX_Window root, EX_Window check, const char *wm_name)
 {
-   unsigned int        pid = getpid();
+    unsigned int    pid = getpid();
 
-   ex_window_prop_window_set(root, ea_n._NET_SUPPORTING_WM_CHECK, &check, 1);
-   ex_window_prop_window_set(check, ea_n._NET_SUPPORTING_WM_CHECK, &check, 1);
-   _ex_window_prop_string_utf8_set(check, ea_n._NET_WM_NAME, wm_name);
-   ex_window_prop_card32_set(check, ea_n._NET_WM_PID, &pid, 1);
+    ex_window_prop_window_set(root, ea_n._NET_SUPPORTING_WM_CHECK, &check, 1);
+    ex_window_prop_window_set(check, ea_n._NET_SUPPORTING_WM_CHECK, &check, 1);
+    _ex_window_prop_string_utf8_set(check, ea_n._NET_WM_NAME, wm_name);
+    ex_window_prop_card32_set(check, ea_n._NET_WM_PID, &pid, 1);
 }
 
 /*
@@ -741,87 +742,87 @@ ex_netwm_wm_identify(EX_Window root, EX_Window check, const char *wm_name)
 void
 ex_netwm_desk_count_set(EX_Window root, unsigned int n_desks)
 {
-   ex_window_prop_card32_set(root, ea_n._NET_NUMBER_OF_DESKTOPS, &n_desks, 1);
+    ex_window_prop_card32_set(root, ea_n._NET_NUMBER_OF_DESKTOPS, &n_desks, 1);
 }
 
 void
-ex_netwm_desk_roots_set(EX_Window root, const EX_Window * vroots,
-			unsigned int n_desks)
+ex_netwm_desk_roots_set(EX_Window root, const EX_Window *vroots,
+                        unsigned int n_desks)
 {
-   ex_window_prop_window_set(root, ea_n._NET_VIRTUAL_ROOTS, vroots, n_desks);
+    ex_window_prop_window_set(root, ea_n._NET_VIRTUAL_ROOTS, vroots, n_desks);
 }
 
 void
 ex_netwm_desk_names_set(EX_Window root, const char **names,
-			unsigned int n_desks)
+                        unsigned int n_desks)
 {
-   char               *buf, *buf_r;
-   const char         *s;
-   unsigned int        i;
-   int                 l, len;
+    char           *buf, *buf_r;
+    const char     *s;
+    unsigned int    i;
+    int             l, len;
 
-   buf = NULL;
-   len = 0;
+    buf = NULL;
+    len = 0;
 
-   for (i = 0; i < n_desks; i++)
-     {
-	s = (names) ? names[i] : "?";
-	l = strlen(s) + 1;
-	buf_r = EREALLOC(char, buf, len + l);
+    for (i = 0; i < n_desks; i++)
+    {
+        s = (names) ? names[i] : "?";
+        l = strlen(s) + 1;
+        buf_r = EREALLOC(char, buf, len + l);
 
-	if (!buf_r)
-	   goto done;
-	buf = buf_r;
-	memcpy(buf + len, s, l);
-	len += l;
-     }
+        if (!buf_r)
+            goto done;
+        buf = buf_r;
+        memcpy(buf + len, s, l);
+        len += l;
+    }
 
-   XChangeProperty(_ex_disp, root, ea_n._NET_DESKTOP_NAMES,
-		   ea_m.UTF8_STRING, 8, PropModeReplace,
-		   (unsigned char *)buf, len);
+    XChangeProperty(_ex_disp, root, ea_n._NET_DESKTOP_NAMES,
+                    ea_m.UTF8_STRING, 8, PropModeReplace,
+                    (unsigned char *)buf, len);
 
- done:
-   Efree(buf);
+  done:
+    Efree(buf);
 }
 
 void
 ex_netwm_desk_size_set(EX_Window root, unsigned int width, unsigned int height)
 {
-   unsigned int        size[2];
+    unsigned int    size[2];
 
-   size[0] = width;
-   size[1] = height;
-   ex_window_prop_card32_set(root, ea_n._NET_DESKTOP_GEOMETRY, size, 2);
+    size[0] = width;
+    size[1] = height;
+    ex_window_prop_card32_set(root, ea_n._NET_DESKTOP_GEOMETRY, size, 2);
 }
 
 void
 ex_netwm_desk_workareas_set(EX_Window root, const unsigned int *areas,
-			    unsigned int n_desks)
+                            unsigned int n_desks)
 {
-   ex_window_prop_card32_set(root, ea_n._NET_WORKAREA, areas, 4 * n_desks);
+    ex_window_prop_card32_set(root, ea_n._NET_WORKAREA, areas, 4 * n_desks);
 }
 
 void
 ex_netwm_desk_current_set(EX_Window root, unsigned int desk)
 {
-   ex_window_prop_card32_set(root, ea_n._NET_CURRENT_DESKTOP, &desk, 1);
+    ex_window_prop_card32_set(root, ea_n._NET_CURRENT_DESKTOP, &desk, 1);
 }
 
 void
 ex_netwm_desk_viewports_set(EX_Window root, const unsigned int *origins,
-			    unsigned int n_desks)
+                            unsigned int n_desks)
 {
-   ex_window_prop_card32_set(root, ea_n._NET_DESKTOP_VIEWPORT,
-			     origins, 2 * n_desks);
+    ex_window_prop_card32_set(root, ea_n._NET_DESKTOP_VIEWPORT,
+                              origins, 2 * n_desks);
 }
 
 void
 ex_netwm_showing_desktop_set(EX_Window root, int on)
 {
-   unsigned int        val;
+    unsigned int    val;
 
-   val = (on) ? 1 : 0;
-   ex_window_prop_card32_set(root, ea_n._NET_SHOWING_DESKTOP, &val, 1);
+    val = (on) ? 1 : 0;
+    ex_window_prop_card32_set(root, ea_n._NET_SHOWING_DESKTOP, &val, 1);
 }
 
 /*
@@ -830,26 +831,27 @@ ex_netwm_showing_desktop_set(EX_Window root, int on)
 
 /* Mapping order */
 void
-ex_netwm_client_list_set(EX_Window root, const EX_Window * p_clients,
-			 unsigned int n_clients)
+ex_netwm_client_list_set(EX_Window root, const EX_Window *p_clients,
+                         unsigned int n_clients)
 {
-   ex_window_prop_window_set(root, ea_n._NET_CLIENT_LIST, p_clients, n_clients);
+    ex_window_prop_window_set(root, ea_n._NET_CLIENT_LIST,
+                              p_clients, n_clients);
 }
 
 /* Stacking order */
 void
 ex_netwm_client_list_stacking_set(EX_Window root,
-				  const EX_Window * p_clients,
-				  unsigned int n_clients)
+                                  const EX_Window *p_clients,
+                                  unsigned int n_clients)
 {
-   ex_window_prop_window_set(root, ea_n._NET_CLIENT_LIST_STACKING,
-			     p_clients, n_clients);
+    ex_window_prop_window_set(root, ea_n._NET_CLIENT_LIST_STACKING,
+                              p_clients, n_clients);
 }
 
 void
 ex_netwm_client_active_set(EX_Window root, EX_Window win)
 {
-   ex_window_prop_window_set(root, ea_n._NET_ACTIVE_WINDOW, &win, 1);
+    ex_window_prop_window_set(root, ea_n._NET_ACTIVE_WINDOW, &win, 1);
 }
 
 /*
@@ -859,117 +861,117 @@ ex_netwm_client_active_set(EX_Window root, EX_Window win)
 void
 ex_netwm_name_set(EX_Window win, const char *name)
 {
-   _ex_window_prop_string_utf8_set(win, ea_n._NET_WM_NAME, name);
+    _ex_window_prop_string_utf8_set(win, ea_n._NET_WM_NAME, name);
 }
 
 int
 ex_netwm_name_get(EX_Window win, char **name)
 {
-   char               *s;
+    char           *s;
 
-   s = _ex_window_prop_string_utf8_get(win, ea_n._NET_WM_NAME);
-   *name = s;
+    s = _ex_window_prop_string_utf8_get(win, ea_n._NET_WM_NAME);
+    *name = s;
 
-   return !!s;
+    return !!s;
 }
 
 void
 ex_netwm_visible_name_set(EX_Window win, const char *name)
 {
-   _ex_window_prop_string_utf8_set(win, ea_n._NET_WM_VISIBLE_NAME, name);
+    _ex_window_prop_string_utf8_set(win, ea_n._NET_WM_VISIBLE_NAME, name);
 }
 
 int
 ex_netwm_visible_name_get(EX_Window win, char **name)
 {
-   char               *s;
+    char           *s;
 
-   s = _ex_window_prop_string_utf8_get(win, ea_n._NET_WM_VISIBLE_NAME);
-   *name = s;
+    s = _ex_window_prop_string_utf8_get(win, ea_n._NET_WM_VISIBLE_NAME);
+    *name = s;
 
-   return !!s;
+    return !!s;
 }
 
 void
 ex_netwm_icon_name_set(EX_Window win, const char *name)
 {
-   _ex_window_prop_string_utf8_set(win, ea_n._NET_WM_ICON_NAME, name);
+    _ex_window_prop_string_utf8_set(win, ea_n._NET_WM_ICON_NAME, name);
 }
 
 int
 ex_netwm_icon_name_get(EX_Window win, char **name)
 {
-   char               *s;
+    char           *s;
 
-   s = _ex_window_prop_string_utf8_get(win, ea_n._NET_WM_ICON_NAME);
-   *name = s;
+    s = _ex_window_prop_string_utf8_get(win, ea_n._NET_WM_ICON_NAME);
+    *name = s;
 
-   return !!s;
+    return !!s;
 }
 
 void
 ex_netwm_visible_icon_name_set(EX_Window win, const char *name)
 {
-   _ex_window_prop_string_utf8_set(win, ea_n._NET_WM_VISIBLE_ICON_NAME, name);
+    _ex_window_prop_string_utf8_set(win, ea_n._NET_WM_VISIBLE_ICON_NAME, name);
 }
 
 int
 ex_netwm_visible_icon_name_get(EX_Window win, char **name)
 {
-   char               *s;
+    char           *s;
 
-   s = _ex_window_prop_string_utf8_get(win, ea_n._NET_WM_VISIBLE_ICON_NAME);
-   *name = s;
+    s = _ex_window_prop_string_utf8_get(win, ea_n._NET_WM_VISIBLE_ICON_NAME);
+    *name = s;
 
-   return !!s;
+    return !!s;
 }
 
 void
 ex_netwm_desktop_set(EX_Window win, unsigned int desk)
 {
-   ex_window_prop_card32_set(win, ea_n._NET_WM_DESKTOP, &desk, 1);
+    ex_window_prop_card32_set(win, ea_n._NET_WM_DESKTOP, &desk, 1);
 }
 
 int
 ex_netwm_desktop_get(EX_Window win, unsigned int *desk)
 {
-   return ex_window_prop_card32_get(win, ea_n._NET_WM_DESKTOP, desk, 1);
+    return ex_window_prop_card32_get(win, ea_n._NET_WM_DESKTOP, desk, 1);
 }
 
 int
 ex_netwm_user_time_get(EX_Window win, unsigned int *ts)
 {
-   return ex_window_prop_card32_get(win, ea_n._NET_WM_USER_TIME, ts, 1);
+    return ex_window_prop_card32_get(win, ea_n._NET_WM_USER_TIME, ts, 1);
 }
 
 void
 ex_netwm_opacity_set(EX_Window win, unsigned int opacity)
 {
-   ex_window_prop_card32_set(win, ea_n._NET_WM_WINDOW_OPACITY, &opacity, 1);
+    ex_window_prop_card32_set(win, ea_n._NET_WM_WINDOW_OPACITY, &opacity, 1);
 }
 
 int
 ex_netwm_opacity_get(EX_Window win, unsigned int *opacity)
 {
-   return ex_window_prop_card32_get(win, ea_n._NET_WM_WINDOW_OPACITY,
-				    opacity, 1);
+    return ex_window_prop_card32_get(win, ea_n._NET_WM_WINDOW_OPACITY,
+                                     opacity, 1);
 }
 
-#if 0				/* Not used */
+#if 0                           /* Not used */
 void
 ex_netwm_startup_id_set(EX_Window win, const char *id)
 {
-   _ex_window_prop_string_utf8_set(win, ea_n._NET_STARTUP_ID, id);
+    _ex_window_prop_string_utf8_set(win, ea_n._NET_STARTUP_ID, id);
 }
 #endif
 
 int
 ex_netwm_startup_id_get(EX_Window win, char **id)
 {
-   char               *s;
+    char           *s;
 
-   s = _ex_window_prop_string_utf8_get(win, ea_n._NET_STARTUP_ID);
-   *id = s;
+    s = _ex_window_prop_string_utf8_get(win, ea_n._NET_STARTUP_ID);
+    *id = s;
 
-   return !!s;
+    return !!s;
 }

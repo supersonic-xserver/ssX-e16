@@ -28,149 +28,149 @@
 #include "iclass.h"
 #include "xwin.h"
 
-static EObj        *init_win1 = NULL;
-static EObj        *init_win2 = NULL;
-static char         bg_sideways = 0;
+static EObj    *init_win1 = NULL;
+static EObj    *init_win2 = NULL;
+static char     bg_sideways = 0;
 
 void
 StartupWindowsCreate(void)
 {
-   Win                 w1, w2, win1, win2, b1, b2;
-   Background         *bg;
-   ImageClass         *ic;
-   int                 x, y, bx, by, bw, bh, dbw;
-   EObj               *eo;
+    Win             w1, w2, win1, win2, b1, b2;
+    Background     *bg;
+    ImageClass     *ic;
+    int             x, y, bx, by, bw, bh, dbw;
+    EObj           *eo;
 
-   /* Acting only as boolean? */
-   if (BackgroundFind("STARTUP_BACKGROUND_SIDEWAYS"))
-      bg_sideways = 1;
+    /* Acting only as boolean? */
+    if (BackgroundFind("STARTUP_BACKGROUND_SIDEWAYS"))
+        bg_sideways = 1;
 
-   ic = ImageclassFind("STARTUP_BAR", 0);
-   if (!ic)
-      ic = ImageclassFind("DESKTOP_DRAGBUTTON_HORIZ", 0);
-   bg = BackgroundFind("STARTUP_BACKGROUND");
-   if (!ic || !bg)
-      return;
+    ic = ImageclassFind("STARTUP_BAR", 0);
+    if (!ic)
+        ic = ImageclassFind("DESKTOP_DRAGBUTTON_HORIZ", 0);
+    bg = BackgroundFind("STARTUP_BACKGROUND");
+    if (!ic || !bg)
+        return;
 
-   dbw = Conf.desks.dragbar_width;
-   if (dbw <= 0)
-      dbw = 16;
-   if (bg_sideways)
-     {
-	x = WinGetW(VROOT) / 2;
-	y = 0;
-	bx = WinGetW(VROOT) - dbw;
-	by = 0;
-	bw = dbw;
-	bh = WinGetH(VROOT);
-     }
-   else
-     {
-	x = 0;
-	y = WinGetH(VROOT) / 2;
-	bx = 0;
-	by = WinGetH(VROOT) - dbw;
-	bw = WinGetW(VROOT);
-	bh = dbw;
-     }
+    dbw = Conf.desks.dragbar_width;
+    if (dbw <= 0)
+        dbw = 16;
+    if (bg_sideways)
+    {
+        x = WinGetW(VROOT) / 2;
+        y = 0;
+        bx = WinGetW(VROOT) - dbw;
+        by = 0;
+        bw = dbw;
+        bh = WinGetH(VROOT);
+    }
+    else
+    {
+        x = 0;
+        y = WinGetH(VROOT) / 2;
+        bx = 0;
+        by = WinGetH(VROOT) - dbw;
+        bw = WinGetW(VROOT);
+        bh = dbw;
+    }
 
-   eo = EobjWindowCreate(EOBJ_TYPE_MISC,
-			 -x, -y, WinGetW(VROOT), WinGetH(VROOT), 1, "Init-1");
-   if (!eo)
-      return;
-   init_win1 = eo;
-   w1 = EobjGetWin(eo);
-   win1 = ECreateWindow(w1, x, y, WinGetW(VROOT), WinGetH(VROOT), 0);
+    eo = EobjWindowCreate(EOBJ_TYPE_MISC,
+                          -x, -y, WinGetW(VROOT), WinGetH(VROOT), 1, "Init-1");
+    if (!eo)
+        return;
+    init_win1 = eo;
+    w1 = EobjGetWin(eo);
+    win1 = ECreateWindow(w1, x, y, WinGetW(VROOT), WinGetH(VROOT), 0);
 
-   eo = EobjWindowCreate(EOBJ_TYPE_MISC,
-			 x, y, WinGetW(VROOT), WinGetH(VROOT), 1, "Init-2");
-   if (!eo)
-      return;
-   init_win2 = eo;
-   w2 = EobjGetWin(eo);
-   win2 = ECreateWindow(w2, -x, -y, WinGetW(VROOT), WinGetH(VROOT), 0);
+    eo = EobjWindowCreate(EOBJ_TYPE_MISC,
+                          x, y, WinGetW(VROOT), WinGetH(VROOT), 1, "Init-2");
+    if (!eo)
+        return;
+    init_win2 = eo;
+    w2 = EobjGetWin(eo);
+    win2 = ECreateWindow(w2, -x, -y, WinGetW(VROOT), WinGetH(VROOT), 0);
 
-   EMapWindow(win1);
-   EMapWindow(win2);
+    EMapWindow(win1);
+    EMapWindow(win2);
 
-   if (bw > 0 && bh > 0)
-     {
-	b1 = ECreateWindow(w1, bx, by, bw, bh, 0);
-	b2 = ECreateWindow(w2, 0, 0, bw, bh, 0);
-	EMapRaised(b1);
-	EMapRaised(b2);
+    if (bw > 0 && bh > 0)
+    {
+        b1 = ECreateWindow(w1, bx, by, bw, bh, 0);
+        b2 = ECreateWindow(w2, 0, 0, bw, bh, 0);
+        EMapRaised(b1);
+        EMapRaised(b2);
 
-	ImageclassApply(ic, b1, 0, 0, 0);
-	ImageclassApply(ic, b2, 0, 0, 0);
-     }
+        ImageclassApply(ic, b1, 0, 0, 0);
+        ImageclassApply(ic, b2, 0, 0, 0);
+    }
 
-   BackgroundSet(bg, win1, WinGetW(VROOT), WinGetH(VROOT));
-   BackgroundSet(bg, win2, WinGetW(VROOT), WinGetH(VROOT));
-   StartupBackgroundsDestroy();
+    BackgroundSet(bg, win1, WinGetW(VROOT), WinGetH(VROOT));
+    BackgroundSet(bg, win2, WinGetW(VROOT), WinGetH(VROOT));
+    StartupBackgroundsDestroy();
 
-   EobjMap(init_win1, 0);
-   EobjMap(init_win2, 0);
+    EobjMap(init_win1, 0);
+    EobjMap(init_win2, 0);
 
-   EobjsRepaint();
+    EobjsRepaint();
 }
 
 void
 StartupBackgroundsDestroy(void)
 {
-   BackgroundDestroyByName("STARTUP_BACKGROUND");
-   BackgroundDestroyByName("STARTUP_BACKGROUND_SIDEWAYS");
+    BackgroundDestroyByName("STARTUP_BACKGROUND");
+    BackgroundDestroyByName("STARTUP_BACKGROUND_SIDEWAYS");
 }
 
 static int
-doStartupWindowsOpen(EObj * eobj __UNUSED__, int remaining,
-		     void *state __UNUSED__)
+doStartupWindowsOpen(EObj *eobj __UNUSED__, int remaining,
+                     void *state __UNUSED__)
 {
-   int                 k, x, y, xOffset, yOffset;
+    int             k, x, y, xOffset, yOffset;
 
-   k = 1024 - remaining;
+    k = 1024 - remaining;
 
-   if (bg_sideways)
-     {				/* so we can have two different slide methods */
-	x = WinGetW(VROOT) / 2;
-	xOffset = (x * k) >> 10;
-	y = 0;
-	yOffset = 0;
-     }
-   else
-     {
-	x = 0;
-	xOffset = 0;
-	y = WinGetH(VROOT) / 2;
-	yOffset = (y * k) >> 10;
-     }
+    if (bg_sideways)
+    {                           /* so we can have two different slide methods */
+        x = WinGetW(VROOT) / 2;
+        xOffset = (x * k) >> 10;
+        y = 0;
+        yOffset = 0;
+    }
+    else
+    {
+        x = 0;
+        xOffset = 0;
+        y = WinGetH(VROOT) / 2;
+        yOffset = (y * k) >> 10;
+    }
 
-   EobjMove(init_win1, -x - xOffset, -y - yOffset);
-   EobjMove(init_win2, x + xOffset, y + yOffset);
+    EobjMove(init_win1, -x - xOffset, -y - yOffset);
+    EobjMove(init_win2, x + xOffset, y + yOffset);
 
-   if (remaining > 0)
-      return 0;
+    if (remaining > 0)
+        return 0;
 
-   Mode.place.enable_features++;
-   EobjWindowDestroy(init_win1);
-   EobjWindowDestroy(init_win2);
-   init_win1 = NULL;
-   init_win2 = NULL;
+    Mode.place.enable_features++;
+    EobjWindowDestroy(init_win1);
+    EobjWindowDestroy(init_win2);
+    init_win1 = NULL;
+    init_win2 = NULL;
 
-   return ANIM_RET_CANCEL_ANIM;
+    return ANIM_RET_CANCEL_ANIM;
 }
 
 void
 StartupWindowsOpen(void)
 {
-   int                 speed, duration;
+    int             speed, duration;
 
-   if (!init_win1 || !init_win2)
-      return;
+    if (!init_win1 || !init_win2)
+        return;
 
-   Mode.place.enable_features--;
+    Mode.place.enable_features--;
 
-   speed = Conf.desks.slidespeed > 0 ? Conf.desks.slidespeed : 500;
-   duration = 2000000 / speed;
+    speed = Conf.desks.slidespeed > 0 ? Conf.desks.slidespeed : 500;
+    duration = 2000000 / speed;
 
-   AnimatorAdd(NULL, ANIM_STARTUP, doStartupWindowsOpen, duration, 0, 0, NULL);
+    AnimatorAdd(NULL, ANIM_STARTUP, doStartupWindowsOpen, duration, 0, 0, NULL);
 }

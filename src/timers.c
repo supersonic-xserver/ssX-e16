@@ -33,272 +33,273 @@
 #endif
 
 struct _timer {
-   unsigned int        in_time;
-   unsigned int        at_time;
-   struct _timer      *next;
-   int                 (*func)(void *data);
-   void               *data;
-   char                again;
+    unsigned int    in_time;
+    unsigned int    at_time;
+    struct _timer  *next;
+    int             (*func)(void *data);
+    void           *data;
+    char            again;
 };
 
 static int
 tdiff(unsigned int t1, unsigned int t2)
 {
-   return (int)(t1 - t2);
+    return (int)(t1 - t2);
 }
 
-static Timer       *q_first = NULL;
+static Timer   *q_first = NULL;
 
 static void
-_TimerSet(Timer * timer)
+_TimerSet(Timer *timer)
 {
-   Timer              *ptr, *pptr;
+    Timer          *ptr, *pptr;
 
-   if (EDebug(EDBUG_TYPE_TIMERS) > 1)
-      Eprintf("%s %p: func=%p data=%p\n", __func__, timer, timer->func,
-	      timer->data);
+    if (EDebug(EDBUG_TYPE_TIMERS) > 1)
+        Eprintf("%s %p: func=%p data=%p\n", __func__, timer, timer->func,
+                timer->data);
 
-   /* if there is no queue it becomes the queue */
-   if (!q_first)
-     {
-	q_first = timer;
-	timer->next = NULL;
-     }
-   else
-     {
-	pptr = NULL;
-	for (ptr = q_first; ptr; pptr = ptr, ptr = ptr->next)
-	  {
-	     if (tdiff(ptr->at_time, timer->at_time) > 0)
-		break;
-	  }
-	if (pptr)
-	   pptr->next = timer;
-	else
-	   q_first = timer;
-	timer->next = ptr;
-     }
+    /* if there is no queue it becomes the queue */
+    if (!q_first)
+    {
+        q_first = timer;
+        timer->next = NULL;
+    }
+    else
+    {
+        pptr = NULL;
+        for (ptr = q_first; ptr; pptr = ptr, ptr = ptr->next)
+        {
+            if (tdiff(ptr->at_time, timer->at_time) > 0)
+                break;
+        }
+        if (pptr)
+            pptr->next = timer;
+        else
+            q_first = timer;
+        timer->next = ptr;
+    }
 }
 
 static void
-_TimerDel(Timer * timer)
+_TimerDel(Timer *timer)
 {
-   if (EDebug(EDBUG_TYPE_TIMERS))
-      Eprintf("%s %p: func=%p data=%p\n", __func__, timer, timer->func,
-	      timer->data);
-   Efree(timer);
+    if (EDebug(EDBUG_TYPE_TIMERS))
+        Eprintf("%s %p: func=%p data=%p\n", __func__, timer, timer->func,
+                timer->data);
+    Efree(timer);
 }
 
-Timer              *
+Timer          *
 TimerAdd(int dt_ms, int (*func)(void *data), void *data)
 {
-   Timer              *timer;
+    Timer          *timer;
 
-   timer = EMALLOC(Timer, 1);
-   if (!timer)
-      return NULL;
+    timer = EMALLOC(Timer, 1);
+    if (!timer)
+        return NULL;
 
-   timer->in_time = (unsigned int)dt_ms;
-   timer->at_time = GetTimeMs() + dt_ms;
-   timer->func = func;
-   timer->data = data;
-   timer->again = 1;
+    timer->in_time = (unsigned int)dt_ms;
+    timer->at_time = GetTimeMs() + dt_ms;
+    timer->func = func;
+    timer->data = data;
+    timer->again = 1;
 
-   if (EDebug(EDBUG_TYPE_TIMERS))
-      Eprintf("%s %p: func=%p data=%p: %8d\n", __func__, timer,
-	      timer->func, timer->data, dt_ms);
+    if (EDebug(EDBUG_TYPE_TIMERS))
+        Eprintf("%s %p: func=%p data=%p: %8d\n", __func__, timer,
+                timer->func, timer->data, dt_ms);
 
-   _TimerSet(timer);		/* Add to timer queue */
+    _TimerSet(timer);           /* Add to timer queue */
 
-   return timer;
+    return timer;
 }
 
 void
 TimersRun(unsigned int t_ms)
 {
-   Timer              *timer, *q_old, *q_new, *q_run;
+    Timer          *timer, *q_old, *q_new, *q_run;
 
-   timer = q_first;
-   if (!timer)
-      return;			/* No timers pending */
+    timer = q_first;
+    if (!timer)
+        return;                 /* No timers pending */
 
-   Dprintf("%s - A\n", __func__);
+    Dprintf("%s - A\n", __func__);
 
-   q_new = timer;		/* q_new is now temporarily the timer queue */
-   q_old = timer;		/* q_old is the old timer queue */
-   q_first = NULL;		/* q_first holds timers added during timer processing */
-   q_run = NULL;		/* q_run holds the last run timer */
-   for (; timer; timer = q_new)
-     {
-	if (tdiff(timer->at_time, t_ms) > 0)
-	   break;
+    q_new = timer;              /* q_new is now temporarily the timer queue */
+    q_old = timer;              /* q_old is the old timer queue */
+    q_first = NULL;             /* q_first holds timers added during timer processing */
+    q_run = NULL;               /* q_run holds the last run timer */
+    for (; timer; timer = q_new)
+    {
+        if (tdiff(timer->at_time, t_ms) > 0)
+            break;
 
-	if (EDebug(EDBUG_TYPE_TIMERS))
-	   Eprintf("%s - run %p: func=%p data=%p: %8d\n", __func__, timer,
-		   timer->func, timer->data, timer->at_time - t_ms);
+        if (EDebug(EDBUG_TYPE_TIMERS))
+            Eprintf("%s - run %p: func=%p data=%p: %8d\n", __func__, timer,
+                    timer->func, timer->data, timer->at_time - t_ms);
 
-	q_new = timer->next;
+        q_new = timer->next;
 
-	/* Run this callback */
-	timer->again = timer->func(timer->data);
-	q_run = timer;
-     }
+        /* Run this callback */
+        timer->again = timer->func(timer->data);
+        q_run = timer;
+    }
 
-   if (q_run)
-     {
-	/* At least one timer has run */
-	q_run->next = NULL;	/* Terminate expired timer list */
+    if (q_run)
+    {
+        /* At least one timer has run */
+        q_run->next = NULL;     /* Terminate expired timer list */
 
-	/* Re-schedule/remove timers that have run */
-	q_run = q_new;		/* Swap q_first and q_new ... */
-	q_new = q_first;	/* q_new are the new added timers */
-	q_first = q_run;	/* q_first is now the timer queue */
-	for (timer = q_old; timer; timer = q_run)
-	  {
-	     q_run = timer->next;
-	     if (timer->again)
-	       {
-		  timer->at_time += timer->in_time;
-		  _TimerSet(timer);	/* Add to timer queue */
-	       }
-	     else
-	       {
-		  _TimerDel(timer);
-	       }
-	  }
+        /* Re-schedule/remove timers that have run */
+        q_run = q_new;          /* Swap q_first and q_new ... */
+        q_new = q_first;        /* q_new are the new added timers */
+        q_first = q_run;        /* q_first is now the timer queue */
+        for (timer = q_old; timer; timer = q_run)
+        {
+            q_run = timer->next;
+            if (timer->again)
+            {
+                timer->at_time += timer->in_time;
+                _TimerSet(timer);       /* Add to timer queue */
+            }
+            else
+            {
+                _TimerDel(timer);
+            }
+        }
 
-	/* Schedule timers that have been added */
-	for (timer = q_new; timer; timer = q_run)
-	  {
-	     q_run = timer->next;
-	     _TimerSet(timer);	/* Add to timer queue */
-	  }
-     }
-   else
-     {
-	q_first = q_old;	/* Restore timer queue */
-     }
+        /* Schedule timers that have been added */
+        for (timer = q_new; timer; timer = q_run)
+        {
+            q_run = timer->next;
+            _TimerSet(timer);   /* Add to timer queue */
+        }
+    }
+    else
+    {
+        q_first = q_old;        /* Restore timer queue */
+    }
 
-   if (EDebug(EDBUG_TYPE_TIMERS) > 1)
-     {
-	for (timer = q_first; timer; timer = timer->next)
-	   Eprintf("%s - pend %p: func=%p data=%p: %8d (%d)\n", __func__,
-		   timer, timer->func, timer->data, timer->at_time - t_ms,
-		   timer->in_time);
-     }
+    if (EDebug(EDBUG_TYPE_TIMERS) > 1)
+    {
+        for (timer = q_first; timer; timer = timer->next)
+            Eprintf("%s - pend %p: func=%p data=%p: %8d (%d)\n", __func__,
+                    timer, timer->func, timer->data, timer->at_time - t_ms,
+                    timer->in_time);
+    }
 
-   Dprintf("%s - B\n", __func__);
+    Dprintf("%s - B\n", __func__);
 }
 
 int
 TimersRunNextIn(unsigned int t_ms)
 {
-   Timer              *timer;
-   int                 dt;
+    Timer          *timer;
+    int             dt;
 
-   timer = q_first;
+    timer = q_first;
 
-   /* If the next (rescheduled) timer is already expired, set timeout time
-    * to 1 ms. This avoids starving the fd's and should maintain the intended
-    * (mean) timer rate.
-    * The (mean) amount of work done in a timer function should of course not
-    * exceed the timeout time. */
-   if (timer)
-      dt = (int)(timer->at_time - t_ms) > 0 ? (int)(timer->at_time - t_ms) : 1;
-   else
-      dt = 0;
+    /* If the next (rescheduled) timer is already expired, set timeout time
+     * to 1 ms. This avoids starving the fd's and should maintain the intended
+     * (mean) timer rate.
+     * The (mean) amount of work done in a timer function should of course not
+     * exceed the timeout time. */
+    if (timer)
+        dt = (int)(timer->at_time - t_ms) > 0 ?
+            (int)(timer->at_time - t_ms) : 1;
+    else
+        dt = 0;
 
-   if (EDebug(EDBUG_TYPE_TIMERS))
-      Eprintf("%s - next in %8d\n", __func__, dt);
+    if (EDebug(EDBUG_TYPE_TIMERS))
+        Eprintf("%s - next in %8d\n", __func__, dt);
 
-   return dt;
+    return dt;
 }
 
 void
-TimerDel(Timer * timer)
+TimerDel(Timer *timer)
 {
-   Timer              *qe, *ptr, *pptr;
+    Timer          *qe, *ptr, *pptr;
 
-   pptr = NULL;
-   for (ptr = q_first; ptr; pptr = ptr, ptr = ptr->next)
-     {
-	qe = ptr;
-	if (qe != timer)
-	   continue;
+    pptr = NULL;
+    for (ptr = q_first; ptr; pptr = ptr, ptr = ptr->next)
+    {
+        qe = ptr;
+        if (qe != timer)
+            continue;
 
-	/* Match - remove it from the queue */
-	if (pptr)
-	   pptr->next = qe->next;
-	else
-	   q_first = qe->next;
+        /* Match - remove it from the queue */
+        if (pptr)
+            pptr->next = qe->next;
+        else
+            q_first = qe->next;
 
-	/* free it */
-	_TimerDel(timer);
-	break;
-     }
+        /* free it */
+        _TimerDel(timer);
+        break;
+    }
 }
 
 void
-TimerSetInterval(Timer * timer, int dt_ms)
+TimerSetInterval(Timer *timer, int dt_ms)
 {
-   timer->in_time = (unsigned int)dt_ms;
+    timer->in_time = (unsigned int)dt_ms;
 }
 
 /*
  * Idlers
  */
-static              LIST_HEAD(idler_list);
+static          LIST_HEAD(idler_list);
 
-typedef void        (IdlerFunc) (void *data);
+typedef void    (IdlerFunc) (void *data);
 
 struct _idler {
-   dlist_t             list;
-   IdlerFunc          *func;
-   void               *data;
+    dlist_t         list;
+    IdlerFunc      *func;
+    void           *data;
 };
 
-Idler              *
-IdlerAdd(IdlerFunc * func, void *data)
+Idler          *
+IdlerAdd(IdlerFunc *func, void *data)
 {
-   Idler              *id;
+    Idler          *id;
 
-   id = EMALLOC(Idler, 1);
-   if (!id)
-      return NULL;
+    id = EMALLOC(Idler, 1);
+    if (!id)
+        return NULL;
 
-   id->func = func;
-   id->data = data;
+    id->func = func;
+    id->data = data;
 
-   LIST_APPEND(Idler, &idler_list, id);
+    LIST_APPEND(Idler, &idler_list, id);
 
-   return id;
+    return id;
 }
 
 void
-IdlerDel(Idler * id)
+IdlerDel(Idler *id)
 {
-   LIST_REMOVE(Idler, &idler_list, id);
-   Efree(id);
+    LIST_REMOVE(Idler, &idler_list, id);
+    Efree(id);
 }
 
 static void
 _IdlerRun(void *_id, void *prm __UNUSED__)
 {
-   Idler              *id = (Idler *) _id;
+    Idler          *id = (Idler *) _id;
 
-   if (EDebug(EDBUG_TYPE_IDLERS) > 1)
-      Eprintf("%s: func=%p\n", __func__, id->func);
-   id->func(id->data);
+    if (EDebug(EDBUG_TYPE_IDLERS) > 1)
+        Eprintf("%s: func=%p\n", __func__, id->func);
+    id->func(id->data);
 }
 
 void
 IdlersRun(void)
 {
-   Idler              *id;
+    Idler          *id;
 
-   if (EDebug(EDBUG_TYPE_IDLERS))
-      Eprintf("%s B\n", __func__);
-   LIST_FOR_EACH(Idler, &idler_list, id) _IdlerRun(id, NULL);
-   if (EDebug(EDBUG_TYPE_IDLERS))
-      Eprintf("%s E\n", __func__);
+    if (EDebug(EDBUG_TYPE_IDLERS))
+        Eprintf("%s B\n", __func__);
+    LIST_FOR_EACH(Idler, &idler_list, id) _IdlerRun(id, NULL);
+    if (EDebug(EDBUG_TYPE_IDLERS))
+        Eprintf("%s E\n", __func__);
 }

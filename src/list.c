@@ -27,94 +27,94 @@
 #include "list.h"
 
 #if LIST_NOINLINE_dlist_find
-dlist_t            *
-dlist_find(const dlist_t * head, dlist_match_func_t * match, const void *prm)
+dlist_t        *
+dlist_find(const dlist_t *head, dlist_match_func_t *match, const void *prm)
 {
-   dlist_t            *etmp;
+    dlist_t        *etmp;
 
-   dlist_for_each(head, etmp)
-   {
-      if (match(etmp, prm) == 0)
-	 return etmp;
-   }
+    dlist_for_each(head, etmp)
+    {
+        if (match(etmp, prm) == 0)
+            return etmp;
+    }
 
-   return NULL;
+    return NULL;
 }
 #endif
 
 #if LIST_NOINLINE_dlist_for_each_func
 void
-dlist_for_each_func(dlist_t * head, dlist_foreach_func_t * func, void *prm)
+dlist_for_each_func(dlist_t *head, dlist_foreach_func_t *func, void *prm)
 {
-   dlist_t            *e, *tmp;
+    dlist_t        *e, *tmp;
 
-   dlist_for_each_safe(head, e, tmp)
-   {
-      func(e, prm);
-   }
+    dlist_for_each_safe(head, e, tmp)
+    {
+        func(e, prm);
+    }
 }
 #endif
 
 #if LIST_NOINLINE_dlist_get_index
 int
-dlist_get_index(const dlist_t * head, dlist_t * elem)
+dlist_get_index(const dlist_t *head, dlist_t *elem)
 {
-   const dlist_t      *e;
-   int                 i;
+    const dlist_t  *e;
+    int             i;
 
-   i = 0;
-   dlist_for_each(head, e)
-   {
-      i++;
-      if (e == elem)
-	 return i;
-   }
+    i = 0;
+    dlist_for_each(head, e)
+    {
+        i++;
+        if (e == elem)
+            return i;
+    }
 
-   return 0;
+    return 0;
 }
 #endif
 
 #if LIST_NOINLINE_dlist_get_by_index
-dlist_t            *
-dlist_get_by_index(const dlist_t * head, int ix)
+dlist_t        *
+dlist_get_by_index(const dlist_t *head, int ix)
 {
-   dlist_t            *etmp;
-   int                 i;
+    dlist_t        *etmp;
+    int             i;
 
-   i = 0;
-   dlist_for_each(head, etmp)
-   {
-      i++;
-      if (i == ix)
-	 return etmp;
-   }
+    i = 0;
+    dlist_for_each(head, etmp)
+    {
+        i++;
+        if (i == ix)
+            return etmp;
+    }
 
-   return NULL;
+    return NULL;
 }
 #endif
 
 #if LIST_NOINLINE_dlist_get_items
-dlist_t           **
-dlist_get_items(const dlist_t * head, int *pnum)
+dlist_t       **
+dlist_get_items(const dlist_t *head, int *pnum)
 {
-   dlist_t            *etmp;
-   dlist_t           **lst;
-   int                 i, num;
+    dlist_t        *etmp;
+    dlist_t       **lst;
+    int             i, num;
 
-   lst = NULL;
-   num = dlist_get_count(head);
-   if (num <= 0)
-      goto done;
-   lst = (dlist_t **) malloc(num * sizeof(dlist_t *));
+    lst = NULL;
+    num = dlist_get_count(head);
+    if (num <= 0)
+        goto done;
+    lst = (dlist_t **) malloc(num * sizeof(dlist_t *));
 
-   i = 0;
-   dlist_for_each(head, etmp)
-   {
-      lst[i++] = etmp;
-   }
+    i = 0;
+    dlist_for_each(head, etmp)
+    {
+        lst[i++] = etmp;
+    }
 
- done:
-   *pnum = num;
-   return lst;
+  done:
+    *pnum = num;
+    return lst;
 }
 #endif

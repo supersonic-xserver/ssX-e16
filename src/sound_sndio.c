@@ -33,93 +33,93 @@
 #endif
 
 struct _sample {
-   SoundSampleData     ssd;
+    SoundSampleData ssd;
 };
 
 static struct sio_hdl *hdl;
 
-static Sample      *
+static Sample  *
 _sound_sndio_Load(const char *file)
 {
-   Sample             *s;
-   int                 err;
+    Sample         *s;
+    int             err;
 
-   if (hdl == NULL)
-      return NULL;
+    if (hdl == NULL)
+        return NULL;
 
-   s = ECALLOC(Sample, 1);
-   if (!s)
-      return NULL;
+    s = ECALLOC(Sample, 1);
+    if (!s)
+        return NULL;
 
-   err = SoundSampleGetData(file, &s->ssd);
-   if (err)
-     {
-	Efree(s);
-	return NULL;
-     }
+    err = SoundSampleGetData(file, &s->ssd);
+    if (err)
+    {
+        Efree(s);
+        return NULL;
+    }
 
-   return s;
+    return s;
 }
 
 static void
-_sound_sndio_Destroy(Sample * s)
+_sound_sndio_Destroy(Sample *s)
 {
-   Efree(s->ssd.data);
-   Efree(s);
+    Efree(s->ssd.data);
+    Efree(s);
 }
 
 static void
-_sound_sndio_Play(Sample * s)
+_sound_sndio_Play(Sample *s)
 {
-   struct sio_par      params;
+    struct sio_par  params;
 
-   if (hdl == NULL)
-      return;
+    if (hdl == NULL)
+        return;
 
-   sio_initpar(&params);
-   params.bits = s->ssd.bit_per_sample;
-   params.pchan = s->ssd.channels;
-   params.rate = s->ssd.rate;
+    sio_initpar(&params);
+    params.bits = s->ssd.bit_per_sample;
+    params.pchan = s->ssd.channels;
+    params.rate = s->ssd.rate;
 
-   if (!sio_setpar(hdl, &params))
-      return;
-   if (!sio_getpar(hdl, &params))
-      return;
-   if (params.bits != s->ssd.bit_per_sample ||
-       params.pchan != s->ssd.channels || params.rate != s->ssd.rate)
-      return;
+    if (!sio_setpar(hdl, &params))
+        return;
+    if (!sio_getpar(hdl, &params))
+        return;
+    if (params.bits != s->ssd.bit_per_sample ||
+        params.pchan != s->ssd.channels || params.rate != s->ssd.rate)
+        return;
 
-   if (!sio_start(hdl))
-      return;
+    if (!sio_start(hdl))
+        return;
 
-   sio_write(hdl, s->ssd.data, s->ssd.size);
-   sio_stop(hdl);
+    sio_write(hdl, s->ssd.data, s->ssd.size);
+    sio_stop(hdl);
 }
 
 static int
 _sound_sndio_Init(void)
 {
-   if (hdl != NULL)
-      return 0;
+    if (hdl != NULL)
+        return 0;
 
-   hdl = sio_open(SIO_DEVANY, SIO_PLAY, 0);
+    hdl = sio_open(SIO_DEVANY, SIO_PLAY, 0);
 
-   return (hdl == NULL);
+    return (hdl == NULL);
 }
 
 static void
 _sound_sndio_Exit(void)
 {
-   if (hdl == NULL)
-      return;
+    if (hdl == NULL)
+        return;
 
-   sio_close(hdl);
-   hdl = NULL;
+    sio_close(hdl);
+    hdl = NULL;
 }
 
 __EXPORT__ extern const SoundOps SoundOps_sndio;
 
-const SoundOps      SoundOps_sndio = {
-   _sound_sndio_Init, _sound_sndio_Exit, _sound_sndio_Load,
-   _sound_sndio_Destroy, _sound_sndio_Play,
+const SoundOps  SoundOps_sndio = {
+    _sound_sndio_Init, _sound_sndio_Exit, _sound_sndio_Load,
+    _sound_sndio_Destroy, _sound_sndio_Play,
 };

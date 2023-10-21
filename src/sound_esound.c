@@ -34,115 +34,115 @@
 #endif
 
 struct _sample {
-   SoundSampleData     ssd;
-   int                 id;
+    SoundSampleData ssd;
+    int             id;
 };
 
-static int          sound_fd = -1;
+static int      sound_fd = -1;
 
-static Sample      *
+static Sample  *
 _sound_esound_Load(const char *file)
 {
-   Sample             *s;
-   int                 err, format;
+    Sample         *s;
+    int             err, format;
 
-   if (sound_fd < 0)
-      return NULL;
+    if (sound_fd < 0)
+        return NULL;
 
-   s = ECALLOC(Sample, 1);
-   if (!s)
-      return NULL;
+    s = ECALLOC(Sample, 1);
+    if (!s)
+        return NULL;
 
-   err = SoundSampleGetData(file, &s->ssd);
-   if (err)
-     {
-	Efree(s);
-	return NULL;
-     }
+    err = SoundSampleGetData(file, &s->ssd);
+    if (err)
+    {
+        Efree(s);
+        return NULL;
+    }
 
-   format = ESD_STREAM | ESD_PLAY;
-   if (s->ssd.bit_per_sample == 8)
-      format |= ESD_BITS8;
-   else if (s->ssd.bit_per_sample == 16)
-      format |= ESD_BITS16;
-   if (s->ssd.channels == 1)
-      format |= ESD_MONO;
-   else if (s->ssd.channels == 2)
-      format |= ESD_STEREO;
+    format = ESD_STREAM | ESD_PLAY;
+    if (s->ssd.bit_per_sample == 8)
+        format |= ESD_BITS8;
+    else if (s->ssd.bit_per_sample == 16)
+        format |= ESD_BITS16;
+    if (s->ssd.channels == 1)
+        format |= ESD_MONO;
+    else if (s->ssd.channels == 2)
+        format |= ESD_STEREO;
 
-   s->id = esd_sample_getid(sound_fd, file);
-   if (s->id < 0)
-     {
-	int                 confirm;
+    s->id = esd_sample_getid(sound_fd, file);
+    if (s->id < 0)
+    {
+        int             confirm;
 
-	s->id = esd_sample_cache(sound_fd, format, s->ssd.rate, s->ssd.size,
-				 file);
-	if (write(sound_fd, s->ssd.data, s->ssd.size) != (ssize_t) s->ssd.size)
-	  {
-	     s->id = 0;
-	     goto done;
-	  }
-	confirm = esd_confirm_sample_cache(sound_fd);
-	if (confirm != s->id)
-	   s->id = 0;
-     }
+        s->id = esd_sample_cache(sound_fd, format, s->ssd.rate, s->ssd.size,
+                                 file);
+        if (write(sound_fd, s->ssd.data, s->ssd.size) != (ssize_t) s->ssd.size)
+        {
+            s->id = 0;
+            goto done;
+        }
+        confirm = esd_confirm_sample_cache(sound_fd);
+        if (confirm != s->id)
+            s->id = 0;
+    }
 
- done:
-   EFREE_NULL(s->ssd.data);
-   if (s->id <= 0)
-      EFREE_NULL(s);
+  done:
+    EFREE_NULL(s->ssd.data);
+    if (s->id <= 0)
+        EFREE_NULL(s);
 
-   return s;
+    return s;
 }
 
 static void
-_sound_esound_Destroy(Sample * s)
+_sound_esound_Destroy(Sample *s)
 {
-   if (s->id && sound_fd >= 0)
-     {
+    if (s->id && sound_fd >= 0)
+    {
 /*      Why the hell is this symbol not in esd? */
 /*      it's in esd.h - evil evil evil */
 /*      esd_sample_kill(sound_fd,s->id); */
-	esd_sample_free(sound_fd, s->id);
-     }
-   Efree(s->ssd.data);
-   Efree(s);
+        esd_sample_free(sound_fd, s->id);
+    }
+    Efree(s->ssd.data);
+    Efree(s);
 }
 
 static void
-_sound_esound_Play(Sample * s)
+_sound_esound_Play(Sample *s)
 {
-   if (sound_fd < 0)
-      return;
+    if (sound_fd < 0)
+        return;
 
-   if (s->id > 0)
-      esd_sample_play(sound_fd, s->id);
+    if (s->id > 0)
+        esd_sample_play(sound_fd, s->id);
 }
 
 static int
 _sound_esound_Init(void)
 {
-   if (sound_fd >= 0)
-      return 0;
+    if (sound_fd >= 0)
+        return 0;
 
-   sound_fd = esd_open_sound(NULL);
+    sound_fd = esd_open_sound(NULL);
 
-   return sound_fd < 0;
+    return sound_fd < 0;
 }
 
 static void
 _sound_esound_Exit(void)
 {
-   if (sound_fd < 0)
-      return;
+    if (sound_fd < 0)
+        return;
 
-   close(sound_fd);
-   sound_fd = -1;
+    close(sound_fd);
+    sound_fd = -1;
 }
 
 __EXPORT__ extern const SoundOps SoundOps_esd;
 
-const SoundOps      SoundOps_esd = {
-   _sound_esound_Init, _sound_esound_Exit,
-   _sound_esound_Load, _sound_esound_Destroy, _sound_esound_Play,
+const SoundOps  SoundOps_esd = {
+    _sound_esound_Init, _sound_esound_Exit,
+    _sound_esound_Load, _sound_esound_Destroy, _sound_esound_Play,
 };

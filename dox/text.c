@@ -26,247 +26,247 @@
 #include <string.h>
 #include "dox.h"
 
-static char       **
+static char   **
 TextGetLines(const char *text, int *count)
 {
-   int                 i, j, k;
-   char              **list = NULL;
+    int             i, j, k;
+    char          **list = NULL;
 
-   *count = 0;
-   i = 0;
-   k = 0;
-   if (!text)
-      return NULL;
-   *count = 1;
-   while (text[i])
-     {
-	j = i;
-	while ((text[j]) && (text[j] != '\n'))
-	   j++;
-	k++;
-	list = EREALLOC(char *, list, k);
-	list[k - 1] = EMALLOC(char, j - i + 1);
+    *count = 0;
+    i = 0;
+    k = 0;
+    if (!text)
+        return NULL;
+    *count = 1;
+    while (text[i])
+    {
+        j = i;
+        while ((text[j]) && (text[j] != '\n'))
+            j++;
+        k++;
+        list = EREALLOC(char *, list, k);
+        list[k - 1] = EMALLOC(char, j - i + 1);
 
-	if (j > i)
-	   strncpy(list[k - 1], &(text[i]), (j - i));
-	list[k - 1][j - i] = 0;
-	i = j;
-	if (text[i] == '\n')
-	   i++;
-     }
-   *count = k;
-   return list;
+        if (j > i)
+            strncpy(list[k - 1], &(text[i]), (j - i));
+        list[k - 1][j - i] = 0;
+        i = j;
+        if (text[i] == '\n')
+            i++;
+    }
+    *count = k;
+    return list;
 }
 
 void
-TextStateLoadFont(TextState * ts)
+TextStateLoadFont(TextState *ts)
 {
-   if ((ts->efont) || (ts->xfontset))
-      return;
+    if ((ts->efont) || (ts->xfontset))
+        return;
 
-   if (!ts->fontname)
-      return;
+    if (!ts->fontname)
+        return;
 
-   if (!ts->efont)
-     {
-	char                s[4096], w[4046], *s2, *ss;
+    if (!ts->efont)
+    {
+        char            s[4096], w[4046], *s2, *ss;
 
-	s2 = NULL;
-	s2 = strdup(ts->fontname);
-	ss = strchr(s2, '/');
-	if (ss)
-	  {
-	     *ss = ' ';
-	     word(s2, 1, s);
-	     word(s2, 2, w);
-	     ts->efont = Efont_load(s, atoi(w));
-	     if (ts->efont)
-	       {
-		  int                 as, ds;
+        s2 = NULL;
+        s2 = strdup(ts->fontname);
+        ss = strchr(s2, '/');
+        if (ss)
+        {
+            *ss = ' ';
+            word(s2, 1, s);
+            word(s2, 2, w);
+            ts->efont = Efont_load(s, atoi(w));
+            if (ts->efont)
+            {
+                int             as, ds;
 
-		  Efont_extents(ts->efont, " ", &as, &ds, NULL, NULL, NULL,
-				NULL, NULL);
-		  ts->xfontset_ascent = as;
-		  ts->height = as + ds;
-	       }
-	  }
-	Efree(s2);
-	if (ts->efont)
-	   return;
-     }
+                Efont_extents(ts->efont, " ", &as, &ds, NULL, NULL, NULL,
+                              NULL, NULL);
+                ts->xfontset_ascent = as;
+                ts->height = as + ds;
+            }
+        }
+        Efree(s2);
+        if (ts->efont)
+            return;
+    }
 
-   if (!ts->xfontset)
-     {
-	int                 i, missing_cnt, font_cnt;
-	int                 descent;
-	char              **missing_list, *def_str, **fn;
-	XFontStruct       **fs;
+    if (!ts->xfontset)
+    {
+        int             i, missing_cnt, font_cnt;
+        int             descent;
+        char          **missing_list, *def_str, **fn;
+        XFontStruct   **fs;
 
-	ts->xfontset = XCreateFontSet(disp, ts->fontname, &missing_list,
-				      &missing_cnt, &def_str);
-	if (!ts->xfontset)
-	   ts->xfontset = XCreateFontSet(disp, "fixed", &missing_list,
-					 &missing_cnt, &def_str);
-	if (missing_cnt)
-	   XFreeStringList(missing_list);
-	if (!ts->xfontset)
-	   return;
-	font_cnt = XFontsOfFontSet(ts->xfontset, &fs, &fn);
-	ts->xfontset_ascent = 0;
-	for (i = 0; i < font_cnt; i++)
-	   ts->xfontset_ascent = MAX(fs[i]->ascent, ts->xfontset_ascent);
-	descent = 0;
-	for (i = 0; i < font_cnt; i++)
-	   descent = MAX(fs[i]->descent, descent);
-	ts->height = ts->xfontset_ascent + descent;
-     }
+        ts->xfontset = XCreateFontSet(disp, ts->fontname, &missing_list,
+                                      &missing_cnt, &def_str);
+        if (!ts->xfontset)
+            ts->xfontset = XCreateFontSet(disp, "fixed", &missing_list,
+                                          &missing_cnt, &def_str);
+        if (missing_cnt)
+            XFreeStringList(missing_list);
+        if (!ts->xfontset)
+            return;
+        font_cnt = XFontsOfFontSet(ts->xfontset, &fs, &fn);
+        ts->xfontset_ascent = 0;
+        for (i = 0; i < font_cnt; i++)
+            ts->xfontset_ascent = MAX(fs[i]->ascent, ts->xfontset_ascent);
+        descent = 0;
+        for (i = 0; i < font_cnt; i++)
+            descent = MAX(fs[i]->descent, descent);
+        ts->height = ts->xfontset_ascent + descent;
+    }
 }
 
 void
-TextSize(TextState * ts, const char *text, int *width, int *height)
+TextSize(TextState *ts, const char *text, int *width, int *height)
 {
-   char              **lines;
-   int                 i, num_lines;
+    char          **lines;
+    int             i, num_lines;
 
-   *width = 0;
-   *height = 0;
+    *width = 0;
+    *height = 0;
 
-   lines = TextGetLines(text, &num_lines);
-   if (!lines)
-      return;
+    lines = TextGetLines(text, &num_lines);
+    if (!lines)
+        return;
 
-   if (!ts)
-      return;
+    if (!ts)
+        return;
 
-   TextStateLoadFont(ts);
+    TextStateLoadFont(ts);
 
-   if (ts->efont)
-     {
-	for (i = 0; i < num_lines; i++)
-	  {
-	     int                 ascent, descent, wid;
+    if (ts->efont)
+    {
+        for (i = 0; i < num_lines; i++)
+        {
+            int             ascent, descent, wid;
 
-	     Efont_extents(ts->efont, lines[i], &ascent, &descent, &wid,
-			   NULL, NULL, NULL, NULL);
-	     *height += ascent + descent;
-	     if (wid > *width)
-		*width = wid;
-	  }
-     }
-   else if (ts->xfontset)
-     {
-	for (i = 0; i < num_lines; i++)
-	  {
-	     XRectangle          ret1, ret2;
+            Efont_extents(ts->efont, lines[i], &ascent, &descent, &wid,
+                          NULL, NULL, NULL, NULL);
+            *height += ascent + descent;
+            if (wid > *width)
+                *width = wid;
+        }
+    }
+    else if (ts->xfontset)
+    {
+        for (i = 0; i < num_lines; i++)
+        {
+            XRectangle      ret1, ret2;
 
-	     XmbTextExtents(ts->xfontset, lines[i], strlen(lines[i]), &ret1,
-			    &ret2);
-	     *height += ret2.height;
-	     if (ret2.width > *width)
-		*width = ret2.width;
-	  }
-     }
-   freestrlist(lines, num_lines);
+            XmbTextExtents(ts->xfontset, lines[i], strlen(lines[i]), &ret1,
+                           &ret2);
+            *height += ret2.height;
+            if (ret2.width > *width)
+                *width = ret2.width;
+        }
+    }
+    freestrlist(lines, num_lines);
 }
 
 void
-TextDraw(TextState * ts, Window win, char *text,
-	 int x, int y, int w, int h __UNUSED__, int justification)
+TextDraw(TextState *ts, Window win, char *text,
+         int x, int y, int w, int h __UNUSED__, int justification)
 {
-   char              **lines;
-   int                 i, num_lines;
-   int                 xx, yy;
-   XGCValues           gcv;
-   static GC           gc = 0;
+    char          **lines;
+    int             i, num_lines;
+    int             xx, yy;
+    XGCValues       gcv;
+    static GC       gc = 0;
 
-   if (!ts)
-      return;
+    if (!ts)
+        return;
 
-   lines = TextGetLines(text, &num_lines);
-   if (!lines)
-      return;
+    lines = TextGetLines(text, &num_lines);
+    if (!lines)
+        return;
 
-   TextStateLoadFont(ts);
-   yy = y;
+    TextStateLoadFont(ts);
+    yy = y;
 
-   if (!gc)
-      gc = XCreateGC(disp, win, 0, &gcv);
+    if (!gc)
+        gc = XCreateGC(disp, win, 0, &gcv);
 
-   if (ts->efont)
-     {
-	for (i = 0; i < num_lines; i++)
-	  {
-	     int                 ascent, descent, wid;
+    if (ts->efont)
+    {
+        for (i = 0; i < num_lines; i++)
+        {
+            int             ascent, descent, wid;
 
-	     Efont_extents(ts->efont, lines[i], &ascent, &descent, &wid,
-			   NULL, NULL, NULL, NULL);
-	     if (i == 0)
-		yy += ascent;
-	     xx = x + (((w - wid) * justification) >> 10);
-	     if (ts->effect == 1)
-	       {
-		  EAllocColor(&ts->bg_col);
-		  XSetForeground(disp, gc, ts->bg_col.pixel);
-		  EFont_draw_string(disp, win, gc, xx + 1, yy + 1,
-				    lines[i], ts->efont, VRoot.vis, VRoot.cmap);
-	       }
-	     else if (ts->effect == 2)
-	       {
-		  EAllocColor(&ts->bg_col);
-		  XSetForeground(disp, gc, ts->bg_col.pixel);
-		  EFont_draw_string(disp, win, gc, xx - 1, yy,
-				    lines[i], ts->efont, VRoot.vis, VRoot.cmap);
-		  EFont_draw_string(disp, win, gc, xx + 1, yy,
-				    lines[i], ts->efont, VRoot.vis, VRoot.cmap);
-		  EFont_draw_string(disp, win, gc, xx, yy - 1,
-				    lines[i], ts->efont, VRoot.vis, VRoot.cmap);
-		  EFont_draw_string(disp, win, gc, xx, yy + 1,
-				    lines[i], ts->efont, VRoot.vis, VRoot.cmap);
-	       }
-	     EAllocColor(&ts->fg_col);
-	     XSetForeground(disp, gc, ts->fg_col.pixel);
-	     EFont_draw_string(disp, win, gc, xx, yy,
-			       lines[i], ts->efont, VRoot.vis, VRoot.cmap);
-	     yy += ascent + descent;
-	  }
-     }
-   else if (ts->xfontset)
-     {
-	for (i = 0; i < num_lines; i++)
-	  {
-	     XRectangle          ret1, ret2;
+            Efont_extents(ts->efont, lines[i], &ascent, &descent, &wid,
+                          NULL, NULL, NULL, NULL);
+            if (i == 0)
+                yy += ascent;
+            xx = x + (((w - wid) * justification) >> 10);
+            if (ts->effect == 1)
+            {
+                EAllocColor(&ts->bg_col);
+                XSetForeground(disp, gc, ts->bg_col.pixel);
+                EFont_draw_string(disp, win, gc, xx + 1, yy + 1,
+                                  lines[i], ts->efont, VRoot.vis, VRoot.cmap);
+            }
+            else if (ts->effect == 2)
+            {
+                EAllocColor(&ts->bg_col);
+                XSetForeground(disp, gc, ts->bg_col.pixel);
+                EFont_draw_string(disp, win, gc, xx - 1, yy,
+                                  lines[i], ts->efont, VRoot.vis, VRoot.cmap);
+                EFont_draw_string(disp, win, gc, xx + 1, yy,
+                                  lines[i], ts->efont, VRoot.vis, VRoot.cmap);
+                EFont_draw_string(disp, win, gc, xx, yy - 1,
+                                  lines[i], ts->efont, VRoot.vis, VRoot.cmap);
+                EFont_draw_string(disp, win, gc, xx, yy + 1,
+                                  lines[i], ts->efont, VRoot.vis, VRoot.cmap);
+            }
+            EAllocColor(&ts->fg_col);
+            XSetForeground(disp, gc, ts->fg_col.pixel);
+            EFont_draw_string(disp, win, gc, xx, yy,
+                              lines[i], ts->efont, VRoot.vis, VRoot.cmap);
+            yy += ascent + descent;
+        }
+    }
+    else if (ts->xfontset)
+    {
+        for (i = 0; i < num_lines; i++)
+        {
+            XRectangle      ret1, ret2;
 
-	     XmbTextExtents(ts->xfontset, lines[i], strlen(lines[i]), &ret1,
-			    &ret2);
-	     if (i == 0)
-		yy += ts->xfontset_ascent;
-	     xx = x + (((w - ret2.width) * justification) >> 10);
-	     if (ts->effect == 1)
-	       {
-		  EAllocColor(&ts->bg_col);
-		  XSetForeground(disp, gc, ts->bg_col.pixel);
-		  XmbDrawString(disp, win, ts->xfontset, gc, xx + 1, yy + 1,
-				lines[i], strlen(lines[i]));
-	       }
-	     else if (ts->effect == 2)
-	       {
-		  EAllocColor(&ts->bg_col);
-		  XSetForeground(disp, gc, ts->bg_col.pixel);
-		  XmbDrawString(disp, win, ts->xfontset, gc, xx - 1, yy,
-				lines[i], strlen(lines[i]));
-		  XmbDrawString(disp, win, ts->xfontset, gc, xx + 1, yy,
-				lines[i], strlen(lines[i]));
-		  XmbDrawString(disp, win, ts->xfontset, gc, xx, yy - 1,
-				lines[i], strlen(lines[i]));
-		  XmbDrawString(disp, win, ts->xfontset, gc, xx, yy + 1,
-				lines[i], strlen(lines[i]));
-	       }
-	     EAllocColor(&ts->fg_col);
-	     XSetForeground(disp, gc, ts->fg_col.pixel);
-	     XmbDrawString(disp, win, ts->xfontset, gc, xx, yy,
-			   lines[i], strlen(lines[i]));
-	     yy += ret2.height;
-	  }
-     }
-   freestrlist(lines, num_lines);
+            XmbTextExtents(ts->xfontset, lines[i], strlen(lines[i]), &ret1,
+                           &ret2);
+            if (i == 0)
+                yy += ts->xfontset_ascent;
+            xx = x + (((w - ret2.width) * justification) >> 10);
+            if (ts->effect == 1)
+            {
+                EAllocColor(&ts->bg_col);
+                XSetForeground(disp, gc, ts->bg_col.pixel);
+                XmbDrawString(disp, win, ts->xfontset, gc, xx + 1, yy + 1,
+                              lines[i], strlen(lines[i]));
+            }
+            else if (ts->effect == 2)
+            {
+                EAllocColor(&ts->bg_col);
+                XSetForeground(disp, gc, ts->bg_col.pixel);
+                XmbDrawString(disp, win, ts->xfontset, gc, xx - 1, yy,
+                              lines[i], strlen(lines[i]));
+                XmbDrawString(disp, win, ts->xfontset, gc, xx + 1, yy,
+                              lines[i], strlen(lines[i]));
+                XmbDrawString(disp, win, ts->xfontset, gc, xx, yy - 1,
+                              lines[i], strlen(lines[i]));
+                XmbDrawString(disp, win, ts->xfontset, gc, xx, yy + 1,
+                              lines[i], strlen(lines[i]));
+            }
+            EAllocColor(&ts->fg_col);
+            XSetForeground(disp, gc, ts->fg_col.pixel);
+            XmbDrawString(disp, win, ts->xfontset, gc, xx, yy,
+                          lines[i], strlen(lines[i]));
+            yy += ret2.height;
+        }
+    }
+    freestrlist(lines, num_lines);
 }

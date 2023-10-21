@@ -32,360 +32,360 @@
 static void
 _ThemePathsUpdate(void)
 {
-   char                paths[FILEPATH_LEN_MAX];
+    char            paths[FILEPATH_LEN_MAX];
 
-   Esnprintf(paths, sizeof(paths), "%s/themes:%s/.themes:%s/themes:%s",
-	     EDirUserConf(), userhome(), EDirRoot(),
-	     (Conf.theme.extra_path) ? Conf.theme.extra_path : "");
-   EFREE_DUP(Mode.theme.paths, paths);
+    Esnprintf(paths, sizeof(paths), "%s/themes:%s/.themes:%s/themes:%s",
+              EDirUserConf(), userhome(), EDirRoot(),
+              (Conf.theme.extra_path) ? Conf.theme.extra_path : "");
+    EFREE_DUP(Mode.theme.paths, paths);
 }
 
 /* Check if this is a theme dir */
 static int
 _ThemeCheckDir(const char *path, const char *px)
 {
-   static const char  *const theme_files[] = {
-      "init.cfg",
+    static const char *const theme_files[] = {
+        "init.cfg",
 #if 0
-      "epplets/epplets.cfg",
+        "epplets/epplets.cfg",
 #endif
-      NULL
-   };
-   const char         *tf;
-   int                 i;
-   char                s[FILEPATH_LEN_MAX];
+        NULL
+    };
+    const char     *tf;
+    int             i;
+    char            s[FILEPATH_LEN_MAX];
 
-   if (EDebug(EDBUG_TYPE_CONFIG))
-      Eprintf("%s: %s%s\n", __func__, path, px);
+    if (EDebug(EDBUG_TYPE_CONFIG))
+        Eprintf("%s: %s%s\n", __func__, path, px);
 
-   for (i = 0; (tf = theme_files[i]); i++)
-     {
-	Esnprintf(s, sizeof(s), "%s%s/%s", path, px, tf);
-	if (!isfile(s))
-	   return 0;
-     }
+    for (i = 0; (tf = theme_files[i]); i++)
+    {
+        Esnprintf(s, sizeof(s), "%s%s/%s", path, px, tf);
+        if (!isfile(s))
+            return 0;
+    }
 
-   return 1;
+    return 1;
 }
 
 static int
 _ThemeCheckPath1(const char *path)
 {
-   if (_ThemeCheckDir(path, ""))
-      return 1;
+    if (_ThemeCheckDir(path, ""))
+        return 1;
 
-   if (_ThemeCheckDir(path, "/e16"))
-      return 1;
+    if (_ThemeCheckDir(path, "/e16"))
+        return 1;
 
-   return 0;
+    return 0;
 }
 
-static char        *
+static char    *
 _ThemeCheckPath(const char *path)
 {
-   char                ss[FILEPATH_LEN_MAX];
+    char            ss[FILEPATH_LEN_MAX];
 
-   if (EDebug(EDBUG_TYPE_CONFIG))
-      Eprintf("%s: %s\n", __func__, path);
+    if (EDebug(EDBUG_TYPE_CONFIG))
+        Eprintf("%s: %s\n", __func__, path);
 
-   if (_ThemeCheckDir(path, ""))
-      return Estrdup(path);
+    if (_ThemeCheckDir(path, ""))
+        return Estrdup(path);
 
-   if (_ThemeCheckDir(path, "/e16"))
-     {
-	Esnprintf(ss, sizeof(ss), "%s/e16", path);
-	return Estrdup(ss);
-     }
+    if (_ThemeCheckDir(path, "/e16"))
+    {
+        Esnprintf(ss, sizeof(ss), "%s/e16", path);
+        return Estrdup(ss);
+    }
 
-   return NULL;
+    return NULL;
 }
 
-char               *
+char           *
 ThemePathName(const char *path)
 {
-   const char         *p;
-   char               *s;
+    const char     *p;
+    char           *s;
 
-   if (!path)
-      return NULL;
-   p = strrchr(path, '/');
-   if (!p)
-      return Estrdup(path);	/* Name only */
-   if (strcmp(p + 1, "e16"))
-      return Estrdup(p + 1);	/* Regular path */
+    if (!path)
+        return NULL;
+    p = strrchr(path, '/');
+    if (!p)
+        return Estrdup(path);   /* Name only */
+    if (strcmp(p + 1, "e16"))
+        return Estrdup(p + 1);  /* Regular path */
 
-   /* <path>/<themename>/e16 */
-   s = Estrdup(path);
-   s[p - path] = '\0';
-   p = strrchr(s, '/');
-   if (!p)
-      return s;			/* Should not happen */
-   p++;
-   memmove(s, p, strlen(p) + 1);
-   return s;
+    /* <path>/<themename>/e16 */
+    s = Estrdup(path);
+    s[p - path] = '\0';
+    p = strrchr(s, '/');
+    if (!p)
+        return s;               /* Should not happen */
+    p++;
+    memmove(s, p, strlen(p) + 1);
+    return s;
 }
 
 static void
 _append_merge_dir(char *dir, char ***list, int *count)
 {
-   char                ss[4000], s1[FILEPATH_LEN_MAX];
-   char              **str, *s;
-   int                 i, num;
+    char            ss[4000], s1[FILEPATH_LEN_MAX];
+    char          **str, *s;
+    int             i, num;
 
-   str = E_ls(dir, &num);
-   if (!str)
-      return;
+    str = E_ls(dir, &num);
+    if (!str)
+        return;
 
-   for (i = 0; i < num; i++)
-     {
-	if (!strcmp(str[i], "DEFAULT"))
-	   continue;
+    for (i = 0; i < num; i++)
+    {
+        if (!strcmp(str[i], "DEFAULT"))
+            continue;
 
-	Esnprintf(ss, sizeof(ss), "%s/%s", dir, str[i]);
+        Esnprintf(ss, sizeof(ss), "%s/%s", dir, str[i]);
 
-	if (isdir(ss))
-	  {
-	     if (_ThemeCheckPath1(ss))
-		goto got_one;
-	     continue;
-	  }
+        if (isdir(ss))
+        {
+            if (_ThemeCheckPath1(ss))
+                goto got_one;
+            continue;
+        }
 
-	if (!isfile(ss))
-	   continue;
+        if (!isfile(ss))
+            continue;
 
-	s = strrchr(ss, '.');
-	if (!s)
-	   continue;
+        s = strrchr(ss, '.');
+        if (!s)
+            continue;
 
-	if (strcmp(s + 1, "etheme") == 0)
-	  {
-	     Esnprintf(s1, sizeof(s1), "%s/themes/%s", EDirUserConf(), str[i]);
-	     s = strrchr(s1, '.');
-	     if (!s)
-		continue;
-	     *s = '\0';
-	     if (!isdir(s1))
-		goto got_one;
-	  }
+        if (strcmp(s + 1, "etheme") == 0)
+        {
+            Esnprintf(s1, sizeof(s1), "%s/themes/%s", EDirUserConf(), str[i]);
+            s = strrchr(s1, '.');
+            if (!s)
+                continue;
+            *s = '\0';
+            if (!isdir(s1))
+                goto got_one;
+        }
 
-	if (strcmp(s + 1, "theme") == 0)
-	  {
-	     Esnprintf(s1, sizeof(s1), "%s/.themes/%s", userhome(), str[i]);
-	     s = strrchr(s1, '.');
-	     if (!s)
-		continue;
-	     *s = '\0';
-	     if (!isdir(s1))
-		goto got_one;
-	  }
+        if (strcmp(s + 1, "theme") == 0)
+        {
+            Esnprintf(s1, sizeof(s1), "%s/.themes/%s", userhome(), str[i]);
+            s = strrchr(s1, '.');
+            if (!s)
+                continue;
+            *s = '\0';
+            if (!isdir(s1))
+                goto got_one;
+        }
 
-	continue;
+        continue;
 
       got_one:
-	(*count)++;
-	*list = EREALLOC(char *, *list, *count);
+        (*count)++;
+        *list = EREALLOC(char *, *list, *count);
 
-	(*list)[(*count) - 1] = Estrdup(ss);
-     }
-   StrlistFree(str, num);
+        (*list)[(*count) - 1] = Estrdup(ss);
+    }
+    StrlistFree(str, num);
 }
 
-char              **
+char          **
 ThemesList(int *number)
 {
-   char              **lst, **list;
-   int                 i, num, count;
+    char          **lst, **list;
+    int             i, num, count;
 
-   _ThemePathsUpdate();
-   lst = StrlistFromString(Mode.theme.paths, ':', &num);
+    _ThemePathsUpdate();
+    lst = StrlistFromString(Mode.theme.paths, ':', &num);
 
-   count = 0;
-   list = NULL;
-   for (i = 0; i < num; i++)
-      _append_merge_dir(lst[i], &list, &count);
+    count = 0;
+    list = NULL;
+    for (i = 0; i < num; i++)
+        _append_merge_dir(lst[i], &list, &count);
 
-   StrlistFree(lst, num);
+    StrlistFree(lst, num);
 
-   *number = count;
-   return list;
+    *number = count;
+    return list;
 }
 
-static char        *
+static char    *
 _ThemeExtract(const char *path)
 {
-   char                th[4000];
-   FILE               *f;
-   unsigned char       buf[262];
-   size_t              ret;
-   const char         *p;
-   char                name[128], *type;
+    char            th[4000];
+    FILE           *f;
+    unsigned char   buf[262];
+    size_t          ret;
+    const char     *p;
+    char            name[128], *type;
 
-   if (EDebug(EDBUG_TYPE_CONFIG))
-      Eprintf("%s: %s\n", __func__, path);
+    if (EDebug(EDBUG_TYPE_CONFIG))
+        Eprintf("%s: %s\n", __func__, path);
 
-   /* its a file - check its type */
-   f = fopen(path, "r");
-   if (!f)
-      return NULL;
-   ret = fread(buf, 1, sizeof(buf), f);
-   memset(buf + ret, 0, sizeof(buf) - ret);
-   fclose(f);
+    /* its a file - check its type */
+    f = fopen(path, "r");
+    if (!f)
+        return NULL;
+    ret = fread(buf, 1, sizeof(buf), f);
+    memset(buf + ret, 0, sizeof(buf) - ret);
+    fclose(f);
 
-   p = strrchr(path, '/');
-   p = (p) ? p + 1 : path;
-   Esnprintf(name, sizeof(name), "%.127s", p);
-   type = strchr(name, '.');
-   if (type)
-      *type++ = '\0';
+    p = strrchr(path, '/');
+    p = (p) ? p + 1 : path;
+    Esnprintf(name, sizeof(name), "%.127s", p);
+    type = strchr(name, '.');
+    if (type)
+        *type++ = '\0';
 
-   if (type && strcmp(type, "theme") == 0)
-     {
-	Esnprintf(th, sizeof(th), "%s/.themes", userhome());
-	if (!isdir(th))
-	   E_md(th);
-	Esnprintf(th, sizeof(th), "%s/.themes/%s", userhome(), name);
-     }
-   else
-      Esnprintf(th, sizeof(th), "%s/themes/%s", EDirUserConf(), name);
+    if (type && strcmp(type, "theme") == 0)
+    {
+        Esnprintf(th, sizeof(th), "%s/.themes", userhome());
+        if (!isdir(th))
+            E_md(th);
+        Esnprintf(th, sizeof(th), "%s/.themes/%s", userhome(), name);
+    }
+    else
+        Esnprintf(th, sizeof(th), "%s/themes/%s", EDirUserConf(), name);
 
-   /* check magic numbers */
-   if ((buf[0] == 31) && (buf[1] == 139))
-     {
-	/* gzipped tarball */
-	E_md(th);
-	Esystem("gzip -d -c < %s | (cd %s ; tar -xf -)", path, th);
-     }
-   else if ((buf[257] == 'u') && (buf[258] == 's') &&
-	    (buf[259] == 't') && (buf[260] == 'a') && (buf[261] == 'r'))
-     {
-	/* vanilla tarball */
-	E_md(th);
-	Esystem("cat %s | (cd %s ; tar -xf -)", path, th);
-     }
-   else
-      return NULL;
+    /* check magic numbers */
+    if ((buf[0] == 31) && (buf[1] == 139))
+    {
+        /* gzipped tarball */
+        E_md(th);
+        Esystem("gzip -d -c < %s | (cd %s ; tar -xf -)", path, th);
+    }
+    else if ((buf[257] == 'u') && (buf[258] == 's') &&
+             (buf[259] == 't') && (buf[260] == 'a') && (buf[261] == 'r'))
+    {
+        /* vanilla tarball */
+        E_md(th);
+        Esystem("cat %s | (cd %s ; tar -xf -)", path, th);
+    }
+    else
+        return NULL;
 
-   return _ThemeCheckPath(th);
+    return _ThemeCheckPath(th);
 }
 
-char               *
+char           *
 ThemePathFind(const char *theme)
 {
-   static const char  *const default_themes[] = {
-      "DEFAULT", "winter", "BrushedMetal-Tigert", "ShinyMetal", NULL
-   };
-   char                tpbuf[4000], *path;
-   char              **lst;
-   int                 i, j, num;
+    static const char *const default_themes[] = {
+        "DEFAULT", "winter", "BrushedMetal-Tigert", "ShinyMetal", NULL
+    };
+    char            tpbuf[4000], *path;
+    char          **lst;
+    int             i, j, num;
 
-   if (EDebug(EDBUG_TYPE_CONFIG))
-      Eprintf("%s: %s\n", __func__, theme);
+    if (EDebug(EDBUG_TYPE_CONFIG))
+        Eprintf("%s: %s\n", __func__, theme);
 
-   _ThemePathsUpdate();
+    _ThemePathsUpdate();
 
-   if (!theme || !theme[0])
-      theme = NULL;		/* Lookup default */
-   else if (!strcmp(theme, "-"))	/* Use fallbacks */
-      return NULL;
-   else if (exists(theme))
-      goto check;
+    if (!theme || !theme[0])
+        theme = NULL;           /* Lookup default */
+    else if (!strcmp(theme, "-"))       /* Use fallbacks */
+        return NULL;
+    else if (exists(theme))
+        goto check;
 
-   lst = StrlistFromString(Mode.theme.paths, ':', &num);
+    lst = StrlistFromString(Mode.theme.paths, ':', &num);
 
-   i = 0;
-   do
-     {
-	if (!theme)
-	   goto next;
-	for (j = 0; j < num; j++)
-	  {
-	     Esnprintf(tpbuf, sizeof(tpbuf), "%s/%s", lst[j], theme);
-	     if (exists(tpbuf))
-	       {
-		  theme = tpbuf;
-		  goto done;
-	       }
-	  }
+    i = 0;
+    do
+    {
+        if (!theme)
+            goto next;
+        for (j = 0; j < num; j++)
+        {
+            Esnprintf(tpbuf, sizeof(tpbuf), "%s/%s", lst[j], theme);
+            if (exists(tpbuf))
+            {
+                theme = tpbuf;
+                goto done;
+            }
+        }
       next:
-	theme = default_themes[i++];
-     }
-   while (theme);
+        theme = default_themes[i++];
+    }
+    while (theme);
 
- done:
-   StrlistFree(lst, num);
+  done:
+    StrlistFree(lst, num);
 
- check:
-   if (theme)
-     {
-	path = NULL;
-	if (isdir(theme))
-	   path = _ThemeCheckPath(theme);
-	else if (isfile(theme))
-	   path = _ThemeExtract(theme);
-	if (path)
-	   return path;
-     }
+  check:
+    if (theme)
+    {
+        path = NULL;
+        if (isdir(theme))
+            path = _ThemeCheckPath(theme);
+        else if (isfile(theme))
+            path = _ThemeExtract(theme);
+        if (path)
+            return path;
+    }
 
-   /* No theme found yet, just find any theme */
-   lst = ThemesList(&num);
-   if (!lst)
-      return NULL;
-   path = Estrdup(lst[0]);
-   StrlistFree(lst, num);
+    /* No theme found yet, just find any theme */
+    lst = ThemesList(&num);
+    if (!lst)
+        return NULL;
+    path = Estrdup(lst[0]);
+    StrlistFree(lst, num);
 
-   return path;
+    return path;
 }
 
 void
 ThemeFind(const char *theme)
 {
-   char                name[4000];
-   char                namx[FILEPATH_LEN_MAX];
-   const char         *p;
-   char               *path, *s;
+    char            name[4000];
+    char            namx[FILEPATH_LEN_MAX];
+    const char     *p;
+    char           *path, *s;
 
-   if (EDebug(EDBUG_TYPE_CONFIG))
-      Eprintf("%s: %s\n", __func__, theme);
+    if (EDebug(EDBUG_TYPE_CONFIG))
+        Eprintf("%s: %s\n", __func__, theme);
 
-   name[0] = '\0';
-   p = (theme && *theme != ':') ? theme : Conf.theme.name;
-   if (p)
-      snprintf(name, sizeof(name), "%s", p);
+    name[0] = '\0';
+    p = (theme && *theme != ':') ? theme : Conf.theme.name;
+    if (p)
+        snprintf(name, sizeof(name), "%s", p);
 
-   s = strchr(name, ':');
-   if (s)
-      *s++ = '\0';
+    s = strchr(name, ':');
+    if (s)
+        *s++ = '\0';
 
-   p = (theme && *theme == ':') ? theme + 1 : s;
-   EFREE_DUP(Mode.theme.variant, p);
+    p = (theme && *theme == ':') ? theme + 1 : s;
+    EFREE_DUP(Mode.theme.variant, p);
 
-   path = ThemePathFind(name);
+    path = ThemePathFind(name);
 
-   if (!path && strcmp(name, "-"))
-     {
-	Alert(_("No themes were found in the default directories:\n"
-		" %s\n"
-		"Proceeding from here is mostly pointless.\n"),
-	      Mode.theme.paths);
-     }
+    if (!path && strcmp(name, "-"))
+    {
+        Alert(_("No themes were found in the default directories:\n"
+                " %s\n"
+                "Proceeding from here is mostly pointless.\n"),
+              Mode.theme.paths);
+    }
 
-   if (theme)
-     {
-	Efree(Conf.theme.name);
-	if (isfile(theme))
-	   Conf.theme.name = ThemePathName(path);
-	else
-	  {
-	     s = namx;
-	     if (Mode.theme.variant)
-		snprintf(namx, sizeof(namx), "%s:%s", name, Mode.theme.variant);
-	     else
-		s = name;
-	     Conf.theme.name = Estrdup(s);
-	  }
-     }
+    if (theme)
+    {
+        Efree(Conf.theme.name);
+        if (isfile(theme))
+            Conf.theme.name = ThemePathName(path);
+        else
+        {
+            s = namx;
+            if (Mode.theme.variant)
+                snprintf(namx, sizeof(namx), "%s:%s", name, Mode.theme.variant);
+            else
+                s = name;
+            Conf.theme.name = Estrdup(s);
+        }
+    }
 
-   EFREE_SET(Mode.theme.path, (path) ? path : Estrdup("-"));
+    EFREE_SET(Mode.theme.path, (path) ? path : Estrdup("-"));
 }
 
 #if ENABLE_DIALOGS
@@ -394,58 +394,58 @@ ThemeFind(const char *theme)
 /*
  * Configuration dialog
  */
-static char         tmp_use_theme_font;
-static char         tmp_use_alt_font;
+static char     tmp_use_theme_font;
+static char     tmp_use_alt_font;
 
 static void
-_DlgThemeApply(Dialog * d __UNUSED__, int val __UNUSED__, void *data __UNUSED__)
+_DlgThemeApply(Dialog *d __UNUSED__, int val __UNUSED__, void *data __UNUSED__)
 {
-   if (Conf.theme.use_theme_font_cfg == tmp_use_theme_font &&
-       Conf.theme.use_alt_font_cfg == tmp_use_alt_font)
-      return;
+    if (Conf.theme.use_theme_font_cfg == tmp_use_theme_font &&
+        Conf.theme.use_alt_font_cfg == tmp_use_alt_font)
+        return;
 
-   DialogOK(_("Message"), _("Changes will take effect after restart"));
+    DialogOK(_("Message"), _("Changes will take effect after restart"));
 
-   Conf.theme.use_theme_font_cfg = tmp_use_theme_font;
-   Conf.theme.use_alt_font_cfg = tmp_use_alt_font;
-   autosave();
+    Conf.theme.use_theme_font_cfg = tmp_use_theme_font;
+    Conf.theme.use_alt_font_cfg = tmp_use_alt_font;
+    autosave();
 }
 
 static void
-_DlgThemeFill(Dialog * d __UNUSED__, DItem * table, void *data __UNUSED__)
+_DlgThemeFill(Dialog *d __UNUSED__, DItem *table, void *data __UNUSED__)
 {
-   DItem              *di;
-   char                buf[1024];
+    DItem          *di;
+    char            buf[1024];
 
-   tmp_use_theme_font = Conf.theme.use_theme_font_cfg;
-   tmp_use_alt_font = Conf.theme.use_alt_font_cfg;
+    tmp_use_theme_font = Conf.theme.use_theme_font_cfg;
+    tmp_use_alt_font = Conf.theme.use_alt_font_cfg;
 
-   DialogItemTableSetOptions(table, 2, 0, 0, 0);
+    DialogItemTableSetOptions(table, 2, 0, 0, 0);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Use theme font configuration"));
-   DialogItemCheckButtonSetPtr(di, &tmp_use_theme_font);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Use theme font configuration"));
+    DialogItemCheckButtonSetPtr(di, &tmp_use_theme_font);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   Esnprintf(buf, sizeof(buf), _("Use alternate font configuration (%s)"),
-	     Conf.theme.font_cfg ? Conf.theme.font_cfg : _("not set"));
-   DialogItemSetText(di, buf);
-   DialogItemCheckButtonSetPtr(di, &tmp_use_alt_font);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    Esnprintf(buf, sizeof(buf), _("Use alternate font configuration (%s)"),
+              Conf.theme.font_cfg ? Conf.theme.font_cfg : _("not set"));
+    DialogItemSetText(di, buf);
+    DialogItemCheckButtonSetPtr(di, &tmp_use_alt_font);
 }
 
-const DialogDef     DlgTheme = {
-   "CONFIGURE_AUDIO",
-   N_("Theme"), N_("Theme Settings"),
-   0,
-   SOUND_SETTINGS_MISCELLANEOUS,
-   "pix/miscellaneous.png",
-   N_("Enlightenment Theme\n" "Settings Dialog"),
-   _DlgThemeFill,
-   DLG_OAC, _DlgThemeApply, NULL
+const DialogDef DlgTheme = {
+    "CONFIGURE_AUDIO",
+    N_("Theme"), N_("Theme Settings"),
+    0,
+    SOUND_SETTINGS_MISCELLANEOUS,
+    "pix/miscellaneous.png",
+    N_("Enlightenment Theme\n" "Settings Dialog"),
+    _DlgThemeFill,
+    DLG_OAC, _DlgThemeApply, NULL
 };
-#endif /* ENABLE_DIALOGS */
+#endif                          /* ENABLE_DIALOGS */
 
 /*
  * Theme module
@@ -454,67 +454,67 @@ const DialogDef     DlgTheme = {
 static void
 ThemesIpc(const char *params)
 {
-   const char         *p;
-   char                cmd[128], prm[128];
-   int                 len;
+    const char     *p;
+    char            cmd[128], prm[128];
+    int             len;
 
-   cmd[0] = prm[0] = '\0';
-   p = params;
-   if (p)
-     {
-	len = 0;
-	sscanf(p, "%100s %100s %n", cmd, prm, &len);
-	p += len;
-     }
+    cmd[0] = prm[0] = '\0';
+    p = params;
+    if (p)
+    {
+        len = 0;
+        sscanf(p, "%100s %100s %n", cmd, prm, &len);
+        p += len;
+    }
 
-   if (!p || cmd[0] == '?')
-     {
-	char               *path;
+    if (!p || cmd[0] == '?')
+    {
+        char           *path;
 
-	IpcPrintf("Name: %s\n", (Conf.theme.name) ? Conf.theme.name : "-");
-	IpcPrintf("Full: %s\n", Mode.theme.path);
-	path = ThemePathFind(NULL);
-	IpcPrintf("Default: %s\n", path);
-	Efree(path);
-	IpcPrintf("Path: %s\n", Mode.theme.paths);
-     }
-   else if (!strncmp(cmd, "list", 2))
-     {
-	char              **lst;
-	int                 i, num;
+        IpcPrintf("Name: %s\n", (Conf.theme.name) ? Conf.theme.name : "-");
+        IpcPrintf("Full: %s\n", Mode.theme.path);
+        path = ThemePathFind(NULL);
+        IpcPrintf("Default: %s\n", path);
+        Efree(path);
+        IpcPrintf("Path: %s\n", Mode.theme.paths);
+    }
+    else if (!strncmp(cmd, "list", 2))
+    {
+        char          **lst;
+        int             i, num;
 
-	lst = ThemesList(&num);
-	if (!lst)
-	   return;
-	for (i = 0; i < num; i++)
-	   IpcPrintf("%s\n", lst[i]);
-	StrlistFree(lst, num);
-     }
-   else if (!strcmp(cmd, "use"))
-     {
-	/* FIXME - ThemeCheckIfValid(s) */
-	SessionExit(EEXIT_THEME, prm);
-     }
+        lst = ThemesList(&num);
+        if (!lst)
+            return;
+        for (i = 0; i < num; i++)
+            IpcPrintf("%s\n", lst[i]);
+        StrlistFree(lst, num);
+    }
+    else if (!strcmp(cmd, "use"))
+    {
+        /* FIXME - ThemeCheckIfValid(s) */
+        SessionExit(EEXIT_THEME, prm);
+    }
 }
 
 static const IpcItem ThemeIpcArray[] = {
-   {
-    ThemesIpc,
-    "theme", "th",
-    "Theme commands",
-    "  theme             Show current theme\n"
-    "  theme list        Show all themes\n"
-    "  theme use <name>  Switch to theme <name>\n"}
-   ,
+    {
+     ThemesIpc,
+     "theme", "th",
+     "Theme commands",
+     "  theme             Show current theme\n"
+     "  theme list        Show all themes\n"
+     "  theme use <name>  Switch to theme <name>\n" }
+    ,
 };
 
 static const CfgItem ThemeCfgItems[] = {
-   CFG_ITEM_INT(Conf.theme, cache_ver, 0),
-   CFG_ITEM_STR(Conf.theme, name),
-   CFG_ITEM_STR(Conf.theme, extra_path),
-   CFG_ITEM_BOOL(Conf.theme, use_theme_font_cfg, 0),
-   CFG_ITEM_BOOL(Conf.theme, use_alt_font_cfg, 0),
-   CFG_ITEM_STR(Conf.theme, font_cfg),
+    CFG_ITEM_INT(Conf.theme, cache_ver, 0),
+    CFG_ITEM_STR(Conf.theme, name),
+    CFG_ITEM_STR(Conf.theme, extra_path),
+    CFG_ITEM_BOOL(Conf.theme, use_theme_font_cfg, 0),
+    CFG_ITEM_BOOL(Conf.theme, use_alt_font_cfg, 0),
+    CFG_ITEM_STR(Conf.theme, font_cfg),
 };
 
 /*
@@ -522,9 +522,9 @@ static const CfgItem ThemeCfgItems[] = {
  */
 extern const EModule ModTheme;
 
-const EModule       ModTheme = {
-   "theme", "th",
-   NULL,
-   MOD_ITEMS(ThemeIpcArray),
-   MOD_ITEMS(ThemeCfgItems)
+const EModule   ModTheme = {
+    "theme", "th",
+    NULL,
+    MOD_ITEMS(ThemeIpcArray),
+    MOD_ITEMS(ThemeCfgItems)
 };

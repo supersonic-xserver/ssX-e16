@@ -23,167 +23,167 @@
 #include "E.h"
 #include "emodule.h"
 
-#if 0				/* No dynamic registration yet */
+#if 0                           /* No dynamic registration yet */
 void
-EModuleRegister(EModule * em)
+EModuleRegister(EModule *em)
 {
-   p_modules = EREALLOC(EModule *, p_modules, n_modules + 1);
-   p_modules[n_modules++] = em;
+    p_modules = EREALLOC(EModule *, p_modules, n_modules + 1);
+    p_modules[n_modules++] = em;
 }
 #endif
 
 static const EModule *
 EModuleFind(const char *name)
 {
-   int                 i;
-   const EModule      *pm;
+    int             i;
+    const EModule  *pm;
 
-   for (i = 0; i < n_modules; i++)
-     {
-	pm = p_modules[i];
-	if (!strncmp(name, pm->name, 4) ||
-	    (pm->nick && !strcmp(name, pm->nick)))
-	   return pm;
-     }
-   return NULL;
+    for (i = 0; i < n_modules; i++)
+    {
+        pm = p_modules[i];
+        if (!strncmp(name, pm->name, 4) ||
+            (pm->nick && !strcmp(name, pm->nick)))
+            return pm;
+    }
+    return NULL;
 }
 
 int
 ModuleConfigSet(const char *name, const char *item, const char *params)
 {
-   const EModule      *em;
+    const EModule  *em;
 
-   em = EModuleFind(name);
-   if (!em)
-      return -1;
+    em = EModuleFind(name);
+    if (!em)
+        return -1;
 
-   if (em->cfg.num <= 0)
-      return -1;
+    if (em->cfg.num <= 0)
+        return -1;
 
-   CfgItemListNamedItemSet(em->cfg.lst, em->cfg.num, item, params);
+    CfgItemListNamedItemSet(em->cfg.lst, em->cfg.num, item, params);
 
-   return 0;
+    return 0;
 }
 
 static void
-EmodCfgItemShow(const EModule * em, const CfgItem * ci)
+EmodCfgItemShow(const EModule *em, const CfgItem *ci)
 {
-   char                buf[1024];
+    char            buf[1024];
 
-   if (!ci)
-      return;
+    if (!ci)
+        return;
 
-   CfgItemToString(ci, buf, sizeof(buf));
-   IpcPrintf("  %s.%s = %s\n", em->name, ci->name, buf);
+    CfgItemToString(ci, buf, sizeof(buf));
+    IpcPrintf("  %s.%s = %s\n", em->name, ci->name, buf);
 }
 
 static void
-EmodCfgNamedItemShow(const EModule * em, const char *item)
+EmodCfgNamedItemShow(const EModule *em, const char *item)
 {
-   const CfgItem      *ci;
+    const CfgItem  *ci;
 
-   ci = CfgItemFind(em->cfg.lst, em->cfg.num, item);
-   if (ci)
-      EmodCfgItemShow(em, ci);
-   else
-      IpcPrintf("! %s.%s *** Not found ***\n", em->name, item);
+    ci = CfgItemFind(em->cfg.lst, em->cfg.num, item);
+    if (ci)
+        EmodCfgItemShow(em, ci);
+    else
+        IpcPrintf("! %s.%s *** Not found ***\n", em->name, item);
 }
 
 int
 ModuleConfigShow(const char *name, const char *item)
 {
-   const EModule      *em;
-   int                 i;
+    const EModule  *em;
+    int             i;
 
 #if 0
-   Eprintf("%s: %s:%s\n", __func__, name, item);
+    Eprintf("%s: %s:%s\n", __func__, name, item);
 #endif
-   em = EModuleFind(name);
-   if (!em)
-      return -1;
+    em = EModuleFind(name);
+    if (!em)
+        return -1;
 
-   if (item)
-     {
-	EmodCfgNamedItemShow(em, item);
-     }
-   else
-     {
-	for (i = 0; i < em->cfg.num; i++)
-	   EmodCfgItemShow(em, em->cfg.lst + i);
-     }
+    if (item)
+    {
+        EmodCfgNamedItemShow(em, item);
+    }
+    else
+    {
+        for (i = 0; i < em->cfg.num; i++)
+            EmodCfgItemShow(em, em->cfg.lst + i);
+    }
 
-   return 0;
+    return 0;
 }
 
 void
 ModulesSignal(int sig, void *prm)
 {
-   int                 i;
+    int             i;
 
-   for (i = 0; i < n_modules; i++)
-      if (p_modules[i]->Signal)
-	 p_modules[i]->Signal(sig, prm);
+    for (i = 0; i < n_modules; i++)
+        if (p_modules[i]->Signal)
+            p_modules[i]->Signal(sig, prm);
 }
 
 #if 0
 void
-ModulesGetCfgItems(const CfgItem *** ppi, int *pni)
+ModulesGetCfgItems(const CfgItem ***ppi, int *pni)
 {
-   int                 i, j, k, n;
-   const CfgItem     **pi;
+    int             i, j, k, n;
+    const CfgItem **pi;
 
-   pi = *ppi;
-   k = *pni;
-   for (i = 0; i < n_modules; i++)
-     {
-	if (p_modules[i]->cfg.lst)
-	  {
-	     n = p_modules[i]->cfg.num;
-	     pi = EREALLOC(CfgItem *, pi, k + n);
-	     for (j = 0; j < n; j++)
-		pi[k++] = &(p_modules[i]->cfg.lst[j]);
-	  }
-     }
-   *ppi = pi;
-   *pni = k;
+    pi = *ppi;
+    k = *pni;
+    for (i = 0; i < n_modules; i++)
+    {
+        if (p_modules[i]->cfg.lst)
+        {
+            n = p_modules[i]->cfg.num;
+            pi = EREALLOC(CfgItem *, pi, k + n);
+            for (j = 0; j < n; j++)
+                pi[k++] = &(p_modules[i]->cfg.lst[j]);
+        }
+    }
+    *ppi = pi;
+    *pni = k;
 }
 #endif
 
 void
-ModulesGetIpcItems(const IpcItem *** ppi, int *pni)
+ModulesGetIpcItems(const IpcItem ***ppi, int *pni)
 {
-   int                 i, j, k, n;
-   const IpcItem     **pi;
+    int             i, j, k, n;
+    const IpcItem **pi;
 
-   pi = *ppi;
-   k = *pni;
-   for (i = 0; i < n_modules; i++)
-     {
-	if (p_modules[i]->ipc.lst)
-	  {
-	     n = p_modules[i]->ipc.num;
-	     pi = EREALLOC(const IpcItem *, pi, k + n);
+    pi = *ppi;
+    k = *pni;
+    for (i = 0; i < n_modules; i++)
+    {
+        if (p_modules[i]->ipc.lst)
+        {
+            n = p_modules[i]->ipc.num;
+            pi = EREALLOC(const IpcItem *, pi, k + n);
 
-	     for (j = 0; j < n; j++)
-		pi[k++] = &(p_modules[i]->ipc.lst[j]);
-	  }
-     }
-   *ppi = pi;
-   *pni = k;
+            for (j = 0; j < n; j++)
+                pi[k++] = &(p_modules[i]->ipc.lst[j]);
+        }
+    }
+    *ppi = pi;
+    *pni = k;
 }
 
 void
 ModulesConfigShow(void)
 {
-   int                 i, nml;
-   const EModule      *const *pml;
+    int             i, nml;
+    const EModule  *const *pml;
 
-   /* Load module configs */
-   MODULE_LIST_GET(pml, nml);
-   for (i = 0; i < nml; i++)
-     {
-	/* Somewhat inefficient but ... later */
-	ModuleConfigShow(pml[i]->name, NULL);
-     }
-   MODULE_LIST_FREE(pml);
+    /* Load module configs */
+    MODULE_LIST_GET(pml, nml);
+    for (i = 0; i < nml; i++)
+    {
+        /* Somewhat inefficient but ... later */
+        ModuleConfigShow(pml[i]->name, NULL);
+    }
+    MODULE_LIST_FREE(pml);
 }

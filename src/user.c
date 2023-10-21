@@ -32,47 +32,47 @@
 #include "user.h"
 #include "util.h"
 
-static int          usr_uid = -1;
-static const char  *usr_name = "unknown";
-static const char  *usr_home = "/tmp";
+static int      usr_uid = -1;
+static const char *usr_name = "unknown";
+static const char *usr_home = "/tmp";
 
 static void
 _user_init(void)
 {
-   const char         *ss;
-   struct passwd      *pwd;
+    const char     *ss;
+    struct passwd  *pwd;
 
-   usr_uid = getuid();
-   pwd = getpwuid(usr_uid);
+    usr_uid = getuid();
+    pwd = getpwuid(usr_uid);
 
-   if (!pwd)
-     {
-	ss = getenv("TMPDIR");
-	if (ss)
-	   usr_home = ss;
-	return;
-     }
+    if (!pwd)
+    {
+        ss = getenv("TMPDIR");
+        if (ss)
+            usr_home = ss;
+        return;
+    }
 
-   ss = Estrdup(pwd->pw_name);
-   if (ss)
-      usr_name = ss;
-   ss = Estrdup(pwd->pw_dir);
-   if (ss)
-      usr_home = ss;
+    ss = Estrdup(pwd->pw_name);
+    if (ss)
+        usr_name = ss;
+    ss = Estrdup(pwd->pw_dir);
+    if (ss)
+        usr_home = ss;
 }
 
-const char         *
+const char     *
 username(void)
 {
-   if (usr_uid < 0)
-      _user_init();
-   return usr_name;
+    if (usr_uid < 0)
+        _user_init();
+    return usr_name;
 }
 
-const char         *
+const char     *
 userhome(void)
 {
-   if (usr_uid < 0)
-      _user_init();
-   return usr_home;
+    if (usr_uid < 0)
+        _user_init();
+    return usr_home;
 }

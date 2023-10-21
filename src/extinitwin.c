@@ -39,304 +39,303 @@
 #include "xwin.h"
 
 typedef struct {
-   EX_Cursor           curs;
-   XSetWindowAttributes attr;
-   EX_Window           cwin;
+    EX_Cursor       curs;
+    XSetWindowAttributes attr;
+    EX_Window       cwin;
 } EiwData;
 
-typedef void        (EiwLoopFunc) (EX_Window win, EImage * im, EiwData * d);
+typedef void    (EiwLoopFunc) (EX_Window win, EImage * im, EiwData * d);
 
 #if USE_EIWC_RENDER
-static void         _eiw_render_loop(EX_Window win, EImage * im, EiwData * d);
+static void     _eiw_render_loop(EX_Window win, EImage * im, EiwData * d);
 
 static EiwLoopFunc *
-_eiw_render_init(EX_Window win __UNUSED__, EiwData * d)
+_eiw_render_init(EX_Window win __UNUSED__, EiwData *d)
 {
-   Visual             *vis;
+    Visual         *vis;
 
-   /* Quit if no ARGB visual.
-    * If we have, assume(?) a colored XRenderCreateCursor is available. */
-   vis = EVisualFindARGB();
-   if (!vis)
-      return NULL;
+    /* Quit if no ARGB visual.
+     * If we have, assume(?) a colored XRenderCreateCursor is available. */
+    vis = EVisualFindARGB();
+    if (!vis)
+        return NULL;
 
-   d->curs = NoXID;
+    d->curs = NoXID;
 
-   return _eiw_render_loop;
+    return _eiw_render_loop;
 }
 
 static void
-_eiw_render_loop(EX_Window win, EImage * im, EiwData * d)
+_eiw_render_loop(EX_Window win, EImage *im, EiwData *d)
 {
-   int                 w, h;
+    int             w, h;
 
-   EImageGetSize(im, &w, &h);
+    EImageGetSize(im, &w, &h);
 
-   if (d->curs != NoXID)
-      XFreeCursor(disp, d->curs);
-   d->curs = EImageDefineCursor(im, w / 2, h / 2);
+    if (d->curs != NoXID)
+        XFreeCursor(disp, d->curs);
+    d->curs = EImageDefineCursor(im, w / 2, h / 2);
 
-   XDefineCursor(disp, win, d->curs);
+    XDefineCursor(disp, win, d->curs);
 }
 
-#endif /* USE_EIWC_RENDER */
+#endif                          /* USE_EIWC_RENDER */
 
 #if USE_EIWC_WINDOW
 
-static void         _eiw_window_loop(EX_Window win, EImage * im, EiwData * d);
+static void     _eiw_window_loop(EX_Window win, EImage * im, EiwData * d);
 
-static              EX_Cursor
+static          EX_Cursor
 _DefineNullCursor(EX_Window win)
 {
-   EX_Cursor           curs;
-   EX_Pixmap           pmap, mask;
-   XColor              cl = { };
+    EX_Cursor       curs;
+    EX_Pixmap       pmap, mask;
+    XColor          cl = { };
 
-   pmap = XCreatePixmap(disp, win, 16, 16, 1);
-   EXFillAreaSolid(pmap, 0, 0, 16, 16, 0);
-   mask = pmap;
+    pmap = XCreatePixmap(disp, win, 16, 16, 1);
+    EXFillAreaSolid(pmap, 0, 0, 16, 16, 0);
+    mask = pmap;
 
-   curs = XCreatePixmapCursor(disp, pmap, mask, &cl, &cl, 0, 0);
+    curs = XCreatePixmapCursor(disp, pmap, mask, &cl, &cl, 0, 0);
 
-   XFreePixmap(disp, pmap);
+    XFreePixmap(disp, pmap);
 
-   return curs;
+    return curs;
 }
 
 static EiwLoopFunc *
-_eiw_window_init(EX_Window win, EiwData * d)
+_eiw_window_init(EX_Window win, EiwData *d)
 {
-   d->cwin = XCreateWindow(disp, WinGetXwin(RROOT), 0, 0, 32, 32, 0,
-			   CopyFromParent, InputOutput, CopyFromParent,
-			   CWOverrideRedirect | CWBackingStore | CWBackPixel,
-			   &d->attr);
+    d->cwin = XCreateWindow(disp, WinGetXwin(RROOT), 0, 0, 32, 32, 0,
+                            CopyFromParent, InputOutput, CopyFromParent,
+                            CWOverrideRedirect | CWBackingStore | CWBackPixel,
+                            &d->attr);
 
-   d->curs = _DefineNullCursor(d->cwin);
+    d->curs = _DefineNullCursor(d->cwin);
 
-   XDefineCursor(disp, win, d->curs);
-   XDefineCursor(disp, d->cwin, d->curs);
+    XDefineCursor(disp, win, d->curs);
+    XDefineCursor(disp, d->cwin, d->curs);
 
-   return _eiw_window_loop;
+    return _eiw_window_loop;
 }
 
 static void
-_eiw_window_loop(EX_Window win, EImage * im, EiwData * d)
+_eiw_window_loop(EX_Window win, EImage *im, EiwData *d)
 {
-   EX_Pixmap           pmap, mask;
-   Window              ww;
-   int                 dd, x, y, w, h;
-   unsigned int        mm;
+    EX_Pixmap       pmap, mask;
+    Window          ww;
+    int             dd, x, y, w, h;
+    unsigned int    mm;
 
-   EImageRenderPixmaps(im, RROOT, 0, &pmap, &mask, 0, 0);
-   EImageGetSize(im, &w, &h);
-   XShapeCombineMask(disp, d->cwin, ShapeBounding, 0, 0, mask, ShapeSet);
-   XSetWindowBackgroundPixmap(disp, d->cwin, pmap);
-   EImagePixmapsFree(pmap, mask);
-   XClearWindow(disp, d->cwin);
-   XQueryPointer(disp, win, &ww, &ww, &dd, &dd, &x, &y, &mm);
-   XMoveResizeWindow(disp, d->cwin, x - w / 2, y - h / 2, w, h);
-   XMapWindow(disp, d->cwin);
+    EImageRenderPixmaps(im, RROOT, 0, &pmap, &mask, 0, 0);
+    EImageGetSize(im, &w, &h);
+    XShapeCombineMask(disp, d->cwin, ShapeBounding, 0, 0, mask, ShapeSet);
+    XSetWindowBackgroundPixmap(disp, d->cwin, pmap);
+    EImagePixmapsFree(pmap, mask);
+    XClearWindow(disp, d->cwin);
+    XQueryPointer(disp, win, &ww, &ww, &dd, &dd, &x, &y, &mm);
+    XMoveResizeWindow(disp, d->cwin, x - w / 2, y - h / 2, w, h);
+    XMapWindow(disp, d->cwin);
 }
 
-#endif /* USE_EIWC_WINDOW */
+#endif                          /* USE_EIWC_WINDOW */
 
-static              EX_Window
+static          EX_Window
 ExtInitWinMain(void)
 {
-   int                 i, loop, err;
-   EX_Window           win;
-   EX_Pixmap           pmap;
-   EX_Atom             a;
-   EiwData             eiwd;
-   EiwLoopFunc        *eiwc_loop_func;
-   unsigned int        wclass, vmask;
+    int             i, loop, err;
+    EX_Window       win;
+    EX_Pixmap       pmap;
+    EX_Atom         a;
+    EiwData         eiwd;
+    EiwLoopFunc    *eiwc_loop_func;
+    unsigned int    wclass, vmask;
 
-   if (EDebug(EDBUG_TYPE_SESSION))
-      Eprintf("%s: enter\n", __func__);
+    if (EDebug(EDBUG_TYPE_SESSION))
+        Eprintf("%s: enter\n", __func__);
 
-   err = EDisplayOpen(NULL, -1);
-   if (err)
-      return NoXID;
+    err = EDisplayOpen(NULL, -1);
+    if (err)
+        return NoXID;
 
-   EDisplaySetErrorHandlers(EventShowError, NULL);
+    EDisplaySetErrorHandlers(EventShowError, NULL);
 
-   EGrabServer();
+    EGrabServer();
 
-   EImageInit();
+    EImageInit();
 
-   eiwd.attr.override_redirect = True;
-   eiwd.attr.background_pixmap = NoXID;
-   eiwd.attr.backing_store = NotUseful;
-   eiwd.attr.save_under = True;
-   eiwd.attr.background_pixel = 0;	/* Not used */
-   wclass = InputOnly;
-   vmask = CWOverrideRedirect;
-   if (!Mode.wm.window)
-     {
-	pmap = ECreatePixmap(RROOT, WinGetW(RROOT), WinGetH(RROOT), 0);
-	EXCopyArea(WinGetXwin(RROOT), pmap, 0, 0,
-		   WinGetW(RROOT), WinGetH(RROOT), 0, 0);
-	eiwd.attr.background_pixmap = pmap;
-	wclass = InputOutput;
-	vmask |= CWBackPixmap | CWBackingStore | CWSaveUnder;
-     }
-   win = XCreateWindow(disp, WinGetXwin(RROOT),
-		       0, 0, WinGetW(RROOT), WinGetH(RROOT),
-		       0, CopyFromParent, wclass, CopyFromParent,
-		       vmask, &eiwd.attr);
-   if (!Mode.wm.window)
-     {
-	EFreePixmap(eiwd.attr.background_pixmap);
-     }
+    eiwd.attr.override_redirect = True;
+    eiwd.attr.background_pixmap = NoXID;
+    eiwd.attr.backing_store = NotUseful;
+    eiwd.attr.save_under = True;
+    eiwd.attr.background_pixel = 0;     /* Not used */
+    wclass = InputOnly;
+    vmask = CWOverrideRedirect;
+    if (!Mode.wm.window)
+    {
+        pmap = ECreatePixmap(RROOT, WinGetW(RROOT), WinGetH(RROOT), 0);
+        EXCopyArea(WinGetXwin(RROOT), pmap, 0, 0,
+                   WinGetW(RROOT), WinGetH(RROOT), 0, 0);
+        eiwd.attr.background_pixmap = pmap;
+        wclass = InputOutput;
+        vmask |= CWBackPixmap | CWBackingStore | CWSaveUnder;
+    }
+    win = XCreateWindow(disp, WinGetXwin(RROOT),
+                        0, 0, WinGetW(RROOT), WinGetH(RROOT),
+                        0, CopyFromParent, wclass, CopyFromParent,
+                        vmask, &eiwd.attr);
+    if (!Mode.wm.window)
+    {
+        EFreePixmap(eiwd.attr.background_pixmap);
+    }
 
-   XMapRaised(disp, win);
+    XMapRaised(disp, win);
 
-   a = ex_atom_get("ENLIGHTENMENT_RESTART_SCREEN");
-   ex_window_prop_window_set(WinGetXwin(RROOT), a, &win, 1);
+    a = ex_atom_get("ENLIGHTENMENT_RESTART_SCREEN");
+    ex_window_prop_window_set(WinGetXwin(RROOT), a, &win, 1);
 
-   XSelectInput(disp, win, StructureNotifyMask);
+    XSelectInput(disp, win, StructureNotifyMask);
 
-   EUngrabServer();
-   ESync(0);
+    EUngrabServer();
+    ESync(0);
 
 #if USE_EIWC_WINDOW && USE_EIWC_RENDER
-   eiwc_loop_func = _eiw_render_init(win, &eiwd);
-   if (!eiwc_loop_func)
-      eiwc_loop_func = _eiw_window_init(win, &eiwd);
+    eiwc_loop_func = _eiw_render_init(win, &eiwd);
+    if (!eiwc_loop_func)
+        eiwc_loop_func = _eiw_window_init(win, &eiwd);
 #elif USE_EIWC_RENDER
-   eiwc_loop_func = _eiw_render_init(win, &eiwd);
+    eiwc_loop_func = _eiw_render_init(win, &eiwd);
 #elif USE_EIWC_WINDOW
-   eiwc_loop_func = _eiw_window_init(win, &eiwd);
+    eiwc_loop_func = _eiw_window_init(win, &eiwd);
 #endif
-   if (!eiwc_loop_func)
-      return NoXID;
+    if (!eiwc_loop_func)
+        return NoXID;
 
-   {
-      XWindowAttributes   xwa;
-      char                s[1024];
-      EImage             *im;
+    {
+        XWindowAttributes xwa;
+        char            s[1024];
+        EImage         *im;
 
-      for (i = loop = 1;; i++, loop++)
-	{
-	   if (i > 12)
-	      i = 1;
+        for (i = loop = 1;; i++, loop++)
+        {
+            if (i > 12)
+                i = 1;
 
-	   /* If we get unmapped we are done */
-	   if (!XGetWindowAttributes(disp, win, &xwa) ||
-	       (xwa.map_state == IsUnmapped))
-	     {
-		if (EDebug(EDBUG_TYPE_SESSION))
-		   Eprintf("%s: child done\n", __func__);
-		break;
-	     }
+            /* If we get unmapped we are done */
+            if (!XGetWindowAttributes(disp, win, &xwa) ||
+                (xwa.map_state == IsUnmapped))
+            {
+                if (EDebug(EDBUG_TYPE_SESSION))
+                    Eprintf("%s: child done\n", __func__);
+                break;
+            }
 
-	   Esnprintf(s, sizeof(s), "pix/wait%i.png", i);
-	   if (EDebug(EDBUG_TYPE_SESSION) > 1)
-	      Eprintf("%s: child %s\n", __func__, s);
+            Esnprintf(s, sizeof(s), "pix/wait%i.png", i);
+            if (EDebug(EDBUG_TYPE_SESSION) > 1)
+                Eprintf("%s: child %s\n", __func__, s);
 
-	   im = ThemeImageLoad(s);
-	   if (im)
-	     {
-		eiwc_loop_func(win, im, &eiwd);
-		EImageFree(im);
-	     }
-	   ESync(0);
-	   SleepUs(50 * 1000);
+            im = ThemeImageLoad(s);
+            if (im)
+            {
+                eiwc_loop_func(win, im, &eiwd);
+                EImageFree(im);
+            }
+            ESync(0);
+            SleepUs(50 * 1000);
 
-	   /* If we still are here after 60 sec something is wrong. */
-	   if (loop > 60000 / 50)
-	     {
-		if (EDebug(EDBUG_TYPE_SESSION))
-		   Eprintf("%s: child timeout\n", __func__);
-		break;
-	     }
-	}
-   }
+            /* If we still are here after 60 sec something is wrong. */
+            if (loop > 60000 / 50)
+            {
+                if (EDebug(EDBUG_TYPE_SESSION))
+                    Eprintf("%s: child timeout\n", __func__);
+                break;
+            }
+        }
+    }
 
-   EDisplayClose();
+    EDisplayClose();
 
-   exit(0);
+    exit(0);
 }
 
 EX_Window
 ExtInitWinCreate(void)
 {
-   EX_Window           win_ex;	/* Hmmm.. */
-   EX_Window           win;
-   EX_Atom             a;
+    EX_Window       win_ex;     /* Hmmm.. */
+    EX_Window       win;
+    EX_Atom         a;
 
-   if (EDebug(EDBUG_TYPE_SESSION))
-      Eprintf("%s\n", __func__);
+    if (EDebug(EDBUG_TYPE_SESSION))
+        Eprintf("%s\n", __func__);
 
-   a = ex_atom_get("ENLIGHTENMENT_RESTART_SCREEN");
-   ex_window_prop_window_set(WinGetXwin(RROOT), a, NULL, 0);
-   ESync(0);
+    a = ex_atom_get("ENLIGHTENMENT_RESTART_SCREEN");
+    ex_window_prop_window_set(WinGetXwin(RROOT), a, NULL, 0);
+    ESync(0);
 
-   if (fork())
-     {
-	/* Parent */
-	EUngrabServer();
+    if (fork())
+    {
+        /* Parent */
+        EUngrabServer();
 
-	for (;;)
-	  {
-	     if (EDebug(EDBUG_TYPE_SESSION))
-		Eprintf("%s: parent\n", __func__);
+        for (;;)
+        {
+            if (EDebug(EDBUG_TYPE_SESSION))
+                Eprintf("%s: parent\n", __func__);
 
-	     /* Hack to give the child some space. Not foolproof. */
-	     SleepUs(500000);
+            /* Hack to give the child some space. Not foolproof. */
+            SleepUs(500000);
 
-	     if (ex_window_prop_window_get
-		 (WinGetXwin(RROOT), a, &win_ex, 1) > 0)
-		break;
-	  }
+            if (ex_window_prop_window_get(WinGetXwin(RROOT), a, &win_ex, 1) > 0)
+                break;
+        }
 
-	win = win_ex;
-	if (EDebug(EDBUG_TYPE_SESSION))
-	   Eprintf("%s: parent - %#x\n", __func__, win);
+        win = win_ex;
+        if (EDebug(EDBUG_TYPE_SESSION))
+            Eprintf("%s: parent - %#x\n", __func__, win);
 
-	return win;
-     }
+        return win;
+    }
 
-   /* Child - Create the init window */
+    /* Child - Create the init window */
 
-   if (EDebug(EDBUG_TYPE_SESSION))
-      Eprintf("%s: child\n", __func__);
+    if (EDebug(EDBUG_TYPE_SESSION))
+        Eprintf("%s: child\n", __func__);
 
-   /* Clean up inherited stuff */
+    /* Clean up inherited stuff */
 
-   SignalsRestore();
+    SignalsRestore();
 
-   EImageExit(0);
-   EDisplayDisconnect();
+    EImageExit(0);
+    EDisplayDisconnect();
 
-   ExtInitWinMain();
+    ExtInitWinMain();
 
-   /* We will never get here */
-   return NoXID;
+    /* We will never get here */
+    return NoXID;
 }
 
-static EX_Window    init_win_ext = NoXID;
+static EX_Window init_win_ext = NoXID;
 
 void
 ExtInitWinSet(EX_Window win)
 {
-   init_win_ext = win;
+    init_win_ext = win;
 }
 
 EX_Window
 ExtInitWinGet(void)
 {
-   return init_win_ext;
+    return init_win_ext;
 }
 
 void
 ExtInitWinKill(void)
 {
-   if (!disp || init_win_ext == NoXID)
-      return;
+    if (!disp || init_win_ext == NoXID)
+        return;
 
-   if (EDebug(EDBUG_TYPE_SESSION))
-      Eprintf("%s: %#x\n", __func__, init_win_ext);
-   XUnmapWindow(disp, init_win_ext);
-   init_win_ext = NoXID;
+    if (EDebug(EDBUG_TYPE_SESSION))
+        Eprintf("%s: %#x\n", __func__, init_win_ext);
+    XUnmapWindow(disp, init_win_ext);
+    init_win_ext = NoXID;
 }

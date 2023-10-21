@@ -37,58 +37,58 @@ static struct timeval tv0 = { 0, 0 };
 
 static void
 _tvdiff(struct timeval *tvd, const struct timeval *tv1,
-	const struct timeval *tv2)
+        const struct timeval *tv2)
 {
-   long                tsec, tus;
+    long            tsec, tus;
 
-   tsec = tv2->tv_sec - tv1->tv_sec;
-   tus = tv2->tv_usec - tv1->tv_usec;
-   if (tus < 0)
-     {
-	tus += 1000000;
-	tsec -= 1;
-     }
-   tvd->tv_sec = tsec;
-   tvd->tv_usec = tus;
+    tsec = tv2->tv_sec - tv1->tv_sec;
+    tus = tv2->tv_usec - tv1->tv_usec;
+    if (tus < 0)
+    {
+        tus += 1000000;
+        tsec -= 1;
+    }
+    tvd->tv_sec = tsec;
+    tvd->tv_usec = tus;
 }
 
 __EXPORT__ void
 Eprintf(const char *fmt, ...)
 {
-   FILE               *fprt;
-   va_list             args;
-   struct timeval      tv;
+    FILE           *fprt;
+    va_list         args;
+    struct timeval  tv;
 
-   if (tv0.tv_sec == 0)
-      gettimeofday(&tv0, NULL);
+    if (tv0.tv_sec == 0)
+        gettimeofday(&tv0, NULL);
 
-   fprt = Conf.log.dest ? stderr : stdout;
+    fprt = Conf.log.dest ? stderr : stdout;
 
-   gettimeofday(&tv, NULL);
-   _tvdiff(&tv, &tv0, &tv);
+    gettimeofday(&tv, NULL);
+    _tvdiff(&tv, &tv0, &tv);
 
-   if (Conf.log.difftime)
-     {
-	static struct timeval tv1 = { 0, 0 };
-	struct timeval      tvd;
-	unsigned long       nreq;
+    if (Conf.log.difftime)
+    {
+        static struct timeval tv1 = { 0, 0 };
+        struct timeval  tvd;
+        unsigned long   nreq;
 
-	_tvdiff(&tvd, &tv1, &tv);
-	tv1 = tv;
+        _tvdiff(&tvd, &tv1, &tv);
+        tv1 = tv;
 
-	nreq = (disp) ? NextRequest(disp) : 0;
-	fprintf(fprt, "[%d] %#8lx %4ld.%06ld [%3ld.%06ld]: ", getpid(), nreq,
-		(long)tv1.tv_sec, tv1.tv_usec, (long)tvd.tv_sec, tvd.tv_usec);
-     }
-   else
-     {
-	fprintf(fprt, "[%d] %4ld.%06ld: ", getpid(),
-		(long)tv.tv_sec, tv.tv_usec);
-     }
+        nreq = (disp) ? NextRequest(disp) : 0;
+        fprintf(fprt, "[%d] %#8lx %4ld.%06ld [%3ld.%06ld]: ", getpid(), nreq,
+                (long)tv1.tv_sec, tv1.tv_usec, (long)tvd.tv_sec, tvd.tv_usec);
+    }
+    else
+    {
+        fprintf(fprt, "[%d] %4ld.%06ld: ", getpid(),
+                (long)tv.tv_sec, tv.tv_usec);
+    }
 
-   va_start(args, fmt);
-   vfprintf(fprt, fmt, args);
-   va_end(args);
+    va_start(args, fmt);
+    vfprintf(fprt, fmt, args);
+    va_end(args);
 }
 
 #if ENABLE_DEBUG_EVENTS
@@ -96,8 +96,8 @@ Eprintf(const char *fmt, ...)
  * Event debug stuff
  */
 #define N_DEBUG_FLAGS 256
-static char         ev_debug;
-static char         ev_debug_flags[N_DEBUG_FLAGS];
+static char     ev_debug;
+static char     ev_debug_flags[N_DEBUG_FLAGS];
 
 /*
  * param is <ItemNumber>[:<ItemNumber> ... ]
@@ -112,50 +112,50 @@ static char         ev_debug_flags[N_DEBUG_FLAGS];
 void
 EDebugInit(const char *param)
 {
-   const char         *s;
-   int                 ix, onoff;
+    const char     *s;
+    int             ix, onoff;
 
-   if (!param)
-      return;
+    if (!param)
+        return;
 
-   for (;;)
-     {
-	s = strchr(param, ':');
-	if (!param[0])
-	   break;
-	ev_debug = 1;
-	ix = strtol(param, NULL, 0);
-	onoff = (ix >= 0);
-	if (ix < 0)
-	   ix = -ix;
-	if (ix < N_DEBUG_FLAGS)
-	  {
-	     if (onoff)
-		ev_debug_flags[ix]++;
-	     else
-		ev_debug_flags[ix] = 0;
-	  }
-	if (!s)
-	   break;
-	param = s + 1;
-     }
+    for (;;)
+    {
+        s = strchr(param, ':');
+        if (!param[0])
+            break;
+        ev_debug = 1;
+        ix = strtol(param, NULL, 0);
+        onoff = (ix >= 0);
+        if (ix < 0)
+            ix = -ix;
+        if (ix < N_DEBUG_FLAGS)
+        {
+            if (onoff)
+                ev_debug_flags[ix]++;
+            else
+                ev_debug_flags[ix] = 0;
+        }
+        if (!s)
+            break;
+        param = s + 1;
+    }
 }
 
 __EXPORT__ int
 EDebug(unsigned int type)
 {
-   return (ev_debug &&
-	   (type < sizeof(ev_debug_flags))) ? ev_debug_flags[type] : 0;
+    return (ev_debug &&
+            (type < sizeof(ev_debug_flags))) ? ev_debug_flags[type] : 0;
 }
 
 void
 EDebugSet(unsigned int type, int value)
 {
-   if (type >= sizeof(ev_debug_flags))
-      return;
+    if (type >= sizeof(ev_debug_flags))
+        return;
 
-   ev_debug = 1;
-   ev_debug_flags[type] += value;
+    ev_debug = 1;
+    ev_debug_flags[type] += value;
 }
 
 #endif
@@ -166,27 +166,27 @@ EDebugSet(unsigned int type, int value)
  */
 #include <dlfcn.h>
 
-const void         *
+const void     *
 ModLoadSym(const char *lib, const char *sym, const char *name)
 {
-   char                buf[1024];
-   void               *h;
+    char            buf[1024];
+    void           *h;
 
-   Esnprintf(buf, sizeof(buf), "%s/lib%s_%s.so", EDirLib(), lib, name);
-   if (EDebug(1))
-      Eprintf("%s: %s\n", __func__, buf);
-   h = dlopen(buf, RTLD_NOW | RTLD_LOCAL);
-   if (!h)
-      Eprintf("*** %s: %s: %s\n", __func__, buf, dlerror());
-   if (!h)
-      return NULL;
+    Esnprintf(buf, sizeof(buf), "%s/lib%s_%s.so", EDirLib(), lib, name);
+    if (EDebug(1))
+        Eprintf("%s: %s\n", __func__, buf);
+    h = dlopen(buf, RTLD_NOW | RTLD_LOCAL);
+    if (!h)
+        Eprintf("*** %s: %s: %s\n", __func__, buf, dlerror());
+    if (!h)
+        return NULL;
 
-   Esnprintf(buf, sizeof(buf), "%s_%s", sym, name);
-   h = dlsym(h, buf);
-   if (!h)
-      Eprintf("*** %s: %s: %s\n", __func__, buf, dlerror());
+    Esnprintf(buf, sizeof(buf), "%s_%s", sym, name);
+    h = dlsym(h, buf);
+    if (!h)
+        Eprintf("*** %s: %s: %s\n", __func__, buf, dlerror());
 
-   return h;
+    return h;
 }
 
-#endif /* USE_MODULES */
+#endif                          /* USE_MODULES */

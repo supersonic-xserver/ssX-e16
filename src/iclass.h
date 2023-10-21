@@ -44,45 +44,44 @@
 #define FILL_INT_TILE_V         8
 
 /* ImageclassApplyCopy flags */
-#define IC_FLAG_NONE            0x00	/* No flags */
-#define IC_FLAG_WRITABLE        0x01	/* Provide writable pixmaps */
-#define IC_FLAG_MAKE_MASK       0x02	/* Make mask */
-#define IC_FLAG_FULL_SIZE       0x04	/* Make full size pixmaps */
+#define IC_FLAG_NONE            0x00    /* No flags */
+#define IC_FLAG_WRITABLE        0x01    /* Provide writable pixmaps */
+#define IC_FLAG_MAKE_MASK       0x02    /* Make mask */
+#define IC_FLAG_FULL_SIZE       0x04    /* Make full size pixmaps */
 
 /* ITApply flags */
-#define ITA_JUSTV               0x01	/* Justify text vertically */
-#define ITA_BGPMAP              0x02	/* Create window background pixmap */
+#define ITA_JUSTV               0x01    /* Justify text vertically */
+#define ITA_BGPMAP              0x02    /* Create window background pixmap */
 
 /* iclass.c */
-int                 ImageclassConfigLoad(FILE * fs);
+int             ImageclassConfigLoad(FILE * fs);
 
-ImageClass         *ImageclassFind(const char *name, int fallback);
-ImageClass         *ImageclassAlloc(const char *name, int fallback);
-void                ImageclassFree(ImageClass * ic);
-const char         *ImageclassGetName(ImageClass * ic);
-EImageBorder       *ImageclassGetPadding(ImageClass * ic);
-ImageState         *ImageclassGetImageState(ImageClass * ic, int state,
-					    int active, int sticky);
-ImageClass         *ImageclassCreateSimple(const char *name, const char *image);
-ImageClass         *ImageclassGetBlack(void);
-char               *ImageclassGetFile(ImageClass * ic);
-EImage             *ImageclassGetImage(ImageClass * ic, int active, int sticky,
-				       int state);
-void                ImageclassApplySimple(ImageClass * ic, Win win,
-					  EX_Drawable draw, int state, int x,
-					  int y, int w, int h);
-void                ImageclassApply(ImageClass * ic, Win win,
-				    int active, int sticky, int state);
-void                ImageclassApplyCopy(ImageClass * ic, Win win, int w,
-					int h, int active, int sticky,
-					int state, PmapMask * pmm,
-					int pmapflags);
-EImage             *ImageclassGetImageBlended(ImageClass * ic, Win win,
-					      int w, int h, int active,
-					      int sticky, int state);
-void                ITApply(Win win, ImageClass * ic, ImageState * is,
-			    int state, int active, int sticky,
-			    TextClass * tc, TextState * ts, const char *text,
-			    int flags);
+ImageClass     *ImageclassFind(const char *name, int fallback);
+ImageClass     *ImageclassAlloc(const char *name, int fallback);
+void            ImageclassFree(ImageClass * ic);
+const char     *ImageclassGetName(ImageClass * ic);
+EImageBorder   *ImageclassGetPadding(ImageClass * ic);
+ImageState     *ImageclassGetImageState(ImageClass * ic, int state,
+                                        int active, int sticky);
+ImageClass     *ImageclassCreateSimple(const char *name, const char *image);
+ImageClass     *ImageclassGetBlack(void);
+char           *ImageclassGetFile(ImageClass * ic);
+EImage         *ImageclassGetImage(ImageClass * ic, int active, int sticky,
+                                   int state);
+void            ImageclassApplySimple(ImageClass * ic, Win win,
+                                      EX_Drawable draw, int state,
+                                      int x, int y, int w, int h);
+void            ImageclassApply(ImageClass * ic, Win win,
+                                int active, int sticky, int state);
+void            ImageclassApplyCopy(ImageClass * ic, Win win, int w, int h,
+                                    int active, int sticky, int state,
+                                    PmapMask * pmm, int pmapflags);
+EImage         *ImageclassGetImageBlended(ImageClass * ic, Win win,
+                                          int w, int h, int active,
+                                          int sticky, int state);
+void            ITApply(Win win, ImageClass * ic, ImageState * is,
+                        int state, int active, int sticky,
+                        TextClass * tc, TextState * ts, const char *text,
+                        int flags);
 
-#endif /* _ICLASS_H */
+#endif                          /* _ICLASS_H */

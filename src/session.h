@@ -37,9 +37,9 @@
 #define ESESSION_START  1
 #define ESESSION_STOP   2
 
-void                SessionInit(void);
-void                SessionExit(int mode, const char *params);
-void                SessionHelper(int when);
-void                SetSMID(const char *smid);
+void            SessionInit(void);
+void            SessionExit(int mode, const char *params);
+void            SessionHelper(int when);
+void            SetSMID(const char *smid);
 
-#endif /* _SESSION_H_ */
+#endif                          /* _SESSION_H_ */

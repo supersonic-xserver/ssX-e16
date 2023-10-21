@@ -26,10 +26,10 @@
 
 #include <time.h>
 
-void                E_md(const char *s);
-void                E_mv(const char *s, const char *ss);
-void                E_rm(const char *s);
-char              **E_ls(const char *dir, int *num);
+void            E_md(const char *s);
+void            E_mv(const char *s, const char *ss);
+void            E_rm(const char *s);
+char          **E_ls(const char *dir, int *num);
 
 #define EFILE_ANY   0x01
 #define EFILE_REG   0x02
@@ -40,7 +40,7 @@ char              **E_ls(const char *dir, int *num);
 #define EPERM_X     0x40
 #define EPERM_RWX   (EPERM_R | EPERM_W | EPERM_X)
 
-int                 file_test(const char *s, unsigned int test);
+int             file_test(const char *s, unsigned int test);
 
 #define exists(s)   file_test(s, EFILE_ANY)
 #define isdir(s)    file_test(s, EFILE_DIR)
@@ -48,18 +48,18 @@ int                 file_test(const char *s, unsigned int test);
 #define canread(s)  file_test(s, EFILE_REG | EPERM_R)
 #define canexec(s)  file_test(s, EFILE_REG | EPERM_X)
 
-time_t              moddate(const char *s);
-int                 fileinode(const char *s);
-int                 filedev_map(int dev);
-int                 filedev(const char *s);
+time_t          moddate(const char *s);
+int             fileinode(const char *s);
+int             filedev_map(int dev);
+int             filedev(const char *s);
 
-int                 isabspath(const char *s);
-const char         *fileext(const char *s);
-char               *fileof(const char *s);
-const char         *fullfileof(const char *s);
+int             isabspath(const char *s);
+const char     *fileext(const char *s);
+char           *fileof(const char *s);
+const char     *fullfileof(const char *s);
 
-char               *path_test(const char *file, unsigned int test);
-int                 path_canexec(const char *file);
-int                 path_canexec0(const char *cmd);
+char           *path_test(const char *file, unsigned int test);
+int             path_canexec(const char *file);
+int             path_canexec0(const char *cmd);
 
-#endif /* _FILE_H_ */
+#endif                          /* _FILE_H_ */

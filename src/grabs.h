@@ -26,20 +26,20 @@
 
 #include "xtypes.h"
 
-int                 GrabKeyboardSet(Win win);
-int                 GrabKeyboardFreeze(Win win);
-int                 GrabKeyboardRelease(void);
-int                 GrabPointerSet(Win win, unsigned int csr, int confine);
-void                GrabPointerRelease(void);
-void                GrabPointerThaw(void);
-void                GrabButtonSet(unsigned int button, unsigned int modifiers,
-				  Win win, unsigned int event_mask,
-				  unsigned int csr, int confine);
-void                GrabButtonRelease(unsigned int button,
-				      unsigned int modifiers, Win win);
-void                GrabKeySet(unsigned int keycode, unsigned int modifiers,
-			       Win win);
-void                GrabKeyRelease(unsigned int keycode, unsigned int modifiers,
-				   Win win);
+int             GrabKeyboardSet(Win win);
+int             GrabKeyboardFreeze(Win win);
+int             GrabKeyboardRelease(void);
+int             GrabPointerSet(Win win, unsigned int csr, int confine);
+void            GrabPointerRelease(void);
+void            GrabPointerThaw(void);
+void            GrabButtonSet(unsigned int button, unsigned int modifiers,
+                              Win win, unsigned int event_mask,
+                              unsigned int csr, int confine);
+void            GrabButtonRelease(unsigned int button,
+                                  unsigned int modifiers, Win win);
+void            GrabKeySet(unsigned int keycode, unsigned int modifiers,
+                           Win win);
+void            GrabKeyRelease(unsigned int keycode, unsigned int modifiers,
+                               Win win);
 
-#endif /* _GRABS_H_ */
+#endif                          /* _GRABS_H_ */

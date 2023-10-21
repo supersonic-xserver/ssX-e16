@@ -30,40 +30,40 @@ typedef struct _menu Menu;
 typedef struct _menuitem MenuItem;
 typedef struct _menustyle MenuStyle;
 
-typedef int         (MenuLoader) (Menu * m);
+typedef int     (MenuLoader) (Menu * m);
 
 /* menus.c */
-int                 MenuStyleConfigLoad(FILE * fs);
-MenuStyle          *MenuStyleFind(const char *name);
+int             MenuStyleConfigLoad(FILE * fs);
+MenuStyle      *MenuStyleFind(const char *name);
 
-int                 MenuConfigLoad(FILE * fs);
-Menu               *MenuCreate(const char *name, const char *title,
-			       Menu * parent, MenuStyle * ms);
-void                MenuEmpty(Menu * m, int destroying);
-int                 MenuLoad(Menu * m);
-Menu               *MenuFind(const char *name, const char *param);
-MenuItem           *MenuItemCreate(const char *text, const char *icon,
-				   const char *action_params, Menu * child);
-void                MenuSetInternal(Menu * m);
-void                MenuSetDynamic(Menu * m);
-void                MenuSetTransient(Menu * m);
-void                MenuSetName(Menu * m, const char *name);
-void                MenuSetAlias(Menu * m, const char *alias);
-void                MenuSetStyle(Menu * m, MenuStyle * ms);
-void                MenuSetTitle(Menu * m, const char *title);
-void                MenuSetIconSize(Menu * m, int size);
-void                MenuSetData(Menu * m, char *data);
-void                MenuSetLoader(Menu * m, MenuLoader * loader);
-void                MenuSetTimestamp(Menu * m, time_t t);
-void                MenuAddItem(Menu * m, MenuItem * mi);
-const char         *MenuGetName(const Menu * m);
-const char         *MenuGetData(const Menu * m);
-time_t              MenuGetTimestamp(const Menu * m);
+int             MenuConfigLoad(FILE * fs);
+Menu           *MenuCreate(const char *name, const char *title,
+                           Menu * parent, MenuStyle * ms);
+void            MenuEmpty(Menu * m, int destroying);
+int             MenuLoad(Menu * m);
+Menu           *MenuFind(const char *name, const char *param);
+MenuItem       *MenuItemCreate(const char *text, const char *icon,
+                               const char *action_params, Menu * child);
+void            MenuSetInternal(Menu * m);
+void            MenuSetDynamic(Menu * m);
+void            MenuSetTransient(Menu * m);
+void            MenuSetName(Menu * m, const char *name);
+void            MenuSetAlias(Menu * m, const char *alias);
+void            MenuSetStyle(Menu * m, MenuStyle * ms);
+void            MenuSetTitle(Menu * m, const char *title);
+void            MenuSetIconSize(Menu * m, int size);
+void            MenuSetData(Menu * m, char *data);
+void            MenuSetLoader(Menu * m, MenuLoader * loader);
+void            MenuSetTimestamp(Menu * m, time_t t);
+void            MenuAddItem(Menu * m, MenuItem * mi);
+const char     *MenuGetName(const Menu * m);
+const char     *MenuGetData(const Menu * m);
+time_t          MenuGetTimestamp(const Menu * m);
 
-int                 MenusActive(void);
+int             MenusActive(void);
 
 /* menus-misc.c */
-Menu               *MenusCreateInternal(const char *type, const char *name,
-					const char *style, const char *prm);
+Menu           *MenusCreateInternal(const char *type, const char *name,
+                                    const char *style, const char *prm);
 
-#endif /* _MENUS_H_ */
+#endif                          /* _MENUS_H_ */

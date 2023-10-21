@@ -27,7 +27,7 @@
 #include "cpplib.h"
 #include "cpphash.h"
 
-static HASHNODE    *hashtab[HASHSIZE];
+static HASHNODE *hashtab[HASHSIZE];
 
 #include <string.h>
 #include <stdlib.h>
@@ -41,12 +41,12 @@ static HASHNODE    *hashtab[HASHSIZE];
 int
 hashf(const char *name, int len, int hashsize)
 {
-   int                 r = 0;
+    int             r = 0;
 
-   while (len--)
-      r = HASHSTEP(r, *name++);
+    while (len--)
+        r = HASHSTEP(r, *name++);
 
-   return MAKE_POS(r) % hashsize;
+    return MAKE_POS(r) % hashsize;
 }
 
 /*
@@ -59,30 +59,30 @@ hashf(const char *name, int len, int hashsize)
  * If HASH is >= 0, it is the precomputed hash code.
  * Otherwise, compute the hash code.
  */
-HASHNODE           *
+HASHNODE       *
 cpp_lookup(const char *name, int len, int hash)
 {
-   const char         *bp;
-   HASHNODE           *bucket;
+    const char     *bp;
+    HASHNODE       *bucket;
 
-   if (len < 0)
-     {
-	for (bp = name; IS_IDCHAR(*bp); bp++)
-	   ;
-	len = bp - name;
-     }
-   if (hash < 0)
-      hash = hashf(name, len, HASHSIZE);
+    if (len < 0)
+    {
+        for (bp = name; IS_IDCHAR(*bp); bp++)
+            ;
+        len = bp - name;
+    }
+    if (hash < 0)
+        hash = hashf(name, len, HASHSIZE);
 
-   bucket = hashtab[hash];
-   while (bucket)
-     {
-	if (bucket->length == len
-	    && strncmp((const char *)bucket->name, name, len) == 0)
-	   return bucket;
-	bucket = bucket->next;
-     }
-   return (HASHNODE *) 0;
+    bucket = hashtab[hash];
+    while (bucket)
+    {
+        if (bucket->length == len
+            && strncmp((const char *)bucket->name, name, len) == 0)
+            return bucket;
+        bucket = bucket->next;
+    }
+    return (HASHNODE *) 0;
 }
 
 /*
@@ -100,34 +100,34 @@ cpp_lookup(const char *name, int len, int hash)
  * If #undef freed the DEFINITION, that would crash.  */
 
 void
-delete_macro(HASHNODE * hp)
+delete_macro(HASHNODE *hp)
 {
 
-   if (hp->prev)
-      hp->prev->next = hp->next;
-   if (hp->next)
-      hp->next->prev = hp->prev;
+    if (hp->prev)
+        hp->prev->next = hp->next;
+    if (hp->next)
+        hp->next->prev = hp->prev;
 
-   /* make sure that the bucket chain header that
-    * the deleted guy was on points to the right thing afterwards. */
-   if (hp == *hp->bucket_hdr)
-      *hp->bucket_hdr = hp->next;
+    /* make sure that the bucket chain header that
+     * the deleted guy was on points to the right thing afterwards. */
+    if (hp == *hp->bucket_hdr)
+        *hp->bucket_hdr = hp->next;
 
-   if (hp->type == T_MACRO)
-     {
-	DEFINITION         *d = hp->value.defn;
-	struct reflist     *ap, *nextap;
+    if (hp->type == T_MACRO)
+    {
+        DEFINITION     *d = hp->value.defn;
+        struct reflist *ap, *nextap;
 
-	for (ap = d->pattern; ap; ap = nextap)
-	  {
-	     nextap = ap->next;
-	     free(ap);
-	  }
-	if (d->nargs >= 0)
-	   free(d->args.argnames);
-	free(d);
-     }
-   free(hp);
+        for (ap = d->pattern; ap; ap = nextap)
+        {
+            nextap = ap->next;
+            free(ap);
+        }
+        if (d->nargs >= 0)
+            free(d->args.argnames);
+        free(d);
+    }
+    free(hp);
 }
 /*
  * install a name in the main hash table, even if it is already there.
@@ -143,53 +143,53 @@ delete_macro(HASHNODE * hp)
  * If HASH is >= 0, it is the precomputed hash code.
  * Otherwise, compute the hash code.
  */
-HASHNODE           *
+HASHNODE       *
 install(const char *name, int len, enum node_type type, int ivalue, char *value,
-	int hash)
+        int hash)
 {
-   HASHNODE           *hp;
-   int                 i, bucket;
-   const char         *p;
+    HASHNODE       *hp;
+    int             i, bucket;
+    const char     *p;
 
-   if (len < 0)
-     {
-	p = name;
-	while (IS_IDCHAR(*p))
-	   p++;
-	len = p - name;
-     }
-   if (hash < 0)
-      hash = hashf(name, len, HASHSIZE);
+    if (len < 0)
+    {
+        p = name;
+        while (IS_IDCHAR(*p))
+            p++;
+        len = p - name;
+    }
+    if (hash < 0)
+        hash = hashf(name, len, HASHSIZE);
 
-   i = sizeof(HASHNODE) + len + 1;
-   hp = (HASHNODE *) xmalloc(i);
-   bucket = hash;
-   hp->bucket_hdr = &hashtab[bucket];
-   hp->next = hashtab[bucket];
-   hashtab[bucket] = hp;
-   hp->prev = NULL;
-   if (hp->next)
-      hp->next->prev = hp;
-   hp->type = type;
-   hp->length = len;
-   if (hp->type == T_CONST)
-      hp->value.ival = ivalue;
-   else
-      hp->value.cpval = value;
-   hp->name = ((char *)hp) + sizeof(HASHNODE);
-   memcpy(hp->name, name, len);
-   hp->name[len] = 0;
-   return hp;
+    i = sizeof(HASHNODE) + len + 1;
+    hp = (HASHNODE *) xmalloc(i);
+    bucket = hash;
+    hp->bucket_hdr = &hashtab[bucket];
+    hp->next = hashtab[bucket];
+    hashtab[bucket] = hp;
+    hp->prev = NULL;
+    if (hp->next)
+        hp->next->prev = hp;
+    hp->type = type;
+    hp->length = len;
+    if (hp->type == T_CONST)
+        hp->value.ival = ivalue;
+    else
+        hp->value.cpval = value;
+    hp->name = ((char *)hp) + sizeof(HASHNODE);
+    memcpy(hp->name, name, len);
+    hp->name[len] = 0;
+    return hp;
 }
 
 void
-cpp_hash_cleanup(cpp_reader * pfile __UNUSED__)
+cpp_hash_cleanup(cpp_reader *pfile __UNUSED__)
 {
-   int                 i;
+    int             i;
 
-   for (i = HASHSIZE; --i >= 0;)
-     {
-	while (hashtab[i])
-	   delete_macro(hashtab[i]);
-     }
+    for (i = HASHSIZE; --i >= 0;)
+    {
+        while (hashtab[i])
+            delete_macro(hashtab[i]);
+    }
 }

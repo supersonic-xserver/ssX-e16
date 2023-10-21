@@ -40,12 +40,12 @@
 #define ECSR_ACT_RESIZE_BR 10
 #define ECSR_COUNT         11
 
-ECursor            *ECursorAlloc(const char *name);
-void                ECursorFree(ECursor * ec);
-void                ECursorApply(ECursor * ec, Win win);
-EX_Cursor           ECsrGet(int which);
-void                ECsrApply(int which, EX_Window win);
+ECursor        *ECursorAlloc(const char *name);
+void            ECursorFree(ECursor * ec);
+void            ECursorApply(ECursor * ec, Win win);
+EX_Cursor       ECsrGet(int which);
+void            ECsrApply(int which, EX_Window win);
 
-int                 ECursorConfigLoad(FILE * fs);
+int             ECursorConfigLoad(FILE * fs);
 
-#endif /* _CURSORS_H_ */
+#endif                          /* _CURSORS_H_ */

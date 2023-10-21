@@ -26,7 +26,7 @@
 #if ENABLE_DIALOGS
 
 /* settings.c */
-void                IPC_Cfg(const char *params);
+void            IPC_Cfg(const char *params);
 
 #ifdef _DIALOG_H_
 extern const DialogDef DlgAreas;
@@ -48,6 +48,6 @@ extern const DialogDef DlgTheme;
 extern const DialogDef DlgTooltips;
 #endif
 
-#endif /* ENABLE_DIALOGS */
+#endif                          /* ENABLE_DIALOGS */
 
-#endif /* _SETTINGS_H_ */
+#endif                          /* _SETTINGS_H_ */

@@ -29,540 +29,541 @@
 #include "settings.h"
 
 typedef struct {
-   int                 move;
-   int                 resize;
-   int                 geominfo;
-   int                 maximize;
-   int                 maximize_speed;
-   char                maximize_animate;
-   char                dragbar_nocover;
-   char                enable_smart_max_hv;
-   char                avoid_server_grab;
-   char                update_while_moving;
-   char                sync_request;
-   int                 snap_dist_screen;
-   int                 snap_dist_window;
+    int             move;
+    int             resize;
+    int             geominfo;
+    int             maximize;
+    int             maximize_speed;
+    char            maximize_animate;
+    char            dragbar_nocover;
+    char            enable_smart_max_hv;
+    char            avoid_server_grab;
+    char            update_while_moving;
+    char            sync_request;
+    int             snap_dist_screen;
+    int             snap_dist_window;
 } MovResDlgData;
 
 static void
-_DlgApplyMoveResize(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
+_DlgApplyMoveResize(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 {
-   MovResDlgData      *dd = DLG_DATA_GET(d, MovResDlgData);
+    MovResDlgData  *dd = DLG_DATA_GET(d, MovResDlgData);
 
-   Conf.movres.mode_move = dd->move;
-   Conf.movres.mode_resize = dd->resize;
-   Conf.movres.mode_info = dd->geominfo;
-   Conf.movres.mode_maximize_default = dd->maximize;
-   Conf.movres.avoid_server_grab = dd->avoid_server_grab;
-   Conf.movres.update_while_moving = dd->update_while_moving;
-   Conf.movres.enable_sync_request = dd->sync_request;
-   Conf.movres.dragbar_nocover = dd->dragbar_nocover;
-   Conf.movres.enable_smart_max_hv = dd->enable_smart_max_hv;
-   Conf.movres.maximize_speed = dd->maximize_speed;
-   Conf.movres.maximize_animate = dd->maximize_animate;
-   Conf.snap.screen_snap_dist =
-      dd->snap_dist_screen > 1 ? dd->snap_dist_screen : 1;
-   Conf.snap.edge_snap_dist =
-      dd->snap_dist_window > 1 ? dd->snap_dist_window : 1;
+    Conf.movres.mode_move = dd->move;
+    Conf.movres.mode_resize = dd->resize;
+    Conf.movres.mode_info = dd->geominfo;
+    Conf.movres.mode_maximize_default = dd->maximize;
+    Conf.movres.avoid_server_grab = dd->avoid_server_grab;
+    Conf.movres.update_while_moving = dd->update_while_moving;
+    Conf.movres.enable_sync_request = dd->sync_request;
+    Conf.movres.dragbar_nocover = dd->dragbar_nocover;
+    Conf.movres.enable_smart_max_hv = dd->enable_smart_max_hv;
+    Conf.movres.maximize_speed = dd->maximize_speed;
+    Conf.movres.maximize_animate = dd->maximize_animate;
+    Conf.snap.screen_snap_dist =
+        dd->snap_dist_screen > 1 ? dd->snap_dist_screen : 1;
+    Conf.snap.edge_snap_dist =
+        dd->snap_dist_window > 1 ? dd->snap_dist_window : 1;
 
-   autosave();
+    autosave();
 }
 
 static void
-_DlgFillMoveResize(Dialog * d, DItem * table, void *data __UNUSED__)
+_DlgFillMoveResize(Dialog *d, DItem *table, void *data __UNUSED__)
 {
-   MovResDlgData      *dd = DLG_DATA_GET(d, MovResDlgData);
-   DItem              *di, *radio1, *radio2, *radio3, *radio4;
+    MovResDlgData  *dd = DLG_DATA_GET(d, MovResDlgData);
+    DItem          *di, *radio1, *radio2, *radio3, *radio4;
 
-   dd->move = Conf.movres.mode_move;
-   dd->resize = Conf.movres.mode_resize;
-   dd->geominfo = Conf.movres.mode_info;
-   dd->maximize = Conf.movres.mode_maximize_default;
-   dd->avoid_server_grab = Conf.movres.avoid_server_grab;
-   dd->update_while_moving = Conf.movres.update_while_moving;
-   dd->sync_request = Conf.movres.enable_sync_request;
-   dd->dragbar_nocover = Conf.movres.dragbar_nocover;
-   dd->enable_smart_max_hv = Conf.movres.enable_smart_max_hv;
-   dd->maximize_speed = Conf.movres.maximize_speed;
-   dd->maximize_animate = Conf.movres.maximize_animate;
-   dd->snap_dist_screen = Conf.snap.screen_snap_dist;
-   dd->snap_dist_window = Conf.snap.edge_snap_dist;
+    dd->move = Conf.movres.mode_move;
+    dd->resize = Conf.movres.mode_resize;
+    dd->geominfo = Conf.movres.mode_info;
+    dd->maximize = Conf.movres.mode_maximize_default;
+    dd->avoid_server_grab = Conf.movres.avoid_server_grab;
+    dd->update_while_moving = Conf.movres.update_while_moving;
+    dd->sync_request = Conf.movres.enable_sync_request;
+    dd->dragbar_nocover = Conf.movres.dragbar_nocover;
+    dd->enable_smart_max_hv = Conf.movres.enable_smart_max_hv;
+    dd->maximize_speed = Conf.movres.maximize_speed;
+    dd->maximize_animate = Conf.movres.maximize_animate;
+    dd->snap_dist_screen = Conf.snap.screen_snap_dist;
+    dd->snap_dist_window = Conf.snap.edge_snap_dist;
 
-   DialogItemTableSetOptions(table, 2, 0, 0, 0);
+    DialogItemTableSetOptions(table, 2, 0, 0, 0);
 
-   di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Move methods:"));
+    di = DialogAddItem(table, DITEM_TEXT);
+    DialogItemSetText(di, _("Move methods:"));
 
-   di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Resize methods:"));
+    di = DialogAddItem(table, DITEM_TEXT);
+    DialogItemSetText(di, _("Resize methods:"));
 
-   radio1 = di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("Opaque"));
-   DialogItemRadioButtonSetFirst(di, radio1);
-   DialogItemRadioButtonGroupSetVal(di, MR_OPAQUE);
+    radio1 = di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("Opaque"));
+    DialogItemRadioButtonSetFirst(di, radio1);
+    DialogItemRadioButtonGroupSetVal(di, MR_OPAQUE);
 
-   radio2 = di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("Opaque"));
-   DialogItemRadioButtonSetFirst(di, radio2);
-   DialogItemRadioButtonGroupSetVal(di, MR_OPAQUE);
+    radio2 = di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("Opaque"));
+    DialogItemRadioButtonSetFirst(di, radio2);
+    DialogItemRadioButtonGroupSetVal(di, MR_OPAQUE);
 
-   di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("Technical"));
-   DialogItemRadioButtonSetFirst(di, radio1);
-   DialogItemRadioButtonGroupSetVal(di, MR_TECHNICAL);
+    di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("Technical"));
+    DialogItemRadioButtonSetFirst(di, radio1);
+    DialogItemRadioButtonGroupSetVal(di, MR_TECHNICAL);
 
-   di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("Technical"));
-   DialogItemRadioButtonSetFirst(di, radio2);
-   DialogItemRadioButtonGroupSetVal(di, MR_TECHNICAL);
+    di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("Technical"));
+    DialogItemRadioButtonSetFirst(di, radio2);
+    DialogItemRadioButtonGroupSetVal(di, MR_TECHNICAL);
 
-   di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("TechOpaque"));
-   DialogItemRadioButtonSetFirst(di, radio1);
-   DialogItemRadioButtonGroupSetVal(di, MR_TECH_OPAQUE);
+    di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("TechOpaque"));
+    DialogItemRadioButtonSetFirst(di, radio1);
+    DialogItemRadioButtonGroupSetVal(di, MR_TECH_OPAQUE);
 
-   di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("TechOpaque"));
-   DialogItemRadioButtonSetFirst(di, radio2);
-   DialogItemRadioButtonGroupSetVal(di, MR_TECH_OPAQUE);
+    di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("TechOpaque"));
+    DialogItemRadioButtonSetFirst(di, radio2);
+    DialogItemRadioButtonGroupSetVal(di, MR_TECH_OPAQUE);
 
-   di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("Box"));
-   DialogItemRadioButtonSetFirst(di, radio1);
-   DialogItemRadioButtonGroupSetVal(di, MR_BOX);
+    di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("Box"));
+    DialogItemRadioButtonSetFirst(di, radio1);
+    DialogItemRadioButtonGroupSetVal(di, MR_BOX);
 
-   di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("Box"));
-   DialogItemRadioButtonSetFirst(di, radio2);
-   DialogItemRadioButtonGroupSetVal(di, MR_BOX);
+    di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("Box"));
+    DialogItemRadioButtonSetFirst(di, radio2);
+    DialogItemRadioButtonGroupSetVal(di, MR_BOX);
 
-   DialogItemRadioButtonGroupSetValPtr(radio1, &dd->move);
-   DialogItemRadioButtonGroupSetValPtr(radio2, &dd->resize);
+    DialogItemRadioButtonGroupSetValPtr(radio1, &dd->move);
+    DialogItemRadioButtonGroupSetValPtr(radio2, &dd->resize);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Avoid server grab"));
-   DialogItemCheckButtonSetPtr(di, &dd->avoid_server_grab);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Avoid server grab"));
+    DialogItemCheckButtonSetPtr(di, &dd->avoid_server_grab);
 
-   di = DialogAddItem(table, DITEM_SEPARATOR);
-   DialogItemSetColSpan(di, 2);
+    di = DialogAddItem(table, DITEM_SEPARATOR);
+    DialogItemSetColSpan(di, 2);
 
-   di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Move/resize geometry info postion:"));
+    di = DialogAddItem(table, DITEM_TEXT);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Move/resize geometry info postion:"));
 
-   radio3 = di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Window center (O/T/B methods)"));
-   DialogItemRadioButtonSetFirst(di, radio3);
-   DialogItemRadioButtonGroupSetVal(di, 1);
+    radio3 = di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Window center (O/T/B methods)"));
+    DialogItemRadioButtonSetFirst(di, radio3);
+    DialogItemRadioButtonGroupSetVal(di, 1);
 
-   di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Always screen corner"));
-   DialogItemRadioButtonSetFirst(di, radio3);
-   DialogItemRadioButtonGroupSetVal(di, 2);
+    di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Always screen corner"));
+    DialogItemRadioButtonSetFirst(di, radio3);
+    DialogItemRadioButtonGroupSetVal(di, 2);
 
-   di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Don't show"));
-   DialogItemRadioButtonSetFirst(di, radio3);
-   DialogItemRadioButtonGroupSetVal(di, 0);
-   DialogItemRadioButtonGroupSetValPtr(radio3, &dd->geominfo);
+    di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Don't show"));
+    DialogItemRadioButtonSetFirst(di, radio3);
+    DialogItemRadioButtonGroupSetVal(di, 0);
+    DialogItemRadioButtonGroupSetValPtr(radio3, &dd->geominfo);
 
-   di = DialogAddItem(table, DITEM_SEPARATOR);
-   DialogItemSetColSpan(di, 2);
+    di = DialogAddItem(table, DITEM_SEPARATOR);
+    DialogItemSetColSpan(di, 2);
 
-   di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Default resize policy:"));
+    di = DialogAddItem(table, DITEM_TEXT);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Default resize policy:"));
 
-   radio4 = di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Conservative"));
-   DialogItemRadioButtonSetFirst(di, radio4);
-   DialogItemRadioButtonGroupSetVal(di, 2);
+    radio4 = di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Conservative"));
+    DialogItemRadioButtonSetFirst(di, radio4);
+    DialogItemRadioButtonGroupSetVal(di, 2);
 
-   di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Available"));
-   DialogItemRadioButtonSetFirst(di, radio4);
-   DialogItemRadioButtonGroupSetVal(di, 1);
+    di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Available"));
+    DialogItemRadioButtonSetFirst(di, radio4);
+    DialogItemRadioButtonGroupSetVal(di, 1);
 
-   di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Absolute"));
-   DialogItemRadioButtonSetFirst(di, radio4);
-   DialogItemRadioButtonGroupSetVal(di, 0);
-   DialogItemRadioButtonGroupSetValPtr(radio4, &dd->maximize);
+    di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Absolute"));
+    DialogItemRadioButtonSetFirst(di, radio4);
+    DialogItemRadioButtonGroupSetVal(di, 0);
+    DialogItemRadioButtonGroupSetValPtr(radio4, &dd->maximize);
 
-   di = DialogAddItem(table, DITEM_SEPARATOR);
-   DialogItemSetColSpan(di, 2);
+    di = DialogAddItem(table, DITEM_SEPARATOR);
+    DialogItemSetColSpan(di, 2);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Update window while moving"));
-   DialogItemCheckButtonSetPtr(di, &dd->update_while_moving);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Update window while moving"));
+    DialogItemCheckButtonSetPtr(di, &dd->update_while_moving);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Synchronize move/resize with application"));
-   DialogItemCheckButtonSetPtr(di, &dd->sync_request);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Synchronize move/resize with application"));
+    DialogItemCheckButtonSetPtr(di, &dd->sync_request);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Do not cover dragbar"));
-   DialogItemCheckButtonSetPtr(di, &dd->dragbar_nocover);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Do not cover dragbar"));
+    DialogItemCheckButtonSetPtr(di, &dd->dragbar_nocover);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Enable smart maximization"));
-   DialogItemCheckButtonSetPtr(di, &dd->enable_smart_max_hv);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Enable smart maximization"));
+    DialogItemCheckButtonSetPtr(di, &dd->enable_smart_max_hv);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Animate window maximization"));
-   DialogItemCheckButtonSetPtr(di, &dd->maximize_animate);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Animate window maximization"));
+    DialogItemCheckButtonSetPtr(di, &dd->maximize_animate);
 
-   di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Maximization animation speed:"));
+    di = DialogAddItem(table, DITEM_TEXT);
+    DialogItemSetText(di, _("Maximization animation speed:"));
 
-   di = DialogAddItem(table, DITEM_SLIDER);
-   DialogItemSliderSetBounds(di, 0, 20000);
-   DialogItemSliderSetUnits(di, 500);
-   DialogItemSliderSetJump(di, 1000);
-   DialogItemSliderSetValPtr(di, &dd->maximize_speed);
+    di = DialogAddItem(table, DITEM_SLIDER);
+    DialogItemSliderSetBounds(di, 0, 20000);
+    DialogItemSliderSetUnits(di, 500);
+    DialogItemSliderSetJump(di, 1000);
+    DialogItemSliderSetValPtr(di, &dd->maximize_speed);
 
-   di = DialogAddItem(table, DITEM_SEPARATOR);
-   DialogItemSetColSpan(di, 2);
+    di = DialogAddItem(table, DITEM_SEPARATOR);
+    DialogItemSetColSpan(di, 2);
 
-   di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Resistance at screen boundaries:"));
+    di = DialogAddItem(table, DITEM_TEXT);
+    DialogItemSetText(di, _("Resistance at screen boundaries:"));
 
-   di = DialogAddItem(table, DITEM_SLIDER);
-   DialogItemSliderSetMinLength(di, 1);
-   DialogItemSliderSetBounds(di, 1, 100);
-   DialogItemSliderSetUnits(di, 4);
-   DialogItemSliderSetJump(di, 8);
-   DialogItemSliderSetValPtr(di, &dd->snap_dist_screen);
+    di = DialogAddItem(table, DITEM_SLIDER);
+    DialogItemSliderSetMinLength(di, 1);
+    DialogItemSliderSetBounds(di, 1, 100);
+    DialogItemSliderSetUnits(di, 4);
+    DialogItemSliderSetJump(di, 8);
+    DialogItemSliderSetValPtr(di, &dd->snap_dist_screen);
 
-   di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Resistance at window boundaries:"));
+    di = DialogAddItem(table, DITEM_TEXT);
+    DialogItemSetText(di, _("Resistance at window boundaries:"));
 
-   di = DialogAddItem(table, DITEM_SLIDER);
-   DialogItemSliderSetMinLength(di, 1);
-   DialogItemSliderSetBounds(di, 1, 100);
-   DialogItemSliderSetUnits(di, 4);
-   DialogItemSliderSetJump(di, 8);
-   DialogItemSliderSetValPtr(di, &dd->snap_dist_window);
+    di = DialogAddItem(table, DITEM_SLIDER);
+    DialogItemSliderSetMinLength(di, 1);
+    DialogItemSliderSetBounds(di, 1, 100);
+    DialogItemSliderSetUnits(di, 4);
+    DialogItemSliderSetJump(di, 8);
+    DialogItemSliderSetValPtr(di, &dd->snap_dist_window);
 }
 
-const DialogDef     DlgMoveResize = {
-   "CONFIGURE_MOVERESIZE",
-   N_("Move/Resize"), N_("Move & Resize Settings"),
-   sizeof(MovResDlgData),
-   SOUND_SETTINGS_MOVERESIZE,
-   "pix/moveres.png",
-   N_("Enlightenment Move & Resize\n" "Method Settings Dialog"),
-   _DlgFillMoveResize,
-   DLG_OAC, _DlgApplyMoveResize, NULL
+const DialogDef DlgMoveResize = {
+    "CONFIGURE_MOVERESIZE",
+    N_("Move/Resize"), N_("Move & Resize Settings"),
+    sizeof(MovResDlgData),
+    SOUND_SETTINGS_MOVERESIZE,
+    "pix/moveres.png",
+    N_("Enlightenment Move & Resize\n" "Method Settings Dialog"),
+    _DlgFillMoveResize,
+    DLG_OAC, _DlgApplyMoveResize, NULL
 };
 
 typedef struct {
-   char                with_leader;
-   char                switch_popup;
-   char                manual_placement;
-   char                manual_placement_mouse_pointer;
-   char                center_if_desk_full;
-   char                map_slide;
-   char                cleanup_slide;
-   int                 slide_mode;
-   int                 map_slide_speed;
-   int                 cleanup_slide_speed;
-   char                animate_shading;
-   int                 shade_speed;
-   char                place_ignore_struts;
-   char                place_ignore_struts_fullscreen;
-   char                place_ignore_struts_maximize;
-   char                raise_fullscreen;
-#ifdef USE_XINERAMA_no		/* Not implemented */
-   char                extra_head;
+    char            with_leader;
+    char            switch_popup;
+    char            manual_placement;
+    char            manual_placement_mouse_pointer;
+    char            center_if_desk_full;
+    char            map_slide;
+    char            cleanup_slide;
+    int             slide_mode;
+    int             map_slide_speed;
+    int             cleanup_slide_speed;
+    char            animate_shading;
+    int             shade_speed;
+    char            place_ignore_struts;
+    char            place_ignore_struts_fullscreen;
+    char            place_ignore_struts_maximize;
+    char            raise_fullscreen;
+#ifdef USE_XINERAMA_no          /* Not implemented */
+    char            extra_head;
 #endif
 } PlaceDlgData;
 
 static void
-_DlgApplyPlacement(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
+_DlgApplyPlacement(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 {
-   PlaceDlgData       *dd = DLG_DATA_GET(d, PlaceDlgData);
+    PlaceDlgData   *dd = DLG_DATA_GET(d, PlaceDlgData);
 
-   Conf.focus.transientsfollowleader = dd->with_leader;
-   Conf.focus.switchfortransientmap = dd->switch_popup;
+    Conf.focus.transientsfollowleader = dd->with_leader;
+    Conf.focus.switchfortransientmap = dd->switch_popup;
 
-   Conf.place.manual = dd->manual_placement;
-   Conf.place.manual_mouse_pointer = dd->manual_placement_mouse_pointer;
-   Conf.place.center_if_desk_full = dd->center_if_desk_full;
+    Conf.place.manual = dd->manual_placement;
+    Conf.place.manual_mouse_pointer = dd->manual_placement_mouse_pointer;
+    Conf.place.center_if_desk_full = dd->center_if_desk_full;
 
-   Conf.place.slidein = dd->map_slide;
-   Conf.place.cleanupslide = dd->cleanup_slide;
-   Conf.place.slidemode = dd->slide_mode;
-   Conf.place.slidespeedmap = dd->map_slide_speed;
-   Conf.place.slidespeedcleanup = dd->cleanup_slide_speed;
+    Conf.place.slidein = dd->map_slide;
+    Conf.place.cleanupslide = dd->cleanup_slide;
+    Conf.place.slidemode = dd->slide_mode;
+    Conf.place.slidespeedmap = dd->map_slide_speed;
+    Conf.place.slidespeedcleanup = dd->cleanup_slide_speed;
 
-   Conf.shading.animate = dd->animate_shading;
-   Conf.shading.speed = dd->shade_speed;
+    Conf.shading.animate = dd->animate_shading;
+    Conf.shading.speed = dd->shade_speed;
 
-   Conf.place.ignore_struts = dd->place_ignore_struts;
-   Conf.place.ignore_struts_fullscreen = dd->place_ignore_struts_fullscreen;
-   Conf.place.ignore_struts_maximize = dd->place_ignore_struts_maximize;
-   Conf.place.raise_fullscreen = dd->raise_fullscreen;
+    Conf.place.ignore_struts = dd->place_ignore_struts;
+    Conf.place.ignore_struts_fullscreen = dd->place_ignore_struts_fullscreen;
+    Conf.place.ignore_struts_maximize = dd->place_ignore_struts_maximize;
+    Conf.place.raise_fullscreen = dd->raise_fullscreen;
 
-   autosave();
+    autosave();
 }
 
 static void
-_DlgFillPlacement(Dialog * d, DItem * table, void *data __UNUSED__)
+_DlgFillPlacement(Dialog *d, DItem *table, void *data __UNUSED__)
 {
-   PlaceDlgData       *dd = DLG_DATA_GET(d, PlaceDlgData);
-   DItem              *di, *radio;
+    PlaceDlgData   *dd = DLG_DATA_GET(d, PlaceDlgData);
+    DItem          *di, *radio;
 
-   dd->with_leader = Conf.focus.transientsfollowleader;
-   dd->switch_popup = Conf.focus.switchfortransientmap;
+    dd->with_leader = Conf.focus.transientsfollowleader;
+    dd->switch_popup = Conf.focus.switchfortransientmap;
 
-   dd->manual_placement = Conf.place.manual;
-   dd->manual_placement_mouse_pointer = Conf.place.manual_mouse_pointer;
-   dd->center_if_desk_full = Conf.place.center_if_desk_full;
+    dd->manual_placement = Conf.place.manual;
+    dd->manual_placement_mouse_pointer = Conf.place.manual_mouse_pointer;
+    dd->center_if_desk_full = Conf.place.center_if_desk_full;
 
-   dd->map_slide = Conf.place.slidein;
-   dd->cleanup_slide = Conf.place.cleanupslide;
-   dd->slide_mode = Conf.place.slidemode;
-   dd->map_slide_speed = Conf.place.slidespeedmap;
-   dd->cleanup_slide_speed = Conf.place.slidespeedcleanup;
+    dd->map_slide = Conf.place.slidein;
+    dd->cleanup_slide = Conf.place.cleanupslide;
+    dd->slide_mode = Conf.place.slidemode;
+    dd->map_slide_speed = Conf.place.slidespeedmap;
+    dd->cleanup_slide_speed = Conf.place.slidespeedcleanup;
 
-   dd->animate_shading = Conf.shading.animate;
-   dd->shade_speed = Conf.shading.speed;
+    dd->animate_shading = Conf.shading.animate;
+    dd->shade_speed = Conf.shading.speed;
 
-   dd->place_ignore_struts = Conf.place.ignore_struts;
-   dd->place_ignore_struts_fullscreen = Conf.place.ignore_struts_fullscreen;
-   dd->place_ignore_struts_maximize = Conf.place.ignore_struts_maximize;
-   dd->raise_fullscreen = Conf.place.raise_fullscreen;
+    dd->place_ignore_struts = Conf.place.ignore_struts;
+    dd->place_ignore_struts_fullscreen = Conf.place.ignore_struts_fullscreen;
+    dd->place_ignore_struts_maximize = Conf.place.ignore_struts_maximize;
+    dd->raise_fullscreen = Conf.place.raise_fullscreen;
 
-#ifdef USE_XINERAMA_no		/* Not implemented */
-   dd->extra_head = Conf.place.extra_head;
+#ifdef USE_XINERAMA_no          /* Not implemented */
+    dd->extra_head = Conf.place.extra_head;
 #endif
 
-   DialogItemTableSetOptions(table, 2, 0, 1, 0);
+    DialogItemTableSetOptions(table, 2, 0, 1, 0);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Dialog windows appear together with their owner"));
-   DialogItemCheckButtonSetPtr(di, &dd->with_leader);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Dialog windows appear together with their owner"));
+    DialogItemCheckButtonSetPtr(di, &dd->with_leader);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Switch to desktop where dialog appears"));
-   DialogItemCheckButtonSetPtr(di, &dd->switch_popup);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Switch to desktop where dialog appears"));
+    DialogItemCheckButtonSetPtr(di, &dd->switch_popup);
 
-   di = DialogAddItem(table, DITEM_SEPARATOR);
-   DialogItemSetColSpan(di, 2);
+    di = DialogAddItem(table, DITEM_SEPARATOR);
+    DialogItemSetColSpan(di, 2);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Place windows manually"));
-   DialogItemCheckButtonSetPtr(di, &dd->manual_placement);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Place windows manually"));
+    DialogItemCheckButtonSetPtr(di, &dd->manual_placement);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Place windows under mouse"));
-   DialogItemCheckButtonSetPtr(di, &dd->manual_placement_mouse_pointer);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Place windows under mouse"));
+    DialogItemCheckButtonSetPtr(di, &dd->manual_placement_mouse_pointer);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Center windows when desk is full"));
-   DialogItemCheckButtonSetPtr(di, &dd->center_if_desk_full);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Center windows when desk is full"));
+    DialogItemCheckButtonSetPtr(di, &dd->center_if_desk_full);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Slide windows in when they appear"));
-   DialogItemCheckButtonSetPtr(di, &dd->map_slide);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Slide windows in when they appear"));
+    DialogItemCheckButtonSetPtr(di, &dd->map_slide);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Slide windows around when cleaning up"));
-   DialogItemCheckButtonSetPtr(di, &dd->cleanup_slide);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Slide windows around when cleaning up"));
+    DialogItemCheckButtonSetPtr(di, &dd->cleanup_slide);
 
-   di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Slide method:"));
+    di = DialogAddItem(table, DITEM_TEXT);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Slide method:"));
 
-   radio = di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("Opaque"));
-   DialogItemRadioButtonSetFirst(di, radio);
-   DialogItemRadioButtonGroupSetVal(di, MR_OPAQUE);
+    radio = di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("Opaque"));
+    DialogItemRadioButtonSetFirst(di, radio);
+    DialogItemRadioButtonGroupSetVal(di, MR_OPAQUE);
 
-   di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("Technical"));
-   DialogItemRadioButtonSetFirst(di, radio);
-   DialogItemRadioButtonGroupSetVal(di, MR_TECHNICAL);
+    di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("Technical"));
+    DialogItemRadioButtonSetFirst(di, radio);
+    DialogItemRadioButtonGroupSetVal(di, MR_TECHNICAL);
 
-   di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("TechOpaque"));
-   DialogItemRadioButtonSetFirst(di, radio);
-   DialogItemRadioButtonGroupSetVal(di, MR_TECH_OPAQUE);
+    di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("TechOpaque"));
+    DialogItemRadioButtonSetFirst(di, radio);
+    DialogItemRadioButtonGroupSetVal(di, MR_TECH_OPAQUE);
 
-   di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("Box"));
-   DialogItemRadioButtonSetFirst(di, radio);
-   DialogItemRadioButtonGroupSetVal(di, MR_BOX);
+    di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("Box"));
+    DialogItemRadioButtonSetFirst(di, radio);
+    DialogItemRadioButtonGroupSetVal(di, MR_BOX);
 
-   DialogItemRadioButtonGroupSetValPtr(radio, &dd->slide_mode);
+    DialogItemRadioButtonGroupSetValPtr(radio, &dd->slide_mode);
 
-   di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Appear slide speed:"));
+    di = DialogAddItem(table, DITEM_TEXT);
+    DialogItemSetText(di, _("Appear slide speed:"));
 
-   di = DialogAddItem(table, DITEM_SLIDER);
-   DialogItemSliderSetBounds(di, 0, 20000);
-   DialogItemSliderSetUnits(di, 500);
-   DialogItemSliderSetJump(di, 1000);
-   DialogItemSliderSetValPtr(di, &dd->map_slide_speed);
+    di = DialogAddItem(table, DITEM_SLIDER);
+    DialogItemSliderSetBounds(di, 0, 20000);
+    DialogItemSliderSetUnits(di, 500);
+    DialogItemSliderSetJump(di, 1000);
+    DialogItemSliderSetValPtr(di, &dd->map_slide_speed);
 
-   di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Cleanup slide speed:"));
+    di = DialogAddItem(table, DITEM_TEXT);
+    DialogItemSetText(di, _("Cleanup slide speed:"));
 
-   di = DialogAddItem(table, DITEM_SLIDER);
-   DialogItemSliderSetBounds(di, 0, 20000);
-   DialogItemSliderSetUnits(di, 500);
-   DialogItemSliderSetJump(di, 1000);
-   DialogItemSliderSetValPtr(di, &dd->cleanup_slide_speed);
+    di = DialogAddItem(table, DITEM_SLIDER);
+    DialogItemSliderSetBounds(di, 0, 20000);
+    DialogItemSliderSetUnits(di, 500);
+    DialogItemSliderSetJump(di, 1000);
+    DialogItemSliderSetValPtr(di, &dd->cleanup_slide_speed);
 
-   di = DialogAddItem(table, DITEM_SEPARATOR);
-   DialogItemSetColSpan(di, 2);
+    di = DialogAddItem(table, DITEM_SEPARATOR);
+    DialogItemSetColSpan(di, 2);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Animate shading and unshading of windows"));
-   DialogItemCheckButtonSetPtr(di, &dd->animate_shading);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Animate shading and unshading of windows"));
+    DialogItemCheckButtonSetPtr(di, &dd->animate_shading);
 
-   di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Window shading speed:"));
+    di = DialogAddItem(table, DITEM_TEXT);
+    DialogItemSetText(di, _("Window shading speed:"));
 
-   di = DialogAddItem(table, DITEM_SLIDER);
-   DialogItemSliderSetBounds(di, 0, 20000);
-   DialogItemSliderSetUnits(di, 500);
-   DialogItemSliderSetJump(di, 1000);
-   DialogItemSliderSetValPtr(di, &dd->shade_speed);
+    di = DialogAddItem(table, DITEM_SLIDER);
+    DialogItemSliderSetBounds(di, 0, 20000);
+    DialogItemSliderSetUnits(di, 500);
+    DialogItemSliderSetJump(di, 1000);
+    DialogItemSliderSetValPtr(di, &dd->shade_speed);
 
-   di = DialogAddItem(table, DITEM_SEPARATOR);
-   DialogItemSetColSpan(di, 2);
+    di = DialogAddItem(table, DITEM_SEPARATOR);
+    DialogItemSetColSpan(di, 2);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Ignore struts/panels for placing normal windows"));
-   DialogItemCheckButtonSetPtr(di, &dd->place_ignore_struts);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Ignore struts/panels for placing normal windows"));
+    DialogItemCheckButtonSetPtr(di, &dd->place_ignore_struts);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Ignore struts/panels when windows are fullscreen"));
-   DialogItemCheckButtonSetPtr(di, &dd->place_ignore_struts_fullscreen);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di,
+                      _("Ignore struts/panels when windows are fullscreen"));
+    DialogItemCheckButtonSetPtr(di, &dd->place_ignore_struts_fullscreen);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Ignore struts/panels when maximizing windows"));
-   DialogItemCheckButtonSetPtr(di, &dd->place_ignore_struts_maximize);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Ignore struts/panels when maximizing windows"));
+    DialogItemCheckButtonSetPtr(di, &dd->place_ignore_struts_maximize);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Raise fullscreen windows"));
-   DialogItemCheckButtonSetPtr(di, &dd->raise_fullscreen);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Raise fullscreen windows"));
+    DialogItemCheckButtonSetPtr(di, &dd->raise_fullscreen);
 }
 
-const DialogDef     DlgPlacement = {
-   "CONFIGURE_PLACEMENT",
-   N_("Placement"), N_("Window Placement Settings"),
-   sizeof(PlaceDlgData),
-   SOUND_SETTINGS_PLACEMENT,
-   "pix/place.png",
-   N_("Enlightenment Window Placement\n" "Settings Dialog"),
-   _DlgFillPlacement,
-   DLG_OAC, _DlgApplyPlacement, NULL
+const DialogDef DlgPlacement = {
+    "CONFIGURE_PLACEMENT",
+    N_("Placement"), N_("Window Placement Settings"),
+    sizeof(PlaceDlgData),
+    SOUND_SETTINGS_PLACEMENT,
+    "pix/place.png",
+    N_("Enlightenment Window Placement\n" "Settings Dialog"),
+    _DlgFillPlacement,
+    DLG_OAC, _DlgApplyPlacement, NULL
 };
 
 typedef struct {
-   char                dialog_headers;
-   char                button_image;
-   char                animate_startup;
-   int                 magwin_zoom_res;
+    char            dialog_headers;
+    char            button_image;
+    char            animate_startup;
+    int             magwin_zoom_res;
 } MiscDlgData;
 
 static void
-_DlgApplyMisc(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
+_DlgApplyMisc(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 {
-   MiscDlgData        *dd = DLG_DATA_GET(d, MiscDlgData);
+    MiscDlgData    *dd = DLG_DATA_GET(d, MiscDlgData);
 
-   Conf.dialogs.headers = dd->dialog_headers;
-   Conf.dialogs.button_image = dd->button_image;
-   Conf.startup.animate = dd->animate_startup;
-   Conf.magwin.zoom_res = dd->magwin_zoom_res;
+    Conf.dialogs.headers = dd->dialog_headers;
+    Conf.dialogs.button_image = dd->button_image;
+    Conf.startup.animate = dd->animate_startup;
+    Conf.magwin.zoom_res = dd->magwin_zoom_res;
 
-   autosave();
+    autosave();
 }
 
 static void
-_DlgFillMisc(Dialog * d, DItem * table, void *data __UNUSED__)
+_DlgFillMisc(Dialog *d, DItem *table, void *data __UNUSED__)
 {
-   MiscDlgData        *dd = DLG_DATA_GET(d, MiscDlgData);
-   DItem              *di;
+    MiscDlgData    *dd = DLG_DATA_GET(d, MiscDlgData);
+    DItem          *di;
 
-   dd->dialog_headers = Conf.dialogs.headers;
-   dd->button_image = Conf.dialogs.button_image;
-   dd->animate_startup = Conf.startup.animate;
-   dd->magwin_zoom_res = Conf.magwin.zoom_res;
+    dd->dialog_headers = Conf.dialogs.headers;
+    dd->button_image = Conf.dialogs.button_image;
+    dd->animate_startup = Conf.startup.animate;
+    dd->magwin_zoom_res = Conf.magwin.zoom_res;
 
-   DialogItemTableSetOptions(table, 2, 0, 0, 0);
+    DialogItemTableSetOptions(table, 2, 0, 0, 0);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Enable dialog headers"));
-   DialogItemCheckButtonSetPtr(di, &dd->dialog_headers);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Enable dialog headers"));
+    DialogItemCheckButtonSetPtr(di, &dd->dialog_headers);
 
-#if 0				/* Not functional */
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Enable button images"));
-   DialogItemCheckButtonSetPtr(di, &dd->button_image);
+#if 0                           /* Not functional */
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Enable button images"));
+    DialogItemCheckButtonSetPtr(di, &dd->button_image);
 #endif
 
-   di = DialogAddItem(table, DITEM_SEPARATOR);
-   DialogItemSetColSpan(di, 2);
+    di = DialogAddItem(table, DITEM_SEPARATOR);
+    DialogItemSetColSpan(di, 2);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Enable sliding startup windows"));
-   DialogItemCheckButtonSetPtr(di, &dd->animate_startup);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Enable sliding startup windows"));
+    DialogItemCheckButtonSetPtr(di, &dd->animate_startup);
 
-   di = DialogAddItem(table, DITEM_SEPARATOR);
-   DialogItemSetColSpan(di, 2);
+    di = DialogAddItem(table, DITEM_SEPARATOR);
+    DialogItemSetColSpan(di, 2);
 
-   di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Magwin zoom resolution"));
+    di = DialogAddItem(table, DITEM_TEXT);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Magwin zoom resolution"));
 
-   di = DialogAddItem(table, DITEM_SLIDER);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSliderSetBounds(di, 1, 32);
-   DialogItemSliderSetUnits(di, 1);
-   DialogItemSliderSetJump(di, 1);
-   DialogItemSliderSetValPtr(di, &dd->magwin_zoom_res);
+    di = DialogAddItem(table, DITEM_SLIDER);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSliderSetBounds(di, 1, 32);
+    DialogItemSliderSetUnits(di, 1);
+    DialogItemSliderSetJump(di, 1);
+    DialogItemSliderSetValPtr(di, &dd->magwin_zoom_res);
 }
 
-const DialogDef     DlgMisc = {
-   "CONFIGURE_MISCELLANEOUS",
-   N_("Miscellaneous"), N_("Miscellaneous Settings"),
-   sizeof(MiscDlgData),
-   SOUND_SETTINGS_MISCELLANEOUS,
-   "pix/miscellaneous.png",
-   N_("Enlightenment Miscellaneous\n" "Settings Dialog"),
-   _DlgFillMisc,
-   DLG_OAC, _DlgApplyMisc, NULL
+const DialogDef DlgMisc = {
+    "CONFIGURE_MISCELLANEOUS",
+    N_("Miscellaneous"), N_("Miscellaneous Settings"),
+    sizeof(MiscDlgData),
+    SOUND_SETTINGS_MISCELLANEOUS,
+    "pix/miscellaneous.png",
+    N_("Enlightenment Miscellaneous\n" "Settings Dialog"),
+    _DlgFillMisc,
+    DLG_OAC, _DlgApplyMisc, NULL
 };
 
 #if USE_COMPOSITE
@@ -573,117 +574,117 @@ const DialogDef     DlgMisc = {
  */
 
 static void
-_DlgApplyComposite(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
+_DlgApplyComposite(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 {
-   cfg_composite      *dd = DLG_DATA_GET(d, cfg_composite);
+    cfg_composite  *dd = DLG_DATA_GET(d, cfg_composite);
 
-   /* Configure and read back */
-   ECompMgrConfigSet(dd);
-   ECompMgrConfigGet(dd);
+    /* Configure and read back */
+    ECompMgrConfigSet(dd);
+    ECompMgrConfigGet(dd);
 }
 
 static void
-_DlgFillComposite(Dialog * d, DItem * table, void *data __UNUSED__)
+_DlgFillComposite(Dialog *d, DItem *table, void *data __UNUSED__)
 {
-   cfg_composite      *dd = DLG_DATA_GET(d, cfg_composite);
-   DItem              *di, *radio;
+    cfg_composite  *dd = DLG_DATA_GET(d, cfg_composite);
+    DItem          *di, *radio;
 
-   /* Get current settings */
-   ECompMgrConfigGet(dd);
+    /* Get current settings */
+    ECompMgrConfigGet(dd);
 
-   /* Layout */
-   DialogItemTableSetOptions(table, 2, 0, 0, 0);
+    /* Layout */
+    DialogItemTableSetOptions(table, 2, 0, 0, 0);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Enable composite"));
-   DialogItemCheckButtonSetPtr(di, &dd->enable);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Enable composite"));
+    DialogItemCheckButtonSetPtr(di, &dd->enable);
 
-   di = DialogAddItem(table, DITEM_SEPARATOR);
-   DialogItemSetColSpan(di, 2);
+    di = DialogAddItem(table, DITEM_SEPARATOR);
+    DialogItemSetColSpan(di, 2);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Enable fading"));
-   DialogItemCheckButtonSetPtr(di, &dd->fading);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Enable fading"));
+    DialogItemCheckButtonSetPtr(di, &dd->fading);
 
-   di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Fading speed:"));
+    di = DialogAddItem(table, DITEM_TEXT);
+    DialogItemSetText(di, _("Fading speed:"));
 
-   di = DialogAddItem(table, DITEM_SLIDER);
-   DialogItemSliderSetBounds(di, 0, 100);
-   DialogItemSliderSetUnits(di, 5);
-   DialogItemSliderSetJump(di, 5);
-   DialogItemSliderSetValPtr(di, &dd->fade_speed);
+    di = DialogAddItem(table, DITEM_SLIDER);
+    DialogItemSliderSetBounds(di, 0, 100);
+    DialogItemSliderSetUnits(di, 5);
+    DialogItemSliderSetJump(di, 5);
+    DialogItemSliderSetValPtr(di, &dd->fade_speed);
 
-   di = DialogAddItem(table, DITEM_SEPARATOR);
-   DialogItemSetColSpan(di, 2);
+    di = DialogAddItem(table, DITEM_SEPARATOR);
+    DialogItemSetColSpan(di, 2);
 
-   radio = di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Shadows off"));
-   DialogItemRadioButtonSetFirst(di, radio);
-   DialogItemRadioButtonGroupSetVal(di, 0);
+    radio = di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Shadows off"));
+    DialogItemRadioButtonSetFirst(di, radio);
+    DialogItemRadioButtonGroupSetVal(di, 0);
 
-   di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Shadows Sharp"));
-   DialogItemRadioButtonSetFirst(di, radio);
-   DialogItemRadioButtonGroupSetVal(di, 1);
+    di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Shadows Sharp"));
+    DialogItemRadioButtonSetFirst(di, radio);
+    DialogItemRadioButtonGroupSetVal(di, 1);
 
-   di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Shadows Sharp2"));
-   DialogItemRadioButtonSetFirst(di, radio);
-   DialogItemRadioButtonGroupSetVal(di, 3);
+    di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Shadows Sharp2"));
+    DialogItemRadioButtonSetFirst(di, radio);
+    DialogItemRadioButtonGroupSetVal(di, 3);
 
-   di = DialogAddItem(table, DITEM_RADIOBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Shadows Blurred"));
-   DialogItemRadioButtonSetFirst(di, radio);
-   DialogItemRadioButtonGroupSetVal(di, 2);
-   DialogItemRadioButtonGroupSetValPtr(radio, &dd->shadow);
+    di = DialogAddItem(table, DITEM_RADIOBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Shadows Blurred"));
+    DialogItemRadioButtonSetFirst(di, radio);
+    DialogItemRadioButtonGroupSetVal(di, 2);
+    DialogItemRadioButtonGroupSetValPtr(radio, &dd->shadow);
 
-   di = DialogAddItem(table, DITEM_SEPARATOR);
-   DialogItemSetColSpan(di, 2);
+    di = DialogAddItem(table, DITEM_SEPARATOR);
+    DialogItemSetColSpan(di, 2);
 
-   di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Default focused window opacity:"));
+    di = DialogAddItem(table, DITEM_TEXT);
+    DialogItemSetText(di, _("Default focused window opacity:"));
 
-   di = DialogAddItem(table, DITEM_SLIDER);
-   DialogItemSliderSetBounds(di, 0, 100);
-   DialogItemSliderSetUnits(di, 5);
-   DialogItemSliderSetJump(di, 5);
-   DialogItemSliderSetValPtr(di, &dd->opacity_focused);
+    di = DialogAddItem(table, DITEM_SLIDER);
+    DialogItemSliderSetBounds(di, 0, 100);
+    DialogItemSliderSetUnits(di, 5);
+    DialogItemSliderSetJump(di, 5);
+    DialogItemSliderSetValPtr(di, &dd->opacity_focused);
 
-   di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Default unfocused window opacity:"));
+    di = DialogAddItem(table, DITEM_TEXT);
+    DialogItemSetText(di, _("Default unfocused window opacity:"));
 
-   di = DialogAddItem(table, DITEM_SLIDER);
-   DialogItemSliderSetBounds(di, 0, 100);
-   DialogItemSliderSetUnits(di, 5);
-   DialogItemSliderSetJump(di, 5);
-   DialogItemSliderSetValPtr(di, &dd->opacity_unfocused);
+    di = DialogAddItem(table, DITEM_SLIDER);
+    DialogItemSliderSetBounds(di, 0, 100);
+    DialogItemSliderSetUnits(di, 5);
+    DialogItemSliderSetJump(di, 5);
+    DialogItemSliderSetValPtr(di, &dd->opacity_unfocused);
 
-   di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Default pop-up window opacity:"));
+    di = DialogAddItem(table, DITEM_TEXT);
+    DialogItemSetText(di, _("Default pop-up window opacity:"));
 
-   di = DialogAddItem(table, DITEM_SLIDER);
-   DialogItemSliderSetBounds(di, 0, 100);
-   DialogItemSliderSetUnits(di, 5);
-   DialogItemSliderSetJump(di, 5);
-   DialogItemSliderSetValPtr(di, &dd->opacity_override);
+    di = DialogAddItem(table, DITEM_SLIDER);
+    DialogItemSliderSetBounds(di, 0, 100);
+    DialogItemSliderSetUnits(di, 5);
+    DialogItemSliderSetJump(di, 5);
+    DialogItemSliderSetValPtr(di, &dd->opacity_override);
 }
 
-const DialogDef     DlgComposite = {
-   "CONFIGURE_COMPOSITE",
-   N_("Composite"), N_("Composite Settings"),
-   sizeof(cfg_composite),
-   SOUND_SETTINGS_COMPOSITE,
-   "pix/pager.png",
-   N_("Enlightenment Composite\n" "Settings Dialog"),
-   _DlgFillComposite,
-   DLG_OAC, _DlgApplyComposite, NULL
+const DialogDef DlgComposite = {
+    "CONFIGURE_COMPOSITE",
+    N_("Composite"), N_("Composite Settings"),
+    sizeof(cfg_composite),
+    SOUND_SETTINGS_COMPOSITE,
+    "pix/pager.png",
+    N_("Enlightenment Composite\n" "Settings Dialog"),
+    _DlgFillComposite,
+    DLG_OAC, _DlgApplyComposite, NULL
 };
 #endif
 
@@ -692,102 +693,102 @@ const DialogDef     DlgComposite = {
  */
 
 static const DialogDef *const dialogs[] = {
-   &DlgFocus,
-   &DlgMoveResize,
-   &DlgPlacement,
-   &DlgDesks,
-   &DlgAreas,
-   &DlgPagers,
-   &DlgMenus,
-   &DlgTooltips,
+    &DlgFocus,
+    &DlgMoveResize,
+    &DlgPlacement,
+    &DlgDesks,
+    &DlgAreas,
+    &DlgPagers,
+    &DlgMenus,
+    &DlgTooltips,
 #if ENABLE_SOUND
-   &DlgSound,
+    &DlgSound,
 #endif
-   &DlgGroupDefaults,
-   &DlgRemember,
-   &DlgFx,
-   &DlgBackground,
-   &DlgTheme,
+    &DlgGroupDefaults,
+    &DlgRemember,
+    &DlgFx,
+    &DlgBackground,
+    &DlgTheme,
 #if USE_COMPOSITE
-   &DlgComposite,
+    &DlgComposite,
 #endif
-   &DlgSession,
-   &DlgMisc,
+    &DlgSession,
+    &DlgMisc,
 };
 
 static void
-CB_DlgSelect(Dialog * d, int val, void *data)
+CB_DlgSelect(Dialog *d, int val, void *data)
 {
-   const DialogDef    *dd = dialogs[val];
-   DItem              *table = (DItem *) data;
+    const DialogDef *dd = dialogs[val];
+    DItem          *table = (DItem *) data;
 
-   if (!table)
-      return;
-   if (!dd->fill)
-      return;
+    if (!table)
+        return;
+    if (!dd->fill)
+        return;
 
-   DialogCallExitFunction(d);
+    DialogCallExitFunction(d);
 
-   DialogItemTableEmpty(table);
-   DialogKeybindingsDestroy(d);
+    DialogItemTableEmpty(table);
+    DialogKeybindingsDestroy(d);
 
-   DialogSetTitle(d, _(dd->title));
-   DialogFill(d, table, dd, NULL);
+    DialogSetTitle(d, _(dd->title));
+    DialogFill(d, table, dd, NULL);
 
-   DialogArrange(d, 1);
+    DialogArrange(d, 1);
 }
 
 static void
-_DlgFillConfiguration(Dialog * d, DItem * table, void *data __UNUSED__)
+_DlgFillConfiguration(Dialog *d, DItem *table, void *data __UNUSED__)
 {
-   DItem              *di, *buttons, *content;
-   unsigned int        i;
+    DItem          *di, *buttons, *content;
+    unsigned int    i;
 
-   DialogItemTableSetOptions(table, 2, 0, 0, 0);
+    DialogItemTableSetOptions(table, 2, 0, 0, 0);
 
-   buttons = DialogAddItem(table, DITEM_TABLE);
-   content = DialogAddItem(table, DITEM_TABLE);
+    buttons = DialogAddItem(table, DITEM_TABLE);
+    content = DialogAddItem(table, DITEM_TABLE);
 
-   for (i = 0; i < E_ARRAY_SIZE(dialogs); i++)
-     {
-	di = DialogAddItem(buttons, DITEM_BUTTON);
-	DialogItemSetPadding(di, 2, 2, 0, 0);
-	DialogItemSetText(di, _(dialogs[i]->label));
-	DialogItemSetCallback(di, CB_DlgSelect, i, content);
-     }
+    for (i = 0; i < E_ARRAY_SIZE(dialogs); i++)
+    {
+        di = DialogAddItem(buttons, DITEM_BUTTON);
+        DialogItemSetPadding(di, 2, 2, 0, 0);
+        DialogItemSetText(di, _(dialogs[i]->label));
+        DialogItemSetCallback(di, CB_DlgSelect, i, content);
+    }
 
-   DialogFill(d, content, dialogs[0], NULL);
+    DialogFill(d, content, dialogs[0], NULL);
 }
 
 static const DialogDef DlgConfiguration = {
-   "CONFIGURE_ALL",
-   NULL, N_("Enlightenment Settings"),
-   0,
-   SOUND_SETTINGS_ALL,
-   NULL,
-   NULL,
-   _DlgFillConfiguration,
-   0, NULL, NULL
+    "CONFIGURE_ALL",
+    NULL, N_("Enlightenment Settings"),
+    0,
+    SOUND_SETTINGS_ALL,
+    NULL,
+    NULL,
+    _DlgFillConfiguration,
+    0, NULL, NULL
 };
 
 void
 IPC_Cfg(const char *params)
 {
-   unsigned int        i;
-   const char         *name;
+    unsigned int    i;
+    const char     *name;
 
-   if (!params || !params[0])
-     {
-	DialogShowSimple(&DlgConfiguration, NULL);
-	return;
-     }
+    if (!params || !params[0])
+    {
+        DialogShowSimple(&DlgConfiguration, NULL);
+        return;
+    }
 
-   for (i = 0; i < E_ARRAY_SIZE(dialogs); i++)
-     {
-	name = dialogs[i]->label;
-	if (Estrcasecmp(params, name))
-	   continue;
-	DialogShowSimple(dialogs[i], NULL);
-     }
+    for (i = 0; i < E_ARRAY_SIZE(dialogs); i++)
+    {
+        name = dialogs[i]->label;
+        if (Estrcasecmp(params, name))
+            continue;
+        DialogShowSimple(dialogs[i], NULL);
+    }
 }
-#endif /* ENABLE_DIALOGS */
+#endif                          /* ENABLE_DIALOGS */

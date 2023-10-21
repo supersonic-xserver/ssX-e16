@@ -28,142 +28,142 @@
 static void
 _ExecSetStartupId(void)
 {
-   char                buf[128];
-   Desk               *dsk;
-   int                 ax, ay;
+    char            buf[128];
+    Desk           *dsk;
+    int             ax, ay;
 
-   dsk = DesksGetCurrent();
-   DeskGetArea(dsk, &ax, &ay);
+    dsk = DesksGetCurrent();
+    DeskGetArea(dsk, &ax, &ay);
 
-   Esnprintf(buf, sizeof(buf), "e16/%d:%d:%d,%d", Mode.apps.startup_id,
-	     dsk->num, ax, ay);
-   Esetenv("DESKTOP_STARTUP_ID", buf);
+    Esnprintf(buf, sizeof(buf), "e16/%d:%d:%d,%d", Mode.apps.startup_id,
+              dsk->num, ax, ay);
+    Esetenv("DESKTOP_STARTUP_ID", buf);
 }
 
 static void
 _ExecSetupEnv(int flags)
 {
-   int                 fd;
+    int             fd;
 
-   setsid();
+    setsid();
 
-   /* Close all file descriptors except the std 3 */
-   for (fd = 3; fd < 1024; fd++)
-      close(fd);
+    /* Close all file descriptors except the std 3 */
+    for (fd = 3; fd < 1024; fd++)
+        close(fd);
 
-   /* Set up env stuff */
-   if (flags & EXEC_SET_LANG)
-      LangExport();
-   if (flags & EXEC_SET_STARTUP_ID)
-      _ExecSetStartupId();
+    /* Set up env stuff */
+    if (flags & EXEC_SET_LANG)
+        LangExport();
+    if (flags & EXEC_SET_STARTUP_ID)
+        _ExecSetStartupId();
 
 #if USE_LIBHACK
-   if (Mode.wm.window && !(flags & EXEC_NO_LIBHACK))
-     {
-	char                buf[1024];
+    if (Mode.wm.window && !(flags & EXEC_NO_LIBHACK))
+    {
+        char            buf[1024];
 
-	Esnprintf(buf, sizeof(buf), "%s/libhack.so", EDirLib());
-	Esetenv("LD_PRELOAD", buf);
-     }
+        Esnprintf(buf, sizeof(buf), "%s/libhack.so", EDirLib());
+        Esetenv("LD_PRELOAD", buf);
+    }
 #endif
 }
 
 void
 Eexec(const char *cmd)
 {
-   char              **lst;
-   int                 num;
+    char          **lst;
+    int             num;
 
-   _ExecSetupEnv(EXEC_NO_LIBHACK);
+    _ExecSetupEnv(EXEC_NO_LIBHACK);
 
-   lst = StrlistFromString(cmd, ' ', &num);
+    lst = StrlistFromString(cmd, ' ', &num);
 
-   if (EDebug(EDBUG_TYPE_EXEC))
-      Eprintf("%s: '%s'\n", __func__, cmd);
+    if (EDebug(EDBUG_TYPE_EXEC))
+        Eprintf("%s: '%s'\n", __func__, cmd);
 
-   execvp(lst[0], lst);
+    execvp(lst[0], lst);
 
-   StrlistFree(lst, num);
+    StrlistFree(lst, num);
 }
 
 int
 EspawnApplication(const char *params, int flags)
 {
-   int                 argc;
-   char              **argv;
+    int             argc;
+    char          **argv;
 
-   if (!params)
-      return -1;
+    if (!params)
+        return -1;
 
-   if (EDebug(EDBUG_TYPE_EXEC))
-      Eprintf("%s: '%s'\n", __func__, params);
+    if (EDebug(EDBUG_TYPE_EXEC))
+        Eprintf("%s: '%s'\n", __func__, params);
 
-   Mode.apps.startup_id++;
-   if (fork())
-      return 0;
+    Mode.apps.startup_id++;
+    if (fork())
+        return 0;
 
-   _ExecSetupEnv(flags);
+    _ExecSetupEnv(flags);
 
-   argv = StrlistDecodeEscaped(params, &argc);
-   if (argc <= 0)
-      return -1;
+    argv = StrlistDecodeEscaped(params, &argc);
+    if (argc <= 0)
+        return -1;
 
-   execvp(argv[0], argv);
+    execvp(argv[0], argv);
 
-   if (!Mode.wm.startup)
-      AlertOK(_("There was a problem running the command\n '%s'\nError: %m"),
-	      params);
+    if (!Mode.wm.startup)
+        AlertOK(_("There was a problem running the command\n '%s'\nError: %m"),
+                params);
 
-   StrlistFree(argv, argc);
+    StrlistFree(argv, argc);
 
-   exit(100);
+    exit(100);
 }
 
 static void
 _Espawn(int argc __UNUSED__, char **argv)
 {
-   if (!argv || !argv[0])
-      return;
+    if (!argv || !argv[0])
+        return;
 
-   if (fork())
-      return;
+    if (fork())
+        return;
 
-   _ExecSetupEnv(EXEC_SET_LANG | EXEC_SET_STARTUP_ID);
+    _ExecSetupEnv(EXEC_SET_LANG | EXEC_SET_STARTUP_ID);
 
-   execvp(argv[0], argv);
+    execvp(argv[0], argv);
 
-   AlertOK(_("There was a problem running the command\n '%s'\nError: %m"),
-	   argv[0]);
+    AlertOK(_("There was a problem running the command\n '%s'\nError: %m"),
+            argv[0]);
 
-   exit(100);
+    exit(100);
 }
 
 __EXPORT__ void
 Espawn(const char *fmt, ...)
 {
-   va_list             args;
-   char                buf[FILEPATH_LEN_MAX];
-   int                 argc;
-   char              **argv;
+    va_list         args;
+    char            buf[FILEPATH_LEN_MAX];
+    int             argc;
+    char          **argv;
 
-   va_start(args, fmt);
-   vsnprintf(buf, sizeof(buf), fmt, args);
-   va_end(args);
+    va_start(args, fmt);
+    vsnprintf(buf, sizeof(buf), fmt, args);
+    va_end(args);
 
-   argv = StrlistDecodeEscaped(buf, &argc);
-   _Espawn(argc, argv);
-   StrlistFree(argv, argc);
+    argv = StrlistDecodeEscaped(buf, &argc);
+    _Espawn(argc, argv);
+    StrlistFree(argv, argc);
 }
 
 int
 Esystem(const char *fmt, ...)
 {
-   va_list             args;
-   char                buf[FILEPATH_LEN_MAX];
+    va_list         args;
+    char            buf[FILEPATH_LEN_MAX];
 
-   va_start(args, fmt);
-   vsnprintf(buf, sizeof(buf), fmt, args);
-   va_end(args);
+    va_start(args, fmt);
+    vsnprintf(buf, sizeof(buf), fmt, args);
+    va_end(args);
 
-   return system(buf);
+    return system(buf);
 }

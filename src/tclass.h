@@ -34,87 +34,87 @@
 #define FONT_TO_UP        2
 #define FONT_TO_LEFT      3
 
-#define FONT_TYPE_XFS           2	/* XFontSet        */
-#define FONT_TYPE_IFT           3	/* Imlib2/FreeType */
+#define FONT_TYPE_XFS           2       /* XFontSet        */
+#define FONT_TYPE_IFT           3       /* Imlib2/FreeType */
 #if USE_XFT
-#define FONT_TYPE_XFT           4	/* Xft             */
+#define FONT_TYPE_XFT           4       /* Xft             */
 #endif
 #if USE_PANGO
-#define FONT_TYPE_PANGO_XFT     5	/* Pango-Xft       */
+#define FONT_TYPE_PANGO_XFT     5       /* Pango-Xft       */
 #endif
 
 typedef struct {
-   int                 (*Load)(TextState * ts, const char *name);
-   void                (*Destroy)(TextState * ts);
-   void                (*TextSize)(TextState * ts, const char *text, int len,
-				   int *width, int *height, int *ascent);
-   void                (*TextFit)(TextState * ts, char **ptext,
-				  int *pwidth, int textwidth_limit);
-   void                (*TextDraw)(TextState * ts, int x, int y,
-				   const char *text, int len);
-   int                 (*FdcInit)(TextState * ts, Win win, EX_Drawable draw);
-   void                (*FdcFini)(TextState * ts);
-   void                (*FdcSetDrawable)(TextState * ts, unsigned long draw);
-   void                (*FdcSetColor)(TextState * ts, unsigned int color);
+    int             (*Load)(TextState * ts, const char *name);
+    void            (*Destroy)(TextState * ts);
+    void            (*TextSize)(TextState * ts, const char *text, int len,
+                                int *width, int *height, int *ascent);
+    void            (*TextFit)(TextState * ts, char **ptext,
+                               int *pwidth, int textwidth_limit);
+    void            (*TextDraw)(TextState * ts, int x, int y,
+                                const char *text, int len);
+    int             (*FdcInit)(TextState * ts, Win win, EX_Drawable draw);
+    void            (*FdcFini)(TextState * ts);
+    void            (*FdcSetDrawable)(TextState * ts, unsigned long draw);
+    void            (*FdcSetColor)(TextState * ts, unsigned int color);
 } FontOps;
 
 struct _textstate {
-   char               *fontname;
-   char                type;
-   char                need_utf8;
-   struct {
-      char                mode;
-      char                orientation;
-      char                effect;
-   } style;
-   unsigned int        fg_col;
-   unsigned int        bg_col;
-   void               *fdc;
-   const FontOps      *ops;
+    char           *fontname;
+    char            type;
+    char            need_utf8;
+    struct {
+        char            mode;
+        char            orientation;
+        char            effect;
+    } style;
+    unsigned int    fg_col;
+    unsigned int    bg_col;
+    void           *fdc;
+    const FontOps  *ops;
 };
 
 struct _textclass {
-   dlist_t             list;
-   char               *name;
-   struct {
-      TextState          *normal;
-      TextState          *hilited;
-      TextState          *clicked;
-      TextState          *disabled;
-   } norm             , active, sticky, sticky_active;
-   int                 justification;
-   unsigned int        ref_count;
+    dlist_t         list;
+    char           *name;
+    struct {
+        TextState      *normal;
+        TextState      *hilited;
+        TextState      *clicked;
+        TextState      *disabled;
+    } norm         , active, sticky, sticky_active;
+    int             justification;
+    unsigned int    ref_count;
 };
 
 /* tclass.c */
-int                 TextclassConfigLoad(FILE * fs);
-TextClass          *TextclassFind(const char *name, int fallback);
-TextClass          *TextclassAlloc(const char *name, int fallback);
-void                TextclassFree(TextClass * tc);
-int                 TextclassGetJustification(TextClass * tc);
-void                TextclassSetJustification(TextClass * tc, int just);
+int             TextclassConfigLoad(FILE * fs);
+TextClass      *TextclassFind(const char *name, int fallback);
+TextClass      *TextclassAlloc(const char *name, int fallback);
+void            TextclassFree(TextClass * tc);
+int             TextclassGetJustification(TextClass * tc);
+void            TextclassSetJustification(TextClass * tc, int just);
 
 /* text.c */
-TextState          *TextclassGetTextState(TextClass * tclass, int state,
-					  int active, int sticky);
-void                TextstateTextFit(TextState * ts, char **ptext, int *pw,
-				     int textwidth_limit);
-void                TextstateTextDraw(TextState * ts, Win win,
-				      EX_Drawable draw, const char *text,
-				      int x, int y, int w, int h,
-				      const EImageBorder * pad,
-				      int justh, int justv);
-void                TextSize(TextClass * tclass, int active, int sticky,
-			     int state, const char *text,
-			     int *width, int *height);
-void                TextDraw(TextClass * tclass, Win win, EX_Drawable draw,
-			     int active, int sticky, int state,
-			     const char *text, int x, int y, int w, int h,
-			     int justification);
+TextState      *TextclassGetTextState(TextClass * tclass, int state,
+                                      int active, int sticky);
+void            TextstateTextFit(TextState * ts, char **ptext, int *pw,
+                                 int textwidth_limit);
+void            TextstateTextDraw(TextState * ts, Win win,
+                                  EX_Drawable draw, const char *text,
+                                  int x, int y, int w, int h,
+                                  const EImageBorder * pad,
+                                  int justh, int justv);
+void            TextSize(TextClass * tclass,
+                         int active, int sticky, int state,
+                         const char *text, int *width, int *height);
+void            TextDraw(TextClass * tclass, Win win, EX_Drawable draw,
+                         int active, int sticky, int state,
+                         const char *text, int x, int y, int w, int h,
+                         int justification);
 
-int                 _xft_FdcInit(TextState * ts, Win win, EX_Drawable draw);
-void                _xft_FdcFini(TextState * ts);
-void                _xft_FdcSetDrawable(TextState * ts, unsigned long draw);
-void                _xft_FdcSetColor(TextState * ts, unsigned int color);
+int             _xft_FdcInit(TextState * ts, Win win, EX_Drawable draw);
+void            _xft_FdcFini(TextState * ts);
+void            _xft_FdcSetDrawable(TextState * ts, unsigned long draw);
+void            _xft_FdcSetColor(TextState * ts, unsigned int color);
 
-#endif /* _TCLASS_H */
+#endif                          /* _TCLASS_H */

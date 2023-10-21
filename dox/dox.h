@@ -26,7 +26,7 @@
 #include <Imlib2.h>
 
 #define EAllocColor(pxc) \
-	XAllocColor(disp, VRoot.cmap, pxc)
+    XAllocColor(disp, VRoot.cmap, pxc)
 
 #ifndef MAX
 #define MAX(a,b)  ((a)>(b)?(a):(b))
@@ -37,71 +37,71 @@
 typedef struct _efont Efont;
 
 typedef struct _root {
-   Window              win;
-   Visual             *vis;
-   unsigned int        depth;
-   Colormap            cmap;
-   int                 scr;
-   unsigned int        w, h;
+    Window          win;
+    Visual         *vis;
+    unsigned int    depth;
+    Colormap        cmap;
+    int             scr;
+    unsigned int    w, h;
 } Root;
 
 typedef struct _textstate {
-   char               *fontname;
-   XColor              fg_col;
-   XColor              bg_col;
-   int                 effect;
-   Efont              *efont;
-   XFontSet            xfontset;
-   int                 xfontset_ascent;
-   int                 height;
+    char           *fontname;
+    XColor          fg_col;
+    XColor          bg_col;
+    int             effect;
+    Efont          *efont;
+    XFontSet        xfontset;
+    int             xfontset_ascent;
+    int             height;
 } TextState;
 
 typedef struct _link {
-   char               *name;
-   int                 x, y, w, h;
-   struct _link       *next;
+    char           *name;
+    int             x, y, w, h;
+    struct _link   *next;
 } Link;
 
 /* dox.c */
-Imlib_Image         ImageLoadDoc(const char *file);
-void                ESetColor(XColor * pxc, int r, int g, int b);
-void                EGetColor(XColor * pxc, int *pr, int *pg, int *pb);
+Imlib_Image     ImageLoadDoc(const char *file);
+void            ESetColor(XColor * pxc, int r, int g, int b);
+void            EGetColor(XColor * pxc, int *pr, int *pg, int *pb);
 
 /* ttfont.c */
-void                Efont_extents(Efont * f, const char *text,
-				  int *font_ascent_return,
-				  int *font_descent_return, int *width_return,
-				  int *max_ascent_return,
-				  int *max_descent_return,
-				  int *lbearing_return, int *rbearing_return);
-Efont              *Efont_load(const char *file, int size);
-void                Efont_free(Efont * f);
-void                EFont_draw_string(Display * disp, Drawable win, GC gc,
-				      int x, int y, const char *text,
-				      Efont * font, Visual * vis, Colormap cm);
+void            Efont_extents(Efont * f, const char *text,
+                              int *font_ascent_return,
+                              int *font_descent_return, int *width_return,
+                              int *max_ascent_return,
+                              int *max_descent_return,
+                              int *lbearing_return, int *rbearing_return);
+Efont          *Efont_load(const char *file, int size);
+void            Efont_free(Efont * f);
+void            EFont_draw_string(Display * disp, Drawable win, GC gc,
+                                  int x, int y, const char *text,
+                                  Efont * font, Visual * vis, Colormap cm);
 
 /* text.c */
-void                TextStateLoadFont(TextState * ts);
-void                TextSize(TextState * ts, const char *text,
-			     int *width, int *height);
-void                TextDraw(TextState * ts, Window win, char *text,
-			     int x, int y, int w, int h, int justification);
+void            TextStateLoadFont(TextState * ts);
+void            TextSize(TextState * ts, const char *text,
+                         int *width, int *height);
+void            TextDraw(TextState * ts, Window win, char *text,
+                         int x, int y, int w, int h, int justification);
 
 /* file.c */
-int                 exists(char *s);
-void                freestrlist(char **l, int num);
-void                word(char *s, int num, char *wd);
+int             exists(char *s);
+void            freestrlist(char **l, int num);
+void            word(char *s, int num, char *wd);
 
 /* format.c */
-void                GetObjects(FILE * f);
-int                 FixPage(int p);
-int                 GetPage(char *name);
-void                GetLinkColors(int page_num, int *r, int *g, int *b);
-Link               *RenderPage(Window win, int page_num, int w, int h);
+void            GetObjects(FILE * f);
+int             FixPage(int p);
+int             GetPage(char *name);
+void            GetLinkColors(int page_num, int *r, int *g, int *b);
+Link           *RenderPage(Window win, int page_num, int w, int h);
 
-extern Display     *disp;
-extern Root         VRoot;
-extern char        *docdir;
+extern Display *disp;
+extern Root     VRoot;
+extern char    *docdir;
 
 #define Emalloc     malloc
 #define Erealloc    realloc

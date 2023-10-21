@@ -25,108 +25,106 @@
 
 #include "xtypes.h"
 
-typedef void        EImage;
+typedef void    EImage;
 
 typedef struct {
-   int                 left, right, top, bottom;
+    int             left, right, top, bottom;
 } EImageBorder;
 
 typedef struct {
-   struct {
-      int                 max_mem;
-      int                 used_mem;
-   } img;
-   struct {
-      int                 max_mem;
-      int                 used_mem;
-      int                 max_cnt;
-      int                 used_cnt;
-   } xim;
+    struct {
+        int             max_mem;
+        int             used_mem;
+    } img;
+    struct {
+        int             max_mem;
+        int             used_mem;
+        int             max_cnt;
+        int             used_cnt;
+    } xim;
 } ECacheInfo;
 
 #define EIMAGE_BLEND            0x0001
 #define EIMAGE_ANTI_ALIAS       0x0002
 #define EIMAGE_HIGH_MASK_THR    0x0004
-#define EIMAGE_ISCALE           0x0f00	/* Intermediate scaling */
+#define EIMAGE_ISCALE           0x0f00  /* Intermediate scaling */
 
-void                EImageInit(void);
-void                EImageExit(int quit);
-void                EImageSetCacheSize(int size);
-void                EImageSetXImageCacheSize(int count, int size);
-void                EImageGetCacheInfo(ECacheInfo * ci);
+void            EImageInit(void);
+void            EImageExit(int quit);
+void            EImageSetCacheSize(int size);
+void            EImageSetXImageCacheSize(int count, int size);
+void            EImageGetCacheInfo(ECacheInfo * ci);
 
-EImage             *EImageCreate(int w, int h);
-EImage             *EImageCreateFromData(int w, int h, unsigned int *data);
-EImage             *EImageCreateScaled(EImage * im, int sx, int sy,
-				       int sw, int sh, int dw, int dh);
+EImage         *EImageCreate(int w, int h);
+EImage         *EImageCreateFromData(int w, int h, unsigned int *data);
+EImage         *EImageCreateScaled(EImage * im, int sx, int sy,
+                                   int sw, int sh, int dw, int dh);
 
-void                EImageFree(EImage * im);
-void                EImageDecache(EImage * im);
+void            EImageFree(EImage * im);
+void            EImageDecache(EImage * im);
 
-void                EImageSave(EImage * im, const char *file);
-EImage             *EImageLoad(const char *file);
-EImage             *EImageLoadOrientate(const char *file, int orient);
+void            EImageSave(EImage * im, const char *file);
+EImage         *EImageLoad(const char *file);
+EImage         *EImageLoadOrientate(const char *file, int orient);
 
-void                EImageCheckAlpha(EImage * im);
+void            EImageCheckAlpha(EImage * im);
 
-void                EImageSetHasAlpha(EImage * im, int has_alpha);
-void                EImageSetBorder(EImage * im, EImageBorder * border);
+void            EImageSetHasAlpha(EImage * im, int has_alpha);
+void            EImageSetBorder(EImage * im, EImageBorder * border);
 
-int                 EImageHasAlpha(EImage * im);
-void                EImageGetSize(EImage * im, int *pw, int *ph);
-void               *EImageGetData(EImage * im);
+int             EImageHasAlpha(EImage * im);
+void            EImageGetSize(EImage * im, int *pw, int *ph);
+void           *EImageGetData(EImage * im);
 
-void                EImageFill(EImage * im, int x, int y, int w, int h,
-			       unsigned int color);
-void                EImageOrientate(EImage * im, int orientation);
+void            EImageFill(EImage * im, int x, int y, int w, int h,
+                           unsigned int color);
+void            EImageOrientate(EImage * im, int orientation);
 
-void                EImageBlend(EImage * im, EImage * src, int flags,
-				int sx, int sy, int sw, int sh,
-				int dx, int dy, int dw, int dh,
-				int merge_alpha);
-void                EImageTile(EImage * im, EImage * tile, int flags, int tw,
-			       int th, int dx, int dy, int dw, int dh, int ox,
-			       int oy);
+void            EImageBlend(EImage * im, EImage * src, int flags,
+                            int sx, int sy, int sw, int sh,
+                            int dx, int dy, int dw, int dh, int merge_alpha);
+void            EImageTile(EImage * im, EImage * tile, int flags, int tw,
+                           int th, int dx, int dy, int dw, int dh, int ox,
+                           int oy);
 
-EImage             *EImageGrabDrawable(EX_Drawable draw, EX_Pixmap mask,
-				       int x, int y, int w, int h, int grab);
-EImage             *EImageGrabDrawableScaled(Win win,
-					     EX_Drawable draw,
-					     EX_Pixmap mask, int x, int y,
-					     int w, int h, int iw, int ih,
-					     int grab, int get_mask_from_shape);
+EImage         *EImageGrabDrawable(EX_Drawable draw, EX_Pixmap mask,
+                                   int x, int y, int w, int h, int grab);
+EImage         *EImageGrabDrawableScaled(Win win,
+                                         EX_Drawable draw,
+                                         EX_Pixmap mask, int x, int y,
+                                         int w, int h, int iw, int ih,
+                                         int grab, int get_mask_from_shape);
 
-void                EImageRenderOnDrawable(EImage * im, Win win,
-					   EX_Drawable draw, int flags,
-					   int x, int y, int w, int h);
-void                EImageRenderOnDrawableARGB(EImage * im, EX_Drawable draw,
-					       int w, int h);
+void            EImageRenderOnDrawable(EImage * im, Win win,
+                                       EX_Drawable draw, int flags,
+                                       int x, int y, int w, int h);
+void            EImageRenderOnDrawableARGB(EImage * im, EX_Drawable draw,
+                                           int w, int h);
 
-void                EImageRenderPixmaps(EImage * im, Win win, int flags,
-					EX_Pixmap * pmap,
-					EX_Pixmap * mask, int w, int h);
-void                EImagePixmapsFree(EX_Pixmap pmap, EX_Pixmap mask);
+void            EImageRenderPixmaps(EImage * im, Win win, int flags,
+                                    EX_Pixmap * pmap,
+                                    EX_Pixmap * mask, int w, int h);
+void            EImagePixmapsFree(EX_Pixmap pmap, EX_Pixmap mask);
 
-void                EImageApplyToWin(EImage * im, Win win, int flags,
-				     int w, int h);
+void            EImageApplyToWin(EImage * im, Win win, int flags, int w, int h);
 
-void                ScaleRect(Win wsrc, EX_Drawable src, Win wdst,
-			      EX_Pixmap dst, int sx, int sy, int sw, int sh,
-			      int dx, int dy, int dw, int dh, int flags);
-void                ScaleTile(Win wsrc, EX_Drawable src, Win wdst,
-			      EX_Pixmap dst, int dx, int dy, int dw, int dh,
-			      int flags);
+void            ScaleRect(Win wsrc, EX_Drawable src, Win wdst,
+                          EX_Pixmap dst, int sx, int sy, int sw, int sh,
+                          int dx, int dy, int dw, int dh, int flags);
+void            ScaleTile(Win wsrc, EX_Drawable src, Win wdst,
+                          EX_Pixmap dst, int dx, int dy, int dw, int dh,
+                          int flags);
 
-EX_Cursor           EImageDefineCursor(EImage * im, int xh, int yh);
-EX_Cursor           EImageCursorCreateFromBitmapData(int w, int h,
-						     const unsigned char *cdata,
-						     const unsigned char *cmask,
-						     int xh, int yh,
-						     unsigned int fg,
-						     unsigned int bg);
+EX_Cursor       EImageDefineCursor(EImage * im, int xh, int yh);
+EX_Cursor       EImageCursorCreateFromBitmapData(int w, int h,
+                                                 const unsigned char *cdata,
+                                                 const unsigned char *cmask,
+                                                 int xh, int yh,
+                                                 unsigned int fg,
+                                                 unsigned int bg);
 
-void                EDrawableDumpImage(EX_Drawable draw, const char *txt);
+void            EDrawableDumpImage(EX_Drawable draw, const char *txt);
 
-EImage             *ThemeImageLoad(const char *file);
+EImage         *ThemeImageLoad(const char *file);
 
-#endif /* _EIMAGE_H_ */
+#endif                          /* _EIMAGE_H_ */

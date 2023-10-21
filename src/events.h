@@ -38,18 +38,18 @@
 #define EX_EVENT_DAMAGE_NOTIFY           74
 #define EX_EVENT_GLX_FLIP                75
 
-void                EventsInit(void);
-void                EventsMain(void);
-void                EventShow(const XEvent * ev);
-void                EventShowError(const XEvent * ev);
+void            EventsInit(void);
+void            EventsMain(void);
+void            EventShow(const XEvent * ev);
+void            EventShowError(const XEvent * ev);
 
-typedef void        (EventFdHandler) (void);
-int                 EventFdRegister(int fd, EventFdHandler * handler);
-void                EventFdUnregister(int efd);
+typedef void    (EventFdHandler) (void);
+int             EventFdRegister(int fd, EventFdHandler * handler);
+void            EventFdUnregister(int efd);
 
-int                 EventsUpdateXY(int *px, int *py);
-void                EventsBlock(int mode);
+int             EventsUpdateXY(int *px, int *py);
+void            EventsBlock(int mode);
 
-void                EventsRandrScreenChange(XEvent * xev);
+void            EventsRandrScreenChange(XEvent * xev);
 
-#endif /* _EVENTS_H_ */
+#endif                          /* _EVENTS_H_ */

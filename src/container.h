@@ -32,106 +32,106 @@
 typedef struct _container Container;
 
 typedef struct {
-   unsigned int        anim_time;	/* Animation run time  (ms) */
+    unsigned int    anim_time;  /* Animation run time  (ms) */
 } ContainerCfg;
 
 typedef struct {
-   void               *obj;
-   int                 xo, yo, wo, ho;	/* Outer */
-   int                 xi, yi, wi, hi;	/* Inner */
-   EImage             *im;
+    void           *obj;
+    int             xo, yo, wo, ho;     /* Outer */
+    int             xi, yi, wi, hi;     /* Inner */
+    EImage         *im;
 } ContainerObject;
 
 typedef struct {
-   void                (*Init)(Container * ct);
-   void                (*Exit)(Container * ct, int wm_exit);
-   void                (*Signal)(Container * ct, int signal, void *prm);
-   void                (*Event)(Container * ct, XEvent * ev);
-   void                (*ObjSizeCalc)(Container * ct, ContainerObject * cto);
-   void                (*ObjPlace)(Container * ct, ContainerObject * cto,
-				   EImage * im);
+    void            (*Init)(Container * ct);
+    void            (*Exit)(Container * ct, int wm_exit);
+    void            (*Signal)(Container * ct, int signal, void *prm);
+    void            (*Event)(Container * ct, XEvent * ev);
+    void            (*ObjSizeCalc)(Container * ct, ContainerObject * cto);
+    void            (*ObjPlace)(Container * ct, ContainerObject * cto,
+                                EImage * im);
 } ContainerOps;
 
 struct _container {
-   dlist_t             list;
-   const ContainerOps *ops;
-   const char         *wm_name;
-   const char         *menu_title;
-   const char         *dlg_title;
+    dlist_t         list;
+    const ContainerOps *ops;
+    const char     *wm_name;
+    const char     *menu_title;
+    const char     *dlg_title;
 
-   /* user settings */
-   char               *name;
-   char                type;
-   char                orientation;
-   char                scrollbar_side;
-   char                arrow_side;
-   char                nobg;
-   int                 iconsize;
-   char                auto_resize;
-   char                draw_icon_base;
-   char                scrollbar_hide;
-   char                cover_hide;
-   int                 auto_resize_anchor;
-   /* Iconbox specific */
-   char                shownames;
-   int                 anim_mode;
-   int                 icon_mode;
+    /* user settings */
+    char           *name;
+    char            type;
+    char            orientation;
+    char            scrollbar_side;
+    char            arrow_side;
+    char            nobg;
+    int             iconsize;
+    char            auto_resize;
+    char            draw_icon_base;
+    char            scrollbar_hide;
+    char            cover_hide;
+    int             auto_resize_anchor;
+    /* Iconbox specific */
+    char            shownames;
+    int             anim_mode;
+    int             icon_mode;
 
-   /* internally set stuff */
-   EWin               *ewin;
-   int                 w, h;
-   int                 pos;
-   int                 iwin_maxl, iwin_maxl_min;
-   int                 iwin_fixh;
-   ImageClass         *ic_box;
-   ImageClass         *ic_item_base;
-   EImage             *im_item_base;
+    /* internally set stuff */
+    EWin           *ewin;
+    int             w, h;
+    int             pos;
+    int             iwin_maxl, iwin_maxl_min;
+    int             iwin_fixh;
+    ImageClass     *ic_box;
+    ImageClass     *ic_item_base;
+    EImage         *im_item_base;
 
-   unsigned char       scrollbar_state;
-   unsigned char       arrow1_state;
-   unsigned char       arrow2_state;
-   char                scrollbox_clicked;
-   char                icon_clicked;
+    unsigned char   scrollbar_state;
+    unsigned char   arrow1_state;
+    unsigned char   arrow2_state;
+    char            scrollbox_clicked;
+    char            icon_clicked;
 
-   Win                 win;
-   Win                 cover_win;
-   Win                 icon_win;
-   Win                 scroll_win;
-   Win                 arrow1_win;
-   Win                 arrow2_win;
-   Win                 scrollbar_win;
-   Win                 scrollbarknob_win;
+    Win             win;
+    Win             cover_win;
+    Win             icon_win;
+    Win             scroll_win;
+    Win             arrow1_win;
+    Win             arrow2_win;
+    Win             scrollbar_win;
+    Win             scrollbarknob_win;
 
-   int                 num_objs;
-   ContainerObject    *objs;
+    int             num_objs;
+    ContainerObject *objs;
 
-   /* these are theme-settable parameters */
-   int                 scroll_thickness;
-   int                 arrow_thickness;
-   int                 bar_thickness;
-   int                 knob_length;
+    /* these are theme-settable parameters */
+    int             scroll_thickness;
+    int             arrow_thickness;
+    int             bar_thickness;
+    int             knob_length;
 
-   /* State flags */
-   char                do_update;
-   int                 scroll_thickness_set;
+    /* State flags */
+    char            do_update;
+    int             scroll_thickness_set;
 };
 
 extern ContainerCfg Conf_containers;
 
-void                ContainerRedraw(Container * ct);
+void            ContainerRedraw(Container * ct);
 
-typedef int         (ContainerIterator) (Container * ct, void *data);
-Container          *ContainersIterate(ContainerIterator * cti, int type,
-				      void *data);
-Container         **ContainersGetList(int *pnum);
+typedef int     (ContainerIterator) (Container * ct, void *data);
+Container      *ContainersIterate(ContainerIterator * cti, int type,
+                                  void *data);
+Container     **ContainersGetList(int *pnum);
 
-int                 ContainerObjectAdd(Container * ct, void *obj);
-int                 ContainerObjectDel(Container * ct, void *obj);
-int                 ContainerObjectFind(Container * ct, void *obj);
-void               *ContainerObjectFindByXY(Container * ct, int x, int y);
+int             ContainerObjectAdd(Container * ct, void *obj);
+int             ContainerObjectDel(Container * ct, void *obj);
+int             ContainerObjectFind(Container * ct, void *obj);
+void           *ContainerObjectFindByXY(Container * ct, int x, int y);
 
 /* Here? */
 #define IB_TYPE_ICONBOX     0
 #define IB_TYPE_SYSTRAY     1
 
-#endif /* _CONTAINER_H_ */
+#endif                          /* _CONTAINER_H_ */

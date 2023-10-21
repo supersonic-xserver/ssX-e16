@@ -24,6 +24,6 @@
 #ifndef _COMMS_H_
 #define _COMMS_H_
 
-void                CommsInit(void);
+void            CommsInit(void);
 
-#endif /* _COMMS_H_ */
+#endif                          /* _COMMS_H_ */

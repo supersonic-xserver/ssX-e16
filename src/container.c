@@ -41,1394 +41,1394 @@
 extern const ContainerOps IconboxOps;
 extern const ContainerOps SystrayOps;
 
-static void         _ContainersConfigSave(void);
+static void     _ContainersConfigSave(void);
 
-static void         _ContainerLayout(Container * ct, int *px, int *py, int *pw,
-				     int *ph);
-static void         _ContainerDraw(Container * ct);
+static void     _ContainerLayout(Container * ct, int *px, int *py, int *pw,
+                                 int *ph);
+static void     _ContainerDraw(Container * ct);
 
-static void         _ContainerEventScrollWin(Win win, XEvent * ev, void *prm);
-static void         _ContainerEventScrollbarWin(Win win, XEvent * ev,
-						void *prm);
-static void         _ContainerEventCoverWin(Win win, XEvent * ev, void *prm);
-static void         _ContainerEventArrow1Win(Win win, XEvent * ev, void *prm);
-static void         _ContainerEventArrow2Win(Win win, XEvent * ev, void *prm);
-static void         _ContainerEventIconWin(Win win, XEvent * ev, void *prm);
+static void     _ContainerEventScrollWin(Win win, XEvent * ev, void *prm);
+static void     _ContainerEventScrollbarWin(Win win, XEvent * ev, void *prm);
+static void     _ContainerEventCoverWin(Win win, XEvent * ev, void *prm);
+static void     _ContainerEventArrow1Win(Win win, XEvent * ev, void *prm);
+static void     _ContainerEventArrow2Win(Win win, XEvent * ev, void *prm);
+static void     _ContainerEventIconWin(Win win, XEvent * ev, void *prm);
 
 /* Widget state */
 #define WS_HILITE 0x01
 #define WS_CLICK  0x02
 
 static const unsigned char _ic_state[4] =
-   { STATE_NORMAL, STATE_HILITED, STATE_CLICKED, STATE_CLICKED };
+    { STATE_NORMAL, STATE_HILITED, STATE_CLICKED, STATE_CLICKED };
 #define ST(b) _ic_state[b]
 
-ContainerCfg        Conf_containers;
+ContainerCfg    Conf_containers;
 
-static              LIST_HEAD(container_list);
+static          LIST_HEAD(container_list);
 
 static int
 _ContainerMatchName(const void *data, const void *match)
 {
-   return strcmp(((const Container *)data)->name, (const char *)match);
+    return strcmp(((const Container *)data)->name, (const char *)match);
 }
 
-static Container   *
+static Container *
 _ContainerFind(const char *name)
 {
-   return LIST_FIND(Container, &container_list, _ContainerMatchName, name);
+    return LIST_FIND(Container, &container_list, _ContainerMatchName, name);
 }
 
-static Container   *
+static Container *
 _ContainerCreate(const char *name)
 {
-   Container          *ct;
+    Container      *ct;
 
-   if (_ContainerFind(name))
-      return NULL;
+    if (_ContainerFind(name))
+        return NULL;
 
-   ct = ECALLOC(Container, 1);
-   if (!ct)
-      return NULL;
+    ct = ECALLOC(Container, 1);
+    if (!ct)
+        return NULL;
 
-   LIST_APPEND(Container, &container_list, ct);
+    LIST_APPEND(Container, &container_list, ct);
 
-   ct->name = Estrdup(name);
-   ct->type = (name && !strcmp(name, "_ST_")) ?
-      IB_TYPE_SYSTRAY : IB_TYPE_ICONBOX;
-   ct->orientation = 0;
-   ct->scrollbar_side = 1;
-   ct->arrow_side = 1;
-   ct->nobg = 0;
-   ct->shownames = 1;
-   ct->iconsize = 48;
-   ct->icon_mode = 2;
-   ct->auto_resize = 0;
-   ct->draw_icon_base = 0;
-   ct->scrollbar_hide = 0;
-   ct->cover_hide = 0;
-   ct->auto_resize_anchor = 0;
-   /* FIXME: need to have theme settable params for this and get them */
-   ct->scroll_thickness = 12;
-   ct->arrow_thickness = 12;
-   ct->bar_thickness = 8;
-   ct->knob_length = 8;
+    ct->name = Estrdup(name);
+    ct->type = (name && !strcmp(name, "_ST_")) ?
+        IB_TYPE_SYSTRAY : IB_TYPE_ICONBOX;
+    ct->orientation = 0;
+    ct->scrollbar_side = 1;
+    ct->arrow_side = 1;
+    ct->nobg = 0;
+    ct->shownames = 1;
+    ct->iconsize = 48;
+    ct->icon_mode = 2;
+    ct->auto_resize = 0;
+    ct->draw_icon_base = 0;
+    ct->scrollbar_hide = 0;
+    ct->cover_hide = 0;
+    ct->auto_resize_anchor = 0;
+    /* FIXME: need to have theme settable params for this and get them */
+    ct->scroll_thickness = 12;
+    ct->arrow_thickness = 12;
+    ct->bar_thickness = 8;
+    ct->knob_length = 8;
 
-   ct->w = 0;
-   ct->h = 0;
-   ct->pos = 0;
-   ct->iwin_maxl = 1;
+    ct->w = 0;
+    ct->h = 0;
+    ct->pos = 0;
+    ct->iwin_maxl = 1;
 
-   ct->scrollbar_state = 0;
-   ct->arrow1_state = 0;
-   ct->arrow2_state = 0;
-   ct->scrollbox_clicked = 0;
-   ct->icon_clicked = 0;
+    ct->scrollbar_state = 0;
+    ct->arrow1_state = 0;
+    ct->arrow2_state = 0;
+    ct->scrollbox_clicked = 0;
+    ct->icon_clicked = 0;
 
-   ct->win = ECreateClientWindow(VROOT, 0, 0, 1, 1);
-   ct->icon_win = ECreateWindow(ct->win, 0, 0, 128, 26, 0);
-   EventCallbackRegister(ct->icon_win, _ContainerEventIconWin, ct);
-   ct->cover_win = ECreateWindow(ct->win, 0, 0, 128, 26, 0);
-   EventCallbackRegister(ct->cover_win, _ContainerEventCoverWin, ct);
-   ct->scroll_win = ECreateWindow(ct->win, 6, 26, 116, 6, 0);
-   EventCallbackRegister(ct->scroll_win, _ContainerEventScrollWin, ct);
-   ct->arrow1_win = ECreateWindow(ct->win, 0, 26, 6, 6, 0);
-   EventCallbackRegister(ct->arrow1_win, _ContainerEventArrow1Win, ct);
-   ct->arrow2_win = ECreateWindow(ct->win, 122, 26, 6, 6, 0);
-   EventCallbackRegister(ct->arrow2_win, _ContainerEventArrow2Win, ct);
-   ct->scrollbar_win = ECreateWindow(ct->scroll_win, 122, 26, 6, 6, 0);
-   EventCallbackRegister(ct->scrollbar_win, _ContainerEventScrollbarWin, ct);
-   ct->scrollbarknob_win = ECreateWindow(ct->scrollbar_win, -20, -20, 4, 4, 0);
+    ct->win = ECreateClientWindow(VROOT, 0, 0, 1, 1);
+    ct->icon_win = ECreateWindow(ct->win, 0, 0, 128, 26, 0);
+    EventCallbackRegister(ct->icon_win, _ContainerEventIconWin, ct);
+    ct->cover_win = ECreateWindow(ct->win, 0, 0, 128, 26, 0);
+    EventCallbackRegister(ct->cover_win, _ContainerEventCoverWin, ct);
+    ct->scroll_win = ECreateWindow(ct->win, 6, 26, 116, 6, 0);
+    EventCallbackRegister(ct->scroll_win, _ContainerEventScrollWin, ct);
+    ct->arrow1_win = ECreateWindow(ct->win, 0, 26, 6, 6, 0);
+    EventCallbackRegister(ct->arrow1_win, _ContainerEventArrow1Win, ct);
+    ct->arrow2_win = ECreateWindow(ct->win, 122, 26, 6, 6, 0);
+    EventCallbackRegister(ct->arrow2_win, _ContainerEventArrow2Win, ct);
+    ct->scrollbar_win = ECreateWindow(ct->scroll_win, 122, 26, 6, 6, 0);
+    EventCallbackRegister(ct->scrollbar_win, _ContainerEventScrollbarWin, ct);
+    ct->scrollbarknob_win = ECreateWindow(ct->scrollbar_win, -20, -20, 4, 4, 0);
 
-   ESelectInput(ct->icon_win,
-		EnterWindowMask | LeaveWindowMask | ButtonPressMask |
-		ButtonReleaseMask | PointerMotionMask);
-   ESelectInput(ct->scroll_win,
-		EnterWindowMask | LeaveWindowMask | ButtonPressMask |
-		ButtonReleaseMask);
-   ESelectInput(ct->cover_win,
-		EnterWindowMask | LeaveWindowMask | ButtonPressMask |
-		ButtonReleaseMask);
-   ESelectInput(ct->arrow1_win,
-		EnterWindowMask | LeaveWindowMask | ButtonPressMask |
-		ButtonReleaseMask);
-   ESelectInput(ct->arrow2_win,
-		EnterWindowMask | LeaveWindowMask | ButtonPressMask |
-		ButtonReleaseMask);
-   ESelectInput(ct->scrollbar_win,
-		EnterWindowMask | LeaveWindowMask | ButtonPressMask |
-		ButtonReleaseMask | PointerMotionMask);
+    ESelectInput(ct->icon_win,
+                 EnterWindowMask | LeaveWindowMask | ButtonPressMask |
+                 ButtonReleaseMask | PointerMotionMask);
+    ESelectInput(ct->scroll_win,
+                 EnterWindowMask | LeaveWindowMask | ButtonPressMask |
+                 ButtonReleaseMask);
+    ESelectInput(ct->cover_win,
+                 EnterWindowMask | LeaveWindowMask | ButtonPressMask |
+                 ButtonReleaseMask);
+    ESelectInput(ct->arrow1_win,
+                 EnterWindowMask | LeaveWindowMask | ButtonPressMask |
+                 ButtonReleaseMask);
+    ESelectInput(ct->arrow2_win,
+                 EnterWindowMask | LeaveWindowMask | ButtonPressMask |
+                 ButtonReleaseMask);
+    ESelectInput(ct->scrollbar_win,
+                 EnterWindowMask | LeaveWindowMask | ButtonPressMask |
+                 ButtonReleaseMask | PointerMotionMask);
 
-   EMapWindow(ct->icon_win);
-   EMapWindow(ct->scrollbar_win);
+    EMapWindow(ct->icon_win);
+    EMapWindow(ct->scrollbar_win);
 
-   ct->ewin = NULL;
-   ct->num_objs = 0;
-   ct->objs = NULL;
+    ct->ewin = NULL;
+    ct->num_objs = 0;
+    ct->objs = NULL;
 
-   if (ct->type == IB_TYPE_ICONBOX)
-      ct->ops = &IconboxOps;
-   else if (ct->type == IB_TYPE_SYSTRAY)
-      ct->ops = &SystrayOps;
+    if (ct->type == IB_TYPE_ICONBOX)
+        ct->ops = &IconboxOps;
+    else if (ct->type == IB_TYPE_SYSTRAY)
+        ct->ops = &SystrayOps;
 
-   ct->ops->Init(ct);
+    ct->ops->Init(ct);
 
-   return ct;
+    return ct;
 }
 
 static void
-_ContainerDestroy(Container * ct, int exiting)
+_ContainerDestroy(Container *ct, int exiting)
 {
-   LIST_REMOVE(Container, &container_list, ct);
+    LIST_REMOVE(Container, &container_list, ct);
 
-   ct->ops->Exit(ct, exiting);
+    ct->ops->Exit(ct, exiting);
 
-   Efree(ct->name);
-   Efree(ct->objs);
+    Efree(ct->name);
+    Efree(ct->objs);
 
-   Efree(ct);
+    Efree(ct);
 
-   if (!exiting)
-      _ContainersConfigSave();
+    if (!exiting)
+        _ContainersConfigSave();
 }
 
 static void
-_ContainerReconfigure(Container * ct)
+_ContainerReconfigure(Container *ct)
 {
-   unsigned int        wmin, hmin, wmax, hmax;
+    unsigned int    wmin, hmin, wmax, hmax;
 
-   wmax = hmax = 16384;
+    wmax = hmax = 16384;
 
-   if (ct->orientation)
-     {
-	wmax = wmin = ct->iwin_fixh + ct->scroll_thickness_set;
-	hmin = ct->iwin_maxl_min;
-     }
-   else
-     {
-	hmax = hmin = ct->iwin_fixh + ct->scroll_thickness_set;
-	wmin = ct->iwin_maxl_min;
-     }
+    if (ct->orientation)
+    {
+        wmax = wmin = ct->iwin_fixh + ct->scroll_thickness_set;
+        hmin = ct->iwin_maxl_min;
+    }
+    else
+    {
+        hmax = hmin = ct->iwin_fixh + ct->scroll_thickness_set;
+        wmin = ct->iwin_maxl_min;
+    }
 
-   ICCCM_SetSizeConstraints(ct->ewin, wmin, hmin, wmax, hmax, 0, 0, 1, 1,
-			    0.f, 65535.f);
-   EwinStateUpdate(ct->ewin);
-   HintsSetWindowState(ct->ewin);
+    ICCCM_SetSizeConstraints(ct->ewin, wmin, hmin, wmax, hmax, 0, 0, 1, 1,
+                             0.f, 65535.f);
+    EwinStateUpdate(ct->ewin);
+    HintsSetWindowState(ct->ewin);
 }
 
 static void
-_ContainerEwinInit(EWin * ewin)
+_ContainerEwinInit(EWin *ewin)
 {
-   Container          *ct = (Container *) ewin->data;
+    Container      *ct = (Container *) ewin->data;
 
-   ct->ewin = ewin;
+    ct->ewin = ewin;
 
-   EwinSetTitle(ewin, ct->wm_name);
-   EwinSetClass(ewin, ct->name, "Enlightenment_IconBox");
+    EwinSetTitle(ewin, ct->wm_name);
+    EwinSetClass(ewin, ct->name, "Enlightenment_IconBox");
 
-   ewin->props.skip_ext_task = 1;
-   ewin->props.skip_ext_pager = 1;
-   ewin->props.skip_focuslist = 1;
-   ewin->props.skip_winlist = 1;
-   EwinInhSetWM(ewin, focus, 1);
-   EwinInhSetWM(ewin, iconify, 1);
-   ewin->props.autosave = 1;
+    ewin->props.skip_ext_task = 1;
+    ewin->props.skip_ext_pager = 1;
+    ewin->props.skip_focuslist = 1;
+    ewin->props.skip_winlist = 1;
+    EwinInhSetWM(ewin, focus, 1);
+    EwinInhSetWM(ewin, iconify, 1);
+    ewin->props.autosave = 1;
 
-   EoSetSticky(ewin, 1);
+    EoSetSticky(ewin, 1);
 }
 
 static void
-_ContainerEwinLayout(EWin * ewin, int *px, int *py, int *pw, int *ph)
+_ContainerEwinLayout(EWin *ewin, int *px, int *py, int *pw, int *ph)
 {
-   Container          *ct = (Container *) ewin->data;
-   int                 w, h;
+    Container      *ct = (Container *) ewin->data;
+    int             w, h;
 
-   w = ct->w;
-   h = ct->h;
-   _ContainerLayout(ct, px, py, pw, ph);
+    w = ct->w;
+    h = ct->h;
+    _ContainerLayout(ct, px, py, pw, ph);
 
-   if (*pw != w || *ph != h)
-      ct->do_update = 1;
+    if (*pw != w || *ph != h)
+        ct->do_update = 1;
 }
 
 static void
-_ContainerEwinMoveResize(EWin * ewin, int resize)
+_ContainerEwinMoveResize(EWin *ewin, int resize)
 {
-   Container          *ct = (Container *) ewin->data;
+    Container      *ct = (Container *) ewin->data;
 
-   if (!resize && !ct->do_update)
-      return;
+    if (!resize && !ct->do_update)
+        return;
 
-   ct->w = ewin->client.w;
-   ct->h = ewin->client.h;
+    ct->w = ewin->client.w;
+    ct->h = ewin->client.h;
 
-   _ContainerReconfigure(ct);
-   _ContainerDraw(ct);
-   ct->do_update = 0;
+    _ContainerReconfigure(ct);
+    _ContainerDraw(ct);
+    ct->do_update = 0;
 }
 
 static void
-_ContainerEwinClose(EWin * ewin)
+_ContainerEwinClose(EWin *ewin)
 {
-   _ContainerDestroy((Container *) ewin->data, 0);
-   ewin->data = NULL;
+    _ContainerDestroy((Container *) ewin->data, 0);
+    ewin->data = NULL;
 }
 
 static const EWinOps _ContainerEwinOps = {
-   _ContainerEwinInit,
-   _ContainerEwinLayout,
-   _ContainerEwinMoveResize,
-   _ContainerEwinClose,
+    _ContainerEwinInit,
+    _ContainerEwinLayout,
+    _ContainerEwinMoveResize,
+    _ContainerEwinClose,
 };
 
 static void
-_ContainerShow(Container * ct)
+_ContainerShow(Container *ct)
 {
-   EWin               *ewin;
+    EWin           *ewin;
 
-   if (!ct)
-      return;
+    if (!ct)
+        return;
 
-   ewin = AddInternalToFamily(ct->win, "ICONBOX", EWIN_TYPE_ICONBOX,
-			      &_ContainerEwinOps, ct);
-   if (!ewin)
-      return;
+    ewin = AddInternalToFamily(ct->win, "ICONBOX", EWIN_TYPE_ICONBOX,
+                               &_ContainerEwinOps, ct);
+    if (!ewin)
+        return;
 
-   if (ewin->state.placed)
-     {
-	EwinMoveResize(ewin, EoGetX(ewin), EoGetY(ewin),
-		       ewin->client.w, ewin->client.h, 0);
-     }
-   else
-     {
-	/* The first one */
-	EwinResize(ewin, 128, 32, 0);
-	EwinMove(ewin, WinGetW(VROOT) - EoGetW(ewin),
-		 WinGetH(VROOT) - EoGetH(ewin), 0);
-     }
+    if (ewin->state.placed)
+    {
+        EwinMoveResize(ewin, EoGetX(ewin), EoGetY(ewin),
+                       ewin->client.w, ewin->client.h, 0);
+    }
+    else
+    {
+        /* The first one */
+        EwinResize(ewin, 128, 32, 0);
+        EwinMove(ewin, WinGetW(VROOT) - EoGetW(ewin),
+                 WinGetH(VROOT) - EoGetH(ewin), 0);
+    }
 
-   EwinShow(ewin);
+    EwinShow(ewin);
 }
 
 /*
  * Return index, -1 if not found.
  */
 int
-ContainerObjectFind(Container * ct, void *obj)
+ContainerObjectFind(Container *ct, void *obj)
 {
-   int                 i;
+    int             i;
 
-   for (i = 0; i < ct->num_objs; i++)
-      if (ct->objs[i].obj == obj)
-	 return i;
+    for (i = 0; i < ct->num_objs; i++)
+        if (ct->objs[i].obj == obj)
+            return i;
 
-   return -1;
+    return -1;
 }
 
 int
-ContainerObjectAdd(Container * ct, void *obj)
+ContainerObjectAdd(Container *ct, void *obj)
 {
-   /* Not if already there */
-   if (ContainerObjectFind(ct, obj) >= 0)
-      return -1;
+    /* Not if already there */
+    if (ContainerObjectFind(ct, obj) >= 0)
+        return -1;
 
-   ct->num_objs++;
-   ct->objs = EREALLOC(ContainerObject, ct->objs, ct->num_objs);
-   ct->objs[ct->num_objs - 1].obj = obj;
+    ct->num_objs++;
+    ct->objs = EREALLOC(ContainerObject, ct->objs, ct->num_objs);
+    ct->objs[ct->num_objs - 1].obj = obj;
 
-   return ct->num_objs - 1;	/* Success */
+    return ct->num_objs - 1;    /* Success */
 }
 
 int
-ContainerObjectDel(Container * ct, void *obj)
+ContainerObjectDel(Container *ct, void *obj)
 {
-   int                 i, j;
+    int             i, j;
 
-   /* Quit if not there */
-   i = ContainerObjectFind(ct, obj);
-   if (i < 0)
-      return -1;
+    /* Quit if not there */
+    i = ContainerObjectFind(ct, obj);
+    if (i < 0)
+        return -1;
 
-   for (j = i; j < ct->num_objs - 1; j++)
-      ct->objs[j] = ct->objs[j + 1];
-   ct->num_objs--;
-   if (ct->num_objs > 0)
-      ct->objs = EREALLOC(ContainerObject, ct->objs, ct->num_objs);
-   else
-     {
-	EFREE_NULL(ct->objs);
-     }
+    for (j = i; j < ct->num_objs - 1; j++)
+        ct->objs[j] = ct->objs[j + 1];
+    ct->num_objs--;
+    if (ct->num_objs > 0)
+        ct->objs = EREALLOC(ContainerObject, ct->objs, ct->num_objs);
+    else
+    {
+        EFREE_NULL(ct->objs);
+    }
 
-   return 0;			/* Success */
+    return 0;                   /* Success */
 }
 
-void               *
-ContainerObjectFindByXY(Container * ct, int px, int py)
+void           *
+ContainerObjectFindByXY(Container *ct, int px, int py)
 {
-   int                 i;
-   ContainerObject    *cto;
+    int             i;
+    ContainerObject *cto;
 
-   for (i = 0; i < ct->num_objs; i++)
-     {
-	cto = &ct->objs[i];
+    for (i = 0; i < ct->num_objs; i++)
+    {
+        cto = &ct->objs[i];
 
-	if (px >= cto->xo - 1 && py >= cto->yo - 1 &&
-	    px < cto->xo + cto->wo + 1 && py < cto->yo + cto->ho + 1)
-	   return cto->obj;
-     }
+        if (px >= cto->xo - 1 && py >= cto->yo - 1 &&
+            px < cto->xo + cto->wo + 1 && py < cto->yo + cto->ho + 1)
+            return cto->obj;
+    }
 
-   return NULL;
+    return NULL;
 }
 
 static void
-_ContainerLayoutImageWin(Container * ct)
+_ContainerLayoutImageWin(Container *ct)
 {
-   int                 i, xo, yo;
-   int                 item_pad, padl, padr, padt, padb;
-   ContainerObject    *cto;
-   EImageBorder       *pad;
+    int             i, xo, yo;
+    int             item_pad, padl, padr, padt, padb;
+    ContainerObject *cto;
+    EImageBorder   *pad;
 
-   if (ct->orientation)
-      ct->ic_box = ImageclassFind("ICONBOX_VERTICAL", 0);
-   else
-      ct->ic_box = ImageclassFind("ICONBOX_HORIZONTAL", 0);
+    if (ct->orientation)
+        ct->ic_box = ImageclassFind("ICONBOX_VERTICAL", 0);
+    else
+        ct->ic_box = ImageclassFind("ICONBOX_HORIZONTAL", 0);
 
-   if (ct->draw_icon_base && !ct->im_item_base)
-     {
-	ct->ic_item_base = ImageclassFind("DEFAULT_ICON_BUTTON", 0);
-	if (ct->ic_item_base)
-	   ct->im_item_base =
-	      ImageclassGetImage(ct->ic_item_base, 0, 0, STATE_NORMAL);
-	if (!ct->im_item_base)
-	  {
-	     ct->ic_item_base = NULL;
-	     ct->draw_icon_base = 0;
-	  }
-     }
+    if (ct->draw_icon_base && !ct->im_item_base)
+    {
+        ct->ic_item_base = ImageclassFind("DEFAULT_ICON_BUTTON", 0);
+        if (ct->ic_item_base)
+            ct->im_item_base =
+                ImageclassGetImage(ct->ic_item_base, 0, 0, STATE_NORMAL);
+        if (!ct->im_item_base)
+        {
+            ct->ic_item_base = NULL;
+            ct->draw_icon_base = 0;
+        }
+    }
 
-   if (ct->draw_icon_base)
-     {
-	pad = ImageclassGetPadding(ct->ic_item_base);
-	padl = pad->left;
-	padr = pad->right;
-	padt = pad->top;
-	padb = pad->bottom;
+    if (ct->draw_icon_base)
+    {
+        pad = ImageclassGetPadding(ct->ic_item_base);
+        padl = pad->left;
+        padr = pad->right;
+        padt = pad->top;
+        padb = pad->bottom;
 
-	item_pad = 0;
-     }
-   else
-     {
-	padl = padr = padt = padb = 0;
+        item_pad = 0;
+    }
+    else
+    {
+        padl = padr = padt = padb = 0;
 
-	item_pad = 2;
-     }
+        item_pad = 2;
+    }
 
-   pad = (ct->ic_box) ? ImageclassGetPadding(ct->ic_box) : NULL;
+    pad = (ct->ic_box) ? ImageclassGetPadding(ct->ic_box) : NULL;
 
-   xo = 0;
-   yo = 0;
-   if (pad)
-     {
-	xo += pad->left;
-	yo += pad->top;
-     }
+    xo = 0;
+    yo = 0;
+    if (pad)
+    {
+        xo += pad->left;
+        yo += pad->top;
+    }
 
-   for (i = 0; i < ct->num_objs; i++)
-     {
-	cto = &ct->objs[i];
+    for (i = 0; i < ct->num_objs; i++)
+    {
+        cto = &ct->objs[i];
 
-	/* Inner size */
-	ct->ops->ObjSizeCalc(ct, cto);
+        /* Inner size */
+        ct->ops->ObjSizeCalc(ct, cto);
 
-	/* Outer size */
-	if (ct->draw_icon_base && ct->im_item_base)
-	  {
-	     if (cto->wi > 0 && cto->hi > 0)
-	       {
-		  cto->wo = ct->iconsize + padl + padr;
-		  cto->ho = ct->iconsize + padt + padb;
-	       }
-	     else
-	       {
-		  cto->wo = cto->ho = 0;
-	       }
-	  }
-	else
-	  {
-	     if (cto->wi > 0 && cto->hi > 0)
-	       {
-		  if (ct->orientation)
-		    {
-		       cto->wo = ct->iconsize;
-		       cto->ho = cto->hi;
-		    }
-		  else
-		    {
-		       cto->wo = cto->wi;
-		       cto->ho = ct->iconsize;
-		    }
-	       }
-	     else
-	       {
-		  cto->wo = cto->ho = 0;
-	       }
-	  }
+        /* Outer size */
+        if (ct->draw_icon_base && ct->im_item_base)
+        {
+            if (cto->wi > 0 && cto->hi > 0)
+            {
+                cto->wo = ct->iconsize + padl + padr;
+                cto->ho = ct->iconsize + padt + padb;
+            }
+            else
+            {
+                cto->wo = cto->ho = 0;
+            }
+        }
+        else
+        {
+            if (cto->wi > 0 && cto->hi > 0)
+            {
+                if (ct->orientation)
+                {
+                    cto->wo = ct->iconsize;
+                    cto->ho = cto->hi;
+                }
+                else
+                {
+                    cto->wo = cto->wi;
+                    cto->ho = ct->iconsize;
+                }
+            }
+            else
+            {
+                cto->wo = cto->ho = 0;
+            }
+        }
 
-	cto->xo = xo;
-	cto->yo = yo;
-	cto->xi = xo + (cto->wo - cto->wi) / 2;
-	cto->yi = yo + (cto->ho - cto->hi) / 2;
+        cto->xo = xo;
+        cto->yo = yo;
+        cto->xi = xo + (cto->wo - cto->wi) / 2;
+        cto->yi = yo + (cto->ho - cto->hi) / 2;
 #if 0
-	Eprintf("xo,yo=%d,%d wo,ho=%d,%d  xi,yi=%d,%d wi,hi=%d,%d\n",
-		cto->xo, cto->yo, cto->wo, cto->ho, cto->xi, cto->yi, cto->wi,
-		cto->hi);
+        Eprintf("xo,yo=%d,%d wo,ho=%d,%d  xi,yi=%d,%d wi,hi=%d,%d\n",
+                cto->xo, cto->yo, cto->wo, cto->ho, cto->xi, cto->yi, cto->wi,
+                cto->hi);
 #endif
 
-	if (ct->orientation)
-	   yo += cto->ho + item_pad;
-	else
-	   xo += cto->wo + item_pad;
-     }
+        if (ct->orientation)
+            yo += cto->ho + item_pad;
+        else
+            xo += cto->wo + item_pad;
+    }
 
-   if (pad)
-     {
-	xo += pad->right;
-	yo += pad->bottom;
-     }
+    if (pad)
+    {
+        xo += pad->right;
+        yo += pad->bottom;
+    }
 
-   if (ct->orientation)
-      ct->iwin_maxl = yo - item_pad;
-   else
-      ct->iwin_maxl = xo - item_pad;
+    if (ct->orientation)
+        ct->iwin_maxl = yo - item_pad;
+    else
+        ct->iwin_maxl = xo - item_pad;
 
-   if (ct->orientation)
-     {
-	ct->iwin_fixh = ct->iconsize;
-	if (pad)
-	   ct->iwin_fixh += pad->left + pad->right;
-	if (ct->draw_icon_base)
-	   ct->iwin_fixh += padl + padr;
-	ct->iwin_maxl_min = 8;
-     }
-   else
-     {
-	ct->iwin_fixh = ct->iconsize;
-	if (pad)
-	   ct->iwin_fixh += pad->top + pad->bottom;
-	if (ct->draw_icon_base)
-	   ct->iwin_fixh += padt + padb;
-	ct->iwin_maxl_min = 8;
-     }
+    if (ct->orientation)
+    {
+        ct->iwin_fixh = ct->iconsize;
+        if (pad)
+            ct->iwin_fixh += pad->left + pad->right;
+        if (ct->draw_icon_base)
+            ct->iwin_fixh += padl + padr;
+        ct->iwin_maxl_min = 8;
+    }
+    else
+    {
+        ct->iwin_fixh = ct->iconsize;
+        if (pad)
+            ct->iwin_fixh += pad->top + pad->bottom;
+        if (ct->draw_icon_base)
+            ct->iwin_fixh += padt + padb;
+        ct->iwin_maxl_min = 8;
+    }
 
-   if (ct->iwin_maxl < ct->iwin_maxl_min)
-      ct->iwin_maxl = ct->iwin_maxl_min;
+    if (ct->iwin_maxl < ct->iwin_maxl_min)
+        ct->iwin_maxl = ct->iwin_maxl_min;
 }
 
 static void
-_ContainerLayoutScroll(Container * ct)
+_ContainerLayoutScroll(Container *ct)
 {
-   ImageClass         *ic, *ic_sbb;
-   EImageBorder       *pad;
-   int                 arrow_mode = ct->arrow_side;
-   int                 bs, bw, bx;
+    ImageClass     *ic, *ic_sbb;
+    EImageBorder   *pad;
+    int             arrow_mode = ct->arrow_side;
+    int             bs, bw, bx;
 
-   switch (ct->orientation)
-     {
-     default:
-	if (ct->h < 2 * ct->arrow_thickness + ct->knob_length)
-	   arrow_mode = 3;	/* No arrows */
+    switch (ct->orientation)
+    {
+    default:
+        if (ct->h < 2 * ct->arrow_thickness + ct->knob_length)
+            arrow_mode = 3;     /* No arrows */
 
-	ic_sbb = ImageclassFind("ICONBOX_SCROLLBAR_BASE_VERTICAL", 1);
-	pad = ImageclassGetPadding(ic_sbb);
-	if (arrow_mode < 3)
-	   bs = ct->h - (ct->arrow_thickness * 2);
-	else
-	   bs = ct->h;
-	if (pad)
-	   bs -= pad->top + pad->bottom;
-	bw = (ct->h * bs) / ct->iwin_maxl;
-	if (bs < 1)
-	   bs = 1;
-	if (bw > bs)
-	   bw = bs;
-	if (bw < 1)
-	   bw = 1;
-	bx = (ct->pos * bs) / ct->iwin_maxl;
-	if (pad)
-	   bx += pad->top;
-	if ((ct->scrollbar_hide) && (bw == bs))
-	   goto do_hide_sb;
+        ic_sbb = ImageclassFind("ICONBOX_SCROLLBAR_BASE_VERTICAL", 1);
+        pad = ImageclassGetPadding(ic_sbb);
+        if (arrow_mode < 3)
+            bs = ct->h - (ct->arrow_thickness * 2);
+        else
+            bs = ct->h;
+        if (pad)
+            bs -= pad->top + pad->bottom;
+        bw = (ct->h * bs) / ct->iwin_maxl;
+        if (bs < 1)
+            bs = 1;
+        if (bw > bs)
+            bw = bs;
+        if (bw < 1)
+            bw = 1;
+        bx = (ct->pos * bs) / ct->iwin_maxl;
+        if (pad)
+            bx += pad->top;
+        if ((ct->scrollbar_hide) && (bw == bs))
+            goto do_hide_sb;
 
-	EMapWindow(ct->scroll_win);
-	if (arrow_mode < 3)
-	  {
-	     EMapWindow(ct->arrow1_win);
-	     EMapWindow(ct->arrow2_win);
-	  }
-	else
-	  {
-	     EUnmapWindow(ct->arrow1_win);
-	     EUnmapWindow(ct->arrow2_win);
-	  }
+        EMapWindow(ct->scroll_win);
+        if (arrow_mode < 3)
+        {
+            EMapWindow(ct->arrow1_win);
+            EMapWindow(ct->arrow2_win);
+        }
+        else
+        {
+            EUnmapWindow(ct->arrow1_win);
+            EUnmapWindow(ct->arrow2_win);
+        }
 
-	/* fix this area */
-	if (ct->scrollbar_side == 1)
-	   /* right */
-	  {
-	     /* start */
-	     if (arrow_mode == 0)
-	       {
-		  EMoveResizeWindow(ct->arrow1_win,
-				    ct->w - ct->scroll_thickness, 0,
-				    ct->scroll_thickness, ct->arrow_thickness);
-		  EMoveResizeWindow(ct->arrow2_win,
-				    ct->w - ct->scroll_thickness,
-				    ct->arrow_thickness,
-				    ct->scroll_thickness, ct->arrow_thickness);
-		  EMoveResizeWindow(ct->scroll_win,
-				    ct->w - ct->scroll_thickness,
-				    ct->arrow_thickness * 2,
-				    ct->scroll_thickness,
-				    ct->h - (ct->arrow_thickness * 2));
-	       }
-	     /* both ends */
-	     else if (arrow_mode == 1)
-	       {
-		  EMoveResizeWindow(ct->arrow1_win,
-				    ct->w - ct->scroll_thickness, 0,
-				    ct->scroll_thickness, ct->arrow_thickness);
-		  EMoveResizeWindow(ct->arrow2_win,
-				    ct->w - ct->scroll_thickness,
-				    ct->h - ct->arrow_thickness,
-				    ct->scroll_thickness, ct->arrow_thickness);
-		  EMoveResizeWindow(ct->scroll_win,
-				    ct->w - ct->scroll_thickness,
-				    ct->arrow_thickness,
-				    ct->scroll_thickness,
-				    ct->h - (ct->arrow_thickness * 2));
-	       }
-	     /* end */
-	     else if (arrow_mode == 2)
-	       {
-		  EMoveResizeWindow(ct->arrow1_win,
-				    ct->w - ct->scroll_thickness,
-				    ct->h - (ct->arrow_thickness * 2),
-				    ct->scroll_thickness, ct->arrow_thickness);
-		  EMoveResizeWindow(ct->arrow2_win,
-				    ct->w - ct->scroll_thickness,
-				    ct->h - ct->arrow_thickness,
-				    ct->scroll_thickness, ct->arrow_thickness);
-		  EMoveResizeWindow(ct->scroll_win,
-				    ct->w - ct->scroll_thickness, 0,
-				    ct->scroll_thickness,
-				    ct->h - (ct->arrow_thickness * 2));
-	       }
-	     /* no arrows */
-	     else
-	       {
-		  EMoveResizeWindow(ct->scroll_win,
-				    ct->w - ct->scroll_thickness, 0,
-				    ct->scroll_thickness, ct->h);
-	       }
-	  }
-	else
-	   /* left */
-	  {
-	     /* start */
-	     if (arrow_mode == 0)
-	       {
-		  EMoveResizeWindow(ct->arrow1_win, 0, 0,
-				    ct->scroll_thickness, ct->arrow_thickness);
-		  EMoveResizeWindow(ct->arrow2_win, 0,
-				    ct->arrow_thickness,
-				    ct->scroll_thickness, ct->arrow_thickness);
-		  EMoveResizeWindow(ct->scroll_win, 0,
-				    ct->arrow_thickness * 2,
-				    ct->scroll_thickness,
-				    ct->h - (ct->arrow_thickness * 2));
-	       }
-	     /* both ends */
-	     else if (arrow_mode == 1)
-	       {
-		  EMoveResizeWindow(ct->arrow1_win, 0, 0,
-				    ct->scroll_thickness, ct->arrow_thickness);
-		  EMoveResizeWindow(ct->arrow2_win, 0,
-				    ct->h - ct->arrow_thickness,
-				    ct->scroll_thickness, ct->arrow_thickness);
-		  EMoveResizeWindow(ct->scroll_win, 0,
-				    ct->arrow_thickness,
-				    ct->scroll_thickness,
-				    ct->h - (ct->arrow_thickness * 2));
-	       }
-	     /* end */
-	     else if (arrow_mode == 2)
-	       {
-		  EMoveResizeWindow(ct->arrow1_win, 0,
-				    ct->h - (ct->arrow_thickness * 2),
-				    ct->scroll_thickness, ct->arrow_thickness);
-		  EMoveResizeWindow(ct->arrow2_win, 0,
-				    ct->h - ct->arrow_thickness,
-				    ct->scroll_thickness, ct->arrow_thickness);
-		  EMoveResizeWindow(ct->scroll_win, 0, 0,
-				    ct->scroll_thickness,
-				    ct->h - (ct->arrow_thickness * 2));
-	       }
-	     /* no arrows */
-	     else
-	       {
-		  EMoveResizeWindow(ct->scroll_win, 0, 0,
-				    ct->scroll_thickness, ct->h);
-	       }
-	  }
+        /* fix this area */
+        if (ct->scrollbar_side == 1)
+            /* right */
+        {
+            /* start */
+            if (arrow_mode == 0)
+            {
+                EMoveResizeWindow(ct->arrow1_win,
+                                  ct->w - ct->scroll_thickness, 0,
+                                  ct->scroll_thickness, ct->arrow_thickness);
+                EMoveResizeWindow(ct->arrow2_win,
+                                  ct->w - ct->scroll_thickness,
+                                  ct->arrow_thickness,
+                                  ct->scroll_thickness, ct->arrow_thickness);
+                EMoveResizeWindow(ct->scroll_win,
+                                  ct->w - ct->scroll_thickness,
+                                  ct->arrow_thickness * 2,
+                                  ct->scroll_thickness,
+                                  ct->h - (ct->arrow_thickness * 2));
+            }
+            /* both ends */
+            else if (arrow_mode == 1)
+            {
+                EMoveResizeWindow(ct->arrow1_win,
+                                  ct->w - ct->scroll_thickness, 0,
+                                  ct->scroll_thickness, ct->arrow_thickness);
+                EMoveResizeWindow(ct->arrow2_win,
+                                  ct->w - ct->scroll_thickness,
+                                  ct->h - ct->arrow_thickness,
+                                  ct->scroll_thickness, ct->arrow_thickness);
+                EMoveResizeWindow(ct->scroll_win,
+                                  ct->w - ct->scroll_thickness,
+                                  ct->arrow_thickness,
+                                  ct->scroll_thickness,
+                                  ct->h - (ct->arrow_thickness * 2));
+            }
+            /* end */
+            else if (arrow_mode == 2)
+            {
+                EMoveResizeWindow(ct->arrow1_win,
+                                  ct->w - ct->scroll_thickness,
+                                  ct->h - (ct->arrow_thickness * 2),
+                                  ct->scroll_thickness, ct->arrow_thickness);
+                EMoveResizeWindow(ct->arrow2_win,
+                                  ct->w - ct->scroll_thickness,
+                                  ct->h - ct->arrow_thickness,
+                                  ct->scroll_thickness, ct->arrow_thickness);
+                EMoveResizeWindow(ct->scroll_win,
+                                  ct->w - ct->scroll_thickness, 0,
+                                  ct->scroll_thickness,
+                                  ct->h - (ct->arrow_thickness * 2));
+            }
+            /* no arrows */
+            else
+            {
+                EMoveResizeWindow(ct->scroll_win,
+                                  ct->w - ct->scroll_thickness, 0,
+                                  ct->scroll_thickness, ct->h);
+            }
+        }
+        else
+            /* left */
+        {
+            /* start */
+            if (arrow_mode == 0)
+            {
+                EMoveResizeWindow(ct->arrow1_win, 0, 0,
+                                  ct->scroll_thickness, ct->arrow_thickness);
+                EMoveResizeWindow(ct->arrow2_win, 0,
+                                  ct->arrow_thickness,
+                                  ct->scroll_thickness, ct->arrow_thickness);
+                EMoveResizeWindow(ct->scroll_win, 0,
+                                  ct->arrow_thickness * 2,
+                                  ct->scroll_thickness,
+                                  ct->h - (ct->arrow_thickness * 2));
+            }
+            /* both ends */
+            else if (arrow_mode == 1)
+            {
+                EMoveResizeWindow(ct->arrow1_win, 0, 0,
+                                  ct->scroll_thickness, ct->arrow_thickness);
+                EMoveResizeWindow(ct->arrow2_win, 0,
+                                  ct->h - ct->arrow_thickness,
+                                  ct->scroll_thickness, ct->arrow_thickness);
+                EMoveResizeWindow(ct->scroll_win, 0,
+                                  ct->arrow_thickness,
+                                  ct->scroll_thickness,
+                                  ct->h - (ct->arrow_thickness * 2));
+            }
+            /* end */
+            else if (arrow_mode == 2)
+            {
+                EMoveResizeWindow(ct->arrow1_win, 0,
+                                  ct->h - (ct->arrow_thickness * 2),
+                                  ct->scroll_thickness, ct->arrow_thickness);
+                EMoveResizeWindow(ct->arrow2_win, 0,
+                                  ct->h - ct->arrow_thickness,
+                                  ct->scroll_thickness, ct->arrow_thickness);
+                EMoveResizeWindow(ct->scroll_win, 0, 0,
+                                  ct->scroll_thickness,
+                                  ct->h - (ct->arrow_thickness * 2));
+            }
+            /* no arrows */
+            else
+            {
+                EMoveResizeWindow(ct->scroll_win, 0, 0,
+                                  ct->scroll_thickness, ct->h);
+            }
+        }
 
-	EMoveResizeWindow(ct->scrollbar_win,
-			  (ct->scroll_thickness - ct->bar_thickness) / 2, bx,
-			  ct->bar_thickness, bw);
+        EMoveResizeWindow(ct->scrollbar_win,
+                          (ct->scroll_thickness - ct->bar_thickness) / 2, bx,
+                          ct->bar_thickness, bw);
 
-	ic = ImageclassFind("ICONBOX_SCROLLKNOB_VERTICAL", 0);
-	if ((ic) && (bw > ct->knob_length))
-	  {
-	     EMapWindow(ct->scrollbarknob_win);
-	     EMoveResizeWindow(ct->scrollbarknob_win, 0,
-			       (bw - ct->knob_length) / 2, ct->bar_thickness,
-			       ct->knob_length);
-	  }
-	else
-	  {
-	     EUnmapWindow(ct->scrollbarknob_win);
-	  }
-	ct->scroll_thickness_set = ct->scroll_thickness;
-	break;
+        ic = ImageclassFind("ICONBOX_SCROLLKNOB_VERTICAL", 0);
+        if ((ic) && (bw > ct->knob_length))
+        {
+            EMapWindow(ct->scrollbarknob_win);
+            EMoveResizeWindow(ct->scrollbarknob_win, 0,
+                              (bw - ct->knob_length) / 2, ct->bar_thickness,
+                              ct->knob_length);
+        }
+        else
+        {
+            EUnmapWindow(ct->scrollbarknob_win);
+        }
+        ct->scroll_thickness_set = ct->scroll_thickness;
+        break;
 
-     case 0:
-	if (ct->w < 2 * ct->arrow_thickness + ct->knob_length)
-	   arrow_mode = 3;	/* No arrows */
+    case 0:
+        if (ct->w < 2 * ct->arrow_thickness + ct->knob_length)
+            arrow_mode = 3;     /* No arrows */
 
-	ic_sbb = ImageclassFind("ICONBOX_SCROLLBAR_BASE_HORIZONTAL", 1);
-	pad = ImageclassGetPadding(ic_sbb);
-	if (arrow_mode < 3)
-	   bs = ct->w - (ct->arrow_thickness * 2);
-	else
-	   bs = ct->w;
-	if (pad)
-	   bs -= pad->left + pad->right;
-	bw = (ct->w * bs) / ct->iwin_maxl;
-	if (bs < 1)
-	   bs = 1;
-	if (bw > bs)
-	   bw = bs;
-	if (bw < 1)
-	   bw = 1;
-	bx = (ct->pos * bs) / ct->iwin_maxl;
-	if (pad)
-	   bx += pad->left;
-	if ((ct->scrollbar_hide) && (bw == bs))
-	   goto do_hide_sb;
+        ic_sbb = ImageclassFind("ICONBOX_SCROLLBAR_BASE_HORIZONTAL", 1);
+        pad = ImageclassGetPadding(ic_sbb);
+        if (arrow_mode < 3)
+            bs = ct->w - (ct->arrow_thickness * 2);
+        else
+            bs = ct->w;
+        if (pad)
+            bs -= pad->left + pad->right;
+        bw = (ct->w * bs) / ct->iwin_maxl;
+        if (bs < 1)
+            bs = 1;
+        if (bw > bs)
+            bw = bs;
+        if (bw < 1)
+            bw = 1;
+        bx = (ct->pos * bs) / ct->iwin_maxl;
+        if (pad)
+            bx += pad->left;
+        if ((ct->scrollbar_hide) && (bw == bs))
+            goto do_hide_sb;
 
-	EMapWindow(ct->scroll_win);
-	if (arrow_mode < 3)
-	  {
-	     EMapWindow(ct->arrow1_win);
-	     EMapWindow(ct->arrow2_win);
-	  }
-	else
-	  {
-	     EUnmapWindow(ct->arrow1_win);
-	     EUnmapWindow(ct->arrow2_win);
-	  }
+        EMapWindow(ct->scroll_win);
+        if (arrow_mode < 3)
+        {
+            EMapWindow(ct->arrow1_win);
+            EMapWindow(ct->arrow2_win);
+        }
+        else
+        {
+            EUnmapWindow(ct->arrow1_win);
+            EUnmapWindow(ct->arrow2_win);
+        }
 
-	if (ct->scrollbar_side == 1)
-	   /* bottom */
-	  {
-	     /* start */
-	     if (arrow_mode == 0)
-	       {
-		  EMoveResizeWindow(ct->arrow1_win, 0,
-				    ct->h - ct->scroll_thickness,
-				    ct->arrow_thickness, ct->scroll_thickness);
-		  EMoveResizeWindow(ct->arrow2_win,
-				    ct->arrow_thickness,
-				    ct->h - ct->scroll_thickness,
-				    ct->arrow_thickness, ct->scroll_thickness);
-		  EMoveResizeWindow(ct->scroll_win,
-				    ct->arrow_thickness * 2,
-				    ct->h - ct->scroll_thickness,
-				    ct->w - (ct->arrow_thickness * 2),
-				    ct->scroll_thickness);
-	       }
-	     /* both ends */
-	     else if (arrow_mode == 1)
-	       {
-		  EMoveResizeWindow(ct->arrow1_win, 0,
-				    ct->h - ct->scroll_thickness,
-				    ct->arrow_thickness, ct->scroll_thickness);
-		  EMoveResizeWindow(ct->arrow2_win,
-				    ct->w - ct->arrow_thickness,
-				    ct->h - ct->scroll_thickness,
-				    ct->arrow_thickness, ct->scroll_thickness);
-		  EMoveResizeWindow(ct->scroll_win,
-				    ct->arrow_thickness,
-				    ct->h - ct->scroll_thickness,
-				    ct->w - (ct->arrow_thickness * 2),
-				    ct->scroll_thickness);
-	       }
-	     /* end */
-	     else if (arrow_mode == 2)
-	       {
-		  EMoveResizeWindow(ct->arrow1_win,
-				    ct->w - (ct->arrow_thickness * 2),
-				    ct->h - ct->scroll_thickness,
-				    ct->arrow_thickness, ct->scroll_thickness);
-		  EMoveResizeWindow(ct->arrow2_win,
-				    ct->w - ct->arrow_thickness,
-				    ct->h - ct->scroll_thickness,
-				    ct->arrow_thickness, ct->scroll_thickness);
-		  EMoveResizeWindow(ct->scroll_win, 0,
-				    ct->h - ct->scroll_thickness,
-				    ct->w - (ct->arrow_thickness * 2),
-				    ct->scroll_thickness);
-	       }
-	     /* no arrows */
-	     else
-	       {
-		  EMoveResizeWindow(ct->scroll_win, 0,
-				    ct->h - ct->scroll_thickness, ct->w,
-				    ct->scroll_thickness);
-	       }
-	  }
-	else
-	   /* top */
-	  {
-	     /* start */
-	     if (arrow_mode == 0)
-	       {
-		  EMoveResizeWindow(ct->arrow1_win, 0, 0,
-				    ct->arrow_thickness, ct->scroll_thickness);
-		  EMoveResizeWindow(ct->arrow2_win,
-				    ct->arrow_thickness, 0,
-				    ct->arrow_thickness, ct->scroll_thickness);
-		  EMoveResizeWindow(ct->scroll_win,
-				    ct->arrow_thickness * 2, 0,
-				    ct->w - (ct->arrow_thickness * 2),
-				    ct->scroll_thickness);
-	       }
-	     /* both ends */
-	     else if (arrow_mode == 1)
-	       {
-		  EMoveResizeWindow(ct->arrow1_win, 0, 0,
-				    ct->arrow_thickness, ct->scroll_thickness);
-		  EMoveResizeWindow(ct->arrow2_win,
-				    ct->w - ct->arrow_thickness, 0,
-				    ct->arrow_thickness, ct->scroll_thickness);
-		  EMoveResizeWindow(ct->scroll_win,
-				    ct->arrow_thickness, 0,
-				    ct->w - (ct->arrow_thickness * 2),
-				    ct->scroll_thickness);
-	       }
-	     /* end */
-	     else if (arrow_mode == 2)
-	       {
-		  EMoveResizeWindow(ct->arrow1_win,
-				    ct->w - (ct->arrow_thickness * 2), 0,
-				    ct->arrow_thickness, ct->scroll_thickness);
-		  EMoveResizeWindow(ct->arrow2_win,
-				    ct->w - ct->arrow_thickness, 0,
-				    ct->arrow_thickness, ct->scroll_thickness);
-		  EMoveResizeWindow(ct->scroll_win, 0, 0,
-				    ct->w - (ct->arrow_thickness * 2),
-				    ct->scroll_thickness);
-	       }
-	     /* no arrows */
-	     else
-	       {
-		  EMoveResizeWindow(ct->scroll_win, 0, 0, ct->w,
-				    ct->scroll_thickness);
-	       }
-	  }
+        if (ct->scrollbar_side == 1)
+            /* bottom */
+        {
+            /* start */
+            if (arrow_mode == 0)
+            {
+                EMoveResizeWindow(ct->arrow1_win, 0,
+                                  ct->h - ct->scroll_thickness,
+                                  ct->arrow_thickness, ct->scroll_thickness);
+                EMoveResizeWindow(ct->arrow2_win,
+                                  ct->arrow_thickness,
+                                  ct->h - ct->scroll_thickness,
+                                  ct->arrow_thickness, ct->scroll_thickness);
+                EMoveResizeWindow(ct->scroll_win,
+                                  ct->arrow_thickness * 2,
+                                  ct->h - ct->scroll_thickness,
+                                  ct->w - (ct->arrow_thickness * 2),
+                                  ct->scroll_thickness);
+            }
+            /* both ends */
+            else if (arrow_mode == 1)
+            {
+                EMoveResizeWindow(ct->arrow1_win, 0,
+                                  ct->h - ct->scroll_thickness,
+                                  ct->arrow_thickness, ct->scroll_thickness);
+                EMoveResizeWindow(ct->arrow2_win,
+                                  ct->w - ct->arrow_thickness,
+                                  ct->h - ct->scroll_thickness,
+                                  ct->arrow_thickness, ct->scroll_thickness);
+                EMoveResizeWindow(ct->scroll_win,
+                                  ct->arrow_thickness,
+                                  ct->h - ct->scroll_thickness,
+                                  ct->w - (ct->arrow_thickness * 2),
+                                  ct->scroll_thickness);
+            }
+            /* end */
+            else if (arrow_mode == 2)
+            {
+                EMoveResizeWindow(ct->arrow1_win,
+                                  ct->w - (ct->arrow_thickness * 2),
+                                  ct->h - ct->scroll_thickness,
+                                  ct->arrow_thickness, ct->scroll_thickness);
+                EMoveResizeWindow(ct->arrow2_win,
+                                  ct->w - ct->arrow_thickness,
+                                  ct->h - ct->scroll_thickness,
+                                  ct->arrow_thickness, ct->scroll_thickness);
+                EMoveResizeWindow(ct->scroll_win, 0,
+                                  ct->h - ct->scroll_thickness,
+                                  ct->w - (ct->arrow_thickness * 2),
+                                  ct->scroll_thickness);
+            }
+            /* no arrows */
+            else
+            {
+                EMoveResizeWindow(ct->scroll_win, 0,
+                                  ct->h - ct->scroll_thickness, ct->w,
+                                  ct->scroll_thickness);
+            }
+        }
+        else
+            /* top */
+        {
+            /* start */
+            if (arrow_mode == 0)
+            {
+                EMoveResizeWindow(ct->arrow1_win, 0, 0,
+                                  ct->arrow_thickness, ct->scroll_thickness);
+                EMoveResizeWindow(ct->arrow2_win,
+                                  ct->arrow_thickness, 0,
+                                  ct->arrow_thickness, ct->scroll_thickness);
+                EMoveResizeWindow(ct->scroll_win,
+                                  ct->arrow_thickness * 2, 0,
+                                  ct->w - (ct->arrow_thickness * 2),
+                                  ct->scroll_thickness);
+            }
+            /* both ends */
+            else if (arrow_mode == 1)
+            {
+                EMoveResizeWindow(ct->arrow1_win, 0, 0,
+                                  ct->arrow_thickness, ct->scroll_thickness);
+                EMoveResizeWindow(ct->arrow2_win,
+                                  ct->w - ct->arrow_thickness, 0,
+                                  ct->arrow_thickness, ct->scroll_thickness);
+                EMoveResizeWindow(ct->scroll_win,
+                                  ct->arrow_thickness, 0,
+                                  ct->w - (ct->arrow_thickness * 2),
+                                  ct->scroll_thickness);
+            }
+            /* end */
+            else if (arrow_mode == 2)
+            {
+                EMoveResizeWindow(ct->arrow1_win,
+                                  ct->w - (ct->arrow_thickness * 2), 0,
+                                  ct->arrow_thickness, ct->scroll_thickness);
+                EMoveResizeWindow(ct->arrow2_win,
+                                  ct->w - ct->arrow_thickness, 0,
+                                  ct->arrow_thickness, ct->scroll_thickness);
+                EMoveResizeWindow(ct->scroll_win, 0, 0,
+                                  ct->w - (ct->arrow_thickness * 2),
+                                  ct->scroll_thickness);
+            }
+            /* no arrows */
+            else
+            {
+                EMoveResizeWindow(ct->scroll_win, 0, 0, ct->w,
+                                  ct->scroll_thickness);
+            }
+        }
 
-	EMoveResizeWindow(ct->scrollbar_win, bx,
-			  (ct->scroll_thickness - ct->bar_thickness) / 2, bw,
-			  ct->bar_thickness);
+        EMoveResizeWindow(ct->scrollbar_win, bx,
+                          (ct->scroll_thickness - ct->bar_thickness) / 2, bw,
+                          ct->bar_thickness);
 
-	ic = ImageclassFind("ICONBOX_SCROLLKNOB_HORIZONTAL", 0);
-	if ((ic) && (bw > ct->knob_length))
-	  {
-	     EMapWindow(ct->scrollbarknob_win);
-	     EMoveResizeWindow(ct->scrollbarknob_win,
-			       (bw - ct->knob_length) / 2, 0, ct->knob_length,
-			       ct->bar_thickness);
-	  }
-	else
-	  {
-	     EUnmapWindow(ct->scrollbarknob_win);
-	  }
-	ct->scroll_thickness_set = ct->scroll_thickness;
-	break;
+        ic = ImageclassFind("ICONBOX_SCROLLKNOB_HORIZONTAL", 0);
+        if ((ic) && (bw > ct->knob_length))
+        {
+            EMapWindow(ct->scrollbarknob_win);
+            EMoveResizeWindow(ct->scrollbarknob_win,
+                              (bw - ct->knob_length) / 2, 0, ct->knob_length,
+                              ct->bar_thickness);
+        }
+        else
+        {
+            EUnmapWindow(ct->scrollbarknob_win);
+        }
+        ct->scroll_thickness_set = ct->scroll_thickness;
+        break;
 
       do_hide_sb:
-	EUnmapWindow(ct->scroll_win);
-	EUnmapWindow(ct->arrow1_win);
-	EUnmapWindow(ct->arrow2_win);
-	ct->scroll_thickness_set = 0;
-	break;
-     }
+        EUnmapWindow(ct->scroll_win);
+        EUnmapWindow(ct->arrow1_win);
+        EUnmapWindow(ct->arrow2_win);
+        ct->scroll_thickness_set = 0;
+        break;
+    }
 }
 
 static void
-_ContainerDrawScroll(Container * ct)
+_ContainerDrawScroll(Container *ct)
 {
-   ImageClass         *ic_base, *ic_knob, *ic_snob, *ic_arr1, *ic_arr2;
+    ImageClass     *ic_base, *ic_knob, *ic_snob, *ic_arr1, *ic_arr2;
 
-   _ContainerLayoutScroll(ct);
+    _ContainerLayoutScroll(ct);
 
-   if (!WinIsMapped(ct->scroll_win))
-      return;
+    if (!WinIsMapped(ct->scroll_win))
+        return;
 
-   ic_snob = ic_arr1 = ic_arr2 = NULL;
-   if (ct->orientation)
-     {
-	ic_base = ImageclassFind("ICONBOX_SCROLLBAR_BASE_VERTICAL", 1);
-	ic_knob = ImageclassFind("ICONBOX_SCROLLBAR_KNOB_VERTICAL", 1);
-	if (WinIsMapped(ct->scrollbarknob_win))
-	   ic_snob = ImageclassFind("ICONBOX_SCROLLKNOB_VERTICAL", 0);
-	if (WinIsMapped(ct->arrow1_win))
-	  {
-	     ic_arr1 = ImageclassFind("ICONBOX_ARROW_UP", 1);
-	     ic_arr2 = ImageclassFind("ICONBOX_ARROW_DOWN", 1);
-	  }
-     }
-   else
-     {
-	ic_base = ImageclassFind("ICONBOX_SCROLLBAR_BASE_HORIZONTAL", 1);
-	ic_knob = ImageclassFind("ICONBOX_SCROLLBAR_KNOB_HORIZONTAL", 1);
-	if (WinIsMapped(ct->scrollbarknob_win))
-	   ic_snob = ImageclassFind("ICONBOX_SCROLLKNOB_HORIZONTAL", 0);
-	if (WinIsMapped(ct->arrow1_win))
-	  {
-	     ic_arr1 = ImageclassFind("ICONBOX_ARROW_LEFT", 1);
-	     ic_arr2 = ImageclassFind("ICONBOX_ARROW_RIGHT", 1);
-	  }
-     }
+    ic_snob = ic_arr1 = ic_arr2 = NULL;
+    if (ct->orientation)
+    {
+        ic_base = ImageclassFind("ICONBOX_SCROLLBAR_BASE_VERTICAL", 1);
+        ic_knob = ImageclassFind("ICONBOX_SCROLLBAR_KNOB_VERTICAL", 1);
+        if (WinIsMapped(ct->scrollbarknob_win))
+            ic_snob = ImageclassFind("ICONBOX_SCROLLKNOB_VERTICAL", 0);
+        if (WinIsMapped(ct->arrow1_win))
+        {
+            ic_arr1 = ImageclassFind("ICONBOX_ARROW_UP", 1);
+            ic_arr2 = ImageclassFind("ICONBOX_ARROW_DOWN", 1);
+        }
+    }
+    else
+    {
+        ic_base = ImageclassFind("ICONBOX_SCROLLBAR_BASE_HORIZONTAL", 1);
+        ic_knob = ImageclassFind("ICONBOX_SCROLLBAR_KNOB_HORIZONTAL", 1);
+        if (WinIsMapped(ct->scrollbarknob_win))
+            ic_snob = ImageclassFind("ICONBOX_SCROLLKNOB_HORIZONTAL", 0);
+        if (WinIsMapped(ct->arrow1_win))
+        {
+            ic_arr1 = ImageclassFind("ICONBOX_ARROW_LEFT", 1);
+            ic_arr2 = ImageclassFind("ICONBOX_ARROW_RIGHT", 1);
+        }
+    }
 
-   ImageclassApply(ic_base, ct->scroll_win, 0, 0, STATE_NORMAL);
-   ImageclassApply(ic_knob, ct->scrollbar_win, 0, 0, ST(ct->scrollbar_state));
-   if (WinIsMapped(ct->scrollbarknob_win))
-      ImageclassApply(ic_snob, ct->scrollbarknob_win, 0, 0,
-		      ST(ct->scrollbar_state));
+    ImageclassApply(ic_base, ct->scroll_win, 0, 0, STATE_NORMAL);
+    ImageclassApply(ic_knob, ct->scrollbar_win, 0, 0, ST(ct->scrollbar_state));
+    if (WinIsMapped(ct->scrollbarknob_win))
+        ImageclassApply(ic_snob, ct->scrollbarknob_win, 0, 0,
+                        ST(ct->scrollbar_state));
 
-   if (WinIsMapped(ct->arrow1_win))
-     {
-	ImageclassApply(ic_arr1, ct->arrow1_win, 0, 0, ST(ct->arrow1_state));
-	ImageclassApply(ic_arr2, ct->arrow2_win, 0, 0, ST(ct->arrow2_state));
-     }
+    if (WinIsMapped(ct->arrow1_win))
+    {
+        ImageclassApply(ic_arr1, ct->arrow1_win, 0, 0, ST(ct->arrow1_state));
+        ImageclassApply(ic_arr2, ct->arrow2_win, 0, 0, ST(ct->arrow2_state));
+    }
 }
 
 static void
-_ContainerFixPos(Container * ct)
+_ContainerFixPos(Container *ct)
 {
-   int                 v;
+    int             v;
 
-   if (ct->orientation)
-      v = ct->iwin_maxl - ct->h;
-   else
-      v = ct->iwin_maxl - ct->w;
+    if (ct->orientation)
+        v = ct->iwin_maxl - ct->h;
+    else
+        v = ct->iwin_maxl - ct->w;
 
-   if (ct->pos > v)
-      ct->pos = v;
-   if (ct->pos < 0)
-      ct->pos = 0;
+    if (ct->pos > v)
+        ct->pos = v;
+    if (ct->pos < 0)
+        ct->pos = 0;
 }
 
 static void
-_ContainerLayout(Container * ct, int *px, int *py, int *pw, int *ph)
+_ContainerLayout(Container *ct, int *px, int *py, int *pw, int *ph)
 {
-   int                 x, y, w, h;
-   EWin               *ewin = ct->ewin;
+    int             x, y, w, h;
+    EWin           *ewin = ct->ewin;
 
-   x = *px;
-   y = *py;
-   w = *pw;
-   h = *ph;
+    x = *px;
+    y = *py;
+    w = *pw;
+    h = *ph;
 
-   _ContainerLayoutImageWin(ct);	/* Find iwin_maxl, iwin_fixh */
+    _ContainerLayoutImageWin(ct);       /* Find iwin_maxl, iwin_fixh */
 
-   /* Possibly change "length" if autosizing */
-   if (ct->auto_resize)
-     {
-	int                 bl, br, bt, bb;
+    /* Possibly change "length" if autosizing */
+    if (ct->auto_resize)
+    {
+        int             bl, br, bt, bb;
 
-	EwinBorderGetSize(ewin, &bl, &br, &bt, &bb);
+        EwinBorderGetSize(ewin, &bl, &br, &bt, &bb);
 
-	if (ct->orientation)
-	  {
-	     ct->h = h = ct->iwin_maxl;
-	     if (ewin->border)
-	       {
-		  if ((bt + bb + h) > WinGetH(VROOT))
-		     h = WinGetH(VROOT) - (bt + bb);
-	       }
-	     y += (((ewin->client.h - h) * ct->auto_resize_anchor) >> 10);
-	     if (ewin->border)
-	       {
-		  if ((EoGetY(ewin) + bt + bb + h) > WinGetH(VROOT))
-		     y = WinGetH(VROOT) - (bt + bb + h);
-	       }
-	  }
-	else
-	  {
-	     ct->w = w = ct->iwin_maxl;
-	     if (ewin->border)
-	       {
-		  if ((bl + br + w) > WinGetW(VROOT))
-		     w = WinGetW(VROOT) - (bl + br);
-	       }
-	     x += (((ewin->client.w - w) * ct->auto_resize_anchor) >> 10);
-	     if (ewin->border)
-	       {
-		  if ((EoGetX(ewin) + bl + br + w) > WinGetW(VROOT))
-		     x = WinGetW(VROOT) - (bl + br + w);
-	       }
-	  }
-     }
-   else
-     {
-	if (ct->orientation)
-	  {
-	     if (h < ct->iwin_maxl_min)
-		h = ct->iwin_maxl_min;
-	     ct->h = h;
-	  }
-	else
-	  {
-	     if (w < ct->iwin_maxl_min)
-		w = ct->iwin_maxl_min;
-	     ct->w = w;
-	  }
-     }
+        if (ct->orientation)
+        {
+            ct->h = h = ct->iwin_maxl;
+            if (ewin->border)
+            {
+                if ((bt + bb + h) > WinGetH(VROOT))
+                    h = WinGetH(VROOT) - (bt + bb);
+            }
+            y += (((ewin->client.h - h) * ct->auto_resize_anchor) >> 10);
+            if (ewin->border)
+            {
+                if ((EoGetY(ewin) + bt + bb + h) > WinGetH(VROOT))
+                    y = WinGetH(VROOT) - (bt + bb + h);
+            }
+        }
+        else
+        {
+            ct->w = w = ct->iwin_maxl;
+            if (ewin->border)
+            {
+                if ((bl + br + w) > WinGetW(VROOT))
+                    w = WinGetW(VROOT) - (bl + br);
+            }
+            x += (((ewin->client.w - w) * ct->auto_resize_anchor) >> 10);
+            if (ewin->border)
+            {
+                if ((EoGetX(ewin) + bl + br + w) > WinGetW(VROOT))
+                    x = WinGetW(VROOT) - (bl + br + w);
+            }
+        }
+    }
+    else
+    {
+        if (ct->orientation)
+        {
+            if (h < ct->iwin_maxl_min)
+                h = ct->iwin_maxl_min;
+            ct->h = h;
+        }
+        else
+        {
+            if (w < ct->iwin_maxl_min)
+                w = ct->iwin_maxl_min;
+            ct->w = w;
+        }
+    }
 
-   _ContainerLayoutScroll(ct);	/* Find scroll_thickness_set, uses h/w, iwin_maxl */
-   _ContainerFixPos(ct);
+    _ContainerLayoutScroll(ct); /* Find scroll_thickness_set, uses h/w, iwin_maxl */
+    _ContainerFixPos(ct);
 
-   /* Possibly change "height" if hiding scrollbar */
-   if (ct->orientation)
-     {
-	ct->w = w = ct->iwin_fixh + ct->scroll_thickness_set;
-     }
-   else
-     {
-	ct->h = h = ct->iwin_fixh + ct->scroll_thickness_set;
-     }
+    /* Possibly change "height" if hiding scrollbar */
+    if (ct->orientation)
+    {
+        ct->w = w = ct->iwin_fixh + ct->scroll_thickness_set;
+    }
+    else
+    {
+        ct->h = h = ct->iwin_fixh + ct->scroll_thickness_set;
+    }
 
-   *px = x;
-   *py = y;
-   *pw = w;
-   *ph = h;
+    *px = x;
+    *py = y;
+    *pw = w;
+    *ph = h;
 }
 
 static void
-_ContainerDraw(Container * ct)
+_ContainerDraw(Container *ct)
 {
-   int                 i, w, h;
-   ImageClass         *ib_ic_cover;
-   int                 ib_xlt, ib_ylt, ib_ww, ib_hh;
-   int                 ib_x0, ib_y0, ib_w0, ib_h0;
-   EImage             *im;
-   int                 ww, hh;
+    int             i, w, h;
+    ImageClass     *ib_ic_cover;
+    int             ib_xlt, ib_ylt, ib_ww, ib_hh;
+    int             ib_x0, ib_y0, ib_w0, ib_h0;
+    EImage         *im;
+    int             ww, hh;
 
-   w = ct->w;
-   h = ct->h;
+    w = ct->w;
+    h = ct->h;
 
-   _ContainerDrawScroll(ct);
+    _ContainerDrawScroll(ct);
 
-   /* Geometry of iconbox window, excluding scrollbar */
-   ib_xlt = 0;
-   ib_ylt = 0;
-   ib_ww = w;
-   ib_hh = h;
-   if (ct->orientation)
-     {
-	ib_ic_cover = ImageclassFind("ICONBOX_COVER_VERTICAL", 0);
-	if (ct->scrollbar_side == 0)
-	   ib_xlt = ct->scroll_thickness_set;
-	ib_ww -= ct->scroll_thickness_set;
+    /* Geometry of iconbox window, excluding scrollbar */
+    ib_xlt = 0;
+    ib_ylt = 0;
+    ib_ww = w;
+    ib_hh = h;
+    if (ct->orientation)
+    {
+        ib_ic_cover = ImageclassFind("ICONBOX_COVER_VERTICAL", 0);
+        if (ct->scrollbar_side == 0)
+            ib_xlt = ct->scroll_thickness_set;
+        ib_ww -= ct->scroll_thickness_set;
 
-	/* Geometry of icon window (including invisible parts) */
-	ib_x0 = ib_xlt;
-	ib_y0 = ib_ylt - ct->pos;
-	ib_w0 = ib_ww;
-	ib_h0 = ib_hh;
-	if (ib_h0 < ct->iwin_maxl)
-	   ib_h0 = ct->iwin_maxl;
-     }
-   else
-     {
-	ib_ic_cover = ImageclassFind("ICONBOX_COVER_HORIZONTAL", 0);
-	if (ct->scrollbar_side == 0)
-	   ib_ylt = ct->scroll_thickness_set;
-	ib_hh -= ct->scroll_thickness_set;
+        /* Geometry of icon window (including invisible parts) */
+        ib_x0 = ib_xlt;
+        ib_y0 = ib_ylt - ct->pos;
+        ib_w0 = ib_ww;
+        ib_h0 = ib_hh;
+        if (ib_h0 < ct->iwin_maxl)
+            ib_h0 = ct->iwin_maxl;
+    }
+    else
+    {
+        ib_ic_cover = ImageclassFind("ICONBOX_COVER_HORIZONTAL", 0);
+        if (ct->scrollbar_side == 0)
+            ib_ylt = ct->scroll_thickness_set;
+        ib_hh -= ct->scroll_thickness_set;
 
-	/* Geometry of icon window (including invisible parts) */
-	ib_x0 = ib_xlt - ct->pos;
-	ib_y0 = ib_ylt;
-	ib_w0 = ib_ww;
-	if (ib_w0 < ct->iwin_maxl)
-	   ib_w0 = ct->iwin_maxl;
-	ib_h0 = ib_hh;
-     }
+        /* Geometry of icon window (including invisible parts) */
+        ib_x0 = ib_xlt - ct->pos;
+        ib_y0 = ib_ylt;
+        ib_w0 = ib_ww;
+        if (ib_w0 < ct->iwin_maxl)
+            ib_w0 = ct->iwin_maxl;
+        ib_h0 = ib_hh;
+    }
 
-   EMoveResizeWindow(ct->icon_win, ib_x0, ib_y0, ib_w0, ib_h0);
+    EMoveResizeWindow(ct->icon_win, ib_x0, ib_y0, ib_w0, ib_h0);
 
-   if (ib_ic_cover && !ct->cover_hide)
-     {
-	EMoveResizeWindow(ct->cover_win, ib_xlt, ib_ylt, ib_ww, ib_hh);
-	EMapWindow(ct->cover_win);
-	ImageclassApply(ib_ic_cover, ct->cover_win, 0, 0, STATE_NORMAL);
-     }
-   else
-     {
-	EMoveResizeWindow(ct->cover_win, -30000, -30000, 2, 2);
-	EUnmapWindow(ct->cover_win);
-     }
+    if (ib_ic_cover && !ct->cover_hide)
+    {
+        EMoveResizeWindow(ct->cover_win, ib_xlt, ib_ylt, ib_ww, ib_hh);
+        EMapWindow(ct->cover_win);
+        ImageclassApply(ib_ic_cover, ct->cover_win, 0, 0, STATE_NORMAL);
+    }
+    else
+    {
+        EMoveResizeWindow(ct->cover_win, -30000, -30000, 2, 2);
+        EUnmapWindow(ct->cover_win);
+    }
 
-   if (ct->nobg && ct->num_objs == 0)
-     {
-	im = NULL;
-     }
-   else if (ct->ic_box &&
-	    (!ct->nobg || (ct->type == IB_TYPE_SYSTRAY && !ct->draw_icon_base)))
-     {
-	/* Start out with iconbox image class image */
-	im = ImageclassGetImageBlended(ct->ic_box, ct->icon_win, ib_w0, ib_h0,
-				       0, 0, STATE_NORMAL);
-     }
-   else
-     {
-	/* Start out with blank image */
-	im = EImageCreate(ib_w0, ib_h0);
-	EImageSetHasAlpha(im, 1);
-	EImageFill(im, 0, 0, ib_w0, ib_h0, 0);
-     }
+    if (ct->nobg && ct->num_objs == 0)
+    {
+        im = NULL;
+    }
+    else if (ct->ic_box &&
+             (!ct->nobg ||
+              (ct->type == IB_TYPE_SYSTRAY && !ct->draw_icon_base)))
+    {
+        /* Start out with iconbox image class image */
+        im = ImageclassGetImageBlended(ct->ic_box, ct->icon_win, ib_w0, ib_h0,
+                                       0, 0, STATE_NORMAL);
+    }
+    else
+    {
+        /* Start out with blank image */
+        im = EImageCreate(ib_w0, ib_h0);
+        EImageSetHasAlpha(im, 1);
+        EImageFill(im, 0, 0, ib_w0, ib_h0, 0);
+    }
 
-   for (i = 0; i < ct->num_objs; i++)
-     {
-	ContainerObject    *cto;
+    for (i = 0; i < ct->num_objs; i++)
+    {
+        ContainerObject *cto;
 
-	cto = &ct->objs[i];
+        cto = &ct->objs[i];
 
-	if (ct->draw_icon_base && ct->im_item_base)
-	  {
-	     EImageGetSize(ct->im_item_base, &ww, &hh);
-	     EImageBlend(im, ct->im_item_base, EIMAGE_BLEND | EIMAGE_ANTI_ALIAS,
-			 0, 0, ww, hh, cto->xo, cto->yo, cto->wo, cto->ho, 1);
-	  }
+        if (ct->draw_icon_base && ct->im_item_base)
+        {
+            EImageGetSize(ct->im_item_base, &ww, &hh);
+            EImageBlend(im, ct->im_item_base, EIMAGE_BLEND | EIMAGE_ANTI_ALIAS,
+                        0, 0, ww, hh, cto->xo, cto->yo, cto->wo, cto->ho, 1);
+        }
 
-	ct->ops->ObjPlace(ct, cto, im);
-     }
+        ct->ops->ObjPlace(ct, cto, im);
+    }
 
-   if (im)
-     {
-	EMapWindow(ct->icon_win);
-	EImageApplyToWin(im, ct->icon_win, EIMAGE_HIGH_MASK_THR, 0, 0);
-	EImageFree(im);
+    if (im)
+    {
+        EMapWindow(ct->icon_win);
+        EImageApplyToWin(im, ct->icon_win, EIMAGE_HIGH_MASK_THR, 0, 0);
+        EImageFree(im);
 
-	if (ct->type == IB_TYPE_SYSTRAY && ct->nobg && !ct->draw_icon_base)
-	   EShapePropagate(ct->icon_win);
-     }
-   else
-     {
-	/* Transparent and no objects */
-	EUnmapWindow(ct->icon_win);
-     }
-   EShapePropagate(ct->win);
-   EwinUpdateShapeInfo(ct->ewin);
-   ct->ewin->update.shape = 1;
-   EwinPropagateShapes(ct->ewin);
+        if (ct->type == IB_TYPE_SYSTRAY && ct->nobg && !ct->draw_icon_base)
+            EShapePropagate(ct->icon_win);
+    }
+    else
+    {
+        /* Transparent and no objects */
+        EUnmapWindow(ct->icon_win);
+    }
+    EShapePropagate(ct->win);
+    EwinUpdateShapeInfo(ct->ewin);
+    ct->ewin->update.shape = 1;
+    EwinPropagateShapes(ct->ewin);
 }
 
 void
-ContainerRedraw(Container * ct)
+ContainerRedraw(Container *ct)
 {
-   EWin               *ewin = ct->ewin;
+    EWin           *ewin = ct->ewin;
 
-   ct->do_update = 1;
-   EwinResize(ct->ewin, ewin->client.w, ewin->client.h, 0);
+    ct->do_update = 1;
+    EwinResize(ct->ewin, ewin->client.w, ewin->client.h, 0);
 }
 
 static int
-_ContainerScroll(Container * ct, int dir)
+_ContainerScroll(Container *ct, int dir)
 {
-   int                 ppos;
+    int             ppos;
 
-   ppos = ct->pos;
-   ct->pos += dir;
-   _ContainerFixPos(ct);
-   if (ct->pos == ppos)
-      return 0;
+    ppos = ct->pos;
+    ct->pos += dir;
+    _ContainerFixPos(ct);
+    if (ct->pos == ppos)
+        return 0;
 
-   _ContainerDraw(ct);
-   return 1;
+    _ContainerDraw(ct);
+    return 1;
 }
 
 static void
-_ContainerShowMenu(Container * ct)
+_ContainerShowMenu(Container *ct)
 {
-   Menu               *m;
-   MenuItem           *mi;
-   char                s[1024];
+    Menu           *m;
+    MenuItem       *mi;
+    char            s[1024];
 
-   m = MenuCreate("__ct", ct->menu_title, NULL, NULL);
-   if (!m)
-      return;
+    m = MenuCreate("__ct", ct->menu_title, NULL, NULL);
+    if (!m)
+        return;
 
-   MenuSetTransient(m);		/* Destroy when hidden */
+    MenuSetTransient(m);        /* Destroy when hidden */
 
-   Esnprintf(s, sizeof(s), "ibox cfg %s", ct->name);
-   mi = MenuItemCreate(_("Settings..."), NULL, s, NULL);
-   MenuAddItem(m, mi);
+    Esnprintf(s, sizeof(s), "ibox cfg %s", ct->name);
+    mi = MenuItemCreate(_("Settings..."), NULL, s, NULL);
+    MenuAddItem(m, mi);
 
-   Esnprintf(s, sizeof(s), "wop %#x cl", WinGetXwin(ct->win));
-   mi = MenuItemCreate(_("Close"), NULL, s, NULL);
-   MenuAddItem(m, mi);
+    Esnprintf(s, sizeof(s), "wop %#x cl", WinGetXwin(ct->win));
+    mi = MenuItemCreate(_("Close"), NULL, s, NULL);
+    MenuAddItem(m, mi);
 
-   if (ct->type == IB_TYPE_ICONBOX)
-     {
-	mi = MenuItemCreate(_("Create new iconbox"), NULL, "ibox new", NULL);
-	MenuAddItem(m, mi);
-     }
+    if (ct->type == IB_TYPE_ICONBOX)
+    {
+        mi = MenuItemCreate(_("Create new iconbox"), NULL, "ibox new", NULL);
+        MenuAddItem(m, mi);
+    }
 
-   EFunc(NULL, "menus show __ct");
+    EFunc(NULL, "menus show __ct");
 }
 
 static void
 _ContainersShow(void)
 {
-   Container          *ct;
+    Container      *ct;
 
-   if (!LIST_IS_EMPTY(&container_list))
-     {
-	LIST_FOR_EACH(Container, &container_list, ct) _ContainerShow(ct);
-     }
-   else if (Conf.startup.firsttime)
-     {
-	ct = _ContainerCreate("_IB_0");
-	_ContainerShow(ct);
-	_ContainersConfigSave();
-     }
+    if (!LIST_IS_EMPTY(&container_list))
+    {
+        LIST_FOR_EACH(Container, &container_list, ct) _ContainerShow(ct);
+    }
+    else if (Conf.startup.firsttime)
+    {
+        ct = _ContainerCreate("_IB_0");
+        _ContainerShow(ct);
+        _ContainersConfigSave();
+    }
 }
 
 static void
-_ContainerEventScrollWin(Win win __UNUSED__, XEvent * ev, void *prm)
+_ContainerEventScrollWin(Win win __UNUSED__, XEvent *ev, void *prm)
 {
-   Container          *ct = (Container *) prm;
-   Win                 sbwin;
+    Container      *ct = (Container *) prm;
+    Win             sbwin;
 
-   switch (ev->type)
-     {
-     case ButtonPress:
-	if (ev->xbutton.button == 1)
-	   ct->scrollbox_clicked = 1;
-	else if (ev->xbutton.button == 3)
-	   _ContainerShowMenu(ct);
-	break;
+    switch (ev->type)
+    {
+    case ButtonPress:
+        if (ev->xbutton.button == 1)
+            ct->scrollbox_clicked = 1;
+        else if (ev->xbutton.button == 3)
+            _ContainerShowMenu(ct);
+        break;
 
-     case ButtonRelease:
-	if (!ct->scrollbox_clicked)
-	   break;
-	ct->scrollbox_clicked = 0;
-	sbwin = ct->scrollbar_win;
-	if (ct->orientation)
-	  {
-	     if (ev->xbutton.y < WinGetY(sbwin))
-		_ContainerScroll(ct, -8);
-	     else if (ev->xbutton.y > WinGetY(sbwin) + WinGetH(sbwin))
-		_ContainerScroll(ct, 8);
-	  }
-	else
-	  {
-	     if (ev->xbutton.x < WinGetX(sbwin))
-		_ContainerScroll(ct, -8);
-	     else if (ev->xbutton.x > WinGetX(sbwin) + WinGetW(sbwin))
-		_ContainerScroll(ct, 8);
-	  }
-	break;
-     }
+    case ButtonRelease:
+        if (!ct->scrollbox_clicked)
+            break;
+        ct->scrollbox_clicked = 0;
+        sbwin = ct->scrollbar_win;
+        if (ct->orientation)
+        {
+            if (ev->xbutton.y < WinGetY(sbwin))
+                _ContainerScroll(ct, -8);
+            else if (ev->xbutton.y > WinGetY(sbwin) + WinGetH(sbwin))
+                _ContainerScroll(ct, 8);
+        }
+        else
+        {
+            if (ev->xbutton.x < WinGetX(sbwin))
+                _ContainerScroll(ct, -8);
+            else if (ev->xbutton.x > WinGetX(sbwin) + WinGetW(sbwin))
+                _ContainerScroll(ct, 8);
+        }
+        break;
+    }
 }
 
 static void
-_ContainerEventScrollbarWin(Win win __UNUSED__, XEvent * ev, void *prm)
+_ContainerEventScrollbarWin(Win win __UNUSED__, XEvent *ev, void *prm)
 {
-   Container          *ct = (Container *) prm;
-   static int          px, py, pos0;
-   int                 bs, dp;
-   ImageClass         *ic_sbb;
-   EImageBorder       *pad;
+    Container      *ct = (Container *) prm;
+    static int      px, py, pos0;
+    int             bs, dp;
+    ImageClass     *ic_sbb;
+    EImageBorder   *pad;
 
-   switch (ev->type)
-     {
-     case ButtonPress:
-	if (ev->xbutton.button == 1)
-	  {
-	     px = ev->xbutton.x_root;
-	     py = ev->xbutton.y_root;
-	     pos0 = ct->pos;
-	     ct->scrollbar_state |= WS_CLICK;
-	  }
-	else if (ev->xbutton.button == 3)
-	   _ContainerShowMenu(ct);
-	goto draw_scoll;
+    switch (ev->type)
+    {
+    case ButtonPress:
+        if (ev->xbutton.button == 1)
+        {
+            px = ev->xbutton.x_root;
+            py = ev->xbutton.y_root;
+            pos0 = ct->pos;
+            ct->scrollbar_state |= WS_CLICK;
+        }
+        else if (ev->xbutton.button == 3)
+            _ContainerShowMenu(ct);
+        goto draw_scoll;
 
-     case ButtonRelease:
-	ct->scrollbar_state &= ~WS_CLICK;
-	goto draw_scoll;
+    case ButtonRelease:
+        ct->scrollbar_state &= ~WS_CLICK;
+        goto draw_scoll;
 
-     case EnterNotify:
-	ct->scrollbar_state |= WS_HILITE;
-	goto draw_scoll;
+    case EnterNotify:
+        ct->scrollbar_state |= WS_HILITE;
+        goto draw_scoll;
 
-     case LeaveNotify:
-	ct->scrollbar_state &= ~WS_HILITE;
-	goto draw_scoll;
+    case LeaveNotify:
+        ct->scrollbar_state &= ~WS_HILITE;
+        goto draw_scoll;
 
-     case MotionNotify:
-	if (!(ct->scrollbar_state & WS_CLICK))
-	   break;
+    case MotionNotify:
+        if (!(ct->scrollbar_state & WS_CLICK))
+            break;
 
-	if (ct->orientation)
-	  {
-	     ic_sbb = ImageclassFind("ICONBOX_SCROLLBAR_BASE_VERTICAL", 1);
-	     pad = ImageclassGetPadding(ic_sbb);
-	     bs = ct->h - (ct->arrow_thickness * 2);
-	     if (pad)
-		bs -= pad->top + pad->bottom;
-	     if (bs < 1)
-		bs = 1;
-	     dp = ev->xmotion.y_root - py;
-	  }
-	else
-	  {
-	     ic_sbb = ImageclassFind("ICONBOX_SCROLLBAR_BASE_HORIZONTAL", 1);
-	     pad = ImageclassGetPadding(ic_sbb);
-	     bs = ct->w - (ct->arrow_thickness * 2);
-	     if (pad)
-		bs -= pad->left + pad->right;
-	     if (bs < 1)
-		bs = 1;
-	     dp = ev->xmotion.x_root - px;
-	  }
-	dp = pos0 + (dp * ct->iwin_maxl) / bs - ct->pos;
-	if (dp)
-	   _ContainerScroll(ct, dp);
-	break;
+        if (ct->orientation)
+        {
+            ic_sbb = ImageclassFind("ICONBOX_SCROLLBAR_BASE_VERTICAL", 1);
+            pad = ImageclassGetPadding(ic_sbb);
+            bs = ct->h - (ct->arrow_thickness * 2);
+            if (pad)
+                bs -= pad->top + pad->bottom;
+            if (bs < 1)
+                bs = 1;
+            dp = ev->xmotion.y_root - py;
+        }
+        else
+        {
+            ic_sbb = ImageclassFind("ICONBOX_SCROLLBAR_BASE_HORIZONTAL", 1);
+            pad = ImageclassGetPadding(ic_sbb);
+            bs = ct->w - (ct->arrow_thickness * 2);
+            if (pad)
+                bs -= pad->left + pad->right;
+            if (bs < 1)
+                bs = 1;
+            dp = ev->xmotion.x_root - px;
+        }
+        dp = pos0 + (dp * ct->iwin_maxl) / bs - ct->pos;
+        if (dp)
+            _ContainerScroll(ct, dp);
+        break;
 
       draw_scoll:
-	_ContainerDrawScroll(ct);
-	break;
-     }
+        _ContainerDrawScroll(ct);
+        break;
+    }
 }
 
 static void
-_ContainerEventCoverWin(Win win __UNUSED__, XEvent * ev, void *prm)
+_ContainerEventCoverWin(Win win __UNUSED__, XEvent *ev, void *prm)
 {
-   Container          *ct = (Container *) prm;
+    Container      *ct = (Container *) prm;
 
-   switch (ev->type)
-     {
-     case ButtonPress:
-	_ContainerShowMenu(ct);
-	break;
-     case ButtonRelease:
-	break;
-     }
+    switch (ev->type)
+    {
+    case ButtonPress:
+        _ContainerShowMenu(ct);
+        break;
+    case ButtonRelease:
+        break;
+    }
 }
 
 static void
-_ContainerEventArrow1Win(Win win __UNUSED__, XEvent * ev, void *prm)
+_ContainerEventArrow1Win(Win win __UNUSED__, XEvent *ev, void *prm)
 {
-   Container          *ct = (Container *) prm;
+    Container      *ct = (Container *) prm;
 
-   switch (ev->type)
-     {
-     case ButtonPress:
-	if (ev->xbutton.button == 1)
-	   ct->arrow1_state |= WS_CLICK;
-	else if (ev->xbutton.button == 3)
-	   _ContainerShowMenu(ct);
-	goto draw_scoll;
+    switch (ev->type)
+    {
+    case ButtonPress:
+        if (ev->xbutton.button == 1)
+            ct->arrow1_state |= WS_CLICK;
+        else if (ev->xbutton.button == 3)
+            _ContainerShowMenu(ct);
+        goto draw_scoll;
 
-     case ButtonRelease:
-	if (!(ct->arrow1_state & WS_CLICK))
-	   goto draw_scoll;
-	ct->arrow1_state &= ~WS_CLICK;
-	if (_ContainerScroll(ct, -8))
-	   return;
-	goto draw_scoll;
+    case ButtonRelease:
+        if (!(ct->arrow1_state & WS_CLICK))
+            goto draw_scoll;
+        ct->arrow1_state &= ~WS_CLICK;
+        if (_ContainerScroll(ct, -8))
+            return;
+        goto draw_scoll;
 
-     case EnterNotify:
-	ct->arrow1_state |= WS_HILITE;
-	goto draw_scoll;
+    case EnterNotify:
+        ct->arrow1_state |= WS_HILITE;
+        goto draw_scoll;
 
-     case LeaveNotify:
-	ct->arrow1_state &= ~WS_HILITE;
-	goto draw_scoll;
+    case LeaveNotify:
+        ct->arrow1_state &= ~WS_HILITE;
+        goto draw_scoll;
 
       draw_scoll:
-	_ContainerDrawScroll(ct);
-	break;
-     }
+        _ContainerDrawScroll(ct);
+        break;
+    }
 }
 
 static void
-_ContainerEventArrow2Win(Win win __UNUSED__, XEvent * ev, void *prm)
+_ContainerEventArrow2Win(Win win __UNUSED__, XEvent *ev, void *prm)
 {
-   Container          *ct = (Container *) prm;
+    Container      *ct = (Container *) prm;
 
-   switch (ev->type)
-     {
-     case ButtonPress:
-	if (ev->xbutton.button == 1)
-	   ct->arrow2_state |= WS_CLICK;
-	else if (ev->xbutton.button == 3)
-	   _ContainerShowMenu(ct);
-	goto draw_scoll;
+    switch (ev->type)
+    {
+    case ButtonPress:
+        if (ev->xbutton.button == 1)
+            ct->arrow2_state |= WS_CLICK;
+        else if (ev->xbutton.button == 3)
+            _ContainerShowMenu(ct);
+        goto draw_scoll;
 
-     case ButtonRelease:
-	if (!(ct->arrow2_state & WS_CLICK))
-	   goto draw_scoll;
-	ct->arrow2_state &= ~WS_CLICK;
-	if (_ContainerScroll(ct, 8))
-	   return;
-	goto draw_scoll;
+    case ButtonRelease:
+        if (!(ct->arrow2_state & WS_CLICK))
+            goto draw_scoll;
+        ct->arrow2_state &= ~WS_CLICK;
+        if (_ContainerScroll(ct, 8))
+            return;
+        goto draw_scoll;
 
-     case EnterNotify:
-	ct->arrow2_state |= WS_HILITE;
-	goto draw_scoll;
+    case EnterNotify:
+        ct->arrow2_state |= WS_HILITE;
+        goto draw_scoll;
 
-     case LeaveNotify:
-	ct->arrow2_state &= ~WS_HILITE;
-	goto draw_scoll;
+    case LeaveNotify:
+        ct->arrow2_state &= ~WS_HILITE;
+        goto draw_scoll;
 
       draw_scoll:
-	_ContainerDrawScroll(ct);
-	break;
-     }
+        _ContainerDrawScroll(ct);
+        break;
+    }
 }
 
 static void
-_ContainerEventIconWin(Win win __UNUSED__, XEvent * ev, void *prm)
+_ContainerEventIconWin(Win win __UNUSED__, XEvent *ev, void *prm)
 {
-   Container          *ct = (Container *) prm;
+    Container      *ct = (Container *) prm;
 
-   switch (ev->type)
-     {
-     case ButtonPress:
-	if (ev->xbutton.button != 3)
-	   break;
-	_ContainerShowMenu(ct);
-	return;
-     }
+    switch (ev->type)
+    {
+    case ButtonPress:
+        if (ev->xbutton.button != 3)
+            break;
+        _ContainerShowMenu(ct);
+        return;
+    }
 
-   if (ct->ops->Event)
-      ct->ops->Event(ct, ev);
+    if (ct->ops->Event)
+        ct->ops->Event(ct, ev);
 }
 
 #if ENABLE_DIALOGS
@@ -1437,281 +1437,281 @@ _ContainerEventIconWin(Win win __UNUSED__, XEvent * ev, void *prm)
  */
 
 typedef struct {
-   Container          *ct;
-   char                nobg;
-   char                shownames;
-   int                 vert;
-   int                 side;
-   int                 arrows;
-   int                 iconsize;
-   int                 icon_mode;
-   char                auto_resize;
-   char                draw_icon_base;
-   char                scrollbar_hide;
-   char                cover_hide;
-   int                 autoresize_anchor;
-   int                 anim_mode;
-   int                 anim_speed;
+    Container      *ct;
+    char            nobg;
+    char            shownames;
+    int             vert;
+    int             side;
+    int             arrows;
+    int             iconsize;
+    int             icon_mode;
+    char            auto_resize;
+    char            draw_icon_base;
+    char            scrollbar_hide;
+    char            cover_hide;
+    int             autoresize_anchor;
+    int             anim_mode;
+    int             anim_speed;
 } ContainerDlgData;
 
 static void
-_DlgApplyContainer(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
+_DlgApplyContainer(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 {
-   ContainerDlgData   *dd = DLG_DATA_GET(d, ContainerDlgData);
-   Container          *ct;
+    ContainerDlgData *dd = DLG_DATA_GET(d, ContainerDlgData);
+    Container      *ct;
 
-   ct = LIST_CHECK(Container, &container_list, dd->ct);
-   if (!ct)
-      return;
+    ct = LIST_CHECK(Container, &container_list, dd->ct);
+    if (!ct)
+        return;
 
-   ct->nobg = dd->nobg;
-   ct->shownames = dd->shownames;
-   ct->orientation = dd->vert;
-   ct->scrollbar_side = dd->side;
-   ct->arrow_side = dd->arrows;
-   ct->iconsize = dd->iconsize;
-   ct->icon_mode = dd->icon_mode;
-   ct->auto_resize = dd->auto_resize;
-   ct->draw_icon_base = dd->draw_icon_base;
-   ct->scrollbar_hide = dd->scrollbar_hide;
-   ct->cover_hide = dd->cover_hide;
-   ct->auto_resize_anchor = dd->autoresize_anchor;
-   ct->anim_mode = dd->anim_mode;
-   Conf_containers.anim_time = 1000 - dd->anim_speed;
+    ct->nobg = dd->nobg;
+    ct->shownames = dd->shownames;
+    ct->orientation = dd->vert;
+    ct->scrollbar_side = dd->side;
+    ct->arrow_side = dd->arrows;
+    ct->iconsize = dd->iconsize;
+    ct->icon_mode = dd->icon_mode;
+    ct->auto_resize = dd->auto_resize;
+    ct->draw_icon_base = dd->draw_icon_base;
+    ct->scrollbar_hide = dd->scrollbar_hide;
+    ct->cover_hide = dd->cover_hide;
+    ct->auto_resize_anchor = dd->autoresize_anchor;
+    ct->anim_mode = dd->anim_mode;
+    Conf_containers.anim_time = 1000 - dd->anim_speed;
 
-   ContainerRedraw(ct);
+    ContainerRedraw(ct);
 
-   _ContainersConfigSave();
-   autosave();
+    _ContainersConfigSave();
+    autosave();
 }
 
 static void
-_CB_IconSizeSlider(Dialog * d, int val __UNUSED__, void *data)
+_CB_IconSizeSlider(Dialog *d, int val __UNUSED__, void *data)
 {
-   ContainerDlgData   *dd = DLG_DATA_GET(d, ContainerDlgData);
-   DItem              *di = (DItem *) data;
-   char                s[256];
+    ContainerDlgData *dd = DLG_DATA_GET(d, ContainerDlgData);
+    DItem          *di = (DItem *) data;
+    char            s[256];
 
-   Esnprintf(s, sizeof(s), _("Icon size: %2d"), dd->iconsize);
-   DialogItemSetText(di, s);
+    Esnprintf(s, sizeof(s), _("Icon size: %2d"), dd->iconsize);
+    DialogItemSetText(di, s);
 }
 
 static void
-_DlgFillContainer(Dialog * d, DItem * table, void *data)
+_DlgFillContainer(Dialog *d, DItem *table, void *data)
 {
-   ContainerDlgData   *dd = DLG_DATA_GET(d, ContainerDlgData);
-   Container          *ct = (Container *) data;
-   DItem              *di, *table2, *radio, *label;
-   char                s[256];
+    ContainerDlgData *dd = DLG_DATA_GET(d, ContainerDlgData);
+    Container      *ct = (Container *) data;
+    DItem          *di, *table2, *radio, *label;
+    char            s[256];
 
-   if (!ct)
-      return;
+    if (!ct)
+        return;
 
-   dd->ct = ct;
-   dd->nobg = ct->nobg;
-   dd->shownames = ct->shownames;
-   dd->vert = ct->orientation;
-   dd->side = ct->scrollbar_side;
-   dd->arrows = ct->arrow_side;
-   dd->iconsize = ct->iconsize;
-   dd->icon_mode = ct->icon_mode;
-   dd->auto_resize = ct->auto_resize;
-   dd->draw_icon_base = ct->draw_icon_base;
-   dd->scrollbar_hide = ct->scrollbar_hide;
-   dd->cover_hide = ct->cover_hide;
-   dd->autoresize_anchor = ct->auto_resize_anchor;
-   dd->anim_mode = ct->anim_mode;
-   dd->anim_speed = 1000 - Conf_containers.anim_time;
+    dd->ct = ct;
+    dd->nobg = ct->nobg;
+    dd->shownames = ct->shownames;
+    dd->vert = ct->orientation;
+    dd->side = ct->scrollbar_side;
+    dd->arrows = ct->arrow_side;
+    dd->iconsize = ct->iconsize;
+    dd->icon_mode = ct->icon_mode;
+    dd->auto_resize = ct->auto_resize;
+    dd->draw_icon_base = ct->draw_icon_base;
+    dd->scrollbar_hide = ct->scrollbar_hide;
+    dd->cover_hide = ct->cover_hide;
+    dd->autoresize_anchor = ct->auto_resize_anchor;
+    dd->anim_mode = ct->anim_mode;
+    dd->anim_speed = 1000 - Conf_containers.anim_time;
 
-   DialogSetTitle(d, ct->dlg_title);
+    DialogSetTitle(d, ct->dlg_title);
 
-   DialogItemTableSetOptions(table, 1, 0, 0, 0);
+    DialogItemTableSetOptions(table, 1, 0, 0, 0);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetText(di, _("Transparent background"));
-   DialogItemCheckButtonSetPtr(di, &dd->nobg);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetText(di, _("Transparent background"));
+    DialogItemCheckButtonSetPtr(di, &dd->nobg);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetText(di, _("Hide inner border"));
-   DialogItemCheckButtonSetPtr(di, &dd->cover_hide);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetText(di, _("Hide inner border"));
+    DialogItemCheckButtonSetPtr(di, &dd->cover_hide);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetText(di, _("Draw base image behind Icons"));
-   DialogItemCheckButtonSetPtr(di, &dd->draw_icon_base);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetText(di, _("Draw base image behind Icons"));
+    DialogItemCheckButtonSetPtr(di, &dd->draw_icon_base);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetText(di, _("Hide scrollbar when not needed"));
-   DialogItemCheckButtonSetPtr(di, &dd->scrollbar_hide);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetText(di, _("Hide scrollbar when not needed"));
+    DialogItemCheckButtonSetPtr(di, &dd->scrollbar_hide);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetText(di, _("Automatically resize to fit Icons"));
-   DialogItemCheckButtonSetPtr(di, &dd->auto_resize);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetText(di, _("Automatically resize to fit Icons"));
+    DialogItemCheckButtonSetPtr(di, &dd->auto_resize);
 
-   di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di,
-		     _("Alignment of anchoring when automatically resizing:"));
+    di = DialogAddItem(table, DITEM_TEXT);
+    DialogItemSetText(di,
+                      _("Alignment of anchoring when automatically resizing:"));
 
-   di = DialogAddItem(table, DITEM_SLIDER);
-   DialogItemSliderSetBounds(di, 0, 1024);
-   DialogItemSliderSetUnits(di, 1);
-   DialogItemSliderSetJump(di, 8);
-   DialogItemSliderSetValPtr(di, &dd->autoresize_anchor);
+    di = DialogAddItem(table, DITEM_SLIDER);
+    DialogItemSliderSetBounds(di, 0, 1024);
+    DialogItemSliderSetUnits(di, 1);
+    DialogItemSliderSetJump(di, 8);
+    DialogItemSliderSetValPtr(di, &dd->autoresize_anchor);
 
-   DialogAddItem(table, DITEM_SEPARATOR);
+    DialogAddItem(table, DITEM_SEPARATOR);
 
-   label = di = DialogAddItem(table, DITEM_TEXT);
-   Esnprintf(s, sizeof(s), _("Icon size: %2d"), dd->iconsize);
-   DialogItemSetText(di, s);
+    label = di = DialogAddItem(table, DITEM_TEXT);
+    Esnprintf(s, sizeof(s), _("Icon size: %2d"), dd->iconsize);
+    DialogItemSetText(di, s);
 
-   di = DialogAddItem(table, DITEM_SLIDER);
-   DialogItemSliderSetBounds(di, 4, 128);
-   DialogItemSliderSetUnits(di, 1);
-   DialogItemSliderSetJump(di, 8);
-   DialogItemSliderSetValPtr(di, &dd->iconsize);
-   DialogItemSetCallback(di, _CB_IconSizeSlider, 0, label);
+    di = DialogAddItem(table, DITEM_SLIDER);
+    DialogItemSliderSetBounds(di, 4, 128);
+    DialogItemSliderSetUnits(di, 1);
+    DialogItemSliderSetJump(di, 8);
+    DialogItemSliderSetValPtr(di, &dd->iconsize);
+    DialogItemSetCallback(di, _CB_IconSizeSlider, 0, label);
 
-   DialogAddItem(table, DITEM_SEPARATOR);
+    DialogAddItem(table, DITEM_SEPARATOR);
 
-   table2 = DialogAddItem(table, DITEM_TABLE);
-   DialogItemTableSetOptions(table2, 5, 0, 0, 0);
+    table2 = DialogAddItem(table, DITEM_TABLE);
+    DialogItemTableSetOptions(table2, 5, 0, 0, 0);
 
-   di = DialogAddItem(table2, DITEM_TEXT);
-   DialogItemSetText(di, _("Orientation:"));
+    di = DialogAddItem(table2, DITEM_TEXT);
+    DialogItemSetText(di, _("Orientation:"));
 
-   radio = di = DialogAddItem(table2, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("Horizontal"));
-   DialogItemRadioButtonSetFirst(di, radio);
-   DialogItemRadioButtonGroupSetVal(di, 0);
+    radio = di = DialogAddItem(table2, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("Horizontal"));
+    DialogItemRadioButtonSetFirst(di, radio);
+    DialogItemRadioButtonGroupSetVal(di, 0);
 
-   di = DialogAddItem(table2, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("Vertical"));
-   DialogItemRadioButtonSetFirst(di, radio);
-   DialogItemRadioButtonGroupSetVal(di, 1);
-   DialogItemRadioButtonGroupSetValPtr(radio, &dd->vert);
+    di = DialogAddItem(table2, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("Vertical"));
+    DialogItemRadioButtonSetFirst(di, radio);
+    DialogItemRadioButtonGroupSetVal(di, 1);
+    DialogItemRadioButtonGroupSetValPtr(radio, &dd->vert);
 
-   DialogAddItem(table2, DITEM_NONE);
-   DialogAddItem(table2, DITEM_NONE);
+    DialogAddItem(table2, DITEM_NONE);
+    DialogAddItem(table2, DITEM_NONE);
 
-   di = DialogAddItem(table2, DITEM_TEXT);
-   DialogItemSetText(di, _("Scrollbar side:"));
+    di = DialogAddItem(table2, DITEM_TEXT);
+    DialogItemSetText(di, _("Scrollbar side:"));
 
-   radio = di = DialogAddItem(table2, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("Left / Top"));
-   DialogItemRadioButtonSetFirst(di, radio);
-   DialogItemRadioButtonGroupSetVal(di, 0);
+    radio = di = DialogAddItem(table2, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("Left / Top"));
+    DialogItemRadioButtonSetFirst(di, radio);
+    DialogItemRadioButtonGroupSetVal(di, 0);
 
-   di = DialogAddItem(table2, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("Right / Bottom"));
-   DialogItemRadioButtonSetFirst(di, radio);
-   DialogItemRadioButtonGroupSetVal(di, 1);
-   DialogItemRadioButtonGroupSetValPtr(radio, &dd->side);
+    di = DialogAddItem(table2, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("Right / Bottom"));
+    DialogItemRadioButtonSetFirst(di, radio);
+    DialogItemRadioButtonGroupSetVal(di, 1);
+    DialogItemRadioButtonGroupSetValPtr(radio, &dd->side);
 
-   DialogAddItem(table2, DITEM_NONE);
-   DialogAddItem(table2, DITEM_NONE);
+    DialogAddItem(table2, DITEM_NONE);
+    DialogAddItem(table2, DITEM_NONE);
 
-   di = DialogAddItem(table2, DITEM_TEXT);
-   DialogItemSetText(di, _("Scrollbar arrows:"));
+    di = DialogAddItem(table2, DITEM_TEXT);
+    DialogItemSetText(di, _("Scrollbar arrows:"));
 
-   radio = di = DialogAddItem(table2, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("Start"));
-   DialogItemRadioButtonSetFirst(di, radio);
-   DialogItemRadioButtonGroupSetVal(di, 0);
+    radio = di = DialogAddItem(table2, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("Start"));
+    DialogItemRadioButtonSetFirst(di, radio);
+    DialogItemRadioButtonGroupSetVal(di, 0);
 
-   di = DialogAddItem(table2, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("Both ends"));
-   DialogItemRadioButtonSetFirst(di, radio);
-   DialogItemRadioButtonGroupSetVal(di, 1);
+    di = DialogAddItem(table2, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("Both ends"));
+    DialogItemRadioButtonSetFirst(di, radio);
+    DialogItemRadioButtonGroupSetVal(di, 1);
 
-   di = DialogAddItem(table2, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("End"));
-   DialogItemRadioButtonSetFirst(di, radio);
-   DialogItemRadioButtonGroupSetVal(di, 2);
+    di = DialogAddItem(table2, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("End"));
+    DialogItemRadioButtonSetFirst(di, radio);
+    DialogItemRadioButtonGroupSetVal(di, 2);
 
-   di = DialogAddItem(table2, DITEM_RADIOBUTTON);
-   DialogItemSetText(di, _("None"));
-   DialogItemRadioButtonSetFirst(di, radio);
-   DialogItemRadioButtonGroupSetVal(di, 3);
-   DialogItemRadioButtonGroupSetValPtr(radio, &dd->arrows);
+    di = DialogAddItem(table2, DITEM_RADIOBUTTON);
+    DialogItemSetText(di, _("None"));
+    DialogItemRadioButtonSetFirst(di, radio);
+    DialogItemRadioButtonGroupSetVal(di, 3);
+    DialogItemRadioButtonGroupSetValPtr(radio, &dd->arrows);
 
-   DialogAddItem(table, DITEM_SEPARATOR);
+    DialogAddItem(table, DITEM_SEPARATOR);
 
-   if (ct->type == IB_TYPE_ICONBOX)
-     {
-	di = DialogAddItem(table, DITEM_CHECKBUTTON);
-	DialogItemSetText(di, _("Show icon names"));
-	DialogItemCheckButtonSetPtr(di, &dd->shownames);
+    if (ct->type == IB_TYPE_ICONBOX)
+    {
+        di = DialogAddItem(table, DITEM_CHECKBUTTON);
+        DialogItemSetText(di, _("Show icon names"));
+        DialogItemCheckButtonSetPtr(di, &dd->shownames);
 
-	table2 = DialogAddItem(table, DITEM_TABLE);
-	DialogItemTableSetOptions(table2, 4, 0, 1, 0);
+        table2 = DialogAddItem(table, DITEM_TABLE);
+        DialogItemTableSetOptions(table2, 4, 0, 1, 0);
 
-	di = DialogAddItem(table2, DITEM_TEXT);
-	DialogItemSetText(di, _("Animation mode:"));
+        di = DialogAddItem(table2, DITEM_TEXT);
+        DialogItemSetText(di, _("Animation mode:"));
 
-	radio = di = DialogAddItem(table2, DITEM_RADIOBUTTON);
-	DialogItemSetText(di, _("Off"));
-	DialogItemRadioButtonSetFirst(di, radio);
-	DialogItemRadioButtonGroupSetVal(di, 0);
+        radio = di = DialogAddItem(table2, DITEM_RADIOBUTTON);
+        DialogItemSetText(di, _("Off"));
+        DialogItemRadioButtonSetFirst(di, radio);
+        DialogItemRadioButtonGroupSetVal(di, 0);
 
-	di = DialogAddItem(table2, DITEM_RADIOBUTTON);
-	DialogItemSetText(di, _("Whirl"));
-	DialogItemRadioButtonSetFirst(di, radio);
-	DialogItemRadioButtonGroupSetVal(di, 1);
+        di = DialogAddItem(table2, DITEM_RADIOBUTTON);
+        DialogItemSetText(di, _("Whirl"));
+        DialogItemRadioButtonSetFirst(di, radio);
+        DialogItemRadioButtonGroupSetVal(di, 1);
 
-	di = DialogAddItem(table2, DITEM_RADIOBUTTON);
-	DialogItemSetText(di, _("Box"));
-	DialogItemRadioButtonSetFirst(di, radio);
-	DialogItemRadioButtonGroupSetVal(di, 2);
-	DialogItemRadioButtonGroupSetValPtr(radio, &dd->anim_mode);
+        di = DialogAddItem(table2, DITEM_RADIOBUTTON);
+        DialogItemSetText(di, _("Box"));
+        DialogItemRadioButtonSetFirst(di, radio);
+        DialogItemRadioButtonGroupSetVal(di, 2);
+        DialogItemRadioButtonGroupSetValPtr(radio, &dd->anim_mode);
 
-	di = DialogAddItem(table, DITEM_TEXT);
-	DialogItemSetText(di, _("Animation speed:"));
+        di = DialogAddItem(table, DITEM_TEXT);
+        DialogItemSetText(di, _("Animation speed:"));
 
-	di = DialogAddItem(table, DITEM_SLIDER);
-	DialogItemSliderSetBounds(di, 0, 1000);
-	DialogItemSliderSetUnits(di, 10);
-	DialogItemSliderSetJump(di, 50);
-	DialogItemSliderSetValPtr(di, &dd->anim_speed);
+        di = DialogAddItem(table, DITEM_SLIDER);
+        DialogItemSliderSetBounds(di, 0, 1000);
+        DialogItemSliderSetUnits(di, 10);
+        DialogItemSliderSetJump(di, 50);
+        DialogItemSliderSetValPtr(di, &dd->anim_speed);
 
-	DialogAddItem(table, DITEM_SEPARATOR);
+        DialogAddItem(table, DITEM_SEPARATOR);
 
-	di = DialogAddItem(table, DITEM_TEXT);
-	DialogItemSetText(di,
-			  _
-			  ("Icon image display policy (if one operation fails, try the next):"));
+        di = DialogAddItem(table, DITEM_TEXT);
+        DialogItemSetText(di,
+                          _
+                          ("Icon image display policy (if one operation fails, try the next):"));
 
-	radio = di = DialogAddItem(table, DITEM_RADIOBUTTON);
-	DialogItemSetText(di,
-			  _
-			  ("Snapshot Windows, Use application icon, Use Enlightenment Icon"));
-	DialogItemRadioButtonSetFirst(di, radio);
-	DialogItemRadioButtonGroupSetVal(di, EWIN_ICON_MODE_SNAP);
+        radio = di = DialogAddItem(table, DITEM_RADIOBUTTON);
+        DialogItemSetText(di,
+                          _
+                          ("Snapshot Windows, Use application icon, Use Enlightenment Icon"));
+        DialogItemRadioButtonSetFirst(di, radio);
+        DialogItemRadioButtonGroupSetVal(di, EWIN_ICON_MODE_SNAP);
 
-	di = DialogAddItem(table, DITEM_RADIOBUTTON);
-	DialogItemSetText(di,
-			  _
-			  ("Use application icon, Use Enlightenment Icon, Snapshot Window"));
-	DialogItemRadioButtonSetFirst(di, radio);
-	DialogItemRadioButtonGroupSetVal(di, EWIN_ICON_MODE_APP_IMG_SNAP);
+        di = DialogAddItem(table, DITEM_RADIOBUTTON);
+        DialogItemSetText(di,
+                          _
+                          ("Use application icon, Use Enlightenment Icon, Snapshot Window"));
+        DialogItemRadioButtonSetFirst(di, radio);
+        DialogItemRadioButtonGroupSetVal(di, EWIN_ICON_MODE_APP_IMG_SNAP);
 
-	di = DialogAddItem(table, DITEM_RADIOBUTTON);
-	DialogItemSetText(di, _("Use Enlightenment Icon, Snapshot Window"));
-	DialogItemRadioButtonSetFirst(di, radio);
-	DialogItemRadioButtonGroupSetVal(di, EWIN_ICON_MODE_IMG_APP_SNAP);
-	DialogItemRadioButtonGroupSetValPtr(radio, &dd->icon_mode);
-     }
+        di = DialogAddItem(table, DITEM_RADIOBUTTON);
+        DialogItemSetText(di, _("Use Enlightenment Icon, Snapshot Window"));
+        DialogItemRadioButtonSetFirst(di, radio);
+        DialogItemRadioButtonGroupSetVal(di, EWIN_ICON_MODE_IMG_APP_SNAP);
+        DialogItemRadioButtonGroupSetValPtr(radio, &dd->icon_mode);
+    }
 }
 
 static const DialogDef DlgContainer = {
-   "CONFIGURE_ICONBOX",
-   NULL, NULL,
-   sizeof(ContainerDlgData),
-   SOUND_SETTINGS_ICONBOX,
-   "pix/iconbox.png",
-   N_("Enlightenment Iconbox\n" "Settings Dialog"),
-   _DlgFillContainer,
-   DLG_OAC, _DlgApplyContainer, NULL
+    "CONFIGURE_ICONBOX",
+    NULL, NULL,
+    sizeof(ContainerDlgData),
+    SOUND_SETTINGS_ICONBOX,
+    "pix/iconbox.png",
+    N_("Enlightenment Iconbox\n" "Settings Dialog"),
+    _DlgFillContainer,
+    DLG_OAC, _DlgApplyContainer, NULL
 };
-#endif /* ENABLE_DIALOGS */
+#endif                          /* ENABLE_DIALOGS */
 
 /*
  * Configuration load/save
@@ -1719,142 +1719,142 @@ static const DialogDef DlgContainer = {
 #include "conf.h"
 
 static int
-_ContainersConfigLoad1(FILE * fs)
+_ContainersConfigLoad1(FILE *fs)
 {
-   int                 err = 0;
-   char                s[FILEPATH_LEN_MAX];
-   char                s2[FILEPATH_LEN_MAX];
-   int                 i1, i2;
-   Container          *ct = NULL;
+    int             err = 0;
+    char            s[FILEPATH_LEN_MAX];
+    char            s2[FILEPATH_LEN_MAX];
+    int             i1, i2;
+    Container      *ct = NULL;
 
-   while (fgets(s, sizeof(s), fs))
-     {
-	i1 = ConfigParseline1(s, s2, NULL, NULL);
-	i2 = atoi(s2);
-	switch (i1)
-	  {
-	  case CONFIG_IBOX:
-	     err = -1;
-	     if (i2 != CONFIG_OPEN)
-		goto done;
-	     continue;
-	  case CONFIG_CLOSE:
-	     ct = NULL;
-	     err = 0;
-	     continue;
-	  case CONFIG_CLASSNAME:	/* __NAME %s */
-	     ct = _ContainerFind(s2);
-	     if (ct)
-		EwinHide(ct->ewin);
-	     ct = _ContainerCreate(s2);
-	     continue;
-	  }
+    while (fgets(s, sizeof(s), fs))
+    {
+        i1 = ConfigParseline1(s, s2, NULL, NULL);
+        i2 = atoi(s2);
+        switch (i1)
+        {
+        case CONFIG_IBOX:
+            err = -1;
+            if (i2 != CONFIG_OPEN)
+                goto done;
+            continue;
+        case CONFIG_CLOSE:
+            ct = NULL;
+            err = 0;
+            continue;
+        case CONFIG_CLASSNAME: /* __NAME %s */
+            ct = _ContainerFind(s2);
+            if (ct)
+                EwinHide(ct->ewin);
+            ct = _ContainerCreate(s2);
+            continue;
+        }
 
-	/* ct needed */
-	if (!ct)
-	   break;
+        /* ct needed */
+        if (!ct)
+            break;
 
-	switch (i1)
-	  {
-	  case TEXT_ORIENTATION:	/* __ORIENTATION [ __HORIZONTAL | __VERTICAL ] */
-	     ct->orientation = i2;
-	     break;
-	  case CONFIG_TRANSPARENCY:	/* __TRANSPARENCY [ __ON | __OFF ] */
-	     ct->nobg = i2;
-	     break;
-	  case CONFIG_SHOW_NAMES:	/* __SHOW_NAMES [ __ON | __OFF ] */
-	     ct->shownames = i2;
-	     break;
-	  case CONFIG_ICON_SIZE:	/* __ICON_SIZE %i */
-	     ct->iconsize = i2;
-	     break;
-	  case CONFIG_ICON_MODE:	/* __ICON_MODE [ 0 | 1 | 2 ] */
-	     ct->icon_mode = i2;
-	     break;
-	  case CONFIG_SCROLLBAR_SIDE:	/* __SCROLLBAR_SIDE [ __BAR_LEFT/__BAR_TOP | __BAR_RIGHT/__BAR_BOTTOM ] */
-	     ct->scrollbar_side = i2;
-	     break;
-	  case CONFIG_SCROLLBAR_ARROWS:	/* __SCROLLBAR_ARROWS [ __START | __BOTH | __FINISH | __NEITHER ] */
-	     ct->arrow_side = i2;
-	     break;
-	  case CONFIG_AUTOMATIC_RESIZE:	/* __AUTOMATIC_RESIZE [ __ON | __OFF ] */
-	     ct->auto_resize = i2;
-	     break;
-	  case CONFIG_SHOW_ICON_BASE:	/* __SHOW_ICON_BASE [ __ON | __OFF ] */
-	     ct->draw_icon_base = i2;
-	     break;
-	  case CONFIG_SCROLLBAR_AUTOHIDE:	/* __SCROLLBAR_AUTOHIDE [ __ON | __OFF ] */
-	     ct->scrollbar_hide = i2;
-	     break;
-	  case CONFIG_COVER_HIDE:	/* __COVER_HIDE [ __ON | __OFF ] */
-	     ct->cover_hide = i2;
-	     break;
-	  case CONFIG_RESIZE_ANCHOR:	/* __RESIZE_ANCHOR 0-1024 */
-	     ct->auto_resize_anchor = i2;
-	     break;
-	  case CONFIG_IB_ANIMATE:	/* __ICONBOX_ANIMATE [ 0 | 1 | 2 ] */
-	     ct->anim_mode = i2;
-	     break;
-	  default:
-	     Eprintf("Warning: Iconbox configuration, ignoring: %s\n", s);
-	     break;
-	  }
-     }
+        switch (i1)
+        {
+        case TEXT_ORIENTATION: /* __ORIENTATION [ __HORIZONTAL | __VERTICAL ] */
+            ct->orientation = i2;
+            break;
+        case CONFIG_TRANSPARENCY:      /* __TRANSPARENCY [ __ON | __OFF ] */
+            ct->nobg = i2;
+            break;
+        case CONFIG_SHOW_NAMES:        /* __SHOW_NAMES [ __ON | __OFF ] */
+            ct->shownames = i2;
+            break;
+        case CONFIG_ICON_SIZE: /* __ICON_SIZE %i */
+            ct->iconsize = i2;
+            break;
+        case CONFIG_ICON_MODE: /* __ICON_MODE [ 0 | 1 | 2 ] */
+            ct->icon_mode = i2;
+            break;
+        case CONFIG_SCROLLBAR_SIDE:    /* __SCROLLBAR_SIDE [ __BAR_LEFT/__BAR_TOP | __BAR_RIGHT/__BAR_BOTTOM ] */
+            ct->scrollbar_side = i2;
+            break;
+        case CONFIG_SCROLLBAR_ARROWS:  /* __SCROLLBAR_ARROWS [ __START | __BOTH | __FINISH | __NEITHER ] */
+            ct->arrow_side = i2;
+            break;
+        case CONFIG_AUTOMATIC_RESIZE:  /* __AUTOMATIC_RESIZE [ __ON | __OFF ] */
+            ct->auto_resize = i2;
+            break;
+        case CONFIG_SHOW_ICON_BASE:    /* __SHOW_ICON_BASE [ __ON | __OFF ] */
+            ct->draw_icon_base = i2;
+            break;
+        case CONFIG_SCROLLBAR_AUTOHIDE:        /* __SCROLLBAR_AUTOHIDE [ __ON | __OFF ] */
+            ct->scrollbar_hide = i2;
+            break;
+        case CONFIG_COVER_HIDE:        /* __COVER_HIDE [ __ON | __OFF ] */
+            ct->cover_hide = i2;
+            break;
+        case CONFIG_RESIZE_ANCHOR:     /* __RESIZE_ANCHOR 0-1024 */
+            ct->auto_resize_anchor = i2;
+            break;
+        case CONFIG_IB_ANIMATE:        /* __ICONBOX_ANIMATE [ 0 | 1 | 2 ] */
+            ct->anim_mode = i2;
+            break;
+        default:
+            Eprintf("Warning: Iconbox configuration, ignoring: %s\n", s);
+            break;
+        }
+    }
 
- done:
-   if (err)
-      Eprintf("Error: Iconbox configuration file load problem.\n");
+  done:
+    if (err)
+        Eprintf("Error: Iconbox configuration file load problem.\n");
 
-   return err;
+    return err;
 }
 
 static void
 _ContainersConfigLoad(void)
 {
-   char                s[4096];
+    char            s[4096];
 
-   Esnprintf(s, sizeof(s), "%s.ibox", EGetSavePrefix());
+    Esnprintf(s, sizeof(s), "%s.ibox", EGetSavePrefix());
 
-   ConfigFileLoad(s, NULL, _ContainersConfigLoad1, 0);
+    ConfigFileLoad(s, NULL, _ContainersConfigLoad1, 0);
 }
 
 static void
 _ContainersConfigSave(void)
 {
-   char                s[FILEPATH_LEN_MAX], st[FILEPATH_LEN_MAX];
-   FILE               *fs;
-   Container          *ct;
+    char            s[FILEPATH_LEN_MAX], st[FILEPATH_LEN_MAX];
+    FILE           *fs;
+    Container      *ct;
 
-   Etmp(st);
-   fs = fopen(st, "w");
-   if (!fs)
-      return;
+    Etmp(st);
+    fs = fopen(st, "w");
+    if (!fs)
+        return;
 
-   /* We should check for errors... */
-   LIST_FOR_EACH(Container, &container_list, ct)
-   {
-      fprintf(fs, "19 999\n");
-      fprintf(fs, "100 %s\n", ct->name);
-      fprintf(fs, "200 %i\n", ct->orientation);
-      fprintf(fs, "2001 %i\n", ct->nobg);
-      fprintf(fs, "2002 %i\n", ct->shownames);
-      fprintf(fs, "2003 %i\n", ct->iconsize);
-      fprintf(fs, "2004 %i\n", ct->icon_mode);
-      fprintf(fs, "2005 %i\n", ct->scrollbar_side);
-      fprintf(fs, "2006 %i\n", ct->arrow_side);
-      fprintf(fs, "2007 %i\n", ct->auto_resize);
-      fprintf(fs, "2008 %i\n", ct->draw_icon_base);
-      fprintf(fs, "2009 %i\n", ct->scrollbar_hide);
-      fprintf(fs, "2010 %i\n", ct->cover_hide);
-      fprintf(fs, "2011 %i\n", ct->auto_resize_anchor);
-      fprintf(fs, "2012 %i\n", ct->anim_mode);
-      fprintf(fs, "1000\n");
-   }
+    /* We should check for errors... */
+    LIST_FOR_EACH(Container, &container_list, ct)
+    {
+        fprintf(fs, "19 999\n");
+        fprintf(fs, "100 %s\n", ct->name);
+        fprintf(fs, "200 %i\n", ct->orientation);
+        fprintf(fs, "2001 %i\n", ct->nobg);
+        fprintf(fs, "2002 %i\n", ct->shownames);
+        fprintf(fs, "2003 %i\n", ct->iconsize);
+        fprintf(fs, "2004 %i\n", ct->icon_mode);
+        fprintf(fs, "2005 %i\n", ct->scrollbar_side);
+        fprintf(fs, "2006 %i\n", ct->arrow_side);
+        fprintf(fs, "2007 %i\n", ct->auto_resize);
+        fprintf(fs, "2008 %i\n", ct->draw_icon_base);
+        fprintf(fs, "2009 %i\n", ct->scrollbar_hide);
+        fprintf(fs, "2010 %i\n", ct->cover_hide);
+        fprintf(fs, "2011 %i\n", ct->auto_resize_anchor);
+        fprintf(fs, "2012 %i\n", ct->anim_mode);
+        fprintf(fs, "1000\n");
+    }
 
-   fclose(fs);
+    fclose(fs);
 
-   Esnprintf(s, sizeof(s), "%s.ibox", EGetSavePrefix());
-   E_mv(st, s);
+    Esnprintf(s, sizeof(s), "%s.ibox", EGetSavePrefix());
+    E_mv(st, s);
 }
 
 /*
@@ -1864,24 +1864,24 @@ _ContainersConfigSave(void)
 static void
 _ContainersSighan(int sig, void *prm)
 {
-   switch (sig)
-     {
-     case ESIGNAL_CONFIGURE:
-	break;
-     case ESIGNAL_START:
-	_ContainersConfigLoad();
-	_ContainersShow();
-	break;
-     }
+    switch (sig)
+    {
+    case ESIGNAL_CONFIGURE:
+        break;
+    case ESIGNAL_START:
+        _ContainersConfigLoad();
+        _ContainersShow();
+        break;
+    }
 
-#if 0				/* FIXME */
-   LIST_FOR_EACH(Container, &container_list, ct)
-   {
-      if (ct->ops)
-	 ct->ops->Signal(ct, sig, prm);
-   }
+#if 0                           /* FIXME */
+    LIST_FOR_EACH(Container, &container_list, ct)
+    {
+        if (ct->ops)
+            ct->ops->Signal(ct, sig, prm);
+    }
 #else
-   IconboxOps.Signal(NULL, sig, prm);
+    IconboxOps.Signal(NULL, sig, prm);
 #endif
 }
 
@@ -1889,50 +1889,50 @@ _ContainersSighan(int sig, void *prm)
 static void
 _ContainersConfigure(const char *params)
 {
-   Container          *ct;
+    Container      *ct;
 
-   if (!params || !params[0])
-      params = "DEFAULT";
+    if (!params || !params[0])
+        params = "DEFAULT";
 
-   ct = _ContainerFind(params);
-   if (ct)
-      DialogShowSimple(&DlgContainer, ct);
+    ct = _ContainerFind(params);
+    if (ct)
+        DialogShowSimple(&DlgContainer, ct);
 }
-#endif /* ENABLE_DIALOGS */
+#endif                          /* ENABLE_DIALOGS */
 
-Container          *
-ContainersIterate(ContainerIterator * cti, int type, void *data)
+Container      *
+ContainersIterate(ContainerIterator *cti, int type, void *data)
 {
-   Container          *ct;
+    Container      *ct;
 
-   LIST_FOR_EACH(Container, &container_list, ct)
-   {
-      if (ct->type != type)
-	 continue;
-      if (cti(ct, data))
-	 return ct;
-   }
+    LIST_FOR_EACH(Container, &container_list, ct)
+    {
+        if (ct->type != type)
+            continue;
+        if (cti(ct, data))
+            return ct;
+    }
 
-   return NULL;
+    return NULL;
 }
 
-Container         **
+Container     **
 ContainersGetList(int *pnum)
 {
-   return LIST_GET_ITEMS(Container, &container_list, pnum);
+    return LIST_GET_ITEMS(Container, &container_list, pnum);
 }
 
 static void
 _ContainersNewName(char *nbuf, unsigned int nlen, const char *pfx)
 {
-   int                 i;
+    int             i;
 
-   for (i = 1;; i++)
-     {
-	Esnprintf(nbuf, nlen, "%s%i", pfx, i);
-	if (!_ContainerFind(nbuf))
-	   break;
-     }
+    for (i = 1;; i++)
+    {
+        Esnprintf(nbuf, nlen, "%s%i", pfx, i);
+        if (!_ContainerFind(nbuf))
+            break;
+    }
 }
 
 /*
@@ -1941,55 +1941,55 @@ _ContainersNewName(char *nbuf, unsigned int nlen, const char *pfx)
 static void
 _ContainerIpc(const char *params)
 {
-   const char         *p;
-   char                cmd[128], prm[128];
-   int                 len;
+    const char     *p;
+    char            cmd[128], prm[128];
+    int             len;
 
-   cmd[0] = prm[0] = '\0';
-   p = params;
-   if (p)
-     {
-	len = 0;
-	sscanf(p, "%100s %100s %n", cmd, prm, &len);
-	p += len;
-     }
+    cmd[0] = prm[0] = '\0';
+    p = params;
+    if (p)
+    {
+        len = 0;
+        sscanf(p, "%100s %100s %n", cmd, prm, &len);
+        p += len;
+    }
 
-   if (!p || cmd[0] == '?')
-     {
-	/* List iconboxes */
-     }
+    if (!p || cmd[0] == '?')
+    {
+        /* List iconboxes */
+    }
 #if ENABLE_DIALOGS
-   else if (!strncmp(cmd, "cfg", 3))
-     {
-	_ContainersConfigure(prm);
-     }
+    else if (!strncmp(cmd, "cfg", 3))
+    {
+        _ContainersConfigure(prm);
+    }
 #endif
-   else if (!strncmp(cmd, "new", 3))
-     {
-	Container          *ct;
+    else if (!strncmp(cmd, "new", 3))
+    {
+        Container      *ct;
 
-	if (!prm[0])
-	   _ContainersNewName(prm, sizeof(prm), "_IB_");
-	ct = _ContainerCreate(prm);
-	_ContainerShow(ct);
-	_ContainersConfigSave();
-     }
+        if (!prm[0])
+            _ContainersNewName(prm, sizeof(prm), "_IB_");
+        ct = _ContainerCreate(prm);
+        _ContainerShow(ct);
+        _ContainersConfigSave();
+    }
 }
 
 static const IpcItem ContainersIpcArray[] = {
-   {
-    _ContainerIpc,
-    "iconbox", "ibox",
-    "Iconbox functions",
-    "  iconbox new <name>   Create new iconbox\n"
-    "  iconbox cfg          Configure iconboxes\n"}
+    {
+     _ContainerIpc,
+     "iconbox", "ibox",
+     "Iconbox functions",
+     "  iconbox new <name>   Create new iconbox\n"
+     "  iconbox cfg          Configure iconboxes\n" }
 };
 
 /*
  * Configuration items
  */
 static const CfgItem ContainersCfgItems[] = {
-   CFG_ITEM_INT(Conf_containers, anim_time, 250),
+    CFG_ITEM_INT(Conf_containers, anim_time, 250),
 };
 
 /*
@@ -1997,9 +1997,9 @@ static const CfgItem ContainersCfgItems[] = {
  */
 extern const EModule ModIconboxes;
 
-const EModule       ModIconboxes = {
-   "iconboxes", "ibox",
-   _ContainersSighan,
-   MOD_ITEMS(ContainersIpcArray),
-   MOD_ITEMS(ContainersCfgItems)
+const EModule   ModIconboxes = {
+    "iconboxes", "ibox",
+    _ContainersSighan,
+    MOD_ITEMS(ContainersIpcArray),
+    MOD_ITEMS(ContainersCfgItems)
 };

@@ -46,85 +46,85 @@
 #define ENABLE_IPC_INSERT_KEYS  0
 
 #define SS(s) ((s) ? (s) : NoText)
-static const char   NoText[] = "-NONE-";
+static const char NoText[] = "-NONE-";
 
-static char        *ipc_bufptr = NULL;
-static size_t       ipc_bufsiz = 0;
-static char         ipc_active = 0;
+static char    *ipc_bufptr = NULL;
+static size_t   ipc_bufsiz = 0;
+static char     ipc_active = 0;
 
 static void
 IpcPrintInit(void)
 {
-   ipc_bufptr = NULL;
-   ipc_bufsiz = 0;
-   ipc_active = 1;
+    ipc_bufptr = NULL;
+    ipc_bufsiz = 0;
+    ipc_active = 1;
 }
 
 static void
 IpcPrintDone(void)
 {
-   EFREE_NULL(ipc_bufptr);
-   ipc_bufsiz = 0;
-   ipc_active = 0;
+    EFREE_NULL(ipc_bufptr);
+    ipc_bufsiz = 0;
+    ipc_active = 0;
 }
 
-static const char  *
+static const char *
 IpcPrintGetBuffer(void)
 {
-   if (!ipc_bufptr)
-      return NULL;
-   ipc_bufptr[ipc_bufsiz] = '\0';
-   return ipc_bufptr;
+    if (!ipc_bufptr)
+        return NULL;
+    ipc_bufptr[ipc_bufsiz] = '\0';
+    return ipc_bufptr;
 }
 
 void
 IpcPrintf(const char *fmt, ...)
 {
-   char                tmp[16384];
-   int                 len;
-   va_list             args;
+    char            tmp[16384];
+    int             len;
+    va_list         args;
 
-   if (!ipc_active)
-      return;
+    if (!ipc_active)
+        return;
 
-   va_start(args, fmt);
-   len = Evsnprintf(tmp, sizeof(tmp), fmt, args);
-   if (len >= (int)sizeof(tmp))
-      len = sizeof(tmp) - 1;
-   va_end(args);
+    va_start(args, fmt);
+    len = Evsnprintf(tmp, sizeof(tmp), fmt, args);
+    if (len >= (int)sizeof(tmp))
+        len = sizeof(tmp) - 1;
+    va_end(args);
 
-   ipc_bufptr = EREALLOC(char, ipc_bufptr, ipc_bufsiz + len + 1);
+    ipc_bufptr = EREALLOC(char, ipc_bufptr, ipc_bufsiz + len + 1);
 
-   memcpy(ipc_bufptr + ipc_bufsiz, tmp, len);
-   ipc_bufsiz += len;
+    memcpy(ipc_bufptr + ipc_bufsiz, tmp, len);
+    ipc_bufsiz += len;
 }
 
 static int
 SetEwinBoolean(const char *txt, char *item, const char *value, int set)
 {
-   int                 vold, vnew;
+    int             vold, vnew;
 
-   vnew = vold = *item != 0;	/* Remember old value */
+    vnew = vold = *item != 0;   /* Remember old value */
 
-   if (!value || value[0] == '\0')
-      vnew = !vold;
-   else if (!strcmp(value, "on"))
-      vnew = 1;
-   else if (!strcmp(value, "off"))
-      vnew = 0;
-   else if (!strcmp(value, "?"))
-      IpcPrintf("%s: %s\n", txt, (vold) ? "on" : "off");
-   else
-      IpcPrintf("Error: %s\n", value);
+    if (!value || value[0] == '\0')
+        vnew = !vold;
+    else if (!strcmp(value, "on"))
+        vnew = 1;
+    else if (!strcmp(value, "off"))
+        vnew = 0;
+    else if (!strcmp(value, "?"))
+        IpcPrintf("%s: %s\n", txt, (vold) ? "on" : "off");
+    else
+        IpcPrintf("Error: %s\n", value);
 
-   if (vnew != vold)
-     {
-	if (set)
-	   *item = vnew;
-	return 1;
-     }
+    if (vnew != vold)
+    {
+        if (set)
+            *item = vnew;
+        return 1;
+    }
 
-   return 0;
+    return 0;
 }
 
 /* The IPC functions */
@@ -132,1509 +132,1507 @@ SetEwinBoolean(const char *txt, char *item, const char *value, int set)
 static void
 IPC_Screen(const char *params)
 {
-   char                param[1024];
-   int                 l;
-   const char         *p;
+    char            param[1024];
+    int             l;
+    const char     *p;
 
-   param[0] = '\0';
-   p = params;
-   if (p)
-     {
-	l = 0;
-	sscanf(p, "%1000s %n", param, &l);
-	p += l;
-     }
+    param[0] = '\0';
+    p = params;
+    if (p)
+    {
+        l = 0;
+        sscanf(p, "%1000s %n", param, &l);
+        p += l;
+    }
 
-   if (!p || !strncmp(param, "list", 2))
-     {
-	ScreenShowInfo(p);
-     }
-   else if (!strncmp(param, "size", 2))
-     {
-	IpcPrintf("Screen %d  size %dx%d\n", Dpy.screen,
-		  WinGetW(VROOT), WinGetH(VROOT));
-     }
-   else if (!strcmp(param, "split"))
-     {
-	unsigned int        nx, ny;
+    if (!p || !strncmp(param, "list", 2))
+    {
+        ScreenShowInfo(p);
+    }
+    else if (!strncmp(param, "size", 2))
+    {
+        IpcPrintf("Screen %d  size %dx%d\n", Dpy.screen,
+                  WinGetW(VROOT), WinGetH(VROOT));
+    }
+    else if (!strcmp(param, "split"))
+    {
+        unsigned int    nx, ny;
 
-	nx = 2;
-	ny = 1;
-	sscanf(p, "%u %u\n", &nx, &ny);
-	ScreenSplit(nx, ny);
-     }
+        nx = 2;
+        ny = 1;
+        sscanf(p, "%u %u\n", &nx, &ny);
+        ScreenSplit(nx, ny);
+    }
 }
 
 static void
 IPC_Nop(const char *params __UNUSED__)
 {
-   IpcPrintf("nop\n");
+    IpcPrintf("nop\n");
 }
 
 /* Should be elsewhere */
 static void
 IPC_Border(const char *params)
 {
-   if (!params)
-     {
-	IpcPrintf("Please specify...\n");
-	return;
-     }
+    if (!params)
+    {
+        IpcPrintf("Please specify...\n");
+        return;
+    }
 
-   if (!strncmp(params, "list", 2))
-     {
-	Border            **lst;
-	int                 i, num;
+    if (!strncmp(params, "list", 2))
+    {
+        Border        **lst;
+        int             i, num;
 
-	lst = BordersGetList(&num);
-	for (i = 0; i < num; i++)
-	   IpcPrintf("%s\n", BorderGetName(lst[i]));
-	Efree(lst);
-     }
+        lst = BordersGetList(&num);
+        for (i = 0; i < num; i++)
+            IpcPrintf("%s\n", BorderGetName(lst[i]));
+        Efree(lst);
+    }
 }
 
 #if ENABLE_DIALOGS
 static void
 IPC_DialogOK(const char *params)
 {
-   char                tbuf[128];
-   const char         *title;
-   int                 nr;
+    char            tbuf[128];
+    const char     *title;
+    int             nr;
 
-   if (!params)
-     {
-	IpcPrintf("Error: No text for dialog specified\n");
-	return;
-     }
+    if (!params)
+    {
+        IpcPrintf("Error: No text for dialog specified\n");
+        return;
+    }
 
-   nr = 0;
-   sscanf(params, "[%127[^]]] %n", tbuf, &nr);
-   if (nr > 0)
-     {
-	title = tbuf;
-	params += nr;
-     }
-   else
-     {
-	title = _("Message");
-     }
+    nr = 0;
+    sscanf(params, "[%127[^]]] %n", tbuf, &nr);
+    if (nr > 0)
+    {
+        title = tbuf;
+        params += nr;
+    }
+    else
+    {
+        title = _("Message");
+    }
 
-   DialogOKstr(title, params);
+    DialogOKstr(title, params);
 }
-#endif /* ENABLE_DIALOGS */
+#endif                          /* ENABLE_DIALOGS */
 
 static int
 CfgStrlistIndex(const char *const *list, const char *str)
 {
-   int                 i;
+    int             i;
 
-   for (i = 0; list[i]; i++)
-      if (!strcmp(list[i], str))
-	 return i;
-   return -1;
+    for (i = 0; list[i]; i++)
+        if (!strcmp(list[i], str))
+            return i;
+    return -1;
 }
 
-static const char  *const MovResCfgMoveResizeModeNames[] = {
-   "opaque", "lined", "box", "shaded", "semi-solid", "translucent", "techop",
-   NULL
+static const char *const MovResCfgMoveResizeModeNames[] = {
+    "opaque", "lined", "box", "shaded", "semi-solid", "translucent", "techop",
+    NULL
 };
 
-static const char  *const MovResCfgInfoModes[] = {
-   "never", "center", "corner", NULL
+static const char *const MovResCfgInfoModes[] = {
+    "never", "center", "corner", NULL
 };
 
 static void
 IPC_MoveResize(const char *params)
 {
-   char                param1[32];
-   char                param2[32];
-   int                 i;
+    char            param1[32];
+    char            param2[32];
+    int             i;
 
-   if (!params)
-     {
-	IpcPrintf("Please specify...\n");
-	return;
-     }
+    if (!params)
+    {
+        IpcPrintf("Please specify...\n");
+        return;
+    }
 
-   param1[0] = param2[0] = '\0';
-   sscanf(params, "%31s %31s", param1, param2);
+    param1[0] = param2[0] = '\0';
+    sscanf(params, "%31s %31s", param1, param2);
 
-   if (!strncmp(param1, "move", 2))
-     {
-	if (param2[0] == '\n' || param2[0] == '?')
-	  {
-	     Conf.movres.mode_move =
-		MoveResizeModeValidateMove(Conf.movres.mode_move);
-	     IpcPrintf("Move mode: %s\n",
-		       MovResCfgMoveResizeModeNames[Conf.movres.mode_move]);
-	     return;
-	  }
+    if (!strncmp(param1, "move", 2))
+    {
+        if (param2[0] == '\n' || param2[0] == '?')
+        {
+            Conf.movres.mode_move =
+                MoveResizeModeValidateMove(Conf.movres.mode_move);
+            IpcPrintf("Move mode: %s\n",
+                      MovResCfgMoveResizeModeNames[Conf.movres.mode_move]);
+            return;
+        }
 
-	i = CfgStrlistIndex(MovResCfgMoveResizeModeNames, param2);
-	if (i >= 0)
-	  {
-	     Conf.movres.mode_move = i;
-	  }
-	else
-	  {
-	     IpcPrintf("Move mode not found: %s\n", param2);
-	  }
+        i = CfgStrlistIndex(MovResCfgMoveResizeModeNames, param2);
+        if (i >= 0)
+        {
+            Conf.movres.mode_move = i;
+        }
+        else
+        {
+            IpcPrintf("Move mode not found: %s\n", param2);
+        }
 
-     }
-   else if (!strncmp(param1, "resize", 2))
-     {
-	if (param2[0] == '\n' || param2[0] == '?')
-	  {
-	     Conf.movres.mode_resize =
-		MoveResizeModeValidateResize(Conf.movres.mode_resize);
-	     IpcPrintf("Resize mode: %s\n",
-		       MovResCfgMoveResizeModeNames[Conf.movres.mode_resize]);
-	     return;
-	  }
+    }
+    else if (!strncmp(param1, "resize", 2))
+    {
+        if (param2[0] == '\n' || param2[0] == '?')
+        {
+            Conf.movres.mode_resize =
+                MoveResizeModeValidateResize(Conf.movres.mode_resize);
+            IpcPrintf("Resize mode: %s\n",
+                      MovResCfgMoveResizeModeNames[Conf.movres.mode_resize]);
+            return;
+        }
 
-	i = CfgStrlistIndex(MovResCfgMoveResizeModeNames, param2);
-	if (i >= 0)
-	  {
-	     Conf.movres.mode_resize = i;
-	  }
-	else
-	  {
-	     IpcPrintf("Resize mode not found: %s\n", param2);
-	  }
+        i = CfgStrlistIndex(MovResCfgMoveResizeModeNames, param2);
+        if (i >= 0)
+        {
+            Conf.movres.mode_resize = i;
+        }
+        else
+        {
+            IpcPrintf("Resize mode not found: %s\n", param2);
+        }
 
-     }
-   else if (!strncmp(param1, "info", 2))
-     {
-	if (param2[0] == '\n' || param2[0] == '?')
-	  {
-	     if (Conf.movres.mode_info < 0 || Conf.movres.mode_info > 2)
-		Conf.movres.mode_info = 1;
-	     IpcPrintf("Info mode: %s\n",
-		       MovResCfgInfoModes[Conf.movres.mode_info]);
-	     return;
-	  }
+    }
+    else if (!strncmp(param1, "info", 2))
+    {
+        if (param2[0] == '\n' || param2[0] == '?')
+        {
+            if (Conf.movres.mode_info < 0 || Conf.movres.mode_info > 2)
+                Conf.movres.mode_info = 1;
+            IpcPrintf("Info mode: %s\n",
+                      MovResCfgInfoModes[Conf.movres.mode_info]);
+            return;
+        }
 
-	i = CfgStrlistIndex(MovResCfgInfoModes, param2);
-	if (i >= 0)
-	  {
-	     Conf.movres.mode_info = i;
-	  }
-	else
-	  {
-	     IpcPrintf("Info mode not found: %s\n", param2);
-	  }
+        i = CfgStrlistIndex(MovResCfgInfoModes, param2);
+        if (i >= 0)
+        {
+            Conf.movres.mode_info = i;
+        }
+        else
+        {
+            IpcPrintf("Info mode not found: %s\n", param2);
+        }
 
-     }
+    }
 }
 
 static void
-IPC_WinListFmt(char *buf, unsigned int len, const char *fmt, EWin * e)
+IPC_WinListFmt(char *buf, unsigned int len, const char *fmt, EWin *e)
 {
-   static const char  *const TxtPG[] = { "NW", "NE", "SW", "SE" };
-   int                 nw, chf, chp;
+    static const char *const TxtPG[] = { "NW", "NE", "SW", "SE" };
+    int             nw, chf, chp;
 
-   for (nw = 0, chp = '\0';; chp = chf)
-     {
-	chf = *fmt++;
-	if (chf == '\0')
-	   break;
+    for (nw = 0, chp = '\0';; chp = chf)
+    {
+        chf = *fmt++;
+        if (chf == '\0')
+            break;
 
-	if (chf == '_')
-	  {
-	     chf = ' ';
-	     goto do_char;
-	  }
+        if (chf == '_')
+        {
+            chf = ' ';
+            goto do_char;
+        }
 
-	if (chf != '%' || (chf == '%' && chf == chp))
-	   goto do_char;
+        if (chf != '%' || (chf == '%' && chf == chp))
+            goto do_char;
 
-	chf = *fmt++;
-	if (chf == '\0')
-	   break;
+        chf = *fmt++;
+        if (chf == '\0')
+            break;
 
-	switch (chf)
-	  {
-	  case 'A':		/* Area x y */
-	     nw += snprintf(buf + nw, len - nw, "%d %d", e->area_x, e->area_y);
-	     break;
-	  case 'D':		/* Desk */
-	     nw += snprintf(buf + nw, len - nw, "%2d",
-			    EoIsSticky(e) ? -1 : (int)EoGetDeskNum(e));
-	     break;
-	  case 'G':		/* Gravity */
-	     nw += snprintf(buf + nw, len - nw, "%s %4d,%4d %2d,%2d",
-			    TxtPG[e->place.gravity & 3], e->place.gx,
-			    e->place.gy, e->place.ax, e->place.ay);
-	     break;
-	  case 'P':		/* Win X Y */
-	     nw += snprintf(buf + nw, len - nw, "%5d %5d",
-			    EoGetX(e), EoGetY(e));
-	     break;
-	  case 'S':		/* Win WxH */
-	     nw += snprintf(buf + nw, len - nw, "%4dx%4d",
-			    EoGetW(e), EoGetH(e));
-	     break;
-	  case 'T':		/* Client WxH */
-	     nw += snprintf(buf + nw, len - nw, "%4dx%4d",
-			    e->client.w, e->client.h);
-	     break;
-	  case 'i':		/* Client XID */
-	     nw += snprintf(buf + nw, len - nw, "%#10x", EwinGetClientXwin(e));
-	     break;
-	  case 'c':		/* CName */
-	     nw += snprintf(buf + nw, len - nw, "%s", SS(EwinGetIcccmCName(e)));
-	     break;
-	  case 'd':		/* Class */
-	     nw += snprintf(buf + nw, len - nw, "%s", SS(EwinGetIcccmClass(e)));
-	     break;
-	  case 'n':		/* Name */
-	     nw += snprintf(buf + nw, len - nw, "%s", SS(EwinGetIcccmName(e)));
-	     break;
-	  case 'r':		/* Role */
-	     nw += snprintf(buf + nw, len - nw, "%s", SS(e->icccm.wm_role));
-	     break;
-	  }
-	continue;
+        switch (chf)
+        {
+        case 'A':              /* Area x y */
+            nw += snprintf(buf + nw, len - nw, "%d %d", e->area_x, e->area_y);
+            break;
+        case 'D':              /* Desk */
+            nw += snprintf(buf + nw, len - nw, "%2d",
+                           EoIsSticky(e) ? -1 : (int)EoGetDeskNum(e));
+            break;
+        case 'G':              /* Gravity */
+            nw += snprintf(buf + nw, len - nw, "%s %4d,%4d %2d,%2d",
+                           TxtPG[e->place.gravity & 3], e->place.gx,
+                           e->place.gy, e->place.ax, e->place.ay);
+            break;
+        case 'P':              /* Win X Y */
+            nw += snprintf(buf + nw, len - nw, "%5d %5d", EoGetX(e), EoGetY(e));
+            break;
+        case 'S':              /* Win WxH */
+            nw += snprintf(buf + nw, len - nw, "%4dx%4d", EoGetW(e), EoGetH(e));
+            break;
+        case 'T':              /* Client WxH */
+            nw += snprintf(buf + nw, len - nw, "%4dx%4d",
+                           e->client.w, e->client.h);
+            break;
+        case 'i':              /* Client XID */
+            nw += snprintf(buf + nw, len - nw, "%#10x", EwinGetClientXwin(e));
+            break;
+        case 'c':              /* CName */
+            nw += snprintf(buf + nw, len - nw, "%s", SS(EwinGetIcccmCName(e)));
+            break;
+        case 'd':              /* Class */
+            nw += snprintf(buf + nw, len - nw, "%s", SS(EwinGetIcccmClass(e)));
+            break;
+        case 'n':              /* Name */
+            nw += snprintf(buf + nw, len - nw, "%s", SS(EwinGetIcccmName(e)));
+            break;
+        case 'r':              /* Role */
+            nw += snprintf(buf + nw, len - nw, "%s", SS(e->icccm.wm_role));
+            break;
+        }
+        continue;
 
       do_char:
-	buf[nw++] = chf;
-	if (nw >= (int)len - 2)
-	   break;
-     }
+        buf[nw++] = chf;
+        if (nw >= (int)len - 2)
+            break;
+    }
 
-   buf[nw] = '\0';
+    buf[nw] = '\0';
 
-   IpcPrintf("%s\n", buf);
+    IpcPrintf("%s\n", buf);
 }
 
 static void
 IPC_WinList(const char *params)
 {
-   char                buf[1024];
-   char                format[64];
-   const char         *match, *fmt;
-   EWin              **lst, *e;
-   int                 num, i;
+    char            buf[1024];
+    char            format[64];
+    const char     *match, *fmt;
+    EWin          **lst, *e;
+    int             num, i;
 
-   format[0] = '\0';
-   match = params;
-   if (params)
-     {
-	num = 0;
-	sscanf(params, "%63s %n", format, &num);
-	match += num;
-     }
-   if (!match || !match[0])
-      match = "all";
+    format[0] = '\0';
+    match = params;
+    if (params)
+    {
+        num = 0;
+        sscanf(params, "%63s %n", format, &num);
+        match += num;
+    }
+    if (!match || !match[0])
+        match = "all";
 
-   lst = EwinsFindByExpr(match, &num, NULL);
-   if (!lst)
-     {
-	IpcPrintf("No windows matching %s\n", match);
-	return;
-     }
+    lst = EwinsFindByExpr(match, &num, NULL);
+    if (!lst)
+    {
+        IpcPrintf("No windows matching %s\n", match);
+        return;
+    }
 
-   for (i = 0; i < num; i++)
-     {
-	e = lst[i];
-	switch (format[0])
-	  {
-	  case '\0':
-	     fmt = "%i : %n";
-	     break;
-	  default:
-	     fmt = "%i : %n :: %D : %A : %P %S";
-	     break;
-	  case 'a':
-	     fmt = "%i : %P %S :: %D : %A : %n";
-	     break;
-	  case 'g':
-	     fmt = "%i : %P %S :: %D : %G : %n";
-	     break;
-	  case 'p':
-	     fmt = "%i : %P %S :: %D : \"%c\" \"%d\" : \"%n\" : \"%r\"";
-	     break;
-	  case '+':
-	     fmt = format + 1;
-	     break;
-	  }
-	IPC_WinListFmt(buf, sizeof(buf), fmt, e);
-     }
-   Efree(lst);
+    for (i = 0; i < num; i++)
+    {
+        e = lst[i];
+        switch (format[0])
+        {
+        case '\0':
+            fmt = "%i : %n";
+            break;
+        default:
+            fmt = "%i : %n :: %D : %A : %P %S";
+            break;
+        case 'a':
+            fmt = "%i : %P %S :: %D : %A : %n";
+            break;
+        case 'g':
+            fmt = "%i : %P %S :: %D : %G : %n";
+            break;
+        case 'p':
+            fmt = "%i : %P %S :: %D : \"%c\" \"%d\" : \"%n\" : \"%r\"";
+            break;
+        case '+':
+            fmt = format + 1;
+            break;
+        }
+        IPC_WinListFmt(buf, sizeof(buf), fmt, e);
+    }
+    Efree(lst);
 }
 
-static Timer       *op_timer = NULL;
+static Timer   *op_timer = NULL;
 
 static int
 OpacityTimeout(void *data)
 {
-   EWin               *ewin = (EWin *) data;
+    EWin           *ewin = (EWin *) data;
 
-   if (!EwinFindByPtr(ewin))	/* May be gone */
-      goto done;
+    if (!EwinFindByPtr(ewin))   /* May be gone */
+        goto done;
 
-   if (ewin->state.active)
-      EoChangeOpacity(ewin, ewin->props.focused_opacity);
+    if (ewin->state.active)
+        EoChangeOpacity(ewin, ewin->props.focused_opacity);
 
- done:
-   ewin->state.show_coords = 0;
-   op_timer = NULL;
-   return 0;
+  done:
+    ewin->state.show_coords = 0;
+    op_timer = NULL;
+    return 0;
 }
 
 static void
-IpcWinop(const WinOp * wop, EWin * ewin, const char *prm)
+IpcWinop(const WinOp *wop, EWin *ewin, const char *prm)
 {
-   char                param1[128], param2[128];
-   unsigned int        i, val;
-   char                on;
-   int                 a, b, d;
+    char            param1[128], param2[128];
+    unsigned int    i, val;
+    char            on;
+    int             a, b, d;
 
-   param1[0] = param2[0] = '\0';
-   sscanf(prm, "%127s %127s", param1, param2);
+    param1[0] = param2[0] = '\0';
+    sscanf(prm, "%127s %127s", param1, param2);
 
-   switch (wop->op)
-     {
-     default:
-	/* We should not get here */
-	IpcPrintf("Error: unknown operation\n");
-	return;
+    switch (wop->op)
+    {
+    default:
+        /* We should not get here */
+        IpcPrintf("Error: unknown operation\n");
+        return;
 
-     case EWIN_OP_BORDER:
-	if (!param1[0])
-	  {
-	     IpcPrintf("Error: no border specified\n");
-	     goto done;
-	  }
-	if (!strcmp(param1, "?"))
-	  {
-	     IpcPrintf("window border: %s\n", BorderGetName(ewin->border));
-	     goto done;
-	  }
-	EwinOpSetBorder(ewin, OPSRC_USER, param1);
-	break;
+    case EWIN_OP_BORDER:
+        if (!param1[0])
+        {
+            IpcPrintf("Error: no border specified\n");
+            goto done;
+        }
+        if (!strcmp(param1, "?"))
+        {
+            IpcPrintf("window border: %s\n", BorderGetName(ewin->border));
+            goto done;
+        }
+        EwinOpSetBorder(ewin, OPSRC_USER, param1);
+        break;
 
-     case EWIN_OP_TITLE:
-	if (!prm[0])
-	  {
-	     IpcPrintf("Error: no title specified\n");
-	     goto done;
-	  }
-	if (!strcmp(prm, "?"))
-	  {
-	     IpcPrintf("title: %s\n", EwinGetIcccmName(ewin));
-	     goto done;
-	  }
-	EwinOpSetTitle(ewin, prm);
-	break;
+    case EWIN_OP_TITLE:
+        if (!prm[0])
+        {
+            IpcPrintf("Error: no title specified\n");
+            goto done;
+        }
+        if (!strcmp(prm, "?"))
+        {
+            IpcPrintf("title: %s\n", EwinGetIcccmName(ewin));
+            goto done;
+        }
+        EwinOpSetTitle(ewin, prm);
+        break;
 
-     case EWIN_OP_CLOSE:
-	EwinOpClose(ewin, OPSRC_USER);
-	break;
+    case EWIN_OP_CLOSE:
+        EwinOpClose(ewin, OPSRC_USER);
+        break;
 
-     case EWIN_OP_KILL:
-	EwinOpKill(ewin, OPSRC_USER);
-	break;
+    case EWIN_OP_KILL:
+        EwinOpKill(ewin, OPSRC_USER);
+        break;
 
-     case EWIN_OP_ICONIFY:
-	on = ewin->state.iconified;
-	if (SetEwinBoolean("window iconified", &on, param1, 1))
-	   EwinOpIconify(ewin, OPSRC_USER, on);
-	break;
+    case EWIN_OP_ICONIFY:
+        on = ewin->state.iconified;
+        if (SetEwinBoolean("window iconified", &on, param1, 1))
+            EwinOpIconify(ewin, OPSRC_USER, on);
+        break;
 
-     case EWIN_OP_ALONE:
-	EwinAlone(ewin);
-	break;
+    case EWIN_OP_ALONE:
+        EwinAlone(ewin);
+        break;
 
-     case EWIN_OP_SHADE:
-	on = ewin->state.shaded;
-	if (SetEwinBoolean(wop->name, &on, param1, 1))
-	   EwinOpShade(ewin, OPSRC_USER, on);
-	break;
+    case EWIN_OP_SHADE:
+        on = ewin->state.shaded;
+        if (SetEwinBoolean(wop->name, &on, param1, 1))
+            EwinOpShade(ewin, OPSRC_USER, on);
+        break;
 
-     case EWIN_OP_STICK:
-	on = EoIsSticky(ewin);
-	if (SetEwinBoolean(wop->name, &on, param1, 1))
-	   EwinOpStick(ewin, OPSRC_USER, on);
-	break;
+    case EWIN_OP_STICK:
+        on = EoIsSticky(ewin);
+        if (SetEwinBoolean(wop->name, &on, param1, 1))
+            EwinOpStick(ewin, OPSRC_USER, on);
+        break;
 
-     case EWIN_OP_FOCUS:
-	if (!strcmp(param1, "?"))
-	  {
-	     IpcPrintf("focused: %s\n", (ewin == GetFocusEwin())? "yes" : "no");
-	     goto done;
-	  }
-	EwinOpActivate(ewin, OPSRC_USER, 1);
-	break;
+    case EWIN_OP_FOCUS:
+        if (!strcmp(param1, "?"))
+        {
+            IpcPrintf("focused: %s\n", (ewin == GetFocusEwin())? "yes" : "no");
+            goto done;
+        }
+        EwinOpActivate(ewin, OPSRC_USER, 1);
+        break;
 
-     case EWIN_OP_PIN:
-	if (!param1[0])
-	  {
-	     IpcPrintf("Error: no parameters supplied\n");
-	     goto done;
-	  }
-	else if (!strcmp(param1, "?"))
-	  {
-	     for (i = 0; i < ewin->num_pinned; i++)
-		IpcPrintf("%2d: %d,%d\n", ewin->pinned[i].desk,
-			  ewin->pinned[i].ax, ewin->pinned[i].ay);
-	  }
-	else if (!strcmp(param1, "clear"))
-	  {
-	     EwinPinOn(ewin, -2, 0, 0, 0);
-	  }
-	else
-	  {
-	     if (!strcmp(param1, "on"))
-		on = 1;
-	     else if (!strcmp(param1, "off"))
-		on = 0;
-	     else if (!strcmp(param1, "tgl"))
-		on = -1;
-	     else
-		break;
+    case EWIN_OP_PIN:
+        if (!param1[0])
+        {
+            IpcPrintf("Error: no parameters supplied\n");
+            goto done;
+        }
+        else if (!strcmp(param1, "?"))
+        {
+            for (i = 0; i < ewin->num_pinned; i++)
+                IpcPrintf("%2d: %d,%d\n", ewin->pinned[i].desk,
+                          ewin->pinned[i].ax, ewin->pinned[i].ay);
+        }
+        else if (!strcmp(param1, "clear"))
+        {
+            EwinPinOn(ewin, -2, 0, 0, 0);
+        }
+        else
+        {
+            if (!strcmp(param1, "on"))
+                on = 1;
+            else if (!strcmp(param1, "off"))
+                on = 0;
+            else if (!strcmp(param1, "tgl"))
+                on = -1;
+            else
+                break;
 
-	     if (param2[0] == '*')
-	       {
-		  d = EoGetDeskNum(ewin);
-		  DeskGetArea(EoGetDesk(ewin), &a, &b);
-	       }
-	     else
-	       {
-		  a = b = d = -1;
-		  sscanf(prm, "%*s %u %u %u", &d, &a, &b);
-	       }
-	     EwinPinOn(ewin, on, d, a, b);
-	  }
-	break;
+            if (param2[0] == '*')
+            {
+                d = EoGetDeskNum(ewin);
+                DeskGetArea(EoGetDesk(ewin), &a, &b);
+            }
+            else
+            {
+                a = b = d = -1;
+                sscanf(prm, "%*s %u %u %u", &d, &a, &b);
+            }
+            EwinPinOn(ewin, on, d, a, b);
+        }
+        break;
 
-     case EWIN_OP_DESK:
-	if (!param1[0])
-	  {
-	     IpcPrintf("Error: no desktop supplied\n");
-	     goto done;
-	  }
-	if (!strncmp(param1, "next", 1))
-	  {
-	     EwinOpMoveToDesk(ewin, OPSRC_USER, EoGetDesk(ewin), 1);
-	  }
-	else if (!strncmp(param1, "prev", 1))
-	  {
-	     EwinOpMoveToDesk(ewin, OPSRC_USER, EoGetDesk(ewin), -1);
-	  }
-	else if (!strcmp(param1, "?"))
-	  {
-	     IpcPrintf("window desk: %d\n", EoGetDeskNum(ewin));
-	  }
-	else
-	  {
-	     EwinOpMoveToDesk(ewin, OPSRC_USER, NULL, atoi(param1));
-	  }
-	break;
+    case EWIN_OP_DESK:
+        if (!param1[0])
+        {
+            IpcPrintf("Error: no desktop supplied\n");
+            goto done;
+        }
+        if (!strncmp(param1, "next", 1))
+        {
+            EwinOpMoveToDesk(ewin, OPSRC_USER, EoGetDesk(ewin), 1);
+        }
+        else if (!strncmp(param1, "prev", 1))
+        {
+            EwinOpMoveToDesk(ewin, OPSRC_USER, EoGetDesk(ewin), -1);
+        }
+        else if (!strcmp(param1, "?"))
+        {
+            IpcPrintf("window desk: %d\n", EoGetDeskNum(ewin));
+        }
+        else
+        {
+            EwinOpMoveToDesk(ewin, OPSRC_USER, NULL, atoi(param1));
+        }
+        break;
 
-     case EWIN_OP_AREA:
-	if (!param1[0])
-	  {
-	     IpcPrintf("Error: no area supplied\n");
-	     goto done;
-	  }
-	if (!strcmp(param1, "?"))
-	  {
-	     IpcPrintf("window area: %d %d\n", ewin->area_x, ewin->area_y);
-	  }
-	else if (!strcmp(param1, "move"))
-	  {
-	     a = b = 0;
-	     sscanf(prm, "%*s %i %i", &a, &b);
-	     EwinMoveToArea(ewin, ewin->area_x + a, ewin->area_y + b);
-	  }
-	else
-	  {
-	     a = ewin->area_x;
-	     b = ewin->area_y;
-	     sscanf(param1, "%i", &a);
-	     sscanf(param2, "%i", &b);
-	     EwinMoveToArea(ewin, a, b);
-	  }
-	break;
+    case EWIN_OP_AREA:
+        if (!param1[0])
+        {
+            IpcPrintf("Error: no area supplied\n");
+            goto done;
+        }
+        if (!strcmp(param1, "?"))
+        {
+            IpcPrintf("window area: %d %d\n", ewin->area_x, ewin->area_y);
+        }
+        else if (!strcmp(param1, "move"))
+        {
+            a = b = 0;
+            sscanf(prm, "%*s %i %i", &a, &b);
+            EwinMoveToArea(ewin, ewin->area_x + a, ewin->area_y + b);
+        }
+        else
+        {
+            a = ewin->area_x;
+            b = ewin->area_y;
+            sscanf(param1, "%i", &a);
+            sscanf(param2, "%i", &b);
+            EwinMoveToArea(ewin, a, b);
+        }
+        break;
 
-     case EWIN_OP_MOVE:
-	if (!param1[0])
-	  {
-	     IpcPrintf("Error: no coords supplied\n");
-	     goto done;
-	  }
-	if (!strcmp(param1, "ptr"))
-	  {
-	     MoveResizeMoveStart(ewin, 0, Mode.nogroup);
-	  }
-	else if (!strcmp(param1, "kbd"))
-	  {
-	     MoveResizeMoveStart(ewin, 1, Mode.nogroup);
-	  }
-	else if (!strcmp(param1, "?"))
-	  {
-	     IpcPrintf("window location: %d %d\n", EoGetX(ewin), EoGetY(ewin));
-	  }
-	else if (!strcmp(param1, "??"))
-	  {
-	     IpcPrintf("client location: %d %d\n",
-		       ewin->client.x, ewin->client.y);
-	  }
-	else
-	  {
-	     a = EoGetX(ewin);
-	     b = EoGetY(ewin);
-	     sscanf(param1, "%i", &a);
-	     sscanf(param2, "%i", &b);
-	     EwinOpMove(ewin, OPSRC_USER, a, b);
-	  }
-	break;
+    case EWIN_OP_MOVE:
+        if (!param1[0])
+        {
+            IpcPrintf("Error: no coords supplied\n");
+            goto done;
+        }
+        if (!strcmp(param1, "ptr"))
+        {
+            MoveResizeMoveStart(ewin, 0, Mode.nogroup);
+        }
+        else if (!strcmp(param1, "kbd"))
+        {
+            MoveResizeMoveStart(ewin, 1, Mode.nogroup);
+        }
+        else if (!strcmp(param1, "?"))
+        {
+            IpcPrintf("window location: %d %d\n", EoGetX(ewin), EoGetY(ewin));
+        }
+        else if (!strcmp(param1, "??"))
+        {
+            IpcPrintf("client location: %d %d\n",
+                      ewin->client.x, ewin->client.y);
+        }
+        else
+        {
+            a = EoGetX(ewin);
+            b = EoGetY(ewin);
+            sscanf(param1, "%i", &a);
+            sscanf(param2, "%i", &b);
+            EwinOpMove(ewin, OPSRC_USER, a, b);
+        }
+        break;
 
-     case EWIN_OP_SIZE:
-	if (!param1[0])
-	   goto done;
+    case EWIN_OP_SIZE:
+        if (!param1[0])
+            goto done;
 
-	if (!strcmp(param1, "ptr"))
-	  {
-	     MoveResizeResizeStart(ewin, 0, MODE_RESIZE);
-	  }
-	else if (!strcmp(param1, "ptr-h"))
-	  {
-	     MoveResizeResizeStart(ewin, 0, MODE_RESIZE_H);
-	  }
-	else if (!strcmp(param1, "ptr-v"))
-	  {
-	     MoveResizeResizeStart(ewin, 0, MODE_RESIZE_V);
-	  }
-	else if (!strcmp(param1, "kbd"))
-	  {
-	     MoveResizeResizeStart(ewin, 1, MODE_RESIZE);
-	  }
-	else if (!strcmp(param1, "?"))
-	  {
-	     IpcPrintf("window size: %d %d\n", ewin->client.w, ewin->client.h);
-	  }
-	else if (!strcmp(param1, "??"))
-	  {
-	     IpcPrintf("frame size: %d %d\n", EoGetW(ewin), EoGetH(ewin));
-	  }
-	else
-	  {
-	     a = ewin->client.w;
-	     b = ewin->client.h;
-	     sscanf(param1, "%i", &a);
-	     sscanf(param2, "%i", &b);
-	     EwinOpResize(ewin, OPSRC_USER, a, b);
-	  }
-	break;
+        if (!strcmp(param1, "ptr"))
+        {
+            MoveResizeResizeStart(ewin, 0, MODE_RESIZE);
+        }
+        else if (!strcmp(param1, "ptr-h"))
+        {
+            MoveResizeResizeStart(ewin, 0, MODE_RESIZE_H);
+        }
+        else if (!strcmp(param1, "ptr-v"))
+        {
+            MoveResizeResizeStart(ewin, 0, MODE_RESIZE_V);
+        }
+        else if (!strcmp(param1, "kbd"))
+        {
+            MoveResizeResizeStart(ewin, 1, MODE_RESIZE);
+        }
+        else if (!strcmp(param1, "?"))
+        {
+            IpcPrintf("window size: %d %d\n", ewin->client.w, ewin->client.h);
+        }
+        else if (!strcmp(param1, "??"))
+        {
+            IpcPrintf("frame size: %d %d\n", EoGetW(ewin), EoGetH(ewin));
+        }
+        else
+        {
+            a = ewin->client.w;
+            b = ewin->client.h;
+            sscanf(param1, "%i", &a);
+            sscanf(param2, "%i", &b);
+            EwinOpResize(ewin, OPSRC_USER, a, b);
+        }
+        break;
 
-     case EWIN_OP_MOVE_REL:
-	if (!param1[0])
-	   goto done;
-	a = b = 0;
-	sscanf(prm, "%i %i", &a, &b);
-	a += EoGetX(ewin);
-	b += EoGetY(ewin);
-	EwinOpMove(ewin, OPSRC_USER, a, b);
-	break;
+    case EWIN_OP_MOVE_REL:
+        if (!param1[0])
+            goto done;
+        a = b = 0;
+        sscanf(prm, "%i %i", &a, &b);
+        a += EoGetX(ewin);
+        b += EoGetY(ewin);
+        EwinOpMove(ewin, OPSRC_USER, a, b);
+        break;
 
-     case EWIN_OP_SIZE_REL:
-	if (!param1[0])
-	   goto done;
-	a = b = 0;
-	sscanf(prm, "%i %i", &a, &b);
-	a += ewin->client.w;
-	b += ewin->client.h;
-	EwinOpResize(ewin, OPSRC_USER, a, b);
-	break;
+    case EWIN_OP_SIZE_REL:
+        if (!param1[0])
+            goto done;
+        a = b = 0;
+        sscanf(prm, "%i %i", &a, &b);
+        a += ewin->client.w;
+        b += ewin->client.h;
+        EwinOpResize(ewin, OPSRC_USER, a, b);
+        break;
 
-     case EWIN_OP_MAX_WIDTH:
-	MaxSizeHV(ewin, param1, 1, 0, 0);
-	break;
+    case EWIN_OP_MAX_WIDTH:
+        MaxSizeHV(ewin, param1, 1, 0, 0);
+        break;
 
-     case EWIN_OP_MAX_HEIGHT:
-	MaxSizeHV(ewin, param1, 0, 1, 0);
-	break;
+    case EWIN_OP_MAX_HEIGHT:
+        MaxSizeHV(ewin, param1, 0, 1, 0);
+        break;
 
-     case EWIN_OP_MAX_SIZE:
-	MaxSizeHV(ewin, param1, 1, 1, 0);
-	break;
+    case EWIN_OP_MAX_SIZE:
+        MaxSizeHV(ewin, param1, 1, 1, 0);
+        break;
 
-     case EWIN_OP_FULLSCREEN:
-	on = ewin->state.fullscreen;
-	if (SetEwinBoolean(wop->name, &on, param1, 1))
-	   EwinOpFullscreen(ewin, OPSRC_USER, on);
-	break;
+    case EWIN_OP_FULLSCREEN:
+        on = ewin->state.fullscreen;
+        if (SetEwinBoolean(wop->name, &on, param1, 1))
+            EwinOpFullscreen(ewin, OPSRC_USER, on);
+        break;
 
-     case EWIN_OP_ZOOM:
-	on = ewin->state.zoomed;
-	if (SetEwinBoolean(wop->name, &on, param1, 1))
-	   Zoom(ewin, on);
-	break;
+    case EWIN_OP_ZOOM:
+        on = ewin->state.zoomed;
+        if (SetEwinBoolean(wop->name, &on, param1, 1))
+            Zoom(ewin, on);
+        break;
 
-     case EWIN_OP_LAYER:
-	if (!strcmp(param1, "?"))
-	  {
-	     IpcPrintf("window layer: %d\n", EoGetLayer(ewin));
-	     goto done;
-	  }
-	val = atoi(param1);
-	EwinOpSetLayer(ewin, OPSRC_USER, val);
-	break;
+    case EWIN_OP_LAYER:
+        if (!strcmp(param1, "?"))
+        {
+            IpcPrintf("window layer: %d\n", EoGetLayer(ewin));
+            goto done;
+        }
+        val = atoi(param1);
+        EwinOpSetLayer(ewin, OPSRC_USER, val);
+        break;
 
-     case EWIN_OP_RAISE:
-	EwinOpRaise(ewin, OPSRC_USER);
-	break;
+    case EWIN_OP_RAISE:
+        EwinOpRaise(ewin, OPSRC_USER);
+        break;
 
-     case EWIN_OP_LOWER:
-	EwinOpLower(ewin, OPSRC_USER);
-	break;
+    case EWIN_OP_LOWER:
+        EwinOpLower(ewin, OPSRC_USER);
+        break;
 
-     case EWIN_OP_OPACITY:
-	a = OpacityToPercent(ewin->props.opacity);
-	if (!strcmp(param1, "?"))
-	  {
-	     IpcPrintf("opacity: %u\n", a);
-	     goto done;
-	  }
-	b = a;
-	sscanf(param1, "%i", &b);
-	if ((param1[0] == '+') || (param1[0] == '-'))
-	  {
-	     if (a == 0)
-		a = OpacityToPercent(EoGetOpacity(ewin));
-	     b += a;
-	     if (b < 10)
-		b = 10;
-	     else if (b > 100)
-		b = 0;
-	  }
-	a = (b < 0) ? 1 : (b > 100) ? 100 : b;
-	EwinOpSetOpacity(ewin, OPSRC_USER, a);
-	if (a && ewin->state.active)
-	  {
-	     EoChangeOpacity(ewin, OpacityFromPercent(a));
-	     TIMER_DEL(op_timer);
-	     if (ewin->props.focused_opacity)
-		TIMER_ADD(op_timer, 700, OpacityTimeout, ewin);
-	  }
-	if (ewin->state.in_action)
-	   CoordsShowOpacity(ewin);
-	break;
+    case EWIN_OP_OPACITY:
+        a = OpacityToPercent(ewin->props.opacity);
+        if (!strcmp(param1, "?"))
+        {
+            IpcPrintf("opacity: %u\n", a);
+            goto done;
+        }
+        b = a;
+        sscanf(param1, "%i", &b);
+        if ((param1[0] == '+') || (param1[0] == '-'))
+        {
+            if (a == 0)
+                a = OpacityToPercent(EoGetOpacity(ewin));
+            b += a;
+            if (b < 10)
+                b = 10;
+            else if (b > 100)
+                b = 0;
+        }
+        a = (b < 0) ? 1 : (b > 100) ? 100 : b;
+        EwinOpSetOpacity(ewin, OPSRC_USER, a);
+        if (a && ewin->state.active)
+        {
+            EoChangeOpacity(ewin, OpacityFromPercent(a));
+            TIMER_DEL(op_timer);
+            if (ewin->props.focused_opacity)
+                TIMER_ADD(op_timer, 700, OpacityTimeout, ewin);
+        }
+        if (ewin->state.in_action)
+            CoordsShowOpacity(ewin);
+        break;
 
-     case EWIN_OP_FOCUSED_OPACITY:
-	a = OpacityToPercent(ewin->props.focused_opacity);
-	if (!strcmp(param1, "?"))
-	  {
-	     IpcPrintf("focused_opacity: %u\n", a);
-	     goto done;
-	  }
-	b = a;
-	sscanf(param1, "%i", &b);
-	if ((param1[0] == '+') || (param1[0] == '-'))
-	  {
-	     if (a == 0)
-		a = OpacityToPercent(EoGetOpacity(ewin));
-	     b += a;
-	     if (b < 10)
-		b = 10;
-	     else if (b > 100)
-		b = 0;
-	  }
-	a = (b < 0) ? 0 : (b > 100) ? 100 : b;
-	EwinOpSetFocusedOpacity(ewin, OPSRC_USER, a);
-	if (ewin->state.in_action)
-	   CoordsShowOpacity(ewin);
-	break;
+    case EWIN_OP_FOCUSED_OPACITY:
+        a = OpacityToPercent(ewin->props.focused_opacity);
+        if (!strcmp(param1, "?"))
+        {
+            IpcPrintf("focused_opacity: %u\n", a);
+            goto done;
+        }
+        b = a;
+        sscanf(param1, "%i", &b);
+        if ((param1[0] == '+') || (param1[0] == '-'))
+        {
+            if (a == 0)
+                a = OpacityToPercent(EoGetOpacity(ewin));
+            b += a;
+            if (b < 10)
+                b = 10;
+            else if (b > 100)
+                b = 0;
+        }
+        a = (b < 0) ? 0 : (b > 100) ? 100 : b;
+        EwinOpSetFocusedOpacity(ewin, OPSRC_USER, a);
+        if (ewin->state.in_action)
+            CoordsShowOpacity(ewin);
+        break;
 
-     case EWIN_OP_SNAP:
-	SnapshotEwinParse(ewin, prm);
-	break;
+    case EWIN_OP_SNAP:
+        SnapshotEwinParse(ewin, prm);
+        break;
 
-     case EWIN_OP_SKIP_LISTS:
-	on = ewin->props.skip_ext_task;
-	if (SetEwinBoolean(wop->name, &on, param1, 1))
-	   EwinOpSkipLists(ewin, OPSRC_USER, on);
-	break;
+    case EWIN_OP_SKIP_LISTS:
+        on = ewin->props.skip_ext_task;
+        if (SetEwinBoolean(wop->name, &on, param1, 1))
+            EwinOpSkipLists(ewin, OPSRC_USER, on);
+        break;
 
-     case EWIN_OP_IGNORE_ARRANGE:
-	on = ewin->props.ignorearrange;
-	SetEwinBoolean(wop->name, &on, param1, 1);
-	ewin->props.ignorearrange = on;
-	goto ewin_update_snap_flags;
+    case EWIN_OP_IGNORE_ARRANGE:
+        on = ewin->props.ignorearrange;
+        SetEwinBoolean(wop->name, &on, param1, 1);
+        ewin->props.ignorearrange = on;
+        goto ewin_update_snap_flags;
 
-     case EWIN_OP_NEVER_USE_AREA:
-	on = ewin->props.never_use_area;
-	SetEwinBoolean(wop->name, &on, param1, 1);
-	ewin->props.never_use_area = on;
-	goto ewin_update_snap_flags;
+    case EWIN_OP_NEVER_USE_AREA:
+        on = ewin->props.never_use_area;
+        SetEwinBoolean(wop->name, &on, param1, 1);
+        ewin->props.never_use_area = on;
+        goto ewin_update_snap_flags;
 
-     case EWIN_OP_FOCUS_CLICK:
-	on = ewin->props.focusclick;
-	SetEwinBoolean(wop->name, &on, param1, 1);
-	ewin->props.focusclick = on;
-	goto ewin_update_snap_flags;
+    case EWIN_OP_FOCUS_CLICK:
+        on = ewin->props.focusclick;
+        SetEwinBoolean(wop->name, &on, param1, 1);
+        ewin->props.focusclick = on;
+        goto ewin_update_snap_flags;
 
-     case EWIN_OP_AUTOSHADE:
-	on = ewin->props.autoshade;
-	SetEwinBoolean(wop->name, &on, param1, 1);
-	ewin->props.autoshade = on;
-	goto ewin_update_snap_flags;
+    case EWIN_OP_AUTOSHADE:
+        on = ewin->props.autoshade;
+        SetEwinBoolean(wop->name, &on, param1, 1);
+        ewin->props.autoshade = on;
+        goto ewin_update_snap_flags;
 
-     case EWIN_OP_NO_BUTTON_GRABS:
-	on = ewin->props.no_button_grabs;
-	if (SetEwinBoolean(wop->name, &on, param1, 1))
-	  {
-	     ewin->props.no_button_grabs = on;
-	     if (ewin->props.no_button_grabs)
-		UnGrabButtonGrabs(EoGetWin(ewin));
-	     else
-		GrabButtonGrabs(EoGetWin(ewin));
-	  }
-	goto ewin_update_snap_flags;
+    case EWIN_OP_NO_BUTTON_GRABS:
+        on = ewin->props.no_button_grabs;
+        if (SetEwinBoolean(wop->name, &on, param1, 1))
+        {
+            ewin->props.no_button_grabs = on;
+            if (ewin->props.no_button_grabs)
+                UnGrabButtonGrabs(EoGetWin(ewin));
+            else
+                GrabButtonGrabs(EoGetWin(ewin));
+        }
+        goto ewin_update_snap_flags;
 
-     case EWIN_OP_PASS_POINTER:
-	on = ewin->props.pass_pointer;
-	SetEwinBoolean(wop->name, &on, param1, 1);
-	ewin->props.pass_pointer = on;
-	EWindowPassPointer(EoGetWin(ewin), on);
-	goto ewin_update_snap_flags;
+    case EWIN_OP_PASS_POINTER:
+        on = ewin->props.pass_pointer;
+        SetEwinBoolean(wop->name, &on, param1, 1);
+        ewin->props.pass_pointer = on;
+        EWindowPassPointer(EoGetWin(ewin), on);
+        goto ewin_update_snap_flags;
 
-     case EWIN_OP_INH_APP_FOCUS:
-	on = EwinInhGetApp(ewin, focus);
-	SetEwinBoolean(wop->name, &on, param1, 1);
-	EwinInhSetApp(ewin, focus, on);
-	goto ewin_update_snap_flags;
+    case EWIN_OP_INH_APP_FOCUS:
+        on = EwinInhGetApp(ewin, focus);
+        SetEwinBoolean(wop->name, &on, param1, 1);
+        EwinInhSetApp(ewin, focus, on);
+        goto ewin_update_snap_flags;
 
-     case EWIN_OP_INH_APP_MOVE:
-	on = EwinInhGetApp(ewin, move);
-	SetEwinBoolean(wop->name, &on, param1, 1);
-	EwinInhSetApp(ewin, move, on);
-	goto ewin_update_snap_flags;
+    case EWIN_OP_INH_APP_MOVE:
+        on = EwinInhGetApp(ewin, move);
+        SetEwinBoolean(wop->name, &on, param1, 1);
+        EwinInhSetApp(ewin, move, on);
+        goto ewin_update_snap_flags;
 
-     case EWIN_OP_INH_APP_SIZE:
-	on = EwinInhGetApp(ewin, size);
-	SetEwinBoolean(wop->name, &on, param1, 1);
-	EwinInhSetApp(ewin, size, on);
-	goto ewin_update_snap_flags;
+    case EWIN_OP_INH_APP_SIZE:
+        on = EwinInhGetApp(ewin, size);
+        SetEwinBoolean(wop->name, &on, param1, 1);
+        EwinInhSetApp(ewin, size, on);
+        goto ewin_update_snap_flags;
 
-     case EWIN_OP_INH_USER_CLOSE:
-	on = EwinInhGetUser(ewin, close);
-	SetEwinBoolean(wop->name, &on, param1, 1);
-	EwinInhSetUser(ewin, close, on);
-	goto ewin_update_state_hints;
+    case EWIN_OP_INH_USER_CLOSE:
+        on = EwinInhGetUser(ewin, close);
+        SetEwinBoolean(wop->name, &on, param1, 1);
+        EwinInhSetUser(ewin, close, on);
+        goto ewin_update_state_hints;
 
-     case EWIN_OP_INH_USER_MOVE:
-	on = EwinInhGetUser(ewin, move);
-	SetEwinBoolean(wop->name, &on, param1, 1);
-	EwinInhSetUser(ewin, move, on);
-	goto ewin_update_state_hints;
+    case EWIN_OP_INH_USER_MOVE:
+        on = EwinInhGetUser(ewin, move);
+        SetEwinBoolean(wop->name, &on, param1, 1);
+        EwinInhSetUser(ewin, move, on);
+        goto ewin_update_state_hints;
 
-     case EWIN_OP_INH_USER_SIZE:
-	on = EwinInhGetUser(ewin, size);
-	SetEwinBoolean(wop->name, &on, param1, 1);
-	EwinInhSetUser(ewin, size, on);
-	goto ewin_update_state_hints;
+    case EWIN_OP_INH_USER_SIZE:
+        on = EwinInhGetUser(ewin, size);
+        SetEwinBoolean(wop->name, &on, param1, 1);
+        EwinInhSetUser(ewin, size, on);
+        goto ewin_update_state_hints;
 
-     case EWIN_OP_INH_WM_FOCUS:
-	on = EwinInhGetWM(ewin, focus);
-	SetEwinBoolean(wop->name, &on, param1, 1);
-	EwinInhSetWM(ewin, focus, on);
-	goto ewin_update_state;
+    case EWIN_OP_INH_WM_FOCUS:
+        on = EwinInhGetWM(ewin, focus);
+        SetEwinBoolean(wop->name, &on, param1, 1);
+        EwinInhSetWM(ewin, focus, on);
+        goto ewin_update_state;
 
 #if USE_COMPOSITE
-     case EWIN_OP_FADE:
-	on = EoGetFade(ewin);
-	if (SetEwinBoolean(wop->name, &on, param1, 1))
-	   EoSetFade(ewin, on);
-	break;
+    case EWIN_OP_FADE:
+        on = EoGetFade(ewin);
+        if (SetEwinBoolean(wop->name, &on, param1, 1))
+            EoSetFade(ewin, on);
+        break;
 
-     case EWIN_OP_SHADOW:
-	on = EoGetShadow(ewin);
-	if (SetEwinBoolean(wop->name, &on, param1, 1))
-	   EoChangeShadow(ewin, on);
-	break;
+    case EWIN_OP_SHADOW:
+        on = EoGetShadow(ewin);
+        if (SetEwinBoolean(wop->name, &on, param1, 1))
+            EoChangeShadow(ewin, on);
+        break;
 
-     case EWIN_OP_NO_REDIRECT:
-	on = EoGetNoRedirect(ewin);
-	if (SetEwinBoolean(wop->name, &on, param1, 1))
-	   EoSetNoRedirect(ewin, on);
-	break;
+    case EWIN_OP_NO_REDIRECT:
+        on = EoGetNoRedirect(ewin);
+        if (SetEwinBoolean(wop->name, &on, param1, 1))
+            EoSetNoRedirect(ewin, on);
+        break;
 #endif
       ewin_update_snap_flags:
-	SnapshotEwinUpdate(ewin, SNAP_USE_FLAGS);
-	break;
+        SnapshotEwinUpdate(ewin, SNAP_USE_FLAGS);
+        break;
 
       ewin_update_state:
-	EwinStateUpdate(ewin);
-	break;
+        EwinStateUpdate(ewin);
+        break;
 
       ewin_update_state_hints:
-	EwinStateUpdate(ewin);
-	HintsSetWindowState(ewin);
-	break;
-     }
+        EwinStateUpdate(ewin);
+        HintsSetWindowState(ewin);
+        break;
+    }
 
- done:
-   return;
+  done:
+    return;
 }
 
 static void
 IPC_WinOps(const char *params)
 {
-   char                match[128];
-   char                operation[128];
-   const char         *p;
-   EWin              **lst;
-   int                 i, num, flags;
-   const WinOp        *wop;
+    char            match[128];
+    char            operation[128];
+    const char     *p;
+    EWin          **lst;
+    int             i, num, flags;
+    const WinOp    *wop;
 
-   if (!params)
-     {
-	IpcPrintf("Error: no window specified\n");
-	return;
-     }
+    if (!params)
+    {
+        IpcPrintf("Error: no window specified\n");
+        return;
+    }
 
-   match[0] = operation[0] = '\0';
-   num = 0;
-   sscanf(params, "%127s %127s %n", match, operation, &num);
-   p = params + num;
+    match[0] = operation[0] = '\0';
+    num = 0;
+    sscanf(params, "%127s %127s %n", match, operation, &num);
+    p = params + num;
 
-   if (!operation[0])
-     {
-	IpcPrintf("Error: no operation specified\n");
-	return;
-     }
+    if (!operation[0])
+    {
+        IpcPrintf("Error: no operation specified\n");
+        return;
+    }
 
-   wop = EwinOpFind(operation);
-   if (!wop)
-     {
-	IpcPrintf("Error: unknown operation\n");
-	return;
-     }
+    wop = EwinOpFind(operation);
+    if (!wop)
+    {
+        IpcPrintf("Error: unknown operation\n");
+        return;
+    }
 
-   lst = EwinsFindByExpr(match, &num, &flags);
-   if (!lst)
-     {
-	IpcPrintf("No windows matching %s\n", match);
-	return;
-     }
+    lst = EwinsFindByExpr(match, &num, &flags);
+    if (!lst)
+    {
+        IpcPrintf("No windows matching %s\n", match);
+        return;
+    }
 
-   if (flags)
-      Mode.nogroup = 1;
+    if (flags)
+        Mode.nogroup = 1;
 
-   for (i = 0; i < num; i++)
-      IpcWinop(wop, lst[i], p);
+    for (i = 0; i < num; i++)
+        IpcWinop(wop, lst[i], p);
 
-   Mode.nogroup = 0;
+    Mode.nogroup = 0;
 
-   Efree(lst);
+    Efree(lst);
 }
 
 static void
 IPC_Remember(const char *params)
 {
-   int                 window, l;
-   EWin               *ewin;
+    int             window, l;
+    EWin           *ewin;
 
-   if (!params)
-     {
-	IpcPrintf("Error: no parameters\n");
-	goto done;
-     }
+    if (!params)
+    {
+        IpcPrintf("Error: no parameters\n");
+        goto done;
+    }
 
-   l = 0;
-   window = 0;
-   sscanf(params, "%x %n", &window, &l);
-   if (l <= 0)
-      return;
+    l = 0;
+    window = 0;
+    sscanf(params, "%x %n", &window, &l);
+    if (l <= 0)
+        return;
 
-   ewin = EwinFindByClient(window);
-   if (!ewin)
-     {
-	IpcPrintf("Error: Window not found: %#x\n", window);
-	goto done;
-     }
+    ewin = EwinFindByClient(window);
+    if (!ewin)
+    {
+        IpcPrintf("Error: Window not found: %#x\n", window);
+        goto done;
+    }
 
-   SnapshotEwinParse(ewin, params + l);
+    SnapshotEwinParse(ewin, params + l);
 
- done:
-   return;
+  done:
+    return;
 }
 
 static void
 IPC_ForceSave(const char *params __UNUSED__)
 {
-   autosave();
+    autosave();
 }
 
 static void
 IPC_Exec(const char *params)
 {
-   if (params)
-      EspawnApplication(params, EXEC_SET_LANG | EXEC_SET_STARTUP_ID);
-   else
-      IpcPrintf("exec what?\n");
+    if (params)
+        EspawnApplication(params, EXEC_SET_LANG | EXEC_SET_STARTUP_ID);
+    else
+        IpcPrintf("exec what?\n");
 }
 
 static void
 IPC_Restart(const char *params __UNUSED__)
 {
-   SessionExit(EEXIT_RESTART, NULL);
+    SessionExit(EEXIT_RESTART, NULL);
 }
 
 static void
 IPC_Exit(const char *params)
 {
-   char                param1[1024];
-   const char         *p2;
-   int                 l;
+    char            param1[1024];
+    const char     *p2;
+    int             l;
 
-   param1[0] = 0;
-   l = 0;
-   if (params)
-      sscanf(params, "%1000s %n", param1, &l);
-   p2 = (l > 0) ? params + l : NULL;
+    param1[0] = 0;
+    l = 0;
+    if (params)
+        sscanf(params, "%1000s %n", param1, &l);
+    p2 = (l > 0) ? params + l : NULL;
 
-   if (!param1[0])
-      SessionExit(EEXIT_EXIT, NULL);
-   else if (!strcmp(param1, "logout"))
-      SessionExit(EEXIT_LOGOUT, NULL);
-   else if (!strcmp(param1, "restart"))
-      SessionExit(EEXIT_RESTART, NULL);
-   else if (!strcmp(param1, "theme"))
-      SessionExit(EEXIT_THEME, p2);
-   else if (!strcmp(param1, "exec"))
-      SessionExit(EEXIT_EXEC, p2);
+    if (!param1[0])
+        SessionExit(EEXIT_EXIT, NULL);
+    else if (!strcmp(param1, "logout"))
+        SessionExit(EEXIT_LOGOUT, NULL);
+    else if (!strcmp(param1, "restart"))
+        SessionExit(EEXIT_RESTART, NULL);
+    else if (!strcmp(param1, "theme"))
+        SessionExit(EEXIT_THEME, p2);
+    else if (!strcmp(param1, "exec"))
+        SessionExit(EEXIT_EXEC, p2);
 }
 
 #if ENABLE_DIALOGS
 static void
 IPC_About(const char *params __UNUSED__)
 {
-   About();
+    About();
 }
 #endif
 
 static void
 IPC_Version(const char *params __UNUSED__)
 {
-   IpcPrintf("%s %s\n", e_wm_name, e_wm_version);
+    IpcPrintf("%s %s\n", e_wm_name, e_wm_version);
 }
 
 static void
 IPC_Debug(const char *params)
 {
-   char                param[1024];
-   int                 l;
-   const char         *p;
+    char            param[1024];
+    int             l;
+    const char     *p;
 
-   if (!params)
-      return;
+    if (!params)
+        return;
 
-   p = params;
-   l = 0;
-   sscanf(p, "%1000s %n", param, &l);
-   p += l;
+    p = params;
+    l = 0;
+    sscanf(p, "%1000s %n", param, &l);
+    p += l;
 
-   if (!strncmp(param, "event", 2))
-     {
-	EDebugInit(p);
-     }
-   else if (!strncmp(param, "grab", 2))
-     {
-	l = 0;
-	sscanf(p, "%1000s %n", param, &l);
-	p += l;
+    if (!strncmp(param, "event", 2))
+    {
+        EDebugInit(p);
+    }
+    else if (!strncmp(param, "grab", 2))
+    {
+        l = 0;
+        sscanf(p, "%1000s %n", param, &l);
+        p += l;
 
-	if (!strcmp(param, "?"))
-	  {
-	     IpcPrintf("Pointer grab on=%d win=%#x\n",
-		       Mode.grabs.pointer_grab_active,
-		       Mode.grabs.pointer_grab_window);
-	  }
-	else if (!strncmp(param, "allow", 2))
-	  {
-	     l = 0;
-	     sscanf(p, "%d", &l);
-	     XAllowEvents(disp, l, CurrentTime);
-	     IpcPrintf("XAllowEvents\n");
-	  }
-	else if (!strncmp(param, "unset", 2))
-	  {
-	     GrabPointerRelease();
-	     IpcPrintf("Ungrab\n");
-	  }
-     }
-   else if (!strncmp(param, "sync", 2))
-     {
-	l = 0;
-	sscanf(p, "%1000s %n", param, &l);
-	if (!strncmp(param, "on", 2))
-	  {
-	     XSynchronize(disp, True);
-	     IpcPrintf("Sync on\n");
-	  }
-	else if (!strncmp(param, "off", 2))
-	  {
-	     XSynchronize(disp, False);
-	     IpcPrintf("Sync off\n");
-	  }
-     }
-   else if (!strncmp(param, "cache", 2))
-     {
-	ECacheInfo          ci;
+        if (!strcmp(param, "?"))
+        {
+            IpcPrintf("Pointer grab on=%d win=%#x\n",
+                      Mode.grabs.pointer_grab_active,
+                      Mode.grabs.pointer_grab_window);
+        }
+        else if (!strncmp(param, "allow", 2))
+        {
+            l = 0;
+            sscanf(p, "%d", &l);
+            XAllowEvents(disp, l, CurrentTime);
+            IpcPrintf("XAllowEvents\n");
+        }
+        else if (!strncmp(param, "unset", 2))
+        {
+            GrabPointerRelease();
+            IpcPrintf("Ungrab\n");
+        }
+    }
+    else if (!strncmp(param, "sync", 2))
+    {
+        l = 0;
+        sscanf(p, "%1000s %n", param, &l);
+        if (!strncmp(param, "on", 2))
+        {
+            XSynchronize(disp, True);
+            IpcPrintf("Sync on\n");
+        }
+        else if (!strncmp(param, "off", 2))
+        {
+            XSynchronize(disp, False);
+            IpcPrintf("Sync off\n");
+        }
+    }
+    else if (!strncmp(param, "cache", 2))
+    {
+        ECacheInfo      ci;
 
-	EImageGetCacheInfo(&ci);
-	IpcPrintf("Cache         %10s %10s\n"
-		  "Image  bytes: %10d %10d\n"
-		  "Ximage bytes: %10d %10d\n"
-		  "Ximage count: %10d %10d\n",
-		  "Max", "Used",
-		  ci.img.max_mem, ci.img.used_mem,
-		  ci.xim.max_mem, ci.xim.used_mem,
-		  ci.xim.max_cnt, ci.xim.used_cnt);
-     }
+        EImageGetCacheInfo(&ci);
+        IpcPrintf("Cache         %10s %10s\n"
+                  "Image  bytes: %10d %10d\n"
+                  "Ximage bytes: %10d %10d\n"
+                  "Ximage count: %10d %10d\n",
+                  "Max", "Used",
+                  ci.img.max_mem, ci.img.used_mem,
+                  ci.xim.max_mem, ci.xim.used_mem,
+                  ci.xim.max_cnt, ci.xim.used_cnt);
+    }
 #if 0
-   else if (!strncmp(param, "dump", 2))
-     {
-	l = 0;
-	sscanf(p, "%i", &l);
-	EDrawableDumpImage(l, "dump");
-     }
+    else if (!strncmp(param, "dump", 2))
+    {
+        l = 0;
+        sscanf(p, "%i", &l);
+        EDrawableDumpImage(l, "dump");
+    }
 #endif
 }
 
 static void
 IPC_Set(const char *params)
 {
-   ConfigurationSet(params);
+    ConfigurationSet(params);
 }
 
 static void
 IPC_Show(const char *params)
 {
-   ConfigurationShow(params);
+    ConfigurationShow(params);
 }
 
 static void
-EwinShowInfo(const EWin * ewin)
+EwinShowInfo(const EWin *ewin)
 {
-   int                 bl, br, bt, bb;
+    int             bl, br, bt, bb;
 
-   EwinBorderGetSize(ewin, &bl, &br, &bt, &bb);
+    EwinBorderGetSize(ewin, &bl, &br, &bt, &bb);
 
-   IpcPrintf("WM_NAME                 %s\n"
-	     "_NET_WM_NAME            %s\n"
-	     "WM_ICON_NAME            %s\n"
-	     "WM_CLASS name.class     %s.%s\n"
-	     "WM_WINDOW_ROLE          %s\n"
-	     "WM_COMMAND              %s\n"
-	     "WM_CLIENT_MACHINE       %s\n"
-	     "Client window           %#10x   x,y %4i,%4i   wxh %4ix%4i\n"
-	     "Container window        %#10x\n"
-	     "Frame window            %#10x   x,y %4i,%4i   wxh %4ix%4i\n"
+    IpcPrintf("WM_NAME                 %s\n"
+              "_NET_WM_NAME            %s\n"
+              "WM_ICON_NAME            %s\n"
+              "WM_CLASS name.class     %s.%s\n"
+              "WM_WINDOW_ROLE          %s\n"
+              "WM_COMMAND              %s\n"
+              "WM_CLIENT_MACHINE       %s\n"
+              "Client window           %#10x   x,y %4i,%4i   wxh %4ix%4i\n"
+              "Container window        %#10x\n"
+              "Frame window            %#10x   x,y %4i,%4i   wxh %4ix%4i\n"
 #if USE_COMPOSITE
-	     "Named pixmap            %#10x\n"
+              "Named pixmap            %#10x\n"
 #endif
-	     "Border                  %s   lrtb %i,%i,%i,%i\n"
-	     "Icon window, pixmap, mask %#10x, %#10x, %#10x\n"
-	     "Is group leader  %i  Window group leader %#x   Client leader %#10x\n"
-	     "Has transients   %i  Transient type  %i  Transient for %#10x\n"
-	     "No resize H/V    %i/%i       Shaped      %i\n"
-	     "Base, min, max, inc w/h %ix%i, %ix%i, %ix%i %ix%i\n"
-	     "Aspect min, max         %5.5f, %5.5f\n"
-	     "Struts                  lrtb %i,%i,%i,%i\n"
-	     "MWM border %i resizeh %i title %i menu %i minimize %i maximize %i\n"
-	     "NeedsInput   %i   TakeFocus    %i   FocusNever   %i   FocusClick   %i\n"
-	     "NeverUseArea %i   FixedPos     %i   FixedSize    %i\n"
-	     "Desktop      %i   Layer        %i(%i)\n"
-	     "Iconified    %i   Sticky       %i   Shaded       %i   Docked       %i\n"
-	     "State        %i   Shown        %i   Visibility   %i   Active       %i\n"
-	     "Member of groups        %i\n"
+              "Border                  %s   lrtb %i,%i,%i,%i\n"
+              "Icon window, pixmap, mask %#10x, %#10x, %#10x\n"
+              "Is group leader  %i  Window group leader %#x   Client leader %#10x\n"
+              "Has transients   %i  Transient type  %i  Transient for %#10x\n"
+              "No resize H/V    %i/%i       Shaped      %i\n"
+              "Base, min, max, inc w/h %ix%i, %ix%i, %ix%i %ix%i\n"
+              "Aspect min, max         %5.5f, %5.5f\n"
+              "Struts                  lrtb %i,%i,%i,%i\n"
+              "MWM border %i resizeh %i title %i menu %i minimize %i maximize %i\n"
+              "NeedsInput   %i   TakeFocus    %i   FocusNever   %i   FocusClick   %i\n"
+              "NeverUseArea %i   FixedPos     %i   FixedSize    %i\n"
+              "Desktop      %i   Layer        %i(%i)\n"
+              "Iconified    %i   Sticky       %i   Shaded       %i   Docked       %i\n"
+              "State        %i   Shown        %i   Visibility   %i   Active       %i\n"
+              "Member of groups        %i\n"
 #if USE_COMPOSITE
-	     "Opacity    %3i(%x)  Focused Opacity     %3i\n"
-	     "Shadow       %i   Fade         %i   NoRedirect   %i\n"
+              "Opacity    %3i(%x)  Focused Opacity     %3i\n"
+              "Shadow       %i   Fade         %i   NoRedirect   %i\n"
 #else
-	     "Opacity    %3i\n"
+              "Opacity    %3i\n"
 #endif
-	     ,
-	     SS(EwinGetIcccmName(ewin)),
-	     SS(ewin->ewmh.wm_name),
-	     SS(ewin->icccm.wm_icon_name),
-	     SS(EwinGetIcccmCName(ewin)), SS(EwinGetIcccmClass(ewin)),
-	     SS(ewin->icccm.wm_role),
-	     SS(ewin->icccm.wm_command),
-	     SS(ewin->icccm.wm_machine),
-	     EwinGetClientXwin(ewin),
-	     ewin->client.x, ewin->client.y, ewin->client.w, ewin->client.h,
-	     EwinGetContainerXwin(ewin),
-	     EoGetXwin(ewin),
-	     EoGetX(ewin), EoGetY(ewin), EoGetW(ewin), EoGetH(ewin),
+              ,
+              SS(EwinGetIcccmName(ewin)),
+              SS(ewin->ewmh.wm_name),
+              SS(ewin->icccm.wm_icon_name),
+              SS(EwinGetIcccmCName(ewin)), SS(EwinGetIcccmClass(ewin)),
+              SS(ewin->icccm.wm_role),
+              SS(ewin->icccm.wm_command),
+              SS(ewin->icccm.wm_machine),
+              EwinGetClientXwin(ewin),
+              ewin->client.x, ewin->client.y, ewin->client.w, ewin->client.h,
+              EwinGetContainerXwin(ewin),
+              EoGetXwin(ewin),
+              EoGetX(ewin), EoGetY(ewin), EoGetW(ewin), EoGetH(ewin),
 #if USE_COMPOSITE
-	     EoGetPixmap(ewin),
+              EoGetPixmap(ewin),
 #endif
-	     EwinBorderGetName(ewin), bl, br, bt, bb,
-	     ewin->icccm.icon_win,
-	     ewin->icccm.icon_pmap, ewin->icccm.icon_mask,
-	     EwinIsWindowGroupLeader(ewin), EwinGetWindowGroup(ewin),
-	     ewin->icccm.client_leader, EwinGetTransientCount(ewin),
-	     EwinIsTransient(ewin), EwinGetTransientFor(ewin),
-	     ewin->props.no_resize_h, ewin->props.no_resize_v,
-	     ewin->state.shaped, ewin->icccm.base_w, ewin->icccm.base_h,
-	     ewin->icccm.width_min, ewin->icccm.height_min,
-	     ewin->icccm.width_max, ewin->icccm.height_max,
-	     ewin->icccm.w_inc, ewin->icccm.h_inc,
-	     ewin->icccm.aspect_min, ewin->icccm.aspect_max,
-	     ewin->strut.left, ewin->strut.right,
-	     ewin->strut.top, ewin->strut.bottom,
-	     ewin->mwm.decor_border, ewin->mwm.decor_resizeh,
-	     ewin->mwm.decor_title, ewin->mwm.decor_menu,
-	     ewin->mwm.decor_minimize, ewin->mwm.decor_maximize,
-	     ewin->icccm.need_input, ewin->icccm.take_focus,
-	     EwinInhGetWM(ewin, focus), ewin->props.focusclick,
-	     ewin->props.never_use_area, EwinInhGetUser(ewin, move),
-	     EwinInhGetUser(ewin, size), EoGetDeskNum(ewin),
-	     EoGetLayer(ewin), ewin->o.ilayer,
-	     ewin->state.iconified, EoIsSticky(ewin), ewin->state.shaded,
-	     ewin->state.docked, ewin->state.state, EoIsShown(ewin),
-	     ewin->state.visibility, ewin->state.active, ewin->num_groups,
-	     OpacityToPercent(ewin->props.opacity)
+              EwinBorderGetName(ewin), bl, br, bt, bb,
+              ewin->icccm.icon_win,
+              ewin->icccm.icon_pmap, ewin->icccm.icon_mask,
+              EwinIsWindowGroupLeader(ewin), EwinGetWindowGroup(ewin),
+              ewin->icccm.client_leader, EwinGetTransientCount(ewin),
+              EwinIsTransient(ewin), EwinGetTransientFor(ewin),
+              ewin->props.no_resize_h, ewin->props.no_resize_v,
+              ewin->state.shaped, ewin->icccm.base_w, ewin->icccm.base_h,
+              ewin->icccm.width_min, ewin->icccm.height_min,
+              ewin->icccm.width_max, ewin->icccm.height_max,
+              ewin->icccm.w_inc, ewin->icccm.h_inc,
+              ewin->icccm.aspect_min, ewin->icccm.aspect_max,
+              ewin->strut.left, ewin->strut.right,
+              ewin->strut.top, ewin->strut.bottom,
+              ewin->mwm.decor_border, ewin->mwm.decor_resizeh,
+              ewin->mwm.decor_title, ewin->mwm.decor_menu,
+              ewin->mwm.decor_minimize, ewin->mwm.decor_maximize,
+              ewin->icccm.need_input, ewin->icccm.take_focus,
+              EwinInhGetWM(ewin, focus), ewin->props.focusclick,
+              ewin->props.never_use_area, EwinInhGetUser(ewin, move),
+              EwinInhGetUser(ewin, size), EoGetDeskNum(ewin),
+              EoGetLayer(ewin), ewin->o.ilayer,
+              ewin->state.iconified, EoIsSticky(ewin), ewin->state.shaded,
+              ewin->state.docked, ewin->state.state, EoIsShown(ewin),
+              ewin->state.visibility, ewin->state.active, ewin->num_groups,
+              OpacityToPercent(ewin->props.opacity)
 #if USE_COMPOSITE
-	     , EoGetOpacity(ewin),
-	     OpacityToPercent(ewin->props.focused_opacity), EoGetShadow(ewin),
-	     EoGetFade(ewin), EoGetNoRedirect(ewin)
+              , EoGetOpacity(ewin),
+              OpacityToPercent(ewin->props.focused_opacity), EoGetShadow(ewin),
+              EoGetFade(ewin), EoGetNoRedirect(ewin)
 #endif
-      );
+        );
 }
 
 static void
 IPC_EwinInfo(const char *params)
 {
-   char                match[FILEPATH_LEN_MAX];
-   EWin              **lst;
-   int                 i, num;
+    char            match[FILEPATH_LEN_MAX];
+    EWin          **lst;
+    int             i, num;
 
-   if (!params)
-     {
-	IpcPrintf("Error: no window specified\n");
-	return;
-     }
+    if (!params)
+    {
+        IpcPrintf("Error: no window specified\n");
+        return;
+    }
 
-   sscanf(params, "%1000s", match);
+    sscanf(params, "%1000s", match);
 
-   lst = EwinsFindByExpr(match, &num, NULL);
-   if (!lst)
-     {
-	IpcPrintf("No windows matching %s\n", match);
-	return;
-     }
+    lst = EwinsFindByExpr(match, &num, NULL);
+    if (!lst)
+    {
+        IpcPrintf("No windows matching %s\n", match);
+        return;
+    }
 
-   for (i = 0; i < num; i++)
-     {
-	EwinShowInfo(lst[i]);
-	if (i != num - 1)
-	   IpcPrintf("\n");
-     }
+    for (i = 0; i < num; i++)
+    {
+        EwinShowInfo(lst[i]);
+        if (i != num - 1)
+            IpcPrintf("\n");
+    }
 
-   Efree(lst);
+    Efree(lst);
 }
 
 static void
 IPC_ObjInfo(const char *params __UNUSED__)
 {
-   int                 i, num;
-   EObj               *const *lst, *eo;
+    int             i, num;
+    EObj           *const *lst, *eo;
 
-   lst = EobjListStackGet(&num);
+    lst = EobjListStackGet(&num);
 
-   IpcPrintf
-      ("Num    Window De T V Shape  Dsk S  F   L     Pos       Size    C R Name\n");
-   for (i = 0; i < num; i++)
-     {
-	eo = lst[i];
-	IpcPrintf
-	   (" %2d %#9x %2d %d %d %2d/%2d  %3d %d  %d %3d %5d,%5d %4dx%4d %d %d %s\n",
-	    i, EobjGetXwin(eo), WinGetDepth(EobjGetWin(eo)), eo->type,
-	    eo->shown, eo->shaped, EShapeCheck(EobjGetWin(eo)), eo->desk->num,
-	    eo->sticky, eo->floating, eo->ilayer,
-	    EobjGetX(eo), EobjGetY(eo), EobjGetW(eo), EobjGetH(eo),
+    IpcPrintf
+        ("Num    Window De T V Shape  Dsk S  F   L     Pos       Size    C R Name\n");
+    for (i = 0; i < num; i++)
+    {
+        eo = lst[i];
+        IpcPrintf
+            (" %2d %#9x %2d %d %d %2d/%2d  %3d %d  %d %3d %5d,%5d %4dx%4d %d %d %s\n",
+             i, EobjGetXwin(eo), WinGetDepth(EobjGetWin(eo)), eo->type,
+             eo->shown, eo->shaped, EShapeCheck(EobjGetWin(eo)), eo->desk->num,
+             eo->sticky, eo->floating, eo->ilayer,
+             EobjGetX(eo), EobjGetY(eo), EobjGetW(eo), EobjGetH(eo),
 #if USE_COMPOSITE
-	    (eo->cmhook) ? 1 : 0, !eo->noredir
+             (eo->cmhook) ? 1 : 0, !eo->noredir
 #else
-	    0, 0
+             0, 0
 #endif
-	    , EobjGetName(eo));
-     }
+             , EobjGetName(eo));
+    }
 }
 
 static void
 IPC_Reparent(const char *params)
 {
-   char                param1[FILEPATH_LEN_MAX];
-   char                param2[FILEPATH_LEN_MAX];
-   EWin               *ewin, *enew;
+    char            param1[FILEPATH_LEN_MAX];
+    char            param2[FILEPATH_LEN_MAX];
+    EWin           *ewin, *enew;
 
-   if (!params)
-      return;
+    if (!params)
+        return;
 
-   sscanf(params, "%100s %100s", param1, param2);
+    sscanf(params, "%100s %100s", param1, param2);
 
-   ewin = EwinFindByExpr(param1);
-   enew = EwinFindByExpr(param2);
-   if (!ewin || !enew)
-      IpcPrintf("No matching client or target EWin found\n");
-   else
-      EwinReparent(ewin, EwinGetClientWin(enew));
+    ewin = EwinFindByExpr(param1);
+    enew = EwinFindByExpr(param2);
+    if (!ewin || !enew)
+        IpcPrintf("No matching client or target EWin found\n");
+    else
+        EwinReparent(ewin, EwinGetClientWin(enew));
 }
 
 static void
 IPC_Warp(const char *params)
 {
-   int                 x, y;
+    int             x, y;
 
-   if (!params)
-      return;
+    if (!params)
+        return;
 
-   x = y = 0;
-   if (!strcmp(params, "?"))
-     {
-	EQueryPointer(NULL, &x, &y, NULL, NULL);
-	IpcPrintf("Pointer location: %d %d\n", x, y);
-     }
-   else if (!strncmp(params, "abs", 3))
-     {
-	sscanf(params, "%*s %i %i", &x, &y);
-	EWarpPointer(VROOT, x, y);
-     }
-   else if (!strncmp(params, "rel", 3))
-     {
-	sscanf(params, "%*s %i %i", &x, &y);
-	EWarpPointer(NULL, x, y);
-     }
-   else if (!strncmp(params, "scr", 3))
-     {
-	x = (Dpy.screen + 1) % ScreenCount(disp);
-	sscanf(params, "%*s %i", &x);
-	FocusScreen(x);
-     }
-   else
-     {
-	sscanf(params, "%i %i", &x, &y);
-	EWarpPointer(NULL, x, y);
-     }
+    x = y = 0;
+    if (!strcmp(params, "?"))
+    {
+        EQueryPointer(NULL, &x, &y, NULL, NULL);
+        IpcPrintf("Pointer location: %d %d\n", x, y);
+    }
+    else if (!strncmp(params, "abs", 3))
+    {
+        sscanf(params, "%*s %i %i", &x, &y);
+        EWarpPointer(VROOT, x, y);
+    }
+    else if (!strncmp(params, "rel", 3))
+    {
+        sscanf(params, "%*s %i %i", &x, &y);
+        EWarpPointer(NULL, x, y);
+    }
+    else if (!strncmp(params, "scr", 3))
+    {
+        x = (Dpy.screen + 1) % ScreenCount(disp);
+        sscanf(params, "%*s %i", &x);
+        FocusScreen(x);
+    }
+    else
+    {
+        sscanf(params, "%i %i", &x, &y);
+        EWarpPointer(NULL, x, y);
+    }
 }
 
 #if ENABLE_IPC_INSERT_KEYS
 struct _keyset {
-   const char         *sym;
-   int                 state;
-   const char         *ch;
+    const char     *sym;
+    int             state;
+    const char     *ch;
 };
 
 static const struct _keyset ks[] = {
-   {"a", 0, "a"},
-   {"b", 0, "b"},
-   {"c", 0, "c"},
-   {"d", 0, "d"},
-   {"e", 0, "e"},
-   {"f", 0, "f"},
-   {"g", 0, "g"},
-   {"h", 0, "h"},
-   {"i", 0, "i"},
-   {"j", 0, "j"},
-   {"k", 0, "k"},
-   {"l", 0, "l"},
-   {"m", 0, "m"},
-   {"n", 0, "n"},
-   {"o", 0, "o"},
-   {"p", 0, "p"},
-   {"q", 0, "q"},
-   {"r", 0, "r"},
-   {"s", 0, "s"},
-   {"t", 0, "t"},
-   {"u", 0, "u"},
-   {"v", 0, "v"},
-   {"w", 0, "w"},
-   {"x", 0, "x"},
-   {"y", 0, "y"},
-   {"z", 0, "z"},
-   {"a", ShiftMask, "A"},
-   {"b", ShiftMask, "B"},
-   {"c", ShiftMask, "C"},
-   {"d", ShiftMask, "D"},
-   {"e", ShiftMask, "E"},
-   {"f", ShiftMask, "F"},
-   {"g", ShiftMask, "G"},
-   {"h", ShiftMask, "H"},
-   {"i", ShiftMask, "I"},
-   {"j", ShiftMask, "J"},
-   {"k", ShiftMask, "K"},
-   {"l", ShiftMask, "L"},
-   {"m", ShiftMask, "M"},
-   {"n", ShiftMask, "N"},
-   {"o", ShiftMask, "O"},
-   {"p", ShiftMask, "P"},
-   {"q", ShiftMask, "Q"},
-   {"r", ShiftMask, "R"},
-   {"s", ShiftMask, "S"},
-   {"t", ShiftMask, "T"},
-   {"u", ShiftMask, "U"},
-   {"v", ShiftMask, "V"},
-   {"w", ShiftMask, "W"},
-   {"x", ShiftMask, "X"},
-   {"y", ShiftMask, "Y"},
-   {"z", ShiftMask, "Z"},
-   {"grave", 0, "`"},
-   {"1", 0, "1"},
-   {"2", 0, "2"},
-   {"3", 0, "3"},
-   {"4", 0, "4"},
-   {"5", 0, "5"},
-   {"6", 0, "6"},
-   {"7", 0, "7"},
-   {"8", 0, "8"},
-   {"9", 0, "9"},
-   {"0", 0, "0"},
-   {"minus", 0, "-"},
-   {"equal", 0, "="},
-   {"bracketleft", 0, "["},
-   {"bracketright", 0, "]"},
-   {"backslash", 0, "\\\\"},
-   {"semicolon", 0, "\\s"},
-   {"apostrophe", 0, "\\a"},
-   {"comma", 0, ","},
-   {"period", 0, "."},
-   {"slash", 0, "/"},
-   {"grave", ShiftMask, "~"},
-   {"1", ShiftMask, "!"},
-   {"2", ShiftMask, "@"},
-   {"3", ShiftMask, "#"},
-   {"4", ShiftMask, "$"},
-   {"5", ShiftMask, "%"},
-   {"6", ShiftMask, "^"},
-   {"7", ShiftMask, "&"},
-   {"8", ShiftMask, "*"},
-   {"9", ShiftMask, "("},
-   {"0", ShiftMask, ")"},
-   {"minus", ShiftMask, "_"},
-   {"equal", ShiftMask, "+"},
-   {"bracketleft", ShiftMask, "{"},
-   {"bracketright", ShiftMask, "}"},
-   {"backslash", ShiftMask, "|"},
-   {"semicolon", ShiftMask, ":"},
-   {"apostrophe", ShiftMask, "\\q"},
-   {"comma", ShiftMask, "<"},
-   {"period", ShiftMask, ">"},
-   {"slash", ShiftMask, "?"},
-   {"space", ShiftMask, " "},
-   {"Return", ShiftMask, "\\n"},
-   {"Tab", ShiftMask, "\\t"}
+    { "a", 0, "a" },
+    { "b", 0, "b" },
+    { "c", 0, "c" },
+    { "d", 0, "d" },
+    { "e", 0, "e" },
+    { "f", 0, "f" },
+    { "g", 0, "g" },
+    { "h", 0, "h" },
+    { "i", 0, "i" },
+    { "j", 0, "j" },
+    { "k", 0, "k" },
+    { "l", 0, "l" },
+    { "m", 0, "m" },
+    { "n", 0, "n" },
+    { "o", 0, "o" },
+    { "p", 0, "p" },
+    { "q", 0, "q" },
+    { "r", 0, "r" },
+    { "s", 0, "s" },
+    { "t", 0, "t" },
+    { "u", 0, "u" },
+    { "v", 0, "v" },
+    { "w", 0, "w" },
+    { "x", 0, "x" },
+    { "y", 0, "y" },
+    { "z", 0, "z" },
+    { "a", ShiftMask, "A" },
+    { "b", ShiftMask, "B" },
+    { "c", ShiftMask, "C" },
+    { "d", ShiftMask, "D" },
+    { "e", ShiftMask, "E" },
+    { "f", ShiftMask, "F" },
+    { "g", ShiftMask, "G" },
+    { "h", ShiftMask, "H" },
+    { "i", ShiftMask, "I" },
+    { "j", ShiftMask, "J" },
+    { "k", ShiftMask, "K" },
+    { "l", ShiftMask, "L" },
+    { "m", ShiftMask, "M" },
+    { "n", ShiftMask, "N" },
+    { "o", ShiftMask, "O" },
+    { "p", ShiftMask, "P" },
+    { "q", ShiftMask, "Q" },
+    { "r", ShiftMask, "R" },
+    { "s", ShiftMask, "S" },
+    { "t", ShiftMask, "T" },
+    { "u", ShiftMask, "U" },
+    { "v", ShiftMask, "V" },
+    { "w", ShiftMask, "W" },
+    { "x", ShiftMask, "X" },
+    { "y", ShiftMask, "Y" },
+    { "z", ShiftMask, "Z" },
+    { "grave", 0, "`" },
+    { "1", 0, "1" },
+    { "2", 0, "2" },
+    { "3", 0, "3" },
+    { "4", 0, "4" },
+    { "5", 0, "5" },
+    { "6", 0, "6" },
+    { "7", 0, "7" },
+    { "8", 0, "8" },
+    { "9", 0, "9" },
+    { "0", 0, "0" },
+    { "minus", 0, "-" },
+    { "equal", 0, "=" },
+    { "bracketleft", 0, "[" },
+    { "bracketright", 0, "]" },
+    { "backslash", 0, "\\\\" },
+    { "semicolon", 0, "\\s" },
+    { "apostrophe", 0, "\\a" },
+    { "comma", 0, "," },
+    { "period", 0, "." },
+    { "slash", 0, "/" },
+    { "grave", ShiftMask, "~" },
+    { "1", ShiftMask, "!" },
+    { "2", ShiftMask, "@" },
+    { "3", ShiftMask, "#" },
+    { "4", ShiftMask, "$" },
+    { "5", ShiftMask, "%" },
+    { "6", ShiftMask, "^" },
+    { "7", ShiftMask, "&" },
+    { "8", ShiftMask, "*" },
+    { "9", ShiftMask, "(" },
+    { "0", ShiftMask, ")" },
+    { "minus", ShiftMask, "_" },
+    { "equal", ShiftMask, "+" },
+    { "bracketleft", ShiftMask, "{" },
+    { "bracketright", ShiftMask, "}" },
+    { "backslash", ShiftMask, "|" },
+    { "semicolon", ShiftMask, ":" },
+    { "apostrophe", ShiftMask, "\\q" },
+    { "comma", ShiftMask, "<" },
+    { "period", ShiftMask, ">" },
+    { "slash", ShiftMask, "?" },
+    { "space", ShiftMask, " " },
+    { "Return", ShiftMask, "\\n" },
+    { "Tab", ShiftMask, "\\t" }
 };
 
 static void
-IPC_InsertKeys(const char *params, Client * c __UNUSED__)
+IPC_InsertKeys(const char *params, Client *c __UNUSED__)
 {
-   EX_Window           win = 0;
-   int                 i, rev;
-   const char         *s;
-   XKeyEvent           ev;
+    EX_Window       win = 0;
+    int             i, rev;
+    const char     *s;
+    XKeyEvent       ev;
 
-   if (!params)
-      return;
+    if (!params)
+        return;
 
-   s = params;
-   XGetInputFocus(disp, &win, &rev);
-   if (win == NoXID)
-      return;
+    s = params;
+    XGetInputFocus(disp, &win, &rev);
+    if (win == NoXID)
+        return;
 
-   SoundPlay(SOUND_INSERT_KEYS);
-   ev.window = win;
-   for (i = 0; i < (int)strlen(s); i++)
-     {
-	unsigned int        j;
+    SoundPlay(SOUND_INSERT_KEYS);
+    ev.window = win;
+    for (i = 0; i < (int)strlen(s); i++)
+    {
+        unsigned int    j;
 
-	ev.x = Mode.events.cx;
-	ev.y = Mode.events.cy;
-	ev.x_root = Mode.events.cx;
-	ev.y_root = Mode.events.cy;
-	for (j = 0; j < E_ARRAY_SIZE(ks); j++)
-	  {
-	     if (strncmp(ks[j].ch, &(s[i]), strlen(ks[j].ch)))
-		continue;
+        ev.x = Mode.events.cx;
+        ev.y = Mode.events.cy;
+        ev.x_root = Mode.events.cx;
+        ev.y_root = Mode.events.cy;
+        for (j = 0; j < E_ARRAY_SIZE(ks); j++)
+        {
+            if (strncmp(ks[j].ch, &(s[i]), strlen(ks[j].ch)))
+                continue;
 
-	     i += strlen(ks[j].ch) - 1;
-	     ev.keycode = EKeynameToKeycode(ks[j].sym);
-	     ev.state = ks[j].state;
-	     ev.type = KeyPress;
-	     EXSendEvent(win, 0, (XEvent *) & ev);
-	     ev.type = KeyRelease;
-	     EXSendEvent(win, 0, (XEvent *) & ev);
-	     break;
-	  }
-     }
+            i += strlen(ks[j].ch) - 1;
+            ev.keycode = EKeynameToKeycode(ks[j].sym);
+            ev.state = ks[j].state;
+            ev.type = KeyPress;
+            EXSendEvent(win, 0, (XEvent *) & ev);
+            ev.type = KeyRelease;
+            EXSendEvent(win, 0, (XEvent *) & ev);
+            break;
+        }
+    }
 }
-#endif /* ENABLE_IPC_INSERT_KEYS */
+#endif                          /* ENABLE_IPC_INSERT_KEYS */
 
 /*
  * Compatibility stuff - DO NOT USE
  */
-static int          IpcExec(const char *params);
+static int      IpcExec(const char *params);
 
 static int
 IPC_Compat(const char *params)
 {
-   int                 ok = 0;
-   char                param1[128], buf[FILEPATH_LEN_MAX];
-   const char         *p;
-   int                 len;
+    int             ok = 0;
+    char            param1[128], buf[FILEPATH_LEN_MAX];
+    const char     *p;
+    int             len;
 
-   if (!params)
-      goto done;
+    if (!params)
+        goto done;
 
-   len = 0;
-   param1[0] = '\0';
-   sscanf(params, "%127s %n", param1, &len);
-   p = params + len;
+    len = 0;
+    param1[0] = '\0';
+    sscanf(params, "%127s %n", param1, &len);
+    p = params + len;
 
-   ok = 1;
-   if (!strcmp(param1, "goto_desktop"))
-     {
-	if (*p == '?')
-	   IpcPrintf("Current Desktop: %d\n", DesksGetCurrentNum());
-     }
-   else if (!strcmp(param1, "num_desks"))
-     {
-	if (*p == '?')
-	   IpcPrintf("Number of Desks: %d\n", DesksGetNumber());
-     }
-   else if (!strcmp(param1, "use_bg"))
-     {
-	snprintf(buf, sizeof(buf), "bg use %s", p);
-	IpcExec(buf);		/* Beware - recursive */
-     }
+    ok = 1;
+    if (!strcmp(param1, "goto_desktop"))
+    {
+        if (*p == '?')
+            IpcPrintf("Current Desktop: %d\n", DesksGetCurrentNum());
+    }
+    else if (!strcmp(param1, "num_desks"))
+    {
+        if (*p == '?')
+            IpcPrintf("Number of Desks: %d\n", DesksGetNumber());
+    }
+    else if (!strcmp(param1, "use_bg"))
+    {
+        snprintf(buf, sizeof(buf), "bg use %s", p);
+        IpcExec(buf);           /* Beware - recursive */
+    }
 #if !USE_COMPOSITE
-   else if (!strcmp(param1, "cm"))
-     {
-	DialogOK(_("Message"), _("e16 was built without %s support"),
-		 _("composite"));
-     }
+    else if (!strcmp(param1, "cm"))
+    {
+        DialogOK(_("Message"), _("e16 was built without %s support"),
+                 _("composite"));
+    }
 #endif
 #if !ENABLE_SOUND
-   else if (!strcmp(param1, "sound"))
-     {
-	DialogOK(_("Message"), _("e16 was built without %s support"),
-		 _("sound"));
-     }
+    else if (!strcmp(param1, "sound"))
+    {
+        DialogOK(_("Message"), _("e16 was built without %s support"),
+                 _("sound"));
+    }
 #endif
-   else
-     {
-	ok = 0;
-     }
+    else
+    {
+        ok = 0;
+    }
 
- done:
-   return ok;
+  done:
+    return ok;
 }
 
 /* the IPC Array */
@@ -1658,7 +1656,7 @@ IPC_Compat(const char *params)
  * open the source code.
  * --Mandrake
  */
-static void         IPC_Help(const char *params);
+static void     IPC_Help(const char *params);
 
 /**INDENT-OFF**/
 static const IpcItem IPCArray[] = {
@@ -1837,34 +1835,34 @@ static const IpcItem IPCArray[] = {
 };
 /**INDENT-ON**/
 
-static int          ipc_item_count = 0;
+static int      ipc_item_count = 0;
 static const IpcItem **ipc_item_list = NULL;
 
 static const IpcItem **
 IPC_GetList(int *pnum)
 {
-   int                 i, num;
-   const IpcItem     **lst;
+    int             i, num;
+    const IpcItem **lst;
 
-   if (ipc_item_list)
-     {
-	/* Must be re-generated if modules are ever added/removed */
-	*pnum = ipc_item_count;
-	return ipc_item_list;
-     }
+    if (ipc_item_list)
+    {
+        /* Must be re-generated if modules are ever added/removed */
+        *pnum = ipc_item_count;
+        return ipc_item_list;
+    }
 
-   num = E_ARRAY_SIZE(IPCArray);
-   lst = EMALLOC(const IpcItem *, num);
+    num = E_ARRAY_SIZE(IPCArray);
+    lst = EMALLOC(const IpcItem *, num);
 
-   for (i = 0; i < num; i++)
-      lst[i] = &IPCArray[i];
+    for (i = 0; i < num; i++)
+        lst[i] = &IPCArray[i];
 
-   ModulesGetIpcItems(&lst, &num);
+    ModulesGetIpcItems(&lst, &num);
 
-   ipc_item_count = num;
-   ipc_item_list = lst;
-   *pnum = num;
-   return lst;
+    ipc_item_count = num;
+    ipc_item_list = lst;
+    *pnum = num;
+    return lst;
 }
 
 /* The IPC Handler */
@@ -1876,193 +1874,193 @@ IPC_GetList(int *pnum)
 static int
 IpcExec(const char *params)
 {
-   int                 i, num, ok;
-   char                cmd[128];
-   const char         *prm;
-   const IpcItem     **lst, *ipc;
+    int             i, num, ok;
+    char            cmd[128];
+    const char     *prm;
+    const IpcItem **lst, *ipc;
 
-   if (EDebug(EDBUG_TYPE_IPC))
-      Eprintf("%s: '%s'\n", __func__, params);
+    if (EDebug(EDBUG_TYPE_IPC))
+        Eprintf("%s: '%s'\n", __func__, params);
 
-   cmd[0] = 0;
-   num = 0;
-   if (params)
-      sscanf(params, "%100s %n", cmd, &num);
-   prm = (num > 0 && params[num]) ? params + num : NULL;
+    cmd[0] = 0;
+    num = 0;
+    if (params)
+        sscanf(params, "%100s %n", cmd, &num);
+    prm = (num > 0 && params[num]) ? params + num : NULL;
 
-   lst = IPC_GetList(&num);
+    lst = IPC_GetList(&num);
 
-   ok = 0;
-   for (i = 0; i < num; i++)
-     {
-	ipc = lst[i];
-	if (!(ipc->nick && !strcmp(cmd, ipc->nick)) && strcmp(cmd, ipc->name))
-	   continue;
+    ok = 0;
+    for (i = 0; i < num; i++)
+    {
+        ipc = lst[i];
+        if (!(ipc->nick && !strcmp(cmd, ipc->nick)) && strcmp(cmd, ipc->name))
+            continue;
 
-	ipc->func(prm);
+        ipc->func(prm);
 
-	ok = 1;
-	break;
-     }
+        ok = 1;
+        break;
+    }
 
-   if (!ok && params)
-      ok = IPC_Compat(params);
+    if (!ok && params)
+        ok = IPC_Compat(params);
 
-   if (!ok)
-      IpcPrintf("Unknown command: '%s'\n", params);
+    if (!ok)
+        IpcPrintf("Unknown command: '%s'\n", params);
 
-   return ok;
+    return ok;
 }
 
 int
-IpcExecReply(const char *params, IpcReplyFunc * reply, void *data)
+IpcExecReply(const char *params, IpcReplyFunc *reply, void *data)
 {
-   int                 ok;
+    int             ok;
 
-   IpcPrintInit();
+    IpcPrintInit();
 
-   ok = IpcExec(params);
+    ok = IpcExec(params);
 
-   if (EDebug(EDBUG_TYPE_IPC))
-      Eprintf("%s: '%s'\n", __func__, IpcPrintGetBuffer());
-   reply(data, IpcPrintGetBuffer());
+    if (EDebug(EDBUG_TYPE_IPC))
+        Eprintf("%s: '%s'\n", __func__, IpcPrintGetBuffer());
+    reply(data, IpcPrintGetBuffer());
 
-   IpcPrintDone();
+    IpcPrintDone();
 
-   return ok;
+    return ok;
 }
 
 int
-EFunc(EWin * ewin, const char *params)
+EFunc(EWin *ewin, const char *params)
 {
-   int                 ok;
+    int             ok;
 
-   SetContextEwin(ewin);
-   ok = IpcExec(params);
-   SetContextEwin(NULL);
+    SetContextEwin(ewin);
+    ok = IpcExec(params);
+    SetContextEwin(NULL);
 
-   return ok;
+    return ok;
 }
 
 static int
 doEFuncDeferred(void *data)
 {
-   void              **prm = (void **)data;
-   EWin               *ewin;
+    void          **prm = (void **)data;
+    EWin           *ewin;
 
-   ewin = (EWin *) prm[0];
-   if (ewin && !EwinFindByPtr(ewin))
-      goto done;
+    ewin = (EWin *) prm[0];
+    if (ewin && !EwinFindByPtr(ewin))
+        goto done;
 
-   EFunc(ewin, (const char *)prm[1]);
+    EFunc(ewin, (const char *)prm[1]);
 
- done:
-   Efree(prm[1]);
-   Efree(data);
+  done:
+    Efree(prm[1]);
+    Efree(data);
 
-   return 0;
+    return 0;
 }
 
 void
-EFuncDefer(EWin * ewin, const char *cmd)
+EFuncDefer(EWin *ewin, const char *cmd)
 {
-   void              **prm;
+    void          **prm;
 
-   prm = EMALLOC(void *, 2);
+    prm = EMALLOC(void *, 2);
 
-   if (!prm)
-      return;
-   prm[0] = ewin;
-   prm[1] = Estrdup(cmd);
+    if (!prm)
+        return;
+    prm[0] = ewin;
+    prm[1] = Estrdup(cmd);
 
-   TIMER_ADD_NP(0, doEFuncDeferred, prm);
+    TIMER_ADD_NP(0, doEFuncDeferred, prm);
 }
 
 static int
 ipccmp(const void *p1, const void *p2)
 {
-   return strcmp((*(const IpcItem **)p1)->name, (*(const IpcItem **)p2)->name);
+    return strcmp((*(const IpcItem **)p1)->name, (*(const IpcItem **)p2)->name);
 }
 
 static void
 IPC_Help(const char *params)
 {
-   int                 i, j, k, num, nr;
-   const IpcItem     **lst, *ipc;
-   const char         *nick;
+    int             i, j, k, num, nr;
+    const IpcItem **lst, *ipc;
+    const char     *nick;
 
-   lst = IPC_GetList(&num);
+    lst = IPC_GetList(&num);
 
-   IpcPrintf(_("Enlightenment IPC Commands Help\n"));
+    IpcPrintf(_("Enlightenment IPC Commands Help\n"));
 
-   if (!params)
-     {
-	IpcPrintf(_("Use \"help all\" for descriptions of each command\n"
-		    "Use \"help <command>\" for an individual description\n\n"));
-	IpcPrintf(_("Commands currently available:\n"));
+    if (!params)
+    {
+        IpcPrintf(_("Use \"help all\" for descriptions of each command\n"
+                    "Use \"help <command>\" for an individual description\n\n"));
+        IpcPrintf(_("Commands currently available:\n"));
 
-	qsort(lst, num, sizeof(IpcItem *), ipccmp);
+        qsort(lst, num, sizeof(IpcItem *), ipccmp);
 
-	nr = (num + 2) / 3;
-	for (i = 0; i < nr; i++)
-	  {
-	     for (j = 0; j < 3; j++)
-	       {
-		  k = i + j * nr;
-		  if (k >= num)
-		     break;
-		  ipc = lst[k];
-		  nick = (ipc->nick) ? ipc->nick : "";
-		  IpcPrintf("  %-14s %-10s", ipc->name, nick);
-	       }
-	     IpcPrintf("\n");
-	  }
-     }
-   else if (!strcmp(params, "all"))
-     {
-	IpcPrintf(_
-		  ("Use \"help full\" for full descriptions of each command\n"));
-	IpcPrintf(_("Use \"help <command>\" for an individual description\n"));
-	IpcPrintf(_("Commands currently available:\n"));
-	IpcPrintf(_("         <command>     : <description>\n"));
+        nr = (num + 2) / 3;
+        for (i = 0; i < nr; i++)
+        {
+            for (j = 0; j < 3; j++)
+            {
+                k = i + j * nr;
+                if (k >= num)
+                    break;
+                ipc = lst[k];
+                nick = (ipc->nick) ? ipc->nick : "";
+                IpcPrintf("  %-14s %-10s", ipc->name, nick);
+            }
+            IpcPrintf("\n");
+        }
+    }
+    else if (!strcmp(params, "all"))
+    {
+        IpcPrintf(_
+                  ("Use \"help full\" for full descriptions of each command\n"));
+        IpcPrintf(_("Use \"help <command>\" for an individual description\n"));
+        IpcPrintf(_("Commands currently available:\n"));
+        IpcPrintf(_("         <command>     : <description>\n"));
 
-	for (i = 0; i < num; i++)
-	  {
-	     ipc = lst[i];
-	     nick = (ipc->nick) ? ipc->nick : "";
-	     IpcPrintf("%18s %4s: %s\n", ipc->name, nick, ipc->help_text);
-	  }
-     }
-   else if (!strcmp(params, "full"))
-     {
-	IpcPrintf(_("Commands currently available:\n"));
-	IpcPrintf(_("         <command>     : <description>\n"));
+        for (i = 0; i < num; i++)
+        {
+            ipc = lst[i];
+            nick = (ipc->nick) ? ipc->nick : "";
+            IpcPrintf("%18s %4s: %s\n", ipc->name, nick, ipc->help_text);
+        }
+    }
+    else if (!strcmp(params, "full"))
+    {
+        IpcPrintf(_("Commands currently available:\n"));
+        IpcPrintf(_("         <command>     : <description>\n"));
 
-	for (i = 0; i < num; i++)
-	  {
-	     IpcPrintf("----------------------------------------\n");
-	     ipc = lst[i];
-	     nick = (ipc->nick) ? ipc->nick : "";
-	     IpcPrintf("%18s %4s: %s\n", ipc->name, nick, ipc->help_text);
-	     if (ipc->extended_help_text)
-		IpcPrintf("%s", ipc->extended_help_text);
-	  }
-     }
-   else
-     {
-	for (i = 0; i < num; i++)
-	  {
-	     ipc = lst[i];
-	     if (strcmp(params, ipc->name) &&
-		 (!ipc->nick || strcmp(params, ipc->nick)))
-		continue;
+        for (i = 0; i < num; i++)
+        {
+            IpcPrintf("----------------------------------------\n");
+            ipc = lst[i];
+            nick = (ipc->nick) ? ipc->nick : "";
+            IpcPrintf("%18s %4s: %s\n", ipc->name, nick, ipc->help_text);
+            if (ipc->extended_help_text)
+                IpcPrintf("%s", ipc->extended_help_text);
+        }
+    }
+    else
+    {
+        for (i = 0; i < num; i++)
+        {
+            ipc = lst[i];
+            if (strcmp(params, ipc->name) &&
+                (!ipc->nick || strcmp(params, ipc->nick)))
+                continue;
 
-	     nick = (ipc->nick) ? ipc->nick : "";
-	     IpcPrintf("----------------------------------------\n");
-	     IpcPrintf("%18s %4s: %s\n", ipc->name, nick, ipc->help_text);
-	     IpcPrintf("----------------------------------------\n");
-	     if (ipc->extended_help_text)
-		IpcPrintf("%s", ipc->extended_help_text);
-	  }
-     }
+            nick = (ipc->nick) ? ipc->nick : "";
+            IpcPrintf("----------------------------------------\n");
+            IpcPrintf("%18s %4s: %s\n", ipc->name, nick, ipc->help_text);
+            IpcPrintf("----------------------------------------\n");
+            if (ipc->extended_help_text)
+                IpcPrintf("%s", ipc->extended_help_text);
+        }
+    }
 }

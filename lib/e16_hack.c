@@ -34,178 +34,176 @@
 #include "util.h"
 
 /* dlopened xlib so we can find the symbols in the real xlib to call them */
-static void        *lib_xlib = NULL;
+static void    *lib_xlib = NULL;
 
-static Window       root = None;
+static Window   root = None;
 
 /* Find our root window */
-static              Window
-MyRoot(Display * dpy)
+static          Window
+MyRoot(Display *dpy)
 {
-   char               *s;
+    char           *s;
 
-   if (root != None)
-      return root;
+    if (root != None)
+        return root;
 
-   root = DefaultRootWindow(dpy);
+    root = DefaultRootWindow(dpy);
 
-   s = getenv("ENL_WM_ROOT");
-   if (!s)
-      return root;
+    s = getenv("ENL_WM_ROOT");
+    if (!s)
+        return root;
 
-   sscanf(s, "%lx", &root);
-   return root;
+    sscanf(s, "%lx", &root);
+    return root;
 }
 
 /* find the real Xlib and the real X function */
-static void        *
+static void    *
 GetFunc(const char *name)
 {
-   void               *func;
+    void           *func;
 
-   if (!lib_xlib)
-      lib_xlib = dlopen("libX11.so", RTLD_GLOBAL | RTLD_LAZY);
+    if (!lib_xlib)
+        lib_xlib = dlopen("libX11.so", RTLD_GLOBAL | RTLD_LAZY);
 
-   func = dlsym(lib_xlib, name);
+    func = dlsym(lib_xlib, name);
 
-   return func;
+    return func;
 }
 
 /*
  * XCreateWindow interception
  */
 
-typedef             Window(CWF) (Display * _display, Window _parent, int _x,
-				 int _y, unsigned int _width,
-				 unsigned int _height,
-				 unsigned int _border_width, int _depth,
-				 unsigned int _class, Visual * _visual,
-				 unsigned long _valuemask,
-				 XSetWindowAttributes * _attributes);
+typedef         Window(CWF) (Display * _display, Window _parent, int _x,
+                             int _y, unsigned int _width,
+                             unsigned int _height,
+                             unsigned int _border_width, int _depth,
+                             unsigned int _class, Visual * _visual,
+                             unsigned long _valuemask,
+                             XSetWindowAttributes * _attributes);
 
-__EXPORT__          Window
-XCreateWindow(Display * display, Window parent, int x, int y,
-	      unsigned int width, unsigned int height,
-	      unsigned int border_width,
-	      int depth, unsigned int clss, Visual * visual,
-	      unsigned long valuemask, XSetWindowAttributes * attributes)
+__EXPORT__      Window
+XCreateWindow(Display *display, Window parent, int x, int y,
+              unsigned int width, unsigned int height,
+              unsigned int border_width,
+              int depth, unsigned int clss, Visual *visual,
+              unsigned long valuemask, XSetWindowAttributes *attributes)
 {
-   static CWF         *func = NULL;
+    static CWF     *func = NULL;
 
-   if (!func)
-      func = (CWF *) GetFunc("XCreateWindow");
+    if (!func)
+        func = (CWF *) GetFunc("XCreateWindow");
 
-   if (parent == DefaultRootWindow(display))
-      parent = MyRoot(display);
+    if (parent == DefaultRootWindow(display))
+        parent = MyRoot(display);
 
-   return (*func) (display, parent, x, y, width, height, border_width, depth,
-		   clss, visual, valuemask, attributes);
+    return (*func) (display, parent, x, y, width, height, border_width, depth,
+                    clss, visual, valuemask, attributes);
 }
 
 /*
  * XCreateSimpleWindow interception
  */
 
-typedef             Window(CSWF) (Display * _display, Window _parent, int _x,
-				  int _y, unsigned int _width,
-				  unsigned int _height,
-				  unsigned int _border_width,
-				  unsigned long _border,
-				  unsigned long _background);
+typedef         Window(CSWF) (Display * _display, Window _parent, int _x,
+                              int _y, unsigned int _width,
+                              unsigned int _height, unsigned int _border_width,
+                              unsigned long _border, unsigned long _background);
 
-__EXPORT__          Window
-XCreateSimpleWindow(Display * display, Window parent, int x, int y,
-		    unsigned int width, unsigned int height,
-		    unsigned int border_width,
-		    unsigned long border, unsigned long background)
+__EXPORT__      Window
+XCreateSimpleWindow(Display *display, Window parent, int x, int y,
+                    unsigned int width,
+                    unsigned int height, unsigned int border_width,
+                    unsigned long border, unsigned long background)
 {
-   static CSWF        *func = NULL;
+    static CSWF    *func = NULL;
 
-   if (!func)
-      func = (CSWF *) GetFunc("XCreateSimpleWindow");
+    if (!func)
+        func = (CSWF *) GetFunc("XCreateSimpleWindow");
 
-   if (parent == DefaultRootWindow(display))
-      parent = MyRoot(display);
+    if (parent == DefaultRootWindow(display))
+        parent = MyRoot(display);
 
-   return (*func) (display, parent, x, y, width, height,
-		   border_width, border, background);
+    return (*func) (display, parent, x, y, width, height,
+                    border_width, border, background);
 }
 
 /*
  * XReparentWindow interception
  */
 
-typedef int         (RWF) (Display * _display, Window _window, Window _parent,
-			   int x, int y);
+typedef int     (RWF) (Display * _display, Window _window, Window _parent,
+                       int x, int y);
 
 __EXPORT__ int
-XReparentWindow(Display * display, Window window, Window parent, int x, int y)
+XReparentWindow(Display *display, Window window, Window parent, int x, int y)
 {
-   static RWF         *func = NULL;
+    static RWF     *func = NULL;
 
-   if (!func)
-      func = (RWF *) GetFunc("XReparentWindow");
+    if (!func)
+        func = (RWF *) GetFunc("XReparentWindow");
 
-   if (parent == DefaultRootWindow(display))
-      parent = MyRoot(display);
+    if (parent == DefaultRootWindow(display))
+        parent = MyRoot(display);
 
-   return (*func) (display, window, parent, x, y);
+    return (*func) (display, window, parent, x, y);
 }
 
 /*
  * XSendEvent interception
  */
 
-typedef int         (SEF) (Display * display, Window window, Bool propagate,
-			   long event_mask, XEvent * event_send);
+typedef int     (SEF) (Display * display, Window window, Bool propagate,
+                       long event_mask, XEvent * event_send);
 
 __EXPORT__ int
-XSendEvent(Display * display, Window window, Bool propagate,
-	   long event_mask, XEvent * event_send)
+XSendEvent(Display *display, Window window, Bool propagate,
+           long event_mask, XEvent *event_send)
 {
-   static SEF         *func = NULL;
+    static SEF     *func = NULL;
 
-   if (!func)
-      func = (SEF *) GetFunc("XSendEvent");
+    if (!func)
+        func = (SEF *) GetFunc("XSendEvent");
 
-   if (window == DefaultRootWindow(display))
-      window = MyRoot(display);
+    if (window == DefaultRootWindow(display))
+        window = MyRoot(display);
 
-   return (*func) (display, window, propagate, event_mask, event_send);
+    return (*func) (display, window, propagate, event_mask, event_send);
 }
 
 /*
  * XGetWindowProperty interception
  */
 
-typedef int         (GWPF) (Display * display, Window w,
-			    Atom property,
-			    long long_offset, long long_length,
-			    Bool delete_, Atom req_type,
-			    Atom * actual_type_return,
-			    int *actual_format_return,
-			    unsigned long *nitems_return,
-			    unsigned long *bytes_after_return,
-			    unsigned char **prop_return);
+typedef int     (GWPF) (Display * display, Window w,
+                        Atom property,
+                        long long_offset, long long_length,
+                        Bool delete_, Atom req_type,
+                        Atom * actual_type_return,
+                        int *actual_format_return,
+                        unsigned long *nitems_return,
+                        unsigned long *bytes_after_return,
+                        unsigned char **prop_return);
 
 __EXPORT__ int
-XGetWindowProperty(Display * display, Window w, Atom property,
-		   long long_offset, long long_length, Bool delete_,
-		   Atom req_type, Atom * actual_type_return,
-		   int *actual_format_return,
-		   unsigned long *nitems_return,
-		   unsigned long *bytes_after_return,
-		   unsigned char **prop_return)
+XGetWindowProperty(Display *display, Window w, Atom property,
+                   long long_offset, long long_length, Bool delete_,
+                   Atom req_type, Atom *actual_type_return,
+                   int *actual_format_return,
+                   unsigned long *nitems_return,
+                   unsigned long *bytes_after_return,
+                   unsigned char **prop_return)
 {
-   static GWPF        *func = NULL;
+    static GWPF    *func = NULL;
 
-   if (!func)
-      func = (GWPF *) GetFunc("XGetWindowProperty");
+    if (!func)
+        func = (GWPF *) GetFunc("XGetWindowProperty");
 
-   if (w == DefaultRootWindow(display))
-      w = MyRoot(display);
+    if (w == DefaultRootWindow(display))
+        w = MyRoot(display);
 
-   return func(display, w, property, long_offset, long_length, delete_,
-	       req_type, actual_type_return, actual_format_return,
-	       nitems_return, bytes_after_return, prop_return);
+    return func(display, w, property, long_offset, long_length, delete_,
+                req_type, actual_type_return, actual_format_return,
+                nitems_return, bytes_after_return, prop_return);
 }

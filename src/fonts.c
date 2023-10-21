@@ -25,57 +25,57 @@
 #include "parse.h"
 
 typedef struct {
-   dlist_t             list;
-   char               *name;
-   char               *font;
+    dlist_t         list;
+    char           *name;
+    char           *font;
 } FontAlias;
 
-static              LIST_HEAD(font_list);
+static          LIST_HEAD(font_list);
 
 static void
 _FontAliasDestroy(void *data)
 {
-   FontAlias          *fa = (FontAlias *) data;
+    FontAlias      *fa = (FontAlias *) data;
 
-   if (!fa)
-      return;
-   Efree(fa->name);
-   Efree(fa->font);
+    if (!fa)
+        return;
+    Efree(fa->name);
+    Efree(fa->font);
 
-   Efree(fa);
+    Efree(fa);
 }
 
-static FontAlias   *
+static FontAlias *
 _FontAliasCreate(const char *name, const char *font)
 {
-   FontAlias          *fa;
+    FontAlias      *fa;
 
-   fa = EMALLOC(FontAlias, 1);
-   if (!fa)
-      return NULL;
+    fa = EMALLOC(FontAlias, 1);
+    if (!fa)
+        return NULL;
 
-   fa->name = Estrdup(name);
-   fa->font = Estrdup(font);
+    fa->name = Estrdup(name);
+    fa->font = Estrdup(font);
 
-   LIST_PREPEND(FontAlias, &font_list, fa);
+    LIST_PREPEND(FontAlias, &font_list, fa);
 
-   return fa;
+    return fa;
 }
 
 static int
 _FontMatchName(const void *data, const void *match)
 {
-   return strcmp(((const FontAlias *)data)->name, (const char *)match);
+    return strcmp(((const FontAlias *)data)->name, (const char *)match);
 }
 
-const char         *
+const char     *
 FontLookup(const char *name)
 {
-   FontAlias          *fa;
+    FontAlias      *fa;
 
-   fa = LIST_FIND(FontAlias, &font_list, _FontMatchName, name);
+    fa = LIST_FIND(FontAlias, &font_list, _FontMatchName, name);
 
-   return (fa) ? fa->font : NULL;
+    return (fa) ? fa->font : NULL;
 }
 
 /*
@@ -83,85 +83,85 @@ FontLookup(const char *name)
  */
 
 static int
-_FontConfigLoad(FILE * fs)
+_FontConfigLoad(FILE *fs)
 {
-   int                 err = 0;
-   char                s[FILEPATH_LEN_MAX], *ss, *name, *font;
-   int                 len;
+    int             err = 0;
+    char            s[FILEPATH_LEN_MAX], *ss, *name, *font;
+    int             len;
 
-   for (;;)
-     {
-	ss = fgets(s, sizeof(s), fs);
-	if (!ss)
-	   break;
+    for (;;)
+    {
+        ss = fgets(s, sizeof(s), fs);
+        if (!ss)
+            break;
 
-	len = strcspn(s, "#\r\n");
-	if (len <= 0)
-	   continue;
+        len = strcspn(s, "#\r\n");
+        if (len <= 0)
+            continue;
 
-	name = font = NULL;
-	parse(s, "%S%S", &name, &font);
-	if (!name || !font)
-	   continue;
+        name = font = NULL;
+        parse(s, "%S%S", &name, &font);
+        if (!name || !font)
+            continue;
 
-	if (strncmp(name, "font-", 5))
-	   continue;
-	_FontAliasCreate(name, font);
-     }
+        if (strncmp(name, "font-", 5))
+            continue;
+        _FontAliasCreate(name, font);
+    }
 
-   return err;
+    return err;
 }
 
 static int
 _FontConfigLoad1(const char *cfg, int look_in_theme_too)
 {
-   const char         *path;
+    const char     *path;
 
-   path = (look_in_theme_too) ? Mode.theme.path : NULL;
+    path = (look_in_theme_too) ? Mode.theme.path : NULL;
 
-   return ConfigFileLoad(cfg, path, _FontConfigLoad, 0);
+    return ConfigFileLoad(cfg, path, _FontConfigLoad, 0);
 }
 
 void
 FontConfigLoad(void)
 {
-   /* First check explicitly specified configuration (not in theme dir) */
-   if (Conf.theme.use_alt_font_cfg && Conf.theme.font_cfg)
-     {
-	if (!_FontConfigLoad1(Conf.theme.font_cfg, 0))
-	   return;
-     }
+    /* First check explicitly specified configuration (not in theme dir) */
+    if (Conf.theme.use_alt_font_cfg && Conf.theme.font_cfg)
+    {
+        if (!_FontConfigLoad1(Conf.theme.font_cfg, 0))
+            return;
+    }
 
-   /* If using theme font is specified look for that */
-   if (Conf.theme.use_theme_font_cfg)
-     {
-	if (!_FontConfigLoad1("fonts.theme.cfg", 1))
-	   return;
-     }
+    /* If using theme font is specified look for that */
+    if (Conf.theme.use_theme_font_cfg)
+    {
+        if (!_FontConfigLoad1("fonts.theme.cfg", 1))
+            return;
+    }
 
-   /* Look in user config dir (not in theme dir) */
-   if (!_FontConfigLoad1("fonts.cfg", 0))
-      return;
+    /* Look in user config dir (not in theme dir) */
+    if (!_FontConfigLoad1("fonts.cfg", 0))
+        return;
 
 #if USE_PANGO
-   if (!_FontConfigLoad1("fonts.pango.cfg", 1))
-      return;
+    if (!_FontConfigLoad1("fonts.pango.cfg", 1))
+        return;
 #endif
 #if USE_XFT
-   if (!_FontConfigLoad1("fonts.xft.cfg", 1))
-      return;
+    if (!_FontConfigLoad1("fonts.xft.cfg", 1))
+        return;
 #endif
-   _FontConfigLoad1("fonts.cfg", 1);
+    _FontConfigLoad1("fonts.cfg", 1);
 }
 
 void
 FontConfigUnload(void)
 {
-   FontAlias          *fa, *tmp;
+    FontAlias      *fa, *tmp;
 
-   LIST_FOR_EACH_SAFE(FontAlias, &font_list, fa, tmp)
-   {
-      LIST_REMOVE(FontAlias, &font_list, fa);
-      _FontAliasDestroy(fa);
-   }
+    LIST_FOR_EACH_SAFE(FontAlias, &font_list, fa, tmp)
+    {
+        LIST_REMOVE(FontAlias, &font_list, fa);
+        _FontAliasDestroy(fa);
+    }
 }

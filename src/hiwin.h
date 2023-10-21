@@ -28,16 +28,16 @@
 
 typedef struct _hiwin Hiwin;
 
-Hiwin              *HiwinCreate(void);
-void                HiwinSetGeom(Hiwin * phi, int x, int y, int w, int h);
-void                HiwinInit(Hiwin * phi, EWin * ewin, EObj * parent);
-void                HiwinSetCallback(Hiwin * phi,
-				     void (*func)(Win win, XEvent * ev,
-						  void *data), void *data);
-void                HiwinGetXY(Hiwin * phi, int *x, int *y);
-void                HiwinMove(Hiwin * phi, int x, int y);
-EWin               *HiwinGetEwin(Hiwin * phi, int check);
-void                HiwinShow(Hiwin * phi, EWin * ewin, int zoom, int confine);
-void                HiwinHide(Hiwin * phi);
+Hiwin          *HiwinCreate(void);
+void            HiwinSetGeom(Hiwin * phi, int x, int y, int w, int h);
+void            HiwinInit(Hiwin * phi, EWin * ewin, EObj * parent);
+void            HiwinSetCallback(Hiwin * phi,
+                                 void (*func)(Win win, XEvent * ev,
+                                              void *data), void *data);
+void            HiwinGetXY(Hiwin * phi, int *x, int *y);
+void            HiwinMove(Hiwin * phi, int x, int y);
+EWin           *HiwinGetEwin(Hiwin * phi, int check);
+void            HiwinShow(Hiwin * phi, EWin * ewin, int zoom, int confine);
+void            HiwinHide(Hiwin * phi);
 
-#endif /* _HIWIN_H_ */
+#endif                          /* _HIWIN_H_ */

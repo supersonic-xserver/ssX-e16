@@ -31,162 +31,162 @@
 #include "timers.h"
 #include "xwin.h"
 
-static EObj        *coord_eo = NULL;
+static EObj    *coord_eo = NULL;
 
 static void
-_CoordsShow(EWin * ewin, int mode)
+_CoordsShow(EWin *ewin, int mode)
 {
-   TextClass          *tc;
-   ImageClass         *ic;
-   char                s[256];
-   int                 md;
-   int                 x, y;
-   unsigned int        w, h;
-   int                 cx, cy, cw, ch;
-   EObj               *eo = coord_eo;
-   EImageBorder       *pad;
-   int                 bl, br, bt, bb;
+    TextClass      *tc;
+    ImageClass     *ic;
+    char            s[256];
+    int             md;
+    int             x, y;
+    unsigned int    w, h;
+    int             cx, cy, cw, ch;
+    EObj           *eo = coord_eo;
+    EImageBorder   *pad;
+    int             bl, br, bt, bb;
 
-   if (!Conf.movres.mode_info)
-      return;
-   if (!ewin || !ewin->state.show_coords)
-      return;
+    if (!Conf.movres.mode_info)
+        return;
+    if (!ewin || !ewin->state.show_coords)
+        return;
 
-   tc = TextclassFind("COORDS", 1);
-   ic = ImageclassFind("COORDS", 1);
-   if ((!ic) || (!tc))
-      return;
+    tc = TextclassFind("COORDS", 1);
+    ic = ImageclassFind("COORDS", 1);
+    if ((!ic) || (!tc))
+        return;
 
-   cx = cy = cw = ch = 0;
+    cx = cy = cw = ch = 0;
 
-   x = ewin->shape_x;
-   y = ewin->shape_y;
-   w = (ewin->state.shaded) ? ewin->client.w : ewin->shape_w;
-   h = (ewin->state.shaded) ? ewin->client.h : ewin->shape_h;
-   ICCCM_GetIncrementalSize(ewin, w, h, &w, &h);
+    x = ewin->shape_x;
+    y = ewin->shape_y;
+    w = (ewin->state.shaded) ? ewin->client.w : ewin->shape_w;
+    h = (ewin->state.shaded) ? ewin->client.h : ewin->shape_h;
+    ICCCM_GetIncrementalSize(ewin, w, h, &w, &h);
 
-   switch (mode)
-     {
-     default:
-     case 0:
-	Esnprintf(s, sizeof(s), "%i x %i (%i, %i)", w, h, x, y);
-	break;
-     case 1:
-	Esnprintf(s, sizeof(s), _("Focused/unfocused opacity: %d/%d %%"),
-		  OpacityToPercent(ewin->props.focused_opacity),
-		  OpacityToPercent(ewin->props.opacity));
-	break;
-     }
-   TextSize(tc, 0, 0, 0, s, &cw, &ch);
-   pad = ImageclassGetPadding(ic);
-   cw += pad->left + pad->right;
-   ch += pad->top + pad->bottom;
+    switch (mode)
+    {
+    default:
+    case 0:
+        Esnprintf(s, sizeof(s), "%i x %i (%i, %i)", w, h, x, y);
+        break;
+    case 1:
+        Esnprintf(s, sizeof(s), _("Focused/unfocused opacity: %d/%d %%"),
+                  OpacityToPercent(ewin->props.focused_opacity),
+                  OpacityToPercent(ewin->props.opacity));
+        break;
+    }
+    TextSize(tc, 0, 0, 0, s, &cw, &ch);
+    pad = ImageclassGetPadding(ic);
+    cw += pad->left + pad->right;
+    ch += pad->top + pad->bottom;
 
-   /* Width hysteresis (hack - assuming horizontal text) */
-   cw += 8;
-   if (eo && abs(EobjGetW(eo) - cw) < 8)
-      cw = EobjGetW(eo);
+    /* Width hysteresis (hack - assuming horizontal text) */
+    cw += 8;
+    if (eo && abs(EobjGetW(eo) - cw) < 8)
+        cw = EobjGetW(eo);
 
-   if (Mode.mode == MODE_MOVE)
-      md = Conf.movres.mode_move;
-   else
-      md = Conf.movres.mode_resize;
+    if (Mode.mode == MODE_MOVE)
+        md = Conf.movres.mode_move;
+    else
+        md = Conf.movres.mode_resize;
 
-   if ((md == 0) || ((cw < ewin->shape_w - 2) && (ch < ewin->shape_h - 2)))
-     {
-	if (Conf.movres.mode_info == 1)
-	  {
-	     switch (md)
-	       {
-	       case MR_OPAQUE:
-	       case MR_TECHNICAL:
-	       case MR_BOX:
-	       case MR_TECH_OPAQUE:
-		  EwinBorderGetSize(ewin, &bl, &br, &bt, &bb);
-		  w = (ewin->state.shaded) ?
-		     EoGetW(ewin) : ewin->shape_w + bl + br;
-		  h = (ewin->state.shaded) ?
-		     EoGetH(ewin) : ewin->shape_h + bt + bb;
-		  cx = x + (w - cw) / 2 + EoGetX(EoGetDesk(ewin));
-		  cy = y + (h - ch) / 2 + EoGetY(EoGetDesk(ewin));
-		  break;
-	       }
-	  }
-     }
+    if ((md == 0) || ((cw < ewin->shape_w - 2) && (ch < ewin->shape_h - 2)))
+    {
+        if (Conf.movres.mode_info == 1)
+        {
+            switch (md)
+            {
+            case MR_OPAQUE:
+            case MR_TECHNICAL:
+            case MR_BOX:
+            case MR_TECH_OPAQUE:
+                EwinBorderGetSize(ewin, &bl, &br, &bt, &bb);
+                w = (ewin->state.shaded) ?
+                    EoGetW(ewin) : ewin->shape_w + bl + br;
+                h = (ewin->state.shaded) ?
+                    EoGetH(ewin) : ewin->shape_h + bt + bb;
+                cx = x + (w - cw) / 2 + EoGetX(EoGetDesk(ewin));
+                cy = y + (h - ch) / 2 + EoGetY(EoGetDesk(ewin));
+                break;
+            }
+        }
+    }
 
-   if (!eo)
-     {
-	eo = EobjWindowCreate(EOBJ_TYPE_MISC, 0, 0, 1, 1, 2, "Coord");
-	if (!eo)
-	   return;
-	coord_eo = eo;
-	eo->fade = eo->shadow = 1;
+    if (!eo)
+    {
+        eo = EobjWindowCreate(EOBJ_TYPE_MISC, 0, 0, 1, 1, 2, "Coord");
+        if (!eo)
+            return;
+        coord_eo = eo;
+        eo->fade = eo->shadow = 1;
 
-	/* Center text (override theme) */
-	TextclassSetJustification(tc, 512);
-     }
+        /* Center text (override theme) */
+        TextclassSetJustification(tc, 512);
+    }
 
 #define TEST_COORD_REPARENT_TO_FRAME 0
 #if TEST_COORD_REPARENT_TO_FRAME
-   cx -= x;
-   cy -= y;
+    cx -= x;
+    cy -= y;
 #endif
-   md = cw != EobjGetW(eo) || ch != EobjGetH(eo);	/* md is change size flag */
-   EobjMoveResize(eo, cx, cy, cw, ch);
+    md = cw != EobjGetW(eo) || ch != EobjGetH(eo);      /* md is change size flag */
+    EobjMoveResize(eo, cx, cy, cw, ch);
 
-   if (!eo->shown)
-     {
+    if (!eo->shown)
+    {
 #if TEST_COORD_REPARENT_TO_FRAME
-	EobjReparent(eo, EoObj(ewin), cx, cy);
+        EobjReparent(eo, EoObj(ewin), cx, cy);
 #endif
-	EobjMap(eo, 0);
-     }
+        EobjMap(eo, 0);
+    }
 
-   ITApply(EobjGetWin(eo), ic, NULL, STATE_NORMAL, 1, 0, tc, NULL, s, 1);
+    ITApply(EobjGetWin(eo), ic, NULL, STATE_NORMAL, 1, 0, tc, NULL, s, 1);
 
-   if (md)			/* Assuming that shape change only happens when size changes too */
-      EobjShapeUpdate(eo, 0);
+    if (md)                     /* Assuming that shape change only happens when size changes too */
+        EobjShapeUpdate(eo, 0);
 
-   EFlush();
+    EFlush();
 }
 
 void
 CoordsHide(void)
 {
-   EObj               *eo = coord_eo;
+    EObj           *eo = coord_eo;
 
-   if (eo && eo->shown)
-     {
-	EobjUnmap(eo);
+    if (eo && eo->shown)
+    {
+        EobjUnmap(eo);
 #if TEST_COORD_REPARENT_TO_FRAME
-	EobjReparent(eo, EoObj(DeskGet(0)), 0, 0);
+        EobjReparent(eo, EoObj(DeskGet(0)), 0, 0);
 #endif
-     }
+    }
 }
 
 void
-CoordsShow(EWin * ewin)
+CoordsShow(EWin *ewin)
 {
-   _CoordsShow(ewin, 0);
+    _CoordsShow(ewin, 0);
 }
 
-static Timer       *timer_show_op = NULL;
+static Timer   *timer_show_op = NULL;
 
 static int
 _CoordsHideTimeout(void *data __UNUSED__)
 {
-   CoordsHide();
+    CoordsHide();
 
-   timer_show_op = NULL;
-   return 0;
+    timer_show_op = NULL;
+    return 0;
 }
 
 void
-CoordsShowOpacity(EWin * ewin)
+CoordsShowOpacity(EWin *ewin)
 {
-   EwinShapeSet(ewin);
-   ewin->state.show_coords = 1;
-   _CoordsShow(ewin, 1);
-   TIMER_DEL(timer_show_op);
-   TIMER_ADD(timer_show_op, 1000, _CoordsHideTimeout, NULL);
+    EwinShapeSet(ewin);
+    ewin->state.show_coords = 1;
+    _CoordsShow(ewin, 1);
+    TIMER_DEL(timer_show_op);
+    TIMER_ADD(timer_show_op, 1000, _CoordsHideTimeout, NULL);
 }

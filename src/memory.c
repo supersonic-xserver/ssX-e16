@@ -29,117 +29,117 @@
 
 #include "util.h"
 
-void               *
+void           *
 Ememdup(const void *ptr, unsigned int len)
 {
-   void               *ret;
+    void           *ret;
 
-   if (len == 0)
-      return NULL;
+    if (len == 0)
+        return NULL;
 
-   ret = malloc(len);
-   if (!ret)
-      return 0;
-   memcpy(ret, ptr, len);
+    ret = malloc(len);
+    if (!ret)
+        return 0;
+    memcpy(ret, ptr, len);
 
-   return ret;
+    return ret;
 }
 
 __EXPORT__ void
 EfreeNull(void **p)
 {
-   Efree(*p);
-   *p = NULL;
+    Efree(*p);
+    *p = NULL;
 }
 
 void
 EfreeSet(void **p, void *s)
 {
-   Efree(*p);
-   *p = s;
+    Efree(*p);
+    *p = s;
 }
 
 void
 EfreeDup(char **p, const char *s)
 {
-   Efree(*p);
-   *p = Estrdup(s);
+    Efree(*p);
+    *p = Estrdup(s);
 }
 
-char               *
+char           *
 Estrdup(const char *s)
 {
-   if (!s)
-      return NULL;
+    if (!s)
+        return NULL;
 #if USE_LIBC_STRDUP
-   return strdup(s);
+    return strdup(s);
 #else
-   return Ememdup(s, strlen(s) + 1);
+    return Ememdup(s, strlen(s) + 1);
 #endif
 }
 
-char               *
+char           *
 Estrndup(const char *s, size_t n)
 {
-   if (!s)
-      return NULL;
+    if (!s)
+        return NULL;
 #if USE_LIBC_STRNDUP
-   return strndup(s, n);
+    return strndup(s, n);
 #else
-   char               *ss;
+    char           *ss;
 
-   ss = Ememdup(s, n + 1);
-   ss[n] = '\0';
-   return ss;
+    ss = Ememdup(s, n + 1);
+    ss[n] = '\0';
+    return ss;
 #endif
 }
 
-char               *
+char           *
 Estrdupcat2(char *ss, const char *s1, const char *s2)
 {
-   char               *s;
-   int                 len, l1, l2;
+    char           *s;
+    int             len, l1, l2;
 
-   if (!ss)
-      return Estrdup(s2);
+    if (!ss)
+        return Estrdup(s2);
 
-   len = strlen(ss);
-   l1 = (s1) ? strlen(s1) : 0;
-   l2 = (s2) ? strlen(s2) : 0;
+    len = strlen(ss);
+    l1 = (s1) ? strlen(s1) : 0;
+    l2 = (s2) ? strlen(s2) : 0;
 
-   s = EREALLOC(char, ss, len + l1 + l2 + 1);
-   if (!s)
-      return NULL;
-   if (s1 && l1)
-      memcpy(s + len, s1, l1);
-   if (s2 && l2)
-      memcpy(s + len + l1, s2, l2);
-   s[len + l1 + l2] = '\0';
+    s = EREALLOC(char, ss, len + l1 + l2 + 1);
+    if (!s)
+        return NULL;
+    if (s1 && l1)
+        memcpy(s + len, s1, l1);
+    if (s2 && l2)
+        memcpy(s + len + l1, s2, l2);
+    s[len + l1 + l2] = '\0';
 
-   return s;
+    return s;
 }
 
 void
 Esetenv(const char *name, const char *value)
 {
-   if (value)
-     {
+    if (value)
+    {
 #if HAVE_SETENV
-	setenv(name, value, 1);
+        setenv(name, value, 1);
 #else
-	char                buf[4096];
+        char            buf[4096];
 
-	Esnprintf(buf, sizeof(buf), "%s=%s", name, value);
-	putenv(Estrdup(buf));
+        Esnprintf(buf, sizeof(buf), "%s=%s", name, value);
+        putenv(Estrdup(buf));
 #endif
-     }
-   else
-     {
+    }
+    else
+    {
 #if HAVE_UNSETENV
-	unsetenv(name);
+        unsetenv(name);
 #else
-	if (getenv(name))
-	   putenv((char *)name);
+        if (getenv(name))
+            putenv((char *)name);
 #endif
-     }
+    }
 }

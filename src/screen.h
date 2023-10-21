@@ -24,21 +24,20 @@
 #ifndef _SCREEN_H_
 #define _SCREEN_H_
 
-void                ScreenInit(void);
-void                ScreenSplit(unsigned int nx, unsigned int ny);
-void                ScreenShowInfo(const char *prm);
-int                 ScreenGetCurrent(void);
-int                 ScreenGetHead(int xi, int yi);
-int                 ScreenGetGeometry(int x, int y, int *px, int *py,
-				      int *pw, int *ph);
-void                ScreenGetGeometryByHead(int head, int *px, int *py,
-					    int *pw, int *ph);
-int                 ScreenGetAvailableArea(int x, int y, int *px, int *py,
-					   int *pw, int *ph, int ignore_struts);
-int                 ScreenGetGeometryByPointer(int *px, int *py,
-					       int *pw, int *ph);
-int                 ScreenGetAvailableAreaByPointer(int *px, int *py,
-						    int *pw, int *ph,
-						    int ignore_struts);
+void            ScreenInit(void);
+void            ScreenSplit(unsigned int nx, unsigned int ny);
+void            ScreenShowInfo(const char *prm);
+int             ScreenGetCurrent(void);
+int             ScreenGetHead(int xi, int yi);
+int             ScreenGetGeometry(int x, int y, int *px, int *py,
+                                  int *pw, int *ph);
+void            ScreenGetGeometryByHead(int head, int *px, int *py,
+                                        int *pw, int *ph);
+int             ScreenGetAvailableArea(int x, int y, int *px, int *py,
+                                       int *pw, int *ph, int ignore_struts);
+int             ScreenGetGeometryByPointer(int *px, int *py, int *pw, int *ph);
+int             ScreenGetAvailableAreaByPointer(int *px, int *py,
+                                                int *pw, int *ph,
+                                                int ignore_struts);
 
-#endif /* _SCREEN_H_ */
+#endif                          /* _SCREEN_H_ */

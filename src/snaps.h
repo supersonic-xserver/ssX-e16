@@ -51,17 +51,17 @@
 
 #define SNAP_USE_ALL            (~1)
 
-void                SnapshotsSaveReal(void);
-void                SnapshotsLoad(void);
-void                SnapshotsSave(void);
-void                SnapshotsSpawn(void);
+void            SnapshotsSaveReal(void);
+void            SnapshotsLoad(void);
+void            SnapshotsSave(void);
+void            SnapshotsSpawn(void);
 
-void                SnapshotEwinApply(EWin * ewin);
-void                SnapshotEwinUnmatch(EWin * ewin);
-void                SnapshotEwinUpdate(const EWin * ewin, unsigned int flags);
-void                SnapshotEwinParse(EWin * ewin, const char *params);
+void            SnapshotEwinApply(EWin * ewin);
+void            SnapshotEwinUnmatch(EWin * ewin);
+void            SnapshotEwinUpdate(const EWin * ewin, unsigned int flags);
+void            SnapshotEwinParse(EWin * ewin, const char *params);
 
-extern const char   SnapshotsIpcText[];
-void                SnapshotsIpcFunc(const char *params);
+extern const char SnapshotsIpcText[];
+void            SnapshotsIpcFunc(const char *params);
 
-#endif /* _SNAPS_H_ */
+#endif                          /* _SNAPS_H_ */

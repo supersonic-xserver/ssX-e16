@@ -24,16 +24,16 @@
 #define _ECONFIG_H_
 
 typedef struct {
-   const char         *name;
-   void               *ptr;
-   char                type;
-   int                 dflt;
-   void                (*func)(void *item, const char *value);
+    const char     *name;
+    void           *ptr;
+    char            type;
+    int             dflt;
+    void            (*func)(void *item, const char *value);
 } CfgItem;
 
 typedef struct {
-   int                 num;
-   const CfgItem      *lst;
+    int             num;
+    const CfgItem  *lst;
 } CfgItemList;
 
 #define ITEM_TYPE_BOOL    0
@@ -53,11 +53,10 @@ typedef struct {
 /* Change to this? */
 #define CFR_ITEM_BOOL(conf, name, dflt)  { #name, &conf, ITEM_TYPE_BOOL, dflt, NULL }
 
-const CfgItem      *CfgItemFind(const CfgItem * pcl, int ncl, const char *name);
-void                CfgItemToString(const CfgItem * ci, char *buf, int len);
+const CfgItem  *CfgItemFind(const CfgItem * pcl, int ncl, const char *name);
+void            CfgItemToString(const CfgItem * ci, char *buf, int len);
 
-int                 CfgItemListNamedItemSet(const CfgItem * pcl, int ncl,
-					    const char *item,
-					    const char *value);
+int             CfgItemListNamedItemSet(const CfgItem * pcl, int ncl,
+                                        const char *item, const char *value);
 
-#endif /* _ECONFIG_H_ */
+#endif                          /* _ECONFIG_H_ */

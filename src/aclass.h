@@ -28,34 +28,32 @@
 #include "xtypes.h"
 
 /* aclass.c */
-int                 AclassConfigLoad(FILE * fs);
-ActionClass        *ActionclassCreate(const char *name, int global);
-Action             *ActionCreate(char event, char anymod, int mod, int anybut,
-				 int but, char anykey, const char *key,
-				 const char *tooltipstring);
-void                ActionAddTo(Action * aa, const char *params);
-void                ActionclassAddAction(ActionClass * ac, Action * aa);
-void                ActionclassSetTooltipString(ActionClass * ac,
-						const char *tts);
-ActionClass        *ActionclassFind(const char *name);
-ActionClass        *ActionclassAlloc(const char *name);
-void                ActionclassFree(ActionClass * ac);
-const char         *ActionclassGetName(ActionClass * ac);
-const char         *ActionclassGetTooltipString(ActionClass * ac);
-int                 ActionclassGetActionCount(ActionClass * ac);
-Action             *ActionclassGetAction(ActionClass * ac, int ix);
-int                 ActionclassEvent(ActionClass * ac, XEvent * ev,
-				     EWin * ewin);
-int                 ActionclassesGlobalEvent(XEvent * ev);
-void                ActionclassesReload(void);
+int             AclassConfigLoad(FILE * fs);
+ActionClass    *ActionclassCreate(const char *name, int global);
+Action         *ActionCreate(char event, char anymod, int mod, int anybut,
+                             int but, char anykey, const char *key,
+                             const char *tooltipstring);
+void            ActionAddTo(Action * aa, const char *params);
+void            ActionclassAddAction(ActionClass * ac, Action * aa);
+void            ActionclassSetTooltipString(ActionClass * ac, const char *tts);
+ActionClass    *ActionclassFind(const char *name);
+ActionClass    *ActionclassAlloc(const char *name);
+void            ActionclassFree(ActionClass * ac);
+const char     *ActionclassGetName(ActionClass * ac);
+const char     *ActionclassGetTooltipString(ActionClass * ac);
+int             ActionclassGetActionCount(ActionClass * ac);
+Action         *ActionclassGetAction(ActionClass * ac, int ix);
+int             ActionclassEvent(ActionClass * ac, XEvent * ev, EWin * ewin);
+int             ActionclassesGlobalEvent(XEvent * ev);
+void            ActionclassesReload(void);
 
-const char         *ActionGetTooltipString(Action * aa);
-int                 ActionGetAnybutton(Action * aa);
-int                 ActionGetEvent(Action * aa);
-int                 ActionGetButton(Action * aa);
-int                 ActionGetModifiers(Action * aa);
+const char     *ActionGetTooltipString(Action * aa);
+int             ActionGetAnybutton(Action * aa);
+int             ActionGetEvent(Action * aa);
+int             ActionGetButton(Action * aa);
+int             ActionGetModifiers(Action * aa);
 
-void                GrabButtonGrabs(Win win);
-void                UnGrabButtonGrabs(Win win);
+void            GrabButtonGrabs(Win win);
+void            UnGrabButtonGrabs(Win win);
 
-#endif /* _ACLASS_H */
+#endif                          /* _ACLASS_H */

@@ -32,82 +32,82 @@
 int
 exists(char *s)
 {
-   struct stat         st;
+    struct stat     st;
 
-   if ((!s) || (!*s))
-      return (0);
-   if (stat(s, &st) < 0)
-      return (0);
-   return (1);
+    if ((!s) || (!*s))
+        return (0);
+    if (stat(s, &st) < 0)
+        return (0);
+    return (1);
 }
 
 void
 freestrlist(char **l, int num)
 {
-   if (!l)
-      return;
-   while (num--)
-      Efree(l[num]);
-   Efree(l);
+    if (!l)
+        return;
+    while (num--)
+        Efree(l[num]);
+    Efree(l);
 }
 
 void
 word(char *s, int num, char *wd)
 {
-   int                 cnt, i;
-   char               *start, *finish, *ss;
+    int             cnt, i;
+    char           *start, *finish, *ss;
 
-   if (!s)
-      return;
-   if (!wd)
-      return;
-   if (num <= 0)
-     {
-	*wd = 0;
-	return;
-     }
-   cnt = 0;
-   i = 0;
-   start = NULL;
-   finish = NULL;
-   ss = NULL;
+    if (!s)
+        return;
+    if (!wd)
+        return;
+    if (num <= 0)
+    {
+        *wd = 0;
+        return;
+    }
+    cnt = 0;
+    i = 0;
+    start = NULL;
+    finish = NULL;
+    ss = NULL;
 
-   while (s[i])
-     {
-	if ((cnt == num) && ((s[i] == ' ') || (s[i] == '\t')))
-	  {
-	     finish = &s[i];
-	     break;
-	  }
-	if ((s[i] != ' ') && (s[i] != '\t'))
-	  {
-	     if (i == 0)
-	       {
-		  cnt++;
-		  if (cnt == num)
-		     start = &s[i];
-	       }
-	     else if ((s[i - 1] == ' ') || (s[i - 1] == '\t'))
-	       {
-		  cnt++;
-		  if (cnt == num)
-		     start = &s[i];
-	       }
-	  }
-	i++;
-     }
-   if (cnt == num)
-     {
-	if ((start) && (finish))
-	  {
-	     for (ss = start; ss < finish; ss++)
-		*wd++ = *ss;
-	  }
-	else if (start)
-	  {
-	     for (ss = start; *ss != 0; ss++)
-		*wd++ = *ss;
-	  }
-	*wd = 0;
-     }
+    while (s[i])
+    {
+        if ((cnt == num) && ((s[i] == ' ') || (s[i] == '\t')))
+        {
+            finish = &s[i];
+            break;
+        }
+        if ((s[i] != ' ') && (s[i] != '\t'))
+        {
+            if (i == 0)
+            {
+                cnt++;
+                if (cnt == num)
+                    start = &s[i];
+            }
+            else if ((s[i - 1] == ' ') || (s[i - 1] == '\t'))
+            {
+                cnt++;
+                if (cnt == num)
+                    start = &s[i];
+            }
+        }
+        i++;
+    }
+    if (cnt == num)
+    {
+        if ((start) && (finish))
+        {
+            for (ss = start; ss < finish; ss++)
+                *wd++ = *ss;
+        }
+        else if (start)
+        {
+            for (ss = start; *ss != 0; ss++)
+                *wd++ = *ss;
+        }
+        *wd = 0;
+    }
 }

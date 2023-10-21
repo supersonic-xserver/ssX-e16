@@ -47,48 +47,48 @@
 #include "version.h"
 #include "xwin.h"
 
-const char          e_wm_name[] = "e16";
-const char          e_wm_version[] = E16_VERSION;
+const char      e_wm_name[] = "e16";
+const char      e_wm_version[] = E16_VERSION;
 
-__EXPORT__ EConf    Conf;
-__EXPORT__ EMode    Mode;
+__EXPORT__ EConf Conf;
+__EXPORT__ EMode Mode;
 
-static int          EoptGet(int argc, char **argv);
-static void         EoptHelp(void);
-static void         ECheckEprog(const char *name);
-static void         EDirUserConfSet(const char *dir);
-static void         EConfNameSet(const char *dir);
-static void         EDirUserCacheSet(const char *dir);
-static void         EDirsSetup(void);
-static void         ESavePrefixSetup(void);
-static void         RunInitPrograms(void);
+static int      EoptGet(int argc, char **argv);
+static void     EoptHelp(void);
+static void     ECheckEprog(const char *name);
+static void     EDirUserConfSet(const char *dir);
+static void     EConfNameSet(const char *dir);
+static void     EDirUserCacheSet(const char *dir);
+static void     EDirsSetup(void);
+static void     ESavePrefixSetup(void);
+static void     RunInitPrograms(void);
 
-static int          eoptind = 0;
-const char         *eoptarg = NULL;
+static int      eoptind = 0;
+const char     *eoptarg = NULL;
 
 typedef struct {
-   char                sopt;
-   char                arg;
-   const char         *lopt;
-   const char         *oarg;
-   const char         *desc;
+    char            sopt;
+    char            arg;
+    const char     *lopt;
+    const char     *oarg;
+    const char     *desc;
 } EOpt;
 
-static const EOpt   Eopts[] = {
-   {'d', 1, "display", "display", "Set display"},
-   {'f', 0, "fast", NULL, "Fast startup"},
-   {'h', 0, "help", NULL, "Show help"},
-   {'m', 1, NULL, NULL, NULL},
-   {'p', 1, "config-prefix", "prefix", "Configuration file name prefix"},
-   {'P', 1, "econfdir", "path", "Set user configuration directory"},
-   {'Q', 1, "ecachedir", "path", "Set user cache directory"},
-   {'s', 1, "single", "screen", "Run only on given screen"},
-   {'S', 1, "sm-client-id", "session id", "Set session manager ID"},
-   {'t', 1, "theme", "name", "Select theme"},
-   {'v', 0, "verbose", NULL, "Show additional info"},
-   {'V', 0, "version", NULL, "Show version"},
-   {'w', 1, "window", "WxH", "Run in window"},
-   {'X', 1, NULL, NULL, NULL},
+static const EOpt Eopts[] = {
+    { 'd', 1, "display", "display", "Set display" },
+    { 'f', 0, "fast", NULL, "Fast startup" },
+    { 'h', 0, "help", NULL, "Show help" },
+    { 'm', 1, NULL, NULL, NULL },
+    { 'p', 1, "config-prefix", "prefix", "Configuration file name prefix" },
+    { 'P', 1, "econfdir", "path", "Set user configuration directory" },
+    { 'Q', 1, "ecachedir", "path", "Set user cache directory" },
+    { 's', 1, "single", "screen", "Run only on given screen" },
+    { 'S', 1, "sm-client-id", "session id", "Set session manager ID" },
+    { 't', 1, "theme", "name", "Select theme" },
+    { 'v', 0, "verbose", NULL, "Show additional info" },
+    { 'V', 0, "version", NULL, "Show version" },
+    { 'w', 1, "window", "WxH", "Run in window" },
+    { 'X', 1, NULL, NULL, NULL },
 };
 
 #define Strtoi(s, base) ((s) ? strtol(s, NULL, base) : 0)
@@ -96,264 +96,264 @@ static const EOpt   Eopts[] = {
 int
 main(int argc, char **argv)
 {
-   int                 ch, i, loop;
-   struct utsname      ubuf;
-   const char         *str, *dstr;
-   char               *theme;
+    int             ch, i, loop;
+    struct utsname  ubuf;
+    const char     *str, *dstr;
+    char           *theme;
 
-   /* This function runs all the setup for startup, and then 
-    * proceeds into the primary event loop at the end.
-    */
+    /* This function runs all the setup for startup, and then 
+     * proceeds into the primary event loop at the end.
+     */
 
-   /* Init state variable struct */
-   memset(&Mode, 0, sizeof(EMode));
+    /* Init state variable struct */
+    memset(&Mode, 0, sizeof(EMode));
 
-   Mode.wm.master = 1;
-   Mode.wm.pid = getpid();
-   Mode.wm.exec_name = argv[0];
-   Mode.wm.startup = 1;
+    Mode.wm.master = 1;
+    Mode.wm.pid = getpid();
+    Mode.wm.exec_name = argv[0];
+    Mode.wm.startup = 1;
 
-   Mode.mode = MODE_NONE;
+    Mode.mode = MODE_NONE;
 
-   EXInit();
-   Dpy.screen = -1;
+    EXInit();
+    Dpy.screen = -1;
 
-   str = getenv("EDEBUG");
-   if (str)
-      EDebugInit(str);
-   str = getenv("EDEBUG_COREDUMP");
-   if (str)
-      Mode.wm.coredump = 1;
-   str = getenv("EDEBUG_EXIT");
-   if (str)
-      Mode.debug_exit = atoi(str);
+    str = getenv("EDEBUG");
+    if (str)
+        EDebugInit(str);
+    str = getenv("EDEBUG_COREDUMP");
+    if (str)
+        Mode.wm.coredump = 1;
+    str = getenv("EDEBUG_EXIT");
+    if (str)
+        Mode.debug_exit = atoi(str);
 
-   str = getenv("ECONFNAME");
-   if (str)
-      EConfNameSet(str);
-   str = getenv("ECONFDIR");
-   if (str)
-      EDirUserConfSet(str);
-   str = getenv("ECACHEDIR");
-   if (str)
-      EDirUserCacheSet(str);
+    str = getenv("ECONFNAME");
+    if (str)
+        EConfNameSet(str);
+    str = getenv("ECONFDIR");
+    if (str)
+        EDirUserConfSet(str);
+    str = getenv("ECACHEDIR");
+    if (str)
+        EDirUserCacheSet(str);
 
-   srand((unsigned int)time(NULL));
+    srand((unsigned int)time(NULL));
 
-   if (!uname(&ubuf))
-      Mode.wm.machine_name = Estrdup(ubuf.nodename);
-   if (!Mode.wm.machine_name)
-      Mode.wm.machine_name = Estrdup("localhost");
+    if (!uname(&ubuf))
+        Mode.wm.machine_name = Estrdup(ubuf.nodename);
+    if (!Mode.wm.machine_name)
+        Mode.wm.machine_name = Estrdup("localhost");
 
-   /* Now we're going to interpret any of the commandline parameters
-    * that are passed to it -- Well, at least the ones that we
-    * understand.
-    */
+    /* Now we're going to interpret any of the commandline parameters
+     * that are passed to it -- Well, at least the ones that we
+     * understand.
+     */
 
-   theme = NULL;
-   dstr = NULL;
+    theme = NULL;
+    dstr = NULL;
 
-   for (loop = 1; loop;)
-     {
-	ch = EoptGet(argc, argv);
-	if (ch <= 0)
-	   break;
+    for (loop = 1; loop;)
+    {
+        ch = EoptGet(argc, argv);
+        if (ch <= 0)
+            break;
 #if 0
-	Eprintf("Opt: %c: %d - %s\n", ch, eoptind, eoptarg);
+        Eprintf("Opt: %c: %d - %s\n", ch, eoptind, eoptarg);
 #endif
-	switch (ch)
-	  {
-	  default:
-	  case '?':
-	     printf("e16: Ignoring: ");
-	     for (i = eoptind; i < argc; i++)
-		printf("%s ", argv[i]);
-	     printf("\n");
-	     loop = 0;
-	     break;
-	  case 'h':
-	     EoptHelp();
-	     exit(0);
-	     break;
-	  case 'd':
-	     dstr = eoptarg;
-	     break;
-	  case 'f':
-	     Mode.wm.restart = 1;
-	     break;
-	  case 'p':
-	     EConfNameSet(eoptarg);
-	     break;
-	  case 'P':
-	     EDirUserConfSet(eoptarg);
-	     break;
-	  case 'Q':
-	     EDirUserCacheSet(eoptarg);
-	     break;
-	  case 's':
-	     Mode.wm.single = 1;
-	     Dpy.screen = Strtoi(eoptarg, 10);
-	     break;
-	  case 'S':
-	     SetSMID(eoptarg);
-	     break;
-	  case 't':
-	     theme = Estrdup(eoptarg);
-	     break;
-	  case 'V':
-	     printf("%s %s\n", e_wm_name, e_wm_version);
-	     exit(0);
-	     break;
-	  case 'v':
-	     EDebugSet(EDBUG_TYPE_VERBOSE, 1);
-	     break;
-	  case 'w':
-	     sscanf(eoptarg, "%dx%d", &Mode.wm.win_w, &Mode.wm.win_h);
-	     Mode.wm.window = 1;
-	     Mode.wm.single = 1;
-	     Mode.wm.master = 0;
-	     break;
+        switch (ch)
+        {
+        default:
+        case '?':
+            printf("e16: Ignoring: ");
+            for (i = eoptind; i < argc; i++)
+                printf("%s ", argv[i]);
+            printf("\n");
+            loop = 0;
+            break;
+        case 'h':
+            EoptHelp();
+            exit(0);
+            break;
+        case 'd':
+            dstr = eoptarg;
+            break;
+        case 'f':
+            Mode.wm.restart = 1;
+            break;
+        case 'p':
+            EConfNameSet(eoptarg);
+            break;
+        case 'P':
+            EDirUserConfSet(eoptarg);
+            break;
+        case 'Q':
+            EDirUserCacheSet(eoptarg);
+            break;
+        case 's':
+            Mode.wm.single = 1;
+            Dpy.screen = Strtoi(eoptarg, 10);
+            break;
+        case 'S':
+            SetSMID(eoptarg);
+            break;
+        case 't':
+            theme = Estrdup(eoptarg);
+            break;
+        case 'V':
+            printf("%s %s\n", e_wm_name, e_wm_version);
+            exit(0);
+            break;
+        case 'v':
+            EDebugSet(EDBUG_TYPE_VERBOSE, 1);
+            break;
+        case 'w':
+            sscanf(eoptarg, "%dx%d", &Mode.wm.win_w, &Mode.wm.win_h);
+            Mode.wm.window = 1;
+            Mode.wm.single = 1;
+            Mode.wm.master = 0;
+            break;
 #ifdef USE_EXT_INIT_WIN
-	  case 'X':
-	     ExtInitWinSet(Strtoi(eoptarg, 0));
-	     Mode.wm.restart = 1;
-	     break;
+        case 'X':
+            ExtInitWinSet(Strtoi(eoptarg, 0));
+            Mode.wm.restart = 1;
+            break;
 #endif
-	  case 'm':
-	     Mode.wm.master = 0;
-	     Mode.wm.master_screen = Strtoi(eoptarg, 10);
-	     break;
-	  }
-     }
+        case 'm':
+            Mode.wm.master = 0;
+            Mode.wm.master_screen = Strtoi(eoptarg, 10);
+            break;
+        }
+    }
 
-   SignalsSetup();		/* Install signal handlers */
+    SignalsSetup();             /* Install signal handlers */
 
-   EDirsSetup();
-   ECheckEprog("epp");
-   ECheckEprog("eesh");
+    EDirsSetup();
+    ECheckEprog("epp");
+    ECheckEprog("eesh");
 
-   SetupX(dstr);		/* This is where the we fork per screen */
-   /* X is now running, and we have forked per screen */
+    SetupX(dstr);               /* This is where the we fork per screen */
+    /* X is now running, and we have forked per screen */
 
-   ESavePrefixSetup();
+    ESavePrefixSetup();
 
-   /* So far nothing should rely on a selected settings or theme. */
-   ConfigurationLoad();		/* Load settings */
+    /* So far nothing should rely on a selected settings or theme. */
+    ConfigurationLoad();        /* Load settings */
 
-   /* Initialise internationalisation */
-   LangInit();
+    /* Initialise internationalisation */
+    LangInit();
 
-   /* The theme path must now be available for config file loading. */
-   ThemeFind(theme);
-   Efree(theme);
+    /* The theme path must now be available for config file loading. */
+    ThemeFind(theme);
+    Efree(theme);
 
-   /* Set the Environment variables */
-   Esetenv("EVERSION", e_wm_version);
-   Esetenv("EROOT", EDirRoot());
-   Esetenv("EBIN", EDirBin());
-   Esetenv("ECONFDIR", EDirUserConf());
-   Esetenv("ECACHEDIR", EDirUserCache());
-   Esetenv("ETHEME", Mode.theme.path);
+    /* Set the Environment variables */
+    Esetenv("EVERSION", e_wm_version);
+    Esetenv("EROOT", EDirRoot());
+    Esetenv("EBIN", EDirBin());
+    Esetenv("ECONFDIR", EDirUserConf());
+    Esetenv("ECACHEDIR", EDirUserCache());
+    Esetenv("ETHEME", Mode.theme.path);
 
-   /* Move elsewhere? */
-   EImageInit();
-   HintsInit();
-   CommsInit();
-   SessionInit();
-   SnapshotsLoad();
+    /* Move elsewhere? */
+    EImageInit();
+    HintsInit();
+    CommsInit();
+    SessionInit();
+    SnapshotsLoad();
 
 #if USE_DBUS
-   DbusInit();
+    DbusInit();
 #endif
 
-   if (Mode.wm.window)
-      EMapWindow(VROOT);
+    if (Mode.wm.window)
+        EMapWindow(VROOT);
 
-   ModulesSignal(ESIGNAL_INIT, NULL);
+    ModulesSignal(ESIGNAL_INIT, NULL);
 
-   /* Load the theme */
-   ThemeConfigLoad();
+    /* Load the theme */
+    ThemeConfigLoad();
 
-   if (Mode.debug_exit)
-      return 0;
+    if (Mode.debug_exit)
+        return 0;
 
-   /* Do initial configuration */
-   ModulesSignal(ESIGNAL_CONFIGURE, NULL);
+    /* Do initial configuration */
+    ModulesSignal(ESIGNAL_CONFIGURE, NULL);
 
-   /* Set root window cursor */
-   ECsrApply(ECSR_ROOT, WinGetXwin(VROOT));
+    /* Set root window cursor */
+    ECsrApply(ECSR_ROOT, WinGetXwin(VROOT));
 
 #ifdef USE_EXT_INIT_WIN
-   /* Kill the E process owning the "init window" */
-   ExtInitWinKill();
+    /* Kill the E process owning the "init window" */
+    ExtInitWinKill();
 #endif
 
-   /* let's make sure we set this up and go to our desk anyways */
-   DeskGoto(DesksGetCurrent());
-   ESync(ESYNC_MAIN);
+    /* let's make sure we set this up and go to our desk anyways */
+    DeskGoto(DesksGetCurrent());
+    ESync(ESYNC_MAIN);
 
 #ifdef SIGCONT
-   for (i = 0; i < Mode.wm.child_count; i++)
-      kill(Mode.wm.children[i], SIGCONT);
+    for (i = 0; i < Mode.wm.child_count; i++)
+        kill(Mode.wm.children[i], SIGCONT);
 #endif
 
-   ModulesSignal(ESIGNAL_START, NULL);
+    ModulesSignal(ESIGNAL_START, NULL);
 #if ENABLE_DIALOGS
-   DialogsInit();
+    DialogsInit();
 #endif
-   EwinsManage();
+    EwinsManage();
 
-   RunInitPrograms();
-   SnapshotsSpawn();
+    RunInitPrograms();
+    SnapshotsSpawn();
 
-   if (!Mode.wm.restart)
-      StartupWindowsOpen();
+    if (!Mode.wm.restart)
+        StartupWindowsOpen();
 
-   Conf.startup.firsttime = 0;
-   Mode.wm.save_ok = Conf.autosave;
-   Mode.wm.startup = 0;
-   autosave();
+    Conf.startup.firsttime = 0;
+    Mode.wm.save_ok = Conf.autosave;
+    Mode.wm.startup = 0;
+    autosave();
 
-   /* The primary event loop */
-   EventsMain();
+    /* The primary event loop */
+    EventsMain();
 
-   SessionExit(EEXIT_QUIT, NULL);
+    SessionExit(EEXIT_QUIT, NULL);
 
-   return 0;
+    return 0;
 }
 
 void
 EExit(int exitcode)
 {
-   int                 i;
+    int             i;
 
-   if (EDebug(EDBUG_TYPE_SESSION))
-      Eprintf("%s: %d\n", __func__, exitcode);
+    if (EDebug(EDBUG_TYPE_SESSION))
+        Eprintf("%s: %d\n", __func__, exitcode);
 
-   if (disp)
-     {
-	EUngrabServer();
-	GrabPointerRelease();
-	XAllowEvents(disp, AsyncBoth, CurrentTime);
+    if (disp)
+    {
+        EUngrabServer();
+        GrabPointerRelease();
+        XAllowEvents(disp, AsyncBoth, CurrentTime);
 
-	/* XSetInputFocus(disp, NoXID, RevertToParent, CurrentTime); */
-	/* I think this is a better way to release the grabs: (felix) */
-	XSetInputFocus(disp, PointerRoot, RevertToPointerRoot, CurrentTime);
-	ESelectInput(VROOT, 0);
-	EDisplayClose();
-     }
+        /* XSetInputFocus(disp, NoXID, RevertToParent, CurrentTime); */
+        /* I think this is a better way to release the grabs: (felix) */
+        XSetInputFocus(disp, PointerRoot, RevertToPointerRoot, CurrentTime);
+        ESelectInput(VROOT, 0);
+        EDisplayClose();
+    }
 
-   if (Mode.wm.master)
-     {
-	for (i = 0; i < Mode.wm.child_count; i++)
-	   kill(Mode.wm.children[i], SIGINT);
-     }
-   else
-     {
-	exitcode = 0;
-     }
+    if (Mode.wm.master)
+    {
+        for (i = 0; i < Mode.wm.child_count; i++)
+            kill(Mode.wm.children[i], SIGINT);
+    }
+    else
+    {
+        exitcode = 0;
+    }
 
-   exit(exitcode);
+    exit(exitcode);
 }
 
 /*
@@ -363,219 +363,219 @@ EExit(int exitcode)
 static int
 EoptGet(int argc, char **argv)
 {
-   const char         *s;
-   unsigned int        i, len;
-   int                 lopt;
-   const EOpt         *eopt;
+    const char     *s;
+    unsigned int    i, len;
+    int             lopt;
+    const EOpt     *eopt;
 
-   eoptind++;
-   if (eoptind >= argc)
-      return 0;
+    eoptind++;
+    if (eoptind >= argc)
+        return 0;
 
-   s = argv[eoptind];
-   if (*s++ != '-')
-      return 0;
+    s = argv[eoptind];
+    if (*s++ != '-')
+        return 0;
 
-   lopt = 0;
-   if (*s == '-')
-     {
-	lopt = 1;
-	s++;
-     }
+    lopt = 0;
+    if (*s == '-')
+    {
+        lopt = 1;
+        s++;
+    }
 
-   eoptarg = NULL;
-   eopt = NULL;
-   for (i = 0; i < E_ARRAY_SIZE(Eopts); i++)
-     {
-	eopt = &Eopts[i];
+    eoptarg = NULL;
+    eopt = NULL;
+    for (i = 0; i < E_ARRAY_SIZE(Eopts); i++)
+    {
+        eopt = &Eopts[i];
 
-	/* Short option */
-	if (!lopt)
-	  {
-	     if (!eopt->sopt || eopt->sopt != s[0])
-		continue;
-	     if (eopt->arg)
-	       {
-		  if (s[1])
-		    {
-		       eoptarg = s + 1;
-		       goto found;
-		    }
-		  goto found;
-	       }
-	     if (s[1])
-		break;
-	     goto found;
-	  }
+        /* Short option */
+        if (!lopt)
+        {
+            if (!eopt->sopt || eopt->sopt != s[0])
+                continue;
+            if (eopt->arg)
+            {
+                if (s[1])
+                {
+                    eoptarg = s + 1;
+                    goto found;
+                }
+                goto found;
+            }
+            if (s[1])
+                break;
+            goto found;
+        }
 
-	if (!eopt->lopt)
-	   continue;
+        if (!eopt->lopt)
+            continue;
 
-	/* Long option */
-	len = strlen(eopt->lopt);
-	if (strncmp(eopt->lopt, s, len))
-	   continue;
-	if (eopt->arg)
-	  {
-	     if (s[len] == '\0')
-		goto found;
-	     if (s[len] != '=')
-		break;
-	     eoptarg = s + len + 1;
-	  }
-	goto found;
-     }
-   return '?';
+        /* Long option */
+        len = strlen(eopt->lopt);
+        if (strncmp(eopt->lopt, s, len))
+            continue;
+        if (eopt->arg)
+        {
+            if (s[len] == '\0')
+                goto found;
+            if (s[len] != '=')
+                break;
+            eoptarg = s + len + 1;
+        }
+        goto found;
+    }
+    return '?';
 
- found:
-   if (!eopt->arg || eoptarg)
-      return eopt->sopt;
+  found:
+    if (!eopt->arg || eoptarg)
+        return eopt->sopt;
 
-   if (eoptind >= argc - 1)
-      return '?';		/* Missing param */
+    if (eoptind >= argc - 1)
+        return '?';             /* Missing param */
 
-   eoptind++;
-   eoptarg = argv[eoptind];
-   return eopt->sopt;
+    eoptind++;
+    eoptarg = argv[eoptind];
+    return eopt->sopt;
 }
 
 static void
 EoptHelp(void)
 {
-   unsigned int        i;
-   const EOpt         *eopt;
-   char                buf[256];
+    unsigned int    i;
+    const EOpt     *eopt;
+    char            buf[256];
 
-   printf("e16 options:\n");
-   for (i = 0; i < E_ARRAY_SIZE(Eopts); i++)
-     {
-	eopt = &Eopts[i];
-	if (!eopt->desc)
-	   continue;
-	if (eopt->oarg)
-	   Esnprintf(buf, sizeof(buf), "--%s <%s>", eopt->lopt, eopt->oarg);
-	else
-	   Esnprintf(buf, sizeof(buf), "--%s", eopt->lopt);
-	printf("  -%c  %-30s\t%s\n", eopt->sopt, buf, eopt->desc);
-     }
+    printf("e16 options:\n");
+    for (i = 0; i < E_ARRAY_SIZE(Eopts); i++)
+    {
+        eopt = &Eopts[i];
+        if (!eopt->desc)
+            continue;
+        if (eopt->oarg)
+            Esnprintf(buf, sizeof(buf), "--%s <%s>", eopt->lopt, eopt->oarg);
+        else
+            Esnprintf(buf, sizeof(buf), "--%s", eopt->lopt);
+        printf("  -%c  %-30s\t%s\n", eopt->sopt, buf, eopt->desc);
+    }
 }
 
 static void
 RunMenuGen(void)
 {
-   Espawn("%s/scripts/e_gen_menu", EDirRoot());
+    Espawn("%s/scripts/e_gen_menu", EDirRoot());
 }
 
 static void
 RunInitPrograms(void)
 {
-   if (Mode.wm.session_start)
-      SessionHelper(ESESSION_INIT);
+    if (Mode.wm.session_start)
+        SessionHelper(ESESSION_INIT);
 
-   SessionHelper(ESESSION_START);
+    SessionHelper(ESESSION_START);
 
-   if (Mode.firsttime && Mode.wm.master)
-     {
-	RunMenuGen();
-     }
+    if (Mode.firsttime && Mode.wm.master)
+    {
+        RunMenuGen();
+    }
 }
 
 static void
 EConfNameSet(const char *name)
 {
-   EFREE_DUP(Mode.conf.name, name);
-   Esetenv("ECONFNAME", Mode.conf.name);
+    EFREE_DUP(Mode.conf.name, name);
+    Esetenv("ECONFNAME", Mode.conf.name);
 }
 
 static void
 EDirUserConfSet(const char *dir)
 {
-   EFREE_DUP(Mode.conf.dir, dir);
+    EFREE_DUP(Mode.conf.dir, dir);
 }
 
 static void
 EDirUserCacheSet(const char *dir)
 {
-   EFREE_DUP(Mode.conf.cache_dir, dir);
+    EFREE_DUP(Mode.conf.cache_dir, dir);
 }
 
 void
 Etmp(char *s)
 {
-   static unsigned int n_calls = 0;
+    static unsigned int n_calls = 0;
 
-   Esnprintf(s, 1024, "%s/TMP_%d_%d", EDirUserConf(), getpid(), n_calls++);
+    Esnprintf(s, 1024, "%s/TMP_%d_%d", EDirUserConf(), getpid(), n_calls++);
 }
 
 static void
 EDirCheck(const char *dir)
 {
-   if (file_test(dir, EFILE_DIR | EPERM_RWX))
-      return;
+    if (file_test(dir, EFILE_DIR | EPERM_RWX))
+        return;
 
-   Alert(_("%s must be a directory in which you have\n"
-	   "read, write, and execute permission.\n"), dir);
-   EExit(1);
+    Alert(_("%s must be a directory in which you have\n"
+            "read, write, and execute permission.\n"), dir);
+    EExit(1);
 }
 
 static void
 EDirMake(const char *base, const char *name)
 {
-   char                s[1024];
+    char            s[1024];
 
-   Esnprintf(s, sizeof(s), "%s/%s", base, name);
-   if (!exists(s))
-      E_md(s);
-   EDirCheck(s);
+    Esnprintf(s, sizeof(s), "%s/%s", base, name);
+    if (!exists(s))
+        E_md(s);
+    EDirCheck(s);
 }
 
 static void
 EDirsSetup(void)
 {
-   const char         *home;
-   char                s[1024], *cfgdir;
+    const char     *home;
+    char            s[1024], *cfgdir;
 
-   home = userhome();
-   EDirCheck(home);
+    home = userhome();
+    EDirCheck(home);
 
-   /* Set user config dir if not already set */
-   cfgdir = EDirUserConf();
-   if (!cfgdir)
-     {
-	Esnprintf(s, sizeof(s), "%s/.e16", home);
-	EDirUserConfSet(s);
-	cfgdir = EDirUserConf();
-     }
+    /* Set user config dir if not already set */
+    cfgdir = EDirUserConf();
+    if (!cfgdir)
+    {
+        Esnprintf(s, sizeof(s), "%s/.e16", home);
+        EDirUserConfSet(s);
+        cfgdir = EDirUserConf();
+    }
 
-   if (exists(cfgdir))
-     {
-	if (!isdir(cfgdir))
-	  {
-	     Esnprintf(s, sizeof(s), "%s.old", cfgdir);
-	     E_mv(cfgdir, s);
-	     E_md(cfgdir);
-	  }
-	else
-	   EDirCheck(cfgdir);
-     }
-   else
-      E_md(cfgdir);
+    if (exists(cfgdir))
+    {
+        if (!isdir(cfgdir))
+        {
+            Esnprintf(s, sizeof(s), "%s.old", cfgdir);
+            E_mv(cfgdir, s);
+            E_md(cfgdir);
+        }
+        else
+            EDirCheck(cfgdir);
+    }
+    else
+        E_md(cfgdir);
 
-   if (!Mode.conf.cache_dir)
-      Mode.conf.cache_dir = cfgdir;	/* Beware if ever freed */
+    if (!Mode.conf.cache_dir)
+        Mode.conf.cache_dir = cfgdir;   /* Beware if ever freed */
 
-   Esnprintf(s, sizeof(s), "%s/menus", EDirUserConf());
-   Mode.firsttime = !exists(s);
+    Esnprintf(s, sizeof(s), "%s/menus", EDirUserConf());
+    Mode.firsttime = !exists(s);
 
-   EDirMake(EDirUserConf(), "themes");
-   EDirMake(EDirUserConf(), "backgrounds");
-   EDirMake(EDirUserConf(), "menus");
+    EDirMake(EDirUserConf(), "themes");
+    EDirMake(EDirUserConf(), "backgrounds");
+    EDirMake(EDirUserConf(), "menus");
 
-   EDirMake(EDirUserCache(), "cached");
-   EDirMake(EDirUserCache(), "cached/cfg");
-   EDirMake(EDirUserCache(), "cached/bgsel");
-   EDirMake(EDirUserCache(), "cached/img");
-   EDirMake(EDirUserCache(), "cached/pager");
+    EDirMake(EDirUserCache(), "cached");
+    EDirMake(EDirUserCache(), "cached/cfg");
+    EDirMake(EDirUserCache(), "cached/bgsel");
+    EDirMake(EDirUserCache(), "cached/img");
+    EDirMake(EDirUserCache(), "cached/pager");
 }
 
 /*
@@ -587,52 +587,53 @@ static void
 ESavePrefixSetup(void)
 {
 #define ECFG_DEFAULT "e_config"
-   char               *s, buf[1024];
+    char           *s, buf[1024];
 
-   if (Mode.conf.name)
-      Esnprintf(buf, sizeof(buf), "%s/%s-%d",
-		EDirUserConf(), Mode.conf.name, Dpy.screen);
-   else if (Mode.wm.window)
-      Esnprintf(buf, sizeof(buf), "%s/%s-window", EDirUserConf(), ECFG_DEFAULT);
-   else
-      Esnprintf(buf, sizeof(buf), "%s/%s-%s",
-		EDirUserConf(), ECFG_DEFAULT, Dpy.name);
+    if (Mode.conf.name)
+        Esnprintf(buf, sizeof(buf), "%s/%s-%d",
+                  EDirUserConf(), Mode.conf.name, Dpy.screen);
+    else if (Mode.wm.window)
+        Esnprintf(buf, sizeof(buf), "%s/%s-window", EDirUserConf(),
+                  ECFG_DEFAULT);
+    else
+        Esnprintf(buf, sizeof(buf), "%s/%s-%s",
+                  EDirUserConf(), ECFG_DEFAULT, Dpy.name);
 
-   Mode.conf.prefix = Estrdup(buf);
+    Mode.conf.prefix = Estrdup(buf);
 
-   for (s = Mode.conf.prefix; (s = strchr(s, ':')); *s = '-')
-      ;
+    for (s = Mode.conf.prefix; (s = strchr(s, ':')); *s = '-')
+        ;
 }
 
 static void
 ECheckEprog(const char *name)
 {
-   char                s[1024];
+    char            s[1024];
 
-   Esnprintf(s, sizeof(s), "%s/%s", EDirBin(), name);
+    Esnprintf(s, sizeof(s), "%s/%s", EDirBin(), name);
 
-   if (!exists(s))
-     {
-	Alert(_("!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n" "\n"
-		"Enlightenment's utility executable cannot be found at:\n"
-		"\n" "%s\n"
-		"This is a fatal error and Enlightenment will cease to run.\n"
-		"Please rectify this situation and ensure it is installed\n"
-		"correctly.\n" "\n"
-		"The reason this could be missing is due to badly created\n"
-		"packages, someone manually deleting that program or perhaps\n"
-		"an error in installing Enlightenment.\n"), s);
-	EExit(1);
-     }
+    if (!exists(s))
+    {
+        Alert(_("!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n" "\n"
+                "Enlightenment's utility executable cannot be found at:\n"
+                "\n" "%s\n"
+                "This is a fatal error and Enlightenment will cease to run.\n"
+                "Please rectify this situation and ensure it is installed\n"
+                "correctly.\n" "\n"
+                "The reason this could be missing is due to badly created\n"
+                "packages, someone manually deleting that program or perhaps\n"
+                "an error in installing Enlightenment.\n"), s);
+        EExit(1);
+    }
 
-   if (!canexec(s))
-     {
-	Alert(_("!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n" "\n"
-		"Enlightenment's utility executable is not able to be executed:\n"
-		"\n" "%s\n"
-		"This is a fatal error and Enlightenment will cease to run.\n"
-		"Please rectify this situation and ensure it is installed\n"
-		"correctly.\n"), s);
-	EExit(1);
-     }
+    if (!canexec(s))
+    {
+        Alert(_("!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n" "\n"
+                "Enlightenment's utility executable is not able to be executed:\n"
+                "\n" "%s\n"
+                "This is a fatal error and Enlightenment will cease to run.\n"
+                "Please rectify this situation and ensure it is installed\n"
+                "correctly.\n"), s);
+        EExit(1);
+    }
 }

@@ -25,38 +25,38 @@
 #define _BACKGROUNDS_H_
 
 /* backgrounds.c */
-Background         *BackgroundFind(const char *name);
+Background     *BackgroundFind(const char *name);
 
-char               *BackgroundGetUniqueString(Background * bg);
-void                BackgroundPixmapSet(Background * bg, EX_Pixmap pmap);
-void                BackgroundDestroyByName(const char *name);
-void                BackgroundRealize(Background * bg, Win win,
-				      EX_Drawable draw, unsigned int rw,
-				      unsigned int rh, int is_win,
-				      EX_Pixmap * ppmap, unsigned int *ppixel);
-void                BackgroundApplyPmap(Background * bg, Win win,
-					EX_Drawable draw, unsigned int rw,
-					unsigned int rh);
-void                BackgroundSet(Background * bg, Win win, unsigned int rw,
-				  unsigned int rh);
-void                BackgroundIncRefcount(Background * bg);
-void                BackgroundDecRefcount(Background * bg);
+char           *BackgroundGetUniqueString(Background * bg);
+void            BackgroundPixmapSet(Background * bg, EX_Pixmap pmap);
+void            BackgroundDestroyByName(const char *name);
+void            BackgroundRealize(Background * bg, Win win,
+                                  EX_Drawable draw, unsigned int rw,
+                                  unsigned int rh, int is_win,
+                                  EX_Pixmap * ppmap, unsigned int *ppixel);
+void            BackgroundApplyPmap(Background * bg, Win win,
+                                    EX_Drawable draw, unsigned int rw,
+                                    unsigned int rh);
+void            BackgroundSet(Background * bg, Win win, unsigned int rw,
+                              unsigned int rh);
+void            BackgroundIncRefcount(Background * bg);
+void            BackgroundDecRefcount(Background * bg);
 
-void                BackgroundTouch(Background * bg);
-const char         *BackgroundGetName(const Background * bg);
-EX_Pixmap           BackgroundGetPixmap(const Background * bg);
-unsigned int        BackgroundGetSeqNo(const Background * bg);
-int                 BackgroundIsNone(const Background * bg);
-Background         *BrackgroundCreateFromImage(const char *bgid,
-					       const char *file, char *thumb,
-					       int thlen);
+void            BackgroundTouch(Background * bg);
+const char     *BackgroundGetName(const Background * bg);
+EX_Pixmap       BackgroundGetPixmap(const Background * bg);
+unsigned int    BackgroundGetSeqNo(const Background * bg);
+int             BackgroundIsNone(const Background * bg);
+Background     *BrackgroundCreateFromImage(const char *bgid,
+                                           const char *file, char *thumb,
+                                           int thlen);
 
-void                BackgroundSetForDesk(Background * bg, unsigned int desk);
-Background         *BackgroundGetForDesk(unsigned int desk);
+void            BackgroundSetForDesk(Background * bg, unsigned int desk);
+Background     *BackgroundGetForDesk(unsigned int desk);
 
-void                BackgroundsInvalidate(int refresh);
-int                 BackgroundsConfigLoad(FILE * fs);
+void            BackgroundsInvalidate(int refresh);
+int             BackgroundsConfigLoad(FILE * fs);
 
-void                ScanBackgroundMenu(void);
+void            ScanBackgroundMenu(void);
 
-#endif /* _BACKGROUNDS_H_ */
+#endif                          /* _BACKGROUNDS_H_ */

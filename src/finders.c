@@ -31,250 +31,250 @@
 #include "groups.h"
 #include "util.h"
 
-EWin               *
-EwinFindByPtr(const EWin * ewin)
+EWin           *
+EwinFindByPtr(const EWin *ewin)
 {
-   EWin               *const *ewins;
-   int                 i, num;
+    EWin           *const *ewins;
+    int             i, num;
 
-   ewins = EwinListGetAll(&num);
-   for (i = 0; i < num; i++)
-     {
-	if (ewin == ewins[i])
-	   return ewins[i];
-     }
-   return NULL;
+    ewins = EwinListGetAll(&num);
+    for (i = 0; i < num; i++)
+    {
+        if (ewin == ewins[i])
+            return ewins[i];
+    }
+    return NULL;
 }
 
-EWin               *
+EWin           *
 EwinFindByClient(EX_Window win)
 {
-   EWin               *const *ewins;
-   int                 i, num;
+    EWin           *const *ewins;
+    int             i, num;
 
-   ewins = EwinListGetAll(&num);
-   for (i = 0; i < num; i++)
-     {
-	if (win == EwinGetClientXwin(ewins[i]))
-	   return ewins[i];
-     }
-   return NULL;
+    ewins = EwinListGetAll(&num);
+    for (i = 0; i < num; i++)
+    {
+        if (win == EwinGetClientXwin(ewins[i]))
+            return ewins[i];
+    }
+    return NULL;
 }
 
-EWin               *
-EwinFindGroupMember(EWin * ewin)
+EWin           *
+EwinFindGroupMember(EWin *ewin)
 {
-   EWin               *ewin2;
-   EWin               *const *ewins;
-   int                 i, num;
+    EWin           *ewin2;
+    EWin           *const *ewins;
+    int             i, num;
 
-   ewin2 = EwinFindByClient(ewin->icccm.group);
-   if (ewin2 && ewin2 != ewin)
-      return ewin2;
+    ewin2 = EwinFindByClient(ewin->icccm.group);
+    if (ewin2 && ewin2 != ewin)
+        return ewin2;
 
-   ewins = EwinListGetAll(&num);
-   for (i = 0; i < num; i++)
-     {
-	ewin2 = ewins[i];
-	if (ewin2 == ewin)
-	   continue;
-	if (ewin2->state.iconified)
-	   continue;
-	if (ewin2->icccm.group == ewin->icccm.group)
-	   return ewin2;
-     }
+    ewins = EwinListGetAll(&num);
+    for (i = 0; i < num; i++)
+    {
+        ewin2 = ewins[i];
+        if (ewin2 == ewin)
+            continue;
+        if (ewin2->state.iconified)
+            continue;
+        if (ewin2->icccm.group == ewin->icccm.group)
+            return ewin2;
+    }
 
-   return NULL;
+    return NULL;
 }
 
-EWin              **
+EWin          **
 EwinsFindByExpr(const char *match, int *pnum, int *pflags)
 {
-   EWin               *ewin, **lst;
-   EWin               *const *ewins;
-   int                 type;
-   int                 i, num, len, nfound, match_one, flags;
+    EWin           *ewin, **lst;
+    EWin           *const *ewins;
+    int             type;
+    int             i, num, len, nfound, match_one, flags;
 
-   if (pnum)
-      *pnum = 0;
+    if (pnum)
+        *pnum = 0;
 
-   if (!match || !match[0])
-      return NULL;
+    if (!match || !match[0])
+        return NULL;
 
-   ewin = NULL;
-   flags = 0;
+    ewin = NULL;
+    flags = 0;
 
-   if (!strcmp(match, "*") || !strcmp(match, "=") || !strcmp(match, "current"))
-     {
-	ewin = GetContextEwin();
-	if (!ewin)
-	   ewin = GetFocusEwin();
-	if (match[0] == '=')
-	   flags = 1;		/* Nogroup */
-	goto do_one;
-     }
+    if (!strcmp(match, "*") || !strcmp(match, "=") || !strcmp(match, "current"))
+    {
+        ewin = GetContextEwin();
+        if (!ewin)
+            ewin = GetFocusEwin();
+        if (match[0] == '=')
+            flags = 1;          /* Nogroup */
+        goto do_one;
+    }
 
-   if (isdigit(match[0]))
-     {
-	unsigned int        win;
+    if (isdigit(match[0]))
+    {
+        unsigned int    win;
 
-	sscanf(match, "%x", &win);
-	ewin = EwinFindByClient(win);
-	goto do_one;
-     }
+        sscanf(match, "%x", &win);
+        ewin = EwinFindByClient(win);
+        goto do_one;
+    }
 
-   match_one = 1;
-   if (!strcmp(match, "all"))
-     {
-	type = 'a';
-	match_one = 0;
-	flags = 1;		/* Nogroup */
-     }
-   else if (match[0] == '=')
-     {
-	type = 's';
-	match++;
-	flags = 1;		/* Nogroup */
-     }
-   else if (strchr(match, '*'))
-     {
-	type = 'w';
-	match_one = 0;
-	flags = 1;		/* Nogroup */
-     }
-   else
-     {
-	type = 's';
-     }
+    match_one = 1;
+    if (!strcmp(match, "all"))
+    {
+        type = 'a';
+        match_one = 0;
+        flags = 1;              /* Nogroup */
+    }
+    else if (match[0] == '=')
+    {
+        type = 's';
+        match++;
+        flags = 1;              /* Nogroup */
+    }
+    else if (strchr(match, '*'))
+    {
+        type = 'w';
+        match_one = 0;
+        flags = 1;              /* Nogroup */
+    }
+    else
+    {
+        type = 's';
+    }
 
-   len = strlen(match);
-   if (len <= 0)
-      return NULL;
+    len = strlen(match);
+    if (len <= 0)
+        return NULL;
 
-   ewins = EwinListGetAll(&num);
-   if (!ewins)
-      return NULL;
+    ewins = EwinListGetAll(&num);
+    if (!ewins)
+        return NULL;
 
-   nfound = 0;
-   lst = NULL;
-   for (i = 0; i < num; i++)
-     {
-	ewin = ewins[i];
+    nfound = 0;
+    lst = NULL;
+    for (i = 0; i < num; i++)
+    {
+        ewin = ewins[i];
 
-	if (type == 'a')	/* All */
-	  {
-	  }
-	else if (type == 'w')	/* Wildcard */
-	  {
-	     if (!matchregexp(match, EwinGetIcccmName(ewin)))
-		continue;
-	  }
-	else			/* Match name (substring) */
-	  {
-	     const char         *name;
+        if (type == 'a')        /* All */
+        {
+        }
+        else if (type == 'w')   /* Wildcard */
+        {
+            if (!matchregexp(match, EwinGetIcccmName(ewin)))
+                continue;
+        }
+        else                    /* Match name (substring) */
+        {
+            const char     *name;
 
-	     name = EwinGetIcccmName(ewin);
-	     if (!name)
-		continue;
-	     if (!Estrcasestr(name, match))
-		continue;
-	  }
-	nfound++;
-	lst = EREALLOC(EWin *, lst, nfound);
-	lst[nfound - 1] = ewin;
-	if (match_one)
-	   break;
-     }
-   goto done;
+            name = EwinGetIcccmName(ewin);
+            if (!name)
+                continue;
+            if (!Estrcasestr(name, match))
+                continue;
+        }
+        nfound++;
+        lst = EREALLOC(EWin *, lst, nfound);
+        lst[nfound - 1] = ewin;
+        if (match_one)
+            break;
+    }
+    goto done;
 
- do_one:
-   if (!ewin)
-      return NULL;
-   nfound = 1;
-   lst = EMALLOC(EWin *, 1);
-   if (!lst)
-      return NULL;
-   lst[0] = ewin;
+  do_one:
+    if (!ewin)
+        return NULL;
+    nfound = 1;
+    lst = EMALLOC(EWin *, 1);
+    if (!lst)
+        return NULL;
+    lst[0] = ewin;
 
- done:
-   if (pnum)
-      *pnum = nfound;
-   if (pflags)
-      *pflags = flags;
-   return lst;
+  done:
+    if (pnum)
+        *pnum = nfound;
+    if (pflags)
+        *pflags = flags;
+    return lst;
 }
 
-EWin               *
+EWin           *
 EwinFindByExpr(const char *match)
 {
-   EWin               *ewin, **lst;
+    EWin           *ewin, **lst;
 
-   lst = EwinsFindByExpr(match, NULL, NULL);
-   if (!lst)
-      return NULL;
-   ewin = lst[0];
-   Efree(lst);
-   return ewin;
+    lst = EwinsFindByExpr(match, NULL, NULL);
+    if (!lst)
+        return NULL;
+    ewin = lst[0];
+    Efree(lst);
+    return ewin;
 }
 
-EWin              **
-ListWinGroupMembersForEwin(const EWin * ewin, int action, char nogroup,
-			   int *pnum)
+EWin          **
+ListWinGroupMembersForEwin(const EWin *ewin, int action, char nogroup,
+                           int *pnum)
 {
 
-   EWin              **gwins, *ew;
-   EWin               *const *ewins;
-   Group              *grp;
-   int                 i, num, gwcnt;
+    EWin          **gwins, *ew;
+    EWin           *const *ewins;
+    Group          *grp;
+    int             i, num, gwcnt;
 
-   if (!ewin)
-     {
-	*pnum = 0;
-	return NULL;
-     }
+    if (!ewin)
+    {
+        *pnum = 0;
+        return NULL;
+    }
 
-   gwcnt = 0;
-   gwins = NULL;
+    gwcnt = 0;
+    gwins = NULL;
 
-   if (nogroup || ewin->num_groups <= 0)
-      goto done;
+    if (nogroup || ewin->num_groups <= 0)
+        goto done;
 
-   ewins = EwinListGetAll(&num);
-   if (!ewins)			/* Should not be possible */
-      goto done;
+    ewins = EwinListGetAll(&num);
+    if (!ewins)                 /* Should not be possible */
+        goto done;
 
-   /* Loop through window stack, bottom up */
-   for (i = num - 1; i >= 0; i--)
-     {
-	ew = ewins[i];
+    /* Loop through window stack, bottom up */
+    for (i = num - 1; i >= 0; i--)
+    {
+        ew = ewins[i];
 
-	if (ew == ewin)
-	   goto do_add;
+        if (ew == ewin)
+            goto do_add;
 
-	/* To get consistent behaviour, limit groups to a single desktop for now: */
-	if (EoGetDesk(ew) != EoGetDesk(ewin))
-	   continue;
+        /* To get consistent behaviour, limit groups to a single desktop for now: */
+        if (EoGetDesk(ew) != EoGetDesk(ewin))
+            continue;
 
-	grp = EwinsInGroup(ewin, ew);
-	if (!grp)
-	   continue;
+        grp = EwinsInGroup(ewin, ew);
+        if (!grp)
+            continue;
 
-	if (!GroupMatchAction(grp, action))
-	   continue;
+        if (!GroupMatchAction(grp, action))
+            continue;
 
       do_add:
-	gwins = EREALLOC(EWin *, gwins, gwcnt + 1);
-	gwins[gwcnt] = ew;
-	gwcnt++;
-     }
+        gwins = EREALLOC(EWin *, gwins, gwcnt + 1);
+        gwins[gwcnt] = ew;
+        gwcnt++;
+    }
 
- done:
-   if (!gwins)
-     {
-	gwins = EMALLOC(EWin *, 1);
-	gwins[0] = (EWin *) ewin;
-	gwcnt = 1;
-     }
-   *pnum = gwcnt;
-   return gwins;
+  done:
+    if (!gwins)
+    {
+        gwins = EMALLOC(EWin *, 1);
+        gwins[0] = (EWin *) ewin;
+        gwcnt = 1;
+    }
+    *pnum = gwcnt;
+    return gwins;
 }

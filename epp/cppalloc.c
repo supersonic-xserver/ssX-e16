@@ -30,37 +30,37 @@
 static void
 memory_full(void)
 {
-   cpp_fatal("Memory exhausted.");
+    cpp_fatal("Memory exhausted.");
 }
 
-void               *
+void           *
 xmalloc(unsigned size)
 {
-   char               *ptr = (char *)malloc(size);
+    char           *ptr = (char *)malloc(size);
 
-   if (ptr)
-      return (ptr);
-   memory_full();
-   /*NOTREACHED */
-   return 0;
+    if (ptr)
+        return (ptr);
+    memory_full();
+    /*NOTREACHED */
+    return 0;
 }
 
-void               *
+void           *
 xrealloc(void *old, unsigned size)
 {
-   char               *ptr = (char *)realloc(old, size);
+    char           *ptr = (char *)realloc(old, size);
 
-   if (!ptr)
-      memory_full();
-   return ptr;
+    if (!ptr)
+        memory_full();
+    return ptr;
 }
 
-void               *
+void           *
 xcalloc(unsigned number, unsigned size)
 {
-   char               *ptr = (char *)calloc(number, size);
+    char           *ptr = (char *)calloc(number, size);
 
-   if (!ptr)
-      memory_full();
-   return ptr;
+    if (!ptr)
+        memory_full();
+    return ptr;
 }

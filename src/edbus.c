@@ -42,89 +42,89 @@
 #endif
 
 typedef struct {
-   char               *name;
-   DBusConnection     *conn;
-   DBusWatch          *watch;
-   int                 fd;
+    char           *name;
+    DBusConnection *conn;
+    DBusWatch      *watch;
+    int             fd;
 } DbusData;
 
-static DbusData     dbus_data;
+static DbusData dbus_data;
 
-static int          db_efd = 0;
+static int      db_efd = 0;
 
-static              dbus_bool_t
-DbusWatchAdd(DBusWatch * watch, void *data __UNUSED__)
+static          dbus_bool_t
+DbusWatchAdd(DBusWatch *watch, void *data __UNUSED__)
 {
-   dbus_data.watch = watch;
-   dbus_data.fd = dbus_watch_get_unix_fd(watch);
+    dbus_data.watch = watch;
+    dbus_data.fd = dbus_watch_get_unix_fd(watch);
 
-   D2printf("DbusWatchAdd fd=%d flags=%d\n", dbus_data.fd,
-	    dbus_watch_get_flags(dbus_data.watch));
+    D2printf("DbusWatchAdd fd=%d flags=%d\n", dbus_data.fd,
+             dbus_watch_get_flags(dbus_data.watch));
 
-   return TRUE;
+    return TRUE;
 }
 
 static void
-DbusWatchRemove(DBusWatch * watch __UNUSED__, void *data __UNUSED__)
+DbusWatchRemove(DBusWatch *watch __UNUSED__, void *data __UNUSED__)
 {
-   D2printf("DbusWatchRemove\n");
+    D2printf("DbusWatchRemove\n");
 }
 
-#if 0				/* Don't need this */
+#if 0                           /* Don't need this */
 static void
-DbusWatchToggle(DBusWatch * watch __UNUSED__, void *data __UNUSED__)
+DbusWatchToggle(DBusWatch *watch __UNUSED__, void *data __UNUSED__)
 {
-   D2printf("DbusWatchToggle\n");
+    D2printf("DbusWatchToggle\n");
 }
 #else
 #define DbusWatchToggle NULL
 #endif
 
 static void
-DbusReplyString(DBusConnection * conn, DBusMessage * msg, const char *str)
+DbusReplyString(DBusConnection *conn, DBusMessage *msg, const char *str)
 {
-   DBusMessage        *reply;
-   DBusMessageIter     args;
+    DBusMessage    *reply;
+    DBusMessageIter args;
 
-   reply = dbus_message_new_method_return(msg);
+    reply = dbus_message_new_method_return(msg);
 
-   dbus_message_iter_init_append(reply, &args);
-   if (!dbus_message_iter_append_basic(&args, DBUS_TYPE_STRING, &str))
-      goto done;
-   if (!dbus_connection_send(conn, reply, NULL))
-      goto done;
-   dbus_connection_flush(conn);
+    dbus_message_iter_init_append(reply, &args);
+    if (!dbus_message_iter_append_basic(&args, DBUS_TYPE_STRING, &str))
+        goto done;
+    if (!dbus_connection_send(conn, reply, NULL))
+        goto done;
+    dbus_connection_flush(conn);
 
- done:
-   dbus_message_unref(reply);
+  done:
+    dbus_message_unref(reply);
 }
 
 static void
 DbusIpcReply(void *data, const char *str)
 {
-   DBusMessage        *msg = (DBusMessage *) data;
+    DBusMessage    *msg = (DBusMessage *) data;
 
-   if (!str)
-      str = "ok";
-   DbusReplyString(dbus_data.conn, msg, str);
+    if (!str)
+        str = "ok";
+    DbusReplyString(dbus_data.conn, msg, str);
 }
 
 static void
-DbusMethodCommand(DBusConnection * conn, DBusMessage * msg)
+DbusMethodCommand(DBusConnection *conn, DBusMessage *msg)
 {
-   DBusMessageIter     args;
-   const char         *param = "";
+    DBusMessageIter args;
+    const char     *param = "";
 
-   if (!dbus_message_iter_init(msg, &args) ||
-       dbus_message_iter_get_arg_type(&args) != DBUS_TYPE_STRING)
-     {
-	DbusReplyString(conn, msg, "String arg required\n");
-	return;
-     }
-   else
-      dbus_message_iter_get_basic(&args, &param);
+    if (!dbus_message_iter_init(msg, &args) ||
+        dbus_message_iter_get_arg_type(&args) != DBUS_TYPE_STRING)
+    {
+        DbusReplyString(conn, msg, "String arg required\n");
+        return;
+    }
+    else
+        dbus_message_iter_get_basic(&args, &param);
 
-   IpcExecReply(param, DbusIpcReply, msg);
+    IpcExecReply(param, DbusIpcReply, msg);
 }
 
 #if ENABLE_INTROSPECTION
@@ -150,183 +150,183 @@ static const char   dbus_introspect_data[] =
 /* *INDENT-ON* */
 
 static void
-DbusMsgIntrospect(DBusConnection * conn, DBusMessage * msg)
+DbusMsgIntrospect(DBusConnection *conn, DBusMessage *msg)
 {
-   char                buf[1024];
+    char            buf[1024];
 
-   D2printf("Introspect\n");
+    D2printf("Introspect\n");
 
-   Esnprintf(buf, sizeof(buf), dbus_introspect_data, dbus_data.name);
-   if (!strcmp(dbus_message_get_path(msg), "/"))
-      DbusReplyString(conn, msg, buf);
-   else
-      DbusReplyString(conn, msg, "");
+    Esnprintf(buf, sizeof(buf), dbus_introspect_data, dbus_data.name);
+    if (!strcmp(dbus_message_get_path(msg), "/"))
+        DbusReplyString(conn, msg, buf);
+    else
+        DbusReplyString(conn, msg, "");
 }
 #endif
 
-static              DBusHandlerResult
-DbusMsgHandler(DBusConnection * conn, DBusMessage * msg,
-	       void *user_data __UNUSED__)
+static          DBusHandlerResult
+DbusMsgHandler(DBusConnection *conn, DBusMessage *msg,
+               void *user_data __UNUSED__)
 {
-   int                 msg_type;
-   const char         *msg_dest, *msg_ifc, *msg_memb;
+    int             msg_type;
+    const char     *msg_dest, *msg_ifc, *msg_memb;
 
-   D2printf("DbusMsgHandler\n");
+    D2printf("DbusMsgHandler\n");
 
-   msg_type = dbus_message_get_type(msg);
-   msg_dest = dbus_message_get_destination(msg);
-   msg_ifc = dbus_message_get_interface(msg);
-   msg_memb = dbus_message_get_member(msg);
+    msg_type = dbus_message_get_type(msg);
+    msg_dest = dbus_message_get_destination(msg);
+    msg_ifc = dbus_message_get_interface(msg);
+    msg_memb = dbus_message_get_member(msg);
 
-   switch (msg_type)
-     {
-     default:			/* Should not be possible */
-	Dprintf("MESSAGE type=%d\n", msg_type);
-	break;
+    switch (msg_type)
+    {
+    default:                   /* Should not be possible */
+        Dprintf("MESSAGE type=%d\n", msg_type);
+        break;
 
-     case DBUS_MESSAGE_TYPE_METHOD_CALL:
-	Dprintf("METHOD %s %s\n", msg_ifc, msg_memb);
-	if (strcmp(msg_dest, dbus_data.name))
-	   break;
-	if (!strcmp(msg_ifc, "org.e16"))
-	  {
-	     if (!strcmp(msg_memb, "Command"))
-		DbusMethodCommand(conn, msg);
-	     else
-		DbusReplyString(conn, msg, "Error");
-	  }
+    case DBUS_MESSAGE_TYPE_METHOD_CALL:
+        Dprintf("METHOD %s %s\n", msg_ifc, msg_memb);
+        if (strcmp(msg_dest, dbus_data.name))
+            break;
+        if (!strcmp(msg_ifc, "org.e16"))
+        {
+            if (!strcmp(msg_memb, "Command"))
+                DbusMethodCommand(conn, msg);
+            else
+                DbusReplyString(conn, msg, "Error");
+        }
 #if ENABLE_INTROSPECTION
-	else if (!strcmp(msg_ifc, "org.freedesktop.DBus.Introspectable"))
-	  {
-	     if (!strcmp(msg_memb, "Introspect"))
-		DbusMsgIntrospect(conn, msg);
-	  }
+        else if (!strcmp(msg_ifc, "org.freedesktop.DBus.Introspectable"))
+        {
+            if (!strcmp(msg_memb, "Introspect"))
+                DbusMsgIntrospect(conn, msg);
+        }
 #endif
-	break;
+        break;
 
-     case DBUS_MESSAGE_TYPE_SIGNAL:
-	Dprintf("SIGNAL %s %s\n", msg_ifc, msg_memb);
-	if (!strcmp(msg_ifc, "org.e16"))
-	  {
-	     Dprintf("... for me!\n");
-	  }
-	break;
-     }
+    case DBUS_MESSAGE_TYPE_SIGNAL:
+        Dprintf("SIGNAL %s %s\n", msg_ifc, msg_memb);
+        if (!strcmp(msg_ifc, "org.e16"))
+        {
+            Dprintf("... for me!\n");
+        }
+        break;
+    }
 
-   D2printf("sender    = %s\n", dbus_message_get_sender(msg));
-   D2printf("dest      = %s\n", dbus_message_get_destination(msg));
-   D2printf("path      = %s\n", dbus_message_get_path(msg));
-   D2printf("interface = %s\n", dbus_message_get_interface(msg));
-   D2printf("member    = %s\n", dbus_message_get_member(msg));
+    D2printf("sender    = %s\n", dbus_message_get_sender(msg));
+    D2printf("dest      = %s\n", dbus_message_get_destination(msg));
+    D2printf("path      = %s\n", dbus_message_get_path(msg));
+    D2printf("interface = %s\n", dbus_message_get_interface(msg));
+    D2printf("member    = %s\n", dbus_message_get_member(msg));
 
-   return DBUS_HANDLER_RESULT_HANDLED;
+    return DBUS_HANDLER_RESULT_HANDLED;
 }
 
 static void
 DbusHandleFd(void)
 {
-   int                 rc;
+    int             rc;
 
-   D2printf("DbusHandleFd flags=%d\n", dbus_watch_get_flags(dbus_data.watch));
-   dbus_watch_handle(dbus_data.watch,
-		     DBUS_WATCH_READABLE | DBUS_WATCH_WRITABLE);
+    D2printf("DbusHandleFd flags=%d\n", dbus_watch_get_flags(dbus_data.watch));
+    dbus_watch_handle(dbus_data.watch,
+                      DBUS_WATCH_READABLE | DBUS_WATCH_WRITABLE);
 
-   for (;;)
-     {
-	D2printf("DbusHandleFd: Dispatch flags=%d\n",
-		 dbus_watch_get_flags(dbus_data.watch));
-	rc = dbus_connection_dispatch(dbus_data.conn);
-	if (rc == DBUS_DISPATCH_COMPLETE)
-	   break;
-     }
+    for (;;)
+    {
+        D2printf("DbusHandleFd: Dispatch flags=%d\n",
+                 dbus_watch_get_flags(dbus_data.watch));
+        rc = dbus_connection_dispatch(dbus_data.conn);
+        if (rc == DBUS_DISPATCH_COMPLETE)
+            break;
+    }
 }
 
 void
 DbusInit(void)
 {
-   DBusError           dberr;
-   int                 err;
-   char                buf[128];
+    DBusError       dberr;
+    int             err;
+    char            buf[128];
 
-   if (Mode.wm.window)
-     {
-	sprintf(buf, "org.e16.wm.p%u", (unsigned int)Mode.wm.pid);
-     }
-   else
-     {
-	const char         *s;
+    if (Mode.wm.window)
+    {
+        sprintf(buf, "org.e16.wm.p%u", (unsigned int)Mode.wm.pid);
+    }
+    else
+    {
+        const char     *s;
 
-	s = strchr(Dpy.name, ':');
-	if (!s)
-	   return;
-	sprintf(buf, "org.e16.wm.d%ds%d", atoi(s + 1), Dpy.screen);
-     }
-   dbus_data.name = Estrdup(buf);
-   Esetenv("ENL_DBUS_NAME", dbus_data.name);
+        s = strchr(Dpy.name, ':');
+        if (!s)
+            return;
+        sprintf(buf, "org.e16.wm.d%ds%d", atoi(s + 1), Dpy.screen);
+    }
+    dbus_data.name = Estrdup(buf);
+    Esetenv("ENL_DBUS_NAME", dbus_data.name);
 
-   dbus_error_init(&dberr);
+    dbus_error_init(&dberr);
 
-   dbus_data.fd = -1;
+    dbus_data.fd = -1;
 
-   dbus_data.conn = dbus_bus_get(DBUS_BUS_SESSION, &dberr);
-   if (dbus_error_is_set(&dberr))
-      goto bail_out;
-   dbus_connection_set_exit_on_disconnect(dbus_data.conn, FALSE);
+    dbus_data.conn = dbus_bus_get(DBUS_BUS_SESSION, &dberr);
+    if (dbus_error_is_set(&dberr))
+        goto bail_out;
+    dbus_connection_set_exit_on_disconnect(dbus_data.conn, FALSE);
 
-   err = dbus_bus_request_name(dbus_data.conn, dbus_data.name,
-			       DBUS_NAME_FLAG_DO_NOT_QUEUE, &dberr);
-   if (dbus_error_is_set(&dberr))
-      goto bail_out;
-   if (err != DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER)
-     {
-	Eprintf("*** DbusInit error: Not Primary Owner (%d)\n", err);
-	return;
-     }
+    err = dbus_bus_request_name(dbus_data.conn, dbus_data.name,
+                                DBUS_NAME_FLAG_DO_NOT_QUEUE, &dberr);
+    if (dbus_error_is_set(&dberr))
+        goto bail_out;
+    if (err != DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER)
+    {
+        Eprintf("*** DbusInit error: Not Primary Owner (%d)\n", err);
+        return;
+    }
 
-   Esnprintf(buf, sizeof(buf), "type='signal',destination='%s'",
-	     dbus_data.name);
-   if (EDebug(EDBUG_TYPE_DBUS) > 1)	/* Catch all signals if extra debug is enabled */
-      dbus_bus_add_match(dbus_data.conn, "type='signal'", &dberr);
-   else
-      dbus_bus_add_match(dbus_data.conn, buf, &dberr);
-   if (dbus_error_is_set(&dberr))
-      goto bail_out;
-   Esnprintf(buf, sizeof(buf), "type='method_call',destination='%s'",
-	     dbus_data.name);
-   dbus_bus_add_match(dbus_data.conn, buf, &dberr);
-   if (dbus_error_is_set(&dberr))
-      goto bail_out;
-#if 0				/* Debug */
-   dbus_bus_add_match(dbus_data.conn, "type='method_return'", &dberr);
-   if (dbus_error_is_set(&dberr))
-      goto bail_out;
-   dbus_bus_add_match(dbus_data.conn, "type='error'", &dberr);
-   if (dbus_error_is_set(&dberr))
-      goto bail_out;
+    Esnprintf(buf, sizeof(buf), "type='signal',destination='%s'",
+              dbus_data.name);
+    if (EDebug(EDBUG_TYPE_DBUS) > 1)    /* Catch all signals if extra debug is enabled */
+        dbus_bus_add_match(dbus_data.conn, "type='signal'", &dberr);
+    else
+        dbus_bus_add_match(dbus_data.conn, buf, &dberr);
+    if (dbus_error_is_set(&dberr))
+        goto bail_out;
+    Esnprintf(buf, sizeof(buf), "type='method_call',destination='%s'",
+              dbus_data.name);
+    dbus_bus_add_match(dbus_data.conn, buf, &dberr);
+    if (dbus_error_is_set(&dberr))
+        goto bail_out;
+#if 0                           /* Debug */
+    dbus_bus_add_match(dbus_data.conn, "type='method_return'", &dberr);
+    if (dbus_error_is_set(&dberr))
+        goto bail_out;
+    dbus_bus_add_match(dbus_data.conn, "type='error'", &dberr);
+    if (dbus_error_is_set(&dberr))
+        goto bail_out;
 #endif
 
-   if (!dbus_connection_add_filter(dbus_data.conn, DbusMsgHandler, NULL, NULL))
-      return;
+    if (!dbus_connection_add_filter(dbus_data.conn, DbusMsgHandler, NULL, NULL))
+        return;
 
-   dbus_connection_set_watch_functions(dbus_data.conn,
-				       DbusWatchAdd, DbusWatchRemove,
-				       DbusWatchToggle, NULL, NULL);
+    dbus_connection_set_watch_functions(dbus_data.conn,
+                                        DbusWatchAdd, DbusWatchRemove,
+                                        DbusWatchToggle, NULL, NULL);
 
-   /* Handle pending D-Bus stuff */
-   DbusHandleFd();
-   db_efd = EventFdRegister(dbus_data.fd, DbusHandleFd);
-   return;
+    /* Handle pending D-Bus stuff */
+    DbusHandleFd();
+    db_efd = EventFdRegister(dbus_data.fd, DbusHandleFd);
+    return;
 
- bail_out:
-   if (dbus_error_is_set(&dberr))
-     {
-	Eprintf("*** DbusInit error: %s\n", dberr.message);
-	dbus_error_free(&dberr);
-     }
-   return;
+  bail_out:
+    if (dbus_error_is_set(&dberr))
+    {
+        Eprintf("*** DbusInit error: %s\n", dberr.message);
+        dbus_error_free(&dberr);
+    }
+    return;
 }
 
-#if 0				/* No need? */
+#if 0                           /* No need? */
 void
 DbusExit(void)
 {

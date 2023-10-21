@@ -28,24 +28,24 @@
 #include "util.h"
 
 typedef struct {
-   void                (*func)(const char *line);
-   const char         *name;
-   const char         *nick;
-   const char         *help_text;
-   const char         *extended_help_text;
+    void            (*func)(const char *line);
+    const char     *name;
+    const char     *nick;
+    const char     *help_text;
+    const char     *extended_help_text;
 } IpcItem;
 
 typedef struct {
-   int                 num;
-   const IpcItem      *lst;
+    int             num;
+    const IpcItem  *lst;
 } IpcItemList;
 
-typedef void        (IpcReplyFunc) (void *data, const char *str);
-int                 IpcExecReply(const char *params, IpcReplyFunc * reply,
-				 void *data);
-void __PRINTF__     IpcPrintf(const char *fmt, ...);
+typedef void    (IpcReplyFunc) (void *data, const char *str);
+int             IpcExecReply(const char *params, IpcReplyFunc * reply,
+                             void *data);
+void __PRINTF__ IpcPrintf(const char *fmt, ...);
 
-int                 EFunc(EWin * ewin, const char *params);
-void                EFuncDefer(EWin * ewin, const char *params);
+int             EFunc(EWin * ewin, const char *params);
+void            EFuncDefer(EWin * ewin, const char *params);
 
-#endif /* _IPC_H_ */
+#endif                          /* _IPC_H_ */

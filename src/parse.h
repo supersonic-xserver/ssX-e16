@@ -23,6 +23,6 @@
 #ifndef _PARSE_H_
 #define _PARSE_H_
 
-int                 parse(char *buf, const char *fmt, ...);
+int             parse(char *buf, const char *fmt, ...);
 
-#endif /* _PARSE_H_ */
+#endif                          /* _PARSE_H_ */

@@ -30,30 +30,30 @@
 #define Estrdup strdup
 #endif
 
-static Sample      *
+static Sample  *
 _sound_player_Load(const char *file)
 {
-   return (Sample *) Estrdup(file);
+    return (Sample *) Estrdup(file);
 }
 
 static void
-_sound_player_Destroy(Sample * s)
+_sound_player_Destroy(Sample *s)
 {
-   Efree(s);
+    Efree(s);
 }
 
 static void
-_sound_player_Play(Sample * s)
+_sound_player_Play(Sample *s)
 {
-   Espawn(SOUND_PLAYER_FMT, (char *)s);
+    Espawn(SOUND_PLAYER_FMT, (char *)s);
 }
 
 static int
 _sound_player_Init(void)
 {
-   if (!path_canexec0(SOUND_PLAYER_FMT))
-      return -1;
-   return 0;
+    if (!path_canexec0(SOUND_PLAYER_FMT))
+        return -1;
+    return 0;
 }
 
 static void
@@ -63,7 +63,7 @@ _sound_player_Exit(void)
 
 __EXPORT__ extern const SoundOps SoundOps_player;
 
-const SoundOps      SoundOps_player = {
-   _sound_player_Init, _sound_player_Exit,
-   _sound_player_Load, _sound_player_Destroy, _sound_player_Play,
+const SoundOps  SoundOps_player = {
+    _sound_player_Init, _sound_player_Exit,
+    _sound_player_Load, _sound_player_Destroy, _sound_player_Play,
 };

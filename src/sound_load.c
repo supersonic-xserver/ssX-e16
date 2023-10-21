@@ -28,94 +28,94 @@
 #include <audiofile.h>
 
 int
-SoundSampleGetData(const char *file, SoundSampleData * ssd)
+SoundSampleGetData(const char *file, SoundSampleData *ssd)
 {
-   AFfilehandle        in_file;
-   int                 in_format, in_width, bytes_per_frame, frame_count;
-   int                 frames_read;
+    AFfilehandle    in_file;
+    int             in_format, in_width, bytes_per_frame, frame_count;
+    int             frames_read;
 
-   in_file = afOpenFile(file, "r", NULL);
-   if (!in_file)
-      return -1;
+    in_file = afOpenFile(file, "r", NULL);
+    if (!in_file)
+        return -1;
 
-   frame_count = afGetFrameCount(in_file, AF_DEFAULT_TRACK);
-   ssd->channels = afGetChannels(in_file, AF_DEFAULT_TRACK);
-   ssd->rate = (unsigned int)(afGetRate(in_file, AF_DEFAULT_TRACK) + .5);
-   afGetSampleFormat(in_file, AF_DEFAULT_TRACK, &in_format, &in_width);
-   ssd->bit_per_sample = in_width;
+    frame_count = afGetFrameCount(in_file, AF_DEFAULT_TRACK);
+    ssd->channels = afGetChannels(in_file, AF_DEFAULT_TRACK);
+    ssd->rate = (unsigned int)(afGetRate(in_file, AF_DEFAULT_TRACK) + .5);
+    afGetSampleFormat(in_file, AF_DEFAULT_TRACK, &in_format, &in_width);
+    ssd->bit_per_sample = in_width;
 #ifdef WORDS_BIGENDIAN
-   afSetVirtualByteOrder(in_file, AF_DEFAULT_TRACK, AF_BYTEORDER_BIGENDIAN);
+    afSetVirtualByteOrder(in_file, AF_DEFAULT_TRACK, AF_BYTEORDER_BIGENDIAN);
 #else
-   afSetVirtualByteOrder(in_file, AF_DEFAULT_TRACK, AF_BYTEORDER_LITTLEENDIAN);
+    afSetVirtualByteOrder(in_file, AF_DEFAULT_TRACK, AF_BYTEORDER_LITTLEENDIAN);
 #endif
 
-   bytes_per_frame = (ssd->bit_per_sample * ssd->channels) / 8;
-   ssd->size = frame_count * bytes_per_frame;
-   ssd->data = EMALLOC(unsigned char, ssd->size);
+    bytes_per_frame = (ssd->bit_per_sample * ssd->channels) / 8;
+    ssd->size = frame_count * bytes_per_frame;
+    ssd->data = EMALLOC(unsigned char, ssd->size);
 
-   if (EDebug(EDBUG_TYPE_SOUND))
-      Eprintf("%s: frames=%u chan=%u width=%u rate=%u\n", __func__,
-	      frame_count, ssd->channels, ssd->bit_per_sample, ssd->rate);
+    if (EDebug(EDBUG_TYPE_SOUND))
+        Eprintf("%s: frames=%u chan=%u width=%u rate=%u\n", __func__,
+                frame_count, ssd->channels, ssd->bit_per_sample, ssd->rate);
 
-   frames_read =
-      afReadFrames(in_file, AF_DEFAULT_TRACK, ssd->data, frame_count);
+    frames_read =
+        afReadFrames(in_file, AF_DEFAULT_TRACK, ssd->data, frame_count);
 
-   afCloseFile(in_file);
+    afCloseFile(in_file);
 
-   if (frames_read <= 0)
-     {
-	ssd->size = 0;
-	EFREE_NULL(ssd->data);
-	return -1;
-     }
+    if (frames_read <= 0)
+    {
+        ssd->size = 0;
+        EFREE_NULL(ssd->data);
+        return -1;
+    }
 
-   return 0;
+    return 0;
 }
 
-#endif /* USE_SOUND_LOADER_AUDIOFILE */
+#endif                          /* USE_SOUND_LOADER_AUDIOFILE */
 
 #if USE_SOUND_LOADER_SNDFILE
 #include <sndfile.h>
 
 int
-SoundSampleGetData(const char *file, SoundSampleData * ssd)
+SoundSampleGetData(const char *file, SoundSampleData *ssd)
 {
-   SNDFILE            *sf;
-   SF_INFO             sf_info;
-   int                 bytes_per_frame, frame_count, frames_read;
+    SNDFILE        *sf;
+    SF_INFO         sf_info;
+    int             bytes_per_frame, frame_count, frames_read;
 
-   memset(&sf_info, 0, sizeof(sf_info));
-   sf = sf_open(file, SFM_READ, &sf_info);
-   if (!sf)
-      return -1;
+    memset(&sf_info, 0, sizeof(sf_info));
+    sf = sf_open(file, SFM_READ, &sf_info);
+    if (!sf)
+        return -1;
 
-   ssd->channels = (unsigned int)sf_info.channels;
-   ssd->rate = (unsigned int)sf_info.samplerate;
-   ssd->bit_per_sample = 16;
+    ssd->channels = (unsigned int)sf_info.channels;
+    ssd->rate = (unsigned int)sf_info.samplerate;
+    ssd->bit_per_sample = 16;
 
-   frame_count = sf_info.frames;
-   bytes_per_frame = (ssd->bit_per_sample * ssd->channels) / 8;
-   ssd->size = frame_count * bytes_per_frame;
-   ssd->data = EMALLOC(unsigned char, ssd->size);
+    frame_count = sf_info.frames;
+    bytes_per_frame = (ssd->bit_per_sample * ssd->channels) / 8;
+    ssd->size = frame_count * bytes_per_frame;
+    ssd->data = EMALLOC(unsigned char, ssd->size);
 
-   if (EDebug(EDBUG_TYPE_SOUND))
-      Eprintf("%s: frames=%u chan=%u width=%u rate=%u\n", __func__,
-	      frame_count, ssd->channels, ssd->bit_per_sample, ssd->rate);
+    if (EDebug(EDBUG_TYPE_SOUND))
+        Eprintf("%s: frames=%u chan=%u width=%u rate=%u\n", __func__,
+                frame_count, ssd->channels, ssd->bit_per_sample, ssd->rate);
 
-   frames_read = sf_readf_short(sf, (short *)ssd->data, frame_count);
+    frames_read = sf_readf_short(sf, (short *)ssd->data, frame_count);
 
-   sf_close(sf);
+    sf_close(sf);
 
-   if (frames_read <= 0)
-     {
-	ssd->size = 0;
-	EFREE_NULL(ssd->data);
-	return -1;
-     }
+    if (frames_read <= 0)
+    {
+        ssd->size = 0;
+        EFREE_NULL(ssd->data);
+        return -1;
+    }
 
-   ssd->size = frames_read * bytes_per_frame;
+    ssd->size = frames_read * bytes_per_frame;
 
-   return 0;
+    return 0;
 }
 
-#endif /* USE_SOUND_LOADER_SNDFILE */
+#endif                          /* USE_SOUND_LOADER_SNDFILE */

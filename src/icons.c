@@ -39,247 +39,248 @@
 static int
 NetwmIconFindBestSize(unsigned int *val, unsigned int len, int size)
 {
-   unsigned int        i, j, sj, sbest, sz;
-   int                 k = -1;
+    unsigned int    i, j, sj, sbest, sz;
+    int             k = -1;
 
-   sz = (unsigned int)size;
-   sbest = 0;
-   for (i = 0; i < len;)
-     {
-	j = i;
-	i += 2 + val[i] * val[i + 1];
-	if (i > len)
-	   break;
-	/* Valid */
-	sj = val[j];
-	if (sj == sz)
-	  {
-	     k = j;
-	     break;		/* First exact match */
-	  }
-	if (sj > sz)
-	  {
-	     if (sbest > sz && sj >= sbest)
-		continue;
-	  }
-	else
-	  {
-	     if (sj <= sbest)
-		continue;
-	  }
-	k = j;
-	sbest = sj;
-     }
+    sz = (unsigned int)size;
+    sbest = 0;
+    for (i = 0; i < len;)
+    {
+        j = i;
+        i += 2 + val[i] * val[i + 1];
+        if (i > len)
+            break;
+        /* Valid */
+        sj = val[j];
+        if (sj == sz)
+        {
+            k = j;
+            break;              /* First exact match */
+        }
+        if (sj > sz)
+        {
+            if (sbest > sz && sj >= sbest)
+                continue;
+        }
+        else
+        {
+            if (sj <= sbest)
+                continue;
+        }
+        k = j;
+        sbest = sj;
+    }
 
-   return k;
+    return k;
 }
 
 static void
 IB_IconGetSize(int ww, int hh, int size, int scale, int *pw, int *ph)
 {
-   int                 w, h;
+    int             w, h;
 
-   w = h = size;
-   w *= scale;
-   h *= scale;
+    w = h = size;
+    w *= scale;
+    h *= scale;
 
-   if (ww > hh)
-      h = (w * hh) / ww;
-   else
-      w = (h * ww) / hh;
-   if (w < 4)
-      w = 4;
-   if (h < 4)
-      h = 4;
-   if (w > ww || h > hh)
-     {
-	w = ww;
-	h = hh;
-     }
+    if (ww > hh)
+        h = (w * hh) / ww;
+    else
+        w = (h * ww) / hh;
+    if (w < 4)
+        w = 4;
+    if (h < 4)
+        h = 4;
+    if (w > ww || h > hh)
+    {
+        w = ww;
+        h = hh;
+    }
 
-   *pw = w;
-   *ph = h;
+    *pw = w;
+    *ph = h;
 }
 
-static EImage      *
-IB_SnapEWin(EWin * ewin, int size)
+static EImage  *
+IB_SnapEWin(EWin *ewin, int size)
 {
-   /* Make snapshot of window */
-   int                 w, h, ww, hh;
-   int                 was_shaded;
-   EImage             *im;
-   EX_Drawable         draw;
+    /* Make snapshot of window */
+    int             w, h, ww, hh;
+    int             was_shaded;
+    EImage         *im;
+    EX_Drawable     draw;
 
-   if (!EoIsShown(ewin))
-      return NULL;
+    if (!EoIsShown(ewin))
+        return NULL;
 
-   was_shaded = ewin->state.shaded;
+    was_shaded = ewin->state.shaded;
 
-   if (ewin->state.shaded)
-      EwinInstantUnShade(ewin);
-   EwinRaise(ewin);
-   IdlersRun();
+    if (ewin->state.shaded)
+        EwinInstantUnShade(ewin);
+    EwinRaise(ewin);
+    IdlersRun();
 
-   ww = EoGetW(ewin);
-   hh = EoGetH(ewin);
-   if (ww <= 0 || hh <= 0)
-      return NULL;
+    ww = EoGetW(ewin);
+    hh = EoGetH(ewin);
+    if (ww <= 0 || hh <= 0)
+        return NULL;
 
-   /* Oversample for nicer snapshots */
-   IB_IconGetSize(ww, hh, size, 4, &w, &h);
+    /* Oversample for nicer snapshots */
+    IB_IconGetSize(ww, hh, size, 4, &w, &h);
 
-   draw = EoGetPixmap(ewin);
-   if (draw != NoXID)
-     {
-	EX_Pixmap           mask;
+    draw = EoGetPixmap(ewin);
+    if (draw != NoXID)
+    {
+        EX_Pixmap       mask;
 
-	mask = EWindowGetShapePixmap(EoGetWin(ewin));
-	im = EImageGrabDrawableScaled(EoGetWin(ewin), draw, mask, 0, 0, ww, hh,
-				      w, h, !EServerIsGrabbed(), 0);
-	if (mask)
-	   EFreePixmap(mask);
-     }
-   else
-     {
-	draw = EoGetXwin(ewin);
-	im = EImageGrabDrawableScaled(EoGetWin(ewin), draw, NoXID, 0, 0, ww, hh,
-				      w, h, !EServerIsGrabbed(), 1);
-     }
-   EImageSetHasAlpha(im, 1);
+        mask = EWindowGetShapePixmap(EoGetWin(ewin));
+        im = EImageGrabDrawableScaled(EoGetWin(ewin), draw, mask, 0, 0, ww, hh,
+                                      w, h, !EServerIsGrabbed(), 0);
+        if (mask)
+            EFreePixmap(mask);
+    }
+    else
+    {
+        draw = EoGetXwin(ewin);
+        im = EImageGrabDrawableScaled(EoGetWin(ewin), draw, NoXID, 0, 0, ww, hh,
+                                      w, h, !EServerIsGrabbed(), 1);
+    }
+    EImageSetHasAlpha(im, 1);
 
-   if (was_shaded != ewin->state.shaded)
-      EwinInstantShade(ewin, 0);
+    if (was_shaded != ewin->state.shaded)
+        EwinInstantShade(ewin, 0);
 
-   return im;
+    return im;
 }
 
-static EImage      *
-IB_GetAppIcon(EWin * ewin, int size)
+static EImage  *
+IB_GetAppIcon(EWin *ewin, int size)
 {
-   /* Get the applications icon pixmap/mask */
-   int                 w, h;
-   EImage             *im;
+    /* Get the applications icon pixmap/mask */
+    int             w, h;
+    EImage         *im;
 
-   if (ewin->ewmh.wm_icon)
-     {
-	int                 x;
+    if (ewin->ewmh.wm_icon)
+    {
+        int             x;
 
-	x = NetwmIconFindBestSize(ewin->ewmh.wm_icon, ewin->ewmh.wm_icon_len,
-				  size);
-	if (x >= 0)
-	  {
-	     im = EImageCreateFromData(ewin->ewmh.wm_icon[x],
-				       ewin->ewmh.wm_icon[x + 1],
-				       ewin->ewmh.wm_icon + x + 2);
-	     EImageSetHasAlpha(im, 1);
-	     return im;
-	  }
-     }
+        x = NetwmIconFindBestSize(ewin->ewmh.wm_icon, ewin->ewmh.wm_icon_len,
+                                  size);
+        if (x >= 0)
+        {
+            im = EImageCreateFromData(ewin->ewmh.wm_icon[x],
+                                      ewin->ewmh.wm_icon[x + 1],
+                                      ewin->ewmh.wm_icon + x + 2);
+            EImageSetHasAlpha(im, 1);
+            return im;
+        }
+    }
 
-   if (!ewin->icccm.icon_pmap)
-      return NULL;
+    if (!ewin->icccm.icon_pmap)
+        return NULL;
 
-   EXGetSize(ewin->icccm.icon_pmap, &w, &h);
-   if (w <= 0 || h <= 0)
-      return NULL;
+    EXGetSize(ewin->icccm.icon_pmap, &w, &h);
+    if (w <= 0 || h <= 0)
+        return NULL;
 
-   im = EImageGrabDrawable(ewin->icccm.icon_pmap, ewin->icccm.icon_mask,
-			   0, 0, w, h, !EServerIsGrabbed());
-   EImageSetHasAlpha(im, 1);
+    im = EImageGrabDrawable(ewin->icccm.icon_pmap, ewin->icccm.icon_mask,
+                            0, 0, w, h, !EServerIsGrabbed());
+    EImageSetHasAlpha(im, 1);
 
-   return im;
+    return im;
 }
 
-static EImage      *
-IB_GetEIcon(EWin * ewin)
+static EImage  *
+IB_GetEIcon(EWin *ewin)
 {
-   /* get the icon defined for this window in E's iconf match file */
-   const char         *file;
-   EImage             *im;
+    /* get the icon defined for this window in E's iconf match file */
+    const char     *file;
+    EImage         *im;
 
-   file = WindowMatchEwinIcon(ewin);
-   if (!file)
-      return NULL;
+    file = WindowMatchEwinIcon(ewin);
+    if (!file)
+        return NULL;
 
-   im = ThemeImageLoad(file);
+    im = ThemeImageLoad(file);
 
-   return im;
+    return im;
 }
 
-static EImage      *
-IB_GetFallbackIcon(EWin * ewin, int size)
+static EImage  *
+IB_GetFallbackIcon(EWin *ewin, int size)
 {
-   int                 w, h, ww, hh;
-   ImageClass         *ic;
-   EImage             *im;
+    int             w, h, ww, hh;
+    ImageClass     *ic;
+    EImage         *im;
 
-   im = ThemeImageLoad("icons/default.png");
-   if (im)
-      return im;
+    im = ThemeImageLoad("icons/default.png");
+    if (im)
+        return im;
 
-   ww = EoGetW(ewin);
-   hh = EoGetH(ewin);
-   if (ww <= 0)
-      ww = 1;
-   if (hh <= 0)
-      hh = 1;
+    ww = EoGetW(ewin);
+    hh = EoGetH(ewin);
+    if (ww <= 0)
+        ww = 1;
+    if (hh <= 0)
+        hh = 1;
 
-   IB_IconGetSize(ww, hh, size, 1, &w, &h);
+    IB_IconGetSize(ww, hh, size, 1, &w, &h);
 
-   ic = ImageclassFind("ICONBOX_HORIZONTAL", 1);
-   im = ImageclassGetImageBlended(ic, EoGetWin(ewin), w, h, 0, 0, STATE_NORMAL);
+    ic = ImageclassFind("ICONBOX_HORIZONTAL", 1);
+    im = ImageclassGetImageBlended(ic, EoGetWin(ewin), w, h, 0, 0,
+                                   STATE_NORMAL);
 
-   return im;
+    return im;
 }
 
 #define N_MODES 5
 #define N_TYPES 3
-static const char   ewin_icon_modes[N_MODES][N_TYPES] = {
-   {EWIN_ICON_TYPE_SNAP, EWIN_ICON_TYPE_FB, EWIN_ICON_TYPE_NONE},
-   {EWIN_ICON_TYPE_APP, EWIN_ICON_TYPE_IMG, EWIN_ICON_TYPE_SNAP},
-   {EWIN_ICON_TYPE_IMG, EWIN_ICON_TYPE_APP, EWIN_ICON_TYPE_SNAP},
-   {EWIN_ICON_TYPE_APP, EWIN_ICON_TYPE_IMG, EWIN_ICON_TYPE_FB},
-   {EWIN_ICON_TYPE_IMG, EWIN_ICON_TYPE_APP, EWIN_ICON_TYPE_FB},
+static const char ewin_icon_modes[N_MODES][N_TYPES] = {
+    { EWIN_ICON_TYPE_SNAP, EWIN_ICON_TYPE_FB, EWIN_ICON_TYPE_NONE },
+    { EWIN_ICON_TYPE_APP, EWIN_ICON_TYPE_IMG, EWIN_ICON_TYPE_SNAP },
+    { EWIN_ICON_TYPE_IMG, EWIN_ICON_TYPE_APP, EWIN_ICON_TYPE_SNAP },
+    { EWIN_ICON_TYPE_APP, EWIN_ICON_TYPE_IMG, EWIN_ICON_TYPE_FB },
+    { EWIN_ICON_TYPE_IMG, EWIN_ICON_TYPE_APP, EWIN_ICON_TYPE_FB },
 };
 
-EImage             *
-EwinIconImageGet(EWin * ewin, int size, int mode)
+EImage         *
+EwinIconImageGet(EWin *ewin, int size, int mode)
 {
-   EImage             *im = NULL;
-   int                 i, type;
+    EImage         *im = NULL;
+    int             i, type;
 
-   if (mode < 0 || mode >= N_MODES)
-      mode = 1;
+    if (mode < 0 || mode >= N_MODES)
+        mode = 1;
 
-   for (i = 0; i < N_TYPES; i++)
-     {
-	type = ewin_icon_modes[mode][i];
+    for (i = 0; i < N_TYPES; i++)
+    {
+        type = ewin_icon_modes[mode][i];
 
-	switch (type)
-	  {
-	  default:
-	     goto done;
+        switch (type)
+        {
+        default:
+            goto done;
 
-	  case EWIN_ICON_TYPE_SNAP:
-	     im = IB_SnapEWin(ewin, size);
-	     break;
+        case EWIN_ICON_TYPE_SNAP:
+            im = IB_SnapEWin(ewin, size);
+            break;
 
-	  case EWIN_ICON_TYPE_APP:
-	     im = IB_GetAppIcon(ewin, size);
-	     break;
+        case EWIN_ICON_TYPE_APP:
+            im = IB_GetAppIcon(ewin, size);
+            break;
 
-	  case EWIN_ICON_TYPE_IMG:
-	     im = IB_GetEIcon(ewin);
-	     break;
+        case EWIN_ICON_TYPE_IMG:
+            im = IB_GetEIcon(ewin);
+            break;
 
-	  case EWIN_ICON_TYPE_FB:
-	     im = IB_GetFallbackIcon(ewin, size);
-	     break;
-	  }
-	if (im)
-	   goto done;
-     }
+        case EWIN_ICON_TYPE_FB:
+            im = IB_GetFallbackIcon(ewin, size);
+            break;
+        }
+        if (im)
+            goto done;
+    }
 
- done:
-   return im;
+  done:
+    return im;
 }

@@ -32,311 +32,311 @@
 #include "shapewin.h"
 #include "xwin.h"
 
-#define MR_MODES_MOVE           0x47	/* MR_OPAQUE through MR_BOX and MR_TECH_OPAQUE */
-#define MR_MODES_RESIZE         0x47	/* MR_OPAQUE through MR_BOX and MR_TECH_OPAQUE */
+#define MR_MODES_MOVE           0x47    /* MR_OPAQUE through MR_BOX and MR_TECH_OPAQUE */
+#define MR_MODES_RESIZE         0x47    /* MR_OPAQUE through MR_BOX and MR_TECH_OPAQUE */
 
-static Font         font = NoXID;	/* Used in mode 1 (technical) */
+static Font     font = NoXID;   /* Used in mode 1 (technical) */
 
 static void
 draw_h_arrow(EX_Drawable dr, GC gc, int x1, int x2, int y1)
 {
-   char                str[32];
+    char            str[32];
 
-   if (x2 - x1 >= 12)
-     {
-	XDrawLine(disp, dr, gc, x1, y1, x1 + 6, y1 - 3);
-	XDrawLine(disp, dr, gc, x1, y1, x1 + 6, y1 + 3);
-	XDrawLine(disp, dr, gc, x2, y1, x2 - 6, y1 - 3);
-	XDrawLine(disp, dr, gc, x2, y1, x2 - 6, y1 + 3);
-     }
-   if (x2 >= x1)
-     {
-	XDrawLine(disp, dr, gc, x1, y1, x2, y1);
-	Esnprintf(str, sizeof(str), "%i", x2 - x1 + 1);
-	XDrawString(disp, dr, gc, (x1 + x2) / 2, y1 - 10, str, strlen(str));
-     }
+    if (x2 - x1 >= 12)
+    {
+        XDrawLine(disp, dr, gc, x1, y1, x1 + 6, y1 - 3);
+        XDrawLine(disp, dr, gc, x1, y1, x1 + 6, y1 + 3);
+        XDrawLine(disp, dr, gc, x2, y1, x2 - 6, y1 - 3);
+        XDrawLine(disp, dr, gc, x2, y1, x2 - 6, y1 + 3);
+    }
+    if (x2 >= x1)
+    {
+        XDrawLine(disp, dr, gc, x1, y1, x2, y1);
+        Esnprintf(str, sizeof(str), "%i", x2 - x1 + 1);
+        XDrawString(disp, dr, gc, (x1 + x2) / 2, y1 - 10, str, strlen(str));
+    }
 }
 
 static void
 draw_v_arrow(EX_Drawable dr, GC gc, int y1, int y2, int x1)
 {
-   char                str[32];
+    char            str[32];
 
-   if (y2 - y1 >= 12)
-     {
-	XDrawLine(disp, dr, gc, x1, y1, x1 + 3, y1 + 6);
-	XDrawLine(disp, dr, gc, x1, y1, x1 - 3, y1 + 6);
-	XDrawLine(disp, dr, gc, x1, y2, x1 + 3, y2 - 6);
-	XDrawLine(disp, dr, gc, x1, y2, x1 - 3, y2 - 6);
-     }
-   if (y2 >= y1)
-     {
-	XDrawLine(disp, dr, gc, x1, y1, x1, y2);
-	Esnprintf(str, sizeof(str), "%i", y2 - y1 + 1);
-	XDrawString(disp, dr, gc, x1 + 10, (y1 + y2) / 2, str, strlen(str));
-     }
+    if (y2 - y1 >= 12)
+    {
+        XDrawLine(disp, dr, gc, x1, y1, x1 + 3, y1 + 6);
+        XDrawLine(disp, dr, gc, x1, y1, x1 - 3, y1 + 6);
+        XDrawLine(disp, dr, gc, x1, y2, x1 + 3, y2 - 6);
+        XDrawLine(disp, dr, gc, x1, y2, x1 - 3, y2 - 6);
+    }
+    if (y2 >= y1)
+    {
+        XDrawLine(disp, dr, gc, x1, y1, x1, y2);
+        Esnprintf(str, sizeof(str), "%i", y2 - y1 + 1);
+        XDrawString(disp, dr, gc, x1 + 10, (y1 + y2) / 2, str, strlen(str));
+    }
 }
 
 void
 do_draw_technical(EX_Drawable dr, GC gc,
-		  int a, int b, int c, int d, int bl, int br, int bt, int bb)
+                  int a, int b, int c, int d, int bl, int br, int bt, int bb)
 {
-   if (!font)
-      font = XLoadFont(disp, "-*-helvetica-medium-r-*-*-10-*-*-*-*-*-*-*");
-   XSetFont(disp, gc, font);
+    if (!font)
+        font = XLoadFont(disp, "-*-helvetica-medium-r-*-*-10-*-*-*-*-*-*-*");
+    XSetFont(disp, gc, font);
 
-   if (c < 3)
-      c = 3;
-   if (d < 3)
-      d = 3;
+    if (c < 3)
+        c = 3;
+    if (d < 3)
+        d = 3;
 
-   draw_h_arrow(dr, gc, a + bl, a + bl + c - 1, b + bt + d - 16);
-   draw_h_arrow(dr, gc, 0, a - 1, b + bt + (d / 2));
-   draw_h_arrow(dr, gc, a + c + bl + br, WinGetW(VROOT) - 1, b + bt + (d / 2));
-   draw_v_arrow(dr, gc, b + bt, b + bt + d - 1, a + bl + 16);
-   draw_v_arrow(dr, gc, 0, b - 1, a + bl + (c / 2));
-   draw_v_arrow(dr, gc, b + d + bt + bb, WinGetH(VROOT) - 1, a + bl + (c / 2));
+    draw_h_arrow(dr, gc, a + bl, a + bl + c - 1, b + bt + d - 16);
+    draw_h_arrow(dr, gc, 0, a - 1, b + bt + (d / 2));
+    draw_h_arrow(dr, gc, a + c + bl + br, WinGetW(VROOT) - 1, b + bt + (d / 2));
+    draw_v_arrow(dr, gc, b + bt, b + bt + d - 1, a + bl + 16);
+    draw_v_arrow(dr, gc, 0, b - 1, a + bl + (c / 2));
+    draw_v_arrow(dr, gc, b + d + bt + bb, WinGetH(VROOT) - 1, a + bl + (c / 2));
 
-   XDrawLine(disp, dr, gc, a, 0, a, WinGetH(VROOT));
-   XDrawLine(disp, dr, gc, a + c + bl + br - 1, 0,
-	     a + c + bl + br - 1, WinGetH(VROOT));
-   XDrawLine(disp, dr, gc, 0, b, WinGetW(VROOT), b);
-   XDrawLine(disp, dr, gc, 0, b + d + bt + bb - 1,
-	     WinGetW(VROOT), b + d + bt + bb - 1);
+    XDrawLine(disp, dr, gc, a, 0, a, WinGetH(VROOT));
+    XDrawLine(disp, dr, gc, a + c + bl + br - 1, 0,
+              a + c + bl + br - 1, WinGetH(VROOT));
+    XDrawLine(disp, dr, gc, 0, b, WinGetW(VROOT), b);
+    XDrawLine(disp, dr, gc, 0, b + d + bt + bb - 1,
+              WinGetW(VROOT), b + d + bt + bb - 1);
 
-   XDrawRectangle(disp, dr, gc, a + bl + 1, b + bt + 1, c - 3, d - 3);
+    XDrawRectangle(disp, dr, gc, a + bl + 1, b + bt + 1, c - 3, d - 3);
 }
 
 static void
 do_draw_boxy(EX_Drawable dr, GC gc,
-	     int a, int b, int c, int d, int bl, int br, int bt, int bb)
+             int a, int b, int c, int d, int bl, int br, int bt, int bb)
 {
-   if (c < 3)
-      c = 3;
-   if (d < 3)
-      d = 3;
-   XDrawRectangle(disp, dr, gc, a, b, c + bl + br - 1, d + bt + bb - 1);
-   XDrawRectangle(disp, dr, gc, a + bl + 1, b + bt + 1, c - 3, d - 3);
+    if (c < 3)
+        c = 3;
+    if (d < 3)
+        d = 3;
+    XDrawRectangle(disp, dr, gc, a, b, c + bl + br - 1, d + bt + bb - 1);
+    XDrawRectangle(disp, dr, gc, a + bl + 1, b + bt + 1, c - 3, d - 3);
 }
 
 typedef struct {
-   EX_Window           root;
-   GC                  gc;
-   int                 xo, yo, wo, ho;
-   int                 bl, br, bt, bb;
-   ShapeWin           *shwin;
+    EX_Window       root;
+    GC              gc;
+    int             xo, yo, wo, ho;
+    int             bl, br, bt, bb;
+    ShapeWin       *shwin;
 } ShapeData;
 
 static void
-_ShapeDrawNograb_tech_box(EWin * ewin, int md, int firstlast,
-			  int xn, int yn, int wn, int hn)
+_ShapeDrawNograb_tech_box(EWin *ewin, int md, int firstlast,
+                          int xn, int yn, int wn, int hn)
 {
-   ShapeData          *psd = (ShapeData *) ewin->shape_data;
+    ShapeData      *psd = (ShapeData *) ewin->shape_data;
 
-   if (firstlast == 0 && !psd->shwin)
-      psd->shwin = ShapewinCreate(md);
-   if (!psd->shwin)
-      return;
+    if (firstlast == 0 && !psd->shwin)
+        psd->shwin = ShapewinCreate(md);
+    if (!psd->shwin)
+        return;
 
-   ShapewinShapeSet(psd->shwin, md, xn, yn, wn, hn,
-		    psd->bl, psd->br, psd->bt, psd->bb);
-   EoMap(psd->shwin, 0);
+    ShapewinShapeSet(psd->shwin, md, xn, yn, wn, hn,
+                     psd->bl, psd->br, psd->bt, psd->bb);
+    EoMap(psd->shwin, 0);
 
-   CoordsShow(ewin);
+    CoordsShow(ewin);
 
-   if (firstlast == 2)
-     {
-	ShapewinDestroy(psd->shwin);
-	psd->shwin = NULL;
-     }
+    if (firstlast == 2)
+    {
+        ShapewinDestroy(psd->shwin);
+        psd->shwin = NULL;
+    }
 }
 
-typedef void        (DrawFunc) (EX_Drawable dr, GC gc,
-				int a, int b, int c, int d,
-				int bl, int br, int bt, int bb);
+typedef void    (DrawFunc) (EX_Drawable dr, GC gc,
+                            int a, int b, int c, int d,
+                            int bl, int br, int bt, int bb);
 
-static DrawFunc    *const draw_functions[] = {
-   do_draw_technical, do_draw_boxy,
-   NULL, NULL,
-   NULL, do_draw_technical,
+static DrawFunc *const draw_functions[] = {
+    do_draw_technical, do_draw_boxy,
+    NULL, NULL,
+    NULL, do_draw_technical,
 };
 
 static void
-_ShapeDrawNontranslucent(EWin * ewin, int md, int firstlast,
-			 int xn, int yn, int wn, int hn)
+_ShapeDrawNontranslucent(EWin *ewin, int md, int firstlast,
+                         int xn, int yn, int wn, int hn)
 {
-   ShapeData          *psd = (ShapeData *) ewin->shape_data;
-   DrawFunc           *drf;
+    ShapeData      *psd = (ShapeData *) ewin->shape_data;
+    DrawFunc       *drf;
 
-   if (firstlast == 0)
-     {
-	XGCValues           gcv;
+    if (firstlast == 0)
+    {
+        XGCValues       gcv;
 
-	gcv.function = GXxor;
-	gcv.foreground = Dpy.pixel_white;
-	if (gcv.foreground == 0)
-	   gcv.foreground = Dpy.pixel_black;
-	gcv.subwindow_mode = IncludeInferiors;
-	psd->gc = EXCreateGC(psd->root,
-			     GCFunction | GCForeground | GCSubwindowMode, &gcv);
-     }
+        gcv.function = GXxor;
+        gcv.foreground = Dpy.pixel_white;
+        if (gcv.foreground == 0)
+            gcv.foreground = Dpy.pixel_black;
+        gcv.subwindow_mode = IncludeInferiors;
+        psd->gc = EXCreateGC(psd->root,
+                             GCFunction | GCForeground | GCSubwindowMode, &gcv);
+    }
 
-   drf = draw_functions[md - 1];
+    drf = draw_functions[md - 1];
 
-   if (firstlast > 0)
-      drf(psd->root, psd->gc, psd->xo, psd->yo, psd->wo, psd->ho,
-	  psd->bl, psd->br, psd->bt, psd->bb);
+    if (firstlast > 0)
+        drf(psd->root, psd->gc, psd->xo, psd->yo, psd->wo, psd->ho,
+            psd->bl, psd->br, psd->bt, psd->bb);
 
-   CoordsShow(ewin);
+    CoordsShow(ewin);
 
-   if (firstlast < 2)
-      drf(psd->root, psd->gc, xn, yn, wn, hn,
-	  psd->bl, psd->br, psd->bt, psd->bb);
+    if (firstlast < 2)
+        drf(psd->root, psd->gc, xn, yn, wn, hn,
+            psd->bl, psd->br, psd->bt, psd->bb);
 
-   if (firstlast == 2)
-     {
-	EXFreeGC(psd->gc);
-	psd->gc = NULL;
-     }
+    if (firstlast == 2)
+    {
+        EXFreeGC(psd->gc);
+        psd->gc = NULL;
+    }
 }
 
 void
-DrawEwinShape(EWin * ewin, int md, int x, int y, int w, int h, int firstlast)
+DrawEwinShape(EWin *ewin, int md, int x, int y, int w, int h, int firstlast)
 {
-   ShapeData          *psd;
-   int                 dx, dy;
+    ShapeData      *psd;
+    int             dx, dy;
 
-   /* Quit if no change */
-   if (firstlast == 1 &&
-       (x == ewin->shape_x && y == ewin->shape_y &&
-	(ewin->state.shaded || (w == ewin->shape_w && h == ewin->shape_h))))
-      return;
+    /* Quit if no change */
+    if (firstlast == 1 &&
+        (x == ewin->shape_x && y == ewin->shape_y &&
+         (ewin->state.shaded || (w == ewin->shape_w && h == ewin->shape_h))))
+        return;
 
-   if ((md == MR_OPAQUE) || (md == MR_TECH_OPAQUE))
-     {
-	EwinOpMoveResize(ewin, OPSRC_USER, x, y, w, h);
-	EwinShapeSet(ewin);
-	CoordsShow(ewin);
-	if (md == MR_OPAQUE)
-	   goto done;
-     }
+    if ((md == MR_OPAQUE) || (md == MR_TECH_OPAQUE))
+    {
+        EwinOpMoveResize(ewin, OPSRC_USER, x, y, w, h);
+        EwinShapeSet(ewin);
+        CoordsShow(ewin);
+        if (md == MR_OPAQUE)
+            goto done;
+    }
 
-   if (firstlast == 0)
-     {
-	EwinShapeSet(ewin);
+    if (firstlast == 0)
+    {
+        EwinShapeSet(ewin);
 
-	psd = (ShapeData *) ewin->shape_data;
-	if (!psd)
-	  {
-	     psd = ECALLOC(ShapeData, 1);
-	     if (!psd)
-		goto done;
-	     ewin->shape_data = psd;
-	     psd->root = WinGetXwin(VROOT);
-	     EwinBorderGetSize(ewin, &psd->bl, &psd->br, &psd->bt, &psd->bb);
-	  }
-     }
-   psd = (ShapeData *) ewin->shape_data;
-   if (!psd)
-      goto done;
+        psd = (ShapeData *) ewin->shape_data;
+        if (!psd)
+        {
+            psd = ECALLOC(ShapeData, 1);
+            if (!psd)
+                goto done;
+            ewin->shape_data = psd;
+            psd->root = WinGetXwin(VROOT);
+            EwinBorderGetSize(ewin, &psd->bl, &psd->br, &psd->bt, &psd->bb);
+        }
+    }
+    psd = (ShapeData *) ewin->shape_data;
+    if (!psd)
+        goto done;
 
-   dx = EoGetX(EoGetDesk(ewin));
-   dy = EoGetY(EoGetDesk(ewin));
-   ewin->shape_x = x;
-   ewin->shape_y = y;
-   x += dx;
-   y += dy;
+    dx = EoGetX(EoGetDesk(ewin));
+    dy = EoGetY(EoGetDesk(ewin));
+    ewin->shape_x = x;
+    ewin->shape_y = y;
+    x += dx;
+    y += dy;
 
-   if (!ewin->state.shaded)
-     {
-	ewin->shape_w = w;
-	ewin->shape_h = h;
-     }
-   else
-     {
-	w = ewin->shape_w;
-	h = ewin->shape_h;
-     }
+    if (!ewin->state.shaded)
+    {
+        ewin->shape_w = w;
+        ewin->shape_h = h;
+    }
+    else
+    {
+        w = ewin->shape_w;
+        h = ewin->shape_h;
+    }
 
-   if (((md <= MR_BOX) || (md == MR_TECH_OPAQUE)) &&
-       Conf.movres.avoid_server_grab)
-     {
-	_ShapeDrawNograb_tech_box(ewin, md, firstlast, x, y, w, h);
-	goto done;
-     }
+    if (((md <= MR_BOX) || (md == MR_TECH_OPAQUE)) &&
+        Conf.movres.avoid_server_grab)
+    {
+        _ShapeDrawNograb_tech_box(ewin, md, firstlast, x, y, w, h);
+        goto done;
+    }
 
-   switch (md)
-     {
-     case MR_TECHNICAL:
-     case MR_TECH_OPAQUE:
-     case MR_BOX:
-	_ShapeDrawNontranslucent(ewin, md, firstlast, x, y, w, h);
-	break;
-     default:
-	/* Fall back to opaque mode */
-	Conf.movres.mode_move = MR_OPAQUE;
-	break;
-     }
+    switch (md)
+    {
+    case MR_TECHNICAL:
+    case MR_TECH_OPAQUE:
+    case MR_BOX:
+        _ShapeDrawNontranslucent(ewin, md, firstlast, x, y, w, h);
+        break;
+    default:
+        /* Fall back to opaque mode */
+        Conf.movres.mode_move = MR_OPAQUE;
+        break;
+    }
 
-   psd->xo = x;
-   psd->yo = y;
-   psd->wo = w;
-   psd->ho = h;
+    psd->xo = x;
+    psd->yo = y;
+    psd->wo = w;
+    psd->ho = h;
 
- done:
-   if (firstlast == 0 || firstlast == 2 || firstlast == 4)
-     {
-	ewin->req_x = ewin->shape_x;
-	ewin->req_y = ewin->shape_y;
-	if (firstlast == 2)
-	  {
-	     CoordsHide();
-	     EFREE_NULL(ewin->shape_data);
-	  }
-     }
+  done:
+    if (firstlast == 0 || firstlast == 2 || firstlast == 4)
+    {
+        ewin->req_x = ewin->shape_x;
+        ewin->req_y = ewin->shape_y;
+        if (firstlast == 2)
+        {
+            CoordsHide();
+            EFREE_NULL(ewin->shape_data);
+        }
+    }
 }
 
 void
-DrawEwinShapeEnd(EWin * ewin)
+DrawEwinShapeEnd(EWin *ewin)
 {
-   ShapeData          *psd = (ShapeData *) ewin->shape_data;
+    ShapeData      *psd = (ShapeData *) ewin->shape_data;
 
-   if (!psd)
-      return;
-   if (psd->shwin)
-      ShapewinDestroy(psd->shwin);
-   Efree(psd);
-   ewin->shape_data = NULL;
+    if (!psd)
+        return;
+    if (psd->shwin)
+        ShapewinDestroy(psd->shwin);
+    Efree(psd);
+    ewin->shape_data = NULL;
 }
 
 int
 DrawEwinShapeNeedsGrab(int mode)
 {
-   if (mode == MR_OPAQUE)
-      return 0;
-   if ((mode <= MR_BOX) || (mode == MR_TECH_OPAQUE))
-      return !Conf.movres.avoid_server_grab;
-   return 1;
+    if (mode == MR_OPAQUE)
+        return 0;
+    if ((mode <= MR_BOX) || (mode == MR_TECH_OPAQUE))
+        return !Conf.movres.avoid_server_grab;
+    return 1;
 }
 
 static int
 _MoveResizeModeValidate(unsigned int valid, int md)
 {
-   if (md & ~0x1f)
-      return MR_OPAQUE;
-   if (valid & (1U << md))
-      return md;
-   return MR_OPAQUE;
+    if (md & ~0x1f)
+        return MR_OPAQUE;
+    if (valid & (1U << md))
+        return md;
+    return MR_OPAQUE;
 }
 
 int
 MoveResizeModeValidateMove(int md)
 {
-   return _MoveResizeModeValidate(MR_MODES_MOVE, md);
+    return _MoveResizeModeValidate(MR_MODES_MOVE, md);
 }
 
 int
 MoveResizeModeValidateResize(int md)
 {
-   return _MoveResizeModeValidate(MR_MODES_RESIZE, md);
+    return _MoveResizeModeValidate(MR_MODES_RESIZE, md);
 }

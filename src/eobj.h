@@ -30,47 +30,47 @@
 typedef struct _eobj EObj;
 
 struct _eobj {
-   Win                 win;	/* The top level window */
-   short               type;	/* Ewin, button, other, ... */
-   short               ilayer;	/* Internal stacking layer */
-   short               layer;	/* Stacking layer */
-   signed char         stacked;
-   signed char         shaped;
-   Desk               *desk;	/* Belongs on desk */
-   char                sticky;
-   char                floating;
-   unsigned            external:1;
-   unsigned            inputonly:1;
-   unsigned            shown:1;
-   unsigned            gone:1;
-   unsigned            noredir:1;	/* Do not redirect */
-   unsigned            shadow:1;	/* Enable shadows */
-   unsigned            fade:1;	/* Enable fading */
-   unsigned            fading:1;	/* Is fading */
-   unsigned            ghost:1;	/* Ghost window */
-   struct {
-      char               *wm_name;
-      char               *wm_res_name;
-      char               *wm_res_class;
-   } icccm;
+    Win             win;        /* The top level window */
+    short           type;       /* Ewin, button, other, ... */
+    short           ilayer;     /* Internal stacking layer */
+    short           layer;      /* Stacking layer */
+    signed char     stacked;
+    signed char     shaped;
+    Desk           *desk;       /* Belongs on desk */
+    char            sticky;
+    char            floating;
+    unsigned        external:1;
+    unsigned        inputonly:1;
+    unsigned        shown:1;
+    unsigned        gone:1;
+    unsigned        noredir:1;  /* Do not redirect */
+    unsigned        shadow:1;   /* Enable shadows */
+    unsigned        fade:1;     /* Enable fading */
+    unsigned        fading:1;   /* Is fading */
+    unsigned        ghost:1;    /* Ghost window */
+    struct {
+        char           *wm_name;
+        char           *wm_res_name;
+        char           *wm_res_class;
+    } icccm;
 #if USE_COMPOSITE
-   unsigned int        serial;
-   unsigned int        opacity;
-   struct _cmhook     *cmhook;
+    unsigned int    serial;
+    unsigned int    opacity;
+    struct _cmhook *cmhook;
 #endif
 #if USE_GLX
-   struct _glhook     *glhook;
+    struct _glhook *glhook;
 #endif
-   Animator           *animations;	/* list of pending animations */
+    Animator       *animations; /* list of pending animations */
 };
 
 #define EOBJ_TYPE_EWIN      0
 #define EOBJ_TYPE_BUTTON    1
 #define EOBJ_TYPE_DESK      2
 #define EOBJ_TYPE_MISC      3
-#define EOBJ_TYPE_EVENT     4	/* Unredirected */
+#define EOBJ_TYPE_EVENT     4   /* Unredirected */
 #define EOBJ_TYPE_EXT       5
-#define EOBJ_TYPE_MISC_NR   6	/* Unredirected */
+#define EOBJ_TYPE_MISC_NR   6   /* Unredirected */
 #define EOBJ_TYPE_ROOT_BG   7
 #define EOBJ_TYPE_GLX       8
 
@@ -136,8 +136,8 @@ struct _eobj {
 #endif
 
 #define EoInit(eo, type, win, x, y, w, h, su, name) \
-					EobjInit(EoObj(eo), type, win, x, y, w, h, su, name)
-#define EoFini(eo)			EobjFini(EoObj(eo));
+    EobjInit(EoObj(eo), type, win, x, y, w, h, su, name)
+#define EoFini(eo)                      EobjFini(EoObj(eo));
 #define EoMap(eo, raise)                EobjMap(EoObj(eo), raise)
 #define EoUnmap(eo)                     EobjUnmap(EoObj(eo))
 #define EoMove(eo, x, y)                EobjMove(EoObj(eo), x, y)
@@ -149,68 +149,68 @@ struct _eobj {
 #define EoShapeUpdate(eo, p)            EobjShapeUpdate(EoObj(eo), p)
 
 /* eobj.c */
-void                EobjInit(EObj * eo, int type, Win win, int x, int y,
-			     int w, int h, int su, const char *name);
-void                EobjFini(EObj * eo);
-void                EobjDestroy(EObj * eo);
-const char         *EobjGetNameSafe(const EObj * eo);
+void            EobjInit(EObj * eo, int type, Win win, int x, int y,
+                         int w, int h, int su, const char *name);
+void            EobjFini(EObj * eo);
+void            EobjDestroy(EObj * eo);
+const char     *EobjGetNameSafe(const EObj * eo);
 
-EObj               *EobjWindowCreate(int type, int x, int y, int w, int h,
-				     int su, const char *name);
-void                EobjWindowDestroy(EObj * eo);
+EObj           *EobjWindowCreate(int type, int x, int y, int w, int h,
+                                 int su, const char *name);
+void            EobjWindowDestroy(EObj * eo);
 
-EObj               *EobjRegisterOR(EX_Window xwin, XWindowAttributes * pxwa,
-				   int mapped);
-void                EobjUnregister(EObj * eo);
+EObj           *EobjRegisterOR(EX_Window xwin, XWindowAttributes * pxwa,
+                               int mapped);
+void            EobjUnregister(EObj * eo);
 
-void                EobjMap(EObj * eo, int raise);
-void                EobjUnmap(EObj * eo);
-void                EobjMove(EObj * eo, int x, int y);
-void                EobjResize(EObj * eo, int w, int h);
-void                EobjMoveResize(EObj * eo, int x, int y, int w, int h);
-void                EobjDamage(EObj * eo);
-void                EobjReparent(EObj * eo, EObj * dst, int x, int y);
-int                 EobjRaise(EObj * eo);
-int                 EobjLower(EObj * eo);
-void                EobjShapeUpdate(EObj * eo, int propagate);
-void                EobjsRepaint(void);
-EX_Pixmap           EobjGetPixmap(const EObj * eo);
+void            EobjMap(EObj * eo, int raise);
+void            EobjUnmap(EObj * eo);
+void            EobjMove(EObj * eo, int x, int y);
+void            EobjResize(EObj * eo, int w, int h);
+void            EobjMoveResize(EObj * eo, int x, int y, int w, int h);
+void            EobjDamage(EObj * eo);
+void            EobjReparent(EObj * eo, EObj * dst, int x, int y);
+int             EobjRaise(EObj * eo);
+int             EobjLower(EObj * eo);
+void            EobjShapeUpdate(EObj * eo, int propagate);
+void            EobjsRepaint(void);
+EX_Pixmap       EobjGetPixmap(const EObj * eo);
 
 #if USE_GLX
-void                EobjTextureCreate(EObj * eo);
-void                EobjTextureDestroy(EObj * eo);
-void                EobjTextureInvalidate(EObj * eo);
-struct _glhook     *EobjGetTexture(EObj * eo);
+void            EobjTextureCreate(EObj * eo);
+void            EobjTextureDestroy(EObj * eo);
+void            EobjTextureInvalidate(EObj * eo);
+struct _glhook *EobjGetTexture(EObj * eo);
 #endif
-void                EobjChangeOpacityNow(EObj * eo, unsigned int opacity);
-void                EobjChangeOpacity(EObj * eo, unsigned int opacity);
-void                EobjChangeShadow(EObj * eo, int shadow);
-void                EobjSetName(EObj * eo, const char *name);
-void                EobjSetLayer(EObj * eo, int layer);
-void                EobjSetFloating(EObj * eo, int floating);
-bool                EobjShadowOk(const EObj * eo, bool sharp);
+void            EobjChangeOpacityNow(EObj * eo, unsigned int opacity);
+void            EobjChangeOpacity(EObj * eo, unsigned int opacity);
+void            EobjChangeShadow(EObj * eo, int shadow);
+void            EobjSetName(EObj * eo, const char *name);
+void            EobjSetLayer(EObj * eo, int layer);
+void            EobjSetFloating(EObj * eo, int floating);
+bool            EobjShadowOk(const EObj * eo, bool sharp);
 
-void                EobjsOpacityUpdate(int op_or);
+void            EobjsOpacityUpdate(int op_or);
 
 /* stacking.c */
-void                EobjListStackAdd(EObj * eo, int ontop);
-void                EobjListStackDel(EObj * eo);
-int                 EobjListStackRaise(EObj * eo, int test);
-int                 EobjListStackLower(EObj * eo, int test);
-int                 EobjListStackCheck(EObj * eo);
-EObj               *EobjListStackFind(EX_Window win);
-EObj               *const *EobjListStackGet(int *num);
-EObj               *const *EobjListStackGetForDesk(int *num, Desk * dsk);
-void                EobjListFocusAdd(EObj * eo, int ontop);
-void                EobjListFocusDel(EObj * eo);
-int                 EobjListFocusRaise(EObj * eo);
-void                EobjListOrderAdd(EObj * eo);
-void                EobjListOrderDel(EObj * eo);
-EObj               *const *EobjListOrderGet(int *num);
+void            EobjListStackAdd(EObj * eo, int ontop);
+void            EobjListStackDel(EObj * eo);
+int             EobjListStackRaise(EObj * eo, int test);
+int             EobjListStackLower(EObj * eo, int test);
+int             EobjListStackCheck(EObj * eo);
+EObj           *EobjListStackFind(EX_Window win);
+EObj           *const *EobjListStackGet(int *num);
+EObj           *const *EobjListStackGetForDesk(int *num, Desk * dsk);
+void            EobjListFocusAdd(EObj * eo, int ontop);
+void            EobjListFocusDel(EObj * eo);
+int             EobjListFocusRaise(EObj * eo);
+void            EobjListOrderAdd(EObj * eo);
+void            EobjListOrderDel(EObj * eo);
+EObj           *const *EobjListOrderGet(int *num);
 
 /* Hmmm. */
-int                 OpacityFix(int op, int op_0);
-unsigned int        OpacityFromPercent(int op);
-int                 OpacityToPercent(unsigned int opacity);
+int             OpacityFix(int op, int op_0);
+unsigned int    OpacityFromPercent(int op);
+int             OpacityToPercent(unsigned int opacity);
 
-#endif /* _EOBJ_H_ */
+#endif                          /* _EOBJ_H_ */

@@ -35,716 +35,715 @@
 /* fine ARRANGE_BY_POSITION 2 */
 
 typedef struct {
-   void               *data;
-   int                 x, y, w, h;
-   int                 p;
+    void           *data;
+    int             x, y, w, h;
+    int             p;
 } RectBox;
 
 typedef struct {
-   int                 x, y;
-   int                 p, q;
+    int             x, y;
+    int             p, q;
 } RectInfo;
 
 static int
 ArrangeAddToList(int *array, int current_size, int value)
 {
-   int                 i, j;
+    int             i, j;
 
-   if (current_size >= 2 &&
-       (value <= array[0] || value >= array[current_size - 1]))
-      return current_size;
+    if (current_size >= 2 &&
+        (value <= array[0] || value >= array[current_size - 1]))
+        return current_size;
 
-   for (i = 0; i < current_size; i++)
-     {
-	if (value < array[i])
-	  {
-	     for (j = current_size; j > i; j--)
-		array[j] = array[j - 1];
-	     array[i] = value;
-	     return current_size + 1;
-	  }
-	else if (value == array[i])
-	   return current_size;
-     }
-   array[current_size] = value;
-   return current_size + 1;
+    for (i = 0; i < current_size; i++)
+    {
+        if (value < array[i])
+        {
+            for (j = current_size; j > i; j--)
+                array[j] = array[j - 1];
+            array[i] = value;
+            return current_size + 1;
+        }
+        else if (value == array[i])
+            return current_size;
+    }
+    array[current_size] = value;
+    return current_size + 1;
 }
 
 static void
 ArrangeMakeXYArrays(int tx1, int tx2, int ty1, int ty2, int fitw, int fith,
-		    const RectBox * sorted, int num_sorted,
-		    int *xarray, int *nx, int *yarray, int *ny)
+                    const RectBox *sorted, int num_sorted,
+                    int *xarray, int *nx, int *yarray, int *ny)
 {
-   int                 j, x1, x2, y1, y2;
-   int                 xsize, ysize;
+    int             j, x1, x2, y1, y2;
+    int             xsize, ysize;
 
-   xsize = 0;
-   ysize = 0;
+    xsize = 0;
+    ysize = 0;
 
-   /* put all the sorted rects into the xy arrays */
-   xsize = ArrangeAddToList(xarray, xsize, tx1);
-   xsize = ArrangeAddToList(xarray, xsize, tx2);
-   xsize = ArrangeAddToList(xarray, xsize, tx2 - fitw);
-   ysize = ArrangeAddToList(yarray, ysize, ty1);
-   ysize = ArrangeAddToList(yarray, ysize, ty2);
-   ysize = ArrangeAddToList(yarray, ysize, ty2 - fith);
+    /* put all the sorted rects into the xy arrays */
+    xsize = ArrangeAddToList(xarray, xsize, tx1);
+    xsize = ArrangeAddToList(xarray, xsize, tx2);
+    xsize = ArrangeAddToList(xarray, xsize, tx2 - fitw);
+    ysize = ArrangeAddToList(yarray, ysize, ty1);
+    ysize = ArrangeAddToList(yarray, ysize, ty2);
+    ysize = ArrangeAddToList(yarray, ysize, ty2 - fith);
 
-   for (j = 0; j < num_sorted; j++)
-     {
-	x1 = sorted[j].x;
-	x2 = x1 + sorted[j].w;
-	xsize = ArrangeAddToList(xarray, xsize, x1);
-	xsize = ArrangeAddToList(xarray, xsize, x2);
-	xsize = ArrangeAddToList(xarray, xsize, x1 - fitw);
-	xsize = ArrangeAddToList(xarray, xsize, x2 - fitw);
-	y1 = sorted[j].y;
-	y2 = y1 + sorted[j].h;
-	ysize = ArrangeAddToList(yarray, ysize, y1);
-	ysize = ArrangeAddToList(yarray, ysize, y2);
-	ysize = ArrangeAddToList(yarray, ysize, y1 - fith);
-	ysize = ArrangeAddToList(yarray, ysize, y2 - fith);
-     }
+    for (j = 0; j < num_sorted; j++)
+    {
+        x1 = sorted[j].x;
+        x2 = x1 + sorted[j].w;
+        xsize = ArrangeAddToList(xarray, xsize, x1);
+        xsize = ArrangeAddToList(xarray, xsize, x2);
+        xsize = ArrangeAddToList(xarray, xsize, x1 - fitw);
+        xsize = ArrangeAddToList(xarray, xsize, x2 - fitw);
+        y1 = sorted[j].y;
+        y2 = y1 + sorted[j].h;
+        ysize = ArrangeAddToList(yarray, ysize, y1);
+        ysize = ArrangeAddToList(yarray, ysize, y2);
+        ysize = ArrangeAddToList(yarray, ysize, y1 - fith);
+        ysize = ArrangeAddToList(yarray, ysize, y2 - fith);
+    }
 #if DEBUG_ARRANGE
-   for (j = 0; j < xsize; j++)
-      Eprintf("xarray[%d] = %d\n", j, xarray[j]);
-   for (j = 0; j < ysize; j++)
-      Eprintf("yarray[%d] = %d\n", j, yarray[j]);
+    for (j = 0; j < xsize; j++)
+        Eprintf("xarray[%d] = %d\n", j, xarray[j]);
+    for (j = 0; j < ysize; j++)
+        Eprintf("yarray[%d] = %d\n", j, yarray[j]);
 #endif
 
-   *nx = xsize;
-   *ny = ysize;
+    *nx = xsize;
+    *ny = ysize;
 }
 
 #define Filled(x,y) (filled[(y * (xsize - 1)) + x])
 
 static void
-ArrangeMakeFillLists(const RectBox * sorted, int num_sorted,
-		     int *xarray, int xsize, int *yarray, int ysize,
-		     unsigned char *filled)
+ArrangeMakeFillLists(const RectBox *sorted, int num_sorted,
+                     int *xarray, int xsize, int *yarray, int ysize,
+                     unsigned char *filled)
 {
-   int                 j, x1, x2, y1, y2, k, y, x;
+    int             j, x1, x2, y1, y2, k, y, x;
 
-   /* fill the allocation array */
-   for (j = 0; j < (xsize - 1) * (ysize - 1); filled[j++] = 0)
-      ;
-   for (j = 0; j < num_sorted; j++)
-     {
-	if (sorted[j].x + sorted[j].w <= xarray[0] ||
-	    sorted[j].x >= xarray[xsize - 1])
-	   continue;
-	if (sorted[j].y + sorted[j].h <= yarray[0] ||
-	    sorted[j].y >= yarray[ysize - 1])
-	   continue;
-	x1 = -1;
-	x2 = -1;
-	y1 = -1;
-	y2 = -1;
-	for (k = 0; k < xsize - 1; k++)
-	   if (sorted[j].x <= xarray[k])
-	     {
-		x1 = x2 = k;
-		break;
-	     }
-	for (k++; k < xsize - 1; k++)
-	   if (sorted[j].x + sorted[j].w > xarray[k])
-	      x2 = k;
-	for (k = 0; k < ysize - 1; k++)
-	   if (sorted[j].y <= yarray[k])
-	     {
-		y1 = y2 = k;
-		break;
-	     }
-	for (k++; k < ysize - 1; k++)
-	   if (sorted[j].y + sorted[j].h > yarray[k])
-	      y2 = k;
+    /* fill the allocation array */
+    for (j = 0; j < (xsize - 1) * (ysize - 1); filled[j++] = 0)
+        ;
+    for (j = 0; j < num_sorted; j++)
+    {
+        if (sorted[j].x + sorted[j].w <= xarray[0] ||
+            sorted[j].x >= xarray[xsize - 1])
+            continue;
+        if (sorted[j].y + sorted[j].h <= yarray[0] ||
+            sorted[j].y >= yarray[ysize - 1])
+            continue;
+        x1 = -1;
+        x2 = -1;
+        y1 = -1;
+        y2 = -1;
+        for (k = 0; k < xsize - 1; k++)
+            if (sorted[j].x <= xarray[k])
+            {
+                x1 = x2 = k;
+                break;
+            }
+        for (k++; k < xsize - 1; k++)
+            if (sorted[j].x + sorted[j].w > xarray[k])
+                x2 = k;
+        for (k = 0; k < ysize - 1; k++)
+            if (sorted[j].y <= yarray[k])
+            {
+                y1 = y2 = k;
+                break;
+            }
+        for (k++; k < ysize - 1; k++)
+            if (sorted[j].y + sorted[j].h > yarray[k])
+                y2 = k;
 #if DEBUG_ARRANGE
-	Eprintf("Fill %4d,%4d %4dx%4d: (%2d)%4d->(%2d)%4d,(%2d)%4d->(%2d)%4d\n",
-		sorted[j].x, sorted[j].y, sorted[j].w, sorted[j].h,
-		x1, xarray[x1], x2, xarray[x2], y1, yarray[y1], y2, yarray[y2]);
+        Eprintf("Fill %4d,%4d %4dx%4d: (%2d)%4d->(%2d)%4d,(%2d)%4d->(%2d)%4d\n",
+                sorted[j].x, sorted[j].y, sorted[j].w, sorted[j].h,
+                x1, xarray[x1], x2, xarray[x2], y1, yarray[y1], y2, yarray[y2]);
 #endif
-	if ((x1 >= 0) && (x2 >= 0) && (y1 >= 0) && (y2 >= 0))
-	  {
-	     for (y = y1; y <= y2; y++)
-	       {
-		  for (x = x1; x <= x2; x++)
-		    {
-		       Filled(x, y) += sorted[j].p;
-		    }
-	       }
-	  }
-     }
+        if ((x1 >= 0) && (x2 >= 0) && (y1 >= 0) && (y2 >= 0))
+        {
+            for (y = y1; y <= y2; y++)
+            {
+                for (x = x1; x <= x2; x++)
+                {
+                    Filled(x, y) += sorted[j].p;
+                }
+            }
+        }
+    }
 
 #if DEBUG_ARRANGE
-   Eprintf("Filled[%2d,%2d] =\n", xsize, ysize);
-   for (k = 0; k < ysize - 1; k++)
-     {
-	for (j = 0; j < xsize - 1; j++)
-	   printf(" %2d", Filled(j, k));
-	printf("\n");
-     }
+    Eprintf("Filled[%2d,%2d] =\n", xsize, ysize);
+    for (k = 0; k < ysize - 1; k++)
+    {
+        for (j = 0; j < xsize - 1; j++)
+            printf(" %2d", Filled(j, k));
+        printf("\n");
+    }
 #endif
 }
 
 static void
 ArrangeFindSpace(const int *xarray, int xsize, const int *yarray, int ysize,
-		 unsigned char *filled, RectInfo * spaces, int *ns,
-		 int wx, int wy, int ww, int wh)
+                 unsigned char *filled, RectInfo *spaces, int *ns,
+                 int wx, int wy, int ww, int wh)
 {
-   int                 i, j, w, h, fw, fh, z1, z2;
-   int                 cost, desk;
-   int                 num_spaces = *ns;
+    int             i, j, w, h, fw, fh, z1, z2;
+    int             cost, desk;
+    int             num_spaces = *ns;
 
-   if (wx < xarray[0] || (wx != xarray[0] && wx + ww > xarray[xsize - 1]))
-      return;
-   if (wy < yarray[0] || (wy != yarray[0] && wy + wh > yarray[ysize - 1]))
-      return;
+    if (wx < xarray[0] || (wx != xarray[0] && wx + ww > xarray[xsize - 1]))
+        return;
+    if (wy < yarray[0] || (wy != yarray[0] && wy + wh > yarray[ysize - 1]))
+        return;
 
-   cost = desk = 0;
-   fh = wh;
+    cost = desk = 0;
+    fh = wh;
 #if DEBUG_ARRANGE > 1
-   Eprintf("Check-A %d,%d %dx%d\n", wx, wy, ww, wh);
+    Eprintf("Check-A %d,%d %dx%d\n", wx, wy, ww, wh);
 #endif
-   for (j = 0; j < ysize - 1; j++)
-     {
-	z2 = yarray[j + 1];
-	if (z2 <= wy)
-	   continue;
+    for (j = 0; j < ysize - 1; j++)
+    {
+        z2 = yarray[j + 1];
+        if (z2 <= wy)
+            continue;
 
-	z1 = wy > yarray[j] ? wy : yarray[j];
-	z2 = wy + wh < z2 ? wy + wh : z2;
-	h = z2 - z1;
-	fw = ww;
-	for (i = 0; i < xsize - 1; i++)
-	  {
-	     z2 = xarray[i + 1];
-	     if (z2 <= wx)
-		continue;
+        z1 = wy > yarray[j] ? wy : yarray[j];
+        z2 = wy + wh < z2 ? wy + wh : z2;
+        h = z2 - z1;
+        fw = ww;
+        for (i = 0; i < xsize - 1; i++)
+        {
+            z2 = xarray[i + 1];
+            if (z2 <= wx)
+                continue;
 
-	     z1 = wx > xarray[i] ? wx : xarray[i];
-	     z2 = wx + ww < z2 ? wx + ww : z2;
-	     w = z2 - z1;
+            z1 = wx > xarray[i] ? wx : xarray[i];
+            z2 = wx + ww < z2 ? wx + ww : z2;
+            w = z2 - z1;
 #if DEBUG_ARRANGE > 1
-	     Eprintf("Add [%d,%d] %3dx%3d: %2d\n", i, j, w, h, Filled(i, j));
+            Eprintf("Add [%d,%d] %3dx%3d: %2d\n", i, j, w, h, Filled(i, j));
 #endif
-	     if (Filled(i, j) == 0)
-		desk += w * h;
-	     else
-		cost += w * h * Filled(i, j);
-	     fw -= w;
-	     if (fw <= 0)
-		break;
-	  }
-	fh -= h;
-	if (fh <= 0)
-	   break;
-     }
+            if (Filled(i, j) == 0)
+                desk += w * h;
+            else
+                cost += w * h * Filled(i, j);
+            fw -= w;
+            if (fw <= 0)
+                break;
+        }
+        fh -= h;
+        if (fh <= 0)
+            break;
+    }
 
 #if DEBUG_ARRANGE
-   Eprintf("Check %4d,%4d %3dx%3d cost=%d desk=%d\n", wx, wy, ww, wh,
-	   cost, desk);
+    Eprintf("Check %4d,%4d %3dx%3d cost=%d desk=%d\n", wx, wy, ww, wh,
+            cost, desk);
 #endif
-   spaces[num_spaces].x = wx;
-   spaces[num_spaces].y = wy;
-   spaces[num_spaces].p = cost;
-   spaces[num_spaces].q = desk;
-   num_spaces++;
-   *ns = num_spaces;
+    spaces[num_spaces].x = wx;
+    spaces[num_spaces].y = wy;
+    spaces[num_spaces].p = cost;
+    spaces[num_spaces].q = desk;
+    num_spaces++;
+    *ns = num_spaces;
 }
 
 static void
 ArrangeFindSpaces(const int *xarray, int xsize, const int *yarray, int ysize,
-		  unsigned char *filled, RectInfo * spaces, int max_spaces,
-		  int *ns, RectBox * fit)
+                  unsigned char *filled, RectInfo *spaces, int max_spaces,
+                  int *ns, RectBox *fit)
 {
-   int                 ix, iy, fx, fy, fw, fh;
+    int             ix, iy, fx, fy, fw, fh;
 
-   /* create list of all "spaces" */
-   *ns = 0;
-   fw = fit->w;
-   fh = fit->h;
-   for (iy = 0; iy < ysize; iy++)
-     {
-	fy = yarray[iy];
+    /* create list of all "spaces" */
+    *ns = 0;
+    fw = fit->w;
+    fh = fit->h;
+    for (iy = 0; iy < ysize; iy++)
+    {
+        fy = yarray[iy];
 
-	for (ix = 0; ix < xsize; ix++)
-	  {
-	     fx = xarray[ix];
+        for (ix = 0; ix < xsize; ix++)
+        {
+            fx = xarray[ix];
 
-	     ArrangeFindSpace(xarray, xsize, yarray, ysize, filled, spaces, ns,
-			      fx, fy, fw, fh);
-	     if (*ns >= max_spaces)
-		goto done;
-	  }
-     }
+            ArrangeFindSpace(xarray, xsize, yarray, ysize, filled, spaces, ns,
+                             fx, fy, fw, fh);
+            if (*ns >= max_spaces)
+                goto done;
+        }
+    }
 
- done:
-   ;
+  done:
+    ;
 }
 
 static int
 _rects_sort_size(const void *_a, const void *_b)
 {
-   const RectBox      *a = (const RectBox *)_a;
-   const RectBox      *b = (const RectBox *)_b;
+    const RectBox  *a = (const RectBox *)_a;
+    const RectBox  *b = (const RectBox *)_b;
 
-   return (b->w * b->h) - (a->h * a->w);
+    return (b->w * b->h) - (a->h * a->w);
 }
 
 #ifdef ARRANGE_BY_POSITION
 static int
 _rects_sort_pos(const void *_a, const void *_b)
 {
-   const RectBox      *a = (const RectBox *)_a;
-   const RectBox      *b = (const RectBox *)_b;
+    const RectBox  *a = (const RectBox *)_a;
+    const RectBox  *b = (const RectBox *)_b;
 
-   return (b->x + b->w / 2 + b->y + b->h / 2) - (a->x - a->y);
+    return (b->x + b->w / 2 + b->y + b->h / 2) - (a->x - a->y);
 }
 #endif
 
 static void
-ArrangeRects(const RectBox * fixed, int fixed_count, RectBox * floating,
-	     int floating_count, RectBox * sorted, int startx, int starty,
-	     int width, int height, int policy, char initial_window)
+ArrangeRects(const RectBox *fixed, int fixed_count, RectBox *floating,
+             int floating_count, RectBox *sorted, int startx, int starty,
+             int width, int height, int policy, char initial_window)
 {
-   int                 num_sorted;
-   int                 tx1, ty1, tx2, ty2;
-   int                 xsize = 0, ysize = 0;
-   int                *xarray, *yarray;
-   int                 i, j, k;
-   unsigned char      *filled;
-   RectInfo           *spaces;
-   int                 num_spaces, alloc_spaces;
-   int                 sort;
-   int                 a1;
+    int             num_sorted;
+    int             tx1, ty1, tx2, ty2;
+    int             xsize = 0, ysize = 0;
+    int            *xarray, *yarray;
+    int             i, j, k;
+    unsigned char  *filled;
+    RectInfo       *spaces;
+    int             num_spaces, alloc_spaces;
+    int             sort;
+    int             a1;
 
-   tx1 = startx;
-   ty1 = starty;
-   tx2 = startx + width;
-   ty2 = starty + height;
-   if (initial_window)
-     {
-	int                 xx1, yy1, xx2, yy2;
+    tx1 = startx;
+    ty1 = starty;
+    tx2 = startx + width;
+    ty2 = starty + height;
+    if (initial_window)
+    {
+        int             xx1, yy1, xx2, yy2;
 
-	ScreenGetAvailableAreaByPointer(&xx1, &yy1, &xx2, &yy2,
-					Conf.place.ignore_struts);
-	xx2 += xx1;
-	yy2 += yy1;
-	if (tx1 < xx1)
-	   tx1 = xx1;
-	if (tx2 > xx2)
-	   tx2 = xx2;
-	if (ty1 < yy1)
-	   ty1 = yy1;
-	if (ty2 > yy2)
-	   ty2 = yy2;
-     }
+        ScreenGetAvailableAreaByPointer(&xx1, &yy1, &xx2, &yy2,
+                                        Conf.place.ignore_struts);
+        xx2 += xx1;
+        yy2 += yy1;
+        if (tx1 < xx1)
+            tx1 = xx1;
+        if (tx2 > xx2)
+            tx2 = xx2;
+        if (ty1 < yy1)
+            ty1 = yy1;
+        if (ty2 > yy2)
+            ty2 = yy2;
+    }
 #if DEBUG_ARRANGE
-   Eprintf("Target area %d,%d -> %d,%d\n", tx1, ty1, tx2, ty2);
+    Eprintf("Target area %d,%d -> %d,%d\n", tx1, ty1, tx2, ty2);
 #endif
 
-   switch (policy)
-     {
-     default:
-     case ARRANGE_BY_ORDER:
-	break;
-     case ARRANGE_BY_SIZE:
-	qsort(floating, floating_count, sizeof(RectBox), _rects_sort_size);
-	break;
+    switch (policy)
+    {
+    default:
+    case ARRANGE_BY_ORDER:
+        break;
+    case ARRANGE_BY_SIZE:
+        qsort(floating, floating_count, sizeof(RectBox), _rects_sort_size);
+        break;
 #ifdef ARRANGE_BY_POSITION
-     case ARRANGE_BY_POSITION:
-	qsort(floating, floating_count, sizeof(RectBox), _rects_sort_pos);
-	break;
+    case ARRANGE_BY_POSITION:
+        qsort(floating, floating_count, sizeof(RectBox), _rects_sort_pos);
+        break;
 #endif
-     }
+    }
 
-   /* for every floating rect in order, "fit" it into the sorted list */
-   i = ((fixed_count + floating_count) * 4) + 2;
-   xarray = EMALLOC(int, i);
-   yarray = EMALLOC(int, i);
+    /* for every floating rect in order, "fit" it into the sorted list */
+    i = ((fixed_count + floating_count) * 4) + 2;
+    xarray = EMALLOC(int, i);
+    yarray = EMALLOC(int, i);
 
-   filled = NULL;
-   spaces = NULL;
-   alloc_spaces = 0;
+    filled = NULL;
+    spaces = NULL;
+    alloc_spaces = 0;
 
-   if (!xarray || !yarray)
-      goto done;
+    if (!xarray || !yarray)
+        goto done;
 
-   /* copy "fixed" rects into the sorted list */
-   if (fixed)
-      memcpy(sorted, fixed, fixed_count * sizeof(RectBox));
-   num_sorted = fixed_count;
+    /* copy "fixed" rects into the sorted list */
+    if (fixed)
+        memcpy(sorted, fixed, fixed_count * sizeof(RectBox));
+    num_sorted = fixed_count;
 
-   /* go through each floating rect in order and "fit" it in */
-   for (i = 0; i < floating_count; i++)
-     {
-	ArrangeMakeXYArrays(tx1, tx2, ty1, ty2, floating[i].w, floating[i].h,
-			    sorted, num_sorted, xarray, &xsize, yarray, &ysize);
-	num_spaces = xsize * ysize;
-	if (num_spaces <= 0)
-	   continue;
+    /* go through each floating rect in order and "fit" it in */
+    for (i = 0; i < floating_count; i++)
+    {
+        ArrangeMakeXYArrays(tx1, tx2, ty1, ty2, floating[i].w, floating[i].h,
+                            sorted, num_sorted, xarray, &xsize, yarray, &ysize);
+        num_spaces = xsize * ysize;
+        if (num_spaces <= 0)
+            continue;
 
-	if (alloc_spaces < num_spaces)
-	  {
-	     unsigned char      *ptr_f;
-	     RectInfo           *ptr_s;
+        if (alloc_spaces < num_spaces)
+        {
+            unsigned char  *ptr_f;
+            RectInfo       *ptr_s;
 
-	     ptr_f = EREALLOC(unsigned char, filled, num_spaces);
+            ptr_f = EREALLOC(unsigned char, filled, num_spaces);
 
-	     if (ptr_f)
-		filled = ptr_f;
-	     ptr_s = EREALLOC(RectInfo, spaces, num_spaces);
-	     if (ptr_s)
-		spaces = ptr_s;
-	     if (!ptr_f || !ptr_s)
-		goto done;
-	     alloc_spaces = num_spaces;
-	  }
-	ArrangeMakeFillLists(sorted, num_sorted,
-			     xarray, xsize, yarray, ysize, filled);
+            if (ptr_f)
+                filled = ptr_f;
+            ptr_s = EREALLOC(RectInfo, spaces, num_spaces);
+            if (ptr_s)
+                spaces = ptr_s;
+            if (!ptr_f || !ptr_s)
+                goto done;
+            alloc_spaces = num_spaces;
+        }
+        ArrangeMakeFillLists(sorted, num_sorted,
+                             xarray, xsize, yarray, ysize, filled);
 
-	/* create list of all "spaces" */
-	ArrangeFindSpaces(xarray, xsize, yarray, ysize, filled,
-			  spaces, alloc_spaces, &num_spaces, floating + i);
-	if (num_spaces <= 0)
-	   continue;
+        /* create list of all "spaces" */
+        ArrangeFindSpaces(xarray, xsize, yarray, ysize, filled,
+                          spaces, alloc_spaces, &num_spaces, floating + i);
+        if (num_spaces <= 0)
+            continue;
 
-	/* find the first space that fits */
-	k = 0;
-	sort = 0x7fffffff;	/* NB! Break at 0 == free space */
-	for (j = 0; j < num_spaces; j++)
-	  {
-	     a1 = spaces[j].p - spaces[j].q * 4;
-	     if (a1 >= sort)
-		continue;
-	     sort = a1;
-	     k = j;
-	     if (spaces[j].p == 0)
-		break;
-	  }
-	if (spaces[k].q == 0 && Conf.place.center_if_desk_full)
-	  {
-	     sorted[num_sorted].x = (tx1 + tx2 - floating[i].w) / 2;
-	     sorted[num_sorted].y = (ty1 + ty2 - floating[i].h) / 2;
-	  }
-	else
-	  {
-	     sorted[num_sorted].x = spaces[k].x;
-	     sorted[num_sorted].y = spaces[k].y;
-	  }
-	sorted[num_sorted].data = floating[i].data;
-	sorted[num_sorted].w = floating[i].w;
-	sorted[num_sorted].h = floating[i].h;
-	sorted[num_sorted].p = floating[i].p;
-	num_sorted++;
-     }
+        /* find the first space that fits */
+        k = 0;
+        sort = 0x7fffffff;      /* NB! Break at 0 == free space */
+        for (j = 0; j < num_spaces; j++)
+        {
+            a1 = spaces[j].p - spaces[j].q * 4;
+            if (a1 >= sort)
+                continue;
+            sort = a1;
+            k = j;
+            if (spaces[j].p == 0)
+                break;
+        }
+        if (spaces[k].q == 0 && Conf.place.center_if_desk_full)
+        {
+            sorted[num_sorted].x = (tx1 + tx2 - floating[i].w) / 2;
+            sorted[num_sorted].y = (ty1 + ty2 - floating[i].h) / 2;
+        }
+        else
+        {
+            sorted[num_sorted].x = spaces[k].x;
+            sorted[num_sorted].y = spaces[k].y;
+        }
+        sorted[num_sorted].data = floating[i].data;
+        sorted[num_sorted].w = floating[i].w;
+        sorted[num_sorted].h = floating[i].h;
+        sorted[num_sorted].p = floating[i].p;
+        num_sorted++;
+    }
 
 #if DEBUG_ARRANGE
-   for (i = 0; i < num_sorted; i++)
-      Eprintf("Sorted: x,y=%4d,%4d wxh=%3dx%3d p=%2d: %s\n",
-	      sorted[i].x, sorted[i].y, sorted[i].w, sorted[i].h, sorted[i].p,
-	      (sorted[i].data) ? EobjGetName((EObj *) sorted[i].data) : "?");
+    for (i = 0; i < num_sorted; i++)
+        Eprintf("Sorted: x,y=%4d,%4d wxh=%3dx%3d p=%2d: %s\n",
+                sorted[i].x, sorted[i].y, sorted[i].w, sorted[i].h, sorted[i].p,
+                (sorted[i].data) ? EobjGetName((EObj *) sorted[i].data) : "?");
 #endif
 
- done:
-   /* free up memory */
-   Efree(xarray);
-   Efree(yarray);
-   Efree(filled);
-   Efree(spaces);
+  done:
+    /* free up memory */
+    Efree(xarray);
+    Efree(yarray);
+    Efree(filled);
+    Efree(spaces);
 }
 
 void
-ArrangeEwin(EWin * ewin)
+ArrangeEwin(EWin *ewin)
 {
-   int                 x, y;
+    int             x, y;
 
-   ArrangeEwinXY(ewin, &x, &y);
-   EwinMove(ewin, x, y, 0);
+    ArrangeEwinXY(ewin, &x, &y);
+    EwinMove(ewin, x, y, 0);
 }
 
 void
-ArrangeEwinCentered(EWin * ewin)
+ArrangeEwinCentered(EWin *ewin)
 {
-   int                 x, y;
+    int             x, y;
 
-   ArrangeEwinCenteredXY(ewin, &x, &y);
-   if (x < 0)
-      x = 0;
-   if (y < 0)
-      y = 0;
-   EwinMove(ewin, x, y, 0);
+    ArrangeEwinCenteredXY(ewin, &x, &y);
+    if (x < 0)
+        x = 0;
+    if (y < 0)
+        y = 0;
+    EwinMove(ewin, x, y, 0);
 }
 
 static void
-ArrangeGetRectList(RectBox ** pfixed, int *nfixed, RectBox ** pfloating,
-		   int *nfloating, EWin * ewin)
+ArrangeGetRectList(RectBox **pfixed, int *nfixed, RectBox **pfloating,
+                   int *nfloating, EWin *ewin)
 {
-   RectBox            *rb, *fixed, *floating;
-   int                 x, y, w, h, i, nfix, nflt, num;
-   EObj               *const *lst, *eo;
-   Desk               *dsk;
+    RectBox        *rb, *fixed, *floating;
+    int             x, y, w, h, i, nfix, nflt, num;
+    EObj           *const *lst, *eo;
+    Desk           *dsk;
 
-   fixed = floating = NULL;
-   nfix = nflt = 0;
+    fixed = floating = NULL;
+    nfix = nflt = 0;
 
-   lst = EobjListOrderGet(&num);
-   if (!lst)
-      goto done;
+    lst = EobjListOrderGet(&num);
+    if (!lst)
+        goto done;
 
-   fixed = EMALLOC(RectBox, num);
-   if (!fixed)
-      goto done;
+    fixed = EMALLOC(RectBox, num);
+    if (!fixed)
+        goto done;
 
-   dsk = (ewin) ? EoGetDesk(ewin) : DesksGetCurrent();
+    dsk = (ewin) ? EoGetDesk(ewin) : DesksGetCurrent();
 
-   for (i = 0; i < num; i++)
-     {
-	rb = fixed + nfix;
-	eo = lst[i];
+    for (i = 0; i < num; i++)
+    {
+        rb = fixed + nfix;
+        eo = lst[i];
 
-	if (!eo->shown)
-	   continue;
+        if (!eo->shown)
+            continue;
 
-	if (eo->type == EOBJ_TYPE_EWIN)
-	  {
-	     EWin               *ew = (EWin *) eo;
+        if (eo->type == EOBJ_TYPE_EWIN)
+        {
+            EWin           *ew = (EWin *) eo;
 
-	     if (ew == ewin)
-		continue;
-	     if (eo->desk != dsk)
-		continue;
+            if (ew == ewin)
+                continue;
+            if (eo->desk != dsk)
+                continue;
 
-	     if (ew->props.ignorearrange || EoGetLayer(ew) == 0)
-		continue;
+            if (ew->props.ignorearrange || EoGetLayer(ew) == 0)
+                continue;
 
-	     if (pfloating)
-	       {
-		  int                 ax, ay;
+            if (pfloating)
+            {
+                int             ax, ay;
 
-		  DeskGetArea(EoGetDesk(ew), &ax, &ay);
+                DeskGetArea(EoGetDesk(ew), &ax, &ay);
 
-		  if (!EoIsSticky(ew) && !EoIsFloating(ew) &&
-		      ew->area_x == ax && ew->area_y == ay)
-		    {
-		       floating = EREALLOC(RectBox, floating, nflt + 1);
-		       rb = floating + nflt++;
-		       rb->data = ew;
-		       rb->x = EoGetX(ew);
-		       rb->y = EoGetY(ew);
-		       rb->w = EoGetW(ew);
-		       rb->h = EoGetH(ew);
-		       rb->p = EoGetLayer(ew);
+                if (!EoIsSticky(ew) && !EoIsFloating(ew) &&
+                    ew->area_x == ax && ew->area_y == ay)
+                {
+                    floating = EREALLOC(RectBox, floating, nflt + 1);
+                    rb = floating + nflt++;
+                    rb->data = ew;
+                    rb->x = EoGetX(ew);
+                    rb->y = EoGetY(ew);
+                    rb->w = EoGetW(ew);
+                    rb->h = EoGetH(ew);
+                    rb->p = EoGetLayer(ew);
 #if DEBUG_ARRANGE
-		       Eprintf("Add float: x,y=%4d,%4d wxh=%3dx%3d p=%2d: %s\n",
-			       rb->x, rb->y, rb->w, rb->h, rb->p,
-			       EobjGetName(eo));
+                    Eprintf("Add float: x,y=%4d,%4d wxh=%3dx%3d p=%2d: %s\n",
+                            rb->x, rb->y, rb->w, rb->h, rb->p, EobjGetName(eo));
 #endif
-		       continue;
-		    }
-	       }
+                    continue;
+                }
+            }
 
-	     rb->data = ew;
+            rb->data = ew;
 
-	     if (ew->props.never_use_area)
-		rb->p = 100;
-	     else
-		rb->p = EoGetLayer(ew);
-	  }
-	else if (eo->type == EOBJ_TYPE_BUTTON)
-	  {
-	     if (!eo->sticky && eo->desk != dsk)
-		continue;
+            if (ew->props.never_use_area)
+                rb->p = 100;
+            else
+                rb->p = EoGetLayer(ew);
+        }
+        else if (eo->type == EOBJ_TYPE_BUTTON)
+        {
+            if (!eo->sticky && eo->desk != dsk)
+                continue;
 
-	     rb->data = NULL;
-	     rb->p = (eo->sticky) ? 1 : 0;
-	  }
-	else
-	  {
-	     continue;
-	  }
+            rb->data = NULL;
+            rb->p = (eo->sticky) ? 1 : 0;
+        }
+        else
+        {
+            continue;
+        }
 
-	x = EobjGetX(eo);
-	y = EobjGetY(eo);
-	w = EobjGetW(eo);
-	h = EobjGetH(eo);
+        x = EobjGetX(eo);
+        y = EobjGetY(eo);
+        w = EobjGetW(eo);
+        h = EobjGetH(eo);
 
-	if (x < 0)
-	  {
-	     w += x;
-	     x = 0;
-	  }
-	if ((x + w) > WinGetW(VROOT))
-	   w = WinGetW(VROOT) - x;
+        if (x < 0)
+        {
+            w += x;
+            x = 0;
+        }
+        if ((x + w) > WinGetW(VROOT))
+            w = WinGetW(VROOT) - x;
 
-	if (y < 0)
-	  {
-	     h += y;
-	     y = 0;
-	  }
-	if ((y + h) > WinGetH(VROOT))
-	   h = WinGetH(VROOT) - y;
+        if (y < 0)
+        {
+            h += y;
+            y = 0;
+        }
+        if ((y + h) > WinGetH(VROOT))
+            h = WinGetH(VROOT) - y;
 
-	if ((w <= 0) || (h <= 0))
-	   continue;
+        if ((w <= 0) || (h <= 0))
+            continue;
 
-	rb->x = x;
-	rb->y = y;
-	rb->w = w;
-	rb->h = h;
+        rb->x = x;
+        rb->y = y;
+        rb->w = w;
+        rb->h = h;
 #if DEBUG_ARRANGE
-	Eprintf("Add fixed: x,y=%4d,%4d wxh=%3dx%3d p=%2d: %s\n", rb->x, rb->y,
-		rb->w, rb->h, rb->p, EobjGetName(eo));
+        Eprintf("Add fixed: x,y=%4d,%4d wxh=%3dx%3d p=%2d: %s\n", rb->x, rb->y,
+                rb->w, rb->h, rb->p, EobjGetName(eo));
 #endif
 
-	nfix++;
-     }
+        nfix++;
+    }
 
- done:
+  done:
 #if DEBUG_ARRANGE
-   Eprintf("Fixed: %p/%d  Floating: %p/%d\n", fixed, nfix, floating, nflt);
+    Eprintf("Fixed: %p/%d  Floating: %p/%d\n", fixed, nfix, floating, nflt);
 #endif
-   *pfixed = fixed;
-   *nfixed = nfix;
-   if (pfloating)
-      *pfloating = floating;
-   if (nfloating)
-      *nfloating = nflt;
+    *pfixed = fixed;
+    *nfixed = nfix;
+    if (pfloating)
+        *pfloating = floating;
+    if (nfloating)
+        *nfloating = nflt;
 }
 
 void
-ArrangeEwinXY(EWin * ewin, int *px, int *py)
+ArrangeEwinXY(EWin *ewin, int *px, int *py)
 {
-   int                 i, num;
-   RectBox            *fixed, *ret, newrect;
+    int             i, num;
+    RectBox        *fixed, *ret, newrect;
 
-   *px = *py = 0;
+    *px = *py = 0;
 
-   if (!ewin)
-      return;
+    if (!ewin)
+        return;
 
-   EwinListGetAll(&num);
-   if (num <= 1)
-     {
-	ArrangeEwinCenteredXY(ewin, px, py);
-	return;
-     }
+    EwinListGetAll(&num);
+    if (num <= 1)
+    {
+        ArrangeEwinCenteredXY(ewin, px, py);
+        return;
+    }
 
-   fixed = NULL;
-   ArrangeGetRectList(&fixed, &num, NULL, NULL, ewin);
+    fixed = NULL;
+    ArrangeGetRectList(&fixed, &num, NULL, NULL, ewin);
 
-   newrect.data = ewin;
-   newrect.x = 0;
-   newrect.y = 0;
-   newrect.w = EoGetW(ewin);
-   newrect.h = EoGetH(ewin);
-   newrect.p = EoGetLayer(ewin);
+    newrect.data = ewin;
+    newrect.x = 0;
+    newrect.y = 0;
+    newrect.w = EoGetW(ewin);
+    newrect.h = EoGetH(ewin);
+    newrect.p = EoGetLayer(ewin);
 
-   ret = ECALLOC(RectBox, num + 1);
-   if (!ret)
-      goto done;
+    ret = ECALLOC(RectBox, num + 1);
+    if (!ret)
+        goto done;
 
-   ArrangeRects(fixed, num, &newrect, 1, ret, 0, 0,
-		WinGetW(VROOT), WinGetH(VROOT), ARRANGE_BY_SIZE, 1);
+    ArrangeRects(fixed, num, &newrect, 1, ret, 0, 0,
+                 WinGetW(VROOT), WinGetH(VROOT), ARRANGE_BY_SIZE, 1);
 
-   for (i = 0; i < num + 1; i++)
-     {
-	if (ret[i].data == ewin)
-	  {
-	     *px = ret[i].x;
-	     *py = ret[i].y;
-	     break;
-	  }
-     }
+    for (i = 0; i < num + 1; i++)
+    {
+        if (ret[i].data == ewin)
+        {
+            *px = ret[i].x;
+            *py = ret[i].y;
+            break;
+        }
+    }
 
- done:
-   Efree(ret);
-   Efree(fixed);
+  done:
+    Efree(ret);
+    Efree(fixed);
 }
 
 void
-ArrangeEwinCenteredXY(EWin * ewin, int *px, int *py)
+ArrangeEwinCenteredXY(EWin *ewin, int *px, int *py)
 {
-   int                 x, y, w, h;
+    int             x, y, w, h;
 
-   ScreenGetAvailableAreaByPointer(&x, &y, &w, &h, Conf.place.ignore_struts);
-   *px = (w - EoGetW(ewin)) / 2 + x;
-   *py = (h - EoGetH(ewin)) / 2 + y;
+    ScreenGetAvailableAreaByPointer(&x, &y, &w, &h, Conf.place.ignore_struts);
+    *px = (w - EoGetW(ewin)) / 2 + x;
+    *py = (h - EoGetH(ewin)) / 2 + y;
 }
 
 void
-ArrangeEwinCenteredOn(EWin * ewin, int x, int y, int w, int h, int *px, int *py)
+ArrangeEwinCenteredOn(EWin *ewin, int x, int y, int w, int h, int *px, int *py)
 {
-   int                 sx, sy, sw, sh;
+    int             sx, sy, sw, sh;
 
-   x += (w - EoGetW(ewin)) / 2;
-   y += (h - EoGetH(ewin)) / 2;
+    x += (w - EoGetW(ewin)) / 2;
+    y += (h - EoGetH(ewin)) / 2;
 
-   ScreenGetAvailableArea(x, y, &sx, &sy, &sw, &sh, Conf.place.ignore_struts);
+    ScreenGetAvailableArea(x, y, &sx, &sy, &sw, &sh, Conf.place.ignore_struts);
 
-   /* keep it all on this screen if possible */
-   x = MIN(x, sx + sw - EoGetW(ewin));
-   y = MIN(y, sy + sh - EoGetH(ewin));
-   x = MAX(x, sx);
-   y = MAX(y, sy);
+    /* keep it all on this screen if possible */
+    x = MIN(x, sx + sw - EoGetW(ewin));
+    y = MIN(y, sy + sh - EoGetH(ewin));
+    x = MAX(x, sx);
+    y = MAX(y, sy);
 
-   *px = x;
-   *py = y;
+    *px = x;
+    *py = y;
 }
 
 void
 ArrangeEwins(const char *params)
 {
-   const char         *type;
-   int                 method;
-   int                 i, nfix, nflt;
-   RectBox            *fixed, *ret, *floating;
-   EWin               *ewin;
+    const char     *type;
+    int             method;
+    int             i, nfix, nflt;
+    RectBox        *fixed, *ret, *floating;
+    EWin           *ewin;
 
-   type = params;
-   method = ARRANGE_BY_SIZE;
+    type = params;
+    method = ARRANGE_BY_SIZE;
 
-   if (params)
-     {
-	if (!strcmp("order", type))
-	   method = ARRANGE_BY_ORDER;
+    if (params)
+    {
+        if (!strcmp("order", type))
+            method = ARRANGE_BY_ORDER;
 #ifdef ARRANGE_BY_POSITION
-	else if (!strcmp("place", type))
-	   method = ARRANGE_BY_POSITION;
+        else if (!strcmp("place", type))
+            method = ARRANGE_BY_POSITION;
 #endif
-     }
+    }
 
-   fixed = floating = ret = NULL;
+    fixed = floating = ret = NULL;
 
-   ArrangeGetRectList(&fixed, &nfix, &floating, &nflt, NULL);
-   if (!floating)
-      goto done;
+    ArrangeGetRectList(&fixed, &nfix, &floating, &nflt, NULL);
+    if (!floating)
+        goto done;
 
-   ret = ECALLOC(RectBox, nflt + nfix);
-   if (!ret)
-      goto done;
+    ret = ECALLOC(RectBox, nflt + nfix);
+    if (!ret)
+        goto done;
 
-   ArrangeRects(fixed, nfix, floating, nflt, ret, 0, 0,
-		WinGetW(VROOT), WinGetH(VROOT), method, 1);
+    ArrangeRects(fixed, nfix, floating, nflt, ret, 0, 0,
+                 WinGetW(VROOT), WinGetH(VROOT), method, 1);
 
-   for (i = nfix; i < nflt + nfix; i++)
-     {
-	if (!ret[i].data)
-	   continue;
+    for (i = nfix; i < nflt + nfix; i++)
+    {
+        if (!ret[i].data)
+            continue;
 
-	ewin = (EWin *) ret[i].data;
-	if ((EoGetX(ewin) == ret[i].x) && (EoGetY(ewin) == ret[i].y))
-	   continue;
+        ewin = (EWin *) ret[i].data;
+        if ((EoGetX(ewin) == ret[i].x) && (EoGetY(ewin) == ret[i].y))
+            continue;
 
-	if (Conf.place.cleanupslide)
-	   EwinSlideTo(ewin, EoGetX(ewin), EoGetY(ewin),
-		       ret[i].x, ret[i].y, Conf.place.slidespeedcleanup,
-		       Conf.place.slidemode, 0);
-	else
-	   EwinMove(ewin, ret[i].x, ret[i].y, 0);
-     }
+        if (Conf.place.cleanupslide)
+            EwinSlideTo(ewin, EoGetX(ewin), EoGetY(ewin),
+                        ret[i].x, ret[i].y, Conf.place.slidespeedcleanup,
+                        Conf.place.slidemode, 0);
+        else
+            EwinMove(ewin, ret[i].x, ret[i].y, 0);
+    }
 
- done:
-   Efree(fixed);
-   Efree(ret);
-   Efree(floating);
+  done:
+    Efree(fixed);
+    Efree(ret);
+    Efree(floating);
 }

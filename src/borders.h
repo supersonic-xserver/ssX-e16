@@ -28,29 +28,29 @@
 #include "etypes.h"
 #include "xtypes.h"
 
-Border             *BorderFind(const char *name);
-const char         *BorderGetName(const Border * b);
-int                 BorderCanShade(const Border * b);
+Border         *BorderFind(const char *name);
+const char     *BorderGetName(const Border * b);
+int             BorderCanShade(const Border * b);
 const EImageBorder *BorderGetSize(const Border * b);
-int                 BorderGetShadedir(const Border * b);
-ActionClass        *BorderGetAclass(const Border * b);
+int             BorderGetShadedir(const Border * b);
+ActionClass    *BorderGetAclass(const Border * b);
 
-int                 BorderConfigLoad(FILE * fs);
+int             BorderConfigLoad(FILE * fs);
 
-void                EwinBorderSelect(EWin * ewin);
-void                EwinBorderDetach(EWin * ewin);
-void                EwinBorderSetTo(EWin * ewin, const Border * b);
-void                EwinBorderDraw(EWin * ewin, int do_shape, int do_paint);
-void                EwinBorderCalcSizes(EWin * ewin, int propagate);
-void                EwinBorderMinShadeSize(const EWin * ewin, int *mw, int *mh);
-void                EwinBorderUpdateInfo(EWin * ewin);
-void                EwinBorderChange(EWin * ewin, const Border * b, int normal);
-void                EwinBorderSetInitially(EWin * ewin, const char *name);
-const Border       *EwinBorderGetGroupBorder(const EWin * ewin);
-int                 BorderWinpartIndex(EWin * ewin, Win win);
-void                BorderCheckState(EWin * ewin, XEvent * ev);
+void            EwinBorderSelect(EWin * ewin);
+void            EwinBorderDetach(EWin * ewin);
+void            EwinBorderSetTo(EWin * ewin, const Border * b);
+void            EwinBorderDraw(EWin * ewin, int do_shape, int do_paint);
+void            EwinBorderCalcSizes(EWin * ewin, int propagate);
+void            EwinBorderMinShadeSize(const EWin * ewin, int *mw, int *mh);
+void            EwinBorderUpdateInfo(EWin * ewin);
+void            EwinBorderChange(EWin * ewin, const Border * b, int normal);
+void            EwinBorderSetInitially(EWin * ewin, const char *name);
+const Border   *EwinBorderGetGroupBorder(const EWin * ewin);
+int             BorderWinpartIndex(EWin * ewin, Win win);
+void            BorderCheckState(EWin * ewin, XEvent * ev);
 
-Border             *BorderCreateFiller(int w, int h, int sw, int sh);
-Border            **BordersGetList(int *pnum);
+Border         *BorderCreateFiller(int w, int h, int sw, int sh);
+Border        **BordersGetList(int *pnum);
 
-#endif /* _BORDERS_H_ */
+#endif                          /* _BORDERS_H_ */

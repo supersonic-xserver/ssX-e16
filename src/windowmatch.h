@@ -26,11 +26,11 @@
 
 #include "etypes.h"
 
-int                 WindowMatchConfigLoad(FILE * fs);
-Border             *WindowMatchEwinBorder(const EWin * ewin);
-const char         *WindowMatchEwinIcon(const EWin * ewin);
-void                WindowMatchEwinOps(EWin * ewin);
+int             WindowMatchConfigLoad(FILE * fs);
+Border         *WindowMatchEwinBorder(const EWin * ewin);
+const char     *WindowMatchEwinIcon(const EWin * ewin);
+void            WindowMatchEwinOps(EWin * ewin);
 
-void                WindowMatchEobjOps(EObj * eo);
+void            WindowMatchEobjOps(EObj * eo);
 
-#endif /* _WINDOWMATCH_H_ */
+#endif                          /* _WINDOWMATCH_H_ */

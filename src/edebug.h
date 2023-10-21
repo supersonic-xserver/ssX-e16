@@ -66,16 +66,16 @@
 
 #define EDBUG_TYPE_GLX          170
 
-void                EDebugInit(const char *s);
-void                EDebugSet(unsigned int type, int value);
-int                 EDebug(unsigned int type);
+void            EDebugInit(const char *s);
+void            EDebugSet(unsigned int type, int value);
+int             EDebug(unsigned int type);
 
 #else
 
-#define             EDebugInit(str) do{}while(0)
-#define             EDebugSet(type, value)
-#define             EDebug(type) 0
+#define         EDebugInit(str) do{}while(0)
+#define         EDebugSet(type, value)
+#define         EDebug(type) 0
 
 #endif
 
-#endif /* _EDEBUG_H_ */
+#endif                          /* _EDEBUG_H_ */

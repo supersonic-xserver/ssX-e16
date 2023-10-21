@@ -32,148 +32,148 @@
 static void
 SignalHandler(int sig)
 {
-   static int          loop_count = 0;
-   int                 status;
+    static int      loop_count = 0;
+    int             status;
 
-   Mode.wm.in_signal_handler = 1;
+    Mode.wm.in_signal_handler = 1;
 
-   if (EDebug(EDBUG_TYPE_SESSION))
-      Eprintf("%s: signal=%d\n", __func__, sig);
+    if (EDebug(EDBUG_TYPE_SESSION))
+        Eprintf("%s: signal=%d\n", __func__, sig);
 
-   switch (sig)
-     {
-     case SIGHUP:
-	SessionExit(EEXIT_RESTART, NULL);
-	break;
+    switch (sig)
+    {
+    case SIGHUP:
+        SessionExit(EEXIT_RESTART, NULL);
+        break;
 
-     default:
-     case SIGINT:
-     case SIGQUIT:
-     case SIGABRT:
-     case SIGTERM:
-	SessionExit(EEXIT_EXIT, NULL);
-	break;
+    default:
+    case SIGINT:
+    case SIGQUIT:
+    case SIGABRT:
+    case SIGTERM:
+        SessionExit(EEXIT_EXIT, NULL);
+        break;
 
-     case SIGPIPE:
-     case SIGALRM:
-     case SIGUSR1:
-     case SIGUSR2:
-	break;
+    case SIGPIPE:
+    case SIGALRM:
+    case SIGUSR1:
+    case SIGUSR2:
+        break;
 
-     case SIGILL:
-	Mode.wm.exit_now = 1;
-	Alert(_("Enlightenment performed an Illegal Instruction.\n" "\n"
-		"This most likely is due to you having installed an run a\n"
-		"binary of Enlightenment that was compiled for a make or model\n"
-		"of CPU not 100%% identical or compatible with yours. Please\n"
-		"either obtain the correct package for your system, or\n"
-		"re-compile Enlightenment and possibly any support libraries\n"
-		"that you got in binary format to run Enlightenment.\n"));
-	goto do_abort;
+    case SIGILL:
+        Mode.wm.exit_now = 1;
+        Alert(_("Enlightenment performed an Illegal Instruction.\n" "\n"
+                "This most likely is due to you having installed an run a\n"
+                "binary of Enlightenment that was compiled for a make or model\n"
+                "of CPU not 100%% identical or compatible with yours. Please\n"
+                "either obtain the correct package for your system, or\n"
+                "re-compile Enlightenment and possibly any support libraries\n"
+                "that you got in binary format to run Enlightenment.\n"));
+        goto do_abort;
 
-     case SIGFPE:
-	Mode.wm.exit_now = 1;
-	Alert(_("Enlightenment caused a Floating Point Exception.\n" "\n"
-		"This means that Enlightenment or support library routines it calls\n"
-		"have performed an illegal mathematical operation (most likely\n"
-		"dividing a number by zero). This is most likely a bug. It is\n"
-		"recommended to restart now. If you wish to help fix this please\n"
-		"compile Enlightenment with debugging symbols in and run\n"
-		"Enlightenment under gdb so you can backtrace for where it died and\n"
-		"send in a useful bug report with backtrace information and variable\n"
-		"dumps etc.\n"));
-	goto do_abort;
+    case SIGFPE:
+        Mode.wm.exit_now = 1;
+        Alert(_("Enlightenment caused a Floating Point Exception.\n" "\n"
+                "This means that Enlightenment or support library routines it calls\n"
+                "have performed an illegal mathematical operation (most likely\n"
+                "dividing a number by zero). This is most likely a bug. It is\n"
+                "recommended to restart now. If you wish to help fix this please\n"
+                "compile Enlightenment with debugging symbols in and run\n"
+                "Enlightenment under gdb so you can backtrace for where it died and\n"
+                "send in a useful bug report with backtrace information and variable\n"
+                "dumps etc.\n"));
+        goto do_abort;
 
-     case SIGSEGV:
-	Mode.wm.exit_now = 1;
-	Alert(_("Enlightenment caused Segment Violation (Segfault)\n" "\n"
-		"This means that Enlightenment or support library routines it calls\n"
-		"have accessed areas of your system's memory that they are not\n"
-		"allowed access to. This is most likely a bug. It is recommended to\n"
-		"restart now. If you wish to help fix this please compile\n"
-		"Enlightenment with debugging symbols in and run Enlightenment\n"
-		"under gdb so you can backtrace for where it died and send in a\n"
-		"useful bug report with backtrace information and variable\n"
-		"dumps etc.\n"));
-	goto do_abort;
+    case SIGSEGV:
+        Mode.wm.exit_now = 1;
+        Alert(_("Enlightenment caused Segment Violation (Segfault)\n" "\n"
+                "This means that Enlightenment or support library routines it calls\n"
+                "have accessed areas of your system's memory that they are not\n"
+                "allowed access to. This is most likely a bug. It is recommended to\n"
+                "restart now. If you wish to help fix this please compile\n"
+                "Enlightenment with debugging symbols in and run Enlightenment\n"
+                "under gdb so you can backtrace for where it died and send in a\n"
+                "useful bug report with backtrace information and variable\n"
+                "dumps etc.\n"));
+        goto do_abort;
 
-     case SIGBUS:
-	Mode.wm.exit_now = 1;
-	Alert(_("Enlightenment caused Bus Error.\n" "\n"
-		"It is suggested you check your hardware and OS installation.\n"
-		"It is highly unusual to cause Bus Errors on operational\n"
-		"hardware.\n"));
-	goto do_abort;
+    case SIGBUS:
+        Mode.wm.exit_now = 1;
+        Alert(_("Enlightenment caused Bus Error.\n" "\n"
+                "It is suggested you check your hardware and OS installation.\n"
+                "It is highly unusual to cause Bus Errors on operational\n"
+                "hardware.\n"));
+        goto do_abort;
 
       do_abort:
-	if (loop_count > 0)
-	   abort();
-	loop_count++;
-#if 0				/* Avoid X-ops? */
-	disp = NULL;
+        if (loop_count > 0)
+            abort();
+        loop_count++;
+#if 0                           /* Avoid X-ops? */
+        disp = NULL;
 #endif
-	SessionExit(EEXIT_ERROR, NULL);
-	abort();
-	break;
+        SessionExit(EEXIT_ERROR, NULL);
+        abort();
+        break;
 
-     case SIGCHLD:
-	while (waitpid(-1, &status, WNOHANG) > 0)
-	   ;
-	break;
-     }
+    case SIGCHLD:
+        while (waitpid(-1, &status, WNOHANG) > 0)
+            ;
+        break;
+    }
 
-   Mode.wm.in_signal_handler = 0;
+    Mode.wm.in_signal_handler = 0;
 }
 
 static void
 doSignalsSetup(int setup)
 {
-   static const int    signals[] = {
-      SIGHUP, SIGINT, SIGQUIT, SIGILL, SIGABRT, SIGFPE, SIGSEGV, SIGPIPE,
-      SIGALRM, SIGTERM, SIGUSR1, SIGUSR2, SIGCHLD, SIGBUS
-   };
-   unsigned int        i, sig;
-   struct sigaction    sa;
+    static const int signals[] = {
+        SIGHUP, SIGINT, SIGQUIT, SIGILL, SIGABRT, SIGFPE, SIGSEGV, SIGPIPE,
+        SIGALRM, SIGTERM, SIGUSR1, SIGUSR2, SIGCHLD, SIGBUS
+    };
+    unsigned int    i, sig;
+    struct sigaction sa;
 
-   /*
-    * We may be here after a fork/exec within in a signal handler.
-    * Therefore, lets just clear the blocked signals.
-    */
-   sigemptyset(&sa.sa_mask);
-   sigprocmask(SIG_SETMASK, &sa.sa_mask, (sigset_t *) NULL);
+    /*
+     * We may be here after a fork/exec within in a signal handler.
+     * Therefore, lets just clear the blocked signals.
+     */
+    sigemptyset(&sa.sa_mask);
+    sigprocmask(SIG_SETMASK, &sa.sa_mask, (sigset_t *) NULL);
 
-   for (i = 0; i < E_ARRAY_SIZE(signals); i++)
-     {
-	sig = signals[i];
-	if (Mode.wm.coredump &&
-	    (sig == SIGILL || sig == SIGFPE || sig == SIGSEGV || sig == SIGBUS))
-	   continue;
+    for (i = 0; i < E_ARRAY_SIZE(signals); i++)
+    {
+        sig = signals[i];
+        if (Mode.wm.coredump &&
+            (sig == SIGILL || sig == SIGFPE || sig == SIGSEGV || sig == SIGBUS))
+            continue;
 
-	if (setup)
-	  {
-	     sa.sa_handler = SignalHandler;
-	     sa.sa_flags = (sig == SIGCHLD) ? SA_RESTART : 0;
-	  }
-	else
-	  {
-	     sa.sa_handler = SIG_DFL;
-	     sa.sa_flags = 0;
-	  }
-	sigemptyset(&sa.sa_mask);
-	sigaction(sig, &sa, (struct sigaction *)0);
-     }
+        if (setup)
+        {
+            sa.sa_handler = SignalHandler;
+            sa.sa_flags = (sig == SIGCHLD) ? SA_RESTART : 0;
+        }
+        else
+        {
+            sa.sa_handler = SIG_DFL;
+            sa.sa_flags = 0;
+        }
+        sigemptyset(&sa.sa_mask);
+        sigaction(sig, &sa, (struct sigaction *)0);
+    }
 }
 
 void
 SignalsSetup(void)
 {
-   /* This function will set up all the signal handlers for E */
-   doSignalsSetup(1);
+    /* This function will set up all the signal handlers for E */
+    doSignalsSetup(1);
 }
 
 void
 SignalsRestore(void)
 {
-   /* This function will restore all the signal handlers for E */
-   doSignalsSetup(0);
+    /* This function will restore all the signal handlers for E */
+    doSignalsSetup(0);
 }

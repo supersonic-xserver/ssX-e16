@@ -28,8 +28,8 @@
 int
 matchregexp(const char *rx, const char *s)
 {
-   if (!rx || !s)
-      return 0;
+    if (!rx || !s)
+        return 0;
 
-   return !fnmatch(rx, s, 0);
+    return !fnmatch(rx, s, 0);
 }

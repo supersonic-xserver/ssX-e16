@@ -28,32 +28,30 @@
 #include "etypes.h"
 #include "xtypes.h"
 
-typedef void        (ButtonCbFunc) (void *prm, XEvent * ev, ActionClass * ac);
+typedef void    (ButtonCbFunc) (void *prm, XEvent * ev, ActionClass * ac);
 
 /* buttons.c */
-Button             *ButtonCreate(const char *name, int id, const char *iclass,
-				 const char *aclass, const char *tclass,
-				 const char *label, int ontop, int flags,
-				 int minw, int maxw, int minh, int maxh, int xo,
-				 int yo, int xa, int xr, int ya, int yr,
-				 int xsr, int xsa, int ysr, int ysa, char simg,
-				 int desk, char sticky);
-void                ButtonDestroy(Button * b);
-Button             *ButtonFind(const char *name);
-void                ButtonShow(Button * b);
-void                ButtonHide(Button * b);
-void                ButtonMoveToCoord(Button * b, int x, int y);
-void                ButtonMoveRelative(Button * b, int dx, int dy);
-EObj               *ButtonSwallowInto(Button * b, EObj * eo);
-void                ButtonSetCallback(Button * b,
-				      ButtonCbFunc * func, void *prm);
-int                 ButtonDoShowDefault(const Button * b);
-int                 ButtonEmbedWindow(Button * ButtonToUse,
-				      EX_Window WindowToEmbed);
+Button         *ButtonCreate(const char *name, int id, const char *iclass,
+                             const char *aclass, const char *tclass,
+                             const char *label, int ontop, int flags,
+                             int minw, int maxw, int minh, int maxh, int xo,
+                             int yo, int xa, int xr, int ya, int yr,
+                             int xsr, int xsa, int ysr, int ysa, char simg,
+                             int desk, char sticky);
+void            ButtonDestroy(Button * b);
+Button         *ButtonFind(const char *name);
+void            ButtonShow(Button * b);
+void            ButtonHide(Button * b);
+void            ButtonMoveToCoord(Button * b, int x, int y);
+void            ButtonMoveRelative(Button * b, int dx, int dy);
+EObj           *ButtonSwallowInto(Button * b, EObj * eo);
+void            ButtonSetCallback(Button * b, ButtonCbFunc * func, void *prm);
+int             ButtonDoShowDefault(const Button * b);
+int             ButtonEmbedWindow(Button * ButtonToUse,
+                                  EX_Window WindowToEmbed);
 
-void                ButtonsForeach(int id, Desk * dsk,
-				   void (*func)(Button * b));
-void                ButtonsMoveStickyToDesk(Desk * d);
-int                 ButtonsConfigLoad(FILE * fs);
+void            ButtonsForeach(int id, Desk * dsk, void (*func)(Button * b));
+void            ButtonsMoveStickyToDesk(Desk * d);
+int             ButtonsConfigLoad(FILE * fs);
 
-#endif /* _BUTTONS_H_ */
+#endif                          /* _BUTTONS_H_ */

@@ -37,19 +37,19 @@
 #define GROUP_ACTION_SET_WINDOW_BORDER       7
 
 /* finders.c */
-EWin              **ListWinGroupMembersForEwin(const EWin * ewin, int action,
-					       char nogroup, int *num);
+EWin          **ListWinGroupMembersForEwin(const EWin * ewin, int action,
+                                           char nogroup, int *num);
 
 /* groups.c */
-int                 GroupMatchAction(const Group * g, int action);
-int                 GroupGetIndex(const Group * g);
-void                GroupSetUsed(int gid);
-EWin               *const *GroupGetMembers(const Group * g, int *num);
-Group              *EwinsInGroup(const EWin * ewin1, const EWin * ewin2);
-void                GroupsEwinAdd(EWin * ewin, const int *pgid, int ngid);
-void                GroupsEwinRemove(EWin * ewin);
-void                GroupsLoad(void);
-void                GroupsPrune(void);
-Group             **GroupsGetList(int *pnum);
+int             GroupMatchAction(const Group * g, int action);
+int             GroupGetIndex(const Group * g);
+void            GroupSetUsed(int gid);
+EWin           *const *GroupGetMembers(const Group * g, int *num);
+Group          *EwinsInGroup(const EWin * ewin1, const EWin * ewin2);
+void            GroupsEwinAdd(EWin * ewin, const int *pgid, int ngid);
+void            GroupsEwinRemove(EWin * ewin);
+void            GroupsLoad(void);
+void            GroupsPrune(void);
+Group         **GroupsGetList(int *pnum);
 
-#endif /* _GROUPS_H_ */
+#endif                          /* _GROUPS_H_ */

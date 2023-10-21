@@ -29,24 +29,24 @@
 typedef struct _glhook ETexture;
 
 struct _glhook {
-   unsigned int        texture;
-   unsigned short      target;
-   unsigned char       type;
-   unsigned int        glxpmap;
+    unsigned int    texture;
+    unsigned short  target;
+    unsigned char   type;
+    unsigned int    glxpmap;
 };
 
-int                 EGlInit(void);
-void                EGlExit(void);
+int             EGlInit(void);
+void            EGlExit(void);
 
-Visual             *EGlGetVisual(void);
-unsigned int        EGlGetDepth(void);
+Visual         *EGlGetVisual(void);
+unsigned int    EGlGetDepth(void);
 
-void                EGlWindowConnect(EX_Window xwin);
-void                EGlWindowDisconnect(void);
+void            EGlWindowConnect(EX_Window xwin);
+void            EGlWindowDisconnect(void);
 
-ETexture           *EGlTextureFromImage(EImage * im, int mode);
-ETexture           *EGlTextureFromDrawable(EX_Drawable draw, int mode);
-void                EGlTextureDestroy(ETexture * et);
-void                EGlTextureInvalidate(ETexture * et);
+ETexture       *EGlTextureFromImage(EImage * im, int mode);
+ETexture       *EGlTextureFromDrawable(EX_Drawable draw, int mode);
+void            EGlTextureDestroy(ETexture * et);
+void            EGlTextureInvalidate(ETexture * et);
 
-#endif /* _EGLX_H_ */
+#endif                          /* _EGLX_H_ */

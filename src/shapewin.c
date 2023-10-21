@@ -40,102 +40,102 @@
 static unsigned int
 _ShapeGetColor(void)
 {
-   static char         color_valid = 0;
-   static unsigned int color_value = 0;
-   static unsigned int color_pixel;
+    static char     color_valid = 0;
+    static unsigned int color_value = 0;
+    static unsigned int color_pixel;
 
-   if (color_valid && color_value == Conf.movres.color)
-      goto done;
+    if (color_valid && color_value == Conf.movres.color)
+        goto done;
 
-   color_value = Conf.movres.color;
-   color_pixel = EAllocColor(WinGetCmap(VROOT), color_value);
-   color_valid = 1;
+    color_value = Conf.movres.color;
+    color_pixel = EAllocColor(WinGetCmap(VROOT), color_value);
+    color_valid = 1;
 
- done:
-   return color_pixel;
+  done:
+    return color_pixel;
 }
 
 void
-ShapewinDestroy(ShapeWin * sw)
+ShapewinDestroy(ShapeWin *sw)
 {
-   if (!sw)
-      return;
+    if (!sw)
+        return;
 
-   EoUnmap(sw);
-   EoFini(sw);
-   EXFreeGC(sw->gc);
-   if (sw->mask != NoXID)
-      EFreePixmap(sw->mask);
-   Efree(sw);
+    EoUnmap(sw);
+    EoFini(sw);
+    EXFreeGC(sw->gc);
+    if (sw->mask != NoXID)
+        EFreePixmap(sw->mask);
+    Efree(sw);
 }
 
-ShapeWin           *
+ShapeWin       *
 ShapewinCreate(int md)
 {
-   ShapeWin           *sw;
+    ShapeWin       *sw;
 
-   sw = ECALLOC(ShapeWin, 1);
-   if (!sw)
-      return NULL;
+    sw = ECALLOC(ShapeWin, 1);
+    if (!sw)
+        return NULL;
 
-   EoInit(sw, EOBJ_TYPE_MISC, NoXID,
-	  0, 0, WinGetW(VROOT), WinGetH(VROOT), 2, "Wires");
-   if (!EoGetWin(sw))
-      goto bail_out;
+    EoInit(sw, EOBJ_TYPE_MISC, NoXID,
+           0, 0, WinGetW(VROOT), WinGetH(VROOT), 2, "Wires");
+    if (!EoGetWin(sw))
+        goto bail_out;
 
-   EoSetFloating(sw, 1);
-   EoSetLayer(sw, 18);
-   ESetWindowBackground(EoGetWin(sw), _ShapeGetColor());
-#ifdef ShapeInput		/* Should really check server too */
-   XShapeCombineRectangles(disp, EoGetXwin(sw),
-			   ShapeInput, 0, 0, NULL, 0, ShapeSet, Unsorted);
+    EoSetFloating(sw, 1);
+    EoSetLayer(sw, 18);
+    ESetWindowBackground(EoGetWin(sw), _ShapeGetColor());
+#ifdef ShapeInput               /* Should really check server too */
+    XShapeCombineRectangles(disp, EoGetXwin(sw),
+                            ShapeInput, 0, 0, NULL, 0, ShapeSet, Unsorted);
 #endif
 
-   if ((md == MR_TECHNICAL) || (md == MR_TECH_OPAQUE))
-     {
-	sw->mask =
-	   ECreatePixmap(EoGetWin(sw), WinGetW(VROOT), WinGetH(VROOT), 1);
-	sw->gc = EXCreateGC(sw->mask, 0, NULL);
-	if (sw->mask == NoXID || !sw->gc)
-	   goto bail_out;
-     }
+    if ((md == MR_TECHNICAL) || (md == MR_TECH_OPAQUE))
+    {
+        sw->mask =
+            ECreatePixmap(EoGetWin(sw), WinGetW(VROOT), WinGetH(VROOT), 1);
+        sw->gc = EXCreateGC(sw->mask, 0, NULL);
+        if (sw->mask == NoXID || !sw->gc)
+            goto bail_out;
+    }
 
-   return sw;
+    return sw;
 
- bail_out:
-   ShapewinDestroy(sw);
-   return NULL;
+  bail_out:
+    ShapewinDestroy(sw);
+    return NULL;
 }
 
 void
-ShapewinShapeSet(ShapeWin * sw, int md, int x, int y, int w, int h,
-		 int bl, int br, int bt, int bb)
+ShapewinShapeSet(ShapeWin *sw, int md, int x, int y, int w, int h,
+                 int bl, int br, int bt, int bb)
 {
-   int                 w2, h2;
+    int             w2, h2;
 
-   w2 = w + bl + br;
-   h2 = h + bt + bb;
+    w2 = w + bl + br;
+    h2 = h + bt + bb;
 
-   if ((md == MR_TECHNICAL) || (md == MR_TECH_OPAQUE))
-     {
-	XSetForeground(disp, sw->gc, 0);
-	XFillRectangle(disp, sw->mask, sw->gc,
-		       0, 0, WinGetW(VROOT), WinGetH(VROOT));
-	XSetForeground(disp, sw->gc, 1);
-	do_draw_technical(sw->mask, sw->gc, x, y, w, h, bl, br, bt, bb);
+    if ((md == MR_TECHNICAL) || (md == MR_TECH_OPAQUE))
+    {
+        XSetForeground(disp, sw->gc, 0);
+        XFillRectangle(disp, sw->mask, sw->gc,
+                       0, 0, WinGetW(VROOT), WinGetH(VROOT));
+        XSetForeground(disp, sw->gc, 1);
+        do_draw_technical(sw->mask, sw->gc, x, y, w, h, bl, br, bt, bb);
 
-	EShapeSetMask(EoGetWin(sw), 0, 0, sw->mask);
-     }
-   else
-     {
-	XRectangle          rl[8];
+        EShapeSetMask(EoGetWin(sw), 0, 0, sw->mask);
+    }
+    else
+    {
+        XRectangle      rl[8];
 
-	_SHAPE_SET_RECT((&rl[0]), x, y, w2, h2);
-	w = (w > 5) ? w - 2 : 3;
-	h = (h > 5) ? h - 2 : 3;
-	_SHAPE_SET_RECT((&rl[4]), x + bl + 1, y + bt + 1, w, h);
+        _SHAPE_SET_RECT((&rl[0]), x, y, w2, h2);
+        w = (w > 5) ? w - 2 : 3;
+        h = (h > 5) ? h - 2 : 3;
+        _SHAPE_SET_RECT((&rl[4]), x + bl + 1, y + bt + 1, w, h);
 
-	EShapeSetRects(EoGetWin(sw), 0, 0, rl, 8);
-     }
-   EoShapeUpdate(sw, 0);
+        EShapeSetRects(EoGetWin(sw), 0, 0, rl, 8);
+    }
+    EoShapeUpdate(sw, 0);
 }

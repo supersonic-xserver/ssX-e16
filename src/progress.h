@@ -26,9 +26,9 @@
 
 typedef struct _progressbar Progressbar;
 
-Progressbar        *ProgressbarCreate(const char *name, int width, int height);
-void                ProgressbarDestroy(Progressbar * p);
-void                ProgressbarSet(Progressbar * p, int progress);
-void                ProgressbarShow(Progressbar * p);
+Progressbar    *ProgressbarCreate(const char *name, int width, int height);
+void            ProgressbarDestroy(Progressbar * p);
+void            ProgressbarSet(Progressbar * p, int progress);
+void            ProgressbarShow(Progressbar * p);
 
-#endif /* _PROGRESS_H_ */
+#endif                          /* _PROGRESS_H_ */

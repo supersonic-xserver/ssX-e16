@@ -52,573 +52,572 @@
 
 #define DEBUG_MENU_EVENTS 0
 
-#define MENU_UNLOAD_CHECK_INTERVAL 300	/* Seconds */
+#define MENU_UNLOAD_CHECK_INTERVAL 300  /* Seconds */
 
 static struct {
-   Menu               *first;
-   Menu               *active;
-   EWin               *context_ewin;
-   EObj               *cover_win;
-   char                just_shown;
-   char                cover_bpress;
+    Menu           *first;
+    Menu           *active;
+    EWin           *context_ewin;
+    EObj           *cover_win;
+    char            just_shown;
+    char            cover_bpress;
 } Mode_menus;
 
 struct _menustyle {
-   dlist_t             list;
-   char               *name;
-   TextClass          *tclass;
-   ImageClass         *bg_iclass;
-   ImageClass         *item_iclass;
-   ImageClass         *sub_iclass;
-   char                use_item_bg;
-   char                iconpos;
-   int                 maxx;
-   int                 maxy;
-   char               *border_name;
-   unsigned int        ref_count;
+    dlist_t         list;
+    char           *name;
+    TextClass      *tclass;
+    ImageClass     *bg_iclass;
+    ImageClass     *item_iclass;
+    ImageClass     *sub_iclass;
+    char            use_item_bg;
+    char            iconpos;
+    int             maxx;
+    int             maxy;
+    char           *border_name;
+    unsigned int    ref_count;
 };
 
 struct _menuitem {
-   Menu               *menu;
-   char               *text;
-   char               *icon;
-   char               *params;
-   Menu               *child;
-   char                state;
-   PmapMask            pmm[3];
-   Win                 win;
-   short               icon_w;
-   short               icon_h;
-   short               icon_x;
-   short               icon_y;
-   short               text_w;
-   short               text_h;
-   short               text_x;
-   short               text_y;
+    Menu           *menu;
+    char           *text;
+    char           *icon;
+    char           *params;
+    Menu           *child;
+    char            state;
+    PmapMask        pmm[3];
+    Win             win;
+    short           icon_w;
+    short           icon_h;
+    short           icon_x;
+    short           icon_y;
+    short           text_w;
+    short           text_h;
+    short           text_x;
+    short           text_y;
 };
 
 struct _menu {
-   dlist_t             list;
-   EWin               *ewin;
-   Win                 win;
-   PmapMask            pmm;
-   int                 w, h;
-   char               *name;
-   char               *title;
-   char               *alias;
-   MenuStyle          *style;
-   MenuLoader         *loader;
-   int                 num;
-   MenuItem          **items;
-   int                 icon_size;
-   char                internal;	/* Don't destroy when reloading */
-   char                dynamic;	/* Empty when closed */
-   char                transient;	/* Destroy when closed */
-   char                shown;
-   char                redraw;
-   char                filled;	/* Has been filled */
-   Menu               *parent;
-   Menu               *child;
-   MenuItem           *sel_item;
-   time_t              last_change;
-   time_t              last_access;
-   void               *data;
-   unsigned int        ref_count;
+    dlist_t         list;
+    EWin           *ewin;
+    Win             win;
+    PmapMask        pmm;
+    int             w, h;
+    char           *name;
+    char           *title;
+    char           *alias;
+    MenuStyle      *style;
+    MenuLoader     *loader;
+    int             num;
+    MenuItem      **items;
+    int             icon_size;
+    char            internal;   /* Don't destroy when reloading */
+    char            dynamic;    /* Empty when closed */
+    char            transient;  /* Destroy when closed */
+    char            shown;
+    char            redraw;
+    char            filled;     /* Has been filled */
+    Menu           *parent;
+    Menu           *child;
+    MenuItem       *sel_item;
+    time_t          last_change;
+    time_t          last_access;
+    void           *data;
+    unsigned int    ref_count;
 };
 
 #define MENU_ITEM_EVENT_MASK \
-	KeyPressMask | KeyReleaseMask | \
-	ButtonPressMask | ButtonReleaseMask | \
-	EnterWindowMask | LeaveWindowMask
+    KeyPressMask | KeyReleaseMask | \
+    ButtonPressMask | ButtonReleaseMask | \
+    EnterWindowMask | LeaveWindowMask
 
-static void         MenuRedraw(Menu * m);
-static void         MenuRealize(Menu * m);
-static void         MenuActivateItem(Menu * m, MenuItem * mi);
-static void         MenuDrawItem(Menu * m, MenuItem * mi, char shape,
-				 int state);
+static void     MenuRedraw(Menu * m);
+static void     MenuRealize(Menu * m);
+static void     MenuActivateItem(Menu * m, MenuItem * mi);
+static void     MenuDrawItem(Menu * m, MenuItem * mi, char shape, int state);
 
-static void         MenuHandleEvents(Win win, XEvent * ev, void *m);
-static void         MenuItemHandleEvents(Win win, XEvent * ev, void *mi);
-static void         MenuMaskerHandleEvents(Win win, XEvent * ev, void *prm);
+static void     MenuHandleEvents(Win win, XEvent * ev, void *m);
+static void     MenuItemHandleEvents(Win win, XEvent * ev, void *mi);
+static void     MenuMaskerHandleEvents(Win win, XEvent * ev, void *prm);
 
-static void         MenusHide(void);
+static void     MenusHide(void);
 
-static              LIST_HEAD(menu_list);
-static              LIST_HEAD(menu_style_list);
-static Timer       *menu_timer_submenu = NULL;
+static          LIST_HEAD(menu_list);
+static          LIST_HEAD(menu_style_list);
+static Timer   *menu_timer_submenu = NULL;
 
-static MenuItem    *
-MenuFindItemByChild(Menu * m, Menu * mc)
+static MenuItem *
+MenuFindItemByChild(Menu *m, Menu *mc)
 {
-   int                 i;
+    int             i;
 
-   if (!mc)
-      return (m->num) ? m->items[0] : NULL;
+    if (!mc)
+        return (m->num) ? m->items[0] : NULL;
 
-   for (i = 0; i < m->num; i++)
-     {
-	if (mc == m->items[i]->child)
-	   return m->items[i];
-     }
+    for (i = 0; i < m->num; i++)
+    {
+        if (mc == m->items[i]->child)
+            return m->items[i];
+    }
 
-   return NULL;
+    return NULL;
 }
 
 static void
-MenuHide(Menu * m)
+MenuHide(Menu *m)
 {
-   EWin               *ewin;
+    EWin           *ewin;
 
-   if (!m || !m->shown)
-      return;
+    if (!m || !m->shown)
+        return;
 
-   if (m->sel_item)
-      MenuDrawItem(m, m->sel_item, 1, STATE_NORMAL);
-   m->sel_item = NULL;
+    if (m->sel_item)
+        MenuDrawItem(m, m->sel_item, 1, STATE_NORMAL);
+    m->sel_item = NULL;
 
-   ewin = m->ewin;
-   if (ewin)
-     {
-	EUnmapWindow(m->win);
-	EReparentWindow(m->win, VROOT, ewin->client.x, ewin->client.y);
-	EwinHide(ewin);
-     }
-   m->ewin = NULL;
+    ewin = m->ewin;
+    if (ewin)
+    {
+        EUnmapWindow(m->win);
+        EReparentWindow(m->win, VROOT, ewin->client.x, ewin->client.y);
+        EwinHide(ewin);
+    }
+    m->ewin = NULL;
 
-   m->shown = 0;
-   m->parent = NULL;
-   m->last_access = time(0);
-   if (m->child)
-     {
-	MenuHide(m->child);
-	m->child = NULL;
-     }
-   if (m->dynamic)
-      MenuEmpty(m, 0);
-   m->ref_count--;
+    m->shown = 0;
+    m->parent = NULL;
+    m->last_access = time(0);
+    if (m->child)
+    {
+        MenuHide(m->child);
+        m->child = NULL;
+    }
+    if (m->dynamic)
+        MenuEmpty(m, 0);
+    m->ref_count--;
 }
 
 static void
-_MenuEwinInit(EWin * ewin)
+_MenuEwinInit(EWin *ewin)
 {
-   Menu               *m = (Menu *) ewin->data;
+    Menu           *m = (Menu *) ewin->data;
 
-   m->ewin = ewin;
+    m->ewin = ewin;
 
-   EwinSetTitle(ewin, _(m->title));
-   EwinSetClass(ewin, m->name, "Enlightenment_Menu");
+    EwinSetTitle(ewin, _(m->title));
+    EwinSetClass(ewin, m->name, "Enlightenment_Menu");
 
-   ewin->props.skip_ext_task = 1;
-   ewin->props.skip_ext_pager = 1;
-   ewin->props.no_actions = 1;
-   ewin->props.skip_focuslist = 1;
-   ewin->props.skip_winlist = 1;
-   ewin->props.ignorearrange = 1;
-   ewin->state.active = 1;
-   EwinInhSetWM(ewin, focus, 1);
+    ewin->props.skip_ext_task = 1;
+    ewin->props.skip_ext_pager = 1;
+    ewin->props.no_actions = 1;
+    ewin->props.skip_focuslist = 1;
+    ewin->props.skip_winlist = 1;
+    ewin->props.ignorearrange = 1;
+    ewin->state.active = 1;
+    EwinInhSetWM(ewin, focus, 1);
 
-   ICCCM_SetSizeConstraints(ewin, m->w, m->h, m->w, m->h, 0, 0, 1, 1,
-			    0.f, 65535.f);
-   ewin->icccm.grav = StaticGravity;
+    ICCCM_SetSizeConstraints(ewin, m->w, m->h, m->w, m->h, 0, 0, 1, 1,
+                             0.f, 65535.f);
+    ewin->icccm.grav = StaticGravity;
 
-   EoSetLayer(ewin, 12);
-   ewin->props.opacity = OpacityFromPercent(Conf.opacity.menus);
+    EoSetLayer(ewin, 12);
+    ewin->props.opacity = OpacityFromPercent(Conf.opacity.menus);
 }
 
 static void
-_MenuEwinMoveResize(EWin * ewin, int resize __UNUSED__)
+_MenuEwinMoveResize(EWin *ewin, int resize __UNUSED__)
 {
-   Menu               *m = (Menu *) ewin->data;
+    Menu           *m = (Menu *) ewin->data;
 
-   if (!m)
-      return;
+    if (!m)
+        return;
 
-   if (Mode.mode != MODE_NONE && !m->redraw)
-      return;
+    if (Mode.mode != MODE_NONE && !m->redraw)
+        return;
 
-   if ((!m->style->use_item_bg && m->pmm.pmap == 0) || m->redraw)
-     {
-	MenuRedraw(m);
-	EwinUpdateShapeInfo(ewin);
-     }
+    if ((!m->style->use_item_bg && m->pmm.pmap == 0) || m->redraw)
+    {
+        MenuRedraw(m);
+        EwinUpdateShapeInfo(ewin);
+    }
 }
 
 static void
-_MenuEwinClose(EWin * ewin)
+_MenuEwinClose(EWin *ewin)
 {
-   Menu               *m = (Menu *) ewin->data;
+    Menu           *m = (Menu *) ewin->data;
 
-   if (m == Mode_menus.active)
-     {
-	GrabKeyboardRelease();
-	Mode_menus.active = NULL;
-     }
+    if (m == Mode_menus.active)
+    {
+        GrabKeyboardRelease();
+        Mode_menus.active = NULL;
+    }
 
-   ewin->data = NULL;
+    ewin->data = NULL;
 }
 
 static const EWinOps _MenuEwinOps = {
-   _MenuEwinInit,
-   NULL,
-   _MenuEwinMoveResize,
-   _MenuEwinClose,
+    _MenuEwinInit,
+    NULL,
+    _MenuEwinMoveResize,
+    _MenuEwinClose,
 };
 
-static void         MenuShowMasker(Menu * m);
+static void     MenuShowMasker(Menu * m);
 
 int
-MenuLoad(Menu * m)
+MenuLoad(Menu *m)
 {
-   if (!m || !m->loader)
-      return 0;
+    if (!m || !m->loader)
+        return 0;
 
-   return m->loader(m);
+    return m->loader(m);
 }
 
 static void
-_MenuEwinShow(EWin * ewin)
+_MenuEwinShow(EWin *ewin)
 {
-   ICCCM_Cmap(NULL);
-   EwinOpFloatAt(ewin, OPSRC_NA, EoGetX(ewin), EoGetY(ewin));
-   EwinRaise(ewin);
-   EwinShow(ewin);
-   if (Conf.menus.animate)
-      EwinUnShade(ewin);
+    ICCCM_Cmap(NULL);
+    EwinOpFloatAt(ewin, OPSRC_NA, EoGetX(ewin), EoGetY(ewin));
+    EwinRaise(ewin);
+    EwinShow(ewin);
+    if (Conf.menus.animate)
+        EwinUnShade(ewin);
 }
 
 static void
-MenuShow(Menu * m, char noshow)
+MenuShow(Menu *m, char noshow)
 {
-   EWin               *ewin;
-   Win                 win;
-   int                 wx, wy, mw, mh;
-   int                 head_num = 0;
+    EWin           *ewin;
+    Win             win;
+    int             wx, wy, mw, mh;
+    int             head_num = 0;
 
-   if (m->shown)
-      return;
+    if (m->shown)
+        return;
 
-   if (MenuLoad(m) || m->redraw)
-      MenuRealize(m);
+    if (MenuLoad(m) || m->redraw)
+        MenuRealize(m);
 
-   if (m->num <= 0)
-      return;
+    if (m->num <= 0)
+        return;
 
-   if (!m->win || !m->items[0]->win)
-      MenuRealize(m);
+    if (!m->win || !m->items[0]->win)
+        MenuRealize(m);
 
-   if (!m->style)
-      return;
+    if (!m->style)
+        return;
 
-   ewin = m->ewin;
-   if (ewin)
-     {
-#if 0				/* ??? */
-	EwinRaise(ewin);
-	EwinShow(ewin);
-	return;
+    ewin = m->ewin;
+    if (ewin)
+    {
+#if 0                           /* ??? */
+        EwinRaise(ewin);
+        EwinShow(ewin);
+        return;
 #else
-	MenuHide(m);
+        MenuHide(m);
 #endif
-     }
+    }
 
-   win = m->items[0]->win;
-   mw = m->w;
-   mh = m->h;
+    win = m->items[0]->win;
+    mw = m->w;
+    mh = m->h;
 
-   EQueryPointer(NULL, &wx, &wy, NULL, NULL);
-   wx -= EoGetX(DesksGetCurrent()) + WinGetX(win) + WinGetW(win) / 2;
-   wy -= EoGetY(DesksGetCurrent()) + WinGetY(win) + WinGetH(win) / 2;
-   if (Conf.menus.onscreen)
-     {
-	Border             *b;
+    EQueryPointer(NULL, &wx, &wy, NULL, NULL);
+    wx -= EoGetX(DesksGetCurrent()) + WinGetX(win) + WinGetW(win) / 2;
+    wy -= EoGetY(DesksGetCurrent()) + WinGetY(win) + WinGetH(win) / 2;
+    if (Conf.menus.onscreen)
+    {
+        Border         *b;
 
-	b = BorderFind(m->style->border_name);
-	if (b)
-	  {
-	     int                 sx, sy, sw, sh;
-	     const EImageBorder *pad;
+        b = BorderFind(m->style->border_name);
+        if (b)
+        {
+            int             sx, sy, sw, sh;
+            const EImageBorder *pad;
 
-	     pad = BorderGetSize(b);
+            pad = BorderGetSize(b);
 
-	     head_num = ScreenGetGeometryByPointer(&sx, &sy, &sw, &sh);
+            head_num = ScreenGetGeometryByPointer(&sx, &sy, &sw, &sh);
 
-	     if (wx > sx + sw - mw - pad->right)
-		wx = sx + sw - mw - pad->right;
-	     if (wx < sx + pad->left)
-		wx = sx + pad->left;
+            if (wx > sx + sw - mw - pad->right)
+                wx = sx + sw - mw - pad->right;
+            if (wx < sx + pad->left)
+                wx = sx + pad->left;
 
-	     if (wy > sy + sh - mh - pad->bottom)
-		wy = sy + sh - mh - pad->bottom;
-	     if (wy < sy + pad->top)
-		wy = sy + pad->top;
-	  }
-     }
+            if (wy > sy + sh - mh - pad->bottom)
+                wy = sy + sh - mh - pad->bottom;
+            if (wy < sy + pad->top)
+                wy = sy + pad->top;
+        }
+    }
 
-   EMoveWindow(m->win, wx, wy);
+    EMoveWindow(m->win, wx, wy);
 
-   ewin = AddInternalToFamily(m->win, m->style->border_name, EWIN_TYPE_MENU,
-			      &_MenuEwinOps, m);
-   if (ewin)
-     {
-	ewin->client.event_mask |= KeyPressMask;
-	ESelectInput(m->win, ewin->client.event_mask);
+    ewin = AddInternalToFamily(m->win, m->style->border_name, EWIN_TYPE_MENU,
+                               &_MenuEwinOps, m);
+    if (ewin)
+    {
+        ewin->client.event_mask |= KeyPressMask;
+        ESelectInput(m->win, ewin->client.event_mask);
 
-	ewin->head = head_num;
+        ewin->head = head_num;
 
-	EwinResize(ewin, ewin->client.w, ewin->client.h, 0);
+        EwinResize(ewin, ewin->client.w, ewin->client.h, 0);
 
-	if (Conf.menus.animate)
-	   EwinInstantShade(ewin, 0);
+        if (Conf.menus.animate)
+            EwinInstantShade(ewin, 0);
 
-	if (!noshow)
-	   _MenuEwinShow(ewin);
-     }
+        if (!noshow)
+            _MenuEwinShow(ewin);
+    }
 
-   m->shown = 1;
-   m->last_access = time(0);
-   Mode_menus.just_shown = 1;
+    m->shown = 1;
+    m->last_access = time(0);
+    Mode_menus.just_shown = 1;
 
-   if (!Mode_menus.first)
-     {
-	Mode_menus.context_ewin = GetContextEwin();
+    if (!Mode_menus.first)
+    {
+        Mode_menus.context_ewin = GetContextEwin();
 #if 0
-	Eprintf("Mode_menus.context_ewin set %s\n",
-		EwinGetTitle(Mode_menus.context_ewin));
+        Eprintf("Mode_menus.context_ewin set %s\n",
+                EwinGetTitle(Mode_menus.context_ewin));
 #endif
-	ESync(ESYNC_MENUS);
-	Mode_menus.first = m;
-	MenuShowMasker(m);
-	TooltipsEnable(0);
-	GrabKeyboardSet(m->win);
-     }
-   m->ref_count++;
+        ESync(ESYNC_MENUS);
+        Mode_menus.first = m;
+        MenuShowMasker(m);
+        TooltipsEnable(0);
+        GrabKeyboardSet(m->win);
+    }
+    m->ref_count++;
 }
 
-static MenuStyle   *
+static MenuStyle *
 MenuStyleCreate(const char *name)
 {
-   MenuStyle          *ms;
+    MenuStyle      *ms;
 
-   ms = ECALLOC(MenuStyle, 1);
-   if (!ms)
-      return NULL;
+    ms = ECALLOC(MenuStyle, 1);
+    if (!ms)
+        return NULL;
 
-   LIST_PREPEND(MenuStyle, &menu_style_list, ms);
+    LIST_PREPEND(MenuStyle, &menu_style_list, ms);
 
-   ms->name = Estrdup(name);
-   ms->iconpos = ICON_LEFT;
+    ms->name = Estrdup(name);
+    ms->iconpos = ICON_LEFT;
 
-   return ms;
+    return ms;
 }
 
-MenuItem           *
+MenuItem       *
 MenuItemCreate(const char *text, const char *icon,
-	       const char *action_params, Menu * child)
+               const char *action_params, Menu *child)
 {
-   MenuItem           *mi;
+    MenuItem       *mi;
 
-   mi = ECALLOC(MenuItem, 1);
+    mi = ECALLOC(MenuItem, 1);
 
-   mi->text = (text) ? Estrdup((text[0]) ? text : "?!?") : NULL;
-   mi->icon = Estrdup(icon);
-   mi->params = Estrdup(action_params);
-   mi->child = child;
-   if (child)
-      child->ref_count++;
-   mi->state = STATE_NORMAL;
+    mi->text = (text) ? Estrdup((text[0]) ? text : "?!?") : NULL;
+    mi->icon = Estrdup(icon);
+    mi->params = Estrdup(action_params);
+    mi->child = child;
+    if (child)
+        child->ref_count++;
+    mi->state = STATE_NORMAL;
 
-   return mi;
+    return mi;
 }
 
 static void
-MenuItemDestroy(MenuItem * mi, int destroying)
+MenuItemDestroy(MenuItem *mi, int destroying)
 {
-   int                 i;
+    int             i;
 
-   Efree(mi->text);
-   Efree(mi->icon);
-   Efree(mi->params);
-   for (i = 0; i < 3; i++)
-      PmapMaskFree(&(mi->pmm[i]));
-   if (!destroying && mi->win)
-      EDestroyWindow(mi->win);
-   else
-      EventCallbackUnregister(mi->win, MenuItemHandleEvents, mi);
-   Efree(mi);
+    Efree(mi->text);
+    Efree(mi->icon);
+    Efree(mi->params);
+    for (i = 0; i < 3; i++)
+        PmapMaskFree(&(mi->pmm[i]));
+    if (!destroying && mi->win)
+        EDestroyWindow(mi->win);
+    else
+        EventCallbackUnregister(mi->win, MenuItemHandleEvents, mi);
+    Efree(mi);
 }
 
 static int
 _MenuStyleMatchName(const void *data, const void *match)
 {
-   return strcmp(((const MenuStyle *)data)->name, (const char *)match);
+    return strcmp(((const MenuStyle *)data)->name, (const char *)match);
 }
 
-MenuStyle          *
+MenuStyle      *
 MenuStyleFind(const char *name)
 {
-   MenuStyle          *ms;
+    MenuStyle      *ms;
 
-   ms = LIST_FIND(MenuStyle, &menu_style_list, _MenuStyleMatchName, name);
-   if (ms)
-      return ms;
+    ms = LIST_FIND(MenuStyle, &menu_style_list, _MenuStyleMatchName, name);
+    if (ms)
+        return ms;
 
-   ms = LIST_FIND(MenuStyle, &menu_style_list, _MenuStyleMatchName, "__fb_ms");
-   if (ms)
-      return ms;
+    ms = LIST_FIND(MenuStyle, &menu_style_list, _MenuStyleMatchName, "__fb_ms");
+    if (ms)
+        return ms;
 
-   ms = MenuStyleCreate("__fb_ms");
-   if (!ms)
-      return ms;
+    ms = MenuStyleCreate("__fb_ms");
+    if (!ms)
+        return ms;
 
-   ms->tclass = TextclassFind(NULL, 1);
-   ms->bg_iclass = ImageclassFind(NULL, 1);
-   ms->item_iclass = ImageclassFind(NULL, 1);
-   ms->sub_iclass = ImageclassFind(NULL, 1);
+    ms->tclass = TextclassFind(NULL, 1);
+    ms->bg_iclass = ImageclassFind(NULL, 1);
+    ms->item_iclass = ImageclassFind(NULL, 1);
+    ms->sub_iclass = ImageclassFind(NULL, 1);
 
-   return ms;
+    return ms;
 }
 
 void
-MenuSetInternal(Menu * m)
+MenuSetInternal(Menu *m)
 {
-   m->internal = 1;
+    m->internal = 1;
 }
 
 void
-MenuSetDynamic(Menu * m)
+MenuSetDynamic(Menu *m)
 {
-   m->dynamic = 1;
+    m->dynamic = 1;
 }
 
 void
-MenuSetTransient(Menu * m)
+MenuSetTransient(Menu *m)
 {
-   m->transient = 1;
+    m->transient = 1;
 }
 
 void
-MenuSetName(Menu * m, const char *name)
+MenuSetName(Menu *m, const char *name)
 {
-   EFREE_DUP(m->name, name);
+    EFREE_DUP(m->name, name);
 }
 
 void
-MenuSetAlias(Menu * m, const char *alias)
+MenuSetAlias(Menu *m, const char *alias)
 {
-   EFREE_DUP(m->alias, alias);
+    EFREE_DUP(m->alias, alias);
 }
 
 void
-MenuSetTitle(Menu * m, const char *title)
+MenuSetTitle(Menu *m, const char *title)
 {
-   EFREE_DUP(m->title, title);
+    EFREE_DUP(m->title, title);
 }
 
 void
-MenuSetIconSize(Menu * m, int size)
+MenuSetIconSize(Menu *m, int size)
 {
-   if (size > 48)
-      size = 48;
-   m->icon_size = size;
+    if (size > 48)
+        size = 48;
+    m->icon_size = size;
 }
 
 void
-MenuSetData(Menu * m, char *data)
+MenuSetData(Menu *m, char *data)
 {
-   EFREE_SET(m->data, data);
+    EFREE_SET(m->data, data);
 }
 
 void
-MenuSetLoader(Menu * m, MenuLoader * loader)
+MenuSetLoader(Menu *m, MenuLoader *loader)
 {
-   m->loader = loader;
+    m->loader = loader;
 }
 
 void
-MenuSetTimestamp(Menu * m, time_t t)
+MenuSetTimestamp(Menu *m, time_t t)
 {
-   m->last_change = t;
+    m->last_change = t;
 }
 
-const char         *
-MenuGetName(const Menu * m)
+const char     *
+MenuGetName(const Menu *m)
 {
-   return m->name;
+    return m->name;
 }
 
-const char         *
-MenuGetData(const Menu * m)
+const char     *
+MenuGetData(const Menu *m)
 {
-   return (const char *)m->data;
+    return (const char *)m->data;
 }
 
 time_t
-MenuGetTimestamp(const Menu * m)
+MenuGetTimestamp(const Menu *m)
 {
-   return m->last_change;
+    return m->last_change;
 }
 
 void
-MenuSetStyle(Menu * m, MenuStyle * ms)
+MenuSetStyle(Menu *m, MenuStyle *ms)
 {
-   if (m->style)
-      m->style->ref_count--;
-   if (!ms && m->parent)
-      ms = m->parent->style;
-   if (!ms)
-      ms = MenuStyleFind("DEFAULT");
-   m->style = ms;
-   if (ms)
-      ms->ref_count++;
+    if (m->style)
+        m->style->ref_count--;
+    if (!ms && m->parent)
+        ms = m->parent->style;
+    if (!ms)
+        ms = MenuStyleFind("DEFAULT");
+    m->style = ms;
+    if (ms)
+        ms->ref_count++;
 }
 
-Menu               *
-MenuCreate(const char *name, const char *title, Menu * parent, MenuStyle * ms)
+Menu           *
+MenuCreate(const char *name, const char *title, Menu *parent, MenuStyle *ms)
 {
-   Menu               *m;
+    Menu           *m;
 
-   m = ECALLOC(Menu, 1);
-   if (!m)
-      return m;
+    m = ECALLOC(Menu, 1);
+    if (!m)
+        return m;
 
-   m->parent = parent;
-   MenuSetName(m, name);
-   MenuSetTitle(m, title);
-   if (ms)
-      MenuSetStyle(m, ms);
-   m->icon_size = -1;		/* Use image size */
+    m->parent = parent;
+    MenuSetName(m, name);
+    MenuSetTitle(m, title);
+    if (ms)
+        MenuSetStyle(m, ms);
+    m->icon_size = -1;          /* Use image size */
 
-   LIST_APPEND(Menu, &menu_list, m);
+    LIST_APPEND(Menu, &menu_list, m);
 
-   return m;
+    return m;
 }
 
 static void
-MenuDestroy(Menu * m)
+MenuDestroy(Menu *m)
 {
-   if (!m)
-      return;
+    if (!m)
+        return;
 
-   if (!LIST_CHECK(Menu, &menu_list, m))
-      return;
+    if (!LIST_CHECK(Menu, &menu_list, m))
+        return;
 
-   MenuHide(m);
-   MenuEmpty(m, 1);
+    MenuHide(m);
+    MenuEmpty(m, 1);
 
-   if (m->ref_count)
-      return;
+    if (m->ref_count)
+        return;
 
-   LIST_REMOVE(Menu, &menu_list, m);
+    LIST_REMOVE(Menu, &menu_list, m);
 
-   if (m->win)
-      EDestroyWindow(m->win);
+    if (m->win)
+        EDestroyWindow(m->win);
 
-   Efree(m->name);
-   Efree(m->alias);
-   Efree(m->title);
-   Efree(m->data);
+    Efree(m->name);
+    Efree(m->alias);
+    Efree(m->title);
+    Efree(m->data);
 
-   Efree(m);
+    Efree(m);
 }
 
 /* NB - this doesnt free imageclasses if we created them for the menu
@@ -627,566 +626,565 @@ MenuDestroy(Menu * m)
  * imageclasses to knw to free them when not used
  */
 void
-MenuEmpty(Menu * m, int destroying)
+MenuEmpty(Menu *m, int destroying)
 {
-   int                 i;
-   MenuItem           *mi;
+    int             i;
+    MenuItem       *mi;
 
-   for (i = 0; i < m->num; i++)
-     {
-	mi = m->items[i];
+    for (i = 0; i < m->num; i++)
+    {
+        mi = m->items[i];
 
-	if (mi->child)
-	  {
-	     mi->child->ref_count--;
-	     MenuDestroy(mi->child);
-	  }
-	MenuItemDestroy(mi, destroying);
-     }
-   EFREE_NULL(m->items);
-   m->num = 0;
-   m->sel_item = NULL;
+        if (mi->child)
+        {
+            mi->child->ref_count--;
+            MenuDestroy(mi->child);
+        }
+        MenuItemDestroy(mi, destroying);
+    }
+    EFREE_NULL(m->items);
+    m->num = 0;
+    m->sel_item = NULL;
 
-   PmapMaskFree(&m->pmm);
+    PmapMaskFree(&m->pmm);
 
-   m->last_change = 0;
-   m->filled = 0;
+    m->last_change = 0;
+    m->filled = 0;
 }
 
 static void
-MenuFreePixmaps(Menu * m)
+MenuFreePixmaps(Menu *m)
 {
-   int                 i, j;
-   MenuItem           *mi;
+    int             i, j;
+    MenuItem       *mi;
 
-   for (i = 0; i < m->num; i++)
-     {
-	mi = m->items[i];
+    for (i = 0; i < m->num; i++)
+    {
+        mi = m->items[i];
 
-	for (j = 0; j < 3; j++)
-	   PmapMaskFree(mi->pmm + j);
-     }
+        for (j = 0; j < 3; j++)
+            PmapMaskFree(mi->pmm + j);
+    }
 
-   PmapMaskFree(&m->pmm);
+    PmapMaskFree(&m->pmm);
 
-   m->last_change = 0;
-   m->filled = 0;
+    m->last_change = 0;
+    m->filled = 0;
 }
 
 void
-MenuAddItem(Menu * m, MenuItem * item)
+MenuAddItem(Menu *m, MenuItem *item)
 {
-   MenuItem          **items;
+    MenuItem      **items;
 
-   if (!item)
-      return;
+    if (!item)
+        return;
 
-   items = EREALLOC(MenuItem *, m->items, m->num + 1);
-   if (!items)
-     {
-	MenuItemDestroy(item, 1);
-	return;
-     }
+    items = EREALLOC(MenuItem *, m->items, m->num + 1);
+    if (!items)
+    {
+        MenuItemDestroy(item, 1);
+        return;
+    }
 
-   items[m->num] = item;
-   m->items = items;
-   m->num++;
+    items[m->num] = item;
+    m->items = items;
+    m->num++;
 }
 
 static void
-MenuRealize(Menu * m)
+MenuRealize(Menu *m)
 {
-   int                 i, maxh, maxw, nmaxy, maxtw;
-   int                 maxx1, maxx2, w, h, x, y, r, mmw, mmh;
-   char               *s;
-   EImage             *im;
-   EImageBorder       *pad, *pad_item, *pad_sub;
-   char                has_i, has_s;
+    int             i, maxh, maxw, nmaxy, maxtw;
+    int             maxx1, maxx2, w, h, x, y, r, mmw, mmh;
+    char           *s;
+    EImage         *im;
+    EImageBorder   *pad, *pad_item, *pad_sub;
+    char            has_i, has_s;
 
-   if (m->num <= 0)
-      return;
+    if (m->num <= 0)
+        return;
 
-   if (!m->style)
-     {
-	MenuSetStyle(m, NULL);
-	if (!m->style)
-	   return;
-     }
+    if (!m->style)
+    {
+        MenuSetStyle(m, NULL);
+        if (!m->style)
+            return;
+    }
 
-   if (!m->win)
-     {
-	m->win = ECreateClientWindow(VROOT, 0, 0, 1, 1);
-	EventCallbackRegister(m->win, MenuHandleEvents, m);
-     }
+    if (!m->win)
+    {
+        m->win = ECreateClientWindow(VROOT, 0, 0, 1, 1);
+        EventCallbackRegister(m->win, MenuHandleEvents, m);
+    }
 
-   maxh = maxw = 0;
-   maxtw = WinGetW(VROOT) / 3;
-   maxx1 = 0;
-   maxx2 = 0;
-   has_i = 0;
-   has_s = 0;
+    maxh = maxw = 0;
+    maxtw = WinGetW(VROOT) / 3;
+    maxx1 = 0;
+    maxx2 = 0;
+    has_i = 0;
+    has_s = 0;
 
-   for (i = 0; i < m->num; i++)
-     {
-	m->items[i]->menu = m;
+    for (i = 0; i < m->num; i++)
+    {
+        m->items[i]->menu = m;
 
-	if (m->items[i]->child)
-	   has_s = 1;
-	else
-	   has_i = 1;
+        if (m->items[i]->child)
+            has_s = 1;
+        else
+            has_i = 1;
 
-	m->items[i]->win = ECreateWindow(m->win, 0, 0, 1, 1, 0);
-	EventCallbackRegister(m->items[i]->win, MenuItemHandleEvents,
-			      m->items[i]);
-	ESelectInput(m->items[i]->win, MENU_ITEM_EVENT_MASK);
-	EMapWindow(m->items[i]->win);
+        m->items[i]->win = ECreateWindow(m->win, 0, 0, 1, 1, 0);
+        EventCallbackRegister(m->items[i]->win, MenuItemHandleEvents,
+                              m->items[i]);
+        ESelectInput(m->items[i]->win, MENU_ITEM_EVENT_MASK);
+        EMapWindow(m->items[i]->win);
 
-	if ((m->style->tclass) && (m->items[i]->text))
-	  {
-	     TextSize(m->style->tclass, 0, 0, 0, _(m->items[i]->text), &w, &h);
-	     if (h > maxh)
-		maxh = h;
-	     if (w > maxtw)
-		w = maxtw;
-	     if (w > maxx1)
-		maxx1 = w;
-	     m->items[i]->text_w = w;
-	     m->items[i]->text_h = h;
-	  }
-	if (m->items[i]->icon && Conf.menus.show_icons)
-	  {
-	     im = EImageLoad(m->items[i]->icon);
-	     if (!im)
-	       {
-		  s = ImageclassGetFile(ImageclassFind(m->items[i]->icon, 0));
-		  im = EImageLoad(s);
-		  if (im)
-		    {
-		       EFREE_SET(m->items[i]->icon, s);
-		    }
-	       }
-	     if (im)
-	       {
-		  w = h = 0;
-		  if (m->icon_size > 0)
-		     w = h = m->icon_size;
-		  else if (m->icon_size == 0)
-		     w = h = Conf.menus.icon_size;
-		  if (w <= 0 || h <= 0)
-		     EImageGetSize(im, &w, &h);
-		  m->items[i]->icon_w = w;
-		  m->items[i]->icon_h = h;
-		  if (h > maxh)
-		     maxh = h;
-		  if (w > maxx2)
-		     maxx2 = w;
-		  EImageFree(im);
-	       }
-	     else
-	       {
-		  EFREE_NULL(m->items[i]->icon);
-	       }
-	  }
-     }
+        if ((m->style->tclass) && (m->items[i]->text))
+        {
+            TextSize(m->style->tclass, 0, 0, 0, _(m->items[i]->text), &w, &h);
+            if (h > maxh)
+                maxh = h;
+            if (w > maxtw)
+                w = maxtw;
+            if (w > maxx1)
+                maxx1 = w;
+            m->items[i]->text_w = w;
+            m->items[i]->text_h = h;
+        }
+        if (m->items[i]->icon && Conf.menus.show_icons)
+        {
+            im = EImageLoad(m->items[i]->icon);
+            if (!im)
+            {
+                s = ImageclassGetFile(ImageclassFind(m->items[i]->icon, 0));
+                im = EImageLoad(s);
+                if (im)
+                {
+                    EFREE_SET(m->items[i]->icon, s);
+                }
+            }
+            if (im)
+            {
+                w = h = 0;
+                if (m->icon_size > 0)
+                    w = h = m->icon_size;
+                else if (m->icon_size == 0)
+                    w = h = Conf.menus.icon_size;
+                if (w <= 0 || h <= 0)
+                    EImageGetSize(im, &w, &h);
+                m->items[i]->icon_w = w;
+                m->items[i]->icon_h = h;
+                if (h > maxh)
+                    maxh = h;
+                if (w > maxx2)
+                    maxx2 = w;
+                EImageFree(im);
+            }
+            else
+            {
+                EFREE_NULL(m->items[i]->icon);
+            }
+        }
+    }
 
-   pad = ImageclassGetPadding(m->style->bg_iclass);
-   pad_item = ImageclassGetPadding(m->style->item_iclass);
-   pad_sub = ImageclassGetPadding(m->style->sub_iclass);
-   if (((has_i) && (has_s)) || ((!has_i) && (!has_s)))
-     {
-	if (pad_item->top > pad_sub->top)
-	   maxh += pad_item->top;
-	else
-	   maxh += pad_sub->top;
-	if (pad_item->bottom > pad_sub->bottom)
-	   maxh += pad_item->bottom;
-	else
-	   maxh += pad_sub->bottom;
-	maxw = maxx1 + maxx2;
-	if (pad_item->left > pad_sub->left)
-	   maxw += pad_item->left;
-	else
-	   maxw += pad_sub->left;
-	if (pad_item->right > pad_sub->right)
-	   maxw += pad_item->right;
-	else
-	   maxw += pad_sub->right;
-     }
-   else if (has_i)
-     {
-	maxh += pad_item->top;
-	maxh += pad_item->bottom;
-	maxw = maxx1 + maxx2;
-	maxw += pad_item->left;
-	maxw += pad_item->right;
-     }
-   else if (has_s)
-     {
-	maxh += pad_sub->top;
-	maxh += pad_sub->bottom;
-	maxw = maxx1 + maxx2;
-	maxw += pad_sub->left;
-	maxw += pad_sub->right;
-     }
+    pad = ImageclassGetPadding(m->style->bg_iclass);
+    pad_item = ImageclassGetPadding(m->style->item_iclass);
+    pad_sub = ImageclassGetPadding(m->style->sub_iclass);
+    if (((has_i) && (has_s)) || ((!has_i) && (!has_s)))
+    {
+        if (pad_item->top > pad_sub->top)
+            maxh += pad_item->top;
+        else
+            maxh += pad_sub->top;
+        if (pad_item->bottom > pad_sub->bottom)
+            maxh += pad_item->bottom;
+        else
+            maxh += pad_sub->bottom;
+        maxw = maxx1 + maxx2;
+        if (pad_item->left > pad_sub->left)
+            maxw += pad_item->left;
+        else
+            maxw += pad_sub->left;
+        if (pad_item->right > pad_sub->right)
+            maxw += pad_item->right;
+        else
+            maxw += pad_sub->right;
+    }
+    else if (has_i)
+    {
+        maxh += pad_item->top;
+        maxh += pad_item->bottom;
+        maxw = maxx1 + maxx2;
+        maxw += pad_item->left;
+        maxw += pad_item->right;
+    }
+    else if (has_s)
+    {
+        maxh += pad_sub->top;
+        maxh += pad_sub->bottom;
+        maxw = maxx1 + maxx2;
+        maxw += pad_sub->left;
+        maxw += pad_sub->right;
+    }
 
-   mmw = 0;
-   mmh = 0;
+    mmw = 0;
+    mmh = 0;
 
-   nmaxy = 3 * WinGetH(VROOT) / (4 * maxh + 1);
-   if (m->style->maxy && nmaxy > m->style->maxy)
-      nmaxy = m->style->maxy;
+    nmaxy = 3 * WinGetH(VROOT) / (4 * maxh + 1);
+    if (m->style->maxy && nmaxy > m->style->maxy)
+        nmaxy = m->style->maxy;
 
-   r = 0;
-   x = 0;
-   y = 0;
-   for (i = 0; i < m->num; i++)
-     {
-	if (r == 0 && (m->style->bg_iclass) && (!m->style->use_item_bg))
-	  {
-	     x += pad->left;
-	     y += pad->top;
-	  }
-	EMoveResizeWindow(m->items[i]->win, x, y, maxw, maxh);
-	if (m->style->iconpos == ICON_LEFT)
-	  {
-	     m->items[i]->text_x = pad_item->left + maxx2;
-	     m->items[i]->text_w = maxx1;
-	     m->items[i]->text_y = (maxh - m->items[i]->text_h) / 2;
-	     m->items[i]->icon_x = pad_item->left +
-		(maxx2 - m->items[i]->icon_w) / 2;
-	     m->items[i]->icon_y = (maxh - m->items[i]->icon_h) / 2;
-	  }
-	else
-	  {
-	     m->items[i]->text_x = pad_item->left;
-	     m->items[i]->text_w = maxx1;
-	     m->items[i]->text_y = (maxh - m->items[i]->text_h) / 2;
-	     m->items[i]->icon_x = maxw - pad_item->right - maxx2 +
-		(maxx2 - m->items[i]->icon_w) / 2;
-	     m->items[i]->icon_y = (maxh - m->items[i]->icon_h) / 2;
-	  }
-	if (x + maxw > mmw)
-	   mmw = x + maxw;
-	if (y + maxh > mmh)
-	   mmh = y + maxh;
-	if ((m->style->maxx) || (nmaxy))
-	  {
-	     if (nmaxy)
-	       {
-		  y += maxh;
-		  r++;
-		  if (r >= nmaxy)
-		    {
-		       r = 0;
-		       x += maxw;
-		       y = 0;
-		    }
-	       }
-	     else
-	       {
-		  x += maxw;
-		  r++;
-		  if (r >= m->style->maxx)
-		    {
-		       r = 0;
-		       y += maxh;
-		       x = 0;
-		    }
-	       }
-	  }
-	else
-	   y += maxh;
-     }
+    r = 0;
+    x = 0;
+    y = 0;
+    for (i = 0; i < m->num; i++)
+    {
+        if (r == 0 && (m->style->bg_iclass) && (!m->style->use_item_bg))
+        {
+            x += pad->left;
+            y += pad->top;
+        }
+        EMoveResizeWindow(m->items[i]->win, x, y, maxw, maxh);
+        if (m->style->iconpos == ICON_LEFT)
+        {
+            m->items[i]->text_x = pad_item->left + maxx2;
+            m->items[i]->text_w = maxx1;
+            m->items[i]->text_y = (maxh - m->items[i]->text_h) / 2;
+            m->items[i]->icon_x = pad_item->left +
+                (maxx2 - m->items[i]->icon_w) / 2;
+            m->items[i]->icon_y = (maxh - m->items[i]->icon_h) / 2;
+        }
+        else
+        {
+            m->items[i]->text_x = pad_item->left;
+            m->items[i]->text_w = maxx1;
+            m->items[i]->text_y = (maxh - m->items[i]->text_h) / 2;
+            m->items[i]->icon_x = maxw - pad_item->right - maxx2 +
+                (maxx2 - m->items[i]->icon_w) / 2;
+            m->items[i]->icon_y = (maxh - m->items[i]->icon_h) / 2;
+        }
+        if (x + maxw > mmw)
+            mmw = x + maxw;
+        if (y + maxh > mmh)
+            mmh = y + maxh;
+        if ((m->style->maxx) || (nmaxy))
+        {
+            if (nmaxy)
+            {
+                y += maxh;
+                r++;
+                if (r >= nmaxy)
+                {
+                    r = 0;
+                    x += maxw;
+                    y = 0;
+                }
+            }
+            else
+            {
+                x += maxw;
+                r++;
+                if (r >= m->style->maxx)
+                {
+                    r = 0;
+                    y += maxh;
+                    x = 0;
+                }
+            }
+        }
+        else
+            y += maxh;
+    }
 
-   if ((m->style->bg_iclass) && (!m->style->use_item_bg))
-     {
-	mmw += pad->right;
-	mmh += pad->bottom;
-     }
+    if ((m->style->bg_iclass) && (!m->style->use_item_bg))
+    {
+        mmw += pad->right;
+        mmh += pad->bottom;
+    }
 
-   m->redraw = 1;
-   m->w = mmw;
-   m->h = mmh;
-   EResizeWindow(m->win, mmw, mmh);
+    m->redraw = 1;
+    m->w = mmw;
+    m->h = mmh;
+    EResizeWindow(m->win, mmw, mmh);
 }
 
 static void
-MenuRedraw(Menu * m)
+MenuRedraw(Menu *m)
 {
-   int                 i, j;
+    int             i, j;
 
-   if (m->redraw)
-     {
-	for (i = 0; i < m->num; i++)
-	  {
-	     for (j = 0; j < 3; j++)
-		PmapMaskFree(&(m->items[i]->pmm[j]));
+    if (m->redraw)
+    {
+        for (i = 0; i < m->num; i++)
+        {
+            for (j = 0; j < 3; j++)
+                PmapMaskFree(&(m->items[i]->pmm[j]));
 
-	  }
-	m->redraw = 0;
-     }
+        }
+        m->redraw = 0;
+    }
 
-   if (!m->style->use_item_bg)
-     {
-	PmapMaskFree(&m->pmm);
-	ImageclassApplyCopy(m->style->bg_iclass, m->win, m->w, m->h, 0,
-			    0, STATE_NORMAL, &m->pmm, IC_FLAG_MAKE_MASK);
-	EGetWindowBackgroundPixmap(m->win);
-	EXCopyAreaTiled(m->pmm.pmap, NoXID, WinGetPmap(m->win),
-			0, 0, m->w, m->h, 0, 0);
-	EShapeSetMask(m->win, 0, 0, m->pmm.mask);
-	EClearWindow(m->win);
-	for (i = 0; i < m->num; i++)
-	   MenuDrawItem(m, m->items[i], 0, -1);
-     }
-   else
-     {
-	for (i = 0; i < m->num; i++)
-	   MenuDrawItem(m, m->items[i], 0, -1);
-	EShapePropagate(m->win);
-     }
+    if (!m->style->use_item_bg)
+    {
+        PmapMaskFree(&m->pmm);
+        ImageclassApplyCopy(m->style->bg_iclass, m->win, m->w, m->h, 0,
+                            0, STATE_NORMAL, &m->pmm, IC_FLAG_MAKE_MASK);
+        EGetWindowBackgroundPixmap(m->win);
+        EXCopyAreaTiled(m->pmm.pmap, NoXID, WinGetPmap(m->win),
+                        0, 0, m->w, m->h, 0, 0);
+        EShapeSetMask(m->win, 0, 0, m->pmm.mask);
+        EClearWindow(m->win);
+        for (i = 0; i < m->num; i++)
+            MenuDrawItem(m, m->items[i], 0, -1);
+    }
+    else
+    {
+        for (i = 0; i < m->num; i++)
+            MenuDrawItem(m, m->items[i], 0, -1);
+        EShapePropagate(m->win);
+    }
 
-   m->filled = 1;
+    m->filled = 1;
 }
 
 static void
-MenuDrawItem(Menu * m, MenuItem * mi, char shape, int state)
+MenuDrawItem(Menu *m, MenuItem *mi, char shape, int state)
 {
-   PmapMask           *mi_pmm;
+    PmapMask       *mi_pmm;
 
-   if (state >= 0)
-      mi->state = state;
-   mi_pmm = &(mi->pmm[(int)(mi->state)]);
+    if (state >= 0)
+        mi->state = state;
+    mi_pmm = &(mi->pmm[(int)(mi->state)]);
 
-   if (!mi_pmm->pmap)
-     {
-	int                 x, y, w, h;
-	ImageClass         *ic;
-	PmapMask            pmm;
-	EImage             *im;
+    if (!mi_pmm->pmap)
+    {
+        int             x, y, w, h;
+        ImageClass     *ic;
+        PmapMask        pmm;
+        EImage         *im;
 
-	x = WinGetX(mi->win);
-	y = WinGetY(mi->win);
-	w = WinGetW(mi->win);
-	h = WinGetH(mi->win);
+        x = WinGetX(mi->win);
+        y = WinGetY(mi->win);
+        w = WinGetW(mi->win);
+        h = WinGetH(mi->win);
 
-	mi_pmm->type = 0;
-	mi_pmm->pmap = ECreatePixmap(mi->win, w, h, 0);
-	mi_pmm->mask = NoXID;
+        mi_pmm->type = 0;
+        mi_pmm->pmap = ECreatePixmap(mi->win, w, h, 0);
+        mi_pmm->mask = NoXID;
 
-	ic = (mi->child) ? m->style->sub_iclass : m->style->item_iclass;
+        ic = (mi->child) ? m->style->sub_iclass : m->style->item_iclass;
 
-	if (!m->style->use_item_bg)
-	  {
-	     EXCopyArea(WinGetPmap(m->win), mi_pmm->pmap, x, y, w, h, 0, 0);
-	     if ((mi->state != STATE_NORMAL) || (mi->child))
-	       {
-		  ImageclassApplyCopy(ic, mi->win, w, h, 0, 0, mi->state, &pmm,
-				      IC_FLAG_MAKE_MASK);
-		  EXCopyAreaTiled(pmm.pmap, pmm.mask, mi_pmm->pmap,
-				  0, 0, w, h, 0, 0);
-		  PmapMaskFree(&pmm);
-	       }
-	  }
-	else
-	  {
-	     ImageclassApplyCopy(ic, mi->win, w, h, 0, 0, mi->state, &pmm,
-				 IC_FLAG_MAKE_MASK);
-	     EXCopyAreaTiled(pmm.pmap, pmm.mask, mi_pmm->pmap,
-			     0, 0, w, h, 0, 0);
-	     PmapMaskFree(&pmm);
-	  }
+        if (!m->style->use_item_bg)
+        {
+            EXCopyArea(WinGetPmap(m->win), mi_pmm->pmap, x, y, w, h, 0, 0);
+            if ((mi->state != STATE_NORMAL) || (mi->child))
+            {
+                ImageclassApplyCopy(ic, mi->win, w, h, 0, 0, mi->state, &pmm,
+                                    IC_FLAG_MAKE_MASK);
+                EXCopyAreaTiled(pmm.pmap, pmm.mask, mi_pmm->pmap,
+                                0, 0, w, h, 0, 0);
+                PmapMaskFree(&pmm);
+            }
+        }
+        else
+        {
+            ImageclassApplyCopy(ic, mi->win, w, h, 0, 0, mi->state, &pmm,
+                                IC_FLAG_MAKE_MASK);
+            EXCopyAreaTiled(pmm.pmap, pmm.mask, mi_pmm->pmap, 0, 0, w, h, 0, 0);
+            PmapMaskFree(&pmm);
+        }
 
-	if (mi->text)
-	  {
-	     TextDraw(m->style->tclass, mi->win, mi_pmm->pmap, 0, 0, mi->state,
-		      _(mi->text), mi->text_x, mi->text_y, mi->text_w,
-		      mi->text_h, TextclassGetJustification(m->style->tclass));
-	  }
-	if (mi->icon && Conf.menus.show_icons)
-	  {
-	     im = EImageLoad(mi->icon);
-	     EImageRenderOnDrawable(im, mi->win, mi_pmm->pmap, EIMAGE_BLEND,
-				    mi->icon_x, mi->icon_y,
-				    mi->icon_w, mi->icon_h);
-	     EImageFree(im);
-	  }
-     }
+        if (mi->text)
+        {
+            TextDraw(m->style->tclass, mi->win, mi_pmm->pmap, 0, 0, mi->state,
+                     _(mi->text), mi->text_x, mi->text_y, mi->text_w,
+                     mi->text_h, TextclassGetJustification(m->style->tclass));
+        }
+        if (mi->icon && Conf.menus.show_icons)
+        {
+            im = EImageLoad(mi->icon);
+            EImageRenderOnDrawable(im, mi->win, mi_pmm->pmap, EIMAGE_BLEND,
+                                   mi->icon_x, mi->icon_y,
+                                   mi->icon_w, mi->icon_h);
+            EImageFree(im);
+        }
+    }
 
-   ESetWindowBackgroundPixmap(mi->win, mi_pmm->pmap, 1);
-   EShapeSetMask(mi->win, 0, 0, mi_pmm->mask);
-   EClearWindow(mi->win);
+    ESetWindowBackgroundPixmap(mi->win, mi_pmm->pmap, 1);
+    EShapeSetMask(mi->win, 0, 0, mi_pmm->mask);
+    EClearWindow(mi->win);
 
-   if ((shape) && (m->style->use_item_bg))
-      EShapePropagate(m->win);
+    if ((shape) && (m->style->use_item_bg))
+        EShapePropagate(m->win);
 }
 
 static void
-MenuShowMasker(Menu * m __UNUSED__)
+MenuShowMasker(Menu *m __UNUSED__)
 {
-   EObj               *eo = Mode_menus.cover_win;
+    EObj           *eo = Mode_menus.cover_win;
 
-   if (!eo)
-     {
-	eo = EobjWindowCreate(EOBJ_TYPE_EVENT,
-			      0, 0, WinGetW(VROOT), WinGetH(VROOT),
-			      0, "Masker");
-	if (!eo)
-	   return;
+    if (!eo)
+    {
+        eo = EobjWindowCreate(EOBJ_TYPE_EVENT,
+                              0, 0, WinGetW(VROOT), WinGetH(VROOT),
+                              0, "Masker");
+        if (!eo)
+            return;
 
-	EobjReparent(eo, EoObj(DesksGetCurrent()), 0, 0);
-	EobjSetLayer(eo, 11);
-	ESelectInput(EobjGetWin(eo), ButtonPressMask | ButtonReleaseMask |
-		     EnterWindowMask | LeaveWindowMask);
-	EventCallbackRegister(EobjGetWin(eo), MenuMaskerHandleEvents, NULL);
+        EobjReparent(eo, EoObj(DesksGetCurrent()), 0, 0);
+        EobjSetLayer(eo, 11);
+        ESelectInput(EobjGetWin(eo), ButtonPressMask | ButtonReleaseMask |
+                     EnterWindowMask | LeaveWindowMask);
+        EventCallbackRegister(EobjGetWin(eo), MenuMaskerHandleEvents, NULL);
 
-	Mode_menus.cover_win = eo;
-     }
+        Mode_menus.cover_win = eo;
+    }
 
-   Mode_menus.cover_bpress = 0;
-   EobjMap(eo, 0);
+    Mode_menus.cover_bpress = 0;
+    EobjMap(eo, 0);
 }
 
 static void
 MenuHideMasker(void)
 {
-   EObj               *eo = Mode_menus.cover_win;
+    EObj           *eo = Mode_menus.cover_win;
 
-   if (!eo)
-      return;
+    if (!eo)
+        return;
 
-   EventCallbackUnregister(EobjGetWin(eo), MenuMaskerHandleEvents, NULL);
-   EobjWindowDestroy(eo);
-   Mode_menus.cover_win = NULL;
+    EventCallbackUnregister(EobjGetWin(eo), MenuMaskerHandleEvents, NULL);
+    EobjWindowDestroy(eo);
+    Mode_menus.cover_win = NULL;
 }
 
 static void
 MenusDestroyLoaded(void)
 {
-   Menu               *m;
+    Menu           *m;
 
-   MenusHide();
+    MenusHide();
 
-   /* Free all menustyles first (gulp) */
-   for (;;)
-     {
+    /* Free all menustyles first (gulp) */
+    for (;;)
+    {
       restart:
-	LIST_FOR_EACH(Menu, &menu_list, m)
-	{
-	   if (m->internal)
-	      continue;
-	   if (m->ref_count)
-	      continue;
+        LIST_FOR_EACH(Menu, &menu_list, m)
+        {
+            if (m->internal)
+                continue;
+            if (m->ref_count)
+                continue;
 
-	   MenuDestroy(m);
-	   /* Destroying a menu may result in sub-menus being
-	    * destroyed too, so we have to re-find all menus
-	    * afterwards. Inefficient yes, but it works...
-	    */
-	   goto restart;
-	}
-	break;
-     }
+            MenuDestroy(m);
+            /* Destroying a menu may result in sub-menus being
+             * destroyed too, so we have to re-find all menus
+             * afterwards. Inefficient yes, but it works...
+             */
+            goto restart;
+        }
+        break;
+    }
 }
 
 static int
 _MenuMatchName(const void *data, const void *match)
 {
-   const Menu         *m = (const Menu *)data;
+    const Menu     *m = (const Menu *)data;
 
-   if ((m->name && !strcmp((const char *)match, m->name)) ||
-       (m->alias && !strcmp((const char *)match, m->alias)))
-      return 0;
+    if ((m->name && !strcmp((const char *)match, m->name)) ||
+        (m->alias && !strcmp((const char *)match, m->alias)))
+        return 0;
 
-   return 1;
+    return 1;
 }
 
-Menu               *
+Menu           *
 MenuFind(const char *name, const char *param)
 {
-   Menu               *m;
+    Menu           *m;
 
-   m = LIST_FIND(Menu, &menu_list, _MenuMatchName, name);
-   if (m)
-      return (m);
+    m = LIST_FIND(Menu, &menu_list, _MenuMatchName, name);
+    if (m)
+        return (m);
 
-   /* Not in list - try if we can load internal */
-   m = MenusCreateInternal(NULL, name, NULL, param);
+    /* Not in list - try if we can load internal */
+    m = MenusCreateInternal(NULL, name, NULL, param);
 
-   return m;
+    return m;
 }
 
 /*
  * Aliases for "well-known" menus for backward compatibility.
  */
-static const char  *const menu_aliases[] = {
-   "APPS_SUBMENU", "file.menu",
-   "CONFIG_SUBMENU", "settings.menu",
-   "DESKTOP_SUBMENU", "desktop.menu",
-   "MAINT_SUBMENU", "maintenance.menu",
-   "ROOT_2", "enlightenment.menu",
-   "WINOPS_MENU", "winops.menu",
+static const char *const menu_aliases[] = {
+    "APPS_SUBMENU", "file.menu",
+    "CONFIG_SUBMENU", "settings.menu",
+    "DESKTOP_SUBMENU", "desktop.menu",
+    "MAINT_SUBMENU", "maintenance.menu",
+    "ROOT_2", "enlightenment.menu",
+    "WINOPS_MENU", "winops.menu",
 };
 #define N_MENU_ALIASES (E_ARRAY_SIZE(menu_aliases)/2)
 
-static const char  *
+static const char *
 _MenuCheckAlias(const char *name)
 {
-   unsigned int        i;
+    unsigned int    i;
 
-   for (i = 0; i < N_MENU_ALIASES; i++)
-      if (!strcmp(name, menu_aliases[2 * i]))
-	 return menu_aliases[2 * i + 1];
+    for (i = 0; i < N_MENU_ALIASES; i++)
+        if (!strcmp(name, menu_aliases[2 * i]))
+            return menu_aliases[2 * i + 1];
 
-   return NULL;
+    return NULL;
 }
 
 static void
 MenusShowNamed(const char *name, const char *param)
 {
-   Menu               *m;
-   const char         *name2;
+    Menu           *m;
+    const char     *name2;
 
-   name2 = _MenuCheckAlias(name);
-   if (name2)
-      name = name2;
+    name2 = _MenuCheckAlias(name);
+    if (name2)
+        name = name2;
 
-   m = MenuFind(name, param);
-   if (m && m->shown)
-      return;			/* Quit if already shown */
+    m = MenuFind(name, param);
+    if (m && m->shown)
+        return;                 /* Quit if already shown */
 
-   /* Hide any menus currently up */
-   if (MenusActive())
-      MenusHide();
+    /* Hide any menus currently up */
+    if (MenusActive())
+        MenusHide();
 
-   if (!m)
-      return;			/* Quit if menu not found */
+    if (!m)
+        return;                 /* Quit if menu not found */
 
-   if (!m->ewin)		/* Don't show if already shown */
-      MenuShow(m, 0);
+    if (!m->ewin)               /* Don't show if already shown */
+        MenuShow(m, 0);
 }
 
 int
 MenusActive(void)
 {
-   return !!Mode_menus.first;
+    return !!Mode_menus.first;
 }
 
 static void
 MenusHide(void)
 {
-   Menu               *m;
+    Menu           *m;
 
-   TIMER_DEL(menu_timer_submenu);
+    TIMER_DEL(menu_timer_submenu);
 
-   m = Mode_menus.first;
-   if (m && m->transient)
-      MenuDestroy(m);
-   else
-      MenuHide(m);
-   Mode_menus.first = NULL;
-   MenuHideMasker();
-   TooltipsEnable(1);
+    m = Mode_menus.first;
+    if (m && m->transient)
+        MenuDestroy(m);
+    else
+        MenuHide(m);
+    Mode_menus.first = NULL;
+    MenuHideMasker();
+    TooltipsEnable(1);
 }
 
 #if ENABLE_DIALOGS
@@ -1194,503 +1192,503 @@ MenusHide(void)
 static void
 MenusTouch(void)
 {
-   Menu               *m;
+    Menu           *m;
 
-   LIST_FOR_EACH(Menu, &menu_list, m) m->redraw = 1;
+    LIST_FOR_EACH(Menu, &menu_list, m) m->redraw = 1;
 }
 
-#endif /* ENABLE_DIALOGS */
+#endif                          /* ENABLE_DIALOGS */
 
 /*
  * Menu event handlers
  */
 
-static MenuItem    *
-MenuFindNextItem(Menu * m, MenuItem * mi, int inc)
+static MenuItem *
+MenuFindNextItem(Menu *m, MenuItem *mi, int inc)
 {
-   int                 i;
+    int             i;
 
-   if (!mi)
-     {
-	if (m->num > 0)
-	   return m->items[0];
-	else
-	   return NULL;
-     }
+    if (!mi)
+    {
+        if (m->num > 0)
+            return m->items[0];
+        else
+            return NULL;
+    }
 
-   for (i = 0; i < m->num; i++)
-      if (m->items[i] == mi)
-	{
-	   i = (i + inc + m->num) % m->num;
-	   return m->items[i];
-	}
+    for (i = 0; i < m->num; i++)
+        if (m->items[i] == mi)
+        {
+            i = (i + inc + m->num) % m->num;
+            return m->items[i];
+        }
 
-   return NULL;
+    return NULL;
 }
 
-static              EX_KeySym
+static          EX_KeySym
 MenuKeyPressConversion(EX_KeySym keysym)
 {
-   if (keysym == Conf.menus.key.left)
-      return XK_Left;
-   if (keysym == Conf.menus.key.right)
-      return XK_Right;
-   if (keysym == Conf.menus.key.up)
-      return XK_Up;
-   if (keysym == Conf.menus.key.down)
-      return XK_Down;
-   if (keysym == Conf.menus.key.escape)
-      return XK_Escape;
-   if (keysym == Conf.menus.key.ret)
-      return XK_Return;
+    if (keysym == Conf.menus.key.left)
+        return XK_Left;
+    if (keysym == Conf.menus.key.right)
+        return XK_Right;
+    if (keysym == Conf.menus.key.up)
+        return XK_Up;
+    if (keysym == Conf.menus.key.down)
+        return XK_Down;
+    if (keysym == Conf.menus.key.escape)
+        return XK_Escape;
+    if (keysym == Conf.menus.key.ret)
+        return XK_Return;
 
-   /* The key does not correspond to any set, use the default behavior 
-    * associated to the key */
-   return keysym;
+    /* The key does not correspond to any set, use the default behavior 
+     * associated to the key */
+    return keysym;
 }
 
 static void
-MenuEventKeyPress(Menu * m, XEvent * ev)
+MenuEventKeyPress(Menu *m, XEvent *ev)
 {
-   EX_KeySym           keysym;
-   MenuItem           *mi;
-   EWin               *ewin;
+    EX_KeySym       keysym;
+    MenuItem       *mi;
+    EWin           *ewin;
 
-   mi = NULL;
-   if (Mode_menus.active)
-     {
-	m = Mode_menus.active;
-	mi = m->sel_item;
-     }
+    mi = NULL;
+    if (Mode_menus.active)
+    {
+        m = Mode_menus.active;
+        mi = m->sel_item;
+    }
 
-   /* NB! m != NULL */
+    /* NB! m != NULL */
 
-   keysym = XLookupKeysym(&ev->xkey, 0);
-   switch (MenuKeyPressConversion(keysym))
-     {
-     case XK_Escape:
-	MenusHide();
-	break;
+    keysym = XLookupKeysym(&ev->xkey, 0);
+    switch (MenuKeyPressConversion(keysym))
+    {
+    case XK_Escape:
+        MenusHide();
+        break;
 
-     case XK_Down:
+    case XK_Down:
       check_next:
-	mi = MenuFindNextItem(m, mi, 1);
-	goto check_activate;
+        mi = MenuFindNextItem(m, mi, 1);
+        goto check_activate;
 
-     case XK_Up:
-	mi = MenuFindNextItem(m, mi, -1);
-	goto check_activate;
+    case XK_Up:
+        mi = MenuFindNextItem(m, mi, -1);
+        goto check_activate;
 
-     case XK_Left:
-	m = m->parent;
-	if (!m)
-	   break;
-	mi = m->sel_item;
-	goto check_activate;
+    case XK_Left:
+        m = m->parent;
+        if (!m)
+            break;
+        mi = m->sel_item;
+        goto check_activate;
 
-     case XK_Right:
-	if (!mi)
-	   goto check_next;
-	m = mi->child;
-	if (!m || m->num <= 0)
-	   break;
-	ewin = m->ewin;
-	if (!ewin || !EoIsMapped(ewin))
-	   break;
-	mi = MenuFindItemByChild(m, m->child);
-	goto check_activate;
+    case XK_Right:
+        if (!mi)
+            goto check_next;
+        m = mi->child;
+        if (!m || m->num <= 0)
+            break;
+        ewin = m->ewin;
+        if (!ewin || !EoIsMapped(ewin))
+            break;
+        mi = MenuFindItemByChild(m, m->child);
+        goto check_activate;
 
       check_activate:
-	if (!mi)
-	   break;
-	MenuActivateItem(m, mi);
-	break;
+        if (!mi)
+            break;
+        MenuActivateItem(m, mi);
+        break;
 
-     case XK_Return:
-	if (!mi)
-	   break;
-	if (!mi->params)
-	   break;
-	EFuncDefer(Mode_menus.context_ewin, mi->params);
-	MenusHide();
-	EobjsRepaint();
-	break;
-     }
+    case XK_Return:
+        if (!mi)
+            break;
+        if (!mi->params)
+            break;
+        EFuncDefer(Mode_menus.context_ewin, mi->params);
+        MenusHide();
+        EobjsRepaint();
+        break;
+    }
 }
 
 static void
-MenuItemEventMouseDown(MenuItem * mi, XEvent * ev __UNUSED__)
+MenuItemEventMouseDown(MenuItem *mi, XEvent *ev __UNUSED__)
 {
-   Menu               *m;
+    Menu           *m;
 
-   Mode_menus.just_shown = 0;
+    Mode_menus.just_shown = 0;
 
-   m = mi->menu;
-   MenuDrawItem(m, mi, 1, STATE_CLICKED);
+    m = mi->menu;
+    MenuDrawItem(m, mi, 1, STATE_CLICKED);
 }
 
 static void
-MenuItemEventMouseUp(MenuItem * mi, XEvent * ev __UNUSED__)
+MenuItemEventMouseUp(MenuItem *mi, XEvent *ev __UNUSED__)
 {
-   Menu               *m;
+    Menu           *m;
 
-   if (Mode_menus.just_shown)
-     {
-	Mode_menus.just_shown = 0;
-	if (ev->xbutton.time - Mode.events.last_btime < 250)
-	   return;
-     }
+    if (Mode_menus.just_shown)
+    {
+        Mode_menus.just_shown = 0;
+        if (ev->xbutton.time - Mode.events.last_btime < 250)
+            return;
+    }
 
-   m = mi->menu;
+    m = mi->menu;
 
-   if ((m) && (mi->state))
-     {
-	MenuDrawItem(m, mi, 1, STATE_HILITED);
-	if ((mi->params) /* && (!Mode_menus.just_shown) */ )
-	  {
-	     EFuncDefer(Mode_menus.context_ewin, mi->params);
-	     MenusHide();
-	     EobjsRepaint();
-	  }
-     }
+    if ((m) && (mi->state))
+    {
+        MenuDrawItem(m, mi, 1, STATE_HILITED);
+        if ((mi->params) /* && (!Mode_menus.just_shown) */ )
+        {
+            EFuncDefer(Mode_menus.context_ewin, mi->params);
+            MenusHide();
+            EobjsRepaint();
+        }
+    }
 }
 
 static void
 MenusSetEvents(int on)
 {
-   int                 i;
-   Menu               *m;
-   unsigned int        event_mask;
+    int             i;
+    Menu           *m;
+    unsigned int    event_mask;
 
-   event_mask = (on) ? MENU_ITEM_EVENT_MASK : 0;
+    event_mask = (on) ? MENU_ITEM_EVENT_MASK : 0;
 
-   for (m = Mode_menus.first; m; m = m->child)
-     {
-	for (i = 0; i < m->num; i++)
-	   ESelectInput(m->items[i]->win, event_mask);
-     }
+    for (m = Mode_menus.first; m; m = m->child)
+    {
+        for (i = 0; i < m->num; i++)
+            ESelectInput(m->items[i]->win, event_mask);
+    }
 }
 
 static void
-MenuSelectItem(Menu * m, MenuItem * mi, int focus)
+MenuSelectItem(Menu *m, MenuItem *mi, int focus)
 {
-   if (mi && focus)
-     {
-	if (Mode_menus.active != m)
-	  {
-	     Mode_menus.active = m;
-	     GrabKeyboardRelease();
-	     GrabKeyboardSet(m->win);
-	  }
-     }
+    if (mi && focus)
+    {
+        if (Mode_menus.active != m)
+        {
+            Mode_menus.active = m;
+            GrabKeyboardRelease();
+            GrabKeyboardSet(m->win);
+        }
+    }
 
-   if (mi == m->sel_item)
-      return;
+    if (mi == m->sel_item)
+        return;
 
-   if (m->sel_item)
-      MenuDrawItem(m, m->sel_item, 1, STATE_NORMAL);
+    if (m->sel_item)
+        MenuDrawItem(m, m->sel_item, 1, STATE_NORMAL);
 
-   if (mi)
-      MenuDrawItem(m, mi, 1, STATE_HILITED);
+    if (mi)
+        MenuDrawItem(m, mi, 1, STATE_HILITED);
 
-   m->sel_item = mi;
+    m->sel_item = mi;
 }
 
 static void
-MenuSelectItemByChild(Menu * m, Menu * mc)
+MenuSelectItemByChild(Menu *m, Menu *mc)
 {
-   MenuItem           *mi;
+    MenuItem       *mi;
 
-   mi = MenuFindItemByChild(m, mc);
-   if (!mi)
-      return;
+    mi = MenuFindItemByChild(m, mc);
+    if (!mi)
+        return;
 
-   MenuSelectItem(m, mi, 0);
+    MenuSelectItem(m, mi, 0);
 }
 
 static void
-_SubmenuGetPlacement(Menu * m, int *xo, int *yo, int *mw, int *mh)
+_SubmenuGetPlacement(Menu *m, int *xo, int *yo, int *mw, int *mh)
 {
-   EWin               *ewin, *ewin2;
-   MenuItem           *mi = m->sel_item;
-   int                 mix, miy, miw, my2;
-   int                 bl1, br1, bt1, bb1;
-   int                 bl2, br2, bt2, bb2;
+    EWin           *ewin, *ewin2;
+    MenuItem       *mi = m->sel_item;
+    int             mix, miy, miw, my2;
+    int             bl1, br1, bt1, bb1;
+    int             bl2, br2, bt2, bb2;
 
-   mix = WinGetX(mi->win);
-   miy = WinGetY(mi->win);
-   miw = WinGetW(mi->win);
-   my2 = 0;
-   if (mi->child->num > 0 && mi->child->items[0])
-      my2 = WinGetY(mi->child->items[0]->win);
+    mix = WinGetX(mi->win);
+    miy = WinGetY(mi->win);
+    miw = WinGetW(mi->win);
+    my2 = 0;
+    if (mi->child->num > 0 && mi->child->items[0])
+        my2 = WinGetY(mi->child->items[0]->win);
 
-   ewin = m->ewin;
-   ewin2 = m->child->ewin;
-   EwinBorderGetSize(ewin, &bl1, &br1, &bt1, &bb1);
-   EwinBorderGetSize(ewin2, &bl2, &br2, &bt2, &bb2);
+    ewin = m->ewin;
+    ewin2 = m->child->ewin;
+    EwinBorderGetSize(ewin, &bl1, &br1, &bt1, &bb1);
+    EwinBorderGetSize(ewin2, &bl2, &br2, &bt2, &bb2);
 
-   /* Sub-menu offsets relative to parent menu origin */
-   *xo = bl1 + mix + miw;
-   *yo = bt1 + miy - (bt2 + my2);
+    /* Sub-menu offsets relative to parent menu origin */
+    *xo = bl1 + mix + miw;
+    *yo = bt1 + miy - (bt2 + my2);
 
-   /* Size of new submenu (may be shaded atm.) */
-   *mw = mi->child->w + bl2 + br2;
-   *mh = mi->child->h + bt2 + bb2;
+    /* Size of new submenu (may be shaded atm.) */
+    *mw = mi->child->w + bl2 + br2;
+    *mh = mi->child->h + bt2 + bb2;
 }
 
 static void
-_SubmenuSlideDone(EObj * eo, void *data __UNUSED__)
+_SubmenuSlideDone(EObj *eo, void *data __UNUSED__)
 {
-   EWin               *ewin, *ewin2;
-   Menu               *m;
-   MenuItem           *mi;
+    EWin           *ewin, *ewin2;
+    Menu           *m;
+    MenuItem       *mi;
 
-   MenusSetEvents(1);
+    MenusSetEvents(1);
 
-   ewin = (EWin *) eo;
-   if (!EwinFindByPtr(ewin))
-      return;
-   m = (Menu *) ewin->data;
-   if (!m)
-      return;
-   mi = m->sel_item;
-   if (!mi)
-      return;
+    ewin = (EWin *) eo;
+    if (!EwinFindByPtr(ewin))
+        return;
+    m = (Menu *) ewin->data;
+    if (!m)
+        return;
+    mi = m->sel_item;
+    if (!mi)
+        return;
 
-   if (Conf.menus.warp)
-      EWarpPointer(mi->win, WinGetW(mi->win) / 2, WinGetH(mi->win) / 2);
+    if (Conf.menus.warp)
+        EWarpPointer(mi->win, WinGetW(mi->win) / 2, WinGetH(mi->win) / 2);
 
-   if (!mi->child)
-      return;
-   ewin2 = mi->child->ewin;
-   if (!EwinFindByPtr(ewin2))
-      return;
+    if (!mi->child)
+        return;
+    ewin2 = mi->child->ewin;
+    if (!EwinFindByPtr(ewin2))
+        return;
 
-   _MenuEwinShow(ewin2);
+    _MenuEwinShow(ewin2);
 }
 
 static void
-_MenusSlideCheck(Menu * m, int xo, int yo, int ww, int hh, int *pdx, int *pdy)
+_MenusSlideCheck(Menu *m, int xo, int yo, int ww, int hh, int *pdx, int *pdy)
 {
-   EWin               *ewin;
-   int                 sx, sy, sw, sh;
-   int                 xdist, ydist;
+    EWin           *ewin;
+    int             sx, sy, sw, sh;
+    int             xdist, ydist;
 
-   xdist = ydist = 0;
+    xdist = ydist = 0;
 
-   if (!Conf.menus.onscreen)
-      goto done;
+    if (!Conf.menus.onscreen)
+        goto done;
 
-   ScreenGetGeometryByHead(Mode_menus.first->ewin->head, &sx, &sy, &sw, &sh);
+    ScreenGetGeometryByHead(Mode_menus.first->ewin->head, &sx, &sy, &sw, &sh);
 
-   ewin = m->ewin;
+    ewin = m->ewin;
 
-   if (EoGetX(Mode_menus.first->ewin) < sx)
-      xdist = sx - EoGetX(Mode_menus.first->ewin);
-   if (EoGetX(ewin) + xdist + xo + ww > sx + sw)
-      xdist = sx + sw - (EoGetX(ewin) + xo + ww);
-   if (EoGetX(ewin) + xdist + xo < sx)
-      xdist = sx - (EoGetX(ewin) + xo);
+    if (EoGetX(Mode_menus.first->ewin) < sx)
+        xdist = sx - EoGetX(Mode_menus.first->ewin);
+    if (EoGetX(ewin) + xdist + xo + ww > sx + sw)
+        xdist = sx + sw - (EoGetX(ewin) + xo + ww);
+    if (EoGetX(ewin) + xdist + xo < sx)
+        xdist = sx - (EoGetX(ewin) + xo);
 
-   if (EoGetY(Mode_menus.first->ewin) < sy)
-      ydist = sy - EoGetY(Mode_menus.first->ewin);
-   if (EoGetY(ewin) + ydist + yo + hh > sy + sh)
-      ydist = sy + sh - (EoGetY(ewin) + yo + hh);
-   if (EoGetY(ewin) + ydist + yo < sy)
-      ydist = sy - (EoGetY(ewin) + yo);
+    if (EoGetY(Mode_menus.first->ewin) < sy)
+        ydist = sy - EoGetY(Mode_menus.first->ewin);
+    if (EoGetY(ewin) + ydist + yo + hh > sy + sh)
+        ydist = sy + sh - (EoGetY(ewin) + yo + hh);
+    if (EoGetY(ewin) + ydist + yo < sy)
+        ydist = sy - (EoGetY(ewin) + yo);
 
- done:
-   *pdx = xdist;
-   *pdy = ydist;
+  done:
+    *pdx = xdist;
+    *pdy = ydist;
 }
 
 static void
-_MenusSlide(Menu * m, int xdist, int ydist)
+_MenusSlide(Menu *m, int xdist, int ydist)
 {
-   EWin               *ewin, *menus[256];
-   int                 fx[256], fy[256], tx[256], ty[256];
-   int                 i;
-   Menu               *mm;
-   Animator           *an;
+    EWin           *ewin, *menus[256];
+    int             fx[256], fy[256], tx[256], ty[256];
+    int             i;
+    Menu           *mm;
+    Animator       *an;
 
-   i = 0;
-   for (mm = Mode_menus.first; mm; mm = mm->child)
-     {
-	ewin = mm->ewin;
-	menus[i] = ewin;
-	fx[i] = EoGetX(ewin);
-	fy[i] = EoGetY(ewin);
-	tx[i] = EoGetX(ewin) + xdist;
-	ty[i] = EoGetY(ewin) + ydist;
-	i++;
-	if (mm == m)
-	   break;
-     }
+    i = 0;
+    for (mm = Mode_menus.first; mm; mm = mm->child)
+    {
+        ewin = mm->ewin;
+        menus[i] = ewin;
+        fx[i] = EoGetX(ewin);
+        fy[i] = EoGetY(ewin);
+        tx[i] = EoGetX(ewin) + xdist;
+        ty[i] = EoGetY(ewin) + ydist;
+        i++;
+        if (mm == m)
+            break;
+    }
 
-   MenusSetEvents(0);		/* Disable menu item events while sliding */
-   an = EwinsSlideTo(menus, fx, fy, tx, ty, i, Conf.shading.speed, 0,
-		     SLIDE_SOUND);
-   AnimatorSetDoneFunc(an, _SubmenuSlideDone);
+    MenusSetEvents(0);          /* Disable menu item events while sliding */
+    an = EwinsSlideTo(menus, fx, fy, tx, ty, i, Conf.shading.speed, 0,
+                      SLIDE_SOUND);
+    AnimatorSetDoneFunc(an, _SubmenuSlideDone);
 }
 
 static int
 SubmenuShowTimeout(void *data)
 {
-   Menu               *m = (Menu *) data;
-   MenuItem           *mi;
-   EWin               *ewin, *ewin2;
-   int                 xo, yo, mw, mh, xdist, ydist;
+    Menu           *m = (Menu *) data;
+    MenuItem       *mi;
+    EWin           *ewin, *ewin2;
+    int             xo, yo, mw, mh, xdist, ydist;
 
-   menu_timer_submenu = NULL;
+    menu_timer_submenu = NULL;
 
-   if (!LIST_CHECK(Menu, &menu_list, m))
-      goto done;
-   ewin = m->ewin;
-   if (!EwinFindByPtr(ewin))
-      goto done;
-   if (!EoIsShown(ewin))
-      goto done;
+    if (!LIST_CHECK(Menu, &menu_list, m))
+        goto done;
+    ewin = m->ewin;
+    if (!EwinFindByPtr(ewin))
+        goto done;
+    if (!EoIsShown(ewin))
+        goto done;
 
-   mi = m->sel_item;
-   if (!mi)
-      goto done;
+    mi = m->sel_item;
+    if (!mi)
+        goto done;
 
-   if (mi->child != m->child)
-      MenuHide(m->child);
-   m->child = mi->child;
+    if (mi->child != m->child)
+        MenuHide(m->child);
+    m->child = mi->child;
 
-   xo = yo = mw = mh = 0;
-   ewin2 = NULL;
-   if (mi->child)
-     {
-	mi->child->parent = m;
-	MenuShow(mi->child, 1);
-	ewin2 = mi->child->ewin;
-	ewin2 = EwinFindByPtr(ewin2);
-	if (ewin2)
-	   _SubmenuGetPlacement(m, &xo, &yo, &mw, &mh);
-     }
+    xo = yo = mw = mh = 0;
+    ewin2 = NULL;
+    if (mi->child)
+    {
+        mi->child->parent = m;
+        MenuShow(mi->child, 1);
+        ewin2 = mi->child->ewin;
+        ewin2 = EwinFindByPtr(ewin2);
+        if (ewin2)
+            _SubmenuGetPlacement(m, &xo, &yo, &mw, &mh);
+    }
 
-   _MenusSlideCheck(m, xo, yo, mw, mh, &xdist, &ydist);
-   if (ewin2)
-      EwinMove(ewin2, EoGetX(ewin) + xdist + xo, EoGetY(ewin) + ydist + yo,
-	       MRF_NOCHECK_ONSCREEN);
-   if (xdist != 0 || ydist != 0)
-      _MenusSlide(m, xdist, ydist);
-   else if (ewin2)
-      _MenuEwinShow(ewin2);
+    _MenusSlideCheck(m, xo, yo, mw, mh, &xdist, &ydist);
+    if (ewin2)
+        EwinMove(ewin2, EoGetX(ewin) + xdist + xo, EoGetY(ewin) + ydist + yo,
+                 MRF_NOCHECK_ONSCREEN);
+    if (xdist != 0 || ydist != 0)
+        _MenusSlide(m, xdist, ydist);
+    else if (ewin2)
+        _MenuEwinShow(ewin2);
 
- done:
-   return 0;
+  done:
+    return 0;
 }
 
 static void
-MenuActivateItem(Menu * m, MenuItem * mi)
+MenuActivateItem(Menu *m, MenuItem *mi)
 {
-   MenuItem           *mi_prev;
+    MenuItem       *mi_prev;
 
-   mi_prev = m->sel_item;
+    mi_prev = m->sel_item;
 
-   if (m->child)
-      MenuSelectItem(m->child, NULL, 0);
-   MenuSelectItem(m, mi, 1);
-   if (m->parent)
-      MenuSelectItemByChild(m->parent, m);
+    if (m->child)
+        MenuSelectItem(m->child, NULL, 0);
+    MenuSelectItem(m, mi, 1);
+    if (m->parent)
+        MenuSelectItemByChild(m->parent, m);
 
-   if (mi == mi_prev)
-      return;
+    if (mi == mi_prev)
+        return;
 
-   if (mi && !mi->child && mi_prev && !mi_prev->child)
-      return;
+    if (mi && !mi->child && mi_prev && !mi_prev->child)
+        return;
 
-   TIMER_DEL(menu_timer_submenu);
+    TIMER_DEL(menu_timer_submenu);
 
-   if ((mi && mi->child && !mi->child->shown) || (mi && mi->child != m->child))
-      TIMER_ADD(menu_timer_submenu, 200, SubmenuShowTimeout, m);
+    if ((mi && mi->child && !mi->child->shown) || (mi && mi->child != m->child))
+        TIMER_ADD(menu_timer_submenu, 200, SubmenuShowTimeout, m);
 }
 
 static void
-MenuItemEventMouseIn(MenuItem * mi, XEvent * ev)
+MenuItemEventMouseIn(MenuItem *mi, XEvent *ev)
 {
-   if (ev->xcrossing.detail == NotifyInferior)
-      return;
+    if (ev->xcrossing.detail == NotifyInferior)
+        return;
 
-   MenuActivateItem(mi->menu, mi);
+    MenuActivateItem(mi->menu, mi);
 }
 
 static void
-MenuItemEventMouseOut(MenuItem * mi, XEvent * ev)
+MenuItemEventMouseOut(MenuItem *mi, XEvent *ev)
 {
-   if (ev->xcrossing.detail == NotifyInferior)
-      return;
+    if (ev->xcrossing.detail == NotifyInferior)
+        return;
 
-   if (!mi->child)
-      MenuSelectItem(mi->menu, NULL, 0);
+    if (!mi->child)
+        MenuSelectItem(mi->menu, NULL, 0);
 }
 
 static void
-MenuHandleEvents(Win win __UNUSED__, XEvent * ev, void *prm)
+MenuHandleEvents(Win win __UNUSED__, XEvent *ev, void *prm)
 {
-   Menu               *m = (Menu *) prm;
+    Menu           *m = (Menu *) prm;
 
 #if DEBUG_MENU_EVENTS
-   Eprintf("%s: %d\n", __func__, ev->type);
+    Eprintf("%s: %d\n", __func__, ev->type);
 #endif
-   switch (ev->type)
-     {
-     case KeyPress:
-	MenuEventKeyPress(m, ev);
-	break;
-     case ButtonRelease:
-	break;
-     case EnterNotify:
-	GrabKeyboardSet(m->win);
-	break;
-     }
+    switch (ev->type)
+    {
+    case KeyPress:
+        MenuEventKeyPress(m, ev);
+        break;
+    case ButtonRelease:
+        break;
+    case EnterNotify:
+        GrabKeyboardSet(m->win);
+        break;
+    }
 }
 
 static void
-MenuItemHandleEvents(Win win __UNUSED__, XEvent * ev, void *prm)
+MenuItemHandleEvents(Win win __UNUSED__, XEvent *ev, void *prm)
 {
-   MenuItem           *mi = (MenuItem *) prm;
+    MenuItem       *mi = (MenuItem *) prm;
 
 #if DEBUG_MENU_EVENTS
-   Eprintf("%s: %d\n", __func__, ev->type);
+    Eprintf("%s: %d\n", __func__, ev->type);
 #endif
-   switch (ev->type)
-     {
-     case ButtonPress:
-	MenuItemEventMouseDown(mi, ev);
-	break;
-     case ButtonRelease:
-	MenuItemEventMouseUp(mi, ev);
-	break;
-     case EnterNotify:
-	MenuItemEventMouseIn(mi, ev);
-	break;
-     case LeaveNotify:
-	MenuItemEventMouseOut(mi, ev);
-	break;
-     }
+    switch (ev->type)
+    {
+    case ButtonPress:
+        MenuItemEventMouseDown(mi, ev);
+        break;
+    case ButtonRelease:
+        MenuItemEventMouseUp(mi, ev);
+        break;
+    case EnterNotify:
+        MenuItemEventMouseIn(mi, ev);
+        break;
+    case LeaveNotify:
+        MenuItemEventMouseOut(mi, ev);
+        break;
+    }
 }
 
 static void
-MenuMaskerHandleEvents(Win win __UNUSED__, XEvent * ev, void *prm __UNUSED__)
+MenuMaskerHandleEvents(Win win __UNUSED__, XEvent *ev, void *prm __UNUSED__)
 {
 #if DEBUG_MENU_EVENTS
-   Eprintf("%s: %d\n", __func__, ev->type);
+    Eprintf("%s: %d\n", __func__, ev->type);
 #endif
 
-   switch (ev->type)
-     {
-     case ButtonRelease:
-	if (Mode_menus.cover_bpress)
-	   MenusHide();
-	break;
-     case ButtonPress:
-	Mode_menus.cover_bpress = 1;
-	break;
-     }
+    switch (ev->type)
+    {
+    case ButtonRelease:
+        if (Mode_menus.cover_bpress)
+            MenusHide();
+        break;
+    case ButtonPress:
+        Mode_menus.cover_bpress = 1;
+        break;
+    }
 }
 
 /*
@@ -1699,230 +1697,230 @@ MenuMaskerHandleEvents(Win win __UNUSED__, XEvent * ev, void *prm __UNUSED__)
 #include "conf.h"
 
 int
-MenuStyleConfigLoad(FILE * fs)
+MenuStyleConfigLoad(FILE *fs)
 {
-   int                 err = 0;
-   char                s[FILEPATH_LEN_MAX];
-   char                s2[FILEPATH_LEN_MAX];
-   int                 i1;
-   MenuStyle          *ms = NULL;
+    int             err = 0;
+    char            s[FILEPATH_LEN_MAX];
+    char            s2[FILEPATH_LEN_MAX];
+    int             i1;
+    MenuStyle      *ms = NULL;
 
-   while (GetLine(s, sizeof(s), fs))
-     {
-	i1 = ConfigParseline1(s, s2, NULL, NULL);
-	switch (i1)
-	  {
-	  case CONFIG_CLOSE:
-	     goto done;
-	  case CONFIG_CLASSNAME:
-	     ms = MenuStyleCreate(s2);
-	     continue;
-	  }
+    while (GetLine(s, sizeof(s), fs))
+    {
+        i1 = ConfigParseline1(s, s2, NULL, NULL);
+        switch (i1)
+        {
+        case CONFIG_CLOSE:
+            goto done;
+        case CONFIG_CLASSNAME:
+            ms = MenuStyleCreate(s2);
+            continue;
+        }
 
-	/* ms needed */
-	if (!ms)
-	   break;
+        /* ms needed */
+        if (!ms)
+            break;
 
-	switch (i1)
-	  {
-	  case CONFIG_TEXT:
-	     ms->tclass = TextclassAlloc(s2, 1);
-	     break;
-	  case MENU_BG_ICLASS:
-	     ms->bg_iclass = ImageclassAlloc(s2, 1);
-	     break;
-	  case MENU_ITEM_ICLASS:
-	     ms->item_iclass = ImageclassAlloc(s2, 1);
-	     break;
-	  case MENU_SUBMENU_ICLASS:
-	     ms->sub_iclass = ImageclassAlloc(s2, 1);
-	     break;
-	  case MENU_USE_ITEM_BACKGROUND:
-	     ms->use_item_bg = atoi(s2);
-	     if (ms->use_item_bg)
-	       {
-		  if (ms->bg_iclass)
-		    {
-		       ImageclassFree(ms->bg_iclass);
-		       ms->bg_iclass = NULL;
-		    }
-	       }
-	     break;
-	  case MENU_MAX_COLUMNS:
-	     ms->maxx = atoi(s2);
-	     break;
-	  case MENU_MAX_ROWS:
-	     ms->maxy = atoi(s2);
-	     break;
-	  case CONFIG_BORDER:
-	     EFREE_DUP(ms->border_name, s2);
-	     break;
-	  default:
-	     break;
-	  }
-     }
-   err = -1;
+        switch (i1)
+        {
+        case CONFIG_TEXT:
+            ms->tclass = TextclassAlloc(s2, 1);
+            break;
+        case MENU_BG_ICLASS:
+            ms->bg_iclass = ImageclassAlloc(s2, 1);
+            break;
+        case MENU_ITEM_ICLASS:
+            ms->item_iclass = ImageclassAlloc(s2, 1);
+            break;
+        case MENU_SUBMENU_ICLASS:
+            ms->sub_iclass = ImageclassAlloc(s2, 1);
+            break;
+        case MENU_USE_ITEM_BACKGROUND:
+            ms->use_item_bg = atoi(s2);
+            if (ms->use_item_bg)
+            {
+                if (ms->bg_iclass)
+                {
+                    ImageclassFree(ms->bg_iclass);
+                    ms->bg_iclass = NULL;
+                }
+            }
+            break;
+        case MENU_MAX_COLUMNS:
+            ms->maxx = atoi(s2);
+            break;
+        case MENU_MAX_ROWS:
+            ms->maxy = atoi(s2);
+            break;
+        case CONFIG_BORDER:
+            EFREE_DUP(ms->border_name, s2);
+            break;
+        default:
+            break;
+        }
+    }
+    err = -1;
 
- done:
-   return err;
+  done:
+    return err;
 }
 
 int
-MenuConfigLoad(FILE * fs)
+MenuConfigLoad(FILE *fs)
 {
-   int                 err = 0;
-   char                s[FILEPATH_LEN_MAX];
-   char                s2[FILEPATH_LEN_MAX];
-   char                s3[FILEPATH_LEN_MAX];
-   char                s4[FILEPATH_LEN_MAX];
-   char                s5[FILEPATH_LEN_MAX];
-   char               *p2, *p3;
-   char               *txt = NULL;
-   char               *icon = NULL;
-   const char         *params;
-   int                 i1, i2, len;
-   Menu               *m = NULL, *mm;
-   MenuItem           *mi;
+    int             err = 0;
+    char            s[FILEPATH_LEN_MAX];
+    char            s2[FILEPATH_LEN_MAX];
+    char            s3[FILEPATH_LEN_MAX];
+    char            s4[FILEPATH_LEN_MAX];
+    char            s5[FILEPATH_LEN_MAX];
+    char           *p2, *p3;
+    char           *txt = NULL;
+    char           *icon = NULL;
+    const char     *params;
+    int             i1, i2, len;
+    Menu           *m = NULL, *mm;
+    MenuItem       *mi;
 
-   while (GetLine(s, sizeof(s), fs))
-     {
-	i1 = ConfigParseline1(s, s2, &p2, &p3);
-	switch (i1)
-	  {
-	  default:
-	     break;
+    while (GetLine(s, sizeof(s), fs))
+    {
+        i1 = ConfigParseline1(s, s2, &p2, &p3);
+        switch (i1)
+        {
+        default:
+            break;
 
-	  case CONFIG_MENU:
-	     err = -1;
-	     i2 = atoi(s2);
-	     if (i2 != CONFIG_OPEN)
-		goto done;
-	     m = NULL;
-	     EFREE_NULL(txt);
-	     EFREE_NULL(icon);
-	     continue;
-	  case CONFIG_CLOSE:
-	     err = 0;
-	     continue;
+        case CONFIG_MENU:
+            err = -1;
+            i2 = atoi(s2);
+            if (i2 != CONFIG_OPEN)
+                goto done;
+            m = NULL;
+            EFREE_NULL(txt);
+            EFREE_NULL(icon);
+            continue;
+        case CONFIG_CLOSE:
+            err = 0;
+            continue;
 
-	  case MENU_PREBUILT:
-	     m = MenuFind(s2, NULL);
-	     if (m)
-		continue;
-	     sscanf(p3, "%4000s %4000s %4000s", s3, s4, s5);
-	     m = MenusCreateInternal(s4, s2, s3, s5);
-	     if (m)
-		m->ref_count++;
-	     continue;
+        case MENU_PREBUILT:
+            m = MenuFind(s2, NULL);
+            if (m)
+                continue;
+            sscanf(p3, "%4000s %4000s %4000s", s3, s4, s5);
+            m = MenusCreateInternal(s4, s2, s3, s5);
+            if (m)
+                m->ref_count++;
+            continue;
 
-	  case CONFIG_CLASSNAME:
-	     if (!m)
-		m = MenuCreate(s2, NULL, NULL, NULL);
-	     else
-		MenuSetName(m, s2);
-	     params = _MenuCheckAlias(s2);
-	     if (m && params)
-		MenuSetAlias(m, params);
-	     continue;
+        case CONFIG_CLASSNAME:
+            if (!m)
+                m = MenuCreate(s2, NULL, NULL, NULL);
+            else
+                MenuSetName(m, s2);
+            params = _MenuCheckAlias(s2);
+            if (m && params)
+                MenuSetAlias(m, params);
+            continue;
 
-	  case MENU_ITEM:
-	     EFREE_NULL(txt);
-	     EFREE_NULL(icon);
-	     if (strcmp("NULL", s2))
-		icon = Estrdup(s2);
-	     if (p3 && *p3)
-		txt = Estrdup(p3);
-	     continue;
-	  }
+        case MENU_ITEM:
+            EFREE_NULL(txt);
+            EFREE_NULL(icon);
+            if (strcmp("NULL", s2))
+                icon = Estrdup(s2);
+            if (p3 && *p3)
+                txt = Estrdup(p3);
+            continue;
+        }
 
-	/* The rest require the menu m to be created */
-	if (!m)
-	  {
-	     ConfigParseError("Menu", s);
-	     continue;
-	  }
+        /* The rest require the menu m to be created */
+        if (!m)
+        {
+            ConfigParseError("Menu", s);
+            continue;
+        }
 
-	switch (i1)
-	  {
-	  case MENU_USE_STYLE:
-	     MenuSetStyle(m, MenuStyleFind(s2));
-	     break;
-	  case MENU_TITLE:
-	     MenuSetTitle(m, p2);
-	     break;
-	  case MENU_ACTION:
-	     if (txt || icon)
-	       {
-		  char                ok = 1;
+        switch (i1)
+        {
+        case MENU_USE_STYLE:
+            MenuSetStyle(m, MenuStyleFind(s2));
+            break;
+        case MENU_TITLE:
+            MenuSetTitle(m, p2);
+            break;
+        case MENU_ACTION:
+            if (txt || icon)
+            {
+                char            ok = 1;
 
-		  /* if its an execute line then check to see if the exec is 
-		   * on your system before adding the menu entry */
-		  if (!strcmp(s2, "exec"))
-		     ok = path_canexec0(p3);
-		  if (ok)
-		    {
-		       mi = MenuItemCreate(txt, icon, p2, NULL);
-		       MenuAddItem(m, mi);
-		    }
-		  EFREE_NULL(txt);
-		  EFREE_NULL(icon);
-	       }
-	     break;
-	  case MENU_SUBMENU:
-	     len = 0;
-	     sscanf(p3, "%s %n", s3, &len);
-	     EFREE_NULL(icon);
-	     if (strcmp("NULL", s3))
-		icon = Estrdup(s3);
-	     mm = MenuFind(s2, NULL);
-	     mi = MenuItemCreate(p3 + len, icon, NULL, mm);
-	     MenuAddItem(m, mi);
-	     break;
-	  default:
-	     break;
-	  }
-     }
+                /* if its an execute line then check to see if the exec is 
+                 * on your system before adding the menu entry */
+                if (!strcmp(s2, "exec"))
+                    ok = path_canexec0(p3);
+                if (ok)
+                {
+                    mi = MenuItemCreate(txt, icon, p2, NULL);
+                    MenuAddItem(m, mi);
+                }
+                EFREE_NULL(txt);
+                EFREE_NULL(icon);
+            }
+            break;
+        case MENU_SUBMENU:
+            len = 0;
+            sscanf(p3, "%s %n", s3, &len);
+            EFREE_NULL(icon);
+            if (strcmp("NULL", s3))
+                icon = Estrdup(s3);
+            mm = MenuFind(s2, NULL);
+            mi = MenuItemCreate(p3 + len, icon, NULL, mm);
+            MenuAddItem(m, mi);
+            break;
+        default:
+            break;
+        }
+    }
 
- done:
-   if (err)
-      ConfigAlertLoad("Menu");
-   EFREE_NULL(txt);
+  done:
+    if (err)
+        ConfigAlertLoad("Menu");
+    EFREE_NULL(txt);
 
-   return err;
+    return err;
 }
 
 static int
 MenusTimeout(void *data __UNUSED__)
 {
-   Menu               *m;
-   time_t              ts;
+    Menu           *m;
+    time_t          ts;
 
-   /* Unload contents if loadable and no access in > 5 min */
-   ts = time(0);
-   for (;;)
-     {
+    /* Unload contents if loadable and no access in > 5 min */
+    ts = time(0);
+    for (;;)
+    {
       restart:
-	LIST_FOR_EACH(Menu, &menu_list, m)
-	{
-	   if (m->shown || !m->filled ||
-	       ts - m->last_access < MENU_UNLOAD_CHECK_INTERVAL)
-	      continue;
+        LIST_FOR_EACH(Menu, &menu_list, m)
+        {
+            if (m->shown || !m->filled ||
+                ts - m->last_access < MENU_UNLOAD_CHECK_INTERVAL)
+                continue;
 
-	   if (!m->loader)
-	     {
-		MenuFreePixmaps(m);
-		continue;
-	     }
-	   if (m->ref_count)
-	      MenuEmpty(m, 0);
-	   else
-	      MenuDestroy(m);
-	   goto restart;
-	}
-	break;
-     }
+            if (!m->loader)
+            {
+                MenuFreePixmaps(m);
+                continue;
+            }
+            if (m->ref_count)
+                MenuEmpty(m, 0);
+            else
+                MenuDestroy(m);
+            goto restart;
+        }
+        break;
+    }
 
-   return 1;
+    return 1;
 }
 
 /*
@@ -1932,22 +1930,22 @@ MenusTimeout(void *data __UNUSED__)
 static void
 MenusSighan(int sig, void *prm __UNUSED__)
 {
-   switch (sig)
-     {
-     case ESIGNAL_START:
-	TIMER_ADD_NP(1000 * MENU_UNLOAD_CHECK_INTERVAL, MenusTimeout, NULL);
-	break;
+    switch (sig)
+    {
+    case ESIGNAL_START:
+        TIMER_ADD_NP(1000 * MENU_UNLOAD_CHECK_INTERVAL, MenusTimeout, NULL);
+        break;
 
-     case ESIGNAL_AREA_SWITCH_START:
-     case ESIGNAL_DESK_SWITCH_START:
-	MenusHide();
-	break;
+    case ESIGNAL_AREA_SWITCH_START:
+    case ESIGNAL_DESK_SWITCH_START:
+        MenusHide();
+        break;
 
-     case ESIGNAL_EWIN_UNMAP:
-	if ((EWin *) prm == Mode_menus.context_ewin)
-	   MenusHide();
-	break;
-     }
+    case ESIGNAL_EWIN_UNMAP:
+        if ((EWin *) prm == Mode_menus.context_ewin)
+            MenusHide();
+        break;
+    }
 }
 
 #if ENABLE_DIALOGS
@@ -1956,167 +1954,167 @@ MenusSighan(int sig, void *prm __UNUSED__)
  */
 
 typedef struct {
-   char                warp;
-   char                animate;
-   char                onscreen;
-   char                show_icons;
-   int                 icon_size;
+    char            warp;
+    char            animate;
+    char            onscreen;
+    char            show_icons;
+    int             icon_size;
 } MenudDlgData;
 
 static void
-_DlgApplyMenus(Dialog * d, int val __UNUSED__, void *data __UNUSED__)
+_DlgApplyMenus(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 {
-   MenudDlgData       *dd = DLG_DATA_GET(d, MenudDlgData);
+    MenudDlgData   *dd = DLG_DATA_GET(d, MenudDlgData);
 
-   Conf.menus.warp = dd->warp;
-   Conf.menus.animate = dd->animate;
-   Conf.menus.onscreen = dd->onscreen;
-   Conf.menus.show_icons = dd->show_icons;
-   Conf.menus.icon_size = dd->icon_size;
+    Conf.menus.warp = dd->warp;
+    Conf.menus.animate = dd->animate;
+    Conf.menus.onscreen = dd->onscreen;
+    Conf.menus.show_icons = dd->show_icons;
+    Conf.menus.icon_size = dd->icon_size;
 
-   MenusTouch();
+    MenusTouch();
 
-   autosave();
+    autosave();
 }
 
 static void
-_DlgCbIconSize(Dialog * d, int val __UNUSED__, void *data)
+_DlgCbIconSize(Dialog *d, int val __UNUSED__, void *data)
 {
-   MenudDlgData       *dd = DLG_DATA_GET(d, MenudDlgData);
-   DItem              *di = (DItem *) data;
-   char                s[256];
+    MenudDlgData   *dd = DLG_DATA_GET(d, MenudDlgData);
+    DItem          *di = (DItem *) data;
+    char            s[256];
 
-   Esnprintf(s, sizeof(s), _("Icon size: %2d"), dd->icon_size);
-   DialogItemSetText(di, s);
+    Esnprintf(s, sizeof(s), _("Icon size: %2d"), dd->icon_size);
+    DialogItemSetText(di, s);
 }
 
 static void
-_DlgFillMenus(Dialog * d, DItem * table, void *data __UNUSED__)
+_DlgFillMenus(Dialog *d, DItem *table, void *data __UNUSED__)
 {
-   MenudDlgData       *dd = DLG_DATA_GET(d, MenudDlgData);
-   DItem              *di, *label;
+    MenudDlgData   *dd = DLG_DATA_GET(d, MenudDlgData);
+    DItem          *di, *label;
 
-   dd->warp = Conf.menus.warp;
-   dd->animate = Conf.menus.animate;
-   dd->onscreen = Conf.menus.onscreen;
-   dd->show_icons = Conf.menus.show_icons;
-   dd->icon_size = Conf.menus.icon_size;
+    dd->warp = Conf.menus.warp;
+    dd->animate = Conf.menus.animate;
+    dd->onscreen = Conf.menus.onscreen;
+    dd->show_icons = Conf.menus.show_icons;
+    dd->icon_size = Conf.menus.icon_size;
 
-   DialogItemTableSetOptions(table, 2, 0, 0, 0);
+    DialogItemTableSetOptions(table, 2, 0, 0, 0);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Animated display of menus"));
-   DialogItemCheckButtonSetPtr(di, &dd->animate);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Animated display of menus"));
+    DialogItemCheckButtonSetPtr(di, &dd->animate);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Always pop up menus on screen"));
-   DialogItemCheckButtonSetPtr(di, &dd->onscreen);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Always pop up menus on screen"));
+    DialogItemCheckButtonSetPtr(di, &dd->onscreen);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Warp pointer after moving menus"));
-   DialogItemCheckButtonSetPtr(di, &dd->warp);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Warp pointer after moving menus"));
+    DialogItemCheckButtonSetPtr(di, &dd->warp);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Show menu icons"));
-   DialogItemCheckButtonSetPtr(di, &dd->show_icons);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Show menu icons"));
+    DialogItemCheckButtonSetPtr(di, &dd->show_icons);
 
-   label = DialogAddItem(table, DITEM_TEXT);
+    label = DialogAddItem(table, DITEM_TEXT);
 
-   di = DialogAddItem(table, DITEM_SLIDER);
-   DialogItemSliderSetBounds(di, 12, 48);
-   DialogItemSliderSetUnits(di, 2);
-   DialogItemSliderSetJump(di, 4);
-   DialogItemSliderSetValPtr(di, &dd->icon_size);
-   DialogItemSetCallback(di, _DlgCbIconSize, 0, label);
-   DialogItemCallCallback(d, di);
+    di = DialogAddItem(table, DITEM_SLIDER);
+    DialogItemSliderSetBounds(di, 12, 48);
+    DialogItemSliderSetUnits(di, 2);
+    DialogItemSliderSetJump(di, 4);
+    DialogItemSliderSetValPtr(di, &dd->icon_size);
+    DialogItemSetCallback(di, _DlgCbIconSize, 0, label);
+    DialogItemCallCallback(d, di);
 }
 
-const DialogDef     DlgMenus = {
-   "CONFIGURE_MENUS",
-   N_("Menus"), N_("Menu Settings"),
-   sizeof(MenudDlgData),
-   SOUND_SETTINGS_MENUS,
-   "pix/place.png",
-   N_("Enlightenment Menu\n" "Settings Dialog"),
-   _DlgFillMenus,
-   DLG_OAC, _DlgApplyMenus, NULL
+const DialogDef DlgMenus = {
+    "CONFIGURE_MENUS",
+    N_("Menus"), N_("Menu Settings"),
+    sizeof(MenudDlgData),
+    SOUND_SETTINGS_MENUS,
+    "pix/place.png",
+    N_("Enlightenment Menu\n" "Settings Dialog"),
+    _DlgFillMenus,
+    DLG_OAC, _DlgApplyMenus, NULL
 };
-#endif /* ENABLE_DIALOGS */
+#endif                          /* ENABLE_DIALOGS */
 
 static void
 MenusIpc(const char *params)
 {
-   const char         *p;
-   char                cmd[128], prm[4096];
-   int                 len;
-   Menu               *m;
+    const char     *p;
+    char            cmd[128], prm[4096];
+    int             len;
+    Menu           *m;
 
-   cmd[0] = prm[0] = '\0';
-   p = params;
-   if (p)
-     {
-	len = 0;
-	sscanf(p, "%100s %4000s %n", cmd, prm, &len);
-	p += len;
-     }
+    cmd[0] = prm[0] = '\0';
+    p = params;
+    if (p)
+    {
+        len = 0;
+        sscanf(p, "%100s %4000s %n", cmd, prm, &len);
+        p += len;
+    }
 
-   if (!p || cmd[0] == '?')
-     {
-	IpcPrintf("Menus - active=%d\n", MenusActive());
-     }
-   else if (!strncmp(cmd, "list", 2))
-     {
+    if (!p || cmd[0] == '?')
+    {
+        IpcPrintf("Menus - active=%d\n", MenusActive());
+    }
+    else if (!strncmp(cmd, "list", 2))
+    {
 #define SS(s) ((s) ? (s) : "-")
 #define ST(s) ((s) ? (s->name) : "-")
-	LIST_FOR_EACH(Menu, &menu_list, m)
-	   IpcPrintf("%s(%s/%s): %s\n", m->name, SS(m->alias), ST(m->style),
-		     SS(m->title));
-     }
-   else if (!strncmp(cmd, "reload", 2))
-     {
-	MenusDestroyLoaded();
-     }
-   else if (!strncmp(cmd, "show", 2))
-     {
-	if (*p == '\0')
-	   p = NULL;
-	if (p && !strcmp(prm, "named"))
-	  {
-	     Esnprintf(prm, sizeof(prm), "%s", p);
-	     p = NULL;
-	  }
-	SoundPlay(SOUND_MENU_SHOW);
-	MenusShowNamed(prm, p);
-     }
+        LIST_FOR_EACH(Menu, &menu_list, m)
+            IpcPrintf("%s(%s/%s): %s\n", m->name, SS(m->alias), ST(m->style),
+                      SS(m->title));
+    }
+    else if (!strncmp(cmd, "reload", 2))
+    {
+        MenusDestroyLoaded();
+    }
+    else if (!strncmp(cmd, "show", 2))
+    {
+        if (*p == '\0')
+            p = NULL;
+        if (p && !strcmp(prm, "named"))
+        {
+            Esnprintf(prm, sizeof(prm), "%s", p);
+            p = NULL;
+        }
+        SoundPlay(SOUND_MENU_SHOW);
+        MenusShowNamed(prm, p);
+    }
 }
 
 static const IpcItem MenusIpcArray[] = {
-   {
-    MenusIpc,
-    "menus", "mnu",
-    "Menu functions",
-    "  menus list               Show existing menus\n"
-    "  menus reload             Force menu refresh\n"
-    "  menus show <name>        Show named menu\n"}
-   ,
+    {
+     MenusIpc,
+     "menus", "mnu",
+     "Menu functions",
+     "  menus list               Show existing menus\n"
+     "  menus reload             Force menu refresh\n"
+     "  menus show <name>        Show named menu\n" }
+    ,
 };
 
 static const CfgItem MenusCfgItems[] = {
-   CFG_ITEM_BOOL(Conf.menus, animate, 0),
-   CFG_ITEM_BOOL(Conf.menus, onscreen, 1),
-   CFG_ITEM_BOOL(Conf.menus, warp, 1),
-   CFG_ITEM_BOOL(Conf.menus, show_icons, 1),
-   CFG_ITEM_INT(Conf.menus, icon_size, 16),
-   CFG_ITEM_HEX(Conf.menus, key.left, XK_Left),
-   CFG_ITEM_HEX(Conf.menus, key.right, XK_Right),
-   CFG_ITEM_HEX(Conf.menus, key.up, XK_Up),
-   CFG_ITEM_HEX(Conf.menus, key.down, XK_Down),
-   CFG_ITEM_HEX(Conf.menus, key.escape, XK_Escape),
-   CFG_ITEM_HEX(Conf.menus, key.ret, XK_Return),
+    CFG_ITEM_BOOL(Conf.menus, animate, 0),
+    CFG_ITEM_BOOL(Conf.menus, onscreen, 1),
+    CFG_ITEM_BOOL(Conf.menus, warp, 1),
+    CFG_ITEM_BOOL(Conf.menus, show_icons, 1),
+    CFG_ITEM_INT(Conf.menus, icon_size, 16),
+    CFG_ITEM_HEX(Conf.menus, key.left, XK_Left),
+    CFG_ITEM_HEX(Conf.menus, key.right, XK_Right),
+    CFG_ITEM_HEX(Conf.menus, key.up, XK_Up),
+    CFG_ITEM_HEX(Conf.menus, key.down, XK_Down),
+    CFG_ITEM_HEX(Conf.menus, key.escape, XK_Escape),
+    CFG_ITEM_HEX(Conf.menus, key.ret, XK_Return),
 };
 
 /*
@@ -2124,9 +2122,9 @@ static const CfgItem MenusCfgItems[] = {
  */
 extern const EModule ModMenus;
 
-const EModule       ModMenus = {
-   "menus", "menu",
-   MenusSighan,
-   MOD_ITEMS(MenusIpcArray),
-   MOD_ITEMS(MenusCfgItems)
+const EModule   ModMenus = {
+    "menus", "menu",
+    MenusSighan,
+    MOD_ITEMS(MenusIpcArray),
+    MOD_ITEMS(MenusCfgItems)
 };

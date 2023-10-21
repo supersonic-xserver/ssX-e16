@@ -26,20 +26,19 @@
 #include "eobj.h"
 #include "ewins.h"
 
-void                EobjSlideSizeTo(EObj * eo, int fx, int fy, int tx, int ty,
-				    int fw, int fh, int tw, int th, int speed);
+void            EobjSlideSizeTo(EObj * eo, int fx, int fy, int tx, int ty,
+                                int fw, int fh, int tw, int th, int speed);
 
 #define SLIDE_SOUND     (1 << 0)
 #define SLIDE_FOCUS     (1 << 1)
 #define SLIDE_WARP      (1 << 2)
 
-Animator           *EwinSlideSizeTo(EWin * ewin, int tx, int ty,
-				    int tw, int th,
-				    int speed, int mode, int flags);
-Animator           *EwinSlideTo(EWin * ewin, int fx, int fy, int tx, int ty,
-				int speed, int mode, int flags);
-Animator           *EwinsSlideTo(EWin ** ewin, int *fx, int *fy,
-				 int *tx, int *ty, int num_wins,
-				 int speed, int mode, int flags);
+Animator       *EwinSlideSizeTo(EWin * ewin, int tx, int ty,
+                                int tw, int th, int speed, int mode, int flags);
+Animator       *EwinSlideTo(EWin * ewin, int fx, int fy, int tx, int ty,
+                            int speed, int mode, int flags);
+Animator       *EwinsSlideTo(EWin ** ewin, int *fx, int *fy,
+                             int *tx, int *ty, int num_wins,
+                             int speed, int mode, int flags);
 
-#endif /* _SLIDE_H_ */
+#endif                          /* _SLIDE_H_ */

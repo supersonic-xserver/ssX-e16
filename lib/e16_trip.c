@@ -31,77 +31,76 @@
 #include <X11/Xlib.h>
 #include "util.h"
 
-typedef             Status(RF) (Display * dpy, void *rep, int extra,
-				Bool discard);
+typedef         Status(RF) (Display * dpy, void *rep, int extra, Bool discard);
 
 /* find the real Xlib and the real X function */
-static void        *
+static void    *
 GetFunc(const char *name)
 {
-   void               *lib_xlib;
-   void               *func;
+    void           *lib_xlib;
+    void           *func;
 
-   lib_xlib = dlopen("libX11.so", RTLD_GLOBAL | RTLD_LAZY);
+    lib_xlib = dlopen("libX11.so", RTLD_GLOBAL | RTLD_LAZY);
 
-   func = dlsym(lib_xlib, name);
+    func = dlsym(lib_xlib, name);
 
-   return func;
+    return func;
 }
 
-extern Status       _XReply(Display * dpy, void *rep, int extra, Bool discard);
+extern Status   _XReply(Display * dpy, void *rep, int extra, Bool discard);
 
-__EXPORT__          Status
-_XReply(Display * dpy, void *rep, int extra, Bool discard)
+__EXPORT__      Status
+_XReply(Display *dpy, void *rep, int extra, Bool discard)
 {
-   static RF          *func = NULL;
+    static RF      *func = NULL;
 
-   char                s[1024];
-   void               *bt[128];
-   int                 i, n, l;
-   char              **sym;
+    char            s[1024];
+    void           *bt[128];
+    int             i, n, l;
+    char          **sym;
 
-   if (!func)
-      func = (RF *) GetFunc("_XReply");
+    if (!func)
+        func = (RF *) GetFunc("_XReply");
 
-   l = 0;
-   l += snprintf(s + l, sizeof(s) - l, "RT: ");
-   n = backtrace(bt, 128);
-   if (n <= 0)
-      goto done;
+    l = 0;
+    l += snprintf(s + l, sizeof(s) - l, "RT: ");
+    n = backtrace(bt, 128);
+    if (n <= 0)
+        goto done;
 
-   sym = backtrace_symbols(bt, n);
-   if (!sym)
-      goto done;
+    sym = backtrace_symbols(bt, n);
+    if (!sym)
+        goto done;
 
-   for (i = 1; i < n; i++)
-     {
+    for (i = 1; i < n; i++)
+    {
 #if 1
-	char               *p, *name;
+        char           *p, *name;
 
-	name = strchr(sym[i], '(');
-	if (name)
-	  {
-	     name++;
-	     p = strchr(name, '+');
-	     if (!p)
-		p = strchr(name, ')');
-	     if (p)
-		*p = '\0';
-	  }
-	if (!name || *name == '\0')
-	   name = (char *)"?";
-	l += snprintf(s + l, sizeof(s) - l, "%s", name);
+        name = strchr(sym[i], '(');
+        if (name)
+        {
+            name++;
+            p = strchr(name, '+');
+            if (!p)
+                p = strchr(name, ')');
+            if (p)
+                *p = '\0';
+        }
+        if (!name || *name == '\0')
+            name = (char *)"?";
+        l += snprintf(s + l, sizeof(s) - l, "%s", name);
 #else
-	l += snprintf(s + l, sizeof(s) - l, "%s", sym[i]);
+        l += snprintf(s + l, sizeof(s) - l, "%s", sym[i]);
 #endif
 
-	if (i < n - 1)
-	   l += snprintf(s + l, sizeof(s) - l, " < ");
-     }
-   free(sym);
+        if (i < n - 1)
+            l += snprintf(s + l, sizeof(s) - l, " < ");
+    }
+    free(sym);
 
- done:
-   printf("%s\n", s);
+  done:
+    printf("%s\n", s);
 
-   return func(dpy, rep, extra, discard);
+    return func(dpy, rep, extra, discard);
 }

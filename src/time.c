@@ -33,17 +33,17 @@ unsigned int
 GetTimeMs(void)
 {
 #if USE_MONOTONIC_CLOCK
-   struct timespec     ts;
+    struct timespec ts;
 
-   clock_gettime(CLOCK_MONOTONIC, &ts);
+    clock_gettime(CLOCK_MONOTONIC, &ts);
 
-   return (unsigned int)(ts.tv_sec * 1000 + ts.tv_nsec / 1000000);
+    return (unsigned int)(ts.tv_sec * 1000 + ts.tv_nsec / 1000000);
 #else
-   struct timeval      timev;
+    struct timeval  timev;
 
-   gettimeofday(&timev, NULL);
+    gettimeofday(&timev, NULL);
 
-   return (unsigned int)(timev.tv_sec * 1000 + timev.tv_usec / 1000);
+    return (unsigned int)(timev.tv_sec * 1000 + timev.tv_usec / 1000);
 #endif
 }
 
@@ -51,29 +51,29 @@ unsigned int
 GetTimeUs(void)
 {
 #if USE_MONOTONIC_CLOCK
-   struct timespec     ts;
+    struct timespec ts;
 
-   clock_gettime(CLOCK_MONOTONIC, &ts);
+    clock_gettime(CLOCK_MONOTONIC, &ts);
 
-   return (unsigned int)(ts.tv_sec * 1000000 + ts.tv_nsec / 1000);
+    return (unsigned int)(ts.tv_sec * 1000000 + ts.tv_nsec / 1000);
 #else
-   struct timeval      timev;
+    struct timeval  timev;
 
-   gettimeofday(&timev, NULL);
+    gettimeofday(&timev, NULL);
 
-   return (unsigned int)(timev.tv_sec * 1000000 + timev.tv_usec);
+    return (unsigned int)(timev.tv_sec * 1000000 + timev.tv_usec);
 #endif
 }
 
 void
 SleepUs(unsigned int tus)
 {
-   struct timespec     ts;
+    struct timespec ts;
 
-   ts.tv_sec = tus / 1000000;
-   tus -= ts.tv_sec * 1000000;
-   ts.tv_nsec = tus * 1000;
+    ts.tv_sec = tus / 1000000;
+    tus -= ts.tv_sec * 1000000;
+    ts.tv_nsec = tus * 1000;
 
-   while (nanosleep(&ts, &ts))
-      ;
+    while (nanosleep(&ts, &ts))
+        ;
 }

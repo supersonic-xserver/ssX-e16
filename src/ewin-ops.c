@@ -41,805 +41,805 @@
 #include "snaps.h"
 #include "xwin.h"
 
-static const WinOp  winops[] = {
-   {"border", 2, 1, 1, EWIN_OP_BORDER},
-   {"title", 2, 1, 1, EWIN_OP_TITLE},
+static const WinOp winops[] = {
+    { "border", 2, 1, 1, EWIN_OP_BORDER },
+    { "title", 2, 1, 1, EWIN_OP_TITLE },
 
-   {"focusclick", 0, 1, 1, EWIN_OP_FOCUS_CLICK},	/* Place before "focus" */
+    { "focusclick", 0, 1, 1, EWIN_OP_FOCUS_CLICK },     /* Place before "focus" */
 
-   {"close", 2, 1, 0, EWIN_OP_CLOSE},
-   {"kill", 0, 1, 0, EWIN_OP_KILL},
-   {"iconify", 2, 1, 1, EWIN_OP_ICONIFY},
-   {"alone", 0, 1, 0, EWIN_OP_ALONE},
-   {"opacity", 2, 1, 1, EWIN_OP_OPACITY},
-   {"focused_opacity", 0, 1, 1, EWIN_OP_FOCUSED_OPACITY},
-   {"shadow", 0, 1, 1, EWIN_OP_SHADOW},	/* Place before "shade" */
-   {"shade", 2, 1, 1, EWIN_OP_SHADE},
-   {"stick", 2, 1, 1, EWIN_OP_STICK},
-   {"pin", 0, 1, 1, EWIN_OP_PIN},
-   {"focus", 2, 1, 0, EWIN_OP_FOCUS},
+    { "close", 2, 1, 0, EWIN_OP_CLOSE },
+    { "kill", 0, 1, 0, EWIN_OP_KILL },
+    { "iconify", 2, 1, 1, EWIN_OP_ICONIFY },
+    { "alone", 0, 1, 0, EWIN_OP_ALONE },
+    { "opacity", 2, 1, 1, EWIN_OP_OPACITY },
+    { "focused_opacity", 0, 1, 1, EWIN_OP_FOCUSED_OPACITY },
+    { "shadow", 0, 1, 1, EWIN_OP_SHADOW },      /* Place before "shade" */
+    { "shade", 2, 1, 1, EWIN_OP_SHADE },
+    { "stick", 2, 1, 1, EWIN_OP_STICK },
+    { "pin", 0, 1, 1, EWIN_OP_PIN },
+    { "focus", 2, 1, 0, EWIN_OP_FOCUS },
 
-   {"desk", 2, 1, 1, EWIN_OP_DESK},
-   {"area", 2, 1, 1, EWIN_OP_AREA},
-   {"move", 2, 1, 1, EWIN_OP_MOVE},
-   {"size", 2, 1, 1, EWIN_OP_SIZE},
-   {"sz", 2, 1, 1, EWIN_OP_SIZE},
-   {"move_relative", 0, 1, 0, EWIN_OP_MOVE_REL},
-   {"mr", 2, 1, 0, EWIN_OP_MOVE_REL},
-   {"resize_relative", 0, 1, 0, EWIN_OP_SIZE_REL},
-   {"sr", 2, 1, 0, EWIN_OP_SIZE_REL},
+    { "desk", 2, 1, 1, EWIN_OP_DESK },
+    { "area", 2, 1, 1, EWIN_OP_AREA },
+    { "move", 2, 1, 1, EWIN_OP_MOVE },
+    { "size", 2, 1, 1, EWIN_OP_SIZE },
+    { "sz", 2, 1, 1, EWIN_OP_SIZE },
+    { "move_relative", 0, 1, 0, EWIN_OP_MOVE_REL },
+    { "mr", 2, 1, 0, EWIN_OP_MOVE_REL },
+    { "resize_relative", 0, 1, 0, EWIN_OP_SIZE_REL },
+    { "sr", 2, 1, 0, EWIN_OP_SIZE_REL },
 
-   {"toggle_width", 0, 1, 0, EWIN_OP_MAX_WIDTH},
-   {"tw", 2, 1, 0, EWIN_OP_MAX_WIDTH},
-   {"toggle_height", 0, 1, 0, EWIN_OP_MAX_HEIGHT},
-   {"th", 0, 1, 0, EWIN_OP_MAX_HEIGHT},
-   {"toggle_size", 0, 1, 0, EWIN_OP_MAX_SIZE},
-   {"ts", 2, 1, 0, EWIN_OP_MAX_SIZE},
-   {"fullscreen", 2, 1, 1, EWIN_OP_FULLSCREEN},
-   {"zoom", 2, 1, 0, EWIN_OP_ZOOM},
+    { "toggle_width", 0, 1, 0, EWIN_OP_MAX_WIDTH },
+    { "tw", 2, 1, 0, EWIN_OP_MAX_WIDTH },
+    { "toggle_height", 0, 1, 0, EWIN_OP_MAX_HEIGHT },
+    { "th", 0, 1, 0, EWIN_OP_MAX_HEIGHT },
+    { "toggle_size", 0, 1, 0, EWIN_OP_MAX_SIZE },
+    { "ts", 2, 1, 0, EWIN_OP_MAX_SIZE },
+    { "fullscreen", 2, 1, 1, EWIN_OP_FULLSCREEN },
+    { "zoom", 2, 1, 0, EWIN_OP_ZOOM },
 
-   {"layer", 2, 1, 1, EWIN_OP_LAYER},
-   {"raise", 2, 1, 0, EWIN_OP_RAISE},
-   {"lower", 2, 1, 0, EWIN_OP_LOWER},
+    { "layer", 2, 1, 1, EWIN_OP_LAYER },
+    { "raise", 2, 1, 0, EWIN_OP_RAISE },
+    { "lower", 2, 1, 0, EWIN_OP_LOWER },
 
-   {"snap", 0, 1, 0, EWIN_OP_SNAP},
+    { "snap", 0, 1, 0, EWIN_OP_SNAP },
 
-   {"ignore_arrange", 0, 1, 1, EWIN_OP_IGNORE_ARRANGE},
-   {"never_use_area", 0, 1, 1, EWIN_OP_NEVER_USE_AREA},
-   {"no_button_grabs", 0, 1, 1, EWIN_OP_NO_BUTTON_GRABS},
-   {"skiplists", 4, 1, 1, EWIN_OP_SKIP_LISTS},
-   {"autoshade", 0, 1, 1, EWIN_OP_AUTOSHADE},
-   {"pass_ptr", 0, 1, 1, EWIN_OP_PASS_POINTER},
+    { "ignore_arrange", 0, 1, 1, EWIN_OP_IGNORE_ARRANGE },
+    { "never_use_area", 0, 1, 1, EWIN_OP_NEVER_USE_AREA },
+    { "no_button_grabs", 0, 1, 1, EWIN_OP_NO_BUTTON_GRABS },
+    { "skiplists", 4, 1, 1, EWIN_OP_SKIP_LISTS },
+    { "autoshade", 0, 1, 1, EWIN_OP_AUTOSHADE },
+    { "pass_ptr", 0, 1, 1, EWIN_OP_PASS_POINTER },
 
-   {"no_app_focus", 0, 1, 1, EWIN_OP_INH_APP_FOCUS},
-   {"no_app_move", 0, 1, 1, EWIN_OP_INH_APP_MOVE},
-   {"no_app_size", 0, 1, 1, EWIN_OP_INH_APP_SIZE},
-   {"no_user_close", 0, 1, 1, EWIN_OP_INH_USER_CLOSE},
-   {"no_user_move", 0, 1, 1, EWIN_OP_INH_USER_MOVE},
-   {"no_user_size", 0, 1, 1, EWIN_OP_INH_USER_SIZE},
-   {"no_wm_focus", 0, 1, 1, EWIN_OP_INH_WM_FOCUS},
+    { "no_app_focus", 0, 1, 1, EWIN_OP_INH_APP_FOCUS },
+    { "no_app_move", 0, 1, 1, EWIN_OP_INH_APP_MOVE },
+    { "no_app_size", 0, 1, 1, EWIN_OP_INH_APP_SIZE },
+    { "no_user_close", 0, 1, 1, EWIN_OP_INH_USER_CLOSE },
+    { "no_user_move", 0, 1, 1, EWIN_OP_INH_USER_MOVE },
+    { "no_user_size", 0, 1, 1, EWIN_OP_INH_USER_SIZE },
+    { "no_wm_focus", 0, 1, 1, EWIN_OP_INH_WM_FOCUS },
 
-   {"fade", 0, 1, 1, EWIN_OP_FADE},
-   {"no_redir", 4, 1, 1, EWIN_OP_NO_REDIRECT},
-   {"no_argb", 0, 1, 1, EWIN_OP_NO_ARGB},
+    { "fade", 0, 1, 1, EWIN_OP_FADE },
+    { "no_redir", 4, 1, 1, EWIN_OP_NO_REDIRECT },
+    { "no_argb", 0, 1, 1, EWIN_OP_NO_ARGB },
 
-   {NULL, 0, 0, 0, EWIN_OP_INVALID}	/* Terminator */
+    { NULL, 0, 0, 0, EWIN_OP_INVALID }  /* Terminator */
 };
 
-const WinOp        *
+const WinOp    *
 EwinOpFind(const char *op)
 {
-   const WinOp        *wop;
+    const WinOp    *wop;
 
-   wop = winops;
-   for (; wop->name; wop++)
-     {
-	if (wop->len)
-	  {
-	     if (!strncmp(op, wop->name, wop->len))
-		return wop;
-	  }
-	else
-	  {
-	     if (!strcmp(op, wop->name))
-		return wop;
-	  }
-     }
+    wop = winops;
+    for (; wop->name; wop++)
+    {
+        if (wop->len)
+        {
+            if (!strncmp(op, wop->name, wop->len))
+                return wop;
+        }
+        else
+        {
+            if (!strcmp(op, wop->name))
+                return wop;
+        }
+    }
 
-   return NULL;
+    return NULL;
 }
 
 static void
-EwinDetermineArea(EWin * ewin)
+EwinDetermineArea(EWin *ewin)
 {
-   Desk               *dsk;
-   int                 ax, ay;
+    Desk           *dsk;
+    int             ax, ay;
 
-   dsk = EoGetDesk(ewin);
-   ewin->vx = dsk->current_area_x * EoGetW(dsk) + EoGetX(ewin);
-   ewin->vy = dsk->current_area_y * EoGetH(dsk) + EoGetY(ewin);
+    dsk = EoGetDesk(ewin);
+    ewin->vx = dsk->current_area_x * EoGetW(dsk) + EoGetX(ewin);
+    ewin->vy = dsk->current_area_y * EoGetH(dsk) + EoGetY(ewin);
 
-   ax = (ewin->vx + EoGetW(ewin) / 2) / EoGetW(dsk);
-   ay = (ewin->vy + EoGetH(ewin) / 2) / EoGetH(dsk);
-   DesksFixArea(&ax, &ay);
+    ax = (ewin->vx + EoGetW(ewin) / 2) / EoGetW(dsk);
+    ay = (ewin->vy + EoGetH(ewin) / 2) / EoGetH(dsk);
+    DesksFixArea(&ax, &ay);
 
-   if (ax != ewin->area_x || ay != ewin->area_y)
-     {
-	ewin->area_x = ax;
-	ewin->area_y = ay;
-	HintsSetWindowArea(ewin);
-     }
+    if (ax != ewin->area_x || ay != ewin->area_y)
+    {
+        ewin->area_x = ax;
+        ewin->area_y = ay;
+        HintsSetWindowArea(ewin);
+    }
 }
 
-#define MRF_DESK	(1<<0)
-#define MRF_MOVE	(1<<1)
-#define MRF_RESIZE	(1<<2)
-#define MRF_RAISE	(1<<3)
-#define MRF_FLOAT	(1<<4)
-#define MRF_UNFLOAT	(1<<5)
+#define MRF_DESK    (1<<0)
+#define MRF_MOVE    (1<<1)
+#define MRF_RESIZE  (1<<2)
+#define MRF_RAISE   (1<<3)
+#define MRF_FLOAT   (1<<4)
+#define MRF_UNFLOAT (1<<5)
 
 static void
-doEwinMoveResize(EWin * ewin, Desk * dsk, int x, int y, int w, int h, int flags)
+doEwinMoveResize(EWin *ewin, Desk *dsk, int x, int y, int w, int h, int flags)
 {
-   static int          call_depth = 0;
-   int                 dx, dy, sw, sh, xo, yo;
-   char                move, resize, reparent, raise, floating, configure;
-   EWin              **lst;
-   int                 i, num;
-   Desk               *pdesk;
-   const EImageBorder *pad;
+    static int      call_depth = 0;
+    int             dx, dy, sw, sh, xo, yo;
+    char            move, resize, reparent, raise, floating, configure;
+    EWin          **lst;
+    int             i, num;
+    Desk           *pdesk;
+    const EImageBorder *pad;
 
-   if (ewin->state.zoomed)
-      return;
+    if (ewin->state.zoomed)
+        return;
 
-   if (call_depth > 256)
-      return;
-   call_depth++;
+    if (call_depth > 256)
+        return;
+    call_depth++;
 
-   if (EDebug(EDBUG_TYPE_MOVERESIZE))
-      Eprintf("%s(%d,%d) %#x f=%x d=%d %d+%d %d*%d %s\n", __func__,
-	      call_depth, Mode.mode, EwinGetClientXwin(ewin), flags,
-	      (dsk) ? (int)dsk->num : -1, x, y, w, h, EwinGetTitle(ewin));
+    if (EDebug(EDBUG_TYPE_MOVERESIZE))
+        Eprintf("%s(%d,%d) %#x f=%x d=%d %d+%d %d*%d %s\n", __func__,
+                call_depth, Mode.mode, EwinGetClientXwin(ewin), flags,
+                (dsk) ? (int)dsk->num : -1, x, y, w, h, EwinGetTitle(ewin));
 
-   pdesk = (ewin->o.stacked >= 0) ? EoGetDesk(ewin) : NULL;
-   reparent = move = resize = raise = 0;
-   floating = EoIsFloating(ewin);
+    pdesk = (ewin->o.stacked >= 0) ? EoGetDesk(ewin) : NULL;
+    reparent = move = resize = raise = 0;
+    floating = EoIsFloating(ewin);
 
-   pad = BorderGetSize(ewin->border);
+    pad = BorderGetSize(ewin->border);
 
-   if (flags & MRF_FLOAT)
-     {
-	if (floating == 0)
-	  {
-	     dsk = (!pdesk) ? EoGetDesk(ewin) : pdesk;
-	     floating = 1;
-	  }
-	else if (floating == 1)
-	  {
-	     dsk = DeskGet(0);
-	     floating = 2;
-	  }
-	flags |= MRF_RAISE;
-     }
-   else if (flags & MRF_UNFLOAT)
-     {
-	floating = 0;
-	flags |= MRF_RAISE;
-     }
-   else if (EoIsSticky(ewin) && !floating)
-     {
-	dsk = DesksGetCurrent();
-     }
-   else if (!dsk)
-     {
-	dsk = EoGetDesk(ewin);
-     }
+    if (flags & MRF_FLOAT)
+    {
+        if (floating == 0)
+        {
+            dsk = (!pdesk) ? EoGetDesk(ewin) : pdesk;
+            floating = 1;
+        }
+        else if (floating == 1)
+        {
+            dsk = DeskGet(0);
+            floating = 2;
+        }
+        flags |= MRF_RAISE;
+    }
+    else if (flags & MRF_UNFLOAT)
+    {
+        floating = 0;
+        flags |= MRF_RAISE;
+    }
+    else if (EoIsSticky(ewin) && !floating)
+    {
+        dsk = DesksGetCurrent();
+    }
+    else if (!dsk)
+    {
+        dsk = EoGetDesk(ewin);
+    }
 
-   if (dsk != pdesk)
-     {
-	reparent = 1;
-	flags |= MRF_DESK;
-     }
+    if (dsk != pdesk)
+    {
+        reparent = 1;
+        flags |= MRF_DESK;
+    }
 
-   if (Mode.mode == MODE_NONE && !(flags & MRF_NOCHECK_ONSCREEN))
-     {
-	/* Don't throw windows offscreen */
-	sw = WinGetW(VROOT);
-	sh = WinGetH(VROOT);
-	if (EoIsSticky(ewin))
-	  {
-	     xo = yo = 0;
-	  }
-	else
-	  {
-	     int                 ax, ay;
+    if (Mode.mode == MODE_NONE && !(flags & MRF_NOCHECK_ONSCREEN))
+    {
+        /* Don't throw windows offscreen */
+        sw = WinGetW(VROOT);
+        sh = WinGetH(VROOT);
+        if (EoIsSticky(ewin))
+        {
+            xo = yo = 0;
+        }
+        else
+        {
+            int             ax, ay;
 
-	     DeskGetArea(dsk, &ax, &ay);
-	     xo = -ax * sw;
-	     yo = -ay * sh;
-	     sw *= Conf.desks.areas_nx;
-	     sh *= Conf.desks.areas_ny;
-	  }
+            DeskGetArea(dsk, &ax, &ay);
+            xo = -ax * sw;
+            yo = -ay * sh;
+            sw *= Conf.desks.areas_nx;
+            sh *= Conf.desks.areas_ny;
+        }
 
-	/* Keep at least 8 pixels (or window dimension) on-screen */
-	dx = 8;
-	if (dx > EoGetW(ewin))
-	   dx = EoGetW(ewin);
-	dy = 8;
-	if (dy > EoGetH(ewin))
-	   dy = EoGetH(ewin);
+        /* Keep at least 8 pixels (or window dimension) on-screen */
+        dx = 8;
+        if (dx > EoGetW(ewin))
+            dx = EoGetW(ewin);
+        dy = 8;
+        if (dy > EoGetH(ewin))
+            dy = EoGetH(ewin);
 
-	if (x < xo - EoGetW(ewin) + dx)
-	   x = xo - EoGetW(ewin) + dx;
-	else if (x > xo + sw - dx)
-	   x = xo + sw - dx;
-	if (y < yo - EoGetH(ewin) + dy)
-	   y = yo - EoGetH(ewin) + dy;
-	else if (y > yo + sh - dy)
-	   y = yo + sh - dy;
-     }
+        if (x < xo - EoGetW(ewin) + dx)
+            x = xo - EoGetW(ewin) + dx;
+        else if (x > xo + sw - dx)
+            x = xo + sw - dx;
+        if (y < yo - EoGetH(ewin) + dy)
+            y = yo - EoGetH(ewin) + dy;
+        else if (y > yo + sh - dy)
+            y = yo + sh - dy;
+    }
 
-   if (flags & MRF_RAISE)
-      raise = 1;
+    if (flags & MRF_RAISE)
+        raise = 1;
 
-   if (!(flags & MRF_MOVE))
-     {
-	x = EoGetX(ewin);
-	y = EoGetY(ewin);
-     }
+    if (!(flags & MRF_MOVE))
+    {
+        x = EoGetX(ewin);
+        y = EoGetY(ewin);
+    }
 
-   if (!(flags & MRF_RESIZE))
-     {
-	w = EoGetW(ewin);
-	h = EoGetH(ewin);
-     }
-   else
-     {
-	if (w > 32000)
-	   w = 32000;
-	if (h > 32000)
-	   h = 32000;
-	if (ewin->ops && ewin->ops->Layout)
-	  {
-	     ewin->ops->Layout(ewin, &x, &y, &w, &h);
-	  }
-	else
-	  {
-	     ICCCM_SizeMatch(ewin, w, h, &w, &h);
-	  }
-	if (w <= 0)
-	   w = 1;
-	if (h <= 0)
-	   h = 1;
+    if (!(flags & MRF_RESIZE))
+    {
+        w = EoGetW(ewin);
+        h = EoGetH(ewin);
+    }
+    else
+    {
+        if (w > 32000)
+            w = 32000;
+        if (h > 32000)
+            h = 32000;
+        if (ewin->ops && ewin->ops->Layout)
+        {
+            ewin->ops->Layout(ewin, &x, &y, &w, &h);
+        }
+        else
+        {
+            ICCCM_SizeMatch(ewin, w, h, &w, &h);
+        }
+        if (w <= 0)
+            w = 1;
+        if (h <= 0)
+            h = 1;
 
-	if ((w != ewin->client.w) || (h != ewin->client.h))
-	   resize = 2;
-	ewin->client.w = w;
-	ewin->client.h = h;
+        if ((w != ewin->client.w) || (h != ewin->client.h))
+            resize = 2;
+        ewin->client.w = w;
+        ewin->client.h = h;
 
-	if (ewin->state.shaded)
-	  {
-	     w = EoGetW(ewin);
-	     h = EoGetH(ewin);
-	     if (resize)
-		EwinBorderMinShadeSize(ewin, &w, &h);
-	  }
-	else
-	  {
-	     w = ewin->client.w + pad->left + pad->right;
-	     h = ewin->client.h + pad->top + pad->bottom;
-	  }
-     }
+        if (ewin->state.shaded)
+        {
+            w = EoGetW(ewin);
+            h = EoGetH(ewin);
+            if (resize)
+                EwinBorderMinShadeSize(ewin, &w, &h);
+        }
+        else
+        {
+            w = ewin->client.w + pad->left + pad->right;
+            h = ewin->client.h + pad->top + pad->bottom;
+        }
+    }
 
-   /* Clamp window position or weirdness may happen.
-    * Not sure where the exact limit is. */
-   if (x < -32000)
-      x = -32000;
-   else if (x > 32000 - w)
-      x = 32000 - w;
-   if (y < -32000)
-      y = -32000;
-   else if (y > 32000 - h)
-      y = 32000 - h;
+    /* Clamp window position or weirdness may happen.
+     * Not sure where the exact limit is. */
+    if (x < -32000)
+        x = -32000;
+    else if (x > 32000 - w)
+        x = 32000 - w;
+    if (y < -32000)
+        y = -32000;
+    else if (y > 32000 - h)
+        y = 32000 - h;
 
-   dx = x - EoGetX(ewin);
-   dy = y - EoGetY(ewin);
-   if ((dx != 0) || (dy != 0))
-      move = 1;
-   ewin->client.x = x + pad->left;
-   ewin->client.y = y + pad->top;
+    dx = x - EoGetX(ewin);
+    dy = y - EoGetY(ewin);
+    if ((dx != 0) || (dy != 0))
+        move = 1;
+    ewin->client.x = x + pad->left;
+    ewin->client.y = y + pad->top;
 
 #if 0
-   Eprintf("repa=%d float=%d raise=%d move=%d resz=%d\n",
-	   reparent, floating, raise, move, resize);
+    Eprintf("repa=%d float=%d raise=%d move=%d resz=%d\n",
+            reparent, floating, raise, move, resize);
 #endif
-   if (EoIsShown(ewin) && (move || reparent))
-      ModulesSignal(ESIGNAL_EWIN_CHANGE, ewin);
+    if (EoIsShown(ewin) && (move || reparent))
+        ModulesSignal(ESIGNAL_EWIN_CHANGE, ewin);
 
-   if (reparent)
-     {
-	EoReparent(ewin, EoObj(dsk), x, y);
-	if (flags & MRF_RESIZE)
-	   EoResize(ewin, w, h);
-     }
-   else
-     {
-	EoMoveResize(ewin, x, y, w, h);
-     }
+    if (reparent)
+    {
+        EoReparent(ewin, EoObj(dsk), x, y);
+        if (flags & MRF_RESIZE)
+            EoResize(ewin, w, h);
+    }
+    else
+    {
+        EoMoveResize(ewin, x, y, w, h);
+    }
 
-   configure = 0;
-   if (Mode.mode == MODE_NONE || resize || Conf.movres.update_while_moving)
-     {
-	configure = 1;
+    configure = 0;
+    if (Mode.mode == MODE_NONE || resize || Conf.movres.update_while_moving)
+    {
+        configure = 1;
 #if USE_XSYNC
-	if (Conf.movres.enable_sync_request)
-	   EwinSyncRequestSend(ewin);
+        if (Conf.movres.enable_sync_request)
+            EwinSyncRequestSend(ewin);
 #endif
-     }
+    }
 
-   if (flags & MRF_RESIZE)
-     {
-	if (!ewin->state.shaded)
-	   EMoveResizeWindow(EwinGetClientConWin(ewin), pad->left, pad->top,
-			     ewin->client.w, ewin->client.h);
+    if (flags & MRF_RESIZE)
+    {
+        if (!ewin->state.shaded)
+            EMoveResizeWindow(EwinGetClientConWin(ewin), pad->left, pad->top,
+                              ewin->client.w, ewin->client.h);
 #if USE_CONTAINER_WIN
-	EMoveResizeWindow(EwinGetClientWin(ewin), 0, 0, ewin->client.w,
-			  ewin->client.h);
+        EMoveResizeWindow(EwinGetClientWin(ewin), 0, 0, ewin->client.w,
+                          ewin->client.h);
 #endif
-	EwinBorderCalcSizes(ewin, 0);
-	if (resize && ewin->state.shaped)
-	   ewin->update.shape = 1;
-     }
+        EwinBorderCalcSizes(ewin, 0);
+        if (resize && ewin->state.shaped)
+            ewin->update.shape = 1;
+    }
 
-   EwinPropagateShapes(ewin);
+    EwinPropagateShapes(ewin);
 
-   /* Clear maximized state on move or resize */
-   if ((move || resize) && !(flags & MRF_KEEP_MAXIMIZED))
-     {
-	if (ewin->state.maximized_horz || ewin->state.maximized_vert)
-	  {
-	     ewin->state.maximized_horz = 0;
-	     ewin->state.maximized_vert = 0;
-	     HintsSetWindowState(ewin);
-	  }
-     }
+    /* Clear maximized state on move or resize */
+    if ((move || resize) && !(flags & MRF_KEEP_MAXIMIZED))
+    {
+        if (ewin->state.maximized_horz || ewin->state.maximized_vert)
+        {
+            ewin->state.maximized_horz = 0;
+            ewin->state.maximized_vert = 0;
+            HintsSetWindowState(ewin);
+        }
+    }
 
-   if (raise)
-     {
-	EoSetFloating(ewin, floating);
-	EwinRaise(ewin);
-     }
+    if (raise)
+    {
+        EoSetFloating(ewin, floating);
+        EwinRaise(ewin);
+    }
 
-   if (Mode.mode == MODE_NONE || Conf.movres.update_while_moving)
-      ICCCM_Configure(ewin);
+    if (Mode.mode == MODE_NONE || Conf.movres.update_while_moving)
+        ICCCM_Configure(ewin);
 
-   if (configure)
-     {
+    if (configure)
+    {
 #if USE_XSYNC
-	if (Conf.movres.enable_sync_request)
-	   EwinSyncRequestWait(ewin);
+        if (Conf.movres.enable_sync_request)
+            EwinSyncRequestWait(ewin);
 #endif
-     }
+    }
 
-   if (flags & (MRF_DESK | MRF_MOVE | MRF_FLOAT | MRF_UNFLOAT))
-     {
-	lst = EwinListTransients(ewin, &num, 0);
-	for (i = 0; i < num; i++)
-	   doEwinMoveResize(lst[i], dsk, EoGetX(lst[i]) + dx,
-			    EoGetY(lst[i]) + dy, 0, 0,
-			    flags & (MRF_DESK | MRF_MOVE |
-				     MRF_FLOAT | MRF_UNFLOAT |
-				     MRF_NOCHECK_ONSCREEN |
-				     MRF_KEEP_MAXIMIZED));
-	Efree(lst);
-     }
+    if (flags & (MRF_DESK | MRF_MOVE | MRF_FLOAT | MRF_UNFLOAT))
+    {
+        lst = EwinListTransients(ewin, &num, 0);
+        for (i = 0; i < num; i++)
+            doEwinMoveResize(lst[i], dsk, EoGetX(lst[i]) + dx,
+                             EoGetY(lst[i]) + dy, 0, 0,
+                             flags & (MRF_DESK | MRF_MOVE |
+                                      MRF_FLOAT | MRF_UNFLOAT |
+                                      MRF_NOCHECK_ONSCREEN |
+                                      MRF_KEEP_MAXIMIZED));
+        Efree(lst);
+    }
 
-   EwinDetermineArea(ewin);
-   if (Mode.op_source == OPSRC_USER)
-      EwinSetPlacementGravity(ewin, x, y);
+    EwinDetermineArea(ewin);
+    if (Mode.op_source == OPSRC_USER)
+        EwinSetPlacementGravity(ewin, x, y);
 
-   if ((flags & (MRF_DESK | MRF_MOVE | MRF_RESIZE)) &&
-       ewin->ops && ewin->ops->MoveResize)
-      ewin->ops->MoveResize(ewin, resize);
+    if ((flags & (MRF_DESK | MRF_MOVE | MRF_RESIZE)) &&
+        ewin->ops && ewin->ops->MoveResize)
+        ewin->ops->MoveResize(ewin, resize);
 
-   if (Mode.mode == MODE_NONE)
-     {
-	SnapshotEwinUpdate(ewin, SNAP_USE_POS | SNAP_USE_SIZE);
+    if (Mode.mode == MODE_NONE)
+    {
+        SnapshotEwinUpdate(ewin, SNAP_USE_POS | SNAP_USE_SIZE);
 
-	if (EoIsShown(ewin))
-	   ModulesSignal(ESIGNAL_EWIN_CHANGE, ewin);
-     }
+        if (EoIsShown(ewin))
+            ModulesSignal(ESIGNAL_EWIN_CHANGE, ewin);
+    }
 
-   if (dsk != pdesk)
-     {
-	HintsSetWindowDesktop(ewin);
-	SnapshotEwinUpdate(ewin, SNAP_USE_DESK);
-     }
+    if (dsk != pdesk)
+    {
+        HintsSetWindowDesktop(ewin);
+        SnapshotEwinUpdate(ewin, SNAP_USE_DESK);
+    }
 
-   call_depth--;
+    call_depth--;
 }
 
 void
-EwinMove(EWin * ewin, int x, int y, int flags)
+EwinMove(EWin *ewin, int x, int y, int flags)
 {
-   doEwinMoveResize(ewin, NULL, x, y, 0, 0,
-		    MRF_MOVE | (flags & MRF_NOCHECK_ONSCREEN));
+    doEwinMoveResize(ewin, NULL, x, y, 0, 0,
+                     MRF_MOVE | (flags & MRF_NOCHECK_ONSCREEN));
 }
 
 void
-EwinResize(EWin * ewin, int w, int h, int flags)
+EwinResize(EWin *ewin, int w, int h, int flags)
 {
-   doEwinMoveResize(ewin, NULL, 0, 0, w, h,
-		    MRF_RESIZE | (flags & MRF_KEEP_MAXIMIZED));
+    doEwinMoveResize(ewin, NULL, 0, 0, w, h,
+                     MRF_RESIZE | (flags & MRF_KEEP_MAXIMIZED));
 }
 
 void
-EwinMoveResize(EWin * ewin, int x, int y, int w, int h, int flags)
+EwinMoveResize(EWin *ewin, int x, int y, int w, int h, int flags)
 {
-   doEwinMoveResize(ewin, NULL, x, y, w, h,
-		    MRF_MOVE | MRF_RESIZE |
-		    (flags & (MRF_NOCHECK_ONSCREEN | MRF_KEEP_MAXIMIZED)));
+    doEwinMoveResize(ewin, NULL, x, y, w, h,
+                     MRF_MOVE | MRF_RESIZE |
+                     (flags & (MRF_NOCHECK_ONSCREEN | MRF_KEEP_MAXIMIZED)));
 }
 
 void
-EwinMoveResizeWithGravity(EWin * ewin, int x, int y, int w, int h, int grav)
+EwinMoveResizeWithGravity(EWin *ewin, int x, int y, int w, int h, int grav)
 {
-   EwinGetPosition(ewin, x, y, grav, &x, &y);
-   doEwinMoveResize(ewin, NULL, x, y, w, h, MRF_MOVE | MRF_RESIZE);
+    EwinGetPosition(ewin, x, y, grav, &x, &y);
+    doEwinMoveResize(ewin, NULL, x, y, w, h, MRF_MOVE | MRF_RESIZE);
 }
 
 void
-EwinMoveToDesktop(EWin * ewin, Desk * dsk)
+EwinMoveToDesktop(EWin *ewin, Desk *dsk)
 {
-   doEwinMoveResize(ewin, dsk, 0, 0, 0, 0, MRF_DESK);
+    doEwinMoveResize(ewin, dsk, 0, 0, 0, 0, MRF_DESK);
 }
 
 void
-EwinMoveToDesktopAt(EWin * ewin, Desk * dsk, int x, int y)
+EwinMoveToDesktopAt(EWin *ewin, Desk *dsk, int x, int y)
 {
-   doEwinMoveResize(ewin, dsk, x, y, 0, 0, MRF_DESK | MRF_MOVE);
+    doEwinMoveResize(ewin, dsk, x, y, 0, 0, MRF_DESK | MRF_MOVE);
 }
 
 void
-EwinMoveToDesktopAtNocheck(EWin * ewin, Desk * dsk, int x, int y)
+EwinMoveToDesktopAtNocheck(EWin *ewin, Desk *dsk, int x, int y)
 {
-   doEwinMoveResize(ewin, dsk, x, y, 0, 0,
-		    MRF_DESK | MRF_MOVE | MRF_NOCHECK_ONSCREEN);
+    doEwinMoveResize(ewin, dsk, x, y, 0, 0,
+                     MRF_DESK | MRF_MOVE | MRF_NOCHECK_ONSCREEN);
 }
 
 void
-EwinOpMove(EWin * ewin, int source, int x, int y)
+EwinOpMove(EWin *ewin, int source, int x, int y)
 {
-   Mode.op_source = source;
-   EwinMove(ewin, x, y, 0);
-   Mode.op_source = OPSRC_NA;
+    Mode.op_source = source;
+    EwinMove(ewin, x, y, 0);
+    Mode.op_source = OPSRC_NA;
 }
 
 void
-EwinOpResize(EWin * ewin, int source, int w, int h)
+EwinOpResize(EWin *ewin, int source, int w, int h)
 {
-   Mode.op_source = source;
-   EwinResize(ewin, w, h, 0);
-   Mode.op_source = OPSRC_NA;
+    Mode.op_source = source;
+    EwinResize(ewin, w, h, 0);
+    Mode.op_source = OPSRC_NA;
 }
 
 void
-EwinOpMoveResize(EWin * ewin, int source, int x, int y, int w, int h)
+EwinOpMoveResize(EWin *ewin, int source, int x, int y, int w, int h)
 {
-   Mode.op_source = source;
-   EwinMoveResize(ewin, x, y, w, h, 0);
-   Mode.op_source = OPSRC_NA;
+    Mode.op_source = source;
+    EwinMoveResize(ewin, x, y, w, h, 0);
+    Mode.op_source = OPSRC_NA;
 }
 
 void
-EwinOpMoveToDesktopAt(EWin * ewin, int source, Desk * dsk, int x, int y)
+EwinOpMoveToDesktopAt(EWin *ewin, int source, Desk *dsk, int x, int y)
 {
-   Mode.op_source = source;
-   EwinMoveToDesktopAt(ewin, dsk, x, y);
-   Mode.op_source = OPSRC_NA;
+    Mode.op_source = source;
+    EwinMoveToDesktopAt(ewin, dsk, x, y);
+    Mode.op_source = OPSRC_NA;
 }
 
 void
-EwinOpFloatAt(EWin * ewin, int source, int x, int y)
+EwinOpFloatAt(EWin *ewin, int source, int x, int y)
 {
-   Mode.op_source = source;
-   doEwinMoveResize(ewin, EoGetDesk(ewin), x, y, 0, 0, MRF_MOVE | MRF_FLOAT);
-   Mode.op_source = OPSRC_NA;
+    Mode.op_source = source;
+    doEwinMoveResize(ewin, EoGetDesk(ewin), x, y, 0, 0, MRF_MOVE | MRF_FLOAT);
+    Mode.op_source = OPSRC_NA;
 }
 
 void
-EwinOpUnfloatAt(EWin * ewin, int source, Desk * dsk, int x, int y)
+EwinOpUnfloatAt(EWin *ewin, int source, Desk *dsk, int x, int y)
 {
-   Mode.op_source = source;
-   doEwinMoveResize(ewin, dsk, x, y, 0, 0, MRF_MOVE | MRF_UNFLOAT);
-   Mode.op_source = OPSRC_NA;
+    Mode.op_source = source;
+    doEwinMoveResize(ewin, dsk, x, y, 0, 0, MRF_MOVE | MRF_UNFLOAT);
+    Mode.op_source = OPSRC_NA;
 }
 
 void
-EwinIconify(EWin * ewin)
+EwinIconify(EWin *ewin)
 {
-   static int          call_depth = 0;
-   EWin              **lst, *e;
-   int                 i, num;
+    static int      call_depth = 0;
+    EWin          **lst, *e;
+    int             i, num;
 
-   if (!ewin)
-      return;
+    if (!ewin)
+        return;
 
-   if (ewin->state.inhibit_iconify)
-      return;
+    if (ewin->state.inhibit_iconify)
+        return;
 
-   if (ewin->state.state != EWIN_STATE_MAPPED)
-      return;
+    if (ewin->state.state != EWIN_STATE_MAPPED)
+        return;
 
-   if (call_depth > 256)
-      return;
-   call_depth++;
+    if (call_depth > 256)
+        return;
+    call_depth++;
 
-   Zoom(ewin, 0);
+    Zoom(ewin, 0);
 
-   /* Save position at which the window was iconified */
-   EwinRememberPositionSet(ewin);
+    /* Save position at which the window was iconified */
+    EwinRememberPositionSet(ewin);
 
-   if (!EwinIsTransient(ewin))
-      ModulesSignal(ESIGNAL_EWIN_ICONIFY, ewin);
+    if (!EwinIsTransient(ewin))
+        ModulesSignal(ESIGNAL_EWIN_ICONIFY, ewin);
 
-   ewin->state.iconified = 1;
-   EwinHide(ewin);
+    ewin->state.iconified = 1;
+    EwinHide(ewin);
 
-   ICCCM_Iconify(ewin);
+    ICCCM_Iconify(ewin);
 
-   lst = EwinListTransients(ewin, &num, 0);
-   for (i = 0; i < num; i++)
-     {
-	e = lst[i];
-	if (e->state.iconified)
-	   continue;
+    lst = EwinListTransients(ewin, &num, 0);
+    for (i = 0; i < num; i++)
+    {
+        e = lst[i];
+        if (e->state.iconified)
+            continue;
 
-	EwinIconify(e);
-     }
-   Efree(lst);
+        EwinIconify(e);
+    }
+    Efree(lst);
 
-   EwinStateUpdate(ewin);
-   HintsSetWindowState(ewin);
+    EwinStateUpdate(ewin);
+    HintsSetWindowState(ewin);
 
-   call_depth--;
+    call_depth--;
 }
 
 void
-EwinAlone(EWin * ewin)
+EwinAlone(EWin *ewin)
 {
-   EWin               *const *lst, *item;
-   int                 i, num;
+    EWin           *const *lst, *item;
+    int             i, num;
 
-   lst = EwinListGetForDesk(&num, EoGetDesk(ewin));
+    lst = EwinListGetForDesk(&num, EoGetDesk(ewin));
 
-   for (i = 0; i < num; i++)
-     {
-	item = lst[i];
+    for (i = 0; i < num; i++)
+    {
+        item = lst[i];
 
-	if (item == ewin || EwinIsTransient(item) ||
-	    item->state.iconified || item->state.donthide ||
-	    item->area_x != ewin->area_x || item->area_y != ewin->area_y)
-	   continue;
-	EwinIconify(item);
-     }
+        if (item == ewin || EwinIsTransient(item) ||
+            item->state.iconified || item->state.donthide ||
+            item->area_x != ewin->area_x || item->area_y != ewin->area_y)
+            continue;
+        EwinIconify(item);
+    }
 }
 
 static void
 GetOnScreenPos(int x, int y, int w, int h, int *px, int *py)
 {
-   int                 dx, dy;
+    int             dx, dy;
 
-   if (x + w > 4 && x <= WinGetW(VROOT) - 4 &&
-       y + h > 4 && y <= WinGetH(VROOT) - 4)
-      goto done;
+    if (x + w > 4 && x <= WinGetW(VROOT) - 4 &&
+        y + h > 4 && y <= WinGetH(VROOT) - 4)
+        goto done;
 
-   dx = w / 2;
-   dy = h / 2;
-   x = (x + dx) % WinGetW(VROOT);
-   if (x < 0)
-      x += WinGetW(VROOT);
-   x -= dx;
-   y = (y + dy) % WinGetH(VROOT);
-   if (y < 0)
-      y += WinGetH(VROOT);
-   y -= dy;
+    dx = w / 2;
+    dy = h / 2;
+    x = (x + dx) % WinGetW(VROOT);
+    if (x < 0)
+        x += WinGetW(VROOT);
+    x -= dx;
+    y = (y + dy) % WinGetH(VROOT);
+    if (y < 0)
+        y += WinGetH(VROOT);
+    y -= dy;
 
- done:
-   *px = x;
-   *py = y;
+  done:
+    *px = x;
+    *py = y;
 }
 
 static void
-EwinDeIconify1(EWin * ewin, int dx, int dy)
+EwinDeIconify1(EWin *ewin, int dx, int dy)
 {
-   static int          call_depth = 0;
-   EWin              **lst, *e;
-   int                 i, num;
-   int                 x, y;
+    static int      call_depth = 0;
+    EWin          **lst, *e;
+    int             i, num;
+    int             x, y;
 
-   if (call_depth > 256)
-      return;
-   call_depth++;
+    if (call_depth > 256)
+        return;
+    call_depth++;
 
-   if (ewin->state.state != EWIN_STATE_ICONIC || !ewin->state.iconified)
-      return;
+    if (ewin->state.state != EWIN_STATE_ICONIC || !ewin->state.iconified)
+        return;
 
-   EwinRememberPositionGet(ewin, DesksGetCurrent(), &x, &y);
+    EwinRememberPositionGet(ewin, DesksGetCurrent(), &x, &y);
 
-   EwinMoveToDesktopAt(ewin, DesksGetCurrent(), x + dx, y + dy);
+    EwinMoveToDesktopAt(ewin, DesksGetCurrent(), x + dx, y + dy);
 
-   if (!EwinIsTransient(ewin))
-      ModulesSignal(ESIGNAL_EWIN_DEICONIFY, ewin);
+    if (!EwinIsTransient(ewin))
+        ModulesSignal(ESIGNAL_EWIN_DEICONIFY, ewin);
 
-   ewin->state.iconified = 0;
-   ewin->state.showingdesk = 0;
+    ewin->state.iconified = 0;
+    ewin->state.showingdesk = 0;
 
-   EwinRaise(ewin);
-   EwinShow(ewin);
-   ICCCM_DeIconify(ewin);
+    EwinRaise(ewin);
+    EwinShow(ewin);
+    ICCCM_DeIconify(ewin);
 
-   lst = EwinListTransients(ewin, &num, 0);
-   for (i = 0; i < num; i++)
-     {
-	e = lst[i];
-	if (!e->state.iconified)
-	   continue;
+    lst = EwinListTransients(ewin, &num, 0);
+    for (i = 0; i < num; i++)
+    {
+        e = lst[i];
+        if (!e->state.iconified)
+            continue;
 
-	EwinDeIconify1(e, dx, dy);
-     }
-   Efree(lst);
+        EwinDeIconify1(e, dx, dy);
+    }
+    Efree(lst);
 
-   EwinStateUpdate(ewin);
-   HintsSetWindowState(ewin);
+    EwinStateUpdate(ewin);
+    HintsSetWindowState(ewin);
 
-   call_depth--;
+    call_depth--;
 }
 
 void
-EwinDeIconify(EWin * ewin)
+EwinDeIconify(EWin *ewin)
 {
-   int                 x, y, ox, oy, dx, dy;
+    int             x, y, ox, oy, dx, dy;
 
-   EwinRememberPositionGet(ewin, DesksGetCurrent(), &x, &y);
-   ox = x;
-   oy = y;
+    EwinRememberPositionGet(ewin, DesksGetCurrent(), &x, &y);
+    ox = x;
+    oy = y;
 
-   /* If we iconified an offscreen window, get it back on screen */
-   if (!ewin->state.showingdesk)
-      GetOnScreenPos(x, y, EoGetW(ewin), EoGetH(ewin), &x, &y);
+    /* If we iconified an offscreen window, get it back on screen */
+    if (!ewin->state.showingdesk)
+        GetOnScreenPos(x, y, EoGetW(ewin), EoGetH(ewin), &x, &y);
 
-   dx = x - ox;
-   dy = y - oy;
+    dx = x - ox;
+    dy = y - oy;
 
-   EwinDeIconify1(ewin, dx, dy);
+    EwinDeIconify1(ewin, dx, dy);
 }
 
 static void
-EwinUnStick(EWin * ewin)
+EwinUnStick(EWin *ewin)
 {
-   if (!EoIsSticky(ewin))
-      return;
+    if (!EoIsSticky(ewin))
+        return;
 
-   SoundPlay(SOUND_WINDOW_UNSTICK);
+    SoundPlay(SOUND_WINDOW_UNSTICK);
 
-   EoSetSticky(ewin, 0);
-   EwinMoveToDesktopAt(ewin, DesksGetCurrent(), EoGetX(ewin), EoGetY(ewin));
-   EwinBorderUpdateState(ewin);
-   EwinStateUpdate(ewin);
-   HintsSetWindowState(ewin);
-   HintsSetWindowDesktop(ewin);
-   SnapshotEwinUpdate(ewin, SNAP_USE_STICKY);
+    EoSetSticky(ewin, 0);
+    EwinMoveToDesktopAt(ewin, DesksGetCurrent(), EoGetX(ewin), EoGetY(ewin));
+    EwinBorderUpdateState(ewin);
+    EwinStateUpdate(ewin);
+    HintsSetWindowState(ewin);
+    HintsSetWindowDesktop(ewin);
+    SnapshotEwinUpdate(ewin, SNAP_USE_STICKY);
 }
 
 static void
-EwinStick(EWin * ewin)
+EwinStick(EWin *ewin)
 {
-   int                 x, y, dx, dy;
+    int             x, y, dx, dy;
 
-   if (EoIsSticky(ewin))
-      return;
+    if (EoIsSticky(ewin))
+        return;
 
-   SoundPlay(SOUND_WINDOW_STICK);
+    SoundPlay(SOUND_WINDOW_STICK);
 
-   /* Avoid "losing" windows made sticky while not in the current viewport */
-   dx = EoGetW(ewin) / 2;
-   dy = EoGetH(ewin) / 2;
-   x = (EoGetX(ewin) + dx) % WinGetW(VROOT);
-   if (x < 0)
-      x += WinGetW(VROOT);
-   x -= dx;
-   y = (EoGetY(ewin) + dy) % WinGetH(VROOT);
-   if (y < 0)
-      y += WinGetH(VROOT);
-   y -= dy;
+    /* Avoid "losing" windows made sticky while not in the current viewport */
+    dx = EoGetW(ewin) / 2;
+    dy = EoGetH(ewin) / 2;
+    x = (EoGetX(ewin) + dx) % WinGetW(VROOT);
+    if (x < 0)
+        x += WinGetW(VROOT);
+    x -= dx;
+    y = (EoGetY(ewin) + dy) % WinGetH(VROOT);
+    if (y < 0)
+        y += WinGetH(VROOT);
+    y -= dy;
 
-   EoSetSticky(ewin, 1);
-   EwinMoveToDesktopAt(ewin, DesksGetCurrent(), x, y);
-   EwinBorderUpdateState(ewin);
-   EwinStateUpdate(ewin);
-   HintsSetWindowState(ewin);
-   HintsSetWindowDesktop(ewin);
-   SnapshotEwinUpdate(ewin, SNAP_USE_STICKY);
+    EoSetSticky(ewin, 1);
+    EwinMoveToDesktopAt(ewin, DesksGetCurrent(), x, y);
+    EwinBorderUpdateState(ewin);
+    EwinStateUpdate(ewin);
+    HintsSetWindowState(ewin);
+    HintsSetWindowDesktop(ewin);
+    SnapshotEwinUpdate(ewin, SNAP_USE_STICKY);
 }
 
-#define SHADE_LEFT	0	/* __LEFT */
-#define SHADE_RIGHT	1	/* __RIGHT */
-#define SHADE_UP	2	/* __UP/__TOP */
-#define SHADE_DOWN	3	/* __DOWN/__BOTTOM */
+#define SHADE_LEFT  0           /* __LEFT */
+#define SHADE_RIGHT 1           /* __RIGHT */
+#define SHADE_UP    2           /* __UP/__TOP */
+#define SHADE_DOWN  3           /* __DOWN/__BOTTOM */
 
 void
-EwinInstantShade(EWin * ewin, int force)
+EwinInstantShade(EWin *ewin, int force)
 {
-   int                 x, y, w, h;
-   int                 minw, minh;
+    int             x, y, w, h;
+    int             minw, minh;
 
-   if (ewin->state.inhibit_shade)
-      return;
-   if (ewin->state.shaded && !force)
-      return;
+    if (ewin->state.inhibit_shade)
+        return;
+    if (ewin->state.shaded && !force)
+        return;
 
-   x = EoGetX(ewin);
-   y = EoGetY(ewin);
-   w = EoGetW(ewin);
-   h = EoGetH(ewin);
+    x = EoGetX(ewin);
+    y = EoGetY(ewin);
+    w = EoGetW(ewin);
+    h = EoGetH(ewin);
 
-   EwinBorderMinShadeSize(ewin, &minw, &minh);
+    EwinBorderMinShadeSize(ewin, &minw, &minh);
 
-   switch (BorderGetShadedir(ewin->border))
-     {
-     default:
-     case SHADE_LEFT:
-	w = minw;
-	break;
-     case SHADE_RIGHT:
-	if (!force)
-	   x = x + w - minw;
-	w = minw;
-	break;
-     case SHADE_UP:
-	h = minh;
-	break;
-     case SHADE_DOWN:
-	if (!force)
-	   y = y + h - minh;
-	h = minh;
-	break;
-     }
+    switch (BorderGetShadedir(ewin->border))
+    {
+    default:
+    case SHADE_LEFT:
+        w = minw;
+        break;
+    case SHADE_RIGHT:
+        if (!force)
+            x = x + w - minw;
+        w = minw;
+        break;
+    case SHADE_UP:
+        h = minh;
+        break;
+    case SHADE_DOWN:
+        if (!force)
+            y = y + h - minh;
+        h = minh;
+        break;
+    }
 
-   ewin->state.shaded = 2;
-   EoMoveResize(ewin, x, y, w, h);
+    ewin->state.shaded = 2;
+    EoMoveResize(ewin, x, y, w, h);
 #if USE_CONTAINER_WIN
-   EMoveResizeWindow(ewin->win_container, -30, -30, 1, 1);
+    EMoveResizeWindow(ewin->win_container, -30, -30, 1, 1);
 #else
-   EMoveResizeWindow(EwinGetClientWin(ewin), 100, 100,
-		     ewin->client.w, ewin->client.h);
+    EMoveResizeWindow(EwinGetClientWin(ewin), 100, 100,
+                      ewin->client.w, ewin->client.h);
 #endif
-   EwinMoveResize(ewin, x, y, ewin->client.w, ewin->client.h,
-		  MRF_KEEP_MAXIMIZED);
+    EwinMoveResize(ewin, x, y, ewin->client.w, ewin->client.h,
+                   MRF_KEEP_MAXIMIZED);
 }
 
 void
-EwinInstantUnShade(EWin * ewin)
+EwinInstantUnShade(EWin *ewin)
 {
-   XSetWindowAttributes att;
-   int                 x, y, w, h;
-   const EImageBorder *pad;
+    XSetWindowAttributes att;
+    int             x, y, w, h;
+    const EImageBorder *pad;
 
-   if (ewin->state.zoomed)
-      return;
-   if (!ewin->state.shaded)
-      return;
+    if (ewin->state.zoomed)
+        return;
+    if (!ewin->state.shaded)
+        return;
 
-   x = EoGetX(ewin);
-   y = EoGetY(ewin);
+    x = EoGetX(ewin);
+    y = EoGetY(ewin);
 
-   pad = BorderGetSize(ewin->border);
+    pad = BorderGetSize(ewin->border);
 
-   switch (BorderGetShadedir(ewin->border))
-     {
-     default:
-	break;
-     case SHADE_RIGHT:
-	w = ewin->client.w + pad->left + pad->right;
-	x = x + EoGetW(ewin) - w;
-	break;
-     case SHADE_DOWN:
-	h = ewin->client.h + pad->top + pad->bottom;
-	y = y + EoGetH(ewin) - h;
-	break;
-     }
+    switch (BorderGetShadedir(ewin->border))
+    {
+    default:
+        break;
+    case SHADE_RIGHT:
+        w = ewin->client.w + pad->left + pad->right;
+        x = x + EoGetW(ewin) - w;
+        break;
+    case SHADE_DOWN:
+        h = ewin->client.h + pad->top + pad->bottom;
+        y = y + EoGetH(ewin) - h;
+        break;
+    }
 
-   /* Reset gravity */
-   att.win_gravity = NorthWestGravity;
-   EChangeWindowAttributes(EwinGetClientWin(ewin), CWWinGravity, &att);
-   /* Force move after gravity change */
-   EWindowSetGeometry(EwinGetClientWin(ewin), -1, -1,
-		      ewin->client.w, ewin->client.h, 0);
+    /* Reset gravity */
+    att.win_gravity = NorthWestGravity;
+    EChangeWindowAttributes(EwinGetClientWin(ewin), CWWinGravity, &att);
+    /* Force move after gravity change */
+    EWindowSetGeometry(EwinGetClientWin(ewin), -1, -1,
+                       ewin->client.w, ewin->client.h, 0);
 
-   ewin->state.shaded = 0;
-   EwinMoveResize(ewin, x, y, ewin->client.w, ewin->client.h,
-		  MRF_KEEP_MAXIMIZED);
+    ewin->state.shaded = 0;
+    EwinMoveResize(ewin, x, y, ewin->client.w, ewin->client.h,
+                   MRF_KEEP_MAXIMIZED);
 }
 
 #if USE_CONTAINER_WIN
@@ -857,889 +857,889 @@ EwinInstantUnShade(EWin * ewin)
 #endif
 
 typedef struct {
-   int                 x, y, w, h;
+    int             x, y, w, h;
 } _xywh;
 
 typedef struct {
-   EWin               *ewin;
-   char                doshade;
-   _xywh               start;
-   _xywh               final;
-   int                 a, b, c;
+    EWin           *ewin;
+    char            doshade;
+    _xywh           start;
+    _xywh           final;
+    int             a, b, c;
 } _ewin_shade_data;
 
 static void
-_EwinShadeStart(_ewin_shade_data * esd)
+_EwinShadeStart(_ewin_shade_data *esd)
 {
-   EWin               *ewin = esd->ewin;
-   int                 minw, minh;
-   XSetWindowAttributes att;
-   const EImageBorder *pad;
+    EWin           *ewin = esd->ewin;
+    int             minw, minh;
+    XSetWindowAttributes att;
+    const EImageBorder *pad;
 
-   esd->start.x = EoGetX(ewin);
-   esd->start.y = EoGetY(ewin);
-   esd->start.w = EoGetW(ewin);
-   esd->start.h = EoGetH(ewin);
-   esd->final = esd->start;
-   esd->doshade = 1;
+    esd->start.x = EoGetX(ewin);
+    esd->start.y = EoGetY(ewin);
+    esd->start.w = EoGetW(ewin);
+    esd->start.h = EoGetH(ewin);
+    esd->final = esd->start;
+    esd->doshade = 1;
 
-   ewin->state.shading = 1;
+    ewin->state.shading = 1;
 
-   EwinBorderMinShadeSize(ewin, &minw, &minh);
+    EwinBorderMinShadeSize(ewin, &minw, &minh);
 
-   pad = BorderGetSize(ewin->border);
+    pad = BorderGetSize(ewin->border);
 
-   switch (BorderGetShadedir(ewin->border))
-     {
-     default:
-     case SHADE_LEFT:
-	att.win_gravity = EastGravity;
-	esd->a = esd->start.w;
-	esd->b = pad->left + pad->right;
-	esd->final.w = minw;
-	break;
-     case SHADE_RIGHT:
-	att.win_gravity = WestGravity;
-	esd->a = esd->start.w;
-	esd->b = pad->left + pad->right;
-	esd->c = esd->start.x + esd->start.w;
-	esd->final.x = esd->c - minw;
-	esd->final.w = minw;
-	break;
-     case SHADE_UP:
-	att.win_gravity = SouthGravity;
-	esd->a = esd->start.h;
-	esd->b = pad->top + pad->bottom;
-	esd->final.h = minh;
-	break;
-     case SHADE_DOWN:
-	att.win_gravity = SouthGravity;
-	esd->a = esd->start.h;
-	esd->b = pad->top + pad->bottom;
-	esd->c = esd->start.y + esd->start.h;
-	esd->final.y = esd->c - minh;
-	esd->final.h = minh;
-	break;
-     }
+    switch (BorderGetShadedir(ewin->border))
+    {
+    default:
+    case SHADE_LEFT:
+        att.win_gravity = EastGravity;
+        esd->a = esd->start.w;
+        esd->b = pad->left + pad->right;
+        esd->final.w = minw;
+        break;
+    case SHADE_RIGHT:
+        att.win_gravity = WestGravity;
+        esd->a = esd->start.w;
+        esd->b = pad->left + pad->right;
+        esd->c = esd->start.x + esd->start.w;
+        esd->final.x = esd->c - minw;
+        esd->final.w = minw;
+        break;
+    case SHADE_UP:
+        att.win_gravity = SouthGravity;
+        esd->a = esd->start.h;
+        esd->b = pad->top + pad->bottom;
+        esd->final.h = minh;
+        break;
+    case SHADE_DOWN:
+        att.win_gravity = SouthGravity;
+        esd->a = esd->start.h;
+        esd->b = pad->top + pad->bottom;
+        esd->c = esd->start.y + esd->start.h;
+        esd->final.y = esd->c - minh;
+        esd->final.h = minh;
+        break;
+    }
 
-   EChangeWindowAttributes(EwinGetClientWin(ewin), CWWinGravity, &att);
+    EChangeWindowAttributes(EwinGetClientWin(ewin), CWWinGravity, &att);
 }
 
 static void
-_EwinShadeEnd(_ewin_shade_data * esd)
+_EwinShadeEnd(_ewin_shade_data *esd)
 {
-   EWin               *ewin = esd->ewin;
+    EWin           *ewin = esd->ewin;
 
-   EoMoveResize(ewin, esd->final.x, esd->final.y, esd->final.w, esd->final.h);
-   ewin->state.shaded = 2;
+    EoMoveResize(ewin, esd->final.x, esd->final.y, esd->final.w, esd->final.h);
+    ewin->state.shaded = 2;
 #if USE_CONTAINER_WIN
-   EMoveResizeWindow(ewin->win_container, -30, -30, 1, 1);
+    EMoveResizeWindow(ewin->win_container, -30, -30, 1, 1);
 #else
-   EMoveResizeWindow(EwinGetClientWin(ewin), 100, 100,
-		     ewin->client.w, ewin->client.h);
-   ewin->update.shape = 1;
+    EMoveResizeWindow(EwinGetClientWin(ewin), 100, 100,
+                      ewin->client.w, ewin->client.h);
+    ewin->update.shape = 1;
 #endif
-   if (ewin->state.shaped)
-      _EWIN_ADJUST_SHAPE(ewin, 0, 0);
+    if (ewin->state.shaped)
+        _EWIN_ADJUST_SHAPE(ewin, 0, 0);
 
-   EwinMoveResize(ewin, EoGetX(ewin), EoGetY(ewin),
-		  ewin->client.w, ewin->client.h, MRF_KEEP_MAXIMIZED);
+    EwinMoveResize(ewin, EoGetX(ewin), EoGetY(ewin),
+                   ewin->client.w, ewin->client.h, MRF_KEEP_MAXIMIZED);
 
-   ewin->state.shading = 0;
+    ewin->state.shading = 0;
 
-   EwinStateUpdate(ewin);
-   HintsSetWindowState(ewin);
-   SnapshotEwinUpdate(ewin, SNAP_USE_SHADED);
+    EwinStateUpdate(ewin);
+    HintsSetWindowState(ewin);
+    SnapshotEwinUpdate(ewin, SNAP_USE_SHADED);
 }
 
-static int          _EwinShadeRun(EObj * eobj, int remaining, void *state);
+static int      _EwinShadeRun(EObj * eobj, int remaining, void *state);
 
 void
-EwinShade(EWin * ewin)
+EwinShade(EWin *ewin)
 {
-   Animator           *an;
-   _ewin_shade_data    esd;
-   int                 duration;
+    Animator       *an;
+    _ewin_shade_data esd;
+    int             duration;
 
-   if (ewin->state.inhibit_shade)
-      return;
-   if (ewin->state.shaded || ewin->state.shading)
-      return;
+    if (ewin->state.inhibit_shade)
+        return;
+    if (ewin->state.shaded || ewin->state.shading)
+        return;
 
-   esd.ewin = ewin;
-   _EwinShadeStart(&esd);
-   if ((Conf.shading.animate) || (ewin->type == EWIN_TYPE_MENU))
-     {
-	if (Conf.shading.speed < SPEED_MIN)
-	   Conf.shading.speed = SPEED_MIN;
-	duration = 1000000 / Conf.shading.speed;
-	an = AnimatorAdd(&ewin->o, ANIM_SHADE, _EwinShadeRun, duration, 0,
-			 sizeof(esd), &esd);
-	AnimatorSetSound(an, SOUND_SHADE, SOUND_NONE);
-     }
-   else
-      _EwinShadeEnd(&esd);
+    esd.ewin = ewin;
+    _EwinShadeStart(&esd);
+    if ((Conf.shading.animate) || (ewin->type == EWIN_TYPE_MENU))
+    {
+        if (Conf.shading.speed < SPEED_MIN)
+            Conf.shading.speed = SPEED_MIN;
+        duration = 1000000 / Conf.shading.speed;
+        an = AnimatorAdd(&ewin->o, ANIM_SHADE, _EwinShadeRun, duration, 0,
+                         sizeof(esd), &esd);
+        AnimatorSetSound(an, SOUND_SHADE, SOUND_NONE);
+    }
+    else
+        _EwinShadeEnd(&esd);
 }
 
 static void
-_EwinUnshadeStart(_ewin_shade_data * esd)
+_EwinUnshadeStart(_ewin_shade_data *esd)
 {
-   EWin               *ewin = esd->ewin;
-   int cow             __UNUSED__, coh __UNUSED__, clx, cly;
-   XSetWindowAttributes att;
-   const EImageBorder *pad;
+    EWin           *ewin = esd->ewin;
+    int cow         __UNUSED__, coh __UNUSED__, clx, cly;
+    XSetWindowAttributes att;
+    const EImageBorder *pad;
 
-   esd->start.x = EoGetX(ewin);
-   esd->start.y = EoGetY(ewin);
-   esd->start.w = EoGetW(ewin);
-   esd->start.h = EoGetH(ewin);
-   esd->final = esd->start;
-   esd->doshade = 0;
+    esd->start.x = EoGetX(ewin);
+    esd->start.y = EoGetY(ewin);
+    esd->start.w = EoGetW(ewin);
+    esd->start.h = EoGetH(ewin);
+    esd->final = esd->start;
+    esd->doshade = 0;
 
-   ewin->state.shading = 1;
-   ewin->state.shaded = 0;
+    ewin->state.shading = 1;
+    ewin->state.shaded = 0;
 
-   cow = ewin->client.w;
-   coh = ewin->client.h;
+    cow = ewin->client.w;
+    coh = ewin->client.h;
 
-   clx = cly = 0;
+    clx = cly = 0;
 
-   pad = BorderGetSize(ewin->border);
+    pad = BorderGetSize(ewin->border);
 
-   switch (BorderGetShadedir(ewin->border))
-     {
-     default:
-     case SHADE_LEFT:
-	att.win_gravity = NorthEastGravity;
-	esd->a = pad->left + pad->right;
-	esd->b = ewin->client.w + esd->a;
-	esd->c = 0;		/* Not used */
-	esd->final.w = esd->b;
-	cow = 1;
-	clx = -ewin->client.w;
-	break;
-     case SHADE_RIGHT:
-	att.win_gravity = NorthWestGravity;
-	esd->a = pad->left + pad->right;
-	esd->b = ewin->client.w + esd->a;
-	esd->c = esd->start.x + esd->start.w;	/* NB! w != a is possible */
-	esd->final.x = esd->c - esd->b;
-	esd->final.w = esd->b;
-	cow = 1;
-	break;
-     case SHADE_UP:
-	att.win_gravity = SouthEastGravity;
-	esd->a = pad->top + pad->bottom;
-	esd->b = ewin->client.h + esd->a;
-	esd->c = 0;		/* Not used */
-	esd->final.h = esd->b;
-	coh = 1;
-	cly = 1 - ewin->client.h;
-	break;
-     case SHADE_DOWN:
-	att.win_gravity = SouthEastGravity;
-	esd->a = pad->top + pad->bottom;
-	esd->b = ewin->client.h + esd->a;
-	esd->c = esd->start.y + esd->start.h;	/* NB! h != a is possible */
-	esd->final.y = esd->c - esd->b;
-	esd->final.h = esd->b;
-	coh = 1;
-	cly = 1 - ewin->client.h;
-	break;
-     }
+    switch (BorderGetShadedir(ewin->border))
+    {
+    default:
+    case SHADE_LEFT:
+        att.win_gravity = NorthEastGravity;
+        esd->a = pad->left + pad->right;
+        esd->b = ewin->client.w + esd->a;
+        esd->c = 0;             /* Not used */
+        esd->final.w = esd->b;
+        cow = 1;
+        clx = -ewin->client.w;
+        break;
+    case SHADE_RIGHT:
+        att.win_gravity = NorthWestGravity;
+        esd->a = pad->left + pad->right;
+        esd->b = ewin->client.w + esd->a;
+        esd->c = esd->start.x + esd->start.w;   /* NB! w != a is possible */
+        esd->final.x = esd->c - esd->b;
+        esd->final.w = esd->b;
+        cow = 1;
+        break;
+    case SHADE_UP:
+        att.win_gravity = SouthEastGravity;
+        esd->a = pad->top + pad->bottom;
+        esd->b = ewin->client.h + esd->a;
+        esd->c = 0;             /* Not used */
+        esd->final.h = esd->b;
+        coh = 1;
+        cly = 1 - ewin->client.h;
+        break;
+    case SHADE_DOWN:
+        att.win_gravity = SouthEastGravity;
+        esd->a = pad->top + pad->bottom;
+        esd->b = ewin->client.h + esd->a;
+        esd->c = esd->start.y + esd->start.h;   /* NB! h != a is possible */
+        esd->final.y = esd->c - esd->b;
+        esd->final.h = esd->b;
+        coh = 1;
+        cly = 1 - ewin->client.h;
+        break;
+    }
 
-   EChangeWindowAttributes(EwinGetClientWin(ewin), CWWinGravity, &att);
-   EWindowSync(EwinGetClientWin(ewin));	/* Gravity - recache */
+    EChangeWindowAttributes(EwinGetClientWin(ewin), CWWinGravity, &att);
+    EWindowSync(EwinGetClientWin(ewin));        /* Gravity - recache */
 #if USE_CONTAINER_WIN
-   EMoveResizeWindow(ewin->win_container, pad->left, pad->top, cow, coh);
-   EMoveResizeWindow(EwinGetClientWin(ewin), clx, cly,
-		     ewin->client.w, ewin->client.h);
+    EMoveResizeWindow(ewin->win_container, pad->left, pad->top, cow, coh);
+    EMoveResizeWindow(EwinGetClientWin(ewin), clx, cly,
+                      ewin->client.w, ewin->client.h);
 #else
-   EMoveResizeWindow(EwinGetClientWin(ewin), pad->left + clx, pad->top + cly,
-		     ewin->client.w, ewin->client.h);
+    EMoveResizeWindow(EwinGetClientWin(ewin), pad->left + clx, pad->top + cly,
+                      ewin->client.w, ewin->client.h);
 #endif
 }
 
 static void
-_EwinUnshadeEnd(_ewin_shade_data * esd)
+_EwinUnshadeEnd(_ewin_shade_data *esd)
 {
-   EWin               *ewin = esd->ewin;
-   XSetWindowAttributes att;
+    EWin           *ewin = esd->ewin;
+    XSetWindowAttributes att;
 #if USE_CONTAINER_WIN
-   const EImageBorder *pad = BorderGetSize(ewin->border);
+    const EImageBorder *pad = BorderGetSize(ewin->border);
 #endif
 
-   EoMoveResize(ewin, esd->final.x, esd->final.y, esd->final.w, esd->final.h);
+    EoMoveResize(ewin, esd->final.x, esd->final.y, esd->final.w, esd->final.h);
 
-   /* Reset gravity */
-   att.win_gravity = NorthWestGravity;
-   EChangeWindowAttributes(EwinGetClientWin(ewin), CWWinGravity, &att);
+    /* Reset gravity */
+    att.win_gravity = NorthWestGravity;
+    EChangeWindowAttributes(EwinGetClientWin(ewin), CWWinGravity, &att);
 
 #if USE_CONTAINER_WIN
-   EMoveResizeWindow(EwinGetClientWin(ewin), 0, 0,
-		     ewin->client.w, ewin->client.h);
-   EMoveResizeWindow(ewin->win_container, pad->left, pad->top,
-		     ewin->client.w, ewin->client.h);
+    EMoveResizeWindow(EwinGetClientWin(ewin), 0, 0,
+                      ewin->client.w, ewin->client.h);
+    EMoveResizeWindow(ewin->win_container, pad->left, pad->top,
+                      ewin->client.w, ewin->client.h);
 #else
-   EWindowSync(EwinGetClientWin(ewin));	/* Gravity - recache */
+    EWindowSync(EwinGetClientWin(ewin));        /* Gravity - recache */
 #endif
 
-   if (ewin->state.shaped)
-      _EWIN_ADJUST_SHAPE(ewin, 0, 0);
+    if (ewin->state.shaped)
+        _EWIN_ADJUST_SHAPE(ewin, 0, 0);
 
-   EwinMoveResize(ewin, EoGetX(ewin), EoGetY(ewin),
-		  ewin->client.w, ewin->client.h, MRF_KEEP_MAXIMIZED);
+    EwinMoveResize(ewin, EoGetX(ewin), EoGetY(ewin),
+                   ewin->client.w, ewin->client.h, MRF_KEEP_MAXIMIZED);
 
-   ewin->state.shading = 0;
+    ewin->state.shading = 0;
 
-   EwinStateUpdate(ewin);
-   HintsSetWindowState(ewin);
-   SnapshotEwinUpdate(ewin, SNAP_USE_SHADED);
+    EwinStateUpdate(ewin);
+    HintsSetWindowState(ewin);
+    SnapshotEwinUpdate(ewin, SNAP_USE_SHADED);
 }
 
 static int
-_EwinShadeRun(EObj * eobj, int remaining, void *state)
+_EwinShadeRun(EObj *eobj, int remaining, void *state)
 {
-   _ewin_shade_data   *esd = (_ewin_shade_data *) state;
-   EWin               *ewin = (EWin *) eobj;
-   int                 k, x, y, w, h, ww, hh;
-   int cow             __UNUSED__, coh __UNUSED__, shx, shy;
-   const EImageBorder *pad;
+    _ewin_shade_data *esd = (_ewin_shade_data *) state;
+    EWin           *ewin = (EWin *) eobj;
+    int             k, x, y, w, h, ww, hh;
+    int cow         __UNUSED__, coh __UNUSED__, shx, shy;
+    const EImageBorder *pad;
 
-   k = 1024 - remaining;
+    k = 1024 - remaining;
 
-   x = esd->start.x;
-   y = esd->start.y;
-   w = esd->start.w;
-   h = esd->start.h;
+    x = esd->start.x;
+    y = esd->start.y;
+    w = esd->start.w;
+    h = esd->start.h;
 
-   cow = ewin->client.w;
-   coh = ewin->client.h;
+    cow = ewin->client.w;
+    coh = ewin->client.h;
 
-   shx = shy = 0;
+    shx = shy = 0;
 
-   pad = BorderGetSize(ewin->border);
+    pad = BorderGetSize(ewin->border);
 
-   switch (BorderGetShadedir(ewin->border))
-     {
-     default:
-     case SHADE_LEFT:
-	w = ((esd->a * (1024 - k)) + (esd->b * k)) >> 10;
-	if (w <= 0)
-	   w = 1;
-	ww = w - (pad->left + pad->right);
-	if (ww <= 0)
-	   ww = 1;
-	cow = ww;
-	shx = ww - ewin->client.w;
-	break;
-     case SHADE_RIGHT:
-	w = ((esd->a * (1024 - k)) + (esd->b * k)) >> 10;
-	if (w <= 0)
-	   w = 1;
-	x = esd->c - w;
-	ww = w - (pad->left + pad->right);
-	if (ww <= 0)
-	   ww = 1;
-	cow = ww;
-	break;
-     case SHADE_UP:
-	h = ((esd->a * (1024 - k)) + (esd->b * k)) >> 10;
-	if (h <= 0)
-	   h = 1;
-	hh = h - (pad->top + pad->bottom);
-	if (hh <= 0)
-	   hh = 1;
-	coh = hh;
-	shy = hh - ewin->client.h;
-	break;
-     case SHADE_DOWN:
-	h = ((esd->a * (1024 - k)) + (esd->b * k)) >> 10;
-	if (h <= 0)
-	   h = 1;
-	y = esd->c - h;
-	hh = h - (pad->top + pad->bottom);
-	if (hh <= 0)
-	   hh = 1;
-	coh = hh;
-	shy = hh - ewin->client.h;
-	break;
-     }
+    switch (BorderGetShadedir(ewin->border))
+    {
+    default:
+    case SHADE_LEFT:
+        w = ((esd->a * (1024 - k)) + (esd->b * k)) >> 10;
+        if (w <= 0)
+            w = 1;
+        ww = w - (pad->left + pad->right);
+        if (ww <= 0)
+            ww = 1;
+        cow = ww;
+        shx = ww - ewin->client.w;
+        break;
+    case SHADE_RIGHT:
+        w = ((esd->a * (1024 - k)) + (esd->b * k)) >> 10;
+        if (w <= 0)
+            w = 1;
+        x = esd->c - w;
+        ww = w - (pad->left + pad->right);
+        if (ww <= 0)
+            ww = 1;
+        cow = ww;
+        break;
+    case SHADE_UP:
+        h = ((esd->a * (1024 - k)) + (esd->b * k)) >> 10;
+        if (h <= 0)
+            h = 1;
+        hh = h - (pad->top + pad->bottom);
+        if (hh <= 0)
+            hh = 1;
+        coh = hh;
+        shy = hh - ewin->client.h;
+        break;
+    case SHADE_DOWN:
+        h = ((esd->a * (1024 - k)) + (esd->b * k)) >> 10;
+        if (h <= 0)
+            h = 1;
+        y = esd->c - h;
+        hh = h - (pad->top + pad->bottom);
+        if (hh <= 0)
+            hh = 1;
+        coh = hh;
+        shy = hh - ewin->client.h;
+        break;
+    }
 #if USE_CONTAINER_WIN
-   EMoveResizeWindow(ewin->win_container, pad->left, pad->top, cow, coh);
+    EMoveResizeWindow(ewin->win_container, pad->left, pad->top, cow, coh);
 #else
-   EMoveResizeWindow(EwinGetClientWin(ewin), pad->left + shx, pad->top + shy,
-		     ewin->client.w, ewin->client.h);
+    EMoveResizeWindow(EwinGetClientWin(ewin), pad->left + shx, pad->top + shy,
+                      ewin->client.w, ewin->client.h);
 #endif
-   if (ewin->state.shaped)
-      _EWIN_ADJUST_SHAPE(ewin, shx, shy);
-   EoMoveResize(ewin, x, y, w, h);
-   EwinBorderCalcSizes(ewin, 1);
+    if (ewin->state.shaped)
+        _EWIN_ADJUST_SHAPE(ewin, shx, shy);
+    EoMoveResize(ewin, x, y, w, h);
+    EwinBorderCalcSizes(ewin, 1);
 
-   if (remaining == 0)
-     {
-	if (esd->doshade)
-	   _EwinShadeEnd(esd);
-	else
-	   _EwinUnshadeEnd(esd);
-     }
+    if (remaining == 0)
+    {
+        if (esd->doshade)
+            _EwinShadeEnd(esd);
+        else
+            _EwinUnshadeEnd(esd);
+    }
 
-   return 0;
+    return 0;
 }
 
 void
-EwinUnShade(EWin * ewin)
+EwinUnShade(EWin *ewin)
 {
-   Animator           *an;
-   _ewin_shade_data    esd;
-   int                 duration;
+    Animator       *an;
+    _ewin_shade_data esd;
+    int             duration;
 
-   if (ewin->state.zoomed)
-      return;
-   if (!ewin->state.shaded || ewin->state.shading || ewin->state.iconified)
-      return;
+    if (ewin->state.zoomed)
+        return;
+    if (!ewin->state.shaded || ewin->state.shading || ewin->state.iconified)
+        return;
 
-   esd.ewin = ewin;
-   _EwinUnshadeStart(&esd);
-   if ((Conf.shading.animate) || (ewin->type == EWIN_TYPE_MENU))
-     {
-	if (Conf.shading.speed < SPEED_MIN)
-	   Conf.shading.speed = SPEED_MIN;
-	duration = 1000000 / Conf.shading.speed;
-	an = AnimatorAdd(&ewin->o, ANIM_SHADE, _EwinShadeRun, duration, 0,
-			 sizeof(esd), &esd);
-	AnimatorSetSound(an, SOUND_UNSHADE, SOUND_NONE);
-     }
-   else
-      _EwinUnshadeEnd(&esd);
+    esd.ewin = ewin;
+    _EwinUnshadeStart(&esd);
+    if ((Conf.shading.animate) || (ewin->type == EWIN_TYPE_MENU))
+    {
+        if (Conf.shading.speed < SPEED_MIN)
+            Conf.shading.speed = SPEED_MIN;
+        duration = 1000000 / Conf.shading.speed;
+        an = AnimatorAdd(&ewin->o, ANIM_SHADE, _EwinShadeRun, duration, 0,
+                         sizeof(esd), &esd);
+        AnimatorSetSound(an, SOUND_UNSHADE, SOUND_NONE);
+    }
+    else
+        _EwinUnshadeEnd(&esd);
 }
 
 void
-EwinOpFullscreen(EWin * ewin, int source __UNUSED__, int on)
+EwinOpFullscreen(EWin *ewin, int source __UNUSED__, int on)
 {
-   int                 x, y, w, h, ww, hh;
-   EWin              **lst;
-   int                 i, num;
-   const Border       *b;
+    int             x, y, w, h, ww, hh;
+    EWin          **lst;
+    int             i, num;
+    const Border   *b;
 
-   if (ewin->state.fullscreen == (unsigned)on)
-      return;
-   if (ewin->state.zoomed)
-      return;
+    if (ewin->state.fullscreen == (unsigned)on)
+        return;
+    if (ewin->state.zoomed)
+        return;
 
-   if (on)
-     {
-	if (on == 1)
-	  {
-	     if (ewin->state.inhibit_fullscreeen)
-		return;
-	     ewin->save_fs.x = EoGetX(ewin);
-	     ewin->save_fs.y = EoGetY(ewin);
-	     ewin->save_fs.w = ewin->client.w;
-	     ewin->save_fs.h = ewin->client.h;
-	     ewin->save_fs.layer = EoGetLayer(ewin);
-	  }
-	if (ewin->state.placed)
-	  {
-	     x = EoGetX(ewin);
-	     y = EoGetY(ewin);
-	  }
-	else
-	  {
-	     EventsUpdateXY(&x, &y);
-	  }
-	ScreenGetAvailableArea(x, y, &x, &y, &w, &h,
-			       Conf.place.ignore_struts_fullscreen);
+    if (on)
+    {
+        if (on == 1)
+        {
+            if (ewin->state.inhibit_fullscreeen)
+                return;
+            ewin->save_fs.x = EoGetX(ewin);
+            ewin->save_fs.y = EoGetY(ewin);
+            ewin->save_fs.w = ewin->client.w;
+            ewin->save_fs.h = ewin->client.h;
+            ewin->save_fs.layer = EoGetLayer(ewin);
+        }
+        if (ewin->state.placed)
+        {
+            x = EoGetX(ewin);
+            y = EoGetY(ewin);
+        }
+        else
+        {
+            EventsUpdateXY(&x, &y);
+        }
+        ScreenGetAvailableArea(x, y, &x, &y, &w, &h,
+                               Conf.place.ignore_struts_fullscreen);
 
-	ewin->state.fullscreen = 1;
+        ewin->state.fullscreen = 1;
 
-	/* Fixup if available space doesn't match ICCCM size constraints */
-	ICCCM_SizeMatch(ewin, w, h, &ww, &hh);
-	if (w == ww && h == hh)
-	  {
-	     b = BorderFind("BORDERLESS");
-	  }
-	else
-	  {
-	     b = BorderCreateFiller(ww, hh, w, h);
-	     w = ww;
-	     h = hh;
-	  }
-	EwinBorderSetTo(ewin, b);
+        /* Fixup if available space doesn't match ICCCM size constraints */
+        ICCCM_SizeMatch(ewin, w, h, &ww, &hh);
+        if (w == ww && h == hh)
+        {
+            b = BorderFind("BORDERLESS");
+        }
+        else
+        {
+            b = BorderCreateFiller(ww, hh, w, h);
+            w = ww;
+            h = hh;
+        }
+        EwinBorderSetTo(ewin, b);
 
-	if (Conf.place.raise_fullscreen)
-	  {
-	     EoSetLayer(ewin, 8);
-	     lst = EwinListTransients(ewin, &num, 0);
-	     for (i = 0; i < num; i++)
-	       {
-		  lst[i]->save_fs.layer = EoGetLayer(lst[i]);
-		  EoSetLayer(lst[i], lst[i]->save_fs.layer +
-			     EoGetLayer(ewin) - ewin->save_fs.layer);
-	       }
-	     Efree(lst);
-	  }
+        if (Conf.place.raise_fullscreen)
+        {
+            EoSetLayer(ewin, 8);
+            lst = EwinListTransients(ewin, &num, 0);
+            for (i = 0; i < num; i++)
+            {
+                lst[i]->save_fs.layer = EoGetLayer(lst[i]);
+                EoSetLayer(lst[i], lst[i]->save_fs.layer +
+                           EoGetLayer(ewin) - ewin->save_fs.layer);
+            }
+            Efree(lst);
+        }
 
-	EwinRaise(ewin);
-	EwinMoveResize(ewin, x, y, w, h, MRF_KEEP_MAXIMIZED);
-	EwinStateUpdate(ewin);
-     }
-   else
-     {
-	x = ewin->save_fs.x;
-	y = ewin->save_fs.y;
-	w = ewin->save_fs.w;
-	h = ewin->save_fs.h;
-	GetOnScreenPos(x, y, w, h, &x, &y);
-	b = ewin->normal_border;
-	EwinBorderSetTo(ewin, b);
+        EwinRaise(ewin);
+        EwinMoveResize(ewin, x, y, w, h, MRF_KEEP_MAXIMIZED);
+        EwinStateUpdate(ewin);
+    }
+    else
+    {
+        x = ewin->save_fs.x;
+        y = ewin->save_fs.y;
+        w = ewin->save_fs.w;
+        h = ewin->save_fs.h;
+        GetOnScreenPos(x, y, w, h, &x, &y);
+        b = ewin->normal_border;
+        EwinBorderSetTo(ewin, b);
 
-	if (Conf.place.raise_fullscreen)
-	  {
-	     lst = EwinListTransients(ewin, &num, 0);
-	     for (i = 0; i < num; i++)
-		EoSetLayer(lst[i], lst[i]->save_fs.layer);
-	     Efree(lst);
-	  }
-	EoSetLayer(ewin, ewin->save_fs.layer);
+        if (Conf.place.raise_fullscreen)
+        {
+            lst = EwinListTransients(ewin, &num, 0);
+            for (i = 0; i < num; i++)
+                EoSetLayer(lst[i], lst[i]->save_fs.layer);
+            Efree(lst);
+        }
+        EoSetLayer(ewin, ewin->save_fs.layer);
 
-	ewin->state.fullscreen = 0;
-	EwinStateUpdate(ewin);
-	EwinRaise(ewin);
-	EwinMoveResize(ewin, x, y, w, h, MRF_KEEP_MAXIMIZED);
+        ewin->state.fullscreen = 0;
+        EwinStateUpdate(ewin);
+        EwinRaise(ewin);
+        EwinMoveResize(ewin, x, y, w, h, MRF_KEEP_MAXIMIZED);
 
-	/* Keep focus if focused */
-	if (ewin->state.active)
-	   FocusToEWin(ewin, FOCUS_SET);
-     }
+        /* Keep focus if focused */
+        if (ewin->state.active)
+            FocusToEWin(ewin, FOCUS_SET);
+    }
 
-   HintsSetWindowState(ewin);
+    HintsSetWindowState(ewin);
 }
 
 void
 EwinsShowDesktop(int on)
 {
-   EWin               *const *lst, *ewin;
-   int                 i, num;
+    EWin           *const *lst, *ewin;
+    int             i, num;
 
-   lst = EwinListGetForDesk(&num, DesksGetCurrent());
+    lst = EwinListGetForDesk(&num, DesksGetCurrent());
 
-   if (on)
-     {
-	for (i = 0; i < num; i++)
-	  {
-	     ewin = lst[i];
+    if (on)
+    {
+        for (i = 0; i < num; i++)
+        {
+            ewin = lst[i];
 
-	     if (EwinIsTransient(ewin) ||
-		 ewin->state.iconified || ewin->state.donthide)
-		continue;
+            if (EwinIsTransient(ewin) ||
+                ewin->state.iconified || ewin->state.donthide)
+                continue;
 
-	     ewin->state.showingdesk = 1;
-	     EwinIconify(ewin);
-	  }
-     }
-   else
-     {
-	for (i = num - 1; i >= 0; i--)
-	  {
-	     ewin = lst[i];
+            ewin->state.showingdesk = 1;
+            EwinIconify(ewin);
+        }
+    }
+    else
+    {
+        for (i = num - 1; i >= 0; i--)
+        {
+            ewin = lst[i];
 
-	     if (!ewin->state.showingdesk)
-		continue;
+            if (!ewin->state.showingdesk)
+                continue;
 
-	     EwinDeIconify(ewin);
-	  }
-     }
-   Mode.showing_desktop = on;
-   EWMH_SetShowingDesktop(on);
+            EwinDeIconify(ewin);
+        }
+    }
+    Mode.showing_desktop = on;
+    EWMH_SetShowingDesktop(on);
 }
 
 void
-EwinMoveToArea(EWin * ewin, int ax, int ay)
+EwinMoveToArea(EWin *ewin, int ax, int ay)
 {
-   DesksFixArea(&ax, &ay);
-   EwinMove(ewin, EoGetX(ewin) + (WinGetW(VROOT) * (ax - ewin->area_x)),
-	    EoGetY(ewin) + (WinGetH(VROOT) * (ay - ewin->area_y)), 0);
+    DesksFixArea(&ax, &ay);
+    EwinMove(ewin, EoGetX(ewin) + (WinGetW(VROOT) * (ax - ewin->area_x)),
+             EoGetY(ewin) + (WinGetH(VROOT) * (ay - ewin->area_y)), 0);
 }
 
 void
-EwinOpActivate(EWin * ewin, int source, int raise)
+EwinOpActivate(EWin *ewin, int source, int raise)
 {
-   int                 unshade;
+    int             unshade;
 
-   if (source == OPSRC_APP && EwinInhGetApp(ewin, focus))
-      return;
+    if (source == OPSRC_APP && EwinInhGetApp(ewin, focus))
+        return;
 
-   unshade = ewin->state.shaded /* && !ewin->state.iconified */ ;
+    unshade = ewin->state.shaded /* && !ewin->state.iconified */ ;
 
-   if (!ewin->state.sliding && !ewin->state.iconified)
-     {
-	/* If somehow lost outside desktop, move it to center */
-	if (!EwinIsOnDesktop(ewin))
-	   ArrangeEwinCentered(ewin);
-	DeskGotoByEwin(ewin, 0);
-     }
-   if (raise)
-      EwinOpRaise(ewin, source);
-   if (ewin->state.iconified)
-      EwinOpIconify(ewin, source, 0);
-   if (unshade)
-      EwinOpShade(ewin, source, 0);
-   FocusToEWin(ewin, FOCUS_SET);
+    if (!ewin->state.sliding && !ewin->state.iconified)
+    {
+        /* If somehow lost outside desktop, move it to center */
+        if (!EwinIsOnDesktop(ewin))
+            ArrangeEwinCentered(ewin);
+        DeskGotoByEwin(ewin, 0);
+    }
+    if (raise)
+        EwinOpRaise(ewin, source);
+    if (ewin->state.iconified)
+        EwinOpIconify(ewin, source, 0);
+    if (unshade)
+        EwinOpShade(ewin, source, 0);
+    FocusToEWin(ewin, FOCUS_SET);
 }
 
 void
-EwinOpClose(EWin * ewin, int source __UNUSED__)
+EwinOpClose(EWin *ewin, int source __UNUSED__)
 {
-   EWin              **gwins;
-   int                 num, i;
+    EWin          **gwins;
+    int             num, i;
 
-   if (!ewin)
-      return;
+    if (!ewin)
+        return;
 
-   gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_KILL,
-				      Mode.nogroup, &num);
-   for (i = 0; i < num; i++)
-     {
-	ICCCM_Delete(gwins[i]);
-	SoundPlay(SOUND_WINDOW_CLOSE);
-     }
-   Efree(gwins);
+    gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_KILL,
+                                       Mode.nogroup, &num);
+    for (i = 0; i < num; i++)
+    {
+        ICCCM_Delete(gwins[i]);
+        SoundPlay(SOUND_WINDOW_CLOSE);
+    }
+    Efree(gwins);
 }
 
 void
-EwinOpKill(EWin * ewin, int source __UNUSED__)
+EwinOpKill(EWin *ewin, int source __UNUSED__)
 {
-   SoundPlay(SOUND_WINDOW_CLOSE);
-   EwinKill(ewin);
+    SoundPlay(SOUND_WINDOW_CLOSE);
+    EwinKill(ewin);
 }
 
 void
-EwinOpRaise(EWin * ewin, int source __UNUSED__)
+EwinOpRaise(EWin *ewin, int source __UNUSED__)
 {
-   EWin              **gwins;
-   int                 i, num, changed;
+    EWin          **gwins;
+    int             i, num, changed;
 
-   gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_STACKING,
-				      Mode.nogroup, &num);
-   for (i = changed = 0; i < num; i++)
-      changed += EwinRaise(gwins[i]);
-   Efree(gwins);
-   if (changed)
-      SoundPlay(SOUND_RAISE);
+    gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_STACKING,
+                                       Mode.nogroup, &num);
+    for (i = changed = 0; i < num; i++)
+        changed += EwinRaise(gwins[i]);
+    Efree(gwins);
+    if (changed)
+        SoundPlay(SOUND_RAISE);
 }
 
 void
-EwinOpLower(EWin * ewin, int source __UNUSED__)
+EwinOpLower(EWin *ewin, int source __UNUSED__)
 {
-   EWin              **gwins;
-   int                 i, num, changed;
+    EWin          **gwins;
+    int             i, num, changed;
 
-   gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_STACKING,
-				      Mode.nogroup, &num);
-   for (i = changed = 0; i < num; i++)
-      changed += EwinLower(gwins[i]);
-   Efree(gwins);
-   if (changed)
-      SoundPlay(SOUND_LOWER);
+    gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_STACKING,
+                                       Mode.nogroup, &num);
+    for (i = changed = 0; i < num; i++)
+        changed += EwinLower(gwins[i]);
+    Efree(gwins);
+    if (changed)
+        SoundPlay(SOUND_LOWER);
 }
 
 void
-EwinOpStick(EWin * ewin, int source __UNUSED__, int on)
+EwinOpStick(EWin *ewin, int source __UNUSED__, int on)
 {
-   EWin              **gwins;
-   int                 i, num;
+    EWin          **gwins;
+    int             i, num;
 
-   gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_STICK,
-				      Mode.nogroup, &num);
-   for (i = 0; i < num; i++)
-     {
-	if (on)
-	   EwinStick(gwins[i]);
-	else
-	   EwinUnStick(gwins[i]);
-     }
-   Efree(gwins);
+    gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_STICK,
+                                       Mode.nogroup, &num);
+    for (i = 0; i < num; i++)
+    {
+        if (on)
+            EwinStick(gwins[i]);
+        else
+            EwinUnStick(gwins[i]);
+    }
+    Efree(gwins);
 }
 
 void
-EwinOpSkipLists(EWin * ewin, int source __UNUSED__, int skip)
+EwinOpSkipLists(EWin *ewin, int source __UNUSED__, int skip)
 {
-   ewin->props.skip_ext_task = skip;
-   ewin->props.skip_winlist = skip;
-   ewin->props.skip_focuslist = skip;
+    ewin->props.skip_ext_task = skip;
+    ewin->props.skip_winlist = skip;
+    ewin->props.skip_focuslist = skip;
 
-   EwinStateUpdate(ewin);
-   HintsSetWindowState(ewin);
-   SnapshotEwinUpdate(ewin, SNAP_USE_SKIP_LISTS);
+    EwinStateUpdate(ewin);
+    HintsSetWindowState(ewin);
+    SnapshotEwinUpdate(ewin, SNAP_USE_SKIP_LISTS);
 }
 
-#if 0				/* Unused */
+#if 0                           /* Unused */
 void
-EwinOpSkipTask(EWin * ewin, int skip)
+EwinOpSkipTask(EWin *ewin, int skip)
 {
-   ewin->props.skip_ext_task = skip;
+    ewin->props.skip_ext_task = skip;
 
-   EwinStateUpdate(ewin);
-   HintsSetWindowState(ewin);
-   SnapshotEwinUpdate(ewin, SNAP_USE_SKIP_LISTS);
-}
-
-void
-EwinOpSkipFocus(EWin * ewin, int skip)
-{
-   ewin->props.skip_focuslist = skip;
-   EwinStateUpdate(ewin);
-   SnapshotEwinUpdate(ewin, SNAP_USE_SKIP_LISTS);
+    EwinStateUpdate(ewin);
+    HintsSetWindowState(ewin);
+    SnapshotEwinUpdate(ewin, SNAP_USE_SKIP_LISTS);
 }
 
 void
-EwinOpSkipWinlist(EWin * ewin, int skip)
+EwinOpSkipFocus(EWin *ewin, int skip)
 {
-   ewin->props.skip_winlist = skip;
-   EwinStateUpdate(ewin);
-   SnapshotEwinUpdate(ewin, SNAP_USE_SKIP_LISTS);
+    ewin->props.skip_focuslist = skip;
+    EwinStateUpdate(ewin);
+    SnapshotEwinUpdate(ewin, SNAP_USE_SKIP_LISTS);
 }
 
 void
-EwinOpNeverFocus(EWin * ewin, int on)
+EwinOpSkipWinlist(EWin *ewin, int skip)
 {
-   ewin->props.never_focus = on;
-   EwinStateUpdate(ewin);
-   SnapshotEwinUpdate(ewin, SNAP_USE_FOCUS_NEVER);
+    ewin->props.skip_winlist = skip;
+    EwinStateUpdate(ewin);
+    SnapshotEwinUpdate(ewin, SNAP_USE_SKIP_LISTS);
+}
+
+void
+EwinOpNeverFocus(EWin *ewin, int on)
+{
+    ewin->props.never_focus = on;
+    EwinStateUpdate(ewin);
+    SnapshotEwinUpdate(ewin, SNAP_USE_FOCUS_NEVER);
 }
 #endif
 
 void
-EwinOpIconify(EWin * ewin, int source __UNUSED__, int on)
+EwinOpIconify(EWin *ewin, int source __UNUSED__, int on)
 {
-   EWin              **gwins;
-   int                 i, num;
+    EWin          **gwins;
+    int             i, num;
 
-   gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_ICONIFY,
-				      Mode.nogroup, &num);
-   for (i = 0; i < num; i++)
-     {
-	if (on)
-	   EwinIconify(gwins[i]);
-	else
-	   EwinDeIconify(gwins[i]);
-     }
-   Efree(gwins);
+    gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_ICONIFY,
+                                       Mode.nogroup, &num);
+    for (i = 0; i < num; i++)
+    {
+        if (on)
+            EwinIconify(gwins[i]);
+        else
+            EwinDeIconify(gwins[i]);
+    }
+    Efree(gwins);
 }
 
 void
-EwinOpShade(EWin * ewin, int source __UNUSED__, int on)
+EwinOpShade(EWin *ewin, int source __UNUSED__, int on)
 {
-   EWin              **gwins;
-   int                 i, num;
+    EWin          **gwins;
+    int             i, num;
 
-   gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_SHADE,
-				      Mode.nogroup, &num);
-   for (i = 0; i < num; i++)
-     {
-	if (on)
-	   EwinShade(gwins[i]);
-	else
-	   EwinUnShade(gwins[i]);
-     }
-   Efree(gwins);
+    gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_SHADE,
+                                       Mode.nogroup, &num);
+    for (i = 0; i < num; i++)
+    {
+        if (on)
+            EwinShade(gwins[i]);
+        else
+            EwinUnShade(gwins[i]);
+    }
+    Efree(gwins);
 }
 
 void
-EwinOpSetLayer(EWin * ewin, int source __UNUSED__, int layer)
+EwinOpSetLayer(EWin *ewin, int source __UNUSED__, int layer)
 {
-   if (EoGetLayer(ewin) > layer)
-     {
-	SoundPlay(SOUND_WINDOW_CHANGE_LAYER_DOWN);
-     }
-   else if (EoGetLayer(ewin) < layer)
-     {
-	SoundPlay(SOUND_WINDOW_CHANGE_LAYER_UP);
-     }
-   EoSetLayer(ewin, layer);
-   EwinRaise(ewin);
-   EwinStateUpdate(ewin);
-   HintsSetWindowState(ewin);
-   SnapshotEwinUpdate(ewin, SNAP_USE_LAYER);
+    if (EoGetLayer(ewin) > layer)
+    {
+        SoundPlay(SOUND_WINDOW_CHANGE_LAYER_DOWN);
+    }
+    else if (EoGetLayer(ewin) < layer)
+    {
+        SoundPlay(SOUND_WINDOW_CHANGE_LAYER_UP);
+    }
+    EoSetLayer(ewin, layer);
+    EwinRaise(ewin);
+    EwinStateUpdate(ewin);
+    HintsSetWindowState(ewin);
+    SnapshotEwinUpdate(ewin, SNAP_USE_LAYER);
 }
 
 void
-EwinOpSetTitle(EWin * ewin, const char *title)
+EwinOpSetTitle(EWin *ewin, const char *title)
 {
-   /* Note! The window border title is updated via the PropertyChange
-    * notification(s) caused by the property changes done below.
-    * PropertyChange notifications for internal windows are ignored so
-    * the window title for internal windows will not be updated that way.
-    * Therefore, let's just not change the properties either. */
-   if (EwinIsInternal(ewin))
-      return;
+    /* Note! The window border title is updated via the PropertyChange
+     * notification(s) caused by the property changes done below.
+     * PropertyChange notifications for internal windows are ignored so
+     * the window title for internal windows will not be updated that way.
+     * Therefore, let's just not change the properties either. */
+    if (EwinIsInternal(ewin))
+        return;
 
-   HintsSetWindowName(EwinGetClientWin(ewin), title);
+    HintsSetWindowName(EwinGetClientWin(ewin), title);
 }
 
 void
-EwinOpSetBorder(EWin * ewin, int source __UNUSED__, const char *name)
+EwinOpSetBorder(EWin *ewin, int source __UNUSED__, const char *name)
 {
-   EWin              **gwins;
-   int                 i, num;
-   char                has_shaded;
-   Border             *b;
-   char                shadechange = 0;
+    EWin          **gwins;
+    int             i, num;
+    char            has_shaded;
+    Border         *b;
+    char            shadechange = 0;
 
-   b = BorderFind(name);
-   if (!b)
-      return;
+    b = BorderFind(name);
+    if (!b)
+        return;
 
-   has_shaded = 0;
-   gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_SET_WINDOW_BORDER,
-				      Mode.nogroup, &num);
-   for (i = 0; i < num; i++)
-     {
-	if (gwins[i]->state.shaded)
-	  {
-	     has_shaded = 1;
-	     break;
-	  }
-     }
-   if (has_shaded && !BorderCanShade(b))
-      return;
+    has_shaded = 0;
+    gwins = ListWinGroupMembersForEwin(ewin, GROUP_ACTION_SET_WINDOW_BORDER,
+                                       Mode.nogroup, &num);
+    for (i = 0; i < num; i++)
+    {
+        if (gwins[i]->state.shaded)
+        {
+            has_shaded = 1;
+            break;
+        }
+    }
+    if (has_shaded && !BorderCanShade(b))
+        return;
 
-   for (i = 0; i < num; i++)
-     {
-	if (b != gwins[i]->border)
-	  {
-	     SoundPlay(SOUND_WINDOW_BORDER_CHANGE);
-	     shadechange = 0;
-	     if (gwins[i]->state.shaded)
-	       {
-		  shadechange = 1;
-		  EwinInstantUnShade(gwins[i]);
-	       }
-	     EwinBorderChange(gwins[i], b, 1);
-	     if (shadechange)
-		EwinInstantShade(gwins[i], 0);
-	  }
-	SnapshotEwinUpdate(gwins[i], SNAP_USE_BORDER);
-     }
-   Efree(gwins);
+    for (i = 0; i < num; i++)
+    {
+        if (b != gwins[i]->border)
+        {
+            SoundPlay(SOUND_WINDOW_BORDER_CHANGE);
+            shadechange = 0;
+            if (gwins[i]->state.shaded)
+            {
+                shadechange = 1;
+                EwinInstantUnShade(gwins[i]);
+            }
+            EwinBorderChange(gwins[i], b, 1);
+            if (shadechange)
+                EwinInstantShade(gwins[i], 0);
+        }
+        SnapshotEwinUpdate(gwins[i], SNAP_USE_BORDER);
+    }
+    Efree(gwins);
 }
 
 void
-EwinOpSetOpacity(EWin * ewin, int source __UNUSED__, int opacity)
+EwinOpSetOpacity(EWin *ewin, int source __UNUSED__, int opacity)
 {
-   unsigned int        op;
+    unsigned int    op;
 
-   op = OpacityFromPercent(opacity);
-   ewin->props.opacity = op;
-   ewin->ewmh.opacity_update = 1;	/* Set opacity on client window */
-   HintsSetWindowOpacity(ewin);
-   EwinUpdateOpacity(ewin);
-   SnapshotEwinUpdate(ewin, SNAP_USE_OPACITY);
+    op = OpacityFromPercent(opacity);
+    ewin->props.opacity = op;
+    ewin->ewmh.opacity_update = 1;      /* Set opacity on client window */
+    HintsSetWindowOpacity(ewin);
+    EwinUpdateOpacity(ewin);
+    SnapshotEwinUpdate(ewin, SNAP_USE_OPACITY);
 }
 
 void
-EwinOpSetFocusedOpacity(EWin * ewin, int source __UNUSED__, int opacity)
+EwinOpSetFocusedOpacity(EWin *ewin, int source __UNUSED__, int opacity)
 {
-   unsigned int        op;
+    unsigned int    op;
 
-   op = OpacityFromPercent(opacity);
-   ewin->props.focused_opacity = op;
-   EwinUpdateOpacity(ewin);
-   SnapshotEwinUpdate(ewin, SNAP_USE_OPACITY);
+    op = OpacityFromPercent(opacity);
+    ewin->props.focused_opacity = op;
+    EwinUpdateOpacity(ewin);
+    SnapshotEwinUpdate(ewin, SNAP_USE_OPACITY);
 }
 
 void
-EwinOpMoveToDesk(EWin * ewin, int source __UNUSED__, Desk * dsk, int inc)
+EwinOpMoveToDesk(EWin *ewin, int source __UNUSED__, Desk *dsk, int inc)
 {
-   dsk = DeskGetRelative(dsk, inc);
+    dsk = DeskGetRelative(dsk, inc);
 
-   EoSetSticky(ewin, 0);
-   EwinMoveToDesktop(ewin, dsk);
-   EwinRaise(ewin);
-   EwinBorderUpdateState(ewin);
-   EwinStateUpdate(ewin);
-   HintsSetWindowState(ewin);
-   HintsSetWindowDesktop(ewin);
-   SnapshotEwinUpdate(ewin, SNAP_USE_STICKY);
+    EoSetSticky(ewin, 0);
+    EwinMoveToDesktop(ewin, dsk);
+    EwinRaise(ewin);
+    EwinBorderUpdateState(ewin);
+    EwinStateUpdate(ewin);
+    HintsSetWindowState(ewin);
+    HintsSetWindowDesktop(ewin);
+    SnapshotEwinUpdate(ewin, SNAP_USE_STICKY);
 }
 
-#if 0				/* Unused */
+#if 0                           /* Unused */
 void
-EwinMoveToLinearArea(EWin * ewin, int a)
+EwinMoveToLinearArea(EWin *ewin, int a)
 {
-   int                 ax, ay;
+    int             ax, ay;
 
-   AreaLinearToXY(a, &ax, &ay);
-   EwinMoveToArea(ewin, ax, ay);
-}
-
-void
-EwinMoveLinearAreaBy(EWin * ewin, int a)
-{
-   EwinMoveToLinearArea(ewin, AreaXYToLinear(ewin->area_x, ewin->area_y) + a);
+    AreaLinearToXY(a, &ax, &ay);
+    EwinMoveToArea(ewin, ax, ay);
 }
 
 void
-EwinOpMoveToArea(EWin * ewin, int x, int y)
+EwinMoveLinearAreaBy(EWin *ewin, int a)
 {
-   EwinMoveToArea(ewin, x, y);
-   SnapshotEwinUpdate(ewin, SNAP_USE_POS);
+    EwinMoveToLinearArea(ewin, AreaXYToLinear(ewin->area_x, ewin->area_y) + a);
+}
+
+void
+EwinOpMoveToArea(EWin *ewin, int x, int y)
+{
+    EwinMoveToArea(ewin, x, y);
+    SnapshotEwinUpdate(ewin, SNAP_USE_POS);
 }
 #endif
 
-#if 0				/* Not used? */
+#if 0                           /* Not used? */
 static int
-doMoveWinToLinearArea(EWin * ewin, const char *params)
+doMoveWinToLinearArea(EWin *ewin, const char *params)
 {
-   int                 da;
+    int             da;
 
-   if (params)
-     {
-	sscanf(params, "%i", &da);
-	EwinMoveToLinearArea(ewin, da);
-     }
-   SnapshotEwinUpdate(ewin, SNAP_USE_POS);
-   return 0;
+    if (params)
+    {
+        sscanf(params, "%i", &da);
+        EwinMoveToLinearArea(ewin, da);
+    }
+    SnapshotEwinUpdate(ewin, SNAP_USE_POS);
+    return 0;
 }
 
 static int
-doMoveWinByLinearArea(EWin * ewin, const char *params)
+doMoveWinByLinearArea(EWin *ewin, const char *params)
 {
-   EWin               *ewin;
-   int                 da;
+    EWin           *ewin;
+    int             da;
 
-   if (params)
-     {
-	sscanf(params, "%i", &da);
-	EwinMoveLinearAreaBy(ewin, da);
-     }
-   SnapshotEwinUpdate(ewin, SNAP_USE_POS);
-   return 0;
+    if (params)
+    {
+        sscanf(params, "%i", &da);
+        EwinMoveLinearAreaBy(ewin, da);
+    }
+    SnapshotEwinUpdate(ewin, SNAP_USE_POS);
+    return 0;
 }
 #endif
 
-#if 0				/* FIXME - Unused? */
+#if 0                           /* FIXME - Unused? */
 static int
-doScrollWindows(EWin * edummy __UNUSED__, const char *params)
+doScrollWindows(EWin *edummy __UNUSED__, const char *params)
 {
-   int                 x, y, num, i;
-   EWin               *const *lst;
+    int             x, y, num, i;
+    EWin           *const *lst;
 
-   if (!params)
-      return 0;
+    if (!params)
+        return 0;
 
-   x = 0;
-   y = 0;
-   sscanf(params, "%i %i", &x, &y);
+    x = 0;
+    y = 0;
+    sscanf(params, "%i %i", &x, &y);
 
-   lst = EwinListGetAll(&num);
-   for (i = 0; i < num; i++)
-     {
-	if ((lst[i]->desktop == DesksGetCurrent()) && (!lst[i]->sticky) &&
-	    (!lst[i]->floating))
-	   EwinMove(lst[i], lst[i]->x + x, lst[i]->y + y);
-     }
-   return 0;
+    lst = EwinListGetAll(&num);
+    for (i = 0; i < num; i++)
+    {
+        if ((lst[i]->desktop == DesksGetCurrent()) && (!lst[i]->sticky) &&
+            (!lst[i]->floating))
+            EwinMove(lst[i], lst[i]->x + x, lst[i]->y + y);
+    }
+    return 0;
 }
 #endif

@@ -57,4 +57,4 @@ typedef struct _timer Timer;
 typedef struct _idler Idler;
 typedef struct _animator Animator;
 
-#endif /* _ETYPES_H_ */
+#endif                          /* _ETYPES_H_ */

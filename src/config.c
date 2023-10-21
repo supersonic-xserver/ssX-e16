@@ -37,24 +37,24 @@
 #include "tooltips.h"
 #include "windowmatch.h"
 
-#define E_CFG_VER_MAX     2	/* Max. supported theme config version */
-#define E_CFG_VER_CACHE   1	/* Cache version (bump to invalidate cache) */
+#define E_CFG_VER_MAX     2     /* Max. supported theme config version */
+#define E_CFG_VER_CACHE   1     /* Cache version (bump to invalidate cache) */
 
 void
-SkipTillEnd(FILE * fs)
+SkipTillEnd(FILE *fs)
 {
-   char                s[FILEPATH_LEN_MAX];
-   int                 i1, i2;
+    char            s[FILEPATH_LEN_MAX];
+    int             i1, i2;
 
-   while (GetLine(s, sizeof(s), fs))
-     {
-	i1 = i2 = 0;
-	sscanf(s, "%i %i", &i1, &i2);
-	if (i1 == CONFIG_CLOSE)
-	   return;
-	if (i2 == CONFIG_OPEN)
-	   SkipTillEnd(fs);
-     }
+    while (GetLine(s, sizeof(s), fs))
+    {
+        i1 = i2 = 0;
+        sscanf(s, "%i %i", &i1, &i2);
+        if (i1 == CONFIG_CLOSE)
+            return;
+        if (i2 == CONFIG_OPEN)
+            SkipTillEnd(fs);
+    }
 }
 
 #define LINE_BUFFER_SIZE 1024
@@ -63,374 +63,374 @@ SkipTillEnd(FILE * fs)
  * The string will be null terminated.
  * Size must be >= 2.
  */
-char               *
-GetLine(char *s, int size, FILE * f)
+char           *
+GetLine(char *s, int size, FILE *f)
 {
-   static char        *buffer = NULL;
-   static const char  *bufptr = NULL;
-   char               *so, ch, quote, escape;
-   const char         *si;
-   size_t              nr;
+    static char    *buffer = NULL;
+    static const char *bufptr = NULL;
+    char           *so, ch, quote, escape;
+    const char     *si;
+    size_t          nr;
 
-   if (!buffer)
-     {
-	buffer = EMALLOC(char, LINE_BUFFER_SIZE);
+    if (!buffer)
+    {
+        buffer = EMALLOC(char, LINE_BUFFER_SIZE);
 
-	if (!buffer)
-	   return NULL;
-	buffer[LINE_BUFFER_SIZE - 1] = '\0';
-     }
+        if (!buffer)
+            return NULL;
+        buffer[LINE_BUFFER_SIZE - 1] = '\0';
+    }
 
-   si = bufptr;
-   so = s;
-   quote = '\0';
-   escape = '\0';
-   for (;;)
-     {
-	/* Get a line from the input file */
-	if (!si)
-	  {
-	     nr = fread(buffer, 1, LINE_BUFFER_SIZE - 1, f);
-	     if (nr == 0)
-		break;
-	     buffer[nr] = '\0';
-	     si = buffer;
-	  }
+    si = bufptr;
+    so = s;
+    quote = '\0';
+    escape = '\0';
+    for (;;)
+    {
+        /* Get a line from the input file */
+        if (!si)
+        {
+            nr = fread(buffer, 1, LINE_BUFFER_SIZE - 1, f);
+            if (nr == 0)
+                break;
+            buffer[nr] = '\0';
+            si = buffer;
+        }
 
-	/* Split on ';' or '\n', handle quoting */
-	ch = *si++;
-	switch (ch)
-	  {
-	  case '\0':
-	     si = NULL;
-	     break;
-	  case ';':		/* Line separator */
-	     if (escape || quote)
-		goto case_char;
-	     /* FALLTHROUGH */
-	  case '\n':
-	     if (so == s)	/* Skip empty lines */
-		break;
-	     *so = '\0';	/* Terminate and return */
-	     goto done;
-	  case '\r':		/* Ignore */
-	     break;
-	  case '\\':		/* Escape */
-	     if (escape)
-		goto case_char;
-	     escape = ch;
-	     break;
-	  case '"':		/* Quoting */
-/*	       case '\'': */
-	     if (escape)
-		goto case_char;
-	     if (quote == '\0')
-		quote = ch;
-	     else if (quote == ch)
-		quote = '\0';
-	     else
-		goto case_char;
-	     break;
-	  case ' ':		/* Whitespace */
-	  case '\t':
-	     if (so == s)	/* Skip leading whitespace */
-		break;
-	     /* FALLTHROUGH */
-	   case_char:		/* Normal character */
-	  default:
-	     *so++ = ch;
-	     escape = '\0';
-	     if (--size > 1)
-		break;
-	     *so = '\0';
-	     goto done;
-	  }
-     }
+        /* Split on ';' or '\n', handle quoting */
+        ch = *si++;
+        switch (ch)
+        {
+        case '\0':
+            si = NULL;
+            break;
+        case ';':              /* Line separator */
+            if (escape || quote)
+                goto case_char;
+            /* FALLTHROUGH */
+        case '\n':
+            if (so == s)        /* Skip empty lines */
+                break;
+            *so = '\0';         /* Terminate and return */
+            goto done;
+        case '\r':             /* Ignore */
+            break;
+        case '\\':             /* Escape */
+            if (escape)
+                goto case_char;
+            escape = ch;
+            break;
+        case '"':              /* Quoting */
+/*      case '\'': */
+            if (escape)
+                goto case_char;
+            if (quote == '\0')
+                quote = ch;
+            else if (quote == ch)
+                quote = '\0';
+            else
+                goto case_char;
+            break;
+        case ' ':              /* Whitespace */
+        case '\t':
+            if (so == s)        /* Skip leading whitespace */
+                break;
+            /* FALLTHROUGH */
+          case_char:           /* Normal character */
+        default:
+            *so++ = ch;
+            escape = '\0';
+            if (--size > 1)
+                break;
+            *so = '\0';
+            goto done;
+        }
+    }
 
- done:
-   bufptr = si;
-   if (!si)
-     {
-	/* EOF */
-	EFREE_NULL(buffer);
-	if (so == s)
-	   return NULL;
-     }
+  done:
+    bufptr = si;
+    if (!si)
+    {
+        /* EOF */
+        EFREE_NULL(buffer);
+        if (so == s)
+            return NULL;
+    }
 
-   /* Strip trailing whitespace */
-   si = so;
-   for (; so > s; so--)
-     {
-	ch = so[-1];
-	if (ch != ' ' && ch != '\t')
-	   break;
-     }
-   if (so != si)
-      *so = '\0';
+    /* Strip trailing whitespace */
+    si = so;
+    for (; so > s; so--)
+    {
+        ch = so[-1];
+        if (ch != ' ' && ch != '\t')
+            break;
+    }
+    if (so != si)
+        *so = '\0';
 
-   if (EDebug(EDBUG_TYPE_CONFIG) > 1)
-      Eprintf("%s: %s\n", __func__, s);
+    if (EDebug(EDBUG_TYPE_CONFIG) > 1)
+        Eprintf("%s: %s\n", __func__, s);
 
-   return s;
+    return s;
 }
 
 int
 ConfigParseline1(char *str, char *s2, char **p2, char **p3)
 {
-   int                 i1, len1, len2, fields;
+    int             i1, len1, len2, fields;
 
-   i1 = CONFIG_INVALID;
-   len1 = len2 = 0;
-   s2[0] = '\0';
-   fields = sscanf(str, "%i %n%4000s %n", &i1, &len1, s2, &len2);
-   if (p2)
-      *p2 = (len1) ? str + len1 : NULL;
-   if (p3)
-      *p3 = (len2) ? str + len2 : NULL;
+    i1 = CONFIG_INVALID;
+    len1 = len2 = 0;
+    s2[0] = '\0';
+    fields = sscanf(str, "%i %n%4000s %n", &i1, &len1, s2, &len2);
+    if (p2)
+        *p2 = (len1) ? str + len1 : NULL;
+    if (p3)
+        *p3 = (len2) ? str + len2 : NULL;
 
-   if (fields <= 0)
-     {
-	i1 = CONFIG_INVALID;
-     }
-   else if (i1 == CONFIG_CLOSE || i1 == CONFIG_NEXT)
-     {
-	if (fields != 1)
-	  {
-	     Alert(_("CONFIG: ignoring extra data in \"%s\""), str);
-	  }
-     }
-   else if (i1 != CONFIG_INVALID)
-     {
-	if (fields != 2)
-	  {
-	     i1 = CONFIG_INVALID;
-	     Alert(_("CONFIG: missing required data in \"%s\""), str);
-	  }
-     }
+    if (fields <= 0)
+    {
+        i1 = CONFIG_INVALID;
+    }
+    else if (i1 == CONFIG_CLOSE || i1 == CONFIG_NEXT)
+    {
+        if (fields != 1)
+        {
+            Alert(_("CONFIG: ignoring extra data in \"%s\""), str);
+        }
+    }
+    else if (i1 != CONFIG_INVALID)
+    {
+        if (fields != 2)
+        {
+            i1 = CONFIG_INVALID;
+            Alert(_("CONFIG: missing required data in \"%s\""), str);
+        }
+    }
 
-   return i1;
+    return i1;
 }
 
 void
 ConfigParseError(const char *where, const char *line)
 {
-   Alert(_("Warning: unable to determine what to do with\n"
-	   "the following text in the middle of current %s definition:\n"
-	   "%s\nWill ignore and continue...\n"), where, line);
+    Alert(_("Warning: unable to determine what to do with\n"
+            "the following text in the middle of current %s definition:\n"
+            "%s\nWill ignore and continue...\n"), where, line);
 }
 
 void
 ConfigAlertLoad(const char *txt)
 {
-   Alert(_("Warning:  Configuration error in %s block.\n"
-	   "Outcome is likely not good.\n"), txt);
+    Alert(_("Warning:  Configuration error in %s block.\n"
+            "Outcome is likely not good.\n"), txt);
 }
 
 static int
 ConfigFilePreparse(const char *src, const char *dst, const char *themepath)
 {
-   const char         *variant;
+    const char     *variant;
 
-   if (EDebug(EDBUG_TYPE_CONFIG))
-      Eprintf("%s: %s -> %s\n", __func__, src, dst);
+    if (EDebug(EDBUG_TYPE_CONFIG))
+        Eprintf("%s: %s -> %s\n", __func__, src, dst);
 
-   /* When themepath is NULL it shouldn't be used, but this is consistent
-    * with old behavior */
-   if (!themepath)
-      themepath = Mode.theme.path;
-   variant = (Mode.theme.variant) ? Mode.theme.variant : "";
+    /* When themepath is NULL it shouldn't be used, but this is consistent
+     * with old behavior */
+    if (!themepath)
+        themepath = Mode.theme.path;
+    variant = (Mode.theme.variant) ? Mode.theme.variant : "";
 
-   Esystem("%s/epp -P -nostdinc -undef "
-	   "-I%s -I%s/config "
-	   "-D ENLIGHTENMENT_VERSION=%s "
-	   "-D ENLIGHTENMENT_ROOT=%s "
-	   "-D ENLIGHTENMENT_BIN=%s "
-	   "-D ENLIGHTENMENT_THEME=%s "
-	   "-D THEME_VARIANT_%s=1 "
-	   "-D ECONFDIR=%s "
-	   "-D ECACHEDIR=%s "
-	   "-D SCREEN_RESOLUTION_%ix%i=1 "
-	   "-D SCREEN_WIDTH_%i=1 "
-	   "-D SCREEN_HEIGHT_%i=1 "
-	   "-D SCREEN_DEPTH_%i=1 "
-	   "%s %s",
-	   EDirBin(), themepath, EDirRoot(),
-	   e_wm_version, EDirRoot(), EDirBin(), themepath, variant,
-	   EDirUserConf(), EDirUserCache(),
-	   WinGetW(VROOT), WinGetH(VROOT), WinGetW(VROOT), WinGetH(VROOT),
-	   WinGetDepth(VROOT), src, dst);
+    Esystem("%s/epp -P -nostdinc -undef "
+            "-I%s -I%s/config "
+            "-D ENLIGHTENMENT_VERSION=%s "
+            "-D ENLIGHTENMENT_ROOT=%s "
+            "-D ENLIGHTENMENT_BIN=%s "
+            "-D ENLIGHTENMENT_THEME=%s "
+            "-D THEME_VARIANT_%s=1 "
+            "-D ECONFDIR=%s "
+            "-D ECACHEDIR=%s "
+            "-D SCREEN_RESOLUTION_%ix%i=1 "
+            "-D SCREEN_WIDTH_%i=1 "
+            "-D SCREEN_HEIGHT_%i=1 "
+            "-D SCREEN_DEPTH_%i=1 "
+            "%s %s",
+            EDirBin(), themepath, EDirRoot(),
+            e_wm_version, EDirRoot(), EDirBin(), themepath, variant,
+            EDirUserConf(), EDirUserCache(),
+            WinGetW(VROOT), WinGetH(VROOT), WinGetW(VROOT), WinGetH(VROOT),
+            WinGetDepth(VROOT), src, dst);
 
-   return exists(dst) ? 0 : 1;
+    return exists(dst) ? 0 : 1;
 }
 
 /* Split the process of finding the file from the process of loading it */
 int
-ConfigFileRead(FILE * fs)
+ConfigFileRead(FILE *fs)
 {
-   int                 err;
-   int                 i1, i2, fields;
-   char                s[FILEPATH_LEN_MAX];
-   int                 e_cfg_ver = 0;
+    int             err;
+    int             i1, i2, fields;
+    char            s[FILEPATH_LEN_MAX];
+    int             e_cfg_ver = 0;
 
-   while (GetLine(s, sizeof(s), fs))
-     {
-	i1 = i2 = CONFIG_INVALID;
-	fields = sscanf(s, "%i %i", &i1, &i2);
+    while (GetLine(s, sizeof(s), fs))
+    {
+        i1 = i2 = CONFIG_INVALID;
+        fields = sscanf(s, "%i %i", &i1, &i2);
 
-	if (fields < 1)
-	  {
-	     i1 = CONFIG_INVALID;
-	  }
-	else if (i1 == CONFIG_VERSION)
-	  {
-	     if (fields == 2)
-		e_cfg_ver = i2;
-	  }
-	else if (i1 == CONFIG_CLOSE)
-	  {
-	     if (fields != 1)
-	       {
-		  Alert(_("CONFIG: ignoring extra data in \"%s\""), s);
-	       }
-	  }
-	else if (i1 != CONFIG_INVALID)
-	  {
-	     if (fields != 2)
-	       {
-		  Alert(_("CONFIG: missing required data in \"%s\""), s);
-		  i1 = CONFIG_INVALID;
-	       }
-	  }
+        if (fields < 1)
+        {
+            i1 = CONFIG_INVALID;
+        }
+        else if (i1 == CONFIG_VERSION)
+        {
+            if (fields == 2)
+                e_cfg_ver = i2;
+        }
+        else if (i1 == CONFIG_CLOSE)
+        {
+            if (fields != 1)
+            {
+                Alert(_("CONFIG: ignoring extra data in \"%s\""), s);
+            }
+        }
+        else if (i1 != CONFIG_INVALID)
+        {
+            if (fields != 2)
+            {
+                Alert(_("CONFIG: missing required data in \"%s\""), s);
+                i1 = CONFIG_INVALID;
+            }
+        }
 
-	if (i2 == CONFIG_OPEN)
-	  {
-	     if (e_cfg_ver > E_CFG_VER_MAX)
-	       {
-		  AlertX(_("Theme versioning ERROR"),
-			 _("Restart with Defaults"), " ",
-			 _("Abort and Exit"),
-			 _("ERROR:\n" "\n"
-			   "The configuration for the theme you are running is\n"
-			   "incompatible. It's config revision is %i.\n"
-			   "It needs to be marked as being revision <= %i\n"
-			   "\n"
-			   "Please contact the theme author or maintainer and\n"
-			   "inform them that in order for their theme to function\n"
-			   "with this version of Enlightenment, they have to\n"
-			   "update it to the current settings, and then match\n"
-			   "the revision number.\n" "\n"
-			   "If the theme revision is higher than Enlightenment's\n"
-			   "it may be that you haven't upgraded Enlightenment for\n"
-			   "a while and this theme takes advantages of new\n"
-			   "features in Enlightenment in new versions.\n"),
-			 e_cfg_ver, E_CFG_VER_MAX);
-		  SessionExit(EEXIT_THEME, "DEFAULT");
-	       }
-	     else
-	       {
-		  switch (i1)
-		    {
-		    case CONFIG_CLOSE:
-		       goto done;
+        if (i2 == CONFIG_OPEN)
+        {
+            if (e_cfg_ver > E_CFG_VER_MAX)
+            {
+                AlertX(_("Theme versioning ERROR"),
+                       _("Restart with Defaults"), " ",
+                       _("Abort and Exit"),
+                       _("ERROR:\n" "\n"
+                         "The configuration for the theme you are running is\n"
+                         "incompatible. It's config revision is %i.\n"
+                         "It needs to be marked as being revision <= %i\n"
+                         "\n"
+                         "Please contact the theme author or maintainer and\n"
+                         "inform them that in order for their theme to function\n"
+                         "with this version of Enlightenment, they have to\n"
+                         "update it to the current settings, and then match\n"
+                         "the revision number.\n" "\n"
+                         "If the theme revision is higher than Enlightenment's\n"
+                         "it may be that you haven't upgraded Enlightenment for\n"
+                         "a while and this theme takes advantages of new\n"
+                         "features in Enlightenment in new versions.\n"),
+                       e_cfg_ver, E_CFG_VER_MAX);
+                SessionExit(EEXIT_THEME, "DEFAULT");
+            }
+            else
+            {
+                switch (i1)
+                {
+                case CONFIG_CLOSE:
+                    goto done;
 
-		    case CONFIG_CURSOR:
-		       err = ECursorConfigLoad(fs);
-		       if (err)
-			  ConfigAlertLoad("Cursor");
-		       break;
-		    case CONFIG_IMAGECLASS:
-		       err = ImageclassConfigLoad(fs);
-		       if (err)
-			  ConfigAlertLoad("Image class");
-		       break;
-		    case CONFIG_TOOLTIP:
-		       err = TooltipConfigLoad(fs);
-		       if (err)
-			  ConfigAlertLoad("Tooltip");
-		       break;
-		    case CONFIG_TEXT:
-		       err = TextclassConfigLoad(fs);
-		       if (err)
-			  ConfigAlertLoad("Text class");
-		       break;
-		    case MENU_STYLE:
-		       err = MenuStyleConfigLoad(fs);
-		       if (err)
-			  ConfigAlertLoad("Menu style");
-		       break;
-		    case CONFIG_MENU:
-		       err = MenuConfigLoad(fs);
-		       if (err)
-			  ConfigAlertLoad("Menu");
-		       break;
-		    case CONFIG_BORDER:
-		       err = BorderConfigLoad(fs);
-		       if (err)
-			  ConfigAlertLoad("Border");
-		       break;
-		    case CONFIG_BUTTON:
-		       err = ButtonsConfigLoad(fs);
-		       if (err)
-			  ConfigAlertLoad("Button");
-		       break;
-		    case CONFIG_DESKTOP:
-		       err = BackgroundsConfigLoad(fs);
-		       if (err)
-			  ConfigAlertLoad("Background");
-		       break;
-		    case CONFIG_WINDOWMATCH:
-		       err = WindowMatchConfigLoad(fs);
-		       if (err)
-			  ConfigAlertLoad("Window match");
-		       break;
-		    case CONFIG_COLORMOD:
-		       break;
-		    case CONFIG_ACTIONCLASS:
-		       err = AclassConfigLoad(fs);
-		       if (err)
-			  ConfigAlertLoad("Action class");
-		       break;
-		    case CONFIG_SLIDEOUT:
-		       err = SlideoutsConfigLoad(fs);
-		       if (err)
-			  ConfigAlertLoad("Slideout");
-		       break;
-		    default:
-		       break;
-		    }
-	       }
-	  }
-     }
+                case CONFIG_CURSOR:
+                    err = ECursorConfigLoad(fs);
+                    if (err)
+                        ConfigAlertLoad("Cursor");
+                    break;
+                case CONFIG_IMAGECLASS:
+                    err = ImageclassConfigLoad(fs);
+                    if (err)
+                        ConfigAlertLoad("Image class");
+                    break;
+                case CONFIG_TOOLTIP:
+                    err = TooltipConfigLoad(fs);
+                    if (err)
+                        ConfigAlertLoad("Tooltip");
+                    break;
+                case CONFIG_TEXT:
+                    err = TextclassConfigLoad(fs);
+                    if (err)
+                        ConfigAlertLoad("Text class");
+                    break;
+                case MENU_STYLE:
+                    err = MenuStyleConfigLoad(fs);
+                    if (err)
+                        ConfigAlertLoad("Menu style");
+                    break;
+                case CONFIG_MENU:
+                    err = MenuConfigLoad(fs);
+                    if (err)
+                        ConfigAlertLoad("Menu");
+                    break;
+                case CONFIG_BORDER:
+                    err = BorderConfigLoad(fs);
+                    if (err)
+                        ConfigAlertLoad("Border");
+                    break;
+                case CONFIG_BUTTON:
+                    err = ButtonsConfigLoad(fs);
+                    if (err)
+                        ConfigAlertLoad("Button");
+                    break;
+                case CONFIG_DESKTOP:
+                    err = BackgroundsConfigLoad(fs);
+                    if (err)
+                        ConfigAlertLoad("Background");
+                    break;
+                case CONFIG_WINDOWMATCH:
+                    err = WindowMatchConfigLoad(fs);
+                    if (err)
+                        ConfigAlertLoad("Window match");
+                    break;
+                case CONFIG_COLORMOD:
+                    break;
+                case CONFIG_ACTIONCLASS:
+                    err = AclassConfigLoad(fs);
+                    if (err)
+                        ConfigAlertLoad("Action class");
+                    break;
+                case CONFIG_SLIDEOUT:
+                    err = SlideoutsConfigLoad(fs);
+                    if (err)
+                        ConfigAlertLoad("Slideout");
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+    }
 
- done:
-   return 0;
+  done:
+    return 0;
 }
 
-static char        *
+static char    *
 FindFilePath(const char *name, const char *path)
 {
-   char                s[FILEPATH_LEN_MAX];
-   int                 len;
+    char            s[FILEPATH_LEN_MAX];
+    int             len;
 
 #if 0
-   Eprintf("%s: %s (%s)\n", __func__, name, path);
+    Eprintf("%s: %s (%s)\n", __func__, name, path);
 #endif
-   if (path)
-     {
-	len = Esnprintf(s, sizeof(s), "%s/%s", path, name);
-	name = s;
-     }
-   else
-     {
-	len = strlen(name);
-     }
-   if (len <= 0)
-      return NULL;
+    if (path)
+    {
+        len = Esnprintf(s, sizeof(s), "%s/%s", path, name);
+        name = s;
+    }
+    else
+    {
+        len = strlen(name);
+    }
+    if (len <= 0)
+        return NULL;
 
-   if (canread(name))
-      return Estrdup(name);
-   else
-      return NULL;
+    if (canread(name))
+        return Estrdup(name);
+    else
+        return NULL;
 }
 
 /* *INDENT-OFF* */
@@ -444,200 +444,201 @@ static const struct {
 };
 /* *INDENT-ON* */
 
-char               *
+char           *
 FindFile(const char *file, const char *themepath, int type)
 {
-   const char         *w, *f, *path;
-   char                s[FILEPATH_LEN_MAX];
-   char               *p;
+    const char     *w, *f, *path;
+    char            s[FILEPATH_LEN_MAX];
+    char           *p;
 
-   /* if absolute path - and file exists - return it */
-   if (isabspath(file))
-     {
-	p = FindFilePath(file, NULL);
-	/* Absolute path - no need to look elsewhere */
-	goto done;
-     }
+    /* if absolute path - and file exists - return it */
+    if (isabspath(file))
+    {
+        p = FindFilePath(file, NULL);
+        /* Absolute path - no need to look elsewhere */
+        goto done;
+    }
 
-   p = NULL;
-   for (w = fprm[type].where; *w; w++)
-     {
-	f = file;
-	if (*w <= 'Z')
-	  {
-	     /* Look in subdir */
-	     Esnprintf(s, sizeof(s), "%s/%s", fprm[type].subdir, file);
-	     f = s;
-	  }
+    p = NULL;
+    for (w = fprm[type].where; *w; w++)
+    {
+        f = file;
+        if (*w <= 'Z')
+        {
+            /* Look in subdir */
+            Esnprintf(s, sizeof(s), "%s/%s", fprm[type].subdir, file);
+            f = s;
+        }
 
-	switch (*w & 0xdf)
-	  {
-	  default:
-	     continue;
-	  case 'U':		/* User config */
-	     path = EDirUserConf();
-	     break;
-	  case 'E':		/* e16 config */
-	     path = EDirRoot();
-	     break;
-	  case 'T':		/* Theme */
-	     path = themepath;
-	     if (!path)
-		continue;
-	     break;
-	  }
-	p = FindFilePath(f, path);
-	if (p)
-	   break;
-     }
+        switch (*w & 0xdf)
+        {
+        default:
+            continue;
+        case 'U':              /* User config */
+            path = EDirUserConf();
+            break;
+        case 'E':              /* e16 config */
+            path = EDirRoot();
+            break;
+        case 'T':              /* Theme */
+            path = themepath;
+            if (!path)
+                continue;
+            break;
+        }
+        p = FindFilePath(f, path);
+        if (p)
+            break;
+    }
 
- done:
+  done:
 #if 0
-   Eprintf("%s %d: %s (%s): %s\n", __func__, type, file, themepath, p);
+    Eprintf("%s %d: %s (%s): %s\n", __func__, type, file, themepath, p);
 #endif
-   return p;
+    return p;
 }
 
-char               *
+char           *
 ThemeFileFind(const char *file, int type)
 {
-   return FindFile(file, Mode.theme.path, type);
+    return FindFile(file, Mode.theme.path, type);
 }
 
-static char        *
+static char    *
 ConfigFileFind(const char *name, const char *themepath, int pp)
 {
-   char                s[FILEPATH_LEN_MAX];
-   char               *fullname, *file, *ppfile;
-   int                 i, err;
+    char            s[FILEPATH_LEN_MAX];
+    char           *fullname, *file, *ppfile;
+    int             i, err;
 
-   fullname = FindFile(name, themepath, FILE_TYPE_CONFIG);
-   if (!fullname)
-      return NULL;
+    fullname = FindFile(name, themepath, FILE_TYPE_CONFIG);
+    if (!fullname)
+        return NULL;
 
-   /* Quit if not preparsing */
-   if (!pp)
-      return fullname;
+    /* Quit if not preparsing */
+    if (!pp)
+        return fullname;
 
-   /* The file exists. Now check the preparsed one. */
-   file = Estrdup(fullname);
-   for (i = 0; file[i]; i++)
-      if (file[i] == '/')
-	 file[i] = '.';
+    /* The file exists. Now check the preparsed one. */
+    file = Estrdup(fullname);
+    for (i = 0; file[i]; i++)
+        if (file[i] == '/')
+            file[i] = '.';
 
-   if (Mode.theme.variant)
-      file = Estrdupcat2(file, "_", Mode.theme.variant);
-   Esnprintf(s, sizeof(s), "%s/cached/cfg/%s.preparsed", EDirUserCache(), file);
+    if (Mode.theme.variant)
+        file = Estrdupcat2(file, "_", Mode.theme.variant);
+    Esnprintf(s, sizeof(s), "%s/cached/cfg/%s.preparsed", EDirUserCache(),
+              file);
 
-   ppfile = Estrdup(s);
-   if (!Mode.theme.cache_rebuild && exists(s) && moddate(s) > moddate(fullname))
-      goto done;
+    ppfile = Estrdup(s);
+    if (!Mode.theme.cache_rebuild && exists(s) &&
+        moddate(s) > moddate(fullname))
+        goto done;
 
-   /* No preparesd file or source is newer. Do preparsing. */
-   err = ConfigFilePreparse(fullname, ppfile, themepath);
-   if (err)
-     {
-	EFREE_NULL(ppfile);
-     }
+    /* No preparesd file or source is newer. Do preparsing. */
+    err = ConfigFilePreparse(fullname, ppfile, themepath);
+    if (err)
+    {
+        EFREE_NULL(ppfile);
+    }
 
- done:
-   Efree(fullname);
-   Efree(file);
-   return ppfile;
+  done:
+    Efree(fullname);
+    Efree(file);
+    return ppfile;
 }
 
 int
 ConfigFileLoad(const char *name, const char *themepath,
-	       int (*parse)(FILE * fs), int preparse)
+               int (*parse)(FILE *fs), int preparse)
 {
-   int                 err = -1;
-   char               *file;
-   FILE               *fs;
+    int             err = -1;
+    char           *file;
+    FILE           *fs;
 
-   if (EDebug(EDBUG_TYPE_CONFIG))
-      Eprintf("%s: %s\n", __func__, name);
+    if (EDebug(EDBUG_TYPE_CONFIG))
+        Eprintf("%s: %s\n", __func__, name);
 
-   file = ConfigFileFind(name, themepath, preparse);
-   if (!file)
-      goto done;
+    file = ConfigFileFind(name, themepath, preparse);
+    if (!file)
+        goto done;
 
-   fs = fopen(file, "r");
-   Efree(file);
-   if (!fs)
-      goto done;
+    fs = fopen(file, "r");
+    Efree(file);
+    if (!fs)
+        goto done;
 
-   err = parse(fs);
+    err = parse(fs);
 
-   fclose(fs);
+    fclose(fs);
 
- done:
-   return err;
+  done:
+    return err;
 }
 
 int
 ThemeConfigLoad(void)
 {
-   static const char  *const config_files[] = {
-      "init.cfg",
-      "cursors.cfg",
-      "textclasses.cfg",
-      "imageclasses.cfg",
-      "desktops.cfg",
-      "actionclasses.cfg",
-      "buttons.cfg",
-      "slideouts.cfg",
-      "borders.cfg",
-      "windowmatches.cfg",
-      "tooltips.cfg",
-      "menustyles.cfg",
-   };
-   Progressbar        *p = NULL;
-   unsigned int        i, delay_ms;
+    static const char *const config_files[] = {
+        "init.cfg",
+        "cursors.cfg",
+        "textclasses.cfg",
+        "imageclasses.cfg",
+        "desktops.cfg",
+        "actionclasses.cfg",
+        "buttons.cfg",
+        "slideouts.cfg",
+        "borders.cfg",
+        "windowmatches.cfg",
+        "tooltips.cfg",
+        "menustyles.cfg",
+    };
+    Progressbar    *p = NULL;
+    unsigned int    i, delay_ms;
 
-   if (Conf.theme.cache_ver != E_CFG_VER_CACHE)
-     {
-	Mode.theme.cache_rebuild = true;
-	Conf.theme.cache_ver = E_CFG_VER_CACHE;
-     }
+    if (Conf.theme.cache_ver != E_CFG_VER_CACHE)
+    {
+        Mode.theme.cache_rebuild = true;
+        Conf.theme.cache_ver = E_CFG_VER_CACHE;
+    }
 
-   /* Font mappings */
-   FontConfigLoad();
+    /* Font mappings */
+    FontConfigLoad();
 
-   for (i = 0; i < E_ARRAY_SIZE(config_files); i++)
-     {
-	if (!Mode.wm.restart && Conf.startup.animate)
-	  {
-	     if (i == 2)
-		StartupWindowsCreate();
+    for (i = 0; i < E_ARRAY_SIZE(config_files); i++)
+    {
+        if (!Mode.wm.restart && Conf.startup.animate)
+        {
+            if (i == 2)
+                StartupWindowsCreate();
 
-	     if ((i > 1) && (!p))
-	       {
-		  p = ProgressbarCreate(_("Enlightenment Starting..."), 400,
-					16);
-		  if (p)
-		     ProgressbarShow(p);
-	       }
-	     delay_ms =
-		Conf.desks.slidespeed > 0 ? 120000 / Conf.desks.slidespeed : 20;
-	  }
+            if ((i > 1) && (!p))
+            {
+                p = ProgressbarCreate(_("Enlightenment Starting..."), 400, 16);
+                if (p)
+                    ProgressbarShow(p);
+            }
+            delay_ms =
+                Conf.desks.slidespeed > 0 ? 120000 / Conf.desks.slidespeed : 20;
+        }
 
-	ConfigFileLoad(config_files[i], Mode.theme.path, ConfigFileRead, 1);
+        ConfigFileLoad(config_files[i], Mode.theme.path, ConfigFileRead, 1);
 
-	if (p)
-	  {
-	     ProgressbarSet(p, ((i + 1) * 100) / E_ARRAY_SIZE(config_files));
+        if (p)
+        {
+            ProgressbarSet(p, ((i + 1) * 100) / E_ARRAY_SIZE(config_files));
 
-	     /* Hack - We are not running in the event loop here */
-	     EobjsRepaint();
-	     SleepUs(1000 * delay_ms);
-	  }
-     }
+            /* Hack - We are not running in the event loop here */
+            EobjsRepaint();
+            SleepUs(1000 * delay_ms);
+        }
+    }
 
-   if (p)
-      ProgressbarDestroy(p);
+    if (p)
+        ProgressbarDestroy(p);
 
-   /* Font mappings no longer needed */
-   FontConfigUnload();
+    /* Font mappings no longer needed */
+    FontConfigUnload();
 
-   return 0;
+    return 0;
 }

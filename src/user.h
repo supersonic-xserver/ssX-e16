@@ -24,7 +24,7 @@
 #ifndef _USER_H_
 #define _USER_H_
 
-const char         *username(void);
-const char         *userhome(void);
+const char     *username(void);
+const char     *userhome(void);
 
-#endif /* _USER_H_ */
+#endif                          /* _USER_H_ */

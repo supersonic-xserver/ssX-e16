@@ -133,7 +133,7 @@
 
 #define XEXT_AVAILABLE(ext)  (Mode.server.extensions & (1 << ext))
 
-int                 ExtVersion(int ext_ix);
+int             ExtVersion(int ext_ix);
 
 /*
  * Types
@@ -142,304 +142,304 @@ int                 ExtVersion(int ext_ix);
 
 /* Configuration parameters */
 typedef struct {
-   struct {
-      unsigned int        step;	/* Animation time step, ms */
-   } animation;
-   struct {
-      char                enable;
-      int                 delay;	/* milliseconds */
-   } autoraise;
-   struct {
-      char                hiquality;
-      char                user;
-      char                no_scan;
-      int                 timeout;
-   } backgrounds;
-   struct {
-      int                 move_resistance;
-   } buttons;
-   struct {
-      unsigned int        num;
-      int                 dragdir;
-      int                 dragbar_width;
-      int                 dragbar_length;
-      int                 dragbar_ordering;
-      char                desks_wraparound;
-      char                slidein;
-      int                 slidespeed;
-      int                 areas_nx;
-      int                 areas_ny;
-      char                areas_wraparound;
-      int                 edge_flip_mode;
-      int                 edge_flip_resistance;
-      char               *names;	/* The desktop names */
-   } desks;
-   struct {
-      char                headers;
-      char                button_image;
-   } dialogs;
-   struct {
-      char                enable;	/* wmdockapp only */
-      char                sticky;	/* Make dockapps sticky by default */
-      int                 dirmode;
-      int                 startx;
-      int                 starty;
-   } dock;
-   struct {
-      int                 mode;
-      int                 clickraises;
-      char                transientsfollowleader;
-      char                switchfortransientmap;
-      char                all_new_windows_get_focus;
-      char                new_windows_get_focus_if_group_focused;
-      char                new_transients_get_focus;
-      char                new_transients_get_focus_if_group_focused;
-      char                raise_on_next;
-      char                warp_on_next;
-      char                warp_always;
-   } focus;
-   struct {
-      char                set_xroot_info_on_root_window;
-   } hints;
-   struct {
-      char                dest;
-      char                difftime;
-   } log;
-   struct {
-      int                 zoom_res;
-   } magwin;
-   struct {
-      char                animate;
-      char                onscreen;
-      char                warp;
-      char                show_icons;
-      int                 icon_size;
-      struct {
-	 EX_KeySym           left, right, up, down, escape, ret;
-      } key;
-   } menus;
-   struct {
-      int                 mode_move;
-      int                 mode_resize;
-      int                 mode_info;
-      int                 mode_maximize_default;
-      unsigned int        color;
-      char                avoid_server_grab;
-      char                update_while_moving;
-      char                enable_sync_request;
-      char                dragbar_nocover;
-      char                enable_smart_max_hv;
-      char                maximize_animate;
-      int                 maximize_speed;
-   } movres;
-   struct {
-      int                 movres;
-      int                 menus;
-      int                 tooltips;
-      int                 focused;
-      int                 unfocused;
-   } opacity;
-   struct {
-      char                manual;
-      char                manual_mouse_pointer;
-      char                center_if_desk_full;
-      char                ignore_struts;
-      char                ignore_struts_fullscreen;
-      char                ignore_struts_maximize;
-      char                raise_fullscreen;
-      char                slidein;
-      char                cleanupslide;
-      int                 slidemode;
-      int                 slidespeedmap;
-      int                 slidespeedcleanup;
-#ifdef USE_XINERAMA_no		/* Not implemented */
-      char                extra_head;	/* Not used */
+    struct {
+        unsigned int    step;   /* Animation time step, ms */
+    } animation;
+    struct {
+        char            enable;
+        int             delay;  /* milliseconds */
+    } autoraise;
+    struct {
+        char            hiquality;
+        char            user;
+        char            no_scan;
+        int             timeout;
+    } backgrounds;
+    struct {
+        int             move_resistance;
+    } buttons;
+    struct {
+        unsigned int    num;
+        int             dragdir;
+        int             dragbar_width;
+        int             dragbar_length;
+        int             dragbar_ordering;
+        char            desks_wraparound;
+        char            slidein;
+        int             slidespeed;
+        int             areas_nx;
+        int             areas_ny;
+        char            areas_wraparound;
+        int             edge_flip_mode;
+        int             edge_flip_resistance;
+        char           *names;  /* The desktop names */
+    } desks;
+    struct {
+        char            headers;
+        char            button_image;
+    } dialogs;
+    struct {
+        char            enable; /* wmdockapp only */
+        char            sticky; /* Make dockapps sticky by default */
+        int             dirmode;
+        int             startx;
+        int             starty;
+    } dock;
+    struct {
+        int             mode;
+        int             clickraises;
+        char            transientsfollowleader;
+        char            switchfortransientmap;
+        char            all_new_windows_get_focus;
+        char            new_windows_get_focus_if_group_focused;
+        char            new_transients_get_focus;
+        char            new_transients_get_focus_if_group_focused;
+        char            raise_on_next;
+        char            warp_on_next;
+        char            warp_always;
+    } focus;
+    struct {
+        char            set_xroot_info_on_root_window;
+    } hints;
+    struct {
+        char            dest;
+        char            difftime;
+    } log;
+    struct {
+        int             zoom_res;
+    } magwin;
+    struct {
+        char            animate;
+        char            onscreen;
+        char            warp;
+        char            show_icons;
+        int             icon_size;
+        struct {
+            EX_KeySym       left, right, up, down, escape, ret;
+        } key;
+    } menus;
+    struct {
+        int             mode_move;
+        int             mode_resize;
+        int             mode_info;
+        int             mode_maximize_default;
+        unsigned int    color;
+        char            avoid_server_grab;
+        char            update_while_moving;
+        char            enable_sync_request;
+        char            dragbar_nocover;
+        char            enable_smart_max_hv;
+        char            maximize_animate;
+        int             maximize_speed;
+    } movres;
+    struct {
+        int             movres;
+        int             menus;
+        int             tooltips;
+        int             focused;
+        int             unfocused;
+    } opacity;
+    struct {
+        char            manual;
+        char            manual_mouse_pointer;
+        char            center_if_desk_full;
+        char            ignore_struts;
+        char            ignore_struts_fullscreen;
+        char            ignore_struts_maximize;
+        char            raise_fullscreen;
+        char            slidein;
+        char            cleanupslide;
+        int             slidemode;
+        int             slidespeedmap;
+        int             slidespeedcleanup;
+#ifdef USE_XINERAMA_no          /* Not implemented */
+        char            extra_head;     /* Not used */
 #endif
-      struct {
-	 int                 left, right, top, bottom;
-      } screen_struts;
-   } place;
-   struct {
-      char                enable_script;
-      char               *script;
-      char                enable_logout_dialog;
-      char                enable_reboot_halt;
-      char               *cmd_reboot;
-      char               *cmd_halt;
-      char               *cmd_lock;
-      char               *cmd_suspend;
-      char               *cmd_hibernate;
-   } session;
-   struct {
-      char                animate;
-      int                 speed;
-   } shading;
-   struct {
-      char                enable;
-      int                 edge_snap_dist;
-      int                 screen_snap_dist;
-   } snap;
-   struct {
-      char                firsttime;
-      char                animate;
-   } startup;
-   struct {
-      int                 cache_ver;
-      char                use_theme_font_cfg;
-      char                use_alt_font_cfg;
-      char               *name;
-      char               *extra_path;
-      char               *font_cfg;
-   } theme;
-   struct {
-      char                enable;
-      char                showsticky;
-      char                showshaded;
-      char                showiconified;
-      char                showalldesks;
-      char                warpfocused;
-      char                raise_on_select;
-      char                warp_on_select;
-      char                show_shape;
-      int                 icon_mode;
-   } warplist;
+        struct {
+            int             left, right, top, bottom;
+        } screen_struts;
+    } place;
+    struct {
+        char            enable_script;
+        char           *script;
+        char            enable_logout_dialog;
+        char            enable_reboot_halt;
+        char           *cmd_reboot;
+        char           *cmd_halt;
+        char           *cmd_lock;
+        char           *cmd_suspend;
+        char           *cmd_hibernate;
+    } session;
+    struct {
+        char            animate;
+        int             speed;
+    } shading;
+    struct {
+        char            enable;
+        int             edge_snap_dist;
+        int             screen_snap_dist;
+    } snap;
+    struct {
+        char            firsttime;
+        char            animate;
+    } startup;
+    struct {
+        int             cache_ver;
+        char            use_theme_font_cfg;
+        char            use_alt_font_cfg;
+        char           *name;
+        char           *extra_path;
+        char           *font_cfg;
+    } theme;
+    struct {
+        char            enable;
+        char            showsticky;
+        char            showshaded;
+        char            showiconified;
+        char            showalldesks;
+        char            warpfocused;
+        char            raise_on_select;
+        char            warp_on_select;
+        char            show_shape;
+        int             icon_mode;
+    } warplist;
 
-   struct {
-      char                argb_internal_objects;
-      char                argb_internal_clients;
-      char                argb_clients;
-      char                argb_clients_inherit_attr;
-      int                 image_cache_size;
-      int                 ximage_cache_count;
-      int                 mask_alpha_threshold;
-      char                enable_startup_id;
-      char                use_render_for_scaling;
-      char                bindings_reload;
-      unsigned int        no_sync_mask;
-   } testing;
+    struct {
+        char            argb_internal_objects;
+        char            argb_internal_clients;
+        char            argb_clients;
+        char            argb_clients_inherit_attr;
+        int             image_cache_size;
+        int             ximage_cache_count;
+        int             mask_alpha_threshold;
+        char            enable_startup_id;
+        char            use_render_for_scaling;
+        char            bindings_reload;
+        unsigned int    no_sync_mask;
+    } testing;
 
-   char                autosave;
-   char                memory_paranoia;
-   char                save_under;
+    char            autosave;
+    char            memory_paranoia;
+    char            save_under;
 } EConf;
 
 typedef struct {
-   struct {
-      unsigned int        startup_id;
-   } apps;
-   struct {
-      char                force_scan;
-      unsigned int        mini_w, mini_h;
-   } backgrounds;
-   struct {
-      char               *name;
-      char               *prefix;
-      char               *dir;
-      char               *cache_dir;
-   } conf;
-   struct {
-      char                dummy;	/* Prevent empty struct */
+    struct {
+        unsigned int    startup_id;
+    } apps;
+    struct {
+        char            force_scan;
+        unsigned int    mini_w, mini_h;
+    } backgrounds;
+    struct {
+        char           *name;
+        char           *prefix;
+        char           *dir;
+        char           *cache_dir;
+    } conf;
+    struct {
+        char            dummy;  /* Prevent empty struct */
 #if USE_XSYNC
-      EX_ID               server_time;
+        EX_ID           server_time;
 #endif
-   } display;
-   struct {
-      unsigned int        seqn;	/* Event run sequence number */
-      unsigned int        time_ms;	/* Local ms time */
-      EX_Time             time;	/* Latest X event time */
-      int                 cx, cy;	/* Any detected pointer movement */
-      int                 mx, my;	/* Motion event */
-      int                 px, py;	/* Previous motion event */
-      EX_Time             last_btime;
-      EX_Window           last_bpress;
-      EX_Window           last_bpress2;
-      unsigned int        last_button;
-      unsigned int        last_keycode;
-      unsigned int        last_keystate;
-      unsigned int        serial;
-      char                block;
-      char                double_click;
-      char                on_screen;
+    } display;
+    struct {
+        unsigned int    seqn;   /* Event run sequence number */
+        unsigned int    time_ms;        /* Local ms time */
+        EX_Time         time;   /* Latest X event time */
+        int             cx, cy; /* Any detected pointer movement */
+        int             mx, my; /* Motion event */
+        int             px, py; /* Previous motion event */
+        EX_Time         last_btime;
+        EX_Window       last_bpress;
+        EX_Window       last_bpress2;
+        unsigned int    last_button;
+        unsigned int    last_keycode;
+        unsigned int    last_keystate;
+        unsigned int    serial;
+        char            block;
+        char            double_click;
+        char            on_screen;
 #if USE_COMPOSITE
-      unsigned int        damage_count;
+        unsigned int    damage_count;
 #endif
 #if USE_XI2
-      unsigned char       xi2_ptr;
-      unsigned char       xi2_kbd;
+        unsigned char   xi2_ptr;
+        unsigned char   xi2_kbd;
 #endif
-   } events;
-   struct {
-      char                pointer_grab_active;
-      EX_Window           pointer_grab_window;
-   } grabs;
-   struct {
-      const char         *lang;
-      char                utf8_int;	/* Use UTF-8 internally */
-      char                utf8_loc;	/* Locale is UTF-8 */
-   } locale;
-   struct {
-      unsigned int        mod_key_mask;
-      unsigned int        mod_combos[8];
-   } masks;
-   struct {
-      signed char         enable_features;
-      EWin               *doing_manual;
-   } place;
-   struct {
-      int                 w_old;
-      int                 h_old;
-      short               fps;
+    } events;
+    struct {
+        char            pointer_grab_active;
+        EX_Window       pointer_grab_window;
+    } grabs;
+    struct {
+        const char     *lang;
+        char            utf8_int;       /* Use UTF-8 internally */
+        char            utf8_loc;       /* Locale is UTF-8 */
+    } locale;
+    struct {
+        unsigned int    mod_key_mask;
+        unsigned int    mod_combos[8];
+    } masks;
+    struct {
+        signed char     enable_features;
+        EWin           *doing_manual;
+    } place;
+    struct {
+        int             w_old;
+        int             h_old;
+        short           fps;
 #ifdef USE_XRANDR
-      unsigned short      rotation;
+        unsigned short  rotation;
 #endif
-   } screen;
-   struct {
-      unsigned int        extensions;
-   } server;
-   struct {
-      EX_Pixmap           ext_pmap;
-      char                ext_pmap_valid;
-   } root;
-   struct {
-      bool                cache_rebuild;
-      char               *paths;
-      char               *path;
-      char               *variant;
-   } theme;
-   struct {
-      char               *exec_name;	/* argv[0] */
-      char                master;	/* We are the master E */
-      char                single;	/* No slaves */
-      char                window;	/* Running in virtual root window */
-      pid_t               pid;
-      int                 master_screen;
-      char                session_start;
-      char                startup;
-      char                restart;
-      char                exiting;
-      char                in_signal_handler;
-      char                exit_now;
-      char                save_ok;
-      char                coredump;
-      int                 win_x, win_y, win_w, win_h;
-      int                 exit_mode;
-      char               *exit_param;
-      int                 child_count;
-      pid_t              *children;
-      char               *machine_name;
-   } wm;
-   int                 mode;
-   int                 op_source;
-   EWin               *focuswin;
-   EWin               *mouse_over_ewin;
-   EWin               *context_ewin;
-   EX_Colormap         current_cmap;
-   Win                 context_win;
-   char                nogroup;
-   char                showing_desktop;
-   EX_Window           button_proxy_win;
-   char                firsttime;
-   char                debug_exit;
+    } screen;
+    struct {
+        unsigned int    extensions;
+    } server;
+    struct {
+        EX_Pixmap       ext_pmap;
+        char            ext_pmap_valid;
+    } root;
+    struct {
+        bool            cache_rebuild;
+        char           *paths;
+        char           *path;
+        char           *variant;
+    } theme;
+    struct {
+        char           *exec_name;      /* argv[0] */
+        char            master; /* We are the master E */
+        char            single; /* No slaves */
+        char            window; /* Running in virtual root window */
+        pid_t           pid;
+        int             master_screen;
+        char            session_start;
+        char            startup;
+        char            restart;
+        char            exiting;
+        char            in_signal_handler;
+        char            exit_now;
+        char            save_ok;
+        char            coredump;
+        int             win_x, win_y, win_w, win_h;
+        int             exit_mode;
+        char           *exit_param;
+        int             child_count;
+        pid_t          *children;
+        char           *machine_name;
+    } wm;
+    int             mode;
+    int             op_source;
+    EWin           *focuswin;
+    EWin           *mouse_over_ewin;
+    EWin           *context_ewin;
+    EX_Colormap     current_cmap;
+    Win             context_win;
+    char            nogroup;
+    char            showing_desktop;
+    EX_Window       button_proxy_win;
+    char            firsttime;
+    char            debug_exit;
 } EMode;
 
 /*
@@ -447,7 +447,7 @@ typedef struct {
  */
 
 /* about.c */
-void                About(void);
+void            About(void);
 
 /* config.c */
 #define FILE_TYPE_CONFIG     0
@@ -457,70 +457,70 @@ void                About(void);
 #define FILE_TYPE_SOUND      1
 #define FILE_TYPE_MENU       2
 #define FILE_TYPE_ICON       3
-void                SkipTillEnd(FILE * ConfigFile);
-char               *GetLine(char *s, int size, FILE * f);
-int                 ConfigParseline1(char *str, char *s2, char **p2, char **p3);
-void                ConfigParseError(const char *where, const char *line);
-void                ConfigAlertLoad(const char *txt);
-char               *FindFile(const char *file, const char *themepath, int type);
-char               *ThemeFileFind(const char *file, int type);
-int                 ConfigFileLoad(const char *name, const char *themepath,
-				   int (*parse)(FILE * fs), int preparse);
-int                 ConfigFileRead(FILE * fs);
-int                 ThemeConfigLoad(void);
+void            SkipTillEnd(FILE * ConfigFile);
+char           *GetLine(char *s, int size, FILE * f);
+int             ConfigParseline1(char *str, char *s2, char **p2, char **p3);
+void            ConfigParseError(const char *where, const char *line);
+void            ConfigAlertLoad(const char *txt);
+char           *FindFile(const char *file, const char *themepath, int type);
+char           *ThemeFileFind(const char *file, int type);
+int             ConfigFileLoad(const char *name, const char *themepath,
+                               int (*parse)(FILE * fs), int preparse);
+int             ConfigFileRead(FILE * fs);
+int             ThemeConfigLoad(void);
 
 /* dialog.c */
 #if ENABLE_DIALOGS
-void __PRINTF_2__   DialogOK(const char *title, const char *fmt, ...);
-void                DialogOKstr(const char *title, const char *txt);
+void __PRINTF_2__ DialogOK(const char *title, const char *fmt, ...);
+void            DialogOKstr(const char *title, const char *txt);
 #else
 #define DialogOK(title, fmt, ...) do {} while(0)
 #define DialogOKstr(title, fmt) do {} while(0)
-#endif /* ENABLE_DIALOGS */
+#endif                          /* ENABLE_DIALOGS */
 
 /* draw.c (move to moveresize.h?) */
 /* Move/resize modes */
 #define MR_OPAQUE       0
 #define MR_TECHNICAL    1
 #define MR_BOX          2
-#if 0				/* Obsolete */
+#if 0                           /* Obsolete */
 #define MR_SHADED       3
 #define MR_SEMI_SOLID   4
 #define MR_TRANSLUCENT  5
 #endif
 #define MR_TECH_OPAQUE  6
 
-int                 MoveResizeModeValidateMove(int md);
-int                 MoveResizeModeValidateResize(int md);
+int             MoveResizeModeValidateMove(int md);
+int             MoveResizeModeValidateResize(int md);
 
 /* econfig.c */
-void                ConfigurationLoad(void);
-void                ConfigurationSave(void);
-void                ConfigurationSet(const char *params);
-void                ConfigurationShow(const char *params);
+void            ConfigurationLoad(void);
+void            ConfigurationSave(void);
+void            ConfigurationSet(const char *params);
+void            ConfigurationShow(const char *params);
 
 /* edge.c */
-void                EdgeCheckMotion(int x, int y);
-void                EdgeWindowsShow(void);
-void                EdgeWindowsHide(void);
+void            EdgeCheckMotion(int x, int y);
+void            EdgeWindowsShow(void);
+void            EdgeWindowsHide(void);
 
 /* extinitwin.c */
-EX_Window           ExtInitWinCreate(void);
-void                ExtInitWinSet(EX_Window win);
-EX_Window           ExtInitWinGet(void);
-void                ExtInitWinKill(void);
+EX_Window       ExtInitWinCreate(void);
+void            ExtInitWinSet(EX_Window win);
+EX_Window       ExtInitWinGet(void);
+void            ExtInitWinKill(void);
 
 /* fonts.c */
-void                FontConfigLoad(void);
-void                FontConfigUnload(void);
-const char         *FontLookup(const char *name);
+void            FontConfigLoad(void);
+void            FontConfigUnload(void);
+const char     *FontLookup(const char *name);
 
 /* handlers.c */
-void                SignalsSetup(void);
-void                SignalsRestore(void);
+void            SignalsSetup(void);
+void            SignalsRestore(void);
 
 /* main.c */
-__NORETURN__ void   EExit(int exitcode);
+__NORETURN__ void EExit(int exitcode);
 
 #define EDirRoot()       ENLIGHTENMENT_ROOT
 #define EDirBin()        ENLIGHTENMENT_BIN
@@ -529,35 +529,35 @@ __NORETURN__ void   EExit(int exitcode);
 #define EDirUserCache()  Mode.conf.cache_dir
 #define EGetSavePrefix() Mode.conf.prefix
 
-void                Etmp(char *s);
+void            Etmp(char *s);
 
 /* mod-misc.c */
-void                autosave(void);
+void            autosave(void);
 
 /* regex.c */
-int                 matchregexp(const char *rx, const char *s);
+int             matchregexp(const char *rx, const char *s);
 
 /* setup.c */
-void                SetupX(const char *dstr);
+void            SetupX(const char *dstr);
 
 /* slideouts.c */
-int                 SlideoutsConfigLoad(FILE * fs);
+int             SlideoutsConfigLoad(FILE * fs);
 
 /* startup.c */
-void                StartupWindowsCreate(void);
-void                StartupWindowsOpen(void);
-void                StartupBackgroundsDestroy(void);
+void            StartupWindowsCreate(void);
+void            StartupWindowsOpen(void);
+void            StartupBackgroundsDestroy(void);
 
 /* theme.c */
-char               *ThemePathFind(const char *theme);
-char               *ThemePathName(const char *path);
-void                ThemeFind(const char *theme);
-char              **ThemesList(int *num);
+char           *ThemePathFind(const char *theme);
+char           *ThemePathName(const char *path);
+void            ThemeFind(const char *theme);
+char          **ThemesList(int *num);
 
 /*
  * Global vars
  */
-extern const char   e_wm_name[];
-extern const char   e_wm_version[];
-extern EConf        Conf;
-extern EMode        Mode;
+extern const char e_wm_name[];
+extern const char e_wm_version[];
+extern EConf    Conf;
+extern EMode    Mode;

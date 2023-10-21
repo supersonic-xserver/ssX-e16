@@ -27,50 +27,50 @@
 #if ENABLE_DIALOGS
 
 static void
-_DlgFillAbout(Dialog * d, DItem * table, void *data __UNUSED__)
+_DlgFillAbout(Dialog *d, DItem *table, void *data __UNUSED__)
 {
-   DItem              *di;
-   char                buf[1024];
+    DItem          *di;
+    char            buf[1024];
 
-   Esnprintf(buf, sizeof(buf), _("About Enlightenment e16 version %s"),
-	     e_wm_version);
-   DialogSetTitle(d, buf);
+    Esnprintf(buf, sizeof(buf), _("About Enlightenment e16 version %s"),
+              e_wm_version);
+    DialogSetTitle(d, buf);
 
-   DialogItemTableSetOptions(table, 2, 0, 0, 0);
+    DialogItemTableSetOptions(table, 2, 0, 0, 0);
 
-   di = DialogAddItem(table, DITEM_IMAGE);
-   DialogItemImageSetFile(di, "pix/about.png");
+    di = DialogAddItem(table, DITEM_IMAGE);
+    DialogItemImageSetFile(di, "pix/about.png");
 
-   di = DialogAddItem(table, DITEM_TEXT);
-   Esnprintf(buf, sizeof(buf),
-	     _("Welcome to Enlightenment e16\n" "version %s.\n"
-	       "If you find a bug, please do not\n"
-	       "hesitate to send in a bug report.\n"
-	       "We hope you enjoy the software.\n" "\n"
-	       "The Rasterman - raster@rasterman.com\n"
-	       "Mandrake - mandrake@mandrake.net\n"
-	       "Kim Woelders - kim@woelders.dk\n"), e_wm_version);
-   DialogItemSetText(di, buf);
+    di = DialogAddItem(table, DITEM_TEXT);
+    Esnprintf(buf, sizeof(buf),
+              _("Welcome to Enlightenment e16\n" "version %s.\n"
+                "If you find a bug, please do not\n"
+                "hesitate to send in a bug report.\n"
+                "We hope you enjoy the software.\n" "\n"
+                "The Rasterman - raster@rasterman.com\n"
+                "Mandrake - mandrake@mandrake.net\n"
+                "Kim Woelders - kim@woelders.dk\n"), e_wm_version);
+    DialogItemSetText(di, buf);
 
-   DialogBindKey(d, "Return", DialogCallbackClose, 0, NULL);
-   DialogBindKey(d, "Escape", DialogCallbackClose, 0, NULL);
+    DialogBindKey(d, "Return", DialogCallbackClose, 0, NULL);
+    DialogBindKey(d, "Escape", DialogCallbackClose, 0, NULL);
 }
 
 static const DialogDef DlgAbout = {
-   "ABOUT_ENLIGHTENMENT",
-   NULL, NULL,
-   0,
-   SOUND_NONE,
-   NULL,
-   NULL,
-   _DlgFillAbout,
-   DLG_OK | DLG_NO_SEPARATOR, DialogCallbackClose, NULL
+    "ABOUT_ENLIGHTENMENT",
+    NULL, NULL,
+    0,
+    SOUND_NONE,
+    NULL,
+    NULL,
+    _DlgFillAbout,
+    DLG_OK | DLG_NO_SEPARATOR, DialogCallbackClose, NULL
 };
 
 void
 About(void)
 {
-   DialogShowSimple(&DlgAbout, NULL);
+    DialogShowSimple(&DlgAbout, NULL);
 }
 
-#endif /* ENABLE_DIALOGS */
+#endif                          /* ENABLE_DIALOGS */

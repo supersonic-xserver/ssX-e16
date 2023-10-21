@@ -42,7 +42,7 @@
 #else
 #define Dprintf(fmt...)
 #define D2printf(fmt...)
-#endif /* ENABLE_DEBUG */
+#endif                          /* ENABLE_DEBUG */
 
 #define ETEX_TYPE_IMAGE      1
 #define ETEX_TYPE_PIXMAP     2
@@ -63,420 +63,418 @@
 #include <dlfcn.h>
 
 /* GL functions and helper */
-typedef void        (*glXBindTexImageEXT_func)(Display * dpy,
-					       GLXDrawable drawable,
-					       int buffer,
-					       const int *attrib_list);
-typedef void        (*glXReleaseTexImageEXT_func)(Display * dpy,
-						  GLXDrawable drawable,
-						  int buffer);
-typedef void        (*glXFuncPtr)(void);
-typedef             glXFuncPtr(*glXGetProcAddress_func) (const GLubyte *);
+typedef void    (*glXBindTexImageEXT_func)(Display * dpy,
+                                           GLXDrawable drawable,
+                                           int buffer, const int *attrib_list);
+typedef void    (*glXReleaseTexImageEXT_func)(Display * dpy,
+                                              GLXDrawable drawable, int buffer);
+typedef void    (*glXFuncPtr)(void);
+typedef         glXFuncPtr(*glXGetProcAddress_func) (const GLubyte *);
 
 static glXBindTexImageEXT_func _glXBindTexImageEXT;
 static glXReleaseTexImageEXT_func _glXReleaseTexImageEXT;
 static glXGetProcAddress_func glx_get_proc_address;
 
-static              glXFuncPtr
+static          glXFuncPtr
 get_func_addr(const char *name)
 {
-   glXFuncPtr          ret = NULL;
+    glXFuncPtr      ret = NULL;
 
-   if (glx_get_proc_address)
-      ret = glx_get_proc_address((const GLubyte *)name);
-   if (!ret)
-      ret = (glXFuncPtr) dlsym(RTLD_DEFAULT, name);
+    if (glx_get_proc_address)
+        ret = glx_get_proc_address((const GLubyte *)name);
+    if (!ret)
+        ret = (glXFuncPtr) dlsym(RTLD_DEFAULT, name);
 
-   return ret;
+    return ret;
 }
 
 static int
 glx_funcs_init(void)
 {
-   glx_get_proc_address = (glXGetProcAddress_func)
-      get_func_addr("glXGetProcAddress");
-   if (!glx_get_proc_address)
-      glx_get_proc_address = (glXGetProcAddress_func)
-	 get_func_addr("glXGetProcAddressARB");
+    glx_get_proc_address = (glXGetProcAddress_func)
+        get_func_addr("glXGetProcAddress");
+    if (!glx_get_proc_address)
+        glx_get_proc_address = (glXGetProcAddress_func)
+            get_func_addr("glXGetProcAddressARB");
 
-   _glXBindTexImageEXT = (glXBindTexImageEXT_func)
-      get_func_addr("glXBindTexImageEXT");
+    _glXBindTexImageEXT = (glXBindTexImageEXT_func)
+        get_func_addr("glXBindTexImageEXT");
 
-   _glXReleaseTexImageEXT = (glXReleaseTexImageEXT_func)
-      get_func_addr("glXReleaseTexImageEXT");
+    _glXReleaseTexImageEXT = (glXReleaseTexImageEXT_func)
+        get_func_addr("glXReleaseTexImageEXT");
 
-   return !_glXBindTexImageEXT || !_glXReleaseTexImageEXT;
+    return !_glXBindTexImageEXT || !_glXReleaseTexImageEXT;
 }
 
-#endif /* HAVE_GLX_glXBindTexImageEXT */
+#endif                          /* HAVE_GLX_glXBindTexImageEXT */
 
-static void         EobjTexturesFree(void);
+static void     EobjTexturesFree(void);
 
 typedef struct {
-   XVisualInfo        *vi;
-   GLXContext          ctx;
-   GLXFBConfig         fbc;
-   unsigned            ctx_initialised:1;
+    XVisualInfo    *vi;
+    GLXContext      ctx;
+    GLXFBConfig     fbc;
+    unsigned        ctx_initialised:1;
 } EGlContext;
 
-static EGlContext   egl;
+static EGlContext egl;
 
 #define FBCATTR(fbc, attr, want) _EGlFbcAttrib(fbc, #attr, attr, want)
 static int
 _EGlFbcAttrib(GLXFBConfig fbc, const char *name, int attr, int want)
 {
-   int                 err, value;
+    int             err, value;
 
-   value = 0xabbabeef;
-   err = glXGetFBConfigAttrib(disp, fbc, attr, &value);
-   if (err)
-      Eprintf("  %s *** Error %d ***\n", name, err);
-   else if (want > 0)
-      D2printf("  %s=%#x (want %#x)\n", name, value, want);
-   else
-      D2printf("  %s=%#x\n", name, value);
+    value = 0xabbabeef;
+    err = glXGetFBConfigAttrib(disp, fbc, attr, &value);
+    if (err)
+        Eprintf("  %s *** Error %d ***\n", name, err);
+    else if (want > 0)
+        D2printf("  %s=%#x (want %#x)\n", name, value, want);
+    else
+        D2printf("  %s=%#x\n", name, value);
 
-   return value;
+    return value;
 }
 
 int
 EGlInit(void)
 {
 /* From NV's README.txt (AddARGBGLXVisuals) */
-   static const int    attrs[] = {
-      GLX_VISUAL_CAVEAT_EXT, GLX_NONE_EXT,
-      GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT | GLX_PIXMAP_BIT,
-      GLX_RENDER_TYPE, GLX_RGBA_BIT,
-      GLX_RED_SIZE, 1,
-      GLX_GREEN_SIZE, 1,
-      GLX_BLUE_SIZE, 1,
-      GLX_ALPHA_SIZE, 1,
-      GLX_DOUBLEBUFFER, True,
-      GLX_DEPTH_SIZE, 1,
-      0
-   };
-   XVisualInfo        *vi;
-   GLXFBConfig        *fbc;
-   int                 i, ix, num;
-   int                 value;
-   char               *s;
-   XID                 vid = NoXID;
-   XRenderPictFormat  *pictFormat;
+    static const int attrs[] = {
+        GLX_VISUAL_CAVEAT_EXT, GLX_NONE_EXT,
+        GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT | GLX_PIXMAP_BIT,
+        GLX_RENDER_TYPE, GLX_RGBA_BIT,
+        GLX_RED_SIZE, 1,
+        GLX_GREEN_SIZE, 1,
+        GLX_BLUE_SIZE, 1,
+        GLX_ALPHA_SIZE, 1,
+        GLX_DOUBLEBUFFER, True,
+        GLX_DEPTH_SIZE, 1,
+        0
+    };
+    XVisualInfo    *vi;
+    GLXFBConfig    *fbc;
+    int             i, ix, num;
+    int             value;
+    char           *s;
+    XID             vid = NoXID;
+    XRenderPictFormat *pictFormat;
 
-   Dprintf("EGlInit\n");
+    Dprintf("EGlInit\n");
 
-   memset(&egl, 0, sizeof(EGlContext));
+    memset(&egl, 0, sizeof(EGlContext));
 
-   s = getenv("EVISUAL");
-   if (s)
-     {
-	vid = strtoul(s, NULL, 0);
-	Eprintf("Want Visual Id=%#lx\n", vid);
-     }
+    s = getenv("EVISUAL");
+    if (s)
+    {
+        vid = strtoul(s, NULL, 0);
+        Eprintf("Want Visual Id=%#lx\n", vid);
+    }
 
-   /* Create a GLX context */
-   fbc = glXChooseFBConfig(disp, DefaultScreen(disp), attrs, &num);
-   if (!fbc)
-     {
-	Eprintf("No FB configs\n");
-	return -1;
-     }
+    /* Create a GLX context */
+    fbc = glXChooseFBConfig(disp, DefaultScreen(disp), attrs, &num);
+    if (!fbc)
+    {
+        Eprintf("No FB configs\n");
+        return -1;
+    }
 
-   D2printf("Visuals found: %d\n", num);
-   ix = -1;
-   for (i = 0; i < num; i++)
-     {
-	vi = glXGetVisualFromFBConfig(disp, fbc[i]);
-	if (!vi)
-	   continue;
+    D2printf("Visuals found: %d\n", num);
+    ix = -1;
+    for (i = 0; i < num; i++)
+    {
+        vi = glXGetVisualFromFBConfig(disp, fbc[i]);
+        if (!vi)
+            continue;
 
-	D2printf("Checking Visual ID=%#lx depth=%d\n", vi->visualid, vi->depth);
-	if (vid && vi->visualid != vid)
-	   continue;
+        D2printf("Checking Visual ID=%#lx depth=%d\n", vi->visualid, vi->depth);
+        if (vid && vi->visualid != vid)
+            continue;
 
 #if 1
-	FBCATTR(fbc[i], GLX_FBCONFIG_ID, -1);
-	FBCATTR(fbc[i], GLX_CONFIG_CAVEAT, GLX_NONE);
-	FBCATTR(fbc[i], GLX_DRAWABLE_TYPE, GLX_PIXMAP_BIT);
-	FBCATTR(fbc[i], GLX_RENDER_TYPE, -1);
-	FBCATTR(fbc[i], GLX_X_VISUAL_TYPE, -1);
-	FBCATTR(fbc[i], GLX_X_RENDERABLE, -1);
-	FBCATTR(fbc[i], GLX_BUFFER_SIZE, -1);
-	FBCATTR(fbc[i], GLX_LEVEL, -1);
-	FBCATTR(fbc[i], GLX_TRANSPARENT_TYPE, -1);
+        FBCATTR(fbc[i], GLX_FBCONFIG_ID, -1);
+        FBCATTR(fbc[i], GLX_CONFIG_CAVEAT, GLX_NONE);
+        FBCATTR(fbc[i], GLX_DRAWABLE_TYPE, GLX_PIXMAP_BIT);
+        FBCATTR(fbc[i], GLX_RENDER_TYPE, -1);
+        FBCATTR(fbc[i], GLX_X_VISUAL_TYPE, -1);
+        FBCATTR(fbc[i], GLX_X_RENDERABLE, -1);
+        FBCATTR(fbc[i], GLX_BUFFER_SIZE, -1);
+        FBCATTR(fbc[i], GLX_LEVEL, -1);
+        FBCATTR(fbc[i], GLX_TRANSPARENT_TYPE, -1);
 #endif
 
 #if 1
-	FBCATTR(fbc[i], GLX_BIND_TO_TEXTURE_RGBA_EXT, 1);
-	value = FBCATTR(fbc[i], GLX_BIND_TO_TEXTURE_RGB_EXT, 1);
-	if (!value)
-	   continue;
-	FBCATTR(fbc[i], GLX_BIND_TO_MIPMAP_TEXTURE_EXT, -1);
-	FBCATTR(fbc[i], GLX_BIND_TO_TEXTURE_TARGETS_EXT,
-		GLX_TEXTURE_2D_BIT_EXT);
+        FBCATTR(fbc[i], GLX_BIND_TO_TEXTURE_RGBA_EXT, 1);
+        value = FBCATTR(fbc[i], GLX_BIND_TO_TEXTURE_RGB_EXT, 1);
+        if (!value)
+            continue;
+        FBCATTR(fbc[i], GLX_BIND_TO_MIPMAP_TEXTURE_EXT, -1);
+        FBCATTR(fbc[i], GLX_BIND_TO_TEXTURE_TARGETS_EXT,
+                GLX_TEXTURE_2D_BIT_EXT);
 #if 0
-	if (!(value & GLX_TEXTURE_2D_BIT_EXT))
-	   continue;
+        if (!(value & GLX_TEXTURE_2D_BIT_EXT))
+            continue;
 #endif
-	FBCATTR(fbc[i], GLX_Y_INVERTED_EXT, -1);
+        FBCATTR(fbc[i], GLX_Y_INVERTED_EXT, -1);
 #endif
 
 #if 1
-	/* We want an ARGB visual */
-	pictFormat = XRenderFindVisualFormat(disp, vi->visual);
-	if (!pictFormat)
-	   continue;
-	if (pictFormat->direct.alphaMask == 0)
-	   continue;
+        /* We want an ARGB visual */
+        pictFormat = XRenderFindVisualFormat(disp, vi->visual);
+        if (!pictFormat)
+            continue;
+        if (pictFormat->direct.alphaMask == 0)
+            continue;
 #endif
 
-	D2printf(" - passed\n");
-	if (ix < 0)
-	   ix = i;
+        D2printf(" - passed\n");
+        if (ix < 0)
+            ix = i;
 
-	XFree(vi);
-     }
+        XFree(vi);
+    }
 
-   if (ix >= 0)
-      egl.fbc = fbc[ix];
-   XFree(fbc);
+    if (ix >= 0)
+        egl.fbc = fbc[ix];
+    XFree(fbc);
 
-   if (ix < 0)
-     {
-	Eprintf("No FB config match\n");
-	return -1;
-     }
+    if (ix < 0)
+    {
+        Eprintf("No FB config match\n");
+        return -1;
+    }
 
 #ifndef HAVE_GLX_glXBindTexImageEXT
-   if (glx_funcs_init())
-     {
-	Eprintf("glXBindTexImageEXT or glXReleaseTexImageEXT not available\n");
-	return -1;
-     }
+    if (glx_funcs_init())
+    {
+        Eprintf("glXBindTexImageEXT or glXReleaseTexImageEXT not available\n");
+        return -1;
+    }
 #endif
 
-   egl.vi = glXGetVisualFromFBConfig(disp, egl.fbc);
+    egl.vi = glXGetVisualFromFBConfig(disp, egl.fbc);
 
-   egl.ctx = glXCreateNewContext(disp, egl.fbc, GLX_RGBA_TYPE, NULL, True);
+    egl.ctx = glXCreateNewContext(disp, egl.fbc, GLX_RGBA_TYPE, NULL, True);
 
-   Dprintf("Direct Rendering %s\n",
-	   glXIsDirect(disp, egl.ctx) ? "enabled" : "not available");
-   Dprintf("Visual ID=%#lx  depth %d\n", egl.vi->visualid, egl.vi->depth);
+    Dprintf("Direct Rendering %s\n",
+            glXIsDirect(disp, egl.ctx) ? "enabled" : "not available");
+    Dprintf("Visual ID=%#lx  depth %d\n", egl.vi->visualid, egl.vi->depth);
 
-   return 0;
+    return 0;
 }
 
 void
 EGlExit(void)
 {
-   Dprintf("EGlExit\n");
+    Dprintf("EGlExit\n");
 
-   EobjTexturesFree();
+    EobjTexturesFree();
 
-   if (egl.vi)
-     {
-	XFree(egl.vi);
-	egl.vi = NULL;
-     }
+    if (egl.vi)
+    {
+        XFree(egl.vi);
+        egl.vi = NULL;
+    }
 
-   if (egl.ctx)
-     {
-	EGlWindowDisconnect();
-	glXDestroyContext(disp, egl.ctx);
-	egl.ctx = NULL;
-     }
+    if (egl.ctx)
+    {
+        EGlWindowDisconnect();
+        glXDestroyContext(disp, egl.ctx);
+        egl.ctx = NULL;
+    }
 }
 
-Visual             *
+Visual         *
 EGlGetVisual(void)
 {
-   if (!egl.vi)
-      EGlInit();
-   return (egl.vi) ? egl.vi->visual : NULL;
+    if (!egl.vi)
+        EGlInit();
+    return (egl.vi) ? egl.vi->visual : NULL;
 }
 
 unsigned int
 EGlGetDepth(void)
 {
-   if (!egl.vi)
-      EGlInit();
-   return (egl.vi) ? egl.vi->depth : 0;
+    if (!egl.vi)
+        EGlInit();
+    return (egl.vi) ? egl.vi->depth : 0;
 }
 
 void
 EGlWindowConnect(EX_Window xwin)
 {
-   glXMakeContextCurrent(disp, xwin, xwin, egl.ctx);
+    glXMakeContextCurrent(disp, xwin, xwin, egl.ctx);
 
-   if (egl.ctx_initialised)
-      return;
+    if (egl.ctx_initialised)
+        return;
 
-   /* First time */
-   glEnable(TEXTURE_TARGET);
+    /* First time */
+    glEnable(TEXTURE_TARGET);
 
-   glShadeModel(GL_SMOOTH);
-   glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-   glClearDepth(1.0f);
-   glEnable(GL_DEPTH_TEST);
-   glDepthFunc(GL_LEQUAL);
-   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+    glShadeModel(GL_SMOOTH);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearDepth(1.0f);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
-   egl.ctx_initialised = 1;
+    egl.ctx_initialised = 1;
 }
 
 void
 EGlWindowDisconnect(void)
 {
-   if (!glXMakeContextCurrent(disp, NoXID, NoXID, NULL))
-     {
-	Eprintf("Failed to release GL context.\n");
-     }
+    if (!glXMakeContextCurrent(disp, NoXID, NoXID, NULL))
+    {
+        Eprintf("Failed to release GL context.\n");
+    }
 }
 
-ETexture           *
-EGlTextureFromImage(EImage * im, int mode)
+ETexture       *
+EGlTextureFromImage(EImage *im, int mode)
 {
-   ETexture           *et;
-   int                 w, h;
-   unsigned char      *data;
+    ETexture       *et;
+    int             w, h;
+    unsigned char  *data;
 
-   if (!im)
-      return NULL;
+    if (!im)
+        return NULL;
 
-   et = ECALLOC(ETexture, 1);
-   if (!et)
-      return NULL;
+    et = ECALLOC(ETexture, 1);
+    if (!et)
+        return NULL;
 
-   et->type = ETEX_TYPE_IMAGE;
-   et->target = TEXTURE_TARGET;
-   glGenTextures(1, &et->texture);
-   glBindTexture(et->target, et->texture);
+    et->type = ETEX_TYPE_IMAGE;
+    et->target = TEXTURE_TARGET;
+    glGenTextures(1, &et->texture);
+    glBindTexture(et->target, et->texture);
 
-   EImageGetSize(im, &w, &h);
-   data = (unsigned char *)EImageGetData(im);
+    EImageGetSize(im, &w, &h);
+    data = (unsigned char *)EImageGetData(im);
 
-   switch (mode)
-     {
-     case 0:			/* No filtering */
-	glTexImage2D(et->target, 0, GL_RGB8, w, h, 0, GL_BGRA,
-		     GL_UNSIGNED_BYTE, data);
-	glTexParameteri(et->target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(et->target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	break;
-     case 1:			/* Linear filtering */
-	glTexImage2D(et->target, 0, GL_RGB8, w, h, 0, GL_BGRA,
-		     GL_UNSIGNED_BYTE, data);
-	glTexParameteri(et->target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(et->target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	break;
-     case 2:			/* Mipmapping */
-	gluBuild2DMipmaps(et->target, GL_RGB8, w, h, GL_BGRA,
-			  GL_UNSIGNED_BYTE, data);
-	glTexParameteri(et->target, GL_TEXTURE_MIN_FILTER,
-			GL_LINEAR_MIPMAP_NEAREST);
-	glTexParameteri(et->target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	break;
-     }
+    switch (mode)
+    {
+    case 0:                    /* No filtering */
+        glTexImage2D(et->target, 0, GL_RGB8, w, h, 0, GL_BGRA,
+                     GL_UNSIGNED_BYTE, data);
+        glTexParameteri(et->target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(et->target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        break;
+    case 1:                    /* Linear filtering */
+        glTexImage2D(et->target, 0, GL_RGB8, w, h, 0, GL_BGRA,
+                     GL_UNSIGNED_BYTE, data);
+        glTexParameteri(et->target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(et->target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        break;
+    case 2:                    /* Mipmapping */
+        gluBuild2DMipmaps(et->target, GL_RGB8, w, h, GL_BGRA,
+                          GL_UNSIGNED_BYTE, data);
+        glTexParameteri(et->target, GL_TEXTURE_MIN_FILTER,
+                        GL_LINEAR_MIPMAP_NEAREST);
+        glTexParameteri(et->target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        break;
+    }
 
-   return et;
+    return et;
 }
 
-static              GLXPixmap
+static          GLXPixmap
 GetGlPixmap(EX_Window xwin, EX_Drawable draw)
 {
-   static const int    attrs[] = {
-      GLX_TEXTURE_TARGET_EXT, GLX_TEXTURE_2D_EXT,
-      GLX_TEXTURE_FORMAT_EXT, GLX_TEXTURE_FORMAT_RGB_EXT,
-      0
-   };
-   EX_Pixmap           pixmap;
-   GLXPixmap           glxpixmap;
+    static const int attrs[] = {
+        GLX_TEXTURE_TARGET_EXT, GLX_TEXTURE_2D_EXT,
+        GLX_TEXTURE_FORMAT_EXT, GLX_TEXTURE_FORMAT_RGB_EXT,
+        0
+    };
+    EX_Pixmap       pixmap;
+    GLXPixmap       glxpixmap;
 
-   if (xwin == NoXID && draw == NoXID)
-      return 0;
+    if (xwin == NoXID && draw == NoXID)
+        return 0;
 
-   pixmap = (draw) ? draw : XCompositeNameWindowPixmap(disp, xwin);
-   glxpixmap = glXCreatePixmap(disp, egl.fbc, pixmap, attrs);
-   Dprintf("GetGlPixmap: Window=%#x Drawable=%#x glxpixmap=%#lx\n",
-	   xwin, draw, glxpixmap);
+    pixmap = (draw) ? draw : XCompositeNameWindowPixmap(disp, xwin);
+    glxpixmap = glXCreatePixmap(disp, egl.fbc, pixmap, attrs);
+    Dprintf("GetGlPixmap: Window=%#x Drawable=%#x glxpixmap=%#lx\n",
+            xwin, draw, glxpixmap);
 
-   return glxpixmap;
+    return glxpixmap;
 }
 
 static void
-_EGlTextureFromDrawable(ETexture * et, EX_Drawable draw, int mode)
+_EGlTextureFromDrawable(ETexture *et, EX_Drawable draw, int mode)
 {
-   if (!et || draw == NoXID)
-      return;
+    if (!et || draw == NoXID)
+        return;
 
-   glBindTexture(et->target, et->texture);
-   et->glxpmap = GetGlPixmap(draw, (mode & 0x100) ? NoXID : draw);
-   if (et->glxpmap == NoXID)
-      return;
+    glBindTexture(et->target, et->texture);
+    et->glxpmap = GetGlPixmap(draw, (mode & 0x100) ? NoXID : draw);
+    if (et->glxpmap == NoXID)
+        return;
 
-   _glXBindTexImageEXT(disp, et->glxpmap, GLX_FRONT_LEFT_EXT, NULL);
-#if 0				/* No! */
-   glXDestroyPixmap(disp, et->glxpmap);
+    _glXBindTexImageEXT(disp, et->glxpmap, GLX_FRONT_LEFT_EXT, NULL);
+#if 0                           /* No! */
+    glXDestroyPixmap(disp, et->glxpmap);
 #endif
 }
 
-ETexture           *
+ETexture       *
 EGlTextureFromDrawable(EX_Drawable draw, int mode)
 {
-   ETexture           *et;
+    ETexture       *et;
 
-   if (draw == NoXID)
-      return NULL;
+    if (draw == NoXID)
+        return NULL;
 
-   et = ECALLOC(ETexture, 1);
-   if (!et)
-      return NULL;
+    et = ECALLOC(ETexture, 1);
+    if (!et)
+        return NULL;
 
-   et->type = ETEX_TYPE_PIXMAP;
-   et->target = TEXTURE_TARGET;
-   glGenTextures(1, &et->texture);
-   glBindTexture(et->target, et->texture);
+    et->type = ETEX_TYPE_PIXMAP;
+    et->target = TEXTURE_TARGET;
+    glGenTextures(1, &et->texture);
+    glBindTexture(et->target, et->texture);
 
-   _EGlTextureFromDrawable(et, draw, mode);
+    _EGlTextureFromDrawable(et, draw, mode);
 
-   return et;
+    return et;
 }
 
 void
-EGlTextureDestroy(ETexture * et)
+EGlTextureDestroy(ETexture *et)
 {
-   if (!et)
-      return;
+    if (!et)
+        return;
 
-   Dprintf("EGlTextureDestroy %d type=%u pmap=%#x\n", et->texture, et->type,
-	   et->glxpmap);
+    Dprintf("EGlTextureDestroy %d type=%u pmap=%#x\n", et->texture, et->type,
+            et->glxpmap);
 
-   EGlTextureInvalidate(et);
-   glDeleteTextures(1, &et->texture);
-   Efree(et);
+    EGlTextureInvalidate(et);
+    glDeleteTextures(1, &et->texture);
+    Efree(et);
 }
 
 void
-EGlTextureInvalidate(ETexture * et)
+EGlTextureInvalidate(ETexture *et)
 {
-   if (!et)
-      return;
+    if (!et)
+        return;
 
-   Dprintf("EGlTextureInvalidate %d type=%u pmap=%#x\n", et->texture, et->type,
-	   et->glxpmap);
+    Dprintf("EGlTextureInvalidate %d type=%u pmap=%#x\n", et->texture, et->type,
+            et->glxpmap);
 
-   switch (et->type)
-     {
-     case ETEX_TYPE_IMAGE:
-	break;
-     case ETEX_TYPE_PIXMAP:
-	if (!et->glxpmap)
-	   break;
-	_glXReleaseTexImageEXT(disp, et->glxpmap, GLX_FRONT_LEFT_EXT);
-	glXDestroyPixmap(disp, et->glxpmap);
-	et->glxpmap = NoXID;
-	break;
-     }
+    switch (et->type)
+    {
+    case ETEX_TYPE_IMAGE:
+        break;
+    case ETEX_TYPE_PIXMAP:
+        if (!et->glxpmap)
+            break;
+        _glXReleaseTexImageEXT(disp, et->glxpmap, GLX_FRONT_LEFT_EXT);
+        glXDestroyPixmap(disp, et->glxpmap);
+        et->glxpmap = NoXID;
+        break;
+    }
 }
 
 #include "eobj.h"
@@ -484,51 +482,51 @@ EGlTextureInvalidate(ETexture * et)
 static void
 EobjTexturesFree(void)
 {
-   int                 i, num;
-   EObj               *const *eol;
+    int             i, num;
+    EObj           *const *eol;
 
-   eol = EobjListStackGet(&num);
-   for (i = 0; i < num; i++)
-      EobjTextureDestroy(eol[i]);
+    eol = EobjListStackGet(&num);
+    for (i = 0; i < num; i++)
+        EobjTextureDestroy(eol[i]);
 }
 
-ETexture           *
-EobjGetTexture(EObj * eo)
+ETexture       *
+EobjGetTexture(EObj *eo)
 {
-   if (eo->glhook)
-     {
-	if (eo->glhook->glxpmap == NoXID)
-	   _EGlTextureFromDrawable(eo->glhook, EobjGetPixmap(eo), 0);
-     }
-   else
-     {
-	EobjTextureCreate(eo);
-     }
+    if (eo->glhook)
+    {
+        if (eo->glhook->glxpmap == NoXID)
+            _EGlTextureFromDrawable(eo->glhook, EobjGetPixmap(eo), 0);
+    }
+    else
+    {
+        EobjTextureCreate(eo);
+    }
 
-   return eo->glhook;
-}
-
-void
-EobjTextureCreate(EObj * eo)
-{
-   EX_Pixmap           pmap;
-
-   pmap = EobjGetPixmap(eo);
-   if (pmap == NoXID)
-      return;
-
-   eo->glhook = EGlTextureFromDrawable(pmap, 0);
+    return eo->glhook;
 }
 
 void
-EobjTextureDestroy(EObj * eo)
+EobjTextureCreate(EObj *eo)
 {
-   EGlTextureDestroy(eo->glhook);
-   eo->glhook = NULL;
+    EX_Pixmap       pmap;
+
+    pmap = EobjGetPixmap(eo);
+    if (pmap == NoXID)
+        return;
+
+    eo->glhook = EGlTextureFromDrawable(pmap, 0);
 }
 
 void
-EobjTextureInvalidate(EObj * eo)
+EobjTextureDestroy(EObj *eo)
 {
-   EGlTextureInvalidate(eo->glhook);
+    EGlTextureDestroy(eo->glhook);
+    eo->glhook = NULL;
+}
+
+void
+EobjTextureInvalidate(EObj *eo)
+{
+    EGlTextureInvalidate(eo->glhook);
 }

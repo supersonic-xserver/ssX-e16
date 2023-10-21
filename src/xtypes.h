@@ -43,4 +43,4 @@ typedef struct _xwin *Win;
 
 #define NoXID   0U
 
-#endif /* _XTYPES_H_ */
+#endif                          /* _XTYPES_H_ */

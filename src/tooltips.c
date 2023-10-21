@@ -39,675 +39,674 @@
 #include "tooltips.h"
 #include "xwin.h"
 
-static              LIST_HEAD(tt_list);
-static Timer       *tt_timer = NULL;
+static          LIST_HEAD(tt_list);
+static Timer   *tt_timer = NULL;
 
 static struct {
-   char                enable;
-   char                showroottooltip;
-   int                 delay;	/* milliseconds */
+    char            enable;
+    char            showroottooltip;
+    int             delay;      /* milliseconds */
 } Conf_tooltips;
 
 static struct {
-   int                 inhibit;
-   char                root_motion_mask_set;
-   CB_GetAclass       *ac_func;
-   void               *ac_data;
+    int             inhibit;
+    char            root_motion_mask_set;
+    CB_GetAclass   *ac_func;
+    void           *ac_data;
 } Mode_tooltips;
 
 struct _tooltip {
-   dlist_t             list;
-   const char         *name;
-   ImageClass         *iclass[5];
-   TextClass          *tclass;
-   int                 dist;
-   EObj               *win[5];
-   EX_Pixmap           pmap4;
-   ImageClass         *tooltippic;
+    dlist_t         list;
+    const char     *name;
+    ImageClass     *iclass[5];
+    TextClass      *tclass;
+    int             dist;
+    EObj           *win[5];
+    EX_Pixmap       pmap4;
+    ImageClass     *tooltippic;
 };
 
 #define TTWIN win[4]
 #define TTICL iclass[4]
 
 static void
-_TtRealize(ToolTip * tt)
+_TtRealize(ToolTip *tt)
 {
-   int                 i, wh;
-   EObj               *eo;
+    int             i, wh;
+    EObj           *eo;
 
-   for (i = 0; i < 5; i++)
-     {
-	if (!tt->iclass[i])
-	   continue;
+    for (i = 0; i < 5; i++)
+    {
+        if (!tt->iclass[i])
+            continue;
 
-	wh = (i + 1) * 8;
-	eo = EobjWindowCreate(EOBJ_TYPE_MISC, -50, -100, wh, wh, 1, tt->name);
-	eo->fade = eo->shadow = 1;
-	EobjChangeOpacity(eo, OpacityFromPercent(Conf.opacity.tooltips));
-	tt->win[i] = eo;
-     }
+        wh = (i + 1) * 8;
+        eo = EobjWindowCreate(EOBJ_TYPE_MISC, -50, -100, wh, wh, 1, tt->name);
+        eo->fade = eo->shadow = 1;
+        EobjChangeOpacity(eo, OpacityFromPercent(Conf.opacity.tooltips));
+        tt->win[i] = eo;
+    }
 }
 
-static ToolTip     *
+static ToolTip *
 _TtCreate(const char *name, const char *ic0, const char *ic1,
-	  const char *ic2, const char *ic3, const char *ic4,
-	  const char *tclass, int dist, const char *tooltippic)
+          const char *ic2, const char *ic3, const char *ic4,
+          const char *tclass, int dist, const char *tooltippic)
 {
-   ToolTip            *tt;
-   ImageClass         *ic;
+    ToolTip        *tt;
+    ImageClass     *ic;
 
-   if (!ic0 || !tclass)
-      return NULL;
+    if (!ic0 || !tclass)
+        return NULL;
 
-   ic = ImageclassAlloc(ic0, 0);
-   if (!ic)
-      return NULL;
+    ic = ImageclassAlloc(ic0, 0);
+    if (!ic)
+        return NULL;
 
-   tt = ECALLOC(ToolTip, 1);
-   if (!tt)
-      return NULL;
+    tt = ECALLOC(ToolTip, 1);
+    if (!tt)
+        return NULL;
 
-   tt->name = Estrdup(name);
-   tt->iclass[0] = ImageclassAlloc(ic1, 0);
-   tt->iclass[1] = ImageclassAlloc(ic2, 0);
-   tt->iclass[2] = ImageclassAlloc(ic3, 0);
-   tt->iclass[3] = ImageclassAlloc(ic4, 0);
-   tt->iclass[4] = ic;
-   tt->tclass = TextclassAlloc(tclass, 1);
-   tt->tooltippic = ImageclassAlloc(tooltippic, 0);
+    tt->name = Estrdup(name);
+    tt->iclass[0] = ImageclassAlloc(ic1, 0);
+    tt->iclass[1] = ImageclassAlloc(ic2, 0);
+    tt->iclass[2] = ImageclassAlloc(ic3, 0);
+    tt->iclass[3] = ImageclassAlloc(ic4, 0);
+    tt->iclass[4] = ic;
+    tt->tclass = TextclassAlloc(tclass, 1);
+    tt->tooltippic = ImageclassAlloc(tooltippic, 0);
 
-   tt->dist = dist;
+    tt->dist = dist;
 
-   LIST_PREPEND(ToolTip, &tt_list, tt);
+    LIST_PREPEND(ToolTip, &tt_list, tt);
 
-   return tt;
+    return tt;
 }
 
-#if 0				/* Not used */
+#if 0                           /* Not used */
 static void
-_TtDestroy(ToolTip * tt)
+_TtDestroy(ToolTip *tt)
 {
-   if (!tt)
-      return;
+    if (!tt)
+        return;
 
-   if (tt->ref_count > 0)
-     {
-	DialogOK("ToolTip Error!", _("%u references remain"), tt->ref_count);
-     }
+    if (tt->ref_count > 0)
+    {
+        DialogOK("ToolTip Error!", _("%u references remain"), tt->ref_count);
+    }
 }
 #endif
 
 int
-TooltipConfigLoad(FILE * fs)
+TooltipConfigLoad(FILE *fs)
 {
-   int                 err = 0;
-   char                s[FILEPATH_LEN_MAX];
-   char                s2[FILEPATH_LEN_MAX];
-   char                name[64];
-   char                iclass[64];
-   char                bubble1[64], bubble2[64], bubble3[64], bubble4[64];
-   char                tclass[64];
-   char                tooltiphelppic[64];
-   int                 i1;
-   int                 distance = 0;
+    int             err = 0;
+    char            s[FILEPATH_LEN_MAX];
+    char            s2[FILEPATH_LEN_MAX];
+    char            name[64];
+    char            iclass[64];
+    char            bubble1[64], bubble2[64], bubble3[64], bubble4[64];
+    char            tclass[64];
+    char            tooltiphelppic[64];
+    int             i1;
+    int             distance = 0;
 
-   name[0] = iclass[0] = tclass[0] = '\0';
-   bubble1[0] = bubble2[0] = bubble3[0] = bubble4[0] = '\0';
-   tooltiphelppic[0] = '\0';
+    name[0] = iclass[0] = tclass[0] = '\0';
+    bubble1[0] = bubble2[0] = bubble3[0] = bubble4[0] = '\0';
+    tooltiphelppic[0] = '\0';
 
-   while (GetLine(s, sizeof(s), fs))
-     {
-	i1 = ConfigParseline1(s, s2, NULL, NULL);
-	switch (i1)
-	  {
-	  case CONFIG_CLOSE:
-	     if (iclass[0] && tclass[0] && name[0])
-		_TtCreate(name, iclass, bubble1, bubble2,
-			  bubble3, bubble4, tclass, distance, tooltiphelppic);
-	     goto done;
+    while (GetLine(s, sizeof(s), fs))
+    {
+        i1 = ConfigParseline1(s, s2, NULL, NULL);
+        switch (i1)
+        {
+        case CONFIG_CLOSE:
+            if (iclass[0] && tclass[0] && name[0])
+                _TtCreate(name, iclass, bubble1, bubble2,
+                          bubble3, bubble4, tclass, distance, tooltiphelppic);
+            goto done;
 
-	  case CONFIG_CLASSNAME:
-	     if (TooltipFind(s2))
-	       {
-		  SkipTillEnd(fs);
-		  goto done;
-	       }
-	     STRCPY(name, s2);
-	     break;
-	  case CONFIG_IMAGECLASS:
-	     STRCPY(iclass, s2);
-	     break;
-	  case TOOLTIP_BUBBLE1:
-	     STRCPY(bubble1, s2);
-	     break;
-	  case TOOLTIP_BUBBLE2:
-	     STRCPY(bubble2, s2);
-	     break;
-	  case TOOLTIP_BUBBLE3:
-	     STRCPY(bubble3, s2);
-	     break;
-	  case TOOLTIP_BUBBLE4:
-	     STRCPY(bubble4, s2);
-	     break;
-	  case CONFIG_TEXT:
-	     STRCPY(tclass, s2);
-	     break;
-	  case TOOLTIP_DISTANCE:
-	     distance = atoi(s2);
-	     break;
-	  case TOOLTIP_HELP_PIC:
-	     STRCPY(tooltiphelppic, s2);
-	     break;
-	  default:
-	     ConfigParseError("ToolTip", s);
-	     break;
-	  }
-     }
-   err = -1;
+        case CONFIG_CLASSNAME:
+            if (TooltipFind(s2))
+            {
+                SkipTillEnd(fs);
+                goto done;
+            }
+            STRCPY(name, s2);
+            break;
+        case CONFIG_IMAGECLASS:
+            STRCPY(iclass, s2);
+            break;
+        case TOOLTIP_BUBBLE1:
+            STRCPY(bubble1, s2);
+            break;
+        case TOOLTIP_BUBBLE2:
+            STRCPY(bubble2, s2);
+            break;
+        case TOOLTIP_BUBBLE3:
+            STRCPY(bubble3, s2);
+            break;
+        case TOOLTIP_BUBBLE4:
+            STRCPY(bubble4, s2);
+            break;
+        case CONFIG_TEXT:
+            STRCPY(tclass, s2);
+            break;
+        case TOOLTIP_DISTANCE:
+            distance = atoi(s2);
+            break;
+        case TOOLTIP_HELP_PIC:
+            STRCPY(tooltiphelppic, s2);
+            break;
+        default:
+            ConfigParseError("ToolTip", s);
+            break;
+        }
+    }
+    err = -1;
 
- done:
-   return err;
+  done:
+    return err;
 }
 
-static ImageClass  *
+static ImageClass *
 _TtIcCreate(const char *name, const char *file, int *pw, int *ph)
 {
-   ImageClass         *ic;
-   EImage             *im;
-   int                 w, h;
+    ImageClass     *ic;
+    EImage         *im;
+    int             w, h;
 
-   ic = ImageclassFind(name, 0);
-   if (!ic)
-      ic = ImageclassCreateSimple(name, file);
-   im = ImageclassGetImage(ic, 0, 0, 0);
+    ic = ImageclassFind(name, 0);
+    if (!ic)
+        ic = ImageclassCreateSimple(name, file);
+    im = ImageclassGetImage(ic, 0, 0, 0);
 
-   if (im)
-     {
-	EImageGetSize(im, &w, &h);
-	if (*pw < w)
-	   *pw = w;
-	if (*ph < h)
-	   *ph = h;
-     }
+    if (im)
+    {
+        EImageGetSize(im, &w, &h);
+        if (*pw < w)
+            *pw = w;
+        if (*ph < h)
+            *ph = h;
+    }
 
-   return ic;
+    return ic;
 }
 
 static void
-_TtIcPaste(ToolTip * tt, const char *ic_name, int x, int y, int *px)
+_TtIcPaste(ToolTip *tt, const char *ic_name, int x, int y, int *px)
 {
-   ImageClass         *ic;
-   EImage             *im;
-   int                 w, h;
+    ImageClass     *ic;
+    EImage         *im;
+    int             w, h;
 
-   ic = ImageclassFind(ic_name, 0);
-   im = ImageclassGetImage(ic, 0, 0, 0);
-   if (!ic || !im)
-      return;
+    ic = ImageclassFind(ic_name, 0);
+    im = ImageclassGetImage(ic, 0, 0, 0);
+    if (!ic || !im)
+        return;
 
-   EImageGetSize(im, &w, &h);
-   EImageRenderOnDrawable(im, EobjGetWin(tt->TTWIN), tt->pmap4,
-			  EIMAGE_BLEND, x, y, w, h);
+    EImageGetSize(im, &w, &h);
+    EImageRenderOnDrawable(im, EobjGetWin(tt->TTWIN), tt->pmap4,
+                           EIMAGE_BLEND, x, y, w, h);
 
-   *px = x + w;
+    *px = x + w;
 }
 
 typedef struct {
-   int                 h_icons, h_text, h_line;
+    int             h_icons, h_text, h_line;
 } tt_hdim_t;
 
 void
-TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
+TooltipShow(ToolTip *tt, const char *text, ActionClass *ac, int x, int y)
 {
-   int                 i, w, h, iw, ih, dx, dy, xx, yy;
-   int                 ww, hh, adx, ady, dist;
-   int                 headline_h, headline_w;
-   int                 icons_width, labels_width, double_w;
-   EImage             *im;
-   tt_hdim_t          *heights = NULL;
-   EImageBorder       *pad;
-   int                 num, modifiers;
-   Action             *aa;
-   const char         *tts;
-   EObj               *eo;
+    int             i, w, h, iw, ih, dx, dy, xx, yy;
+    int             ww, hh, adx, ady, dist;
+    int             headline_h, headline_w;
+    int             icons_width, labels_width, double_w;
+    EImage         *im;
+    tt_hdim_t      *heights = NULL;
+    EImageBorder   *pad;
+    int             num, modifiers;
+    Action         *aa;
+    const char     *tts;
+    EObj           *eo;
 
-   if (!tt || Mode.mode != MODE_NONE)
-      return;
+    if (!tt || Mode.mode != MODE_NONE)
+        return;
 
-   if (!tt->TTWIN)
-     {
-	_TtRealize(tt);
-	if (!tt->TTWIN)
-	   return;
-     }
+    if (!tt->TTWIN)
+    {
+        _TtRealize(tt);
+        if (!tt->TTWIN)
+            return;
+    }
 
-   /* if we get an actionclass, look for tooltip action texts */
-   icons_width = labels_width = double_w = 0;
-   h = 0;
-   if (ac)
-     {
-	int                 cols[10];
+    /* if we get an actionclass, look for tooltip action texts */
+    icons_width = labels_width = double_w = 0;
+    h = 0;
+    if (ac)
+    {
+        int             cols[10];
 
-	num = ActionclassGetActionCount(ac);
-	heights = ECALLOC(tt_hdim_t, num);
-	cols[0] = 0;
+        num = ActionclassGetActionCount(ac);
+        heights = ECALLOC(tt_hdim_t, num);
+        cols[0] = 0;
 
-	for (i = 0; i < num; i++)
-	  {
-	     int                 temp_w, temp_h, j;
+        for (i = 0; i < num; i++)
+        {
+            int             temp_w, temp_h, j;
 
-	     aa = ActionclassGetAction(ac, i);
-	     if (!aa)
-		continue;
+            aa = ActionclassGetAction(ac, i);
+            if (!aa)
+                continue;
 
-	     tts = ActionGetTooltipString(aa);
-	     if (!tts)
-		continue;
-	     tts = _(tts);
+            tts = ActionGetTooltipString(aa);
+            if (!tts)
+                continue;
+            tts = _(tts);
 
-	     temp_w = 0;
-	     temp_h = 0;
-	     for (j = 1; j < 10; j++)
-		cols[j] = 0;
+            temp_w = 0;
+            temp_h = 0;
+            for (j = 1; j < 10; j++)
+                cols[j] = 0;
 
-	     TextSize(tt->tclass, 0, 0, STATE_NORMAL, tts, &temp_w, &temp_h);
-	     if (temp_w > labels_width)
-		labels_width = temp_w;
+            TextSize(tt->tclass, 0, 0, STATE_NORMAL, tts, &temp_w, &temp_h);
+            if (temp_w > labels_width)
+                labels_width = temp_w;
 
-	     if (ActionGetEvent(aa) == EVENT_DOUBLE_DOWN)
-	       {
-		  TextSize(tt->tclass, 0, 0, STATE_NORMAL, "2x", &double_w,
-			   &temp_h);
-		  if (cols[0] < double_w)
-		     cols[0] = double_w;
-	       }
-	     heights[i].h_text = temp_h;
+            if (ActionGetEvent(aa) == EVENT_DOUBLE_DOWN)
+            {
+                TextSize(tt->tclass, 0, 0, STATE_NORMAL, "2x", &double_w,
+                         &temp_h);
+                if (cols[0] < double_w)
+                    cols[0] = double_w;
+            }
+            heights[i].h_text = temp_h;
 
-	     temp_h = 0;
-	     if (ActionGetAnybutton(aa))
-	       {
-		  _TtIcCreate("TOOLTIP_MOUSEBUTTON_ANY",
-			      "pix/mouse_any.png", &cols[1], &temp_h);
-	       }
-	     else
-		switch (ActionGetButton(aa))
-		  {
-		  case 1:
-		     _TtIcCreate("TOOLTIP_MOUSEBUTTON_1",
-				 "pix/mouse_1.png", &cols[1], &temp_h);
-		     break;
-		  case 2:
-		     _TtIcCreate("TOOLTIP_MOUSEBUTTON_2",
-				 "pix/mouse_2.png", &cols[1], &temp_h);
-		     break;
-		  case 3:
-		     _TtIcCreate("TOOLTIP_MOUSEBUTTON_3",
-				 "pix/mouse_3.png", &cols[1], &temp_h);
-		     break;
-		  case 4:
-		     _TtIcCreate("TOOLTIP_MOUSEBUTTON_4",
-				 "pix/mouse_4.png", &cols[1], &temp_h);
-		     break;
-		  case 5:
-		     _TtIcCreate("TOOLTIP_MOUSEBUTTON_5",
-				 "pix/mouse_5.png", &cols[1], &temp_h);
-		     break;
-		  case 0:
-		  default:
-		     break;
-		  }
+            temp_h = 0;
+            if (ActionGetAnybutton(aa))
+            {
+                _TtIcCreate("TOOLTIP_MOUSEBUTTON_ANY",
+                            "pix/mouse_any.png", &cols[1], &temp_h);
+            }
+            else
+                switch (ActionGetButton(aa))
+                {
+                case 1:
+                    _TtIcCreate("TOOLTIP_MOUSEBUTTON_1",
+                                "pix/mouse_1.png", &cols[1], &temp_h);
+                    break;
+                case 2:
+                    _TtIcCreate("TOOLTIP_MOUSEBUTTON_2",
+                                "pix/mouse_2.png", &cols[1], &temp_h);
+                    break;
+                case 3:
+                    _TtIcCreate("TOOLTIP_MOUSEBUTTON_3",
+                                "pix/mouse_3.png", &cols[1], &temp_h);
+                    break;
+                case 4:
+                    _TtIcCreate("TOOLTIP_MOUSEBUTTON_4",
+                                "pix/mouse_4.png", &cols[1], &temp_h);
+                    break;
+                case 5:
+                    _TtIcCreate("TOOLTIP_MOUSEBUTTON_5",
+                                "pix/mouse_5.png", &cols[1], &temp_h);
+                    break;
+                case 0:
+                default:
+                    break;
+                }
 
-	     modifiers = ActionGetModifiers(aa);
-	     if (modifiers)
-	       {
-		  if (modifiers & ShiftMask)
-		     _TtIcCreate("TOOLTIP_KEY_SHIFT",
-				 "pix/key_shift.png", &cols[2], &temp_h);
-		  if (modifiers & LockMask)
-		     _TtIcCreate("TOOLTIP_KEY_LOCK",
-				 "pix/key_lock.png", &cols[3], &temp_h);
-		  if (modifiers & ControlMask)
-		     _TtIcCreate("TOOLTIP_KEY_CTRL",
-				 "pix/key_ctrl.png", &cols[4], &temp_h);
-		  if (modifiers & Mod1Mask)
-		     _TtIcCreate("TOOLTIP_KEY_MOD1",
-				 "pix/key_mod1.png", &cols[5], &temp_h);
-		  if (modifiers & Mod2Mask)
-		     _TtIcCreate("TOOLTIP_KEY_MOD2",
-				 "pix/key_mod2.png", &cols[6], &temp_h);
-		  if (modifiers & Mod3Mask)
-		     _TtIcCreate("TOOLTIP_KEY_MOD3",
-				 "pix/key_mod3.png", &cols[7], &temp_h);
-		  if (modifiers & Mod4Mask)
-		     _TtIcCreate("TOOLTIP_KEY_MOD4",
-				 "pix/key_mod4.png", &cols[8], &temp_h);
-		  if (modifiers & Mod5Mask)
-		     _TtIcCreate("TOOLTIP_KEY_MOD5",
-				 "pix/key_mod5.png", &cols[9], &temp_h);
-	       }
-	     heights[i].h_icons = temp_h;
+            modifiers = ActionGetModifiers(aa);
+            if (modifiers)
+            {
+                if (modifiers & ShiftMask)
+                    _TtIcCreate("TOOLTIP_KEY_SHIFT",
+                                "pix/key_shift.png", &cols[2], &temp_h);
+                if (modifiers & LockMask)
+                    _TtIcCreate("TOOLTIP_KEY_LOCK",
+                                "pix/key_lock.png", &cols[3], &temp_h);
+                if (modifiers & ControlMask)
+                    _TtIcCreate("TOOLTIP_KEY_CTRL",
+                                "pix/key_ctrl.png", &cols[4], &temp_h);
+                if (modifiers & Mod1Mask)
+                    _TtIcCreate("TOOLTIP_KEY_MOD1",
+                                "pix/key_mod1.png", &cols[5], &temp_h);
+                if (modifiers & Mod2Mask)
+                    _TtIcCreate("TOOLTIP_KEY_MOD2",
+                                "pix/key_mod2.png", &cols[6], &temp_h);
+                if (modifiers & Mod3Mask)
+                    _TtIcCreate("TOOLTIP_KEY_MOD3",
+                                "pix/key_mod3.png", &cols[7], &temp_h);
+                if (modifiers & Mod4Mask)
+                    _TtIcCreate("TOOLTIP_KEY_MOD4",
+                                "pix/key_mod4.png", &cols[8], &temp_h);
+                if (modifiers & Mod5Mask)
+                    _TtIcCreate("TOOLTIP_KEY_MOD5",
+                                "pix/key_mod5.png", &cols[9], &temp_h);
+            }
+            heights[i].h_icons = temp_h;
 
-	     temp_w = cols[1] + cols[2] + cols[3] + cols[4] +
-		cols[5] + cols[6] + cols[7] + cols[8] + cols[9];
-	     if (temp_w > icons_width)
-		icons_width = temp_w;
+            temp_w = cols[1] + cols[2] + cols[3] + cols[4] +
+                cols[5] + cols[6] + cols[7] + cols[8] + cols[9];
+            if (temp_w > icons_width)
+                icons_width = temp_w;
 
-	     temp_h = MAX(heights[i].h_text, heights[i].h_icons);
-	     heights[i].h_line = temp_h;
+            temp_h = MAX(heights[i].h_text, heights[i].h_icons);
+            heights[i].h_line = temp_h;
 
-	     h += temp_h;
-	  }
-	icons_width += cols[0] + 2;
-     }
+            h += temp_h;
+        }
+        icons_width += cols[0] + 2;
+    }
 
-   headline_h = headline_w = 0;
-   TextSize(tt->tclass, 0, 0, STATE_NORMAL, text, &headline_w, &headline_h);
-   if (headline_w < icons_width + labels_width)
-      w = icons_width + labels_width;
-   else
-      w = headline_w;
-   h += headline_h;
+    headline_h = headline_w = 0;
+    TextSize(tt->tclass, 0, 0, STATE_NORMAL, text, &headline_w, &headline_h);
+    if (headline_w < icons_width + labels_width)
+        w = icons_width + labels_width;
+    else
+        w = headline_w;
+    h += headline_h;
 
-   pad = ImageclassGetPadding(tt->TTICL);
-   im = NULL;
-   iw = 0;
-   ih = 0;
-   if (tt->tooltippic)
-     {
-	im = ImageclassGetImage(tt->tooltippic, 0, 0, 0);
-	if (im)
-	   EImageGetSize(im, &iw, &ih);
-	w += iw;
-	if (h < ih)
-	   h = ih;
-     }
-   w += pad->left + pad->right;
-   h += pad->top + pad->bottom;
+    pad = ImageclassGetPadding(tt->TTICL);
+    im = NULL;
+    iw = 0;
+    ih = 0;
+    if (tt->tooltippic)
+    {
+        im = ImageclassGetImage(tt->tooltippic, 0, 0, 0);
+        if (im)
+            EImageGetSize(im, &iw, &ih);
+        w += iw;
+        if (h < ih)
+            h = ih;
+    }
+    w += pad->left + pad->right;
+    h += pad->top + pad->bottom;
 
-   dx = x - WinGetW(VROOT) / 2;
-   dy = y - WinGetH(VROOT) / 2;
+    dx = x - WinGetW(VROOT) / 2;
+    dy = y - WinGetH(VROOT) / 2;
 
-   if ((dy == 0) && (dx == 0))
-      dy = -1;
+    if ((dy == 0) && (dx == 0))
+        dy = -1;
 
-   adx = dx;
-   if (adx < 0)
-      adx = -adx;
-   ady = dy;
-   if (ady < 0)
-      ady = -ady;
-   if (adx < ady)
-      /*   +-------+   */
-      /*   |\#####/|   */
-      /*   | \###/ |   */
-      /*   |  \#/  |   */
-      /*   |  /#\  |   */
-      /*   | /###\ |   */
-      /*   |/#####\|   */
-      /*   +-------+   */
-     {
-	if (dy == 0)
-	  {
-	     dy = 1;
-	     ady = 1;
-	  }
-	dist = tt->dist;
-	ady /= dy;
+    adx = dx;
+    if (adx < 0)
+        adx = -adx;
+    ady = dy;
+    if (ady < 0)
+        ady = -ady;
+    if (adx < ady)
+        /*   +-------+   */
+        /*   |\#####/|   */
+        /*   | \###/ |   */
+        /*   |  \#/  |   */
+        /*   |  /#\  |   */
+        /*   | /###\ |   */
+        /*   |/#####\|   */
+        /*   +-------+   */
+    {
+        if (dy == 0)
+        {
+            dy = 1;
+            ady = 1;
+        }
+        dist = tt->dist;
+        ady /= dy;
 
-	if (tt->win[0])
-	  {
-	     yy = y - ((ady * 10 * dist) / 100);
-	     xx = x - (dist * 10 * dx) / (100 * WinGetW(VROOT) / 2);
-	     EobjMove(tt->win[0], xx - 4, yy - 4);
-	  }
+        if (tt->win[0])
+        {
+            yy = y - ((ady * 10 * dist) / 100);
+            xx = x - (dist * 10 * dx) / (100 * WinGetW(VROOT) / 2);
+            EobjMove(tt->win[0], xx - 4, yy - 4);
+        }
 
-	if (tt->win[1])
-	  {
-	     yy = y - ((ady * 30 * dist) / 100);
-	     xx = x - (dist * 30 * dx) / (100 * WinGetW(VROOT) / 2);
-	     EobjMove(tt->win[1], xx - 8, yy - 8);
-	  }
+        if (tt->win[1])
+        {
+            yy = y - ((ady * 30 * dist) / 100);
+            xx = x - (dist * 30 * dx) / (100 * WinGetW(VROOT) / 2);
+            EobjMove(tt->win[1], xx - 8, yy - 8);
+        }
 
-	if (tt->win[2])
-	  {
-	     yy = y - ((ady * 50 * dist) / 100);
-	     xx = x - (dist * 50 * dx) / (100 * WinGetW(VROOT) / 2);
-	     EobjMove(tt->win[2], xx - 12, yy - 12);
-	  }
+        if (tt->win[2])
+        {
+            yy = y - ((ady * 50 * dist) / 100);
+            xx = x - (dist * 50 * dx) / (100 * WinGetW(VROOT) / 2);
+            EobjMove(tt->win[2], xx - 12, yy - 12);
+        }
 
-	if (tt->win[3])
-	  {
-	     yy = y - ((ady * 80 * dist) / 100);
-	     xx = x - (dist * 80 * dx) / (100 * WinGetW(VROOT) / 2);
-	     EobjMove(tt->win[3], xx - 16, yy - 16);
-	  }
+        if (tt->win[3])
+        {
+            yy = y - ((ady * 80 * dist) / 100);
+            xx = x - (dist * 80 * dx) / (100 * WinGetW(VROOT) / 2);
+            EobjMove(tt->win[3], xx - 16, yy - 16);
+        }
 
-	yy = y - ((ady * 100 * dist) / 100);
-	xx = x - (dist * 100 * dx) / (100 * WinGetW(VROOT) / 2);
-	if (ady < 0)
-	   hh = 0;
-	else
-	   hh = h;
-	ww = (w / 2) + ((dx * w) / (WinGetW(VROOT) / 2));
-     }
-   else
-      /*   +-------+   */
-      /*   |\     /|   */
-      /*   |#\   /#|   */
-      /*   |##\ /##|   */
-      /*   |##/ \##|   */
-      /*   |#/   \#|   */
-      /*   |/     \|   */
-      /*   +-------+   */
-     {
-	if (dx == 0)
-	  {
-	     dx = 1;
-	     adx = 1;
-	  }
-	dist = tt->dist;
-	adx /= dx;
+        yy = y - ((ady * 100 * dist) / 100);
+        xx = x - (dist * 100 * dx) / (100 * WinGetW(VROOT) / 2);
+        if (ady < 0)
+            hh = 0;
+        else
+            hh = h;
+        ww = (w / 2) + ((dx * w) / (WinGetW(VROOT) / 2));
+    }
+    else
+        /*   +-------+   */
+        /*   |\     /|   */
+        /*   |#\   /#|   */
+        /*   |##\ /##|   */
+        /*   |##/ \##|   */
+        /*   |#/   \#|   */
+        /*   |/     \|   */
+        /*   +-------+   */
+    {
+        if (dx == 0)
+        {
+            dx = 1;
+            adx = 1;
+        }
+        dist = tt->dist;
+        adx /= dx;
 
-	if (tt->win[0])
-	  {
-	     xx = x - ((adx * 10 * dist) / 100);
-	     yy = y - (dist * 10 * dy) / (100 * WinGetH(VROOT) / 2);
-	     EobjMove(tt->win[0], xx - 4, yy - 4);
-	  }
+        if (tt->win[0])
+        {
+            xx = x - ((adx * 10 * dist) / 100);
+            yy = y - (dist * 10 * dy) / (100 * WinGetH(VROOT) / 2);
+            EobjMove(tt->win[0], xx - 4, yy - 4);
+        }
 
-	if (tt->win[1])
-	  {
-	     xx = x - ((adx * 30 * dist) / 100);
-	     yy = y - (dist * 30 * dy) / (100 * WinGetH(VROOT) / 2);
-	     EobjMove(tt->win[1], xx - 8, yy - 8);
-	  }
+        if (tt->win[1])
+        {
+            xx = x - ((adx * 30 * dist) / 100);
+            yy = y - (dist * 30 * dy) / (100 * WinGetH(VROOT) / 2);
+            EobjMove(tt->win[1], xx - 8, yy - 8);
+        }
 
-	if (tt->win[2])
-	  {
-	     xx = x - ((adx * 50 * dist) / 100);
-	     yy = y - (dist * 50 * dy) / (100 * WinGetH(VROOT) / 2);
-	     EobjMove(tt->win[2], xx - 12, yy - 12);
-	  }
+        if (tt->win[2])
+        {
+            xx = x - ((adx * 50 * dist) / 100);
+            yy = y - (dist * 50 * dy) / (100 * WinGetH(VROOT) / 2);
+            EobjMove(tt->win[2], xx - 12, yy - 12);
+        }
 
-	if (tt->win[3])
-	  {
-	     xx = x - ((adx * 80 * dist) / 100);
-	     yy = y - (dist * 80 * dy) / (100 * WinGetH(VROOT) / 2);
-	     EobjMove(tt->win[3], xx - 16, yy - 16);
-	  }
+        if (tt->win[3])
+        {
+            xx = x - ((adx * 80 * dist) / 100);
+            yy = y - (dist * 80 * dy) / (100 * WinGetH(VROOT) / 2);
+            EobjMove(tt->win[3], xx - 16, yy - 16);
+        }
 
-	xx = x - ((adx * 100 * dist) / 100);
-	yy = y - (dist * 100 * dy) / (100 * WinGetH(VROOT) / 2);
-	if (adx < 0)
-	   ww = 0;
-	else
-	   ww = w;
-	hh = (h / 2) + ((dy * h) / (WinGetH(VROOT) / 2));
-     }
+        xx = x - ((adx * 100 * dist) / 100);
+        yy = y - (dist * 100 * dy) / (100 * WinGetH(VROOT) / 2);
+        if (adx < 0)
+            ww = 0;
+        else
+            ww = w;
+        hh = (h / 2) + ((dy * h) / (WinGetH(VROOT) / 2));
+    }
 
-   EobjMoveResize(tt->TTWIN, xx - ww, yy - hh, w, h);
+    EobjMoveResize(tt->TTWIN, xx - ww, yy - hh, w, h);
 
-   for (i = 0; i < 5; i++)
-     {
-	eo = tt->win[i];
-	if (!eo)
-	   continue;
+    for (i = 0; i < 5; i++)
+    {
+        eo = tt->win[i];
+        if (!eo)
+            continue;
 
-	if (i < 4)
-	  {
-	     ImageclassApply(tt->iclass[i], EobjGetWin(eo), 0, 0, STATE_NORMAL);
-	  }
-	else
-	  {
-	     PmapMask            pmm;
+        if (i < 4)
+        {
+            ImageclassApply(tt->iclass[i], EobjGetWin(eo), 0, 0, STATE_NORMAL);
+        }
+        else
+        {
+            PmapMask        pmm;
 
-	     tt->pmap4 = EGetWindowBackgroundPixmap(EobjGetWin(eo));
-	     ImageclassApplyCopy(tt->iclass[i], EobjGetWin(eo),
-				 EobjGetW(eo), EobjGetH(eo),
-				 0, 0, STATE_NORMAL, &pmm, IC_FLAG_MAKE_MASK);
-	     EXCopyArea(pmm.pmap, tt->pmap4,
-			0, 0, EobjGetW(eo), EobjGetH(eo), 0, 0);
-	     EShapeSetMask(EobjGetWin(eo), 0, 0, pmm.mask);
-	     PmapMaskFree(&pmm);
-	  }
-	EobjShapeUpdate(eo, 0);
-	EobjMap(eo, 0);
-     }
+            tt->pmap4 = EGetWindowBackgroundPixmap(EobjGetWin(eo));
+            ImageclassApplyCopy(tt->iclass[i], EobjGetWin(eo),
+                                EobjGetW(eo), EobjGetH(eo),
+                                0, 0, STATE_NORMAL, &pmm, IC_FLAG_MAKE_MASK);
+            EXCopyArea(pmm.pmap, tt->pmap4,
+                       0, 0, EobjGetW(eo), EobjGetH(eo), 0, 0);
+            EShapeSetMask(EobjGetWin(eo), 0, 0, pmm.mask);
+            PmapMaskFree(&pmm);
+        }
+        EobjShapeUpdate(eo, 0);
+        EobjMap(eo, 0);
+    }
 
-   if (im)
-     {
-	xx = pad->left;
-	yy = (h - ih) / 2;
-	EImageRenderOnDrawable(im, EobjGetWin(tt->TTWIN), tt->pmap4,
-			       EIMAGE_BLEND, xx, yy, iw, ih);
-	EImageFree(im);
-     }
+    if (im)
+    {
+        xx = pad->left;
+        yy = (h - ih) / 2;
+        EImageRenderOnDrawable(im, EobjGetWin(tt->TTWIN), tt->pmap4,
+                               EIMAGE_BLEND, xx, yy, iw, ih);
+        EImageFree(im);
+    }
 
-   /* draw the ordinary tooltip text */
-   xx = pad->left + iw;
-   TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), tt->pmap4, 0, 0,
-	    STATE_NORMAL, text, xx, pad->top, headline_w, headline_h, 512);
+    /* draw the ordinary tooltip text */
+    xx = pad->left + iw;
+    TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), tt->pmap4, 0, 0,
+             STATE_NORMAL, text, xx, pad->top, headline_w, headline_h, 512);
 
-   /* draw the icons and labels, if any */
-   if (ac)
-     {
-	int                 ytxt, yico, htxt, hico;
+    /* draw the icons and labels, if any */
+    if (ac)
+    {
+        int             ytxt, yico, htxt, hico;
 
-	num = ActionclassGetActionCount(ac);
-	yy = pad->top + headline_h;
+        num = ActionclassGetActionCount(ac);
+        yy = pad->top + headline_h;
 
-	for (i = 0; i < num; i++)
-	  {
-	     aa = ActionclassGetAction(ac, i);
-	     if (!aa)
-		continue;
+        for (i = 0; i < num; i++)
+        {
+            aa = ActionclassGetAction(ac, i);
+            if (!aa)
+                continue;
 
-	     tts = ActionGetTooltipString(aa);
-	     if (!tts)
-		continue;
-	     tts = _(tts);
+            tts = ActionGetTooltipString(aa);
+            if (!tts)
+                continue;
+            tts = _(tts);
 
-	     xx = pad->left + iw;
-	     ytxt = yico = yy;
-	     htxt = heights[i].h_text;
-	     hico = heights[i].h_icons;
-	     if (hico > htxt)
-		ytxt += (hico - htxt) / 2;
-	     else
-		yico += (htxt - hico) / 2;
+            xx = pad->left + iw;
+            ytxt = yico = yy;
+            htxt = heights[i].h_text;
+            hico = heights[i].h_icons;
+            if (hico > htxt)
+                ytxt += (hico - htxt) / 2;
+            else
+                yico += (htxt - hico) / 2;
 
-	     if (ActionGetEvent(aa) == EVENT_DOUBLE_DOWN)
-	       {
-		  TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), tt->pmap4,
-			   0, 0, STATE_NORMAL, "2x",
-			   xx, ytxt, double_w, htxt, 0);
-	       }
+            if (ActionGetEvent(aa) == EVENT_DOUBLE_DOWN)
+            {
+                TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), tt->pmap4,
+                         0, 0, STATE_NORMAL, "2x", xx, ytxt, double_w, htxt, 0);
+            }
 
-	     xx += double_w;
+            xx += double_w;
 
-	     if (ActionGetAnybutton(aa))
-	       {
-		  _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_ANY", xx, yico, &xx);
-	       }
-	     else
-		switch (ActionGetButton(aa))
-		  {
-		  case 1:
-		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_1", xx, yico, &xx);
-		     break;
-		  case 2:
-		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_2", xx, yico, &xx);
-		     break;
-		  case 3:
-		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_3", xx, yico, &xx);
-		     break;
-		  case 4:
-		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_4", xx, yico, &xx);
-		     break;
-		  case 5:
-		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_5", xx, yico, &xx);
-		     break;
-		  default:
-		     break;
-		  }
+            if (ActionGetAnybutton(aa))
+            {
+                _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_ANY", xx, yico, &xx);
+            }
+            else
+                switch (ActionGetButton(aa))
+                {
+                case 1:
+                    _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_1", xx, yico, &xx);
+                    break;
+                case 2:
+                    _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_2", xx, yico, &xx);
+                    break;
+                case 3:
+                    _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_3", xx, yico, &xx);
+                    break;
+                case 4:
+                    _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_4", xx, yico, &xx);
+                    break;
+                case 5:
+                    _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_5", xx, yico, &xx);
+                    break;
+                default:
+                    break;
+                }
 
-	     modifiers = ActionGetModifiers(aa);
-	     if (modifiers)
-	       {
-		  if (modifiers & ShiftMask)
-		     _TtIcPaste(tt, "TOOLTIP_KEY_SHIFT", xx, yico, &xx);
-		  if (modifiers & LockMask)
-		     _TtIcPaste(tt, "TOOLTIP_KEY_LOCK", xx, yico, &xx);
-		  if (modifiers & ControlMask)
-		     _TtIcPaste(tt, "TOOLTIP_KEY_CTRL", xx, yico, &xx);
-		  if (modifiers & Mod1Mask)
-		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD1", xx, yico, &xx);
-		  if (modifiers & Mod2Mask)
-		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD2", xx, yico, &xx);
-		  if (modifiers & Mod3Mask)
-		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD3", xx, yico, &xx);
-		  if (modifiers & Mod4Mask)
-		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD4", xx, yico, &xx);
-		  if (modifiers & Mod5Mask)
-		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD5", xx, yico, &xx);
-	       }
+            modifiers = ActionGetModifiers(aa);
+            if (modifiers)
+            {
+                if (modifiers & ShiftMask)
+                    _TtIcPaste(tt, "TOOLTIP_KEY_SHIFT", xx, yico, &xx);
+                if (modifiers & LockMask)
+                    _TtIcPaste(tt, "TOOLTIP_KEY_LOCK", xx, yico, &xx);
+                if (modifiers & ControlMask)
+                    _TtIcPaste(tt, "TOOLTIP_KEY_CTRL", xx, yico, &xx);
+                if (modifiers & Mod1Mask)
+                    _TtIcPaste(tt, "TOOLTIP_KEY_MOD1", xx, yico, &xx);
+                if (modifiers & Mod2Mask)
+                    _TtIcPaste(tt, "TOOLTIP_KEY_MOD2", xx, yico, &xx);
+                if (modifiers & Mod3Mask)
+                    _TtIcPaste(tt, "TOOLTIP_KEY_MOD3", xx, yico, &xx);
+                if (modifiers & Mod4Mask)
+                    _TtIcPaste(tt, "TOOLTIP_KEY_MOD4", xx, yico, &xx);
+                if (modifiers & Mod5Mask)
+                    _TtIcPaste(tt, "TOOLTIP_KEY_MOD5", xx, yico, &xx);
+            }
 
-	     xx = pad->left + iw + icons_width;
-	     TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), tt->pmap4,
-		      0, 0, STATE_NORMAL, tts, xx, ytxt, labels_width, htxt, 0);
+            xx = pad->left + iw + icons_width;
+            TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), tt->pmap4,
+                     0, 0, STATE_NORMAL, tts, xx, ytxt, labels_width, htxt, 0);
 
-	     yy += heights[i].h_line;
-	  }
-     }
+            yy += heights[i].h_line;
+        }
+    }
 
-   EClearWindow(EobjGetWin(tt->TTWIN));
+    EClearWindow(EobjGetWin(tt->TTWIN));
 
-   Efree(heights);
+    Efree(heights);
 }
 
 void
-TooltipHide(ToolTip * tt)
+TooltipHide(ToolTip *tt)
 {
-   int                 i;
+    int             i;
 
-   if (!tt || !tt->TTWIN || !tt->TTWIN->shown)
-      return;
+    if (!tt || !tt->TTWIN || !tt->TTWIN->shown)
+        return;
 
-   for (i = 4; i >= 0; i--)
-      if (tt->win[i])
-	 EobjUnmap(tt->win[i]);
+    for (i = 4; i >= 0; i--)
+        if (tt->win[i])
+            EobjUnmap(tt->win[i]);
 }
 
 static int
 _TooltipMatchName(const void *data, const void *match)
 {
-   return strcmp(((const ToolTip *)data)->name, (const char *)match);
+    return strcmp(((const ToolTip *)data)->name, (const char *)match);
 }
 
-ToolTip            *
+ToolTip        *
 TooltipFind(const char *name)
 {
-   return LIST_FIND(ToolTip, &tt_list, _TooltipMatchName, name);
+    return LIST_FIND(ToolTip, &tt_list, _TooltipMatchName, name);
 }
 
 /*
@@ -717,72 +716,72 @@ TooltipFind(const char *name)
 void
 TooltipsHide(void)
 {
-   ToolTip            *tt;
+    ToolTip        *tt;
 
-   TooltipsSetPending(0, NULL, NULL);
+    TooltipsSetPending(0, NULL, NULL);
 
-   LIST_FOR_EACH(ToolTip, &tt_list, tt) TooltipHide(tt);
+    LIST_FOR_EACH(ToolTip, &tt_list, tt) TooltipHide(tt);
 }
 
 void
 TooltipsEnable(int enable)
 {
-   if (enable)
-     {
-	if (Mode_tooltips.inhibit > 0)
-	   Mode_tooltips.inhibit--;
-     }
-   else
-     {
-	Mode_tooltips.inhibit++;
-	TooltipsHide();
-     }
+    if (enable)
+    {
+        if (Mode_tooltips.inhibit > 0)
+            Mode_tooltips.inhibit--;
+    }
+    else
+    {
+        Mode_tooltips.inhibit++;
+        TooltipsHide();
+    }
 }
 
-static ToolTip     *ttip = NULL;
+static ToolTip *ttip = NULL;
 
 static int
 _TtTimeout(void *data __UNUSED__)
 {
-   int                 x, y;
-   unsigned int        mask;
-   ActionClass        *ac;
-   const char         *tts;
+    int             x, y;
+    unsigned int    mask;
+    ActionClass    *ac;
+    const char     *tts;
 
-   if (!ttip)
-      ttip = TooltipFind("DEFAULT");
-   if (!ttip)
-      goto done;
+    if (!ttip)
+        ttip = TooltipFind("DEFAULT");
+    if (!ttip)
+        goto done;
 
-   /* In the case of multiple screens, check to make sure
-    * the root window is still where the mouse is... */
-   if (!EQueryPointer(NULL, &x, &y, NULL, &mask))
-      goto done;
+    /* In the case of multiple screens, check to make sure
+     * the root window is still where the mouse is... */
+    if (!EQueryPointer(NULL, &x, &y, NULL, &mask))
+        goto done;
 
-   /* In case this is a virtual root */
-   if (x < 0 || y < 0 || x >= WinGetW(VROOT) || y >= WinGetH(VROOT))
-      goto done;
+    /* In case this is a virtual root */
+    if (x < 0 || y < 0 || x >= WinGetW(VROOT) || y >= WinGetH(VROOT))
+        goto done;
 
-   /* dont pop up tooltip is mouse button down */
-   if (mask &
-       (Button1Mask | Button2Mask | Button3Mask | Button4Mask | Button5Mask))
-      goto done;
+    /* dont pop up tooltip is mouse button down */
+    if (mask &
+        (Button1Mask | Button2Mask | Button3Mask | Button4Mask | Button5Mask))
+        goto done;
 
-   if (!Mode_tooltips.ac_func)
-      goto done;
-   ac = Mode_tooltips.ac_func(Mode_tooltips.ac_data);
-   if (!ac)
-      goto done;
+    if (!Mode_tooltips.ac_func)
+        goto done;
+    ac = Mode_tooltips.ac_func(Mode_tooltips.ac_data);
+    if (!ac)
+        goto done;
 
-   tts = ActionclassGetTooltipString(ac);
-   if (!tts)
-      goto done;
+    tts = ActionclassGetTooltipString(ac);
+    if (!tts)
+        goto done;
 
-   TooltipShow(ttip, _(tts), ac, x, y);
+    TooltipShow(ttip, _(tts), ac, x, y);
 
- done:
-   tt_timer = NULL;
-   return 0;
+  done:
+    tt_timer = NULL;
+    return 0;
 }
 
 /*
@@ -790,40 +789,40 @@ _TtTimeout(void *data __UNUSED__)
  * ButtonPress, ButtonRelease, MotionNotify, EnterNotify, LeaveNotify
  */
 void
-TooltipsSetPending(int type, CB_GetAclass * func, void *data)
+TooltipsSetPending(int type, CB_GetAclass *func, void *data)
 {
-   Mode_tooltips.ac_func = func;
-   Mode_tooltips.ac_data = data;
+    Mode_tooltips.ac_func = func;
+    Mode_tooltips.ac_data = data;
 
-   TooltipHide(ttip);
+    TooltipHide(ttip);
 
-   TIMER_DEL(tt_timer);
+    TIMER_DEL(tt_timer);
 
-   if (Conf_tooltips.showroottooltip)
-     {
-	if (!Mode_tooltips.root_motion_mask_set)
-	  {
-	     Mode_tooltips.root_motion_mask_set = 1;
-	     ESelectInputChange(VROOT, PointerMotionMask, 0);
-	  }
-     }
-   else
-     {
-	if (Mode_tooltips.root_motion_mask_set)
-	  {
-	     Mode_tooltips.root_motion_mask_set = 0;
-	     ESelectInputChange(VROOT, 0, PointerMotionMask);
-	  }
-     }
+    if (Conf_tooltips.showroottooltip)
+    {
+        if (!Mode_tooltips.root_motion_mask_set)
+        {
+            Mode_tooltips.root_motion_mask_set = 1;
+            ESelectInputChange(VROOT, PointerMotionMask, 0);
+        }
+    }
+    else
+    {
+        if (Mode_tooltips.root_motion_mask_set)
+        {
+            Mode_tooltips.root_motion_mask_set = 0;
+            ESelectInputChange(VROOT, 0, PointerMotionMask);
+        }
+    }
 
-   if (!func)
-      return;
-   if (Mode_tooltips.inhibit || !Conf_tooltips.enable)
-      return;
-   if (type && !Conf_tooltips.showroottooltip)
-      return;
+    if (!func)
+        return;
+    if (Mode_tooltips.inhibit || !Conf_tooltips.enable)
+        return;
+    if (type && !Conf_tooltips.showroottooltip)
+        return;
 
-   TIMER_ADD(tt_timer, Conf_tooltips.delay, _TtTimeout, NULL);
+    TIMER_ADD(tt_timer, Conf_tooltips.delay, _TtTimeout, NULL);
 }
 
 /*
@@ -833,85 +832,85 @@ TooltipsSetPending(int type, CB_GetAclass * func, void *data)
 static void
 _TtsSighan(int sig, void *prm __UNUSED__)
 {
-   switch (sig)
-     {
-     case ESIGNAL_INIT:
-	memset(&Mode_tooltips, 0, sizeof(Mode_tooltips));
-	break;
-     case ESIGNAL_AREA_SWITCH_START:
-     case ESIGNAL_DESK_SWITCH_START:
-     case ESIGNAL_EWIN_CHANGE:
-	TooltipsHide();
-	break;
-     }
+    switch (sig)
+    {
+    case ESIGNAL_INIT:
+        memset(&Mode_tooltips, 0, sizeof(Mode_tooltips));
+        break;
+    case ESIGNAL_AREA_SWITCH_START:
+    case ESIGNAL_DESK_SWITCH_START:
+    case ESIGNAL_EWIN_CHANGE:
+        TooltipsHide();
+        break;
+    }
 }
 
 #if ENABLE_DIALOGS
 /*
  * Configuration dialog
  */
-static char         tmp_tooltips;
-static int          tmp_tooltiptime;
-static char         tmp_roottip;
+static char     tmp_tooltips;
+static int      tmp_tooltiptime;
+static char     tmp_roottip;
 
 static void
-_DlgApplyTooltips(Dialog * d __UNUSED__, int val __UNUSED__,
-		  void *data __UNUSED__)
+_DlgApplyTooltips(Dialog *d __UNUSED__, int val __UNUSED__,
+                  void *data __UNUSED__)
 {
-   Conf_tooltips.enable = tmp_tooltips;
-   Conf_tooltips.delay = tmp_tooltiptime * 10;
-   Conf_tooltips.showroottooltip = tmp_roottip;
+    Conf_tooltips.enable = tmp_tooltips;
+    Conf_tooltips.delay = tmp_tooltiptime * 10;
+    Conf_tooltips.showroottooltip = tmp_roottip;
 
-   autosave();
+    autosave();
 }
 
 static void
-_DlgFillTooltips(Dialog * d __UNUSED__, DItem * table, void *data __UNUSED__)
+_DlgFillTooltips(Dialog *d __UNUSED__, DItem *table, void *data __UNUSED__)
 {
-   DItem              *di;
+    DItem          *di;
 
-   tmp_tooltips = Conf_tooltips.enable;
-   tmp_tooltiptime = Conf_tooltips.delay / 10;
-   tmp_roottip = Conf_tooltips.showroottooltip;
+    tmp_tooltips = Conf_tooltips.enable;
+    tmp_tooltiptime = Conf_tooltips.delay / 10;
+    tmp_roottip = Conf_tooltips.showroottooltip;
 
-   DialogItemTableSetOptions(table, 2, 0, 0, 0);
+    DialogItemTableSetOptions(table, 2, 0, 0, 0);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Display tooltips"));
-   DialogItemCheckButtonSetPtr(di, &tmp_tooltips);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Display tooltips"));
+    DialogItemCheckButtonSetPtr(di, &tmp_tooltips);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Display root window tips"));
-   DialogItemCheckButtonSetPtr(di, &tmp_roottip);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Display root window tips"));
+    DialogItemCheckButtonSetPtr(di, &tmp_roottip);
 
-   di = DialogAddItem(table, DITEM_TEXT);
-   DialogItemSetText(di, _("Tooltip delay:"));
+    di = DialogAddItem(table, DITEM_TEXT);
+    DialogItemSetText(di, _("Tooltip delay:"));
 
-   di = DialogAddItem(table, DITEM_SLIDER);
-   DialogItemSliderSetBounds(di, 0, 300);
-   DialogItemSliderSetUnits(di, 10);
-   DialogItemSliderSetJump(di, 25);
-   DialogItemSliderSetValPtr(di, &tmp_tooltiptime);
+    di = DialogAddItem(table, DITEM_SLIDER);
+    DialogItemSliderSetBounds(di, 0, 300);
+    DialogItemSliderSetUnits(di, 10);
+    DialogItemSliderSetJump(di, 25);
+    DialogItemSliderSetValPtr(di, &tmp_tooltiptime);
 }
 
-const DialogDef     DlgTooltips = {
-   "CONFIGURE_TOOLTIPS",
-   N_("Tooltips"), N_("Tooltip Settings"),
-   0,
-   SOUND_SETTINGS_TOOLTIPS,
-   "pix/tips.png",
-   N_("Enlightenment Tooltip\n" "Settings Dialog"),
-   _DlgFillTooltips,
-   DLG_OAC, _DlgApplyTooltips, NULL
+const DialogDef DlgTooltips = {
+    "CONFIGURE_TOOLTIPS",
+    N_("Tooltips"), N_("Tooltip Settings"),
+    0,
+    SOUND_SETTINGS_TOOLTIPS,
+    "pix/tips.png",
+    N_("Enlightenment Tooltip\n" "Settings Dialog"),
+    _DlgFillTooltips,
+    DLG_OAC, _DlgApplyTooltips, NULL
 };
-#endif /* ENABLE_DIALOGS */
+#endif                          /* ENABLE_DIALOGS */
 
 static const CfgItem TooltipsCfgItems[] = {
-   CFG_ITEM_BOOL(Conf_tooltips, enable, 1),
-   CFG_ITEM_BOOL(Conf_tooltips, showroottooltip, 1),
-   CFG_ITEM_INT(Conf_tooltips, delay, 1500),
+    CFG_ITEM_BOOL(Conf_tooltips, enable, 1),
+    CFG_ITEM_BOOL(Conf_tooltips, showroottooltip, 1),
+    CFG_ITEM_INT(Conf_tooltips, delay, 1500),
 };
 
 /*
@@ -919,9 +918,9 @@ static const CfgItem TooltipsCfgItems[] = {
  */
 extern const EModule ModTooltips;
 
-const EModule       ModTooltips = {
-   "tooltips", "tt",
-   _TtsSighan,
-   {0, NULL},
-   MOD_ITEMS(TooltipsCfgItems)
+const EModule   ModTooltips = {
+    "tooltips", "tt",
+    _TtsSighan,
+    { 0, NULL },
+    MOD_ITEMS(TooltipsCfgItems)
 };

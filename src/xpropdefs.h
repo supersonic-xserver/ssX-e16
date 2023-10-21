@@ -59,7 +59,7 @@
    DEFINE_ATOM_ICCCM(WM_DELETE_WINDOW)
    DEFINE_ATOM_ICCCM(WM_TAKE_FOCUS)
 
-   notdef_ATOM_ICCCM(WM_SAVE_YOURSELF)			/* Not used */
+   notdef_ATOM_ICCCM(WM_SAVE_YOURSELF)      /* Not used */
 
    /* These exist as defines but we treat them like the rest anyway */
    DEFINE_ATOM_ICCCM(WM_COMMAND)
@@ -145,12 +145,12 @@
    DEFINE_ATOM_NETWM(_NET_WM_STRUT)
    DEFINE_ATOM_NETWM(_NET_WM_STRUT_PARTIAL)
 
-   notdef_ATOM_NETWM(_NET_WM_ICON_GEOMETRY)		/* Not used */
+   notdef_ATOM_NETWM(_NET_WM_ICON_GEOMETRY)     /* Not used */
    DEFINE_ATOM_NETWM(_NET_WM_ICON)
 
    DEFINE_ATOM_NETWM(_NET_WM_PID)
 
-   notdef_ATOM_NETWM(_NET_WM_HANDLED_ICONS)		/* Not used */
+   notdef_ATOM_NETWM(_NET_WM_HANDLED_ICONS)     /* Not used */
 
    DEFINE_ATOM_NETWM(_NET_WM_USER_TIME)
    DEFINE_ATOM_NETWM(_NET_WM_USER_TIME_WINDOW)
@@ -163,7 +163,7 @@
    DEFINE_ATOM_NETWM(_NET_WM_WINDOW_OPACITY)
 
    /* Window Manager Protocols */
-   notdef_ATOM_NETWM(_NET_WM_PING)			/* Not used */
+   notdef_ATOM_NETWM(_NET_WM_PING)              /* Not used */
 
    DEFINE_ATOM_NETWM(_NET_WM_SYNC_REQUEST)
    DEFINE_ATOM_NETWM(_NET_WM_SYNC_REQUEST_COUNTER)
@@ -174,7 +174,7 @@
    DEFINE_ATOM_NETWM(_NET_WM_MOVERESIZE)
    DEFINE_ATOM_NETWM(_NET_RESTACK_WINDOW)
 
-   notdef_ATOM_NETWM(_NET_REQUEST_FRAME_EXTENTS)	/* Not implemented */
+   notdef_ATOM_NETWM(_NET_REQUEST_FRAME_EXTENTS)    /* Not implemented */
 
    /* Startup notification */
    DEFINE_ATOM_NETWM(_NET_STARTUP_ID)

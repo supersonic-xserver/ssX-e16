@@ -28,112 +28,106 @@
 #include "xwin.h"
 
 /* ewmh.c */
-void                EWMH_Init(EX_Window win_wm_check);
-void                EWMH_SetDesktopCount(void);
-void                EWMH_SetDesktopRoots(void);
-void                EWMH_SetDesktopNames(void);
-void                EWMH_SetDesktopSize(void);
-void                EWMH_SetCurrentDesktop(void);
-void                EWMH_SetDesktopViewport(void);
-void                EWMH_SetWorkArea(void);
-void                EWMH_SetClientList(void);
-void                EWMH_SetClientStacking(void);
-void                EWMH_SetActiveWindow(EX_Window win);
-void                EWMH_SetShowingDesktop(int on);
-void                EWMH_SetWindowName(EX_Window win, const char *name);
-void                EWMH_SetWindowDesktop(const EWin * ewin);
-void                EWMH_SetWindowState(const EWin * ewin);
-void                EWMH_SetWindowBorder(const EWin * ewin);
-void                EWMH_SetWindowOpacity(EWin * ewin);
-void                EWMH_SetWindowActions(const EWin * ewin);
-void                EWMH_GetWindowHints(EWin * ewin);
-void                EWMH_DelWindowHints(const EWin * ewin);
-int                 EWMH_ProcessPropertyChange(EWin * ewin,
-					       EX_Atom atom_change);
-int                 EWMH_ProcessClientClientMessage(EWin * ewin,
-						    XClientMessageEvent *
-						    event);
-int                 EWMH_ProcessRootClientMessage(XClientMessageEvent * event);
+void            EWMH_Init(EX_Window win_wm_check);
+void            EWMH_SetDesktopCount(void);
+void            EWMH_SetDesktopRoots(void);
+void            EWMH_SetDesktopNames(void);
+void            EWMH_SetDesktopSize(void);
+void            EWMH_SetCurrentDesktop(void);
+void            EWMH_SetDesktopViewport(void);
+void            EWMH_SetWorkArea(void);
+void            EWMH_SetClientList(void);
+void            EWMH_SetClientStacking(void);
+void            EWMH_SetActiveWindow(EX_Window win);
+void            EWMH_SetShowingDesktop(int on);
+void            EWMH_SetWindowName(EX_Window win, const char *name);
+void            EWMH_SetWindowDesktop(const EWin * ewin);
+void            EWMH_SetWindowState(const EWin * ewin);
+void            EWMH_SetWindowBorder(const EWin * ewin);
+void            EWMH_SetWindowOpacity(EWin * ewin);
+void            EWMH_SetWindowActions(const EWin * ewin);
+void            EWMH_GetWindowHints(EWin * ewin);
+void            EWMH_DelWindowHints(const EWin * ewin);
+int             EWMH_ProcessPropertyChange(EWin * ewin, EX_Atom atom_change);
+int             EWMH_ProcessClientClientMessage(EWin * ewin,
+                                                XClientMessageEvent * event);
+int             EWMH_ProcessRootClientMessage(XClientMessageEvent * event);
 
 /* hints.c */
-void                HintsInit(void);
-void                HintsSetDesktopNames(void);
-void                HintsSetDesktopConfig(void);
-void                HintsSetViewportConfig(void);
-void                HintsSetCurrentDesktop(void);
-void                HintsSetDesktopViewport(void);
-void                HintsSetClientList(void);
-void                HintsSetClientStacking(void);
-void                HintsSetActiveWindow(EX_Window win);
-void                HintsSetWindowName(Win win, const char *name);
-void                HintsSetWindowClass(Win win, const char *name,
-					const char *clss);
-void                HintsSetWindowDesktop(const EWin * ewin);
-void                HintsSetWindowArea(const EWin * ewin);
-void                HintsSetWindowState(const EWin * ewin);
-void                HintsSetWindowOpacity(EWin * ewin);
-void                HintsSetWindowBorder(const EWin * ewin);
-void                HintsGetWindowHints(EWin * ewin);
-void                HintsDelWindowHints(const EWin * ewin);
-void                HintsProcessPropertyChange(EWin * ewin, XEvent * ev);
-void                HintsProcessClientClientMessage(EWin * ewin,
-						    XClientMessageEvent *
-						    event);
-void                HintsProcessRootClientMessage(XClientMessageEvent * event);
+void            HintsInit(void);
+void            HintsSetDesktopNames(void);
+void            HintsSetDesktopConfig(void);
+void            HintsSetViewportConfig(void);
+void            HintsSetCurrentDesktop(void);
+void            HintsSetDesktopViewport(void);
+void            HintsSetClientList(void);
+void            HintsSetClientStacking(void);
+void            HintsSetActiveWindow(EX_Window win);
+void            HintsSetWindowName(Win win, const char *name);
+void            HintsSetWindowClass(Win win, const char *name,
+                                    const char *clss);
+void            HintsSetWindowDesktop(const EWin * ewin);
+void            HintsSetWindowArea(const EWin * ewin);
+void            HintsSetWindowState(const EWin * ewin);
+void            HintsSetWindowOpacity(EWin * ewin);
+void            HintsSetWindowBorder(const EWin * ewin);
+void            HintsGetWindowHints(EWin * ewin);
+void            HintsDelWindowHints(const EWin * ewin);
+void            HintsProcessPropertyChange(EWin * ewin, XEvent * ev);
+void            HintsProcessClientClientMessage(EWin * ewin,
+                                                XClientMessageEvent * event);
+void            HintsProcessRootClientMessage(XClientMessageEvent * event);
 
-EX_Pixmap           HintsGetRootPixmap(Win win);
-void                HintsSetRootHints(Win win);
-void                HintsSetRootInfo(Win win, EX_Pixmap pmap,
-				     unsigned int color);
+EX_Pixmap       HintsGetRootPixmap(Win win);
+void            HintsSetRootHints(Win win);
+void            HintsSetRootInfo(Win win, EX_Pixmap pmap, unsigned int color);
 
-void                EHintsSetInfo(const EWin * ewin);
-void                EHintsGetInfo(EWin * ewin);
-void                EHintsGetDeskInfo(void);
-void                EHintsSetInfoOnAll(void);
+void            EHintsSetInfo(const EWin * ewin);
+void            EHintsGetInfo(EWin * ewin);
+void            EHintsGetDeskInfo(void);
+void            EHintsSetInfoOnAll(void);
 
 typedef struct _selection ESelection;
-ESelection         *SelectionAcquire(const char *name, EventCallbackFunc * func,
-				     void *data);
-void                SelectionRelease(ESelection * sel);
+ESelection     *SelectionAcquire(const char *name, EventCallbackFunc * func,
+                                 void *data);
+void            SelectionRelease(ESelection * sel);
 
 /* icccm.c */
-void                ICCCM_Init(void);
-int                 ICCCM_ProcessClientClientMessage(EWin * ewin,
-						     XClientMessageEvent *
-						     event);
-int                 ICCCM_ProcessRootClientMessage(XClientMessageEvent * event);
-void                ICCCM_GetTitle(EWin * ewin);
-void                ICCCM_Delete(const EWin * ewin);
-void                ICCCM_Iconify(const EWin * ewin);
-void                ICCCM_DeIconify(const EWin * ewin);
-void                ICCCM_SizeMatch(const EWin * ewin, int wi, int hi, int *pwo,
-				    int *pho);
-void                ICCCM_GetIncrementalSize(EWin * ewin, unsigned int w,
-					     unsigned int h, unsigned int *wi,
-					     unsigned int *hi);
-void                ICCCM_SetSizeConstraints(EWin * ewin, unsigned int wmin,
-					     unsigned int hmin,
-					     unsigned int wmax,
-					     unsigned int hmax,
-					     unsigned int wbase,
-					     unsigned int hbase,
-					     unsigned int winc,
-					     unsigned int hinc,
-					     float amin, float amax);
-void                ICCCM_Configure(EWin * ewin);
-void                ICCCM_AdoptStart(const EWin * ewin);
-void                ICCCM_Adopt(const EWin * ewin);
-void                ICCCM_Withdraw(const EWin * ewin);
-void                ICCCM_Cmap(EWin * ewin);
-void                ICCCM_Focus(const EWin * ewin);
-void                ICCCM_GetGeoms(EWin * ewin);
-void                ICCCM_GetInfo(EWin * ewin);
-void                ICCCM_GetHints(EWin * ewin);
-int                 ICCCM_ProcessPropertyChange(EWin * ewin,
-						EX_Atom atom_change);
+void            ICCCM_Init(void);
+int             ICCCM_ProcessClientClientMessage(EWin * ewin,
+                                                 XClientMessageEvent * event);
+int             ICCCM_ProcessRootClientMessage(XClientMessageEvent * event);
+void            ICCCM_GetTitle(EWin * ewin);
+void            ICCCM_Delete(const EWin * ewin);
+void            ICCCM_Iconify(const EWin * ewin);
+void            ICCCM_DeIconify(const EWin * ewin);
+void            ICCCM_SizeMatch(const EWin * ewin, int wi, int hi, int *pwo,
+                                int *pho);
+void            ICCCM_GetIncrementalSize(EWin * ewin, unsigned int w,
+                                         unsigned int h, unsigned int *wi,
+                                         unsigned int *hi);
+void            ICCCM_SetSizeConstraints(EWin * ewin, unsigned int wmin,
+                                         unsigned int hmin,
+                                         unsigned int wmax,
+                                         unsigned int hmax,
+                                         unsigned int wbase,
+                                         unsigned int hbase,
+                                         unsigned int winc,
+                                         unsigned int hinc,
+                                         float amin, float amax);
+void            ICCCM_Configure(EWin * ewin);
+void            ICCCM_AdoptStart(const EWin * ewin);
+void            ICCCM_Adopt(const EWin * ewin);
+void            ICCCM_Withdraw(const EWin * ewin);
+void            ICCCM_Cmap(EWin * ewin);
+void            ICCCM_Focus(const EWin * ewin);
+void            ICCCM_GetGeoms(EWin * ewin);
+void            ICCCM_GetInfo(EWin * ewin);
+void            ICCCM_GetHints(EWin * ewin);
+int             ICCCM_ProcessPropertyChange(EWin * ewin, EX_Atom atom_change);
 
 /* mwm.c */
-void                MWM_GetHints(EWin * ewin, EX_Atom atom_change);
-void                MWM_SetInfo(void);
+void            MWM_GetHints(EWin * ewin, EX_Atom atom_change);
+void            MWM_SetInfo(void);
 
-#endif /* _HINTS_H_ */
+#endif                          /* _HINTS_H_ */

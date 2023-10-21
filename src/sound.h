@@ -24,23 +24,23 @@
 #define _SOUND_H_
 
 typedef struct {
-   unsigned int        channels;
-   unsigned int        bit_per_sample;
-   unsigned int        rate;
-   void               *data;
-   unsigned int        size;	/* N. bytes in data */
+    unsigned int    channels;
+    unsigned int    bit_per_sample;
+    unsigned int    rate;
+    void           *data;
+    unsigned int    size;       /* N. bytes in data */
 } SoundSampleData;
 
 typedef struct _sample Sample;
 
 typedef struct {
-   int                 (*Init)(void);
-   void                (*Exit)(void);
-   Sample             *(*SampleLoad)(const char *file);
-   void                (*SampleDestroy)(Sample * s);
-   void                (*SamplePlay)(Sample * s);
+    int             (*Init)(void);
+    void            (*Exit)(void);
+    Sample         *(*SampleLoad)(const char *file);
+    void            (*SampleDestroy)(Sample * s);
+    void            (*SamplePlay)(Sample * s);
 } SoundOps;
 
-int                 SoundSampleGetData(const char *file, SoundSampleData * ssd);
+int             SoundSampleGetData(const char *file, SoundSampleData * ssd);
 
-#endif /* _SOUND_H_ */
+#endif                          /* _SOUND_H_ */

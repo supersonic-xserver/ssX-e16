@@ -32,73 +32,73 @@
 int
 parse(char *buf, const char *fmt, ...)
 {
-   int                 nitems;
-   char                chi, chf, chq;
-   char               *p, **ps;
-   va_list             args;
+    int             nitems;
+    char            chi, chf, chq;
+    char           *p, **ps;
+    va_list         args;
 
-   va_start(args, fmt);
+    va_start(args, fmt);
 
-   for (nitems = 0;;)
-     {
-	chf = *fmt++;
-	if (chf != '%')
-	   break;
-	chf = *fmt++;
-	if (chf == '\0')
-	   break;
-	/* Strip leading whitespace */
-	while (isspace(*buf))
-	   buf++;
-	if (!*buf)
-	   break;
-	switch (chf)
-	  {
-	  case 'S':		/* Return pointer to string */
-	  case 'T':		/* As S, convert "NULL" to NULL pointer */
-	     chi = *buf;
-	     chq = (chi == '\'' || chi == '"') ? chi : '\0';
-	     if (chq)
-	       {
-		  /* Token is quoted */
-		  buf++;
-		  for (p = buf;; p++)
-		    {
-		       p = strchr(p, chq);
-		       if (p)
-			 {
-			    if (p[1] && !isspace(p[1]))
-			       continue;
-			    *p++ = '\0';	/* Terminate at quote */
-			 }
-		       else
-			 {
-			    p = buf + strlen(buf);	/* Missing end quote */
-			 }
-		       break;
-		    }
-	       }
-	     else
-	       {
-		  /* Token is unquoted */
-		  p = buf + 1;
-		  while (*p && !isspace(*p))
-		     p++;
-		  if (*p)
-		     *p++ = '\0';
-	       }
-	     ps = va_arg(args, char **);
+    for (nitems = 0;;)
+    {
+        chf = *fmt++;
+        if (chf != '%')
+            break;
+        chf = *fmt++;
+        if (chf == '\0')
+            break;
+        /* Strip leading whitespace */
+        while (isspace(*buf))
+            buf++;
+        if (!*buf)
+            break;
+        switch (chf)
+        {
+        case 'S':              /* Return pointer to string */
+        case 'T':              /* As S, convert "NULL" to NULL pointer */
+            chi = *buf;
+            chq = (chi == '\'' || chi == '"') ? chi : '\0';
+            if (chq)
+            {
+                /* Token is quoted */
+                buf++;
+                for (p = buf;; p++)
+                {
+                    p = strchr(p, chq);
+                    if (p)
+                    {
+                        if (p[1] && !isspace(p[1]))
+                            continue;
+                        *p++ = '\0';    /* Terminate at quote */
+                    }
+                    else
+                    {
+                        p = buf + strlen(buf);  /* Missing end quote */
+                    }
+                    break;
+                }
+            }
+            else
+            {
+                /* Token is unquoted */
+                p = buf + 1;
+                while (*p && !isspace(*p))
+                    p++;
+                if (*p)
+                    *p++ = '\0';
+            }
+            ps = va_arg(args, char **);
 
-	     if (chf == 'T' && (!buf[0] || !strcmp(buf, "NULL")))
-		*ps = NULL;
-	     else
-		*ps = buf;
-	     nitems++;
-	     buf = p;
-	  }
-     }
+            if (chf == 'T' && (!buf[0] || !strcmp(buf, "NULL")))
+                *ps = NULL;
+            else
+                *ps = buf;
+            nitems++;
+            buf = p;
+        }
+    }
 
-   va_end(args);
+    va_end(args);
 
-   return nitems;
+    return nitems;
 }

@@ -24,72 +24,72 @@
 #define _EWIN_OPS_H_
 
 typedef enum {
-   EWIN_OP_INVALID,
+    EWIN_OP_INVALID,
 
-   EWIN_OP_BORDER,
-   EWIN_OP_TITLE,
+    EWIN_OP_BORDER,
+    EWIN_OP_TITLE,
 
-   EWIN_OP_CLOSE,
-   EWIN_OP_KILL,
-   EWIN_OP_ICONIFY,
-   EWIN_OP_ALONE,
-   EWIN_OP_SHADE,
-   EWIN_OP_STICK,
-   EWIN_OP_PIN,
-   EWIN_OP_FOCUS,
+    EWIN_OP_CLOSE,
+    EWIN_OP_KILL,
+    EWIN_OP_ICONIFY,
+    EWIN_OP_ALONE,
+    EWIN_OP_SHADE,
+    EWIN_OP_STICK,
+    EWIN_OP_PIN,
+    EWIN_OP_FOCUS,
 
-   EWIN_OP_DESK,
-   EWIN_OP_AREA,
-   EWIN_OP_MOVE,
-   EWIN_OP_SIZE,
-   EWIN_OP_MOVE_REL,
-   EWIN_OP_SIZE_REL,
+    EWIN_OP_DESK,
+    EWIN_OP_AREA,
+    EWIN_OP_MOVE,
+    EWIN_OP_SIZE,
+    EWIN_OP_MOVE_REL,
+    EWIN_OP_SIZE_REL,
 
-   EWIN_OP_MAX_WIDTH,
-   EWIN_OP_MAX_HEIGHT,
-   EWIN_OP_MAX_SIZE,
-   EWIN_OP_FULLSCREEN,
-   EWIN_OP_ZOOM,
+    EWIN_OP_MAX_WIDTH,
+    EWIN_OP_MAX_HEIGHT,
+    EWIN_OP_MAX_SIZE,
+    EWIN_OP_FULLSCREEN,
+    EWIN_OP_ZOOM,
 
-   EWIN_OP_LAYER,
-   EWIN_OP_RAISE,
-   EWIN_OP_LOWER,
+    EWIN_OP_LAYER,
+    EWIN_OP_RAISE,
+    EWIN_OP_LOWER,
 
-   EWIN_OP_OPACITY,
-   EWIN_OP_FOCUSED_OPACITY,
+    EWIN_OP_OPACITY,
+    EWIN_OP_FOCUSED_OPACITY,
 
-   EWIN_OP_SNAP,
+    EWIN_OP_SNAP,
 
-   EWIN_OP_FOCUS_CLICK,
-   EWIN_OP_IGNORE_ARRANGE,
-   EWIN_OP_NEVER_USE_AREA,
-   EWIN_OP_NO_BUTTON_GRABS,
-   EWIN_OP_SKIP_LISTS,
-   EWIN_OP_AUTOSHADE,
-   EWIN_OP_PASS_POINTER,
+    EWIN_OP_FOCUS_CLICK,
+    EWIN_OP_IGNORE_ARRANGE,
+    EWIN_OP_NEVER_USE_AREA,
+    EWIN_OP_NO_BUTTON_GRABS,
+    EWIN_OP_SKIP_LISTS,
+    EWIN_OP_AUTOSHADE,
+    EWIN_OP_PASS_POINTER,
 
-   EWIN_OP_INH_APP_FOCUS,
-   EWIN_OP_INH_APP_MOVE,
-   EWIN_OP_INH_APP_SIZE,
-   EWIN_OP_INH_USER_CLOSE,
-   EWIN_OP_INH_USER_MOVE,
-   EWIN_OP_INH_USER_SIZE,
-   EWIN_OP_INH_WM_FOCUS,
+    EWIN_OP_INH_APP_FOCUS,
+    EWIN_OP_INH_APP_MOVE,
+    EWIN_OP_INH_APP_SIZE,
+    EWIN_OP_INH_USER_CLOSE,
+    EWIN_OP_INH_USER_MOVE,
+    EWIN_OP_INH_USER_SIZE,
+    EWIN_OP_INH_WM_FOCUS,
 
-   EWIN_OP_FADE,
-   EWIN_OP_SHADOW,
-   EWIN_OP_NO_REDIRECT,
-   EWIN_OP_NO_ARGB,
+    EWIN_OP_FADE,
+    EWIN_OP_SHADOW,
+    EWIN_OP_NO_REDIRECT,
+    EWIN_OP_NO_ARGB,
 } winop_e;
 
 typedef struct {
-   const char         *name;
-   char                len;
-   char                ok_ipc;
-   char                ok_match;
-   char                op;
+    const char     *name;
+    char            len;
+    char            ok_ipc;
+    char            ok_match;
+    char            op;
 } WinOp;
 
-const WinOp        *EwinOpFind(const char *op);
+const WinOp    *EwinOpFind(const char *op);
 
-#endif /* _EWIN_OPS_H_ */
+#endif                          /* _EWIN_OPS_H_ */

@@ -42,19 +42,19 @@
 #define FOCUS_PREV       11
 #define FOCUS_CLICK      12
 
-void                FocusEnable(int on);
-void                FocusToEWin(EWin * ewin, int why);
-void                FocusHandleEnter(EWin * ewin, XEvent * ev);
-void                FocusHandleLeave(EWin * ewin, XEvent * ev);
-void                FocusHandleChange(EWin * ewin, XEvent * ev);
-void                FocusHandleClick(EWin * ewin, Win win);
-void                FocusNewDeskBegin(void);
-void                FocusNewDesk(void);
-void                FocusScreen(int scr);
+void            FocusEnable(int on);
+void            FocusToEWin(EWin * ewin, int why);
+void            FocusHandleEnter(EWin * ewin, XEvent * ev);
+void            FocusHandleLeave(EWin * ewin, XEvent * ev);
+void            FocusHandleChange(EWin * ewin, XEvent * ev);
+void            FocusHandleClick(EWin * ewin, Win win);
+void            FocusNewDeskBegin(void);
+void            FocusNewDesk(void);
+void            FocusScreen(int scr);
 
-void                ClickGrabsUpdate(void);
+void            ClickGrabsUpdate(void);
 
 /* warp.c */
-void                WarpFocus(int delta);
+void            WarpFocus(int delta);
 
-#endif /* _FOCUS_H_ */
+#endif                          /* _FOCUS_H_ */

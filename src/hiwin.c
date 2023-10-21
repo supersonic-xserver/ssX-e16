@@ -43,425 +43,425 @@
 #endif
 
 struct _hiwin {
-   EObj                o;
-   EWin               *ewin;
-   int                 zoom;
-   int                 xo, yo, wo, ho;
-   void                (*evcb)(Win win, XEvent * ev, void *data);
-   void               *data;
-   char                animate;
-   EImage             *im;
+    EObj            o;
+    EWin           *ewin;
+    int             zoom;
+    int             xo, yo, wo, ho;
+    void            (*evcb)(Win win, XEvent * ev, void *data);
+    void           *data;
+    char            animate;
+    EImage         *im;
 };
 
 typedef struct {
-   void                (*init)(Hiwin * phi);
-   void                (*draw)(Hiwin * phi);
-   void                (*fini)(Hiwin * phi, int shown);
+    void            (*init)(Hiwin * phi);
+    void            (*draw)(Hiwin * phi);
+    void            (*fini)(Hiwin * phi, int shown);
 } HiwinRender;
 
-static ImageClass  *hiwin_ic = NULL;
+static ImageClass *hiwin_ic = NULL;
 
 /* TBD: Move elsewhere? */
-static EImage      *
-EobjGetImage(EObj * eo, EX_Drawable draw)
+static EImage  *
+EobjGetImage(EObj *eo, EX_Drawable draw)
 {
-   EImage             *im;
-   EX_Pixmap           mask;
+    EImage         *im;
+    EX_Pixmap       mask;
 
-   mask = EWindowGetShapePixmap(EobjGetWin(eo));
-   im = EImageGrabDrawable(draw, mask, 0, 0, EobjGetW(eo), EobjGetH(eo), 0);
-   if (mask)
-      EFreePixmap(mask);
+    mask = EWindowGetShapePixmap(EobjGetWin(eo));
+    im = EImageGrabDrawable(draw, mask, 0, 0, EobjGetW(eo), EobjGetH(eo), 0);
+    if (mask)
+        EFreePixmap(mask);
 
-   return im;
+    return im;
 }
 
 static void
-HiwinRenderImageInit(Hiwin * phi)
+HiwinRenderImageInit(Hiwin *phi)
 {
-   EWin               *ewin = phi->ewin;
-   EX_Pixmap           pmap;
+    EWin           *ewin = phi->ewin;
+    EX_Pixmap       pmap;
 
-   pmap = EoGetPixmap(ewin);
-   if (pmap)
-     {
-	phi->im = EobjGetImage(EoObj(ewin), pmap);
-	/* Skip zoom effect if composite is active */
-	phi->animate = 0;
-     }
-   else if (phi->zoom > 2 && EwinIsOnScreen(ewin))
-     {
-	phi->im = EobjGetImage(EoObj(ewin), EoGetXwin(ewin));
-     }
-   else
-     {
-	phi->im =
-	   EImageGrabDrawable(ewin->mini_pmm.pmap, ewin->mini_pmm.mask, 0, 0,
-			      ewin->mini_pmm.w, ewin->mini_pmm.h, 0);
-     }
+    pmap = EoGetPixmap(ewin);
+    if (pmap)
+    {
+        phi->im = EobjGetImage(EoObj(ewin), pmap);
+        /* Skip zoom effect if composite is active */
+        phi->animate = 0;
+    }
+    else if (phi->zoom > 2 && EwinIsOnScreen(ewin))
+    {
+        phi->im = EobjGetImage(EoObj(ewin), EoGetXwin(ewin));
+    }
+    else
+    {
+        phi->im =
+            EImageGrabDrawable(ewin->mini_pmm.pmap, ewin->mini_pmm.mask, 0, 0,
+                               ewin->mini_pmm.w, ewin->mini_pmm.h, 0);
+    }
 
-   ESetWindowBackgroundPixmap(EoGetWin(phi), NoXID, 0);
+    ESetWindowBackgroundPixmap(EoGetWin(phi), NoXID, 0);
 
-   /* Reset shape */
-   EShapeSetMask(EoGetWin(phi), 0, 0, NoXID);
-   EoShapeUpdate(phi, 0);
+    /* Reset shape */
+    EShapeSetMask(EoGetWin(phi), 0, 0, NoXID);
+    EoShapeUpdate(phi, 0);
 }
 
 static void
-HiwinRenderImageDrawX(Hiwin * phi, EX_Drawable draw __UNUSED__)
+HiwinRenderImageDrawX(Hiwin *phi, EX_Drawable draw __UNUSED__)
 {
-   EImageApplyToWin(phi->im, EoGetWin(phi), EIMAGE_ANTI_ALIAS,
-		    EoGetW(phi), EoGetH(phi));
-   EoShapeUpdate(phi, 0);
+    EImageApplyToWin(phi->im, EoGetWin(phi), EIMAGE_ANTI_ALIAS,
+                     EoGetW(phi), EoGetH(phi));
+    EoShapeUpdate(phi, 0);
 }
 
 static void
-HiwinRenderImageDraw(Hiwin * phi)
+HiwinRenderImageDraw(Hiwin *phi)
 {
-   HiwinRenderImageDrawX(phi, EoGetXwin(phi));
+    HiwinRenderImageDrawX(phi, EoGetXwin(phi));
 }
 
 static void
-HiwinRenderImageFini(Hiwin * phi, int shown)
+HiwinRenderImageFini(Hiwin *phi, int shown)
 {
-   if (shown)
-      HiwinRenderImageDraw(phi);
-   EImageDecache(phi->im);
-   phi->im = NULL;
+    if (shown)
+        HiwinRenderImageDraw(phi);
+    EImageDecache(phi->im);
+    phi->im = NULL;
 }
 
 #if USE_COMPOSITE
 static void
-HiwinRenderImageUpdate(Hiwin * phi)
+HiwinRenderImageUpdate(Hiwin *phi)
 {
-   EX_Pixmap           pmap;
-   EWin               *ewin = phi->ewin;
+    EX_Pixmap       pmap;
+    EWin           *ewin = phi->ewin;
 
-   pmap = EoGetPixmap(ewin);
-   if (pmap == NoXID)
-      return;
+    pmap = EoGetPixmap(ewin);
+    if (pmap == NoXID)
+        return;
 
-   phi->im = EobjGetImage(EoObj(ewin), pmap);
-   HiwinRenderImageDraw(phi);
-   EImageDecache(phi->im);
-   phi->im = NULL;
+    phi->im = EobjGetImage(EoObj(ewin), pmap);
+    HiwinRenderImageDraw(phi);
+    EImageDecache(phi->im);
+    phi->im = NULL;
 }
 #endif
 
 static const HiwinRender HiwinRenderImage = {
-   HiwinRenderImageInit, HiwinRenderImageDraw, HiwinRenderImageFini
+    HiwinRenderImageInit, HiwinRenderImageDraw, HiwinRenderImageFini
 };
 
 static void
-HiwinRenderIclassInit(Hiwin * phi __UNUSED__)
+HiwinRenderIclassInit(Hiwin *phi __UNUSED__)
 {
 }
 
 static void
-HiwinRenderIclassDraw(Hiwin * phi)
+HiwinRenderIclassDraw(Hiwin *phi)
 {
-   ImageclassApply(hiwin_ic, EoGetWin(phi), 0, 0, STATE_NORMAL);
+    ImageclassApply(hiwin_ic, EoGetWin(phi), 0, 0, STATE_NORMAL);
 }
 
 static void
-HiwinRenderIclassFini(Hiwin * phi, int shown)
+HiwinRenderIclassFini(Hiwin *phi, int shown)
 {
-   if (shown)
-      HiwinRenderIclassDraw(phi);
+    if (shown)
+        HiwinRenderIclassDraw(phi);
 }
 
 static const HiwinRender HiwinRenderIclass = {
-   HiwinRenderIclassInit, HiwinRenderIclassDraw, HiwinRenderIclassFini
+    HiwinRenderIclassInit, HiwinRenderIclassDraw, HiwinRenderIclassFini
 };
 
 static void
-HiwinRenderPixmapInit(Hiwin * phi __UNUSED__)
+HiwinRenderPixmapInit(Hiwin *phi __UNUSED__)
 {
 }
 
 static void
-HiwinRenderPixmapDrawX(Hiwin * phi, EX_Drawable draw)
+HiwinRenderPixmapDrawX(Hiwin *phi, EX_Drawable draw)
 {
-   EXPaintRectangle(draw, 0, 0, EoGetW(phi), EoGetH(phi),
-		    Dpy.pixel_black, Dpy.pixel_white);
+    EXPaintRectangle(draw, 0, 0, EoGetW(phi), EoGetH(phi),
+                     Dpy.pixel_black, Dpy.pixel_white);
 }
 
 static void
-HiwinRenderPixmapDraw(Hiwin * phi)
+HiwinRenderPixmapDraw(Hiwin *phi)
 {
-   HiwinRenderPixmapDrawX(phi, EoGetXwin(phi));
-   EClearWindow(EoGetWin(phi));
+    HiwinRenderPixmapDrawX(phi, EoGetXwin(phi));
+    EClearWindow(EoGetWin(phi));
 }
 
 static void
-HiwinRenderPixmapFini(Hiwin * phi, int shown)
+HiwinRenderPixmapFini(Hiwin *phi, int shown)
 {
-   EX_Pixmap           pmap;
+    EX_Pixmap       pmap;
 
-   if (shown)
-     {
-	pmap = EGetWindowBackgroundPixmap(EoGetWin(phi));
-	HiwinRenderPixmapDrawX(phi, pmap);
-	EClearWindow(EoGetWin(phi));
-     }
+    if (shown)
+    {
+        pmap = EGetWindowBackgroundPixmap(EoGetWin(phi));
+        HiwinRenderPixmapDrawX(phi, pmap);
+        EClearWindow(EoGetWin(phi));
+    }
 }
 
 static const HiwinRender HiwinRenderPixmap = {
-   HiwinRenderPixmapInit, HiwinRenderPixmapDraw, HiwinRenderPixmapFini
+    HiwinRenderPixmapInit, HiwinRenderPixmapDraw, HiwinRenderPixmapFini
 };
 
 static void
-HiwinEvent(Win win, XEvent * ev, void *prm)
+HiwinEvent(Win win, XEvent *ev, void *prm)
 {
-   Hiwin              *phi = (Hiwin *) prm;
+    Hiwin          *phi = (Hiwin *) prm;
 
-   if (phi->evcb)
-      phi->evcb(win, ev, phi->data);
+    if (phi->evcb)
+        phi->evcb(win, ev, phi->data);
 }
 
 #if USE_COMPOSITE
 static void
-HiwinEwinEvent(Win win __UNUSED__, XEvent * ev, void *prm)
+HiwinEwinEvent(Win win __UNUSED__, XEvent *ev, void *prm)
 {
-   Hiwin              *phi = (Hiwin *) prm;
+    Hiwin          *phi = (Hiwin *) prm;
 
-   Dprintf("type=%d %s\n", ev->type, EwinGetTitle(phi->ewin));
+    Dprintf("type=%d %s\n", ev->type, EwinGetTitle(phi->ewin));
 
-   switch (ev->type)
-     {
-     case EX_EVENT_DAMAGE_NOTIFY:
-	HiwinRenderImageUpdate(phi);
-	break;
-     }
+    switch (ev->type)
+    {
+    case EX_EVENT_DAMAGE_NOTIFY:
+        HiwinRenderImageUpdate(phi);
+        break;
+    }
 }
 #endif
 
-Hiwin              *
+Hiwin          *
 HiwinCreate(void)
 {
-   Hiwin              *phi;
+    Hiwin          *phi;
 
-   phi = ECALLOC(Hiwin, 1);
-   if (!phi)
-      return NULL;
+    phi = ECALLOC(Hiwin, 1);
+    if (!phi)
+        return NULL;
 
-   EoInit(phi, EOBJ_TYPE_MISC, NoXID, 0, 0, 3, 3, 1, "HiWin");
-   EoSetFade(phi, 1);
-   EoSetFloating(phi, 1);
-   EoSetLayer(phi, 19);
-   EventCallbackRegister(EoGetWin(phi), HiwinEvent, phi);
-   ESelectInput(EoGetWin(phi),
-		ButtonPressMask | ButtonReleaseMask | PointerMotionMask |
-		EnterWindowMask | LeaveWindowMask);
+    EoInit(phi, EOBJ_TYPE_MISC, NoXID, 0, 0, 3, 3, 1, "HiWin");
+    EoSetFade(phi, 1);
+    EoSetFloating(phi, 1);
+    EoSetLayer(phi, 19);
+    EventCallbackRegister(EoGetWin(phi), HiwinEvent, phi);
+    ESelectInput(EoGetWin(phi),
+                 ButtonPressMask | ButtonReleaseMask | PointerMotionMask |
+                 EnterWindowMask | LeaveWindowMask);
 
-   return phi;
+    return phi;
 }
 
 void
-HiwinSetGeom(Hiwin * phi, int x, int y, int w, int h)
+HiwinSetGeom(Hiwin *phi, int x, int y, int w, int h)
 {
-   phi->xo = x;
-   phi->yo = y;
-   phi->wo = w;
-   phi->ho = h;
+    phi->xo = x;
+    phi->yo = y;
+    phi->wo = w;
+    phi->ho = h;
 }
 
 void
-HiwinInit(Hiwin * phi, EWin * ewin, EObj * parent)
+HiwinInit(Hiwin *phi, EWin *ewin, EObj *parent)
 {
-   if (ewin == phi->ewin)
-      return;
+    if (ewin == phi->ewin)
+        return;
 
 #if USE_COMPOSITE
-   if (phi->ewin)
-     {
-	Dprintf("Unregister %s\n", EwinGetTitle(phi->ewin));
-	EventCallbackUnregister(EoGetWin(phi->ewin), HiwinEwinEvent, phi);
-     }
+    if (phi->ewin)
+    {
+        Dprintf("Unregister %s\n", EwinGetTitle(phi->ewin));
+        EventCallbackUnregister(EoGetWin(phi->ewin), HiwinEwinEvent, phi);
+    }
 #endif
 
-   phi->ewin = ewin;
-   if (parent && EobjGetWin(parent) != EoGetParent(phi))
-      EoReparent(phi, parent, 0, 0);
+    phi->ewin = ewin;
+    if (parent && EobjGetWin(parent) != EoGetParent(phi))
+        EoReparent(phi, parent, 0, 0);
 
 #if USE_COMPOSITE
-   if (phi->ewin)
-     {
-	Dprintf("Register %s\n", EwinGetTitle(phi->ewin));
-	EventCallbackRegister(EoGetWin(phi->ewin), HiwinEwinEvent, phi);
-     }
+    if (phi->ewin)
+    {
+        Dprintf("Register %s\n", EwinGetTitle(phi->ewin));
+        EventCallbackRegister(EoGetWin(phi->ewin), HiwinEwinEvent, phi);
+    }
 #endif
 
-   if (!hiwin_ic)
-      hiwin_ic = ImageclassFind("PAGER_WIN", 0);
+    if (!hiwin_ic)
+        hiwin_ic = ImageclassFind("PAGER_WIN", 0);
 }
 
 void
-HiwinSetCallback(Hiwin * phi, void (*func)(Win win, XEvent * ev, void *data),
-		 void *data)
+HiwinSetCallback(Hiwin *phi, void (*func)(Win win, XEvent *ev, void *data),
+                 void *data)
 {
-   phi->evcb = func;
-   phi->data = data;
+    phi->evcb = func;
+    phi->data = data;
 }
 
 void
-HiwinGetXY(Hiwin * phi, int *x, int *y)
+HiwinGetXY(Hiwin *phi, int *x, int *y)
 {
-   *x = EoGetX(phi);
-   *y = EoGetY(phi);
+    *x = EoGetX(phi);
+    *y = EoGetY(phi);
 }
 
 void
-HiwinMove(Hiwin * phi, int x, int y)
+HiwinMove(Hiwin *phi, int x, int y)
 {
-   EoMove(phi, x, y);
+    EoMove(phi, x, y);
 }
 
-EWin               *
-HiwinGetEwin(Hiwin * phi, int check)
+EWin           *
+HiwinGetEwin(Hiwin *phi, int check)
 {
-   EWin               *ewin;
+    EWin           *ewin;
 
-   if (!phi)
-      return NULL;
-   if (!check || !phi->ewin)
-      return phi->ewin;
+    if (!phi)
+        return NULL;
+    if (!check || !phi->ewin)
+        return phi->ewin;
 
-   ewin = EwinFindByPtr(phi->ewin);
+    ewin = EwinFindByPtr(phi->ewin);
 
-   return ewin;
-}
-
-void
-HiwinHide(Hiwin * phi)
-{
-   if (!phi)
-      return;
-
-   if (EoIsShown(phi))
-     {
-	GrabPointerRelease();
-	HiwinInit(phi, NULL, NULL);
-	EoUnmap(phi);
-     }
-
-   phi->data = NULL;
-   phi->evcb = NULL;
+    return ewin;
 }
 
 void
-HiwinShow(Hiwin * phi, EWin * ewin, int zoom, int confine)
+HiwinHide(Hiwin *phi)
 {
-   const HiwinRender  *pz;
-   int                 x, y, w, h, zold;
-   int                 xx, yy, ww, hh, i, i1, i2, step, px, py;
+    if (!phi)
+        return;
 
-   if (!ewin)
-      ewin = phi->ewin;
-   if (!ewin)
-      return;
+    if (EoIsShown(phi))
+    {
+        GrabPointerRelease();
+        HiwinInit(phi, NULL, NULL);
+        EoUnmap(phi);
+    }
 
-   if (ewin->mini_pmm.pmap)
-      pz = &HiwinRenderImage;
-   else if (hiwin_ic)
-      pz = &HiwinRenderIclass;
-   else
-      pz = &HiwinRenderPixmap;
+    phi->data = NULL;
+    phi->evcb = NULL;
+}
 
-   if (phi->zoom <= 2 && zoom == 2)
-     {
-	phi->zoom = 1;
+void
+HiwinShow(Hiwin *phi, EWin *ewin, int zoom, int confine)
+{
+    const HiwinRender *pz;
+    int             x, y, w, h, zold;
+    int             xx, yy, ww, hh, i, i1, i2, step, px, py;
 
-	x = phi->xo + phi->wo / 2;
-	y = phi->yo + phi->ho / 2;
-	w = zoom * phi->wo;
-	h = zoom * phi->ho;
+    if (!ewin)
+        ewin = phi->ewin;
+    if (!ewin)
+        return;
 
-	step = zoom - phi->zoom;
-     }
-   else if (zoom <= 2)
-     {
-	x = phi->xo + phi->wo / 2;
-	y = phi->yo + phi->ho / 2;
-	w = zoom * phi->wo;
-	h = zoom * phi->ho;
-	step = 0;
-     }
-   else
-     {
-	x = WinGetW(VROOT) / 2;
-	y = WinGetH(VROOT) / 2;
-	w = zoom * EoGetW(phi->ewin) / 4;
-	h = zoom * EoGetH(phi->ewin) / 4;
-	step = 0;
-     }
+    if (ewin->mini_pmm.pmap)
+        pz = &HiwinRenderImage;
+    else if (hiwin_ic)
+        pz = &HiwinRenderIclass;
+    else
+        pz = &HiwinRenderPixmap;
+
+    if (phi->zoom <= 2 && zoom == 2)
+    {
+        phi->zoom = 1;
+
+        x = phi->xo + phi->wo / 2;
+        y = phi->yo + phi->ho / 2;
+        w = zoom * phi->wo;
+        h = zoom * phi->ho;
+
+        step = zoom - phi->zoom;
+    }
+    else if (zoom <= 2)
+    {
+        x = phi->xo + phi->wo / 2;
+        y = phi->yo + phi->ho / 2;
+        w = zoom * phi->wo;
+        h = zoom * phi->ho;
+        step = 0;
+    }
+    else
+    {
+        x = WinGetW(VROOT) / 2;
+        y = WinGetH(VROOT) / 2;
+        w = zoom * EoGetW(phi->ewin) / 4;
+        h = zoom * EoGetH(phi->ewin) / 4;
+        step = 0;
+    }
 
 #if DEBUG_HIWIN
-   Eprintf("%s: %s zoom=%d->%d step=%d %d,%d %dx%d\n", __func__,
-	   EoGetName(ewin), phi->zoom, zoom, step, x, y, w, h);
+    Eprintf("%s: %s zoom=%d->%d step=%d %d,%d %dx%d\n", __func__,
+            EoGetName(ewin), phi->zoom, zoom, step, x, y, w, h);
 #endif
 
-   zold = phi->zoom;
-   phi->zoom = zoom;
-   phi->animate = 1;
+    zold = phi->zoom;
+    phi->zoom = zoom;
+    phi->animate = 1;
 
-   pz->init(phi);
+    pz->init(phi);
 
-   if (step && phi->animate)
-     {
-	x = phi->xo;
-	y = phi->yo;
-	w = phi->wo;
-	h = phi->ho;
+    if (step && phi->animate)
+    {
+        x = phi->xo;
+        y = phi->yo;
+        w = phi->wo;
+        h = phi->ho;
 
-	if (w > h)
-	  {
-	     i1 = w * zold;
-	     i2 = w * zoom;
-	  }
-	else
-	  {
-	     i1 = h * zold;
-	     i2 = h * zoom;
-	  }
+        if (w > h)
+        {
+            i1 = w * zold;
+            i2 = w * zoom;
+        }
+        else
+        {
+            i1 = h * zold;
+            i2 = h * zoom;
+        }
 
-	for (i = i1; i != i2; i += step)
-	  {
-	     int                 on_screen;
+        for (i = i1; i != i2; i += step)
+        {
+            int             on_screen;
 
-	     if (w > h)
-	       {
-		  ww = i;
-		  hh = (ww * h) / w;
-	       }
-	     else
-	       {
-		  hh = i;
-		  ww = (hh * w) / h;
-	       }
-	     xx = x + ((w - ww) / 2);
-	     yy = y + ((h - hh) / 2);
-	     EoMoveResize(phi, xx, yy, ww, hh);
-	     EoMap(phi, 0);
-	     pz->draw(phi);
+            if (w > h)
+            {
+                ww = i;
+                hh = (ww * h) / w;
+            }
+            else
+            {
+                hh = i;
+                ww = (hh * w) / h;
+            }
+            xx = x + ((w - ww) / 2);
+            yy = y + ((h - hh) / 2);
+            EoMoveResize(phi, xx, yy, ww, hh);
+            EoMap(phi, 0);
+            pz->draw(phi);
 
-	     on_screen = EQueryPointer(NULL, &px, &py, NULL, NULL);
-	     if (!on_screen ||
-		 (px < x) || (py < y) || (px >= (x + w)) || (py >= (y + h)))
-	       {
-		  pz->fini(phi, 0);
-		  HiwinHide(phi);
-		  return;
-	       }
-	  }
-     }
-   else
-     {
-	EoMoveResize(phi, x - w / 2, y - h / 2, w, h);
-	EoMap(phi, 0);
-     }
+            on_screen = EQueryPointer(NULL, &px, &py, NULL, NULL);
+            if (!on_screen ||
+                (px < x) || (py < y) || (px >= (x + w)) || (py >= (y + h)))
+            {
+                pz->fini(phi, 0);
+                HiwinHide(phi);
+                return;
+            }
+        }
+    }
+    else
+    {
+        EoMoveResize(phi, x - w / 2, y - h / 2, w, h);
+        EoMap(phi, 0);
+    }
 
-   GrabPointerSet(EoGetWin(phi), ECSR_ACT_MOVE, confine);
+    GrabPointerSet(EoGetWin(phi), ECSR_ACT_MOVE, confine);
 
-   pz->fini(phi, 1);
+    pz->fini(phi, 1);
 }

@@ -46,51 +46,51 @@
  * so animations should not require destructor-like functions to run after
  * they are complete.
  */
-typedef int         (AnimCbFunc) (EObj * eo, int run, void *data);
-typedef void        (AnimDoneFunc) (EObj * eo, void *data);
+typedef int     (AnimCbFunc) (EObj * eo, int run, void *data);
+typedef void    (AnimDoneFunc) (EObj * eo, void *data);
 
 /*
  * If AnimCbFunc's (retval > 0) it will not be called for retval frames.
  * If AnimCbFunc's (retval == -1) the animation is cancelled.
  */
-#define ANIM_RET_CANCEL_ANIM	-1
+#define ANIM_RET_CANCEL_ANIM    -1
 
 typedef enum {
-   /* lazy animations have negative names, and
-    * do not trigger frames to be drawn, but do draw things
-    * when other things trigger frames */
-   ANIM_LAZY_MAGWIN = -8,
+    /* lazy animations have negative names, and
+     * do not trigger frames to be drawn, but do draw things
+     * when other things trigger frames */
+    ANIM_LAZY_MAGWIN = -8,
 
-   ANIM_NOT_USED = 0,
+    ANIM_NOT_USED = 0,
 
-   ANIM_FADE,
-   ANIM_SLIDE,
-   ANIM_SHADE,
+    ANIM_FADE,
+    ANIM_SLIDE,
+    ANIM_SHADE,
 
-   ANIM_STARTUP = 20,
-   ANIM_GLWIN,
+    ANIM_STARTUP = 20,
+    ANIM_GLWIN,
 
-   /* not a window animation, but a desktop animation */
-   ANIM_FX_SPINNER = 40,
-   ANIM_FX_RAINDROPS,
-   ANIM_FX_WAVES,
-   ANIM_FX_RIPPLES,
+    /* not a window animation, but a desktop animation */
+    ANIM_FX_SPINNER = 40,
+    ANIM_FX_RAINDROPS,
+    ANIM_FX_WAVES,
+    ANIM_FX_RIPPLES,
 } animation_category;
 
-Animator           *AnimatorAdd(EObj * eo, animation_category category,
-				AnimCbFunc * func, int duration, int serialize,
-				size_t data_size, void *data);
-void                AnimatorSetSound(Animator * an,
-				     esound_e start_sound, esound_e end_sound);
-void                AnimatorSetDoneFunc(Animator * an, AnimDoneFunc * done);
+Animator       *AnimatorAdd(EObj * eo, animation_category category,
+                            AnimCbFunc * func, int duration, int serialize,
+                            size_t data_size, void *data);
+void            AnimatorSetSound(Animator * an,
+                                 esound_e start_sound, esound_e end_sound);
+void            AnimatorSetDoneFunc(Animator * an, AnimDoneFunc * done);
 
-int                 AnimatorDel(EObj * eo, Animator * an);
+int             AnimatorDel(EObj * eo, Animator * an);
 
-void                AnimatorsFree(EObj * eo);
+void            AnimatorsFree(EObj * eo);
 
-void               *AnimatorGetData(Animator * an);
+void           *AnimatorGetData(Animator * an);
 
 /* Misc. limits */
 #define SPEED_MIN       100
 
-#endif /* _ANIMATION_H_ */
+#endif                          /* _ANIMATION_H_ */

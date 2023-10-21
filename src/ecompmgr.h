@@ -30,49 +30,48 @@
 #include "xtypes.h"
 
 typedef struct {
-   char                enable;
-   int                 shadow;
-   char                fading;
-   int                 fade_speed;
-   int                 opacity_focused;
-   int                 opacity_unfocused;
-   int                 opacity_override;
+    char            enable;
+    int             shadow;
+    char            fading;
+    int             fade_speed;
+    int             opacity_focused;
+    int             opacity_unfocused;
+    int             opacity_override;
 } cfg_composite;
 
-int                 ECompMgrIsActive(void);
+int             ECompMgrIsActive(void);
 
-void                ECompMgrDeskConfigure(Desk * dsk);
+void            ECompMgrDeskConfigure(Desk * dsk);
 
-EX_Pixmap           ECompMgrGetRootBuffer(void);
+EX_Pixmap       ECompMgrGetRootBuffer(void);
 
-void                ECompMgrWinNew(EObj * eo);
-void                ECompMgrWinDel(EObj * eo);
-void                ECompMgrWinMap(EObj * eo);
-void                ECompMgrWinUnmap(EObj * eo);
-void                ECompMgrWinMoveResize(EObj * eo, int change_xy,
-					  int change_wh, int change_bw);
-void                ECompMgrWinDamageArea(EObj * eo, int x, int y, int w,
-					  int h);
-void                ECompMgrWinReparent(EObj * eo, Desk * dsk, int change_xy);
-void                ECompMgrWinRaiseLower(EObj * eo, int delta);
-void                ECompMgrWinChangeShape(EObj * eo);
-void                ECompMgrWinSetOpacity(EObj * eo, unsigned int opacity);
-void                ECompMgrWinChangeOpacity(EObj * eo, unsigned int opacity);
-void                ECompMgrWinChangeShadow(EObj * eo, int shadow);
-EX_Pixmap           ECompMgrWinGetPixmap(const EObj * eo);
-EX_Picture          ECompMgrWinGetAlphaPict(const EObj * eo);
+void            ECompMgrWinNew(EObj * eo);
+void            ECompMgrWinDel(EObj * eo);
+void            ECompMgrWinMap(EObj * eo);
+void            ECompMgrWinUnmap(EObj * eo);
+void            ECompMgrWinMoveResize(EObj * eo, int change_xy,
+                                      int change_wh, int change_bw);
+void            ECompMgrWinDamageArea(EObj * eo, int x, int y, int w, int h);
+void            ECompMgrWinReparent(EObj * eo, Desk * dsk, int change_xy);
+void            ECompMgrWinRaiseLower(EObj * eo, int delta);
+void            ECompMgrWinChangeShape(EObj * eo);
+void            ECompMgrWinSetOpacity(EObj * eo, unsigned int opacity);
+void            ECompMgrWinChangeOpacity(EObj * eo, unsigned int opacity);
+void            ECompMgrWinChangeShadow(EObj * eo, int shadow);
+EX_Pixmap       ECompMgrWinGetPixmap(const EObj * eo);
+EX_Picture      ECompMgrWinGetAlphaPict(const EObj * eo);
 
-void                ECompMgrConfigGet(cfg_composite * cfg);
-void                ECompMgrConfigSet(const cfg_composite * cfg);
+void            ECompMgrConfigGet(cfg_composite * cfg);
+void            ECompMgrConfigSet(const cfg_composite * cfg);
 
-void                ECompMgrRepaint(void);
-int                 ECompMgrRender(int dt);
+void            ECompMgrRepaint(void);
+int             ECompMgrRender(int dt);
 
-EX_Window           ECompMgrRootWin(void);
+EX_Window       ECompMgrRootWin(void);
 
-void                ECompMgrDamageArea(int x, int y, int w, int h);
+void            ECompMgrDamageArea(int x, int y, int w, int h);
 
-EX_SrvRegion        ECompMgrChildClipRegion(void);
+EX_SrvRegion    ECompMgrChildClipRegion(void);
 
 #else
 
@@ -84,4 +83,4 @@ EX_SrvRegion        ECompMgrChildClipRegion(void);
 
 #endif
 
-#endif /* _ECOMPMGR_H */
+#endif                          /* _ECOMPMGR_H */

@@ -23,7 +23,7 @@
 #ifndef _EDBUS_H_
 #define _EDBUS_H_
 
-void                DbusInit(void);
-void                DbusExit(void);
+void            DbusInit(void);
+void            DbusExit(void);
 
-#endif /* _EDBUS_H_ */
+#endif                          /* _EDBUS_H_ */

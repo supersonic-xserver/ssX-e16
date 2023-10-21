@@ -33,29 +33,29 @@
 #define N_SOUNDS (SOUND_NOT_USED - 1)
 
 typedef struct {
-   dlist_t             list;
-   char               *name;
-   char               *file;
-   Sample             *sample;
+    dlist_t         list;
+    char           *name;
+    char           *file;
+    Sample         *sample;
 } SoundClass;
 
 #define SC_NAME(sc) ((sc) ? (sc)->name : "(none)")
 
 static struct {
-   char                enable;
-   char               *theme;
-   unsigned int        mask1, mask2;
-   char               *engine;
+    char            enable;
+    char           *theme;
+    unsigned int    mask1, mask2;
+    char           *engine;
 } Conf_sound;
 
 static struct {
-   char                cfg_loaded;
-   char               *theme_path;
+    char            cfg_loaded;
+    char           *theme_path;
 } Mode_sound;
 
 #define SOUND_THEME_PATH ((Mode_sound.theme_path) ? Mode_sound.theme_path : Mode.theme.path)
 
-static              LIST_HEAD(sound_list);
+static          LIST_HEAD(sound_list);
 
 #if !USE_MODULES
 extern const SoundOps SoundOps_esd;
@@ -65,241 +65,241 @@ extern const SoundOps SoundOps_alsa;
 extern const SoundOps SoundOps_player;
 
 typedef struct {
-   const char         *name;
-   const SoundOps     *ops;
+    const char     *name;
+    const SoundOps *ops;
 } SoundEngine;
 
 static const SoundEngine SoundEngines[] = {
 #if USE_SOUND_ESOUND
-   {"esound", &SoundOps_esd},
+    { "esound", &SoundOps_esd },
 #endif
 #if USE_SOUND_PULSE
-   {"pulse", &SoundOps_pulse},
+    { "pulse", &SoundOps_pulse },
 #endif
 #if USE_SOUND_SNDIO
-   {"sndio", &SoundOps_sndio},
+    { "sndio", &SoundOps_sndio },
 #endif
 #if USE_SOUND_ALSA
-   {"alsa", &SoundOps_alsa},
+    { "alsa", &SoundOps_alsa },
 #endif
 #if USE_SOUND_PLAYER
-   {"player", &SoundOps_player},
+    { "player", &SoundOps_player },
 #endif
 };
-#endif /* USE_MODULES */
+#endif                          /* USE_MODULES */
 
 static const SoundOps *ops = NULL;
 
-static void         _SoundConfigLoad(void);
+static void     _SoundConfigLoad(void);
 
-static const char  *const sound_names[N_SOUNDS] = {
-   "SOUND_ALERT",		/*  0 0x00000001 */
-   "SOUND_BUTTON_CLICK",
-   "SOUND_BUTTON_RAISE",
-   "SOUND_DEICONIFY",
-   "SOUND_DESKTOP_LOWER",	/*  4 0x00000010 */
-   "SOUND_DESKTOP_RAISE",
-   "SOUND_DESKTOP_SHUT",
-   "SOUND_ERROR_IPC",
-   "SOUND_EXIT",		/*  8 0x00000100 */
-   "SOUND_FOCUS_SET",
-   "SOUND_ICONIFY",
-   "SOUND_INSERT_KEYS",
-   "SOUND_LOGOUT",		/* 12 0x00001000 */
-   "SOUND_LOWER",
-   "SOUND_MENU_SHOW",
-   "SOUND_MOVE_AREA_DOWN",
-   "SOUND_MOVE_AREA_LEFT",	/* 16 0x00010000 */
-   "SOUND_MOVE_AREA_RIGHT",
-   "SOUND_MOVE_AREA_UP",
-   "SOUND_MOVE_RESIST",
-   "SOUND_MOVE_START",		/* 20 0x00100000 */
-   "SOUND_MOVE_STOP",
-   "SOUND_RAISE",
-   "SOUND_RESIZE_START",
-   "SOUND_RESIZE_STOP",		/* 24 0x01000000 */
-   "SOUND_SCANNING",
-   "SOUND_SETTINGS_ACTIVE",
-   "SOUND_SETTINGS_ALL",
-   "SOUND_SETTINGS_AREA",	/* 28 0x10000000 */
-   "SOUND_SETTINGS_AUDIO",
-   NULL,
-   "SOUND_SETTINGS_BG",
-   "SOUND_SETTINGS_COMPOSITE",	/*  0 0x00000001 */
-   "SOUND_SETTINGS_DESKTOPS",
-   "SOUND_SETTINGS_FOCUS",
-   "SOUND_SETTINGS_FX",
-   "SOUND_SETTINGS_GROUP",	/*  4 0x00000010 */
-   "SOUND_SETTINGS_ICONBOX",
-   "SOUND_SETTINGS_MENUS",
-   "SOUND_SETTINGS_MISCELLANEOUS",
-   "SOUND_SETTINGS_MOVERESIZE",	/*  8 0x00000100 */
-   "SOUND_SETTINGS_PAGER",
-   "SOUND_SETTINGS_PLACEMENT",
-   "SOUND_SETTINGS_SESSION",
-   "SOUND_SETTINGS_TOOLTIPS",	/* 12 0x00001000 */
-   "SOUND_SETTINGS_TRANS",
-   "SOUND_SHADE",
-   "SOUND_SLIDEOUT_SHOW",
-   "SOUND_STARTUP",		/* 16 0x00010000 */
-   "SOUND_UNSHADE",
-   "SOUND_WAIT",
-   "SOUND_WINDOW_BORDER_CHANGE",
-   "SOUND_WINDOW_CHANGE_LAYER_DOWN",	/* 20 0x00100000 */
-   "SOUND_WINDOW_CHANGE_LAYER_UP",
-   "SOUND_WINDOW_CLOSE",
-   "SOUND_WINDOW_SLIDE",
-   "SOUND_WINDOW_SLIDE_END",	/* 24 0x01000000 */
-   "SOUND_WINDOW_STICK",
-   "SOUND_WINDOW_UNSTICK",
+static const char *const sound_names[N_SOUNDS] = {
+    "SOUND_ALERT",              /*  0 0x00000001 */
+    "SOUND_BUTTON_CLICK",
+    "SOUND_BUTTON_RAISE",
+    "SOUND_DEICONIFY",
+    "SOUND_DESKTOP_LOWER",      /*  4 0x00000010 */
+    "SOUND_DESKTOP_RAISE",
+    "SOUND_DESKTOP_SHUT",
+    "SOUND_ERROR_IPC",
+    "SOUND_EXIT",               /*  8 0x00000100 */
+    "SOUND_FOCUS_SET",
+    "SOUND_ICONIFY",
+    "SOUND_INSERT_KEYS",
+    "SOUND_LOGOUT",             /* 12 0x00001000 */
+    "SOUND_LOWER",
+    "SOUND_MENU_SHOW",
+    "SOUND_MOVE_AREA_DOWN",
+    "SOUND_MOVE_AREA_LEFT",     /* 16 0x00010000 */
+    "SOUND_MOVE_AREA_RIGHT",
+    "SOUND_MOVE_AREA_UP",
+    "SOUND_MOVE_RESIST",
+    "SOUND_MOVE_START",         /* 20 0x00100000 */
+    "SOUND_MOVE_STOP",
+    "SOUND_RAISE",
+    "SOUND_RESIZE_START",
+    "SOUND_RESIZE_STOP",        /* 24 0x01000000 */
+    "SOUND_SCANNING",
+    "SOUND_SETTINGS_ACTIVE",
+    "SOUND_SETTINGS_ALL",
+    "SOUND_SETTINGS_AREA",      /* 28 0x10000000 */
+    "SOUND_SETTINGS_AUDIO",
+    NULL,
+    "SOUND_SETTINGS_BG",
+    "SOUND_SETTINGS_COMPOSITE", /*  0 0x00000001 */
+    "SOUND_SETTINGS_DESKTOPS",
+    "SOUND_SETTINGS_FOCUS",
+    "SOUND_SETTINGS_FX",
+    "SOUND_SETTINGS_GROUP",     /*  4 0x00000010 */
+    "SOUND_SETTINGS_ICONBOX",
+    "SOUND_SETTINGS_MENUS",
+    "SOUND_SETTINGS_MISCELLANEOUS",
+    "SOUND_SETTINGS_MOVERESIZE",        /*  8 0x00000100 */
+    "SOUND_SETTINGS_PAGER",
+    "SOUND_SETTINGS_PLACEMENT",
+    "SOUND_SETTINGS_SESSION",
+    "SOUND_SETTINGS_TOOLTIPS",  /* 12 0x00001000 */
+    "SOUND_SETTINGS_TRANS",
+    "SOUND_SHADE",
+    "SOUND_SLIDEOUT_SHOW",
+    "SOUND_STARTUP",            /* 16 0x00010000 */
+    "SOUND_UNSHADE",
+    "SOUND_WAIT",
+    "SOUND_WINDOW_BORDER_CHANGE",
+    "SOUND_WINDOW_CHANGE_LAYER_DOWN",   /* 20 0x00100000 */
+    "SOUND_WINDOW_CHANGE_LAYER_UP",
+    "SOUND_WINDOW_CLOSE",
+    "SOUND_WINDOW_SLIDE",
+    "SOUND_WINDOW_SLIDE_END",   /* 24 0x01000000 */
+    "SOUND_WINDOW_STICK",
+    "SOUND_WINDOW_UNSTICK",
 };
 
 static const SoundOps *
 _SoundOpsLookup1(const char *name)
 {
 #if USE_MODULES
-   return ModLoadSym("sound", "SoundOps", name);
+    return ModLoadSym("sound", "SoundOps", name);
 #else
-   unsigned int        i;
-   const SoundEngine  *se;
+    unsigned int    i;
+    const SoundEngine *se;
 
-   for (i = 0; i < E_ARRAY_SIZE(SoundEngines); i++)
-     {
-	se = &SoundEngines[i];
-	if (strcmp(se->name, name) == 0)
-	   return se->ops;
-     }
+    for (i = 0; i < E_ARRAY_SIZE(SoundEngines); i++)
+    {
+        se = &SoundEngines[i];
+        if (strcmp(se->name, name) == 0)
+            return se->ops;
+    }
 
-   return NULL;
+    return NULL;
 #endif
 }
 
 static const SoundOps *
 _SoundOpsLookup(void)
 {
-   const SoundOps     *so;
+    const SoundOps *so;
 
-   if (Conf_sound.engine)
-     {
-	so = _SoundOpsLookup1(Conf_sound.engine);
-	if (so)
-	   return so;
-     }
+    if (Conf_sound.engine)
+    {
+        so = _SoundOpsLookup1(Conf_sound.engine);
+        if (so)
+            return so;
+    }
 
-   /* Try default */
-   EFREE_DUP(Conf_sound.engine, DEFAULT_SOUND_ENGINE);
-   so = _SoundOpsLookup1(Conf_sound.engine);
+    /* Try default */
+    EFREE_DUP(Conf_sound.engine, DEFAULT_SOUND_ENGINE);
+    so = _SoundOpsLookup1(Conf_sound.engine);
 
-   return so;
+    return so;
 }
 
 static void
 _SclassSampleDestroy(void *data, void *user_data __UNUSED__)
 {
-   SoundClass         *sclass = (SoundClass *) data;
+    SoundClass     *sclass = (SoundClass *) data;
 
-   if (!sclass || !sclass->sample)
-      return;
+    if (!sclass || !sclass->sample)
+        return;
 
-   if (ops)
-      ops->SampleDestroy(sclass->sample);
+    if (ops)
+        ops->SampleDestroy(sclass->sample);
 
-   sclass->sample = NULL;
+    sclass->sample = NULL;
 }
 
-static SoundClass  *
+static SoundClass *
 _SclassCreate(const char *name, const char *file)
 {
-   SoundClass         *sclass;
+    SoundClass     *sclass;
 
-   sclass = EMALLOC(SoundClass, 1);
-   if (!sclass)
-      return NULL;
+    sclass = EMALLOC(SoundClass, 1);
+    if (!sclass)
+        return NULL;
 
-   LIST_PREPEND(SoundClass, &sound_list, sclass);
+    LIST_PREPEND(SoundClass, &sound_list, sclass);
 
-   sclass->name = Estrdup(name);
-   sclass->file = Estrdup(file);
-   sclass->sample = NULL;
+    sclass->name = Estrdup(name);
+    sclass->file = Estrdup(file);
+    sclass->sample = NULL;
 
-   return sclass;
+    return sclass;
 }
 
 static void
-_SclassDestroy(SoundClass * sclass)
+_SclassDestroy(SoundClass *sclass)
 {
-   if (!sclass)
-      return;
+    if (!sclass)
+        return;
 
-   LIST_REMOVE(SoundClass, &sound_list, sclass);
-   _SclassSampleDestroy(sclass, NULL);
-   Efree(sclass->name);
-   Efree(sclass->file);
+    LIST_REMOVE(SoundClass, &sound_list, sclass);
+    _SclassSampleDestroy(sclass, NULL);
+    Efree(sclass->name);
+    Efree(sclass->file);
 
-   Efree(sclass);
+    Efree(sclass);
 }
 
 static void
-_SclassApply(SoundClass * sclass)
+_SclassApply(SoundClass *sclass)
 {
-   if (!sclass || !Conf_sound.enable)
-      return;
+    if (!sclass || !Conf_sound.enable)
+        return;
 
-   if (!sclass->sample)
-     {
-	char               *file;
+    if (!sclass->sample)
+    {
+        char           *file;
 
-	file = FindFile(sclass->file, SOUND_THEME_PATH, FILE_TYPE_SOUND);
-	if (file)
-	  {
-	     sclass->sample = ops->SampleLoad(file);
-	     Efree(file);
-	  }
-	if (!sclass->sample)
-	  {
-	     DialogOK(_("Error finding sound file"),
-		      _("Warning!  Enlightenment was unable to load the\n"
-			"following sound file:\n%s\n"
-			"Enlightenment will continue to operate, but you\n"
-			"may wish to check your configuration settings.\n"),
-		      sclass->file);
-	     _SclassDestroy(sclass);
-	     return;
-	  }
-     }
+        file = FindFile(sclass->file, SOUND_THEME_PATH, FILE_TYPE_SOUND);
+        if (file)
+        {
+            sclass->sample = ops->SampleLoad(file);
+            Efree(file);
+        }
+        if (!sclass->sample)
+        {
+            DialogOK(_("Error finding sound file"),
+                     _("Warning!  Enlightenment was unable to load the\n"
+                       "following sound file:\n%s\n"
+                       "Enlightenment will continue to operate, but you\n"
+                       "may wish to check your configuration settings.\n"),
+                     sclass->file);
+            _SclassDestroy(sclass);
+            return;
+        }
+    }
 
-   ops->SamplePlay(sclass->sample);
+    ops->SamplePlay(sclass->sample);
 }
 
 static int
 _SclassMatchName(const void *data, const void *match)
 {
-   return strcmp(((const SoundClass *)data)->name, (const char *)match);
+    return strcmp(((const SoundClass *)data)->name, (const char *)match);
 }
 
-static SoundClass  *
+static SoundClass *
 _SclassFind(const char *name)
 {
-   return LIST_FIND(SoundClass, &sound_list, _SclassMatchName, name);
+    return LIST_FIND(SoundClass, &sound_list, _SclassMatchName, name);
 }
 
 static void
 _SoundPlayByName(const char *name)
 {
-   SoundClass         *sclass;
+    SoundClass     *sclass;
 
-   if (!Conf_sound.enable)
-      return;
+    if (!Conf_sound.enable)
+        return;
 
-   if (!name || !*name)
-      return;
+    if (!name || !*name)
+        return;
 
-   sclass = _SclassFind(name);
+    sclass = _SclassFind(name);
 
-   if (EDebug(EDBUG_TYPE_SOUND))
-      Eprintf("%s: %s file=%s\n", "SclassApply", name, SC_NAME(sclass));
+    if (EDebug(EDBUG_TYPE_SOUND))
+        Eprintf("%s: %s file=%s\n", "SclassApply", name, SC_NAME(sclass));
 
-   _SclassApply(sclass);
+    _SclassApply(sclass);
 }
 
 #define _SoundMasked(i) \
@@ -308,79 +308,79 @@ _SoundPlayByName(const char *name)
 void
 SoundPlay(int sound)
 {
-   if (!Conf_sound.enable)
-      return;
+    if (!Conf_sound.enable)
+        return;
 
-   if (sound <= 0 || sound > N_SOUNDS)
-      return;
+    if (sound <= 0 || sound > N_SOUNDS)
+        return;
 
-   if (_SoundMasked(sound))
-      return;
+    if (_SoundMasked(sound))
+        return;
 
-   _SoundPlayByName(sound_names[sound - 1]);
+    _SoundPlayByName(sound_names[sound - 1]);
 }
 
 static int
 _SoundFree(const char *name)
 {
-   SoundClass         *sclass;
+    SoundClass     *sclass;
 
-   sclass = _SclassFind(name);
-   _SclassDestroy(sclass);
+    sclass = _SclassFind(name);
+    _SclassDestroy(sclass);
 
-   return !!sclass;
+    return !!sclass;
 }
 
 static void
 _SoundInit(void)
 {
-   if (!Conf_sound.enable)
-      return;
+    if (!Conf_sound.enable)
+        return;
 
-   if (!ops)
-      ops = _SoundOpsLookup();
+    if (!ops)
+        ops = _SoundOpsLookup();
 
-   if (!ops || ops->Init())
-     {
-	Conf_sound.enable = 0;
-	DialogOK(_("Error initialising sound"),
-		 _
-		 ("Audio was enabled for Enlightenment but there was an error\n"
-		  "communicating with the audio server (%s).\n"
-		  "Audio will now be disabled.\n"), Conf_sound.engine);
-	return;
-     }
+    if (!ops || ops->Init())
+    {
+        Conf_sound.enable = 0;
+        DialogOK(_("Error initialising sound"),
+                 _
+                 ("Audio was enabled for Enlightenment but there was an error\n"
+                  "communicating with the audio server (%s).\n"
+                  "Audio will now be disabled.\n"), Conf_sound.engine);
+        return;
+    }
 
-   _SoundConfigLoad();
+    _SoundConfigLoad();
 }
 
 static void
 _SoundExit(void)
 {
-   SoundClass         *sc;
+    SoundClass     *sc;
 
-   LIST_FOR_EACH(SoundClass, &sound_list, sc) _SclassSampleDestroy(sc, NULL);
+    LIST_FOR_EACH(SoundClass, &sound_list, sc) _SclassSampleDestroy(sc, NULL);
 
-   if (ops)
-     {
-	ops->Exit();
-	ops = NULL;
-     }
+    if (ops)
+    {
+        ops->Exit();
+        ops = NULL;
+    }
 
-   Conf_sound.enable = 0;
+    Conf_sound.enable = 0;
 }
 
 static void
 _SoundConfigure(int enable)
 {
-   if (Conf_sound.enable == enable)
-      return;
-   Conf_sound.enable = enable;
+    if (Conf_sound.enable == enable)
+        return;
+    Conf_sound.enable = enable;
 
-   if (Conf_sound.enable)
-      _SoundInit();
-   else
-      _SoundExit();
+    if (Conf_sound.enable)
+        _SoundInit();
+    else
+        _SoundExit();
 }
 
 /*
@@ -388,93 +388,93 @@ _SoundConfigure(int enable)
  */
 
 static int
-_SoundConfigParse(FILE * fs)
+_SoundConfigParse(FILE *fs)
 {
-   int                 err = 0;
-   char                s[FILEPATH_LEN_MAX];
-   char                s1[FILEPATH_LEN_MAX];
-   char                s2[FILEPATH_LEN_MAX];
-   int                 i1, fields;
+    int             err = 0;
+    char            s[FILEPATH_LEN_MAX];
+    char            s1[FILEPATH_LEN_MAX];
+    char            s2[FILEPATH_LEN_MAX];
+    int             i1, fields;
 
-   while (GetLine(s, sizeof(s), fs))
-     {
-	i1 = -1;
-	fields = sscanf(s, "%d", &i1);
-	if (fields == 1)	/* Just skip the numeric config stuff */
-	   continue;
+    while (GetLine(s, sizeof(s), fs))
+    {
+        i1 = -1;
+        fields = sscanf(s, "%d", &i1);
+        if (fields == 1)        /* Just skip the numeric config stuff */
+            continue;
 
-	s1[0] = s2[0] = '\0';
-	fields = sscanf(s, "%4000s %4000s", s1, s2);
-	if (fields != 2)
-	  {
-	     Eprintf("*** Ignoring line: %s\n", s);
-	     continue;
-	  }
-	_SclassCreate(s1, s2);
-     }
-#if 0				/* Errors here are just ignored */
-   if (err)
-      ConfigAlertLoad("Sound");
+        s1[0] = s2[0] = '\0';
+        fields = sscanf(s, "%4000s %4000s", s1, s2);
+        if (fields != 2)
+        {
+            Eprintf("*** Ignoring line: %s\n", s);
+            continue;
+        }
+        _SclassCreate(s1, s2);
+    }
+#if 0                           /* Errors here are just ignored */
+    if (err)
+        ConfigAlertLoad("Sound");
 #endif
 
-   return err;
+    return err;
 }
 
 static void
 _SoundConfigLoad(void)
 {
-   if (Mode_sound.cfg_loaded)
-      return;
-   Mode_sound.cfg_loaded = 1;
+    if (Mode_sound.cfg_loaded)
+        return;
+    Mode_sound.cfg_loaded = 1;
 
-   Efree(Mode_sound.theme_path);
-   if (Conf_sound.theme)
-      Mode_sound.theme_path = ThemePathFind(Conf_sound.theme);
-   else
-      Mode_sound.theme_path = NULL;
+    Efree(Mode_sound.theme_path);
+    if (Conf_sound.theme)
+        Mode_sound.theme_path = ThemePathFind(Conf_sound.theme);
+    else
+        Mode_sound.theme_path = NULL;
 
-   ConfigFileLoad("sound.cfg", SOUND_THEME_PATH, _SoundConfigParse, 1);
+    ConfigFileLoad("sound.cfg", SOUND_THEME_PATH, _SoundConfigParse, 1);
 }
 
 static void
 _SoundConfigUnload(void)
 {
-   SoundClass         *sc, *tmp;
+    SoundClass     *sc, *tmp;
 
-   LIST_FOR_EACH_SAFE(SoundClass, &sound_list, sc, tmp)
-   {
-      _SclassDestroy(sc);
-   }
+    LIST_FOR_EACH_SAFE(SoundClass, &sound_list, sc, tmp)
+    {
+        _SclassDestroy(sc);
+    }
 
-   Mode_sound.cfg_loaded = 0;
+    Mode_sound.cfg_loaded = 0;
 }
 
 static void
 _SoundEnableChange(void *item __UNUSED__, const char *sval)
 {
-   _SoundConfigure(!!atoi(sval));
+    _SoundConfigure(!!atoi(sval));
 }
 
 static void
 _SoundEngineChange(void *item __UNUSED__, const char *sval)
 {
-   EFREE_DUP(Conf_sound.engine, sval);
+    EFREE_DUP(Conf_sound.engine, sval);
 
-   if (Conf_sound.enable)
-     {
-	_SoundConfigure(0);
-	_SoundConfigure(1);
-     }
+    if (Conf_sound.enable)
+    {
+        _SoundConfigure(0);
+        _SoundConfigure(1);
+    }
 }
 
 static void
 _SoundThemeChange(void *item __UNUSED__, const char *theme)
 {
-   if (*theme == '\0')
-      theme = NULL;
-   _SoundConfigUnload();
-   EFREE_DUP(Conf_sound.theme, theme);
-   _SoundConfigLoad();
+    if (*theme == '\0')
+        theme = NULL;
+    _SoundConfigUnload();
+    EFREE_DUP(Conf_sound.theme, theme);
+    _SoundConfigLoad();
 }
 
 /*
@@ -484,67 +484,66 @@ _SoundThemeChange(void *item __UNUSED__, const char *theme)
 static void
 _SoundSighan(int sig, void *prm __UNUSED__)
 {
-   switch (sig)
-     {
-     case ESIGNAL_INIT:
-	memset(&Mode_sound, 0, sizeof(Mode_sound));
-	break;
-     case ESIGNAL_CONFIGURE:
-	_SoundInit();
-	break;
-     case ESIGNAL_START:
-	if (!Conf_sound.enable)
-	   break;
-	SoundPlay(SOUND_STARTUP);
-	_SoundFree("SOUND_STARTUP");
-	break;
-     case ESIGNAL_EXIT:
+    switch (sig)
+    {
+    case ESIGNAL_INIT:
+        memset(&Mode_sound, 0, sizeof(Mode_sound));
+        break;
+    case ESIGNAL_CONFIGURE:
+        _SoundInit();
+        break;
+    case ESIGNAL_START:
+        if (!Conf_sound.enable)
+            break;
+        SoundPlay(SOUND_STARTUP);
+        _SoundFree("SOUND_STARTUP");
+        break;
+    case ESIGNAL_EXIT:
 /*      if (Mode.wm.master) */
-	_SoundExit();
-	break;
-     }
+        _SoundExit();
+        break;
+    }
 }
 
 #if ENABLE_DIALOGS
 /*
  * Configuration dialog
  */
-static char         tmp_audio;
+static char     tmp_audio;
 
 static void
-_Dlg_ApplySound(Dialog * d __UNUSED__, int val __UNUSED__,
-		void *data __UNUSED__)
+_Dlg_ApplySound(Dialog *d __UNUSED__, int val __UNUSED__, void *data __UNUSED__)
 {
-   _SoundConfigure(tmp_audio);
-   autosave();
+    _SoundConfigure(tmp_audio);
+    autosave();
 }
 
 static void
-_DlgFillSound(Dialog * d __UNUSED__, DItem * table, void *data __UNUSED__)
+_DlgFillSound(Dialog *d __UNUSED__, DItem *table, void *data __UNUSED__)
 {
-   DItem              *di;
+    DItem          *di;
 
-   tmp_audio = Conf_sound.enable;
+    tmp_audio = Conf_sound.enable;
 
-   DialogItemTableSetOptions(table, 2, 0, 0, 0);
+    DialogItemTableSetOptions(table, 2, 0, 0, 0);
 
-   di = DialogAddItem(table, DITEM_CHECKBUTTON);
-   DialogItemSetColSpan(di, 2);
-   DialogItemSetText(di, _("Enable sounds"));
-   DialogItemCheckButtonSetPtr(di, &tmp_audio);
+    di = DialogAddItem(table, DITEM_CHECKBUTTON);
+    DialogItemSetColSpan(di, 2);
+    DialogItemSetText(di, _("Enable sounds"));
+    DialogItemCheckButtonSetPtr(di, &tmp_audio);
 }
 
-const DialogDef     DlgSound = {
-   "CONFIGURE_AUDIO",
-   N_("Sound"), N_("Audio Settings"),
-   0,
-   SOUND_SETTINGS_AUDIO,
-   "pix/sound.png",
-   N_("Enlightenment Audio\n" "Settings Dialog"),
-   _DlgFillSound,
-   DLG_OAC, _Dlg_ApplySound, NULL
+const DialogDef DlgSound = {
+    "CONFIGURE_AUDIO",
+    N_("Sound"), N_("Audio Settings"),
+    0,
+    SOUND_SETTINGS_AUDIO,
+    "pix/sound.png",
+    N_("Enlightenment Audio\n" "Settings Dialog"),
+    _DlgFillSound,
+    DLG_OAC, _Dlg_ApplySound, NULL
 };
-#endif /* ENABLE_DIALOGS */
+#endif                          /* ENABLE_DIALOGS */
 
 /*
  * IPC functions
@@ -553,67 +552,67 @@ const DialogDef     DlgSound = {
 static void
 SoundIpc(const char *params)
 {
-   const char         *p;
-   char                cmd[128], prm[4096];
-   int                 len;
-   SoundClass         *sc;
+    const char     *p;
+    char            cmd[128], prm[4096];
+    int             len;
+    SoundClass     *sc;
 
-   cmd[0] = prm[0] = '\0';
-   p = params;
-   if (p)
-     {
-	len = 0;
-	sscanf(p, "%100s %4000s %n", cmd, prm, &len);
-	p += len;
-     }
+    cmd[0] = prm[0] = '\0';
+    p = params;
+    if (p)
+    {
+        len = 0;
+        sscanf(p, "%100s %4000s %n", cmd, prm, &len);
+        p += len;
+    }
 
-   if (!strncmp(cmd, "del", 3))
-     {
-	_SoundFree(prm);
-     }
-   else if (!strncmp(cmd, "list", 2))
-     {
-	LIST_FOR_EACH(SoundClass, &sound_list, sc) IpcPrintf("%s\n", sc->name);
-     }
-   else if (!strncmp(cmd, "new", 3))
-     {
-	_SclassCreate(prm, p);
-     }
-   else if (!strncmp(cmd, "off", 2))
-     {
-	_SoundConfigure(0);
-	autosave();
-     }
-   else if (!strncmp(cmd, "on", 2))
-     {
-	_SoundConfigure(1);
-	autosave();
-     }
-   else if (!strncmp(cmd, "play", 2))
-     {
-	_SoundPlayByName(prm);
-     }
+    if (!strncmp(cmd, "del", 3))
+    {
+        _SoundFree(prm);
+    }
+    else if (!strncmp(cmd, "list", 2))
+    {
+        LIST_FOR_EACH(SoundClass, &sound_list, sc) IpcPrintf("%s\n", sc->name);
+    }
+    else if (!strncmp(cmd, "new", 3))
+    {
+        _SclassCreate(prm, p);
+    }
+    else if (!strncmp(cmd, "off", 2))
+    {
+        _SoundConfigure(0);
+        autosave();
+    }
+    else if (!strncmp(cmd, "on", 2))
+    {
+        _SoundConfigure(1);
+        autosave();
+    }
+    else if (!strncmp(cmd, "play", 2))
+    {
+        _SoundPlayByName(prm);
+    }
 }
 
 static const IpcItem SoundIpcArray[] = {
-   {
-    SoundIpc,
-    "sound", "snd",
-    "Sound functions",
-    "  sound add <classname> <filename> Create soundclass\n"
-    "  sound del <classname>            Delete soundclass\n"
-    "  sound list                       Show all sounds\n"
-    "  sound off                        Disable sounds\n"
-    "  sound on                         Enable sounds\n"
-    "  sound play <classname>           Play sounds\n"}
+    {
+     SoundIpc,
+     "sound", "snd",
+     "Sound functions",
+     "  sound add <classname> <filename> Create soundclass\n"
+     "  sound del <classname>            Delete soundclass\n"
+     "  sound list                       Show all sounds\n"
+     "  sound off                        Disable sounds\n"
+     "  sound on                         Enable sounds\n"
+     "  sound play <classname>           Play sounds\n" }
 };
 
 static const CfgItem SoundCfgItems[] = {
-   CFG_FUNC_BOOL(Conf_sound, enable, 0, _SoundEnableChange),
-   CFG_FUNC_STR(Conf_sound, theme, _SoundThemeChange),
-   CFG_ITEM_HEX(Conf_sound, mask1, 0),
-   CFG_ITEM_HEX(Conf_sound, mask2, 0),
-   CFG_FUNC_STR(Conf_sound, engine, _SoundEngineChange),
+    CFG_FUNC_BOOL(Conf_sound, enable, 0, _SoundEnableChange),
+    CFG_FUNC_STR(Conf_sound, theme, _SoundThemeChange),
+    CFG_ITEM_HEX(Conf_sound, mask1, 0),
+    CFG_ITEM_HEX(Conf_sound, mask2, 0),
+    CFG_FUNC_STR(Conf_sound, engine, _SoundEngineChange),
 };
 
 /*
@@ -621,9 +620,9 @@ static const CfgItem SoundCfgItems[] = {
  */
 extern const EModule ModSound;
 
-const EModule       ModSound = {
-   "sound", "audio",
-   _SoundSighan,
-   MOD_ITEMS(SoundIpcArray),
-   MOD_ITEMS(SoundCfgItems)
+const EModule   ModSound = {
+    "sound", "audio",
+    _SoundSighan,
+    MOD_ITEMS(SoundIpcArray),
+    MOD_ITEMS(SoundCfgItems)
 };
