@@ -2193,9 +2193,12 @@ ECompMgrStart(void)
    if (Mode_compmgr.active || Conf_compmgr.mode == ECM_MODE_OFF)
       return;
 
-   wm_cm_sel = SelectionAcquire("_NET_WM_CM_S", NULL, NULL);
-   if (!wm_cm_sel)
-      return;
+   if (!Mode.wm.window)
+     {
+	wm_cm_sel = SelectionAcquire("_NET_WM_CM_S", NULL, NULL);
+	if (!wm_cm_sel)
+	   return;
+     }
 
    Mode_compmgr.mode = Conf_compmgr.mode;
 
