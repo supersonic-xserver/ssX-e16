@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -509,6 +509,7 @@ static const IpcItem ThemeIpcArray[] = {
 };
 
 static const CfgItem ThemeCfgItems[] = {
+   CFG_ITEM_INT(Conf.theme, cache_ver, 0),
    CFG_ITEM_STR(Conf.theme, name),
    CFG_ITEM_STR(Conf.theme, extra_path),
    CFG_ITEM_BOOL(Conf.theme, use_theme_font_cfg, 0),

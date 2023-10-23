@@ -38,6 +38,7 @@
 #include "windowmatch.h"
 
 #define E_CFG_VER_MAX     2	/* Max. supported theme config version */
+#define E_CFG_VER_CACHE   1	/* Cache version (bump to invalidate cache) */
 
 void
 SkipTillEnd(FILE * fs)
@@ -529,7 +530,7 @@ ConfigFileFind(const char *name, const char *themepath, int pp)
    Esnprintf(s, sizeof(s), "%s/cached/cfg/%s.preparsed", EDirUserCache(), file);
 
    ppfile = Estrdup(s);
-   if (exists(s) && moddate(s) > moddate(fullname))
+   if (!Mode.theme.cache_rebuild && exists(s) && moddate(s) > moddate(fullname))
       goto done;
 
    /* No preparesd file or source is newer. Do preparsing. */
@@ -592,6 +593,12 @@ ThemeConfigLoad(void)
    };
    Progressbar        *p = NULL;
    unsigned int        i, delay_ms;
+
+   if (Conf.theme.cache_ver != E_CFG_VER_CACHE)
+     {
+	Mode.theme.cache_rebuild = true;
+	Conf.theme.cache_ver = E_CFG_VER_CACHE;
+     }
 
    /* Font mappings */
    FontConfigLoad();

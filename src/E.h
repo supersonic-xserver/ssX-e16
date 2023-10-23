@@ -3,7 +3,7 @@
 /*****************************************************************************/
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -33,6 +33,7 @@
 #include "util.h"
 #include "xtypes.h"
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -283,6 +284,7 @@ typedef struct {
       char                animate;
    } startup;
    struct {
+      int                 cache_ver;
       char                use_theme_font_cfg;
       char                use_alt_font_cfg;
       char               *name;
@@ -399,6 +401,7 @@ typedef struct {
       char                ext_pmap_valid;
    } root;
    struct {
+      bool                cache_rebuild;
       char               *paths;
       char               *path;
       char               *variant;
