@@ -252,6 +252,10 @@ _TtIcPaste(ToolTip * tt, const char *ic_name, int x, int y, int *px)
    *px = x + w;
 }
 
+typedef struct {
+   int                 h_icons, h_text, h_line;
+} tt_hdim_t;
+
 void
 TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 {
@@ -260,9 +264,8 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
    int                 headline_h, headline_w;
    int                 icons_width, labels_width, double_w;
    EImage             *im;
-   int                *heights = NULL;
+   tt_hdim_t          *heights = NULL;
    EImageBorder       *pad;
-   int                 cols[10];
    int                 num, modifiers;
    Action             *aa;
    const char         *tts;
@@ -283,18 +286,15 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
    h = 0;
    if (ac)
      {
+	int                 cols[10];
+
 	num = ActionclassGetActionCount(ac);
-	heights = EMALLOC(int, num);
+	heights = ECALLOC(tt_hdim_t, num);
 	cols[0] = 0;
 
 	for (i = 0; i < num; i++)
 	  {
 	     int                 temp_w, temp_h, j;
-
-	     temp_w = 0;
-	     temp_h = 0;
-	     for (j = 1; j < 10; j++)
-		cols[j] = 0;
 
 	     aa = ActionclassGetAction(ac, i);
 	     if (!aa)
@@ -304,6 +304,11 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 	     if (!tts)
 		continue;
 	     tts = _(tts);
+
+	     temp_w = 0;
+	     temp_h = 0;
+	     for (j = 1; j < 10; j++)
+		cols[j] = 0;
 
 	     TextSize(tt->tclass, 0, 0, STATE_NORMAL, tts, &temp_w, &temp_h);
 	     if (temp_w > labels_width)
@@ -316,7 +321,9 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 		  if (cols[0] < double_w)
 		     cols[0] = double_w;
 	       }
+	     heights[i].h_text = temp_h;
 
+	     temp_h = 0;
 	     if (ActionGetAnybutton(aa))
 	       {
 		  _TtIcCreate("TOOLTIP_MOUSEBUTTON_ANY",
@@ -378,13 +385,15 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 		     _TtIcCreate("TOOLTIP_KEY_MOD5",
 				 "pix/key_mod5.png", &cols[9], &temp_h);
 	       }
+	     heights[i].h_icons = temp_h;
 
 	     temp_w = cols[1] + cols[2] + cols[3] + cols[4] +
 		cols[5] + cols[6] + cols[7] + cols[8] + cols[9];
 	     if (temp_w > icons_width)
 		icons_width = temp_w;
 
-	     heights[i] = temp_h;
+	     temp_h = MAX(heights[i].h_text, heights[i].h_icons);
+	     heights[i].h_line = temp_h;
 
 	     h += temp_h;
 	  }
@@ -582,6 +591,8 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
    /* draw the icons and labels, if any */
    if (ac)
      {
+	int                 ytxt, yico, htxt, hico;
+
 	num = ActionclassGetActionCount(ac);
 	yy = pad->top + headline_h;
 
@@ -597,37 +608,44 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 	     tts = _(tts);
 
 	     xx = pad->left + iw;
+	     ytxt = yico = yy;
+	     htxt = heights[i].h_text;
+	     hico = heights[i].h_icons;
+	     if (hico > htxt)
+		ytxt += (hico - htxt) / 2;
+	     else
+		yico += (htxt - hico) / 2;
 
 	     if (ActionGetEvent(aa) == EVENT_DOUBLE_DOWN)
 	       {
 		  TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), tt->pmap4,
-			   0, 0, STATE_NORMAL, "2x", xx, yy,
-			   double_w, heights[i], 0);
+			   0, 0, STATE_NORMAL, "2x",
+			   xx, ytxt, double_w, htxt, 0);
 	       }
 
 	     xx += double_w;
 
 	     if (ActionGetAnybutton(aa))
 	       {
-		  _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_ANY", xx, yy, &xx);
+		  _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_ANY", xx, yico, &xx);
 	       }
 	     else
 		switch (ActionGetButton(aa))
 		  {
 		  case 1:
-		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_1", xx, yy, &xx);
+		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_1", xx, yico, &xx);
 		     break;
 		  case 2:
-		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_2", xx, yy, &xx);
+		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_2", xx, yico, &xx);
 		     break;
 		  case 3:
-		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_3", xx, yy, &xx);
+		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_3", xx, yico, &xx);
 		     break;
 		  case 4:
-		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_4", xx, yy, &xx);
+		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_4", xx, yico, &xx);
 		     break;
 		  case 5:
-		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_5", xx, yy, &xx);
+		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_5", xx, yico, &xx);
 		     break;
 		  default:
 		     break;
@@ -637,29 +655,28 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 	     if (modifiers)
 	       {
 		  if (modifiers & ShiftMask)
-		     _TtIcPaste(tt, "TOOLTIP_KEY_SHIFT", xx, yy, &xx);
+		     _TtIcPaste(tt, "TOOLTIP_KEY_SHIFT", xx, yico, &xx);
 		  if (modifiers & LockMask)
-		     _TtIcPaste(tt, "TOOLTIP_KEY_LOCK", xx, yy, &xx);
+		     _TtIcPaste(tt, "TOOLTIP_KEY_LOCK", xx, yico, &xx);
 		  if (modifiers & ControlMask)
-		     _TtIcPaste(tt, "TOOLTIP_KEY_CTRL", xx, yy, &xx);
+		     _TtIcPaste(tt, "TOOLTIP_KEY_CTRL", xx, yico, &xx);
 		  if (modifiers & Mod1Mask)
-		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD1", xx, yy, &xx);
+		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD1", xx, yico, &xx);
 		  if (modifiers & Mod2Mask)
-		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD2", xx, yy, &xx);
+		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD2", xx, yico, &xx);
 		  if (modifiers & Mod3Mask)
-		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD3", xx, yy, &xx);
+		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD3", xx, yico, &xx);
 		  if (modifiers & Mod4Mask)
-		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD4", xx, yy, &xx);
+		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD4", xx, yico, &xx);
 		  if (modifiers & Mod5Mask)
-		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD5", xx, yy, &xx);
+		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD5", xx, yico, &xx);
 	       }
 
 	     xx = pad->left + iw + icons_width;
 	     TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), tt->pmap4,
-		      0, 0, STATE_NORMAL, tts,
-		      xx, yy, labels_width, heights[i], 0);
+		      0, 0, STATE_NORMAL, tts, xx, ytxt, labels_width, htxt, 0);
 
-	     yy += heights[i];
+	     yy += heights[i].h_line;
 	  }
      }
 
