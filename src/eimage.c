@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -328,7 +328,6 @@ EImageFill(EImage * im, int x, int y, int w, int h, unsigned int color)
    imlib_context_set_image(im);
    COLOR32_TO_ARGB(color, a, r, g, b);
    imlib_context_set_color(r, g, b, a);
-   imlib_context_set_blend(0);
    imlib_image_fill_rectangle(x, y, w, h);
 }
 
@@ -378,7 +377,6 @@ EImageTile(EImage * im, EImage * tile, int flags, int tw, int th,
      {
 	tim = imlib_create_image(tw, th);
 	imlib_context_set_image(tim);
-	imlib_context_set_blend(0);
 	imlib_context_set_anti_alias(1);
 	imlib_blend_image_onto_image(tile, 0, 0, 0, sw, sh, 0, 0, tw, th);
 	imlib_context_set_anti_alias(0);
