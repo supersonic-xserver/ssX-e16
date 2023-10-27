@@ -70,7 +70,7 @@ struct _tooltip {
 #define TTICL iclass[4]
 
 static void
-TooltipRealize(ToolTip * tt)
+_TtRealize(ToolTip * tt)
 {
    int                 i, wh;
    EObj               *eo;
@@ -89,9 +89,9 @@ TooltipRealize(ToolTip * tt)
 }
 
 static ToolTip     *
-TooltipCreate(const char *name, const char *ic0, const char *ic1,
-	      const char *ic2, const char *ic3, const char *ic4,
-	      const char *tclass, int dist, const char *tooltippic)
+_TtCreate(const char *name, const char *ic0, const char *ic1,
+	  const char *ic2, const char *ic3, const char *ic4,
+	  const char *tclass, int dist, const char *tooltippic)
 {
    ToolTip            *tt;
    ImageClass         *ic;
@@ -125,7 +125,7 @@ TooltipCreate(const char *name, const char *ic0, const char *ic1,
 
 #if 0				/* Not used */
 static void
-TooltipDestroy(ToolTip * tt)
+_TtDestroy(ToolTip * tt)
 {
    if (!tt)
       return;
@@ -162,9 +162,8 @@ TooltipConfigLoad(FILE * fs)
 	  {
 	  case CONFIG_CLOSE:
 	     if (iclass[0] && tclass[0] && name[0])
-		TooltipCreate(name, iclass, bubble1, bubble2,
-			      bubble3, bubble4, tclass, distance,
-			      tooltiphelppic);
+		_TtCreate(name, iclass, bubble1, bubble2,
+			  bubble3, bubble4, tclass, distance, tooltiphelppic);
 	     goto done;
 
 	  case CONFIG_CLASSNAME:
@@ -211,7 +210,7 @@ TooltipConfigLoad(FILE * fs)
 }
 
 static ImageClass  *
-TooltipCreateIclass(const char *name, const char *file, int *pw, int *ph)
+_TtIcCreate(const char *name, const char *file, int *pw, int *ph)
 {
    ImageClass         *ic;
    EImage             *im;
@@ -235,7 +234,7 @@ TooltipCreateIclass(const char *name, const char *file, int *pw, int *ph)
 }
 
 static void
-TooltipIclassPaste(ToolTip * tt, const char *ic_name, int x, int y, int *px)
+_TtIcPaste(ToolTip * tt, const char *ic_name, int x, int y, int *px)
 {
    ImageClass         *ic;
    EImage             *im;
@@ -274,7 +273,7 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 
    if (!tt->TTWIN)
      {
-	TooltipRealize(tt);
+	_TtRealize(tt);
 	if (!tt->TTWIN)
 	   return;
      }
@@ -320,31 +319,31 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 
 	     if (ActionGetAnybutton(aa))
 	       {
-		  TooltipCreateIclass("TOOLTIP_MOUSEBUTTON_ANY",
-				      "pix/mouse_any.png", &cols[1], &temp_h);
+		  _TtIcCreate("TOOLTIP_MOUSEBUTTON_ANY",
+			      "pix/mouse_any.png", &cols[1], &temp_h);
 	       }
 	     else
 		switch (ActionGetButton(aa))
 		  {
 		  case 1:
-		     TooltipCreateIclass("TOOLTIP_MOUSEBUTTON_1",
-					 "pix/mouse_1.png", &cols[1], &temp_h);
+		     _TtIcCreate("TOOLTIP_MOUSEBUTTON_1",
+				 "pix/mouse_1.png", &cols[1], &temp_h);
 		     break;
 		  case 2:
-		     TooltipCreateIclass("TOOLTIP_MOUSEBUTTON_2",
-					 "pix/mouse_2.png", &cols[1], &temp_h);
+		     _TtIcCreate("TOOLTIP_MOUSEBUTTON_2",
+				 "pix/mouse_2.png", &cols[1], &temp_h);
 		     break;
 		  case 3:
-		     TooltipCreateIclass("TOOLTIP_MOUSEBUTTON_3",
-					 "pix/mouse_3.png", &cols[1], &temp_h);
+		     _TtIcCreate("TOOLTIP_MOUSEBUTTON_3",
+				 "pix/mouse_3.png", &cols[1], &temp_h);
 		     break;
 		  case 4:
-		     TooltipCreateIclass("TOOLTIP_MOUSEBUTTON_4",
-					 "pix/mouse_4.png", &cols[1], &temp_h);
+		     _TtIcCreate("TOOLTIP_MOUSEBUTTON_4",
+				 "pix/mouse_4.png", &cols[1], &temp_h);
 		     break;
 		  case 5:
-		     TooltipCreateIclass("TOOLTIP_MOUSEBUTTON_5",
-					 "pix/mouse_5.png", &cols[1], &temp_h);
+		     _TtIcCreate("TOOLTIP_MOUSEBUTTON_5",
+				 "pix/mouse_5.png", &cols[1], &temp_h);
 		     break;
 		  case 0:
 		  default:
@@ -355,30 +354,29 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 	     if (modifiers)
 	       {
 		  if (modifiers & ShiftMask)
-		     TooltipCreateIclass("TOOLTIP_KEY_SHIFT",
-					 "pix/key_shift.png",
-					 &cols[2], &temp_h);
+		     _TtIcCreate("TOOLTIP_KEY_SHIFT",
+				 "pix/key_shift.png", &cols[2], &temp_h);
 		  if (modifiers & LockMask)
-		     TooltipCreateIclass("TOOLTIP_KEY_LOCK",
-					 "pix/key_lock.png", &cols[3], &temp_h);
+		     _TtIcCreate("TOOLTIP_KEY_LOCK",
+				 "pix/key_lock.png", &cols[3], &temp_h);
 		  if (modifiers & ControlMask)
-		     TooltipCreateIclass("TOOLTIP_KEY_CTRL",
-					 "pix/key_ctrl.png", &cols[4], &temp_h);
+		     _TtIcCreate("TOOLTIP_KEY_CTRL",
+				 "pix/key_ctrl.png", &cols[4], &temp_h);
 		  if (modifiers & Mod1Mask)
-		     TooltipCreateIclass("TOOLTIP_KEY_MOD1",
-					 "pix/key_mod1.png", &cols[5], &temp_h);
+		     _TtIcCreate("TOOLTIP_KEY_MOD1",
+				 "pix/key_mod1.png", &cols[5], &temp_h);
 		  if (modifiers & Mod2Mask)
-		     TooltipCreateIclass("TOOLTIP_KEY_MOD2",
-					 "pix/key_mod2.png", &cols[6], &temp_h);
+		     _TtIcCreate("TOOLTIP_KEY_MOD2",
+				 "pix/key_mod2.png", &cols[6], &temp_h);
 		  if (modifiers & Mod3Mask)
-		     TooltipCreateIclass("TOOLTIP_KEY_MOD3",
-					 "pix/key_mod3.png", &cols[7], &temp_h);
+		     _TtIcCreate("TOOLTIP_KEY_MOD3",
+				 "pix/key_mod3.png", &cols[7], &temp_h);
 		  if (modifiers & Mod4Mask)
-		     TooltipCreateIclass("TOOLTIP_KEY_MOD4",
-					 "pix/key_mod4.png", &cols[8], &temp_h);
+		     _TtIcCreate("TOOLTIP_KEY_MOD4",
+				 "pix/key_mod4.png", &cols[8], &temp_h);
 		  if (modifiers & Mod5Mask)
-		     TooltipCreateIclass("TOOLTIP_KEY_MOD5",
-					 "pix/key_mod5.png", &cols[9], &temp_h);
+		     _TtIcCreate("TOOLTIP_KEY_MOD5",
+				 "pix/key_mod5.png", &cols[9], &temp_h);
 	       }
 
 	     temp_w = cols[1] + cols[2] + cols[3] + cols[4] +
@@ -610,25 +608,25 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 
 	     if (ActionGetAnybutton(aa))
 	       {
-		  TooltipIclassPaste(tt, "TOOLTIP_MOUSEBUTTON_ANY", x, y, &x);
+		  _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_ANY", x, y, &x);
 	       }
 	     else
 		switch (ActionGetButton(aa))
 		  {
 		  case 1:
-		     TooltipIclassPaste(tt, "TOOLTIP_MOUSEBUTTON_1", x, y, &x);
+		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_1", x, y, &x);
 		     break;
 		  case 2:
-		     TooltipIclassPaste(tt, "TOOLTIP_MOUSEBUTTON_2", x, y, &x);
+		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_2", x, y, &x);
 		     break;
 		  case 3:
-		     TooltipIclassPaste(tt, "TOOLTIP_MOUSEBUTTON_3", x, y, &x);
+		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_3", x, y, &x);
 		     break;
 		  case 4:
-		     TooltipIclassPaste(tt, "TOOLTIP_MOUSEBUTTON_4", x, y, &x);
+		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_4", x, y, &x);
 		     break;
 		  case 5:
-		     TooltipIclassPaste(tt, "TOOLTIP_MOUSEBUTTON_5", x, y, &x);
+		     _TtIcPaste(tt, "TOOLTIP_MOUSEBUTTON_5", x, y, &x);
 		     break;
 		  default:
 		     break;
@@ -638,21 +636,21 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 	     if (modifiers)
 	       {
 		  if (modifiers & ShiftMask)
-		     TooltipIclassPaste(tt, "TOOLTIP_KEY_SHIFT", x, y, &x);
+		     _TtIcPaste(tt, "TOOLTIP_KEY_SHIFT", x, y, &x);
 		  if (modifiers & LockMask)
-		     TooltipIclassPaste(tt, "TOOLTIP_KEY_LOCK", x, y, &x);
+		     _TtIcPaste(tt, "TOOLTIP_KEY_LOCK", x, y, &x);
 		  if (modifiers & ControlMask)
-		     TooltipIclassPaste(tt, "TOOLTIP_KEY_CTRL", x, y, &x);
+		     _TtIcPaste(tt, "TOOLTIP_KEY_CTRL", x, y, &x);
 		  if (modifiers & Mod1Mask)
-		     TooltipIclassPaste(tt, "TOOLTIP_KEY_MOD1", x, y, &x);
+		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD1", x, y, &x);
 		  if (modifiers & Mod2Mask)
-		     TooltipIclassPaste(tt, "TOOLTIP_KEY_MOD2", x, y, &x);
+		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD2", x, y, &x);
 		  if (modifiers & Mod3Mask)
-		     TooltipIclassPaste(tt, "TOOLTIP_KEY_MOD3", x, y, &x);
+		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD3", x, y, &x);
 		  if (modifiers & Mod4Mask)
-		     TooltipIclassPaste(tt, "TOOLTIP_KEY_MOD4", x, y, &x);
+		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD4", x, y, &x);
 		  if (modifiers & Mod5Mask)
-		     TooltipIclassPaste(tt, "TOOLTIP_KEY_MOD5", x, y, &x);
+		     _TtIcPaste(tt, "TOOLTIP_KEY_MOD5", x, y, &x);
 	       }
 
 	     TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), tt->pmap4,
@@ -725,7 +723,7 @@ TooltipsEnable(int enable)
 static ToolTip     *ttip = NULL;
 
 static int
-ToolTipTimeout(void *data __UNUSED__)
+_TtTimeout(void *data __UNUSED__)
 {
    int                 x, y;
    unsigned int        mask;
@@ -806,7 +804,7 @@ TooltipsSetPending(int type, CB_GetAclass * func, void *data)
    if (type && !Conf_tooltips.showroottooltip)
       return;
 
-   TIMER_ADD(tt_timer, Conf_tooltips.delay, ToolTipTimeout, NULL);
+   TIMER_ADD(tt_timer, Conf_tooltips.delay, _TtTimeout, NULL);
 }
 
 /*
@@ -814,7 +812,7 @@ TooltipsSetPending(int type, CB_GetAclass * func, void *data)
  */
 
 static void
-TooltipsSighan(int sig, void *prm __UNUSED__)
+_TtsSighan(int sig, void *prm __UNUSED__)
 {
    switch (sig)
      {
@@ -904,7 +902,7 @@ extern const EModule ModTooltips;
 
 const EModule       ModTooltips = {
    "tooltips", "tt",
-   TooltipsSighan,
+   _TtsSighan,
    {0, NULL},
    MOD_ITEMS(TooltipsCfgItems)
 };
