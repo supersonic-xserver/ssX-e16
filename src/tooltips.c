@@ -62,7 +62,7 @@ struct _tooltip {
    TextClass          *tclass;
    int                 dist;
    EObj               *win[5];
-   PmapMask            pmm4;
+   EX_Pixmap           pmap4;
    ImageClass         *tooltippic;
 };
 
@@ -247,7 +247,7 @@ TooltipIclassPaste(ToolTip * tt, const char *ic_name, int x, int y, int *px)
       return;
 
    EImageGetSize(im, &w, &h);
-   EImageRenderOnDrawable(im, EobjGetWin(tt->TTWIN), tt->pmm4.pmap,
+   EImageRenderOnDrawable(im, EobjGetWin(tt->TTWIN), tt->pmap4,
 			  EIMAGE_BLEND, x, y, w, h);
 
    *px = x + w;
@@ -551,12 +551,16 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 	  }
 	else
 	  {
+	     PmapMask            pmm;
+
+	     tt->pmap4 = EGetWindowBackgroundPixmap(EobjGetWin(eo));
 	     ImageclassApplyCopy(tt->iclass[i], EobjGetWin(eo),
 				 EobjGetW(eo), EobjGetH(eo),
-				 0, 0, STATE_NORMAL, &tt->pmm4,
-				 IC_FLAG_MAKE_MASK);
-	     ESetWindowBackgroundPixmap(EobjGetWin(eo), tt->pmm4.pmap, 1);
-	     EShapeSetMask(EobjGetWin(eo), 0, 0, tt->pmm4.mask);
+				 0, 0, STATE_NORMAL, &pmm, IC_FLAG_MAKE_MASK);
+	     EXCopyArea(pmm.pmap, tt->pmap4,
+			0, 0, EobjGetW(eo), EobjGetH(eo), 0, 0);
+	     EShapeSetMask(EobjGetWin(eo), 0, 0, pmm.mask);
+	     PmapMaskFree(&pmm);
 	  }
 	EobjShapeUpdate(eo, 0);
 	EobjMap(eo, 0);
@@ -566,7 +570,7 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
      {
 	ix = pad->left;
 	iy = (h - ih) / 2;
-	EImageRenderOnDrawable(im, EobjGetWin(tt->TTWIN), tt->pmm4.pmap,
+	EImageRenderOnDrawable(im, EobjGetWin(tt->TTWIN), tt->pmap4,
 			       EIMAGE_BLEND, ix, iy, iw, ih);
 	EImageFree(im);
      }
@@ -574,7 +578,7 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
    xx = pad->left + iw;
 
    /* draw the ordinary tooltip text */
-   TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), tt->pmm4.pmap, 0, 0,
+   TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), tt->pmap4, 0, 0,
 	    STATE_NORMAL, text, xx, pad->top, headline_w, headline_h, 512);
 
    /* draw the icons and labels, if any */
@@ -599,7 +603,7 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 
 	     if (ActionGetEvent(aa) == EVENT_DOUBLE_DOWN)
 	       {
-		  TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), tt->pmm4.pmap,
+		  TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), tt->pmap4,
 			   0, 0, STATE_NORMAL, "2x", xx + iw - double_w, y,
 			   double_w, heights[i], 0);
 	       }
@@ -651,7 +655,7 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 		     TooltipIclassPaste(tt, "TOOLTIP_KEY_MOD5", x, y, &x);
 	       }
 
-	     TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), tt->pmm4.pmap,
+	     TextDraw(tt->tclass, EobjGetWin(tt->TTWIN), tt->pmap4,
 		      0, 0, STATE_NORMAL, tts, pad->left + icons_width + iw, y,
 		      labels_width, heights[i], 0);
 	     y += heights[i];
@@ -661,7 +665,6 @@ TooltipShow(ToolTip * tt, const char *text, ActionClass * ac, int x, int y)
 
    EClearWindow(EobjGetWin(tt->TTWIN));
 
-   PmapMaskFree(&tt->pmm4);
    Efree(heights);
 }
 
