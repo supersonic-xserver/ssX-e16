@@ -1,4 +1,66 @@
 
+e16 v1.0.29 - 2023-10-28
+------------------------
+- 1.0.29
+- Update po
+- tooltips: Do vertical alignment of icons/text
+- tooltips: Change some variable names
+- tooltips: Shorten some function names
+- tooltips: Fixup after recent rendering change
+- eimage: Remove some redundant function calls
+- Build with cast-align=strict, fix warnings
+- config: Introduce method to invalidate theme cache
+- config: Trivial macro name change
+- definitions: Change value of __NORMAL to remove weirdness
+- CM: Don't do _NET_WM_CM_Sn acquisition in window mode
+- Danish translation update
+- Portuguese translation update (Hugo Carvalho)
+- French translation update (Philippe J. Guillaumie)
+- Update po
+- session: Cleanups
+- session: Another attempt at the Logout dialog layout
+- session: Logout dialog adjustments
+- Update po
+- session: Enable setting suspend and hibernate actions
+- session: Various trivial changes
+- actions: Add debug in Eexec()
+- cursors: Fix e16 theme cursors
+- tootips: Correct some layout details
+- tooltips: Render text/icons on background pixmap, not on window
+- iconbox: Fix weirdness with iconbox placement/sizing
+- ewins: Tweak allowed actions
+- FX: Fix clipping with compositing enabled some more
+- selections: Improve acquisition
+- dialogs: Enable using DialogOK() early
+- CM: Check if root subwindow redirection succeeds
+- CM: Rearrange initialization sequence
+- events: Fix detail in X-error printout
+- size: Let max size change work in unrestricted directions
+- buttons: Fix dragbar rendering when direction is changed when compositing
+- dialogs: Fix layout in window group selection
+- dialogs: Remove extra separator in Miscellaneous Settings
+- text: Converge faster in TextFit functions
+- text: Mostly trivial changes
+- text: Cosmetics
+- text: Fix calculating long multibyte string length (codepoints)
+- text: Drop unused fsize argument in Text functions
+- ipc: Fix potential segv
+- menus: Limit menu item text width
+- ewins: Fix gravity related placement issue
+- Revert "Optionally ignore gravity from WM_NORMAL_HINTS"
+- tooltips: Fix initially missing root tooltips
+- Optionally ignore gravity from WM_NORMAL_HINTS
+- scripts: Fixes needed due to IPC change a while back
+- Update non-active desk pagers when background is changed
+- Remove some pseudotransparency leftovers
+- iclass: Drop image border adjustment
+- config: Drop -include when preparsing
+- epp: Remove unused USE_FILE_NAME_MAPS stuff
+- epp: Unifdef __EMX__
+- Portuguese translation update (Hugo Carvalho)
+- Danish translation update
+- French translation update (Philippe J. Guillaumie)
+
 e16 v1.0.28 - 2023-07-13
 ------------------------
 - 1.0.28
