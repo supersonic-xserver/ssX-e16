@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2023-10-17 15:30+0200\n"
+"POT-Creation-Date: 2023-10-28 19:29+0200\n"
 "PO-Revision-Date: 2010-02-14 04:53+0000\n"
 "Last-Translator: Teylo Laundos Aguiar <teylo.aguiar@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -237,17 +237,17 @@ msgstr ""
 "\n"
 "%s\n"
 
-#: src/config.c:198 src/config.c:292
+#: src/config.c:199 src/config.c:293
 #, c-format
 msgid "CONFIG: ignoring extra data in \"%s\""
 msgstr "CONFIG: ignorando dados extras em \"%s\""
 
-#: src/config.c:206 src/config.c:299
+#: src/config.c:207 src/config.c:300
 #, c-format
 msgid "CONFIG: missing required data in \"%s\""
 msgstr "CONFIG: faltando datos obrigatórios em \"%s\""
 
-#: src/config.c:216
+#: src/config.c:217
 #, c-format
 msgid ""
 "Warning: unable to determine what to do with\n"
@@ -260,7 +260,7 @@ msgstr ""
 "%s\n"
 "Ignorando e prosseguindo...\n"
 
-#: src/config.c:224
+#: src/config.c:225
 #, c-format
 msgid ""
 "Warning:  Configuration error in %s block.\n"
@@ -269,19 +269,19 @@ msgstr ""
 "Aviso: Erro de configuração no bloco %s.\n"
 "Saída provavelmente não será boa.\n"
 
-#: src/config.c:308
+#: src/config.c:309
 msgid "Theme versioning ERROR"
 msgstr "ERRO de versão de tema"
 
-#: src/config.c:309
+#: src/config.c:310
 msgid "Restart with Defaults"
 msgstr "Reiniciar com os Padrões"
 
-#: src/config.c:310
+#: src/config.c:311
 msgid "Abort and Exit"
 msgstr "Abortar e Sair"
 
-#: src/config.c:311
+#: src/config.c:312
 #, c-format
 msgid ""
 "ERROR:\n"
@@ -302,7 +302,7 @@ msgid ""
 "features in Enlightenment in new versions.\n"
 msgstr ""
 
-#: src/config.c:608
+#: src/config.c:615
 msgid "Enlightenment Starting..."
 msgstr "Inicializando o Enlightenment..."
 
@@ -600,7 +600,7 @@ msgstr ""
 msgid "Apply"
 msgstr "Aplicar"
 
-#: src/ecompmgr.c:2379
+#: src/ecompmgr.c:2382
 msgid ""
 "Cannot enable Composite Manager.\n"
 "Use xdpyinfo to check that\n"
@@ -1977,27 +1977,27 @@ msgid ""
 "Settings Dialog"
 msgstr ""
 
-#: src/tooltips.c:861
+#: src/tooltips.c:881
 msgid "Display tooltips"
 msgstr "Exibir Dicas"
 
-#: src/tooltips.c:866
+#: src/tooltips.c:886
 msgid "Display root window tips"
 msgstr "Exibir Dicas da Janela Raíz"
 
-#: src/tooltips.c:870
+#: src/tooltips.c:890
 msgid "Tooltip delay:"
 msgstr "Espera das Dicas:"
 
-#: src/tooltips.c:881
+#: src/tooltips.c:901
 msgid "Tooltips"
 msgstr ""
 
-#: src/tooltips.c:881
+#: src/tooltips.c:901
 msgid "Tooltip Settings"
 msgstr "Configurações Dicas"
 
-#: src/tooltips.c:885
+#: src/tooltips.c:905
 msgid ""
 "Enlightenment Tooltip\n"
 "Settings Dialog"

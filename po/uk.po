@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2023-10-17 15:30+0200\n"
+"POT-Creation-Date: 2023-10-28 19:29+0200\n"
 "PO-Revision-Date: 2010-01-25 00:46+0000\n"
 "Last-Translator: Sergiy Gavrylov <sergiovana@bigmir.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -246,17 +246,17 @@ msgstr ""
 "\n"
 "%s\n"
 
-#: src/config.c:198 src/config.c:292
+#: src/config.c:199 src/config.c:293
 #, c-format
 msgid "CONFIG: ignoring extra data in \"%s\""
 msgstr "CONFIG: ігнорую зайві дані в \"%s\""
 
-#: src/config.c:206 src/config.c:299
+#: src/config.c:207 src/config.c:300
 #, c-format
 msgid "CONFIG: missing required data in \"%s\""
 msgstr "CONFIG: відсутні обов'язкові дані в \"%s\""
 
-#: src/config.c:216
+#: src/config.c:217
 #, c-format
 msgid ""
 "Warning: unable to determine what to do with\n"
@@ -269,7 +269,7 @@ msgstr ""
 "%s\n"
 "Ігнорую і продовжую...\n"
 
-#: src/config.c:224
+#: src/config.c:225
 #, c-format
 msgid ""
 "Warning:  Configuration error in %s block.\n"
@@ -278,19 +278,19 @@ msgstr ""
 "Попередження: Помилка конфігурації в %s блоці.\n"
 "Результат певно непридатний.\n"
 
-#: src/config.c:308
+#: src/config.c:309
 msgid "Theme versioning ERROR"
 msgstr "ПОМИЛКА версії теми"
 
-#: src/config.c:309
+#: src/config.c:310
 msgid "Restart with Defaults"
 msgstr "Перезапуск з типовою"
 
-#: src/config.c:310
+#: src/config.c:311
 msgid "Abort and Exit"
 msgstr "Скасувати і вийти"
 
-#: src/config.c:311
+#: src/config.c:312
 #, c-format
 msgid ""
 "ERROR:\n"
@@ -327,7 +327,7 @@ msgstr ""
 "деякий час і ця тема використовує нові функції і має\n"
 "переваги нових версій Enlightenment.\n"
 
-#: src/config.c:608
+#: src/config.c:615
 msgid "Enlightenment Starting..."
 msgstr "Запуск Enlightenment..."
 
@@ -622,7 +622,7 @@ msgstr ""
 msgid "Apply"
 msgstr "Застосувати"
 
-#: src/ecompmgr.c:2379
+#: src/ecompmgr.c:2382
 msgid ""
 "Cannot enable Composite Manager.\n"
 "Use xdpyinfo to check that\n"
@@ -2042,27 +2042,27 @@ msgstr ""
 "Діалог налаштування\n"
 "теми Enlightenment"
 
-#: src/tooltips.c:861
+#: src/tooltips.c:881
 msgid "Display tooltips"
 msgstr "Показувати підказки"
 
-#: src/tooltips.c:866
+#: src/tooltips.c:886
 msgid "Display root window tips"
 msgstr "Показувати поради адміністратора"
 
-#: src/tooltips.c:870
+#: src/tooltips.c:890
 msgid "Tooltip delay:"
 msgstr "Затримка підказок:"
 
-#: src/tooltips.c:881
+#: src/tooltips.c:901
 msgid "Tooltips"
 msgstr "Підказки"
 
-#: src/tooltips.c:881
+#: src/tooltips.c:901
 msgid "Tooltip Settings"
 msgstr "Налаштування підказок"
 
-#: src/tooltips.c:885
+#: src/tooltips.c:905
 msgid ""
 "Enlightenment Tooltip\n"
 "Settings Dialog"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2023-10-17 15:30+0200\n"
+"POT-Creation-Date: 2023-10-28 19:29+0200\n"
 "PO-Revision-Date: 2009-12-02 09:49+0000\n"
 "Last-Translator: Adam Kisiel <Unknown>\n"
 "Language-Team: Polshi <pl@li.org>\n"
@@ -245,17 +245,17 @@ msgstr ""
 "\n"
 "%s\n"
 
-#: src/config.c:198 src/config.c:292
+#: src/config.c:199 src/config.c:293
 #, c-format
 msgid "CONFIG: ignoring extra data in \"%s\""
 msgstr "Konfiguracja : pomijam nadmiarowe dane w \"%s\""
 
-#: src/config.c:206 src/config.c:299
+#: src/config.c:207 src/config.c:300
 #, c-format
 msgid "CONFIG: missing required data in \"%s\""
 msgstr "Konfiguracja : Brak wymaganych danych w \"%s\""
 
-#: src/config.c:216
+#: src/config.c:217
 #, c-format
 msgid ""
 "Warning: unable to determine what to do with\n"
@@ -264,26 +264,26 @@ msgid ""
 "Will ignore and continue...\n"
 msgstr ""
 
-#: src/config.c:224
+#: src/config.c:225
 #, c-format
 msgid ""
 "Warning:  Configuration error in %s block.\n"
 "Outcome is likely not good.\n"
 msgstr ""
 
-#: src/config.c:308
+#: src/config.c:309
 msgid "Theme versioning ERROR"
 msgstr "B³±d w wersji wystroju."
 
-#: src/config.c:309
+#: src/config.c:310
 msgid "Restart with Defaults"
 msgstr "Uruchom ponownie z warto¶ciami domy¶lnymi."
 
-#: src/config.c:310
+#: src/config.c:311
 msgid "Abort and Exit"
 msgstr "Zaniechaj i Wyjd¼"
 
-#: src/config.c:311
+#: src/config.c:312
 #, c-format
 msgid ""
 "ERROR:\n"
@@ -304,7 +304,7 @@ msgid ""
 "features in Enlightenment in new versions.\n"
 msgstr ""
 
-#: src/config.c:608
+#: src/config.c:615
 msgid "Enlightenment Starting..."
 msgstr "Uruchamianie Enlightenment..."
 
@@ -598,7 +598,7 @@ msgstr ""
 msgid "Apply"
 msgstr "Zastosuj"
 
-#: src/ecompmgr.c:2379
+#: src/ecompmgr.c:2382
 msgid ""
 "Cannot enable Composite Manager.\n"
 "Use xdpyinfo to check that\n"
@@ -1972,27 +1972,27 @@ msgid ""
 "Settings Dialog"
 msgstr ""
 
-#: src/tooltips.c:861
+#: src/tooltips.c:881
 msgid "Display tooltips"
 msgstr "Wy¶wietlaj Podpowiedzi"
 
-#: src/tooltips.c:866
+#: src/tooltips.c:886
 msgid "Display root window tips"
 msgstr "Wy¶wietlaj Podpowiedzi Okna G³ównego"
 
-#: src/tooltips.c:870
+#: src/tooltips.c:890
 msgid "Tooltip delay:"
 msgstr "Opó¼nienie wy¶wietlania Podpowiedzi:"
 
-#: src/tooltips.c:881
+#: src/tooltips.c:901
 msgid "Tooltips"
 msgstr ""
 
-#: src/tooltips.c:881
+#: src/tooltips.c:901
 msgid "Tooltip Settings"
 msgstr "Ustawienia Podpowiedzi"
 
-#: src/tooltips.c:885
+#: src/tooltips.c:905
 msgid ""
 "Enlightenment Tooltip\n"
 "Settings Dialog"

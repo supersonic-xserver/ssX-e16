@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enlightenment\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2023-10-17 15:30+0200\n"
+"POT-Creation-Date: 2023-10-28 19:29+0200\n"
 "PO-Revision-Date: 2015-03-29 14:25+0000\n"
 "Last-Translator: JoanColl <Unknown>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -246,17 +246,17 @@ msgstr ""
 "\n"
 "%s\n"
 
-#: src/config.c:198 src/config.c:292
+#: src/config.c:199 src/config.c:293
 #, c-format
 msgid "CONFIG: ignoring extra data in \"%s\""
 msgstr "CONFIG: ignorant informació extra a \"%s\""
 
-#: src/config.c:206 src/config.c:299
+#: src/config.c:207 src/config.c:300
 #, c-format
 msgid "CONFIG: missing required data in \"%s\""
 msgstr "CONFIG: manca informació necessaria a \"%s\""
 
-#: src/config.c:216
+#: src/config.c:217
 #, c-format
 msgid ""
 "Warning: unable to determine what to do with\n"
@@ -269,7 +269,7 @@ msgstr ""
 "%s\n"
 "S'ignorarà i continuarà...\n"
 
-#: src/config.c:224
+#: src/config.c:225
 #, c-format
 msgid ""
 "Warning:  Configuration error in %s block.\n"
@@ -278,19 +278,19 @@ msgstr ""
 "Avís:  Error de configuració al bloc %s.\n"
 "El resultat probablement no és bo.\n"
 
-#: src/config.c:308
+#: src/config.c:309
 msgid "Theme versioning ERROR"
 msgstr "ERROR de la versió del tema"
 
-#: src/config.c:309
+#: src/config.c:310
 msgid "Restart with Defaults"
 msgstr "Reinicia amb valors predeterminats"
 
-#: src/config.c:310
+#: src/config.c:311
 msgid "Abort and Exit"
 msgstr "Interromp i surt."
 
-#: src/config.c:311
+#: src/config.c:312
 #, c-format
 msgid ""
 "ERROR:\n"
@@ -327,7 +327,7 @@ msgstr ""
 "recentment i el tema treu partit de les noves característiques\n"
 "de les noves versions d'Enlightenment.\n"
 
-#: src/config.c:608
+#: src/config.c:615
 msgid "Enlightenment Starting..."
 msgstr "Iniciant Enlightenment..."
 
@@ -623,7 +623,7 @@ msgstr ""
 msgid "Apply"
 msgstr "Aplica"
 
-#: src/ecompmgr.c:2379
+#: src/ecompmgr.c:2382
 msgid ""
 "Cannot enable Composite Manager.\n"
 "Use xdpyinfo to check that\n"
@@ -2050,27 +2050,27 @@ msgstr ""
 "Diàleg de configuració\n"
 "del tema"
 
-#: src/tooltips.c:861
+#: src/tooltips.c:881
 msgid "Display tooltips"
 msgstr "Mostra indicadors de funció"
 
-#: src/tooltips.c:866
+#: src/tooltips.c:886
 msgid "Display root window tips"
 msgstr "Mostra inicadors de funció a la finestra arrel"
 
-#: src/tooltips.c:870
+#: src/tooltips.c:890
 msgid "Tooltip delay:"
 msgstr "Retard en l'indicador de funció"
 
-#: src/tooltips.c:881
+#: src/tooltips.c:901
 msgid "Tooltips"
 msgstr "Indicadors de funció"
 
-#: src/tooltips.c:881
+#: src/tooltips.c:901
 msgid "Tooltip Settings"
 msgstr "Configuració indicadors de funció"
 
-#: src/tooltips.c:885
+#: src/tooltips.c:905
 msgid ""
 "Enlightenment Tooltip\n"
 "Settings Dialog"

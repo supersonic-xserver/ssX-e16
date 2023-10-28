@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2023-10-17 15:30+0200\n"
+"POT-Creation-Date: 2023-10-28 19:29+0200\n"
 "PO-Revision-Date: 2010-05-09 01:24+0000\n"
 "Last-Translator: Aron Xu <Unknown>\n"
 "Language-Team: Bulgarian\n"
@@ -231,17 +231,17 @@ msgstr ""
 "\n"
 "%s\n"
 
-#: src/config.c:198 src/config.c:292
+#: src/config.c:199 src/config.c:293
 #, c-format
 msgid "CONFIG: ignoring extra data in \"%s\""
 msgstr "CONFIG: игнорираме екстра данни в \"%s\""
 
-#: src/config.c:206 src/config.c:299
+#: src/config.c:207 src/config.c:300
 #, c-format
 msgid "CONFIG: missing required data in \"%s\""
 msgstr "CONFIG: в \"%s\" липсват нужните данни"
 
-#: src/config.c:216
+#: src/config.c:217
 #, c-format
 msgid ""
 "Warning: unable to determine what to do with\n"
@@ -250,7 +250,7 @@ msgid ""
 "Will ignore and continue...\n"
 msgstr ""
 
-#: src/config.c:224
+#: src/config.c:225
 #, c-format
 msgid ""
 "Warning:  Configuration error in %s block.\n"
@@ -259,19 +259,19 @@ msgstr ""
 "Предупреждение:  Конфигурационна грешка в %s блок.\n"
 "Резултатът е съмнителен...\n"
 
-#: src/config.c:308
+#: src/config.c:309
 msgid "Theme versioning ERROR"
 msgstr "ГРЕШКА във версията на темата"
 
-#: src/config.c:309
+#: src/config.c:310
 msgid "Restart with Defaults"
 msgstr "Рестартирайте \"по подразбиране\""
 
-#: src/config.c:310
+#: src/config.c:311
 msgid "Abort and Exit"
 msgstr "Прекъснете и излезте"
 
-#: src/config.c:311
+#: src/config.c:312
 #, c-format
 msgid ""
 "ERROR:\n"
@@ -307,7 +307,7 @@ msgstr ""
 "сигурно не сте подновявали Enlightenment наскоро, а тази тема\n"
 "се възползва от нови свойства в новата-версия.\n"
 
-#: src/config.c:608
+#: src/config.c:615
 msgid "Enlightenment Starting..."
 msgstr "Enlightenment стартира..."
 
@@ -601,7 +601,7 @@ msgstr "Е: Виртуални полетаДиалог за настройки"
 msgid "Apply"
 msgstr "Приложи"
 
-#: src/ecompmgr.c:2379
+#: src/ecompmgr.c:2382
 msgid ""
 "Cannot enable Composite Manager.\n"
 "Use xdpyinfo to check that\n"
@@ -2005,27 +2005,27 @@ msgid ""
 "Settings Dialog"
 msgstr ""
 
-#: src/tooltips.c:861
+#: src/tooltips.c:881
 msgid "Display tooltips"
 msgstr "Показвай съвети"
 
-#: src/tooltips.c:866
+#: src/tooltips.c:886
 msgid "Display root window tips"
 msgstr "Показвайте съвети на главният прозорец"
 
-#: src/tooltips.c:870
+#: src/tooltips.c:890
 msgid "Tooltip delay:"
 msgstr "Забавяне на съветите:"
 
-#: src/tooltips.c:881
+#: src/tooltips.c:901
 msgid "Tooltips"
 msgstr ""
 
-#: src/tooltips.c:881
+#: src/tooltips.c:901
 msgid "Tooltip Settings"
 msgstr "Настройки за съветване"
 
-#: src/tooltips.c:885
+#: src/tooltips.c:905
 msgid ""
 "Enlightenment Tooltip\n"
 "Settings Dialog"

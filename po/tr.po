@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2023-10-17 15:30+0200\n"
+"POT-Creation-Date: 2023-10-28 19:29+0200\n"
 "PO-Revision-Date: 2014-05-24 08:31+0000\n"
 "Last-Translator: Eliovir <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -245,17 +245,17 @@ msgstr ""
 "\n"
 "%s\n"
 
-#: src/config.c:198 src/config.c:292
+#: src/config.c:199 src/config.c:293
 #, c-format
 msgid "CONFIG: ignoring extra data in \"%s\""
 msgstr "CONFIG : \"%s\"'nin ekstra bilgilerini gözardý ediyorum"
 
-#: src/config.c:206 src/config.c:299
+#: src/config.c:207 src/config.c:300
 #, c-format
 msgid "CONFIG: missing required data in \"%s\""
 msgstr "CONFIG : \"%s\"'de gerekli bilgi yok"
 
-#: src/config.c:216
+#: src/config.c:217
 #, c-format
 msgid ""
 "Warning: unable to determine what to do with\n"
@@ -268,7 +268,7 @@ msgstr ""
 "%s\n"
 "Dilerseniz bunu önemsemeyin ve iþlemlerinize devam edin.\n"
 
-#: src/config.c:224
+#: src/config.c:225
 #, c-format
 msgid ""
 "Warning:  Configuration error in %s block.\n"
@@ -277,19 +277,19 @@ msgstr ""
 "Uyarý : %s bloðunda Yapýlandýrma hatasý\n"
 "Sonuç muhtemelen iyi deðil.\n"
 
-#: src/config.c:308
+#: src/config.c:309
 msgid "Theme versioning ERROR"
 msgstr "Tema sürüm HATASI"
 
-#: src/config.c:309
+#: src/config.c:310
 msgid "Restart with Defaults"
 msgstr "Varsayýlan Deðerlerle Yeniden Baþlat"
 
-#: src/config.c:310
+#: src/config.c:311
 msgid "Abort and Exit"
 msgstr "Vazgeç ve Çýk"
 
-#: src/config.c:311
+#: src/config.c:312
 #, c-format
 msgid ""
 "ERROR:\n"
@@ -322,7 +322,7 @@ msgstr ""
 "avantajlarýndan yararlanmak için Enlightenment'ýn yeni sürümünü temin "
 "ediniz.\n"
 
-#: src/config.c:608
+#: src/config.c:615
 msgid "Enlightenment Starting..."
 msgstr "Enlightenment Baþlýyor..."
 
@@ -619,7 +619,7 @@ msgstr ""
 msgid "Apply"
 msgstr "Uygula"
 
-#: src/ecompmgr.c:2379
+#: src/ecompmgr.c:2382
 msgid ""
 "Cannot enable Composite Manager.\n"
 "Use xdpyinfo to check that\n"
@@ -2036,27 +2036,27 @@ msgstr ""
 "Enlightenment Temasý\n"
 "Ayarlar Penceresi"
 
-#: src/tooltips.c:861
+#: src/tooltips.c:881
 msgid "Display tooltips"
 msgstr "Ýpuçlarýný Göster"
 
-#: src/tooltips.c:866
+#: src/tooltips.c:886
 msgid "Display root window tips"
 msgstr "Ana pencere yardýmlarýný göster"
 
-#: src/tooltips.c:870
+#: src/tooltips.c:890
 msgid "Tooltip delay:"
 msgstr "Balon yardýmý gösterme zaman arasý :"
 
-#: src/tooltips.c:881
+#: src/tooltips.c:901
 msgid "Tooltips"
 msgstr "Ýpuçlarý"
 
-#: src/tooltips.c:881
+#: src/tooltips.c:901
 msgid "Tooltip Settings"
 msgstr "Ýpucu Ayarlarý"
 
-#: src/tooltips.c:885
+#: src/tooltips.c:905
 msgid ""
 "Enlightenment Tooltip\n"
 "Settings Dialog"

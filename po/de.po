@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2023-10-17 15:30+0200\n"
+"POT-Creation-Date: 2023-10-28 19:29+0200\n"
 "PO-Revision-Date: 2010-05-09 01:21+0000\n"
 "Last-Translator: Peter Wehrfritz <Unknown>\n"
 "Language-Team: Enlightenment l10n <enlightenment-intl@lists.sourceforge."
@@ -302,7 +302,7 @@ msgstr ""
 # src/config.c:1649 src/config.c:1896 src/config.c:1965 src/config.c:2060
 # src/config.c:2316 src/config.c:2532 src/config.c:2795 src/config.c:2887
 # src/config.c:2964 src/config.c:3065 src/config.c:3387
-#: src/config.c:198 src/config.c:292
+#: src/config.c:199 src/config.c:293
 #, c-format
 msgid "CONFIG: ignoring extra data in \"%s\""
 msgstr "KONFIG: ignoriere überflüssige Daten in \"%s\""
@@ -312,13 +312,13 @@ msgstr "KONFIG: ignoriere überflüssige Daten in \"%s\""
 # src/config.c:1657 src/config.c:1902 src/config.c:1971 src/config.c:2068
 # src/config.c:2322 src/config.c:2540 src/config.c:2801 src/config.c:3071
 # src/config.c:3395
-#: src/config.c:206 src/config.c:299
+#: src/config.c:207 src/config.c:300
 #, c-format
 msgid "CONFIG: missing required data in \"%s\""
 msgstr "KONFIG: vermisse benötigte Daten in \"%s\""
 
 # src/config.c:2929
-#: src/config.c:216
+#: src/config.c:217
 #, c-format
 msgid ""
 "Warning: unable to determine what to do with\n"
@@ -332,7 +332,7 @@ msgstr ""
 "Werde dies ignorieren und fortfahren...\n"
 
 # src/config.c:927 src/config.c:1160
-#: src/config.c:224
+#: src/config.c:225
 #, c-format
 msgid ""
 "Warning:  Configuration error in %s block.\n"
@@ -342,22 +342,22 @@ msgstr ""
 "Das Ergebnis ist vermutlich nicht gut.\n"
 
 # src/config.c:3404
-#: src/config.c:308
+#: src/config.c:309
 msgid "Theme versioning ERROR"
 msgstr "FEHLER in der Themen-Versionsnummerierung"
 
 # src/config.c:3405 src/config.c:3439
-#: src/config.c:309
+#: src/config.c:310
 msgid "Restart with Defaults"
 msgstr "Mit Voreinstellung neu starten"
 
 # src/config.c:3406 src/config.c:3440
-#: src/config.c:310
+#: src/config.c:311
 msgid "Abort and Exit"
 msgstr "Abbrechen und verlassen"
 
 # src/config.c:3407
-#: src/config.c:311
+#: src/config.c:312
 #, c-format
 msgid ""
 "ERROR:\n"
@@ -396,7 +396,7 @@ msgstr ""
 "in neueren Versionen finden.\n"
 
 # src/config.c:3743
-#: src/config.c:608
+#: src/config.c:615
 msgid "Enlightenment Starting..."
 msgstr "Enlightenment startet..."
 
@@ -751,7 +751,7 @@ msgstr ""
 msgid "Apply"
 msgstr "Übernehmen"
 
-#: src/ecompmgr.c:2379
+#: src/ecompmgr.c:2382
 msgid ""
 "Cannot enable Composite Manager.\n"
 "Use xdpyinfo to check that\n"
@@ -2372,32 +2372,32 @@ msgstr ""
 "Einstellungsdialog"
 
 # src/settings.c:1427
-#: src/tooltips.c:861
+#: src/tooltips.c:881
 msgid "Display tooltips"
 msgstr "Minihilfen anzeigen"
 
 # src/settings.c:1435
-#: src/tooltips.c:866
+#: src/tooltips.c:886
 msgid "Display root window tips"
 msgstr "Minihilfen zum Hintergrundfenster anzeigen"
 
 # src/settings.c:1443
-#: src/tooltips.c:870
+#: src/tooltips.c:890
 msgid "Tooltip delay:"
 msgstr "Minihilfen-Verzögerung:"
 
 # src/settings.c:1443
-#: src/tooltips.c:881
+#: src/tooltips.c:901
 msgid "Tooltips"
 msgstr "Minihilfen"
 
 # src/settings.c:1403
-#: src/tooltips.c:881
+#: src/tooltips.c:901
 msgid "Tooltip Settings"
 msgstr "Minihilfen-Einstellungen"
 
 # src/main.c:89
-#: src/tooltips.c:885
+#: src/tooltips.c:905
 msgid ""
 "Enlightenment Tooltip\n"
 "Settings Dialog"
