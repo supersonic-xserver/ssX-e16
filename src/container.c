@@ -1186,10 +1186,6 @@ _ContainerShowMenu(Container *ct)
     mi = MenuItemCreate(_("Settings..."), NULL, s, NULL);
     MenuAddItem(m, mi);
 
-    Esnprintf(s, sizeof(s), "wop %#x cl", WinGetXwin(ct->win));
-    mi = MenuItemCreate(_("Close"), NULL, s, NULL);
-    MenuAddItem(m, mi);
-
     if (ct->type == IB_TYPE_ICONBOX)
     {
         mi = MenuItemCreate(_("Create new iconbox"), NULL, "ibox new", NULL);
