@@ -24,7 +24,6 @@
 #include <sys/select.h>
 #include "E.h"
 
-/* Global vars */
 Display        *disp;
 
 static char     buf[10240];

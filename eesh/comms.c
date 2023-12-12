@@ -38,12 +38,8 @@ CommsInit(void)
 Window
 CommsSetup(Window win __UNUSED__)
 {
-    XSetWindowAttributes attr;
-
-    attr.override_redirect = False;
-    my_win = XCreateWindow(disp, root_win, -100, -100, 5, 5, 0, 0, InputOnly,
-                           DefaultVisual(disp, DefaultScreen(disp)),
-                           CWOverrideRedirect, &attr);
+    my_win = XCreateWindow(disp, root_win, -10, -10, 1, 1, 0, 0,
+                           InputOnly, CopyFromParent, 0, NULL);
 
     return my_win;
 }
