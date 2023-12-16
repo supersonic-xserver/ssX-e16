@@ -21,16 +21,21 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+#include "config.h"
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 #include <sys/select.h>
+#include <X11/Xlib.h>
 #include "E.h"
 
 Display        *disp;
 
 static char     buf[10240];
 static int      stdin_state;
-static char    *display_name;
 static Client  *e;
-static Window   my_win, comms_win;
 
 static void
 process_line(char *line)
@@ -84,6 +89,7 @@ int
 main(int argc, char **argv)
 {
     XEvent          ev;
+    Window          my_win, comms_win;
     Client         *me;
     int             i;
     fd_set          fd;
@@ -93,7 +99,6 @@ main(int argc, char **argv)
     const char     *space;
 
     mode = 0;
-    display_name = NULL;
 #ifdef __clang_analyzer__
     /* Seems not to understand asm FD_ZERO() */
     memset(&fd, 0, sizeof(fd));
@@ -105,31 +110,14 @@ main(int argc, char **argv)
         if (*s != '-')
             break;
 
-        if (!strcmp(argv[i], "-e"))
-        {
-            mode = -1;
-        }
-        else if (!strcmp(argv[i], "-ewait"))
-        {
-            mode = 1;
-        }
-        else if (!strcmp(argv[i], "-display"))
-        {
-            if (i != (argc - 1))
-            {
-                display_name = argv[++i];
-                display_name = Estrdup(display_name);
-            }
-        }
-        else if ((!strcmp(argv[i], "-h")) ||
-                 (!strcmp(argv[i], "-help")) || (!strcmp(argv[i], "--help")))
+        if (!strcmp(argv[i], "-h") ||
+            !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help"))
         {
             printf
                 ("eesh sends commands to E\n\n"
                  "Examples:\n"
-                 "  eesh Command to Send to E then wait for a reply then exit\n"
-                 "  eesh -ewait \"Command to Send to E then wait for a reply then exit\"\n"
-                 "  eesh -e \"Command to Send to Enlightenment then exit\"\n\n");
+                 "  eesh window_list all           : Show window list\n"
+                 "  eesh win_op Pager-0 move 10 20 : Move Pager-0 to position 10,20\n\n");
             printf("Use eesh by itself to enter the \"interactive mode\"\n"
                    "  Ctrl-D will exit interactive mode\n"
                    "  Use \"help\" from inside interactive mode for further assistance\n");
@@ -137,9 +125,7 @@ main(int argc, char **argv)
         }
     }
 
-    /* Open a connection to the diplay nominated by the DISPLAY variable */
-    /* Or set with the -display option */
-    disp = XOpenDisplay(display_name);
+    disp = XOpenDisplay(NULL);
     if (!disp)
     {
         fprintf(stderr, "Failed to connect to X server\n");
@@ -239,20 +225,3 @@ main(int argc, char **argv)
 
     return 0;
 }
-
-#if !USE_LIBC_STRDUP
-char           *
-Estrdup(const char *s)
-{
-    char           *ss;
-    int             sz;
-
-    if (!s)
-        return NULL;
-    sz = strlen(s);
-    ss = EMALLOC(char, sz + 1);
-    memcpy(ss, s, sz + 1);
-
-    return ss;
-}
-#endif

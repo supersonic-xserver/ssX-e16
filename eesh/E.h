@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2008 Kim Woelders
+ * Copyright (C) 2004-2023 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -21,21 +21,11 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+#ifndef EESH_E_H
+#define EESH_E_H 1
 #include "config.h"
 
 #include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/Xproto.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdarg.h>
-#include <string.h>
-#include <fcntl.h>
-
-#if HAVE_STRDUP
-#define USE_LIBC_STRDUP  1      /* Use libc strdup if present */
-#endif
 
 typedef struct {
     Window          win;
@@ -58,10 +48,6 @@ void            ClientDestroy(Client * c);
 #define EMALLOC(type, num) (type*)Emalloc((num)*sizeof(type))
 #define EREALLOC(type, ptr, num) (type*)Erealloc(ptr, (num)*sizeof(type))
 
-#if USE_LIBC_STRDUP
-#define Estrdup(s) ((s) ? strdup(s) : NULL)
-#else
-char           *Estrdup(const char *s);
-#endif
-
 extern Display *disp;
+
+#endif                          /* EESH_E_H */
