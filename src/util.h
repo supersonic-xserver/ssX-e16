@@ -73,11 +73,7 @@ const char     *Estrcasestr(const char *haystack, const char *needle);
 #define Ecalloc     calloc
 #define Emalloc     malloc
 #define Erealloc    realloc
-#if HAVE_FREE_NULL_BUG
-#define Efree(p)    if (p) free(p)
-#else
 #define Efree       free
-#endif
 
 void           *Ememdup(const void *ptr, unsigned int len);
 

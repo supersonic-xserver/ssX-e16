@@ -105,11 +105,7 @@ extern char    *docdir;
 
 #define Emalloc     malloc
 #define Erealloc    realloc
-#if HAVE_FREE_NULL_BUG
-#define Efree(p)    if (p) free(p)
-#else
 #define Efree       free
-#endif
 
 #define EMALLOC(type, num) (type*)Emalloc((num)*sizeof(type))
 #define EREALLOC(type, ptr, num) (type*)Erealloc(ptr, (num)*sizeof(type))
