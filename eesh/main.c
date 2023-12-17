@@ -26,7 +26,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <sys/select.h>
+#include <poll.h>
 #include <X11/Xlib.h>
 #include "E.h"
 
@@ -99,17 +99,14 @@ main(int argc, char **argv)
     Window          my_win, comms_win;
     Client         *me;
     int             i;
-    fd_set          fd;
+    struct pollfd   pfd[2];
+    int             nfd, timeout;
     char           *command, *s;
     char            mode;
     int             len, l;
     const char     *space;
 
     mode = 0;
-#ifdef __clang_analyzer__
-    /* Seems not to understand asm FD_ZERO() */
-    memset(&fd, 0, sizeof(fd));
-#endif
 
     for (i = 1; i < argc; i++)
     {
@@ -187,6 +184,14 @@ main(int argc, char **argv)
         atexit(stdin_state_restore);
     }
 
+    memset(pfd, 0, sizeof(pfd));
+    pfd[0].fd = ConnectionNumber(disp);
+    pfd[0].events = POLLIN;
+    pfd[1].fd = STDIN_FILENO;
+    pfd[1].events = POLLIN;
+    nfd = command ? 1 : 2;
+    timeout = -1;
+
     for (;;)
     {
         XSync(disp, False);
@@ -211,17 +216,17 @@ main(int argc, char **argv)
             }
         }
 
-        FD_ZERO(&fd);
-        if (!command)
-            FD_SET(STDIN_FILENO, &fd);
-        FD_SET(ConnectionNumber(disp), &fd);
-
-        if (select(ConnectionNumber(disp) + 1, &fd, NULL, NULL, NULL) < 0)
+        if (poll(pfd, nfd, timeout) < 0)
             break;
 
-        if (FD_ISSET(0, &fd))
+        if (pfd[1].revents)
         {
-            stdin_read();
+            if (pfd[1].revents & POLLIN)
+            {
+                stdin_read();
+            }
+            if (pfd[1].revents & POLLHUP)
+                break;
         }
     }
 
