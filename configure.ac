@@ -384,6 +384,18 @@ if test "x$enable_dbus" = "xyes"; then
 fi
 AM_CONDITIONAL(ENABLE_DBUS, test "x$enable_dbus" = "xyes")
 
+AC_ARG_WITH(lineedit,
+  AS_HELP_STRING([--with-lineedit], [compile eesh with line editing support (no/yes=editline/readline)@<:@default=no@:>@]),, with_lineedit="no")
+if test "x$with_lineedit" = "xyes"; then
+  PKG_CHECK_MODULES(LINEEDIT, libeditline,
+    AC_DEFINE(USE_LINEEDIT_EDITLINE, 1, [Use editline])
+    with_lineedit="editline", with_lineedit="no")
+elif test "x$with_lineedit" = "xreadline"; then
+  PKG_CHECK_MODULES(LINEEDIT, readline,
+    AC_DEFINE(USE_LINEEDIT_READLINE, 1, [Use readline])
+    with_lineedit="readline", with_lineedit="no")
+fi
+
 AC_CHECK_LIB(Fridge,mass_quantities_of_bass_ale)
 AC_CHECK_LIB(Fridge,mass_quantities_of_any_ale,, [
   echo "Warning: No ales were found in your refrigerator."
@@ -550,6 +562,7 @@ echo
 echo "Miscellaneous options"
 echo "  Use Modules .................. $enable_modules"
 echo "  Visibility hiding ............ $enable_visibility_hiding (only useful with modules)"
+echo "  Line editing (eesh) .......... $with_lineedit"
 echo
 echo "Experimental options - DO NOT USE unless you know what you are doing"
 echo "  GLX .......................... $enable_glx"

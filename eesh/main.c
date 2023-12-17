@@ -31,6 +31,15 @@
 #include <X11/Xlib.h>
 #include "E.h"
 
+#if USE_LINEEDIT_EDITLINE
+#define USE_LINEEDIT 1
+#include <editline.h>
+#elif USE_LINEEDIT_READLINE
+#define USE_LINEEDIT 1
+#include <readline/readline.h>
+#include <readline/history.h>
+#endif
+
 #define PROMPT "eesh> "
 
 Display        *disp;
@@ -47,12 +56,20 @@ process_line(char *line)
 
     if (!line)
         exit(0);
-    if (*line == '\0')
-        return;
 
-    CommsSend(e, line);
-    XSync(disp, False);
-    reply_pending = true;
+    if (*line)
+    {
+        CommsSend(e, line);
+        XSync(disp, False);
+        reply_pending = true;
+    }
+
+#if USE_LINEEDIT
+    if (!use_prompt)
+        return;
+    rl_set_prompt("");
+    add_history(line);
+#endif
 }
 
 static void
@@ -62,8 +79,6 @@ stdin_read(void)
     static int      nin;        // Bytes in buffer
     int             nr;
     char           *p;
-
-    input_pending = true;
 
     nr = read(STDIN_FILENO, buf + nin, sizeof(buf) - 1 - nin);
     if (nr <= 0)
@@ -93,15 +108,19 @@ stdin_read(void)
     }
 }
 
+#if USE_LINEEDIT
 static void
 stdin_state_setup(void)
 {
+    rl_callback_handler_install("", process_line);
 }
 
 static void
 stdin_state_restore(void)
 {
+    rl_callback_handler_remove();
 }
+#endif
 
 int
 main(int argc, char **argv)
@@ -191,8 +210,13 @@ main(int argc, char **argv)
         /* Interactive */
         interactive = true;
         use_prompt = isatty(STDIN_FILENO);
-        stdin_state_setup();
-        atexit(stdin_state_restore);
+#if USE_LINEEDIT
+        if (use_prompt)
+        {
+            stdin_state_setup();
+            atexit(stdin_state_restore);
+        }
+#endif
     }
 
     memset(pfd, 0, sizeof(pfd));
@@ -232,8 +256,13 @@ main(int argc, char **argv)
 
         if (use_prompt && !input_pending && !reply_pending)
         {
+#if USE_LINEEDIT
+            rl_set_prompt(PROMPT);
+            rl_forced_update_display();
+#else
             printf(PROMPT);
             fflush(stdout);
+#endif
         }
 
         if (poll(pfd, nfd, timeout) < 0)
@@ -243,7 +272,13 @@ main(int argc, char **argv)
         {
             if (pfd[1].revents & POLLIN)
             {
-                stdin_read();
+                input_pending = true;
+#if USE_LINEEDIT
+                if (use_prompt)
+                    rl_callback_read_char();
+                else
+#endif
+                    stdin_read();
             }
             if (pfd[1].revents & POLLHUP)
                 break;
