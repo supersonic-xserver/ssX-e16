@@ -22,7 +22,6 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #include "config.h"
-#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -34,7 +33,7 @@
 Display        *disp;
 
 static char     buf[10240];
-static int      stdin_state;
+static int      nin;            // Bytes in buffer
 static Client  *e;
 
 static void
@@ -52,37 +51,45 @@ process_line(char *line)
 static void
 stdin_state_setup(void)
 {
-    stdin_state = fcntl(0, F_GETFL, 0);
-    fcntl(0, F_SETFL, O_NONBLOCK);
 }
 
 static void
 stdin_state_restore(void)
 {
-    fcntl(0, F_SETFL, stdin_state);
 }
 
 static void
 stdin_read(void)
 {
-    static int      j = 0;
-    int             k, ret;
+    int             nr;
+    char           *p;
 
-    k = 0;
-    while ((ret = read(0, &(buf[j]), 1) > 0))
-    {
-        k = 1;
-        if (buf[j] == '\n')
-        {
-            buf[j] = 0;
-            if (strlen(buf) > 0)
-                process_line(buf);
-            j = -1;
-        }
-        j++;
-    }
-    if ((ret < 0) || ((k == 0) && (ret == 0)))
+    nr = read(STDIN_FILENO, buf + nin, sizeof(buf) - 1 - nin);
+    if (nr <= 0)
         exit(0);
+    nin += nr;
+    buf[nin] = '\0';
+
+    for (;;)
+    {
+        p = strchr(buf, '\n');
+        if (!p)
+            break;
+
+        *p++ = '\0';            // Terminate line at \n
+
+        process_line(buf);
+        if (*p == '\0')
+        {
+            nin = 0;            // No more input
+            break;
+        }
+
+        // Move remaining data to start of buffer
+        nr = p - buf;
+        nin -= nr;
+        memmove(buf, buf + nr, nin);
+    }
 }
 
 int
@@ -206,7 +213,7 @@ main(int argc, char **argv)
 
         FD_ZERO(&fd);
         if (!command)
-            FD_SET(0, &fd);
+            FD_SET(STDIN_FILENO, &fd);
         FD_SET(ConnectionNumber(disp), &fd);
 
         if (select(ConnectionNumber(disp) + 1, &fd, NULL, NULL, NULL) < 0)
