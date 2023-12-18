@@ -57,4 +57,4 @@ xpager)
 esac
 
 val=`du -s $ECACHEDIR/cached/$dir | awk '{printf("%s", $1);}'`
-eesh -e dialog_ok "$txt $val Kb of disk space."
+eesh dialog_ok "$txt $val Kb of disk space."

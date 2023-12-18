@@ -8,11 +8,11 @@ import subprocess
 
 
 def EeshExec(cmd):
-    subprocess.run(["eesh", cmd])
+    subprocess.run(['eesh', cmd])
 
 
 def EeshCall(cmd):
-    sp = subprocess.run(["eesh", "-e", cmd], capture_output=True, encoding='utf8')
+    sp = subprocess.run(['eesh', cmd], capture_output=True, encoding='utf8')
     out = sp.stdout.strip()
 #   print(f'out = "{out}"')
     return out

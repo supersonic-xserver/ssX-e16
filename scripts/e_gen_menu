@@ -343,8 +343,8 @@ def MakeAppsMenu(type):
 
 
 def EeshCall(cmd):
-#   os.system(f'eesh -e "{cmd}" >/dev/null')
-    subprocess.run(["eesh", "-e"] + cmd.split(), stdout=subprocess.DEVNULL)
+#   os.system(f'eesh "{cmd}" >/dev/null')
+    subprocess.run(['eesh'] + cmd.split(), stdout=subprocess.DEVNULL)
 
 
 # Close all windows named "Message" (we assume they are E dialogs)

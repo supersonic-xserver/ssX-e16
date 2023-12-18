@@ -26,10 +26,10 @@
 #
 
 # Open dialog 1
-eesh -e dialog_ok '[Dlg1]' 'Move this window'
+eesh dialog_ok '[Dlg1]' 'Move this window'
 
 # Open dialog 2
-eesh -e dialog_ok '[Dlg2]' 'Watch me follow the above window'
+eesh dialog_ok '[Dlg2]' 'Watch me follow the above window'
 
 # In one endless loop, get window position of the first window, then move the
 # second one accordingly...

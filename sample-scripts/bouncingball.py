@@ -16,7 +16,7 @@ def EeshExec(cmd):
 
 
 def EeshCall(cmd):
-    sp = subprocess.run(['eesh', '-e'] + cmd.split(), capture_output=True, encoding='utf8')
+    sp = subprocess.run(['eesh'] + cmd.split(), capture_output=True, encoding='utf8')
     out = sp.stdout.strip()
 #   print(f'out = "{out}"')
     return out

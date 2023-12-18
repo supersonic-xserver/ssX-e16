@@ -452,7 +452,7 @@ sub ReadDir {
 
 # Close all windows named "Message" (we assume they are E dialogs)
 sub CloseMessageWindows {
-	system("eesh -e wop Message* close >/dev/null");
+	system("eesh wop Message* close >/dev/null");
 }
 
 
@@ -462,7 +462,7 @@ sub CloseMessageWindows {
 $N = 0;
 
 CloseMessageWindows();
-system("eesh -e dialog_ok 'Menus are being generated... Please Wait.'");
+system("eesh dialog_ok 'Menus are being generated... Please Wait.'");
 
 # Process old style GNOME directories
 ProcessOldStyle("GNOME", "$OldGnomeDirs");
@@ -497,5 +497,5 @@ MakeEppsMenu("epplets.menu");
 MakeAppsMenu("apps");
 
 CloseMessageWindows();
-system("eesh -e menus reload");
-system("eesh -e dialog_ok Menu generation complete.");
+system("eesh menus reload");
+system("eesh dialog_ok Menu generation complete.");
