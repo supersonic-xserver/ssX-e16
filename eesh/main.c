@@ -22,6 +22,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #include "config.h"
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -30,13 +31,20 @@
 #include <X11/Xlib.h>
 #include "E.h"
 
+#define PROMPT "eesh> "
+
 Display        *disp;
 
 static Client  *e;
+static bool     use_prompt;
+static bool     input_pending;
+static bool     reply_pending;
 
 static void
 process_line(char *line)
 {
+    input_pending = false;
+
     if (!line)
         exit(0);
     if (*line == '\0')
@@ -44,6 +52,7 @@ process_line(char *line)
 
     CommsSend(e, line);
     XSync(disp, False);
+    reply_pending = true;
 }
 
 static void
@@ -53,6 +62,8 @@ stdin_read(void)
     static int      nin;        // Bytes in buffer
     int             nr;
     char           *p;
+
+    input_pending = true;
 
     nr = read(STDIN_FILENO, buf + nin, sizeof(buf) - 1 - nin);
     if (nr <= 0)
@@ -102,11 +113,9 @@ main(int argc, char **argv)
     struct pollfd   pfd[2];
     int             nfd, timeout;
     char           *command, *s;
-    char            mode;
     int             len, l;
     const char     *space;
-
-    mode = 0;
+    bool            interactive;
 
     for (i = 1; i < argc; i++)
     {
@@ -150,7 +159,6 @@ main(int argc, char **argv)
     space = "";
     if (i < argc)
     {
-        mode = 1;
         len = 0;
         for (; i < argc; i++)
         {
@@ -167,19 +175,22 @@ main(int argc, char **argv)
         }
     }
 
+    input_pending = false;
+    reply_pending = false;
+
     if (command)
     {
         /* Non-interactive */
+        interactive = use_prompt = false;
         CommsSend(e, command);
         XSync(disp, False);
-#if 0                           /* No - Wait for ack */
-        if (mode <= 0)
-            goto done;
-#endif
+        reply_pending = true;
     }
     else
     {
         /* Interactive */
+        interactive = true;
+        use_prompt = isatty(STDIN_FILENO);
         stdin_state_setup();
         atexit(stdin_state_restore);
     }
@@ -204,16 +215,25 @@ main(int argc, char **argv)
                 s = CommsGet(me, &ev);
                 if (!s)
                     break;
+                reply_pending = false;
                 if (*s)
+                {
                     printf("%s", s);
-                fflush(stdout);
+                    fflush(stdout);
+                }
                 Efree(s);
-                if (mode)
+                if (!interactive)
                     goto done;
                 break;
             case DestroyNotify:
                 goto done;
             }
+        }
+
+        if (use_prompt && !input_pending && !reply_pending)
+        {
+            printf(PROMPT);
+            fflush(stdout);
         }
 
         if (poll(pfd, nfd, timeout) < 0)
