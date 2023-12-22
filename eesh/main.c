@@ -32,8 +32,6 @@
 
 Display        *disp;
 
-static char     buf[10240];
-static int      nin;            // Bytes in buffer
 static Client  *e;
 
 static void
@@ -49,18 +47,10 @@ process_line(char *line)
 }
 
 static void
-stdin_state_setup(void)
-{
-}
-
-static void
-stdin_state_restore(void)
-{
-}
-
-static void
 stdin_read(void)
 {
+    static char     buf[10240];
+    static int      nin;        // Bytes in buffer
     int             nr;
     char           *p;
 
@@ -90,6 +80,16 @@ stdin_read(void)
         nin -= nr;
         memmove(buf, buf + nr, nin);
     }
+}
+
+static void
+stdin_state_setup(void)
+{
+}
+
+static void
+stdin_state_restore(void)
+{
 }
 
 int
