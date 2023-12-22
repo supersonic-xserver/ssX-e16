@@ -62,23 +62,6 @@ if test "x$have_clock_gettime" != xno; then
   fi
 fi
 
-AC_ARG_WITH(evhan,
-  AS_HELP_STRING([--with-evhan],
-                 [select event handling api (poll/select)@<:@default=auto@:>@]),,
-                 AC_CHECK_HEADERS(poll.h, with_evhan=poll, with_evhan=select))
-case "$with_evhan" in
-poll)
-  AC_CHECK_HEADERS(poll.h,, AC_MSG_ERROR([Need poll.h]))
-  AC_DEFINE(USE_EVHAN_POLL, 1, [Use poll as event handler api])
-  ;;
-select)
-  AC_DEFINE(USE_EVHAN_SELECT, 1, [Use select as event handler api])
-  ;;
-*)
-  AC_MSG_ERROR([Invalid option: --with-evhan=$with_evhan])
-  ;;
-esac
-
 AC_ARG_ENABLE(sound,
   AS_HELP_STRING([--enable-sound],
                  [compile with sound support (select default)  (yes/no/pulseaudio/esound/sndio/alsa/player)@<:@default=yes@:>@]),
@@ -565,7 +548,6 @@ echo "  Window mode helper library ... $enable_libhack"
 echo "  Dialogs ...................... $enable_dialogs"
 echo
 echo "Miscellaneous options"
-echo "  Event handler API ............ $with_evhan"
 echo "  Use Modules .................. $enable_modules"
 echo "  Visibility hiding ............ $enable_visibility_hiding (only useful with modules)"
 echo

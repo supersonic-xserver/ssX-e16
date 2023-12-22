@@ -23,11 +23,7 @@
  */
 #include "config.h"
 
-#if USE_EVHAN_POLL
 #include <poll.h>
-#elif USE_EVHAN_SELECT
-#include <sys/select.h>
-#endif
 #include <sys/time.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -351,16 +347,11 @@ typedef struct {
 #if 0                           /* Unused */
     const char     *name;
 #endif
-#if USE_EVHAN_SELECT
-    int             fd;
-#endif
     void            (*handler)(void);
 } EventFdDesc;
 
 static int      nfds = 0;
-#if USE_EVHAN_POLL
 static struct pollfd *pfdl = NULL;
-#endif
 static EventFdDesc *pfds = NULL;
 
 int
@@ -371,12 +362,8 @@ EventFdRegister(int fd, EventFdHandler *handler)
     efd = nfds++;
     pfds = EREALLOC(EventFdDesc, pfds, nfds);
 
-#if USE_EVHAN_POLL
     pfdl = EREALLOC(struct pollfd, pfdl, nfds);
     pfdl[efd].fd = fd;
-#elif USE_EVHAN_SELECT
-    pfds[efd].fd = fd;
-#endif
 
     pfds[efd].handler = handler;
 
@@ -386,12 +373,8 @@ EventFdRegister(int fd, EventFdHandler *handler)
 void
 EventFdUnregister(int efd)
 {
-#if USE_EVHAN_POLL
     if (pfdl[efd].fd > 0)
         pfdl[efd].fd = -pfdl[efd].fd;
-#elif USE_EVHAN_SELECT
-    pfds[efd].fd = -1;
-#endif
 }
 
 /*
@@ -1128,11 +1111,6 @@ EventsMain(void)
     static int      evq_size = 0;
     static int      evq_fetch = 0;
     static XEvent  *evq_ptr = NULL;
-#if USE_EVHAN_SELECT
-    fd_set          fdset;
-    int             fdsize, fd;
-    struct timeval  tval;
-#endif
     unsigned int    time1, time2;
     int             dtl, dt;
     int             count, pfetch;
@@ -1192,7 +1170,6 @@ EventsMain(void)
         else if (XPending(disp))
             continue;
 
-#if USE_EVHAN_POLL
         for (i = 0; i < nfds; i++)
             pfdl[i].events = (i == 0 && Mode.events.block) ? 0 : POLLIN;
 
@@ -1217,53 +1194,6 @@ EventsMain(void)
                 pfds[i].handler();
             }
         }
-#elif USE_EVHAN_SELECT
-        FD_ZERO(&fdset);
-        fdsize = -1;
-        for (i = 0; i < nfds; i++)
-        {
-            if (Mode.events.block && i == 0)
-                continue;
-            fd = pfds[i].fd;
-            if (fd < 0)
-                continue;
-            if (fdsize < fd)
-                fdsize = fd;
-            FD_SET(fd, &fdset);
-        }
-        fdsize++;
-
-        if (dt > 0.)
-        {
-            tval.tv_sec = (long)dt / 1000;
-            tval.tv_usec = ((long)dt - tval.tv_sec * 1000) * 1000;
-            count = select(fdsize, &fdset, NULL, NULL, &tval);
-        }
-        else
-        {
-            count = select(fdsize, &fdset, NULL, NULL, NULL);
-        }
-
-        if (EDebug(EDBUG_TYPE_EVENTS))
-            Eprintf("%s: count=%d xfd=%d:%d dtl=%.6lf dt=%.6lf\n", __func__,
-                    count, pfds[0].fd, FD_ISSET(pfds[0].fd, &fdset),
-                    dtl * 1e-3, dt * 1e-3);
-
-        if (count <= 0)
-            continue;           /* Timeout (or error) */
-
-        /* Excluding X fd */
-        for (i = 1; i < nfds; i++)
-        {
-            fd = pfds[i].fd;
-            if ((fd >= 0) && (FD_ISSET(fd, &fdset)))
-            {
-                if (EDebug(EDBUG_TYPE_EVENTS) > 1)
-                    Eprintf("Event fd %d\n", i);
-                pfds[i].handler();
-            }
-        }
-#endif
     }
 }
 
