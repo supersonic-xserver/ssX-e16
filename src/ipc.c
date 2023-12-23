@@ -1882,15 +1882,19 @@ IpcExec(const char *params)
     if (EDebug(EDBUG_TYPE_IPC))
         Eprintf("%s: '%s'\n", __func__, params);
 
-    cmd[0] = 0;
+    cmd[0] = '\0';
     num = 0;
     if (params)
         sscanf(params, "%100s %n", cmd, &num);
     prm = (num > 0 && params[num]) ? params + num : NULL;
 
+    ok = 1;
+
+    if (cmd[0] == '\0')
+        goto done;              /* Accept empty input */
+
     lst = IPC_GetList(&num);
 
-    ok = 0;
     for (i = 0; i < num; i++)
     {
         ipc = lst[i];
@@ -1899,16 +1903,16 @@ IpcExec(const char *params)
 
         ipc->func(prm);
 
-        ok = 1;
-        break;
+        goto done;
     }
 
-    if (!ok && params)
-        ok = IPC_Compat(params);
+    /* Commmand not found - check the legacy ones */
+    ok = IPC_Compat(params);
 
     if (!ok)
         IpcPrintf("Unknown command: '%s'\n", params);
 
+  done:
     return ok;
 }
 
