@@ -128,7 +128,7 @@ main(int argc, char **argv)
     XEvent          ev;
     Window          my_win, comms_win;
     Client         *me;
-    int             i;
+    int             rc, i;
     struct pollfd   pfd[2];
     int             nfd, timeout;
     char           *command, *s;
@@ -225,7 +225,6 @@ main(int argc, char **argv)
     pfd[1].fd = STDIN_FILENO;
     pfd[1].events = POLLIN;
     nfd = command ? 1 : 2;
-    timeout = -1;
 
     for (;;)
     {
@@ -265,8 +264,17 @@ main(int argc, char **argv)
 #endif
         }
 
-        if (poll(pfd, nfd, timeout) < 0)
+        timeout = reply_pending ? 10 : -1;
+
+        rc = poll(pfd, nfd, timeout);
+        if (rc < 0)
             break;
+
+        if (rc == 0)
+        {
+            reply_pending = false;
+            continue;
+        }
 
         if (pfd[1].revents)
         {
