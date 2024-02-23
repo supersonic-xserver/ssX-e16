@@ -34,11 +34,11 @@ def do_line_cfg(line):
         TAT = 1
 
     if TTT == 0 and ttt:
-        print(f'   _("{ttt}"),')
+        print(f'    _("{ttt}"),')
         ttt = ''
 
     if TAT == 0 and tat:
-        print(f'   _("{tat}"),')
+        print(f'    _("{tat}"),')
         tat = ''
 
     # bindings.cfg
@@ -54,24 +54,24 @@ def do_line_cfg(line):
         TDT = 1
 
     if TDT == 0 and tdt:
-        print(f'   _("{tdt}"),')
+        print(f'    _("{tdt}"),')
         tdt = ''
 
     # menus.cfg (obsolete)
     if line.find('ADD_MENU_TITLE') >= 0:
         txt = quote1(line)
-        print(f'   _("{txt}"),')
+        print(f'    _("{txt}"),')
     elif line.find('ADD_MENU_TEXT_ITEM') >= 0 or \
             line.find('ADD_MENU_SUBMENU_TEXT_ITEM') >= 0:
         txt = quote1(line)
-        print(f'   _("{txt}"),')
+        print(f'    _("{txt}"),')
 
 
 def do_line_menu(line):
     # *.menu
     if line.startswith('"'):
         txt = quote1(line)
-        print(f'   _("{txt}"),')
+        print(f'    _("{txt}"),')
 
 
 # From e_gen_menu
@@ -88,7 +88,7 @@ sl = [
 # Start
 #
 print('#define _(x) x\n')
-print('const char         *txt[] = {')
+print('const char     *txt[] = {')
 
 
 for arg in sys.argv[1:]:
@@ -105,6 +105,6 @@ for arg in sys.argv[1:]:
 # Other strings.
 print('')
 for str in sl:
-    print(f'   _("{str}"),')
+    print(f'    _("{str}"),')
 
 print('};')
