@@ -10,7 +10,7 @@ tconf_DATA = \
 
 menudir = $(pkgdatadir)/menus
 menu_DATA = \
-	desktop.menu enlightenment.menu maintenance.menu settings.menu \
+	desktop.menu maintenance.menu settings.menu \
 	winops.menu winops_groups.menu winops_layer.menu \
 	winops_misc.menu winops_opacity.menu winops_size.menu
 

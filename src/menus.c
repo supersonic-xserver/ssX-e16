@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2023 Kim Woelders
+ * Copyright (C) 2004-2024 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1118,11 +1118,12 @@ MenuFind(const char *name, const char *param)
  * Aliases for "well-known" menus for backward compatibility.
  */
 static const char *const menu_aliases[] = {
+    "enlightenment.menu", "settings.menu",
     "APPS_SUBMENU", "file.menu",
     "CONFIG_SUBMENU", "settings.menu",
     "DESKTOP_SUBMENU", "desktop.menu",
     "MAINT_SUBMENU", "maintenance.menu",
-    "ROOT_2", "enlightenment.menu",
+    "ROOT_2", "settings.menu",
     "WINOPS_MENU", "winops.menu",
 };
 #define N_MENU_ALIASES (E_ARRAY_SIZE(menu_aliases)/2)

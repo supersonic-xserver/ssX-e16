@@ -93,7 +93,7 @@
 "Remember Window Stickyness", 0, "wop * snap sticky"
 "Remember Window Shadedness", 0, "wop * snap shade"
 
-"Show Root Menu", 0, "menus show enlightenment.menu"
+"Show Root Menu", 0, "menus show settings.menu"
 "Show Winops Menu", 0, "menus show winops.menu"
 "Show Named Menu", 1, "menus show "
 

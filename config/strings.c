@@ -83,18 +83,6 @@ const char     *txt[] = {
     _("Create new iconbox"),
     _("Create systray"),
     _("Show magnifier"),
-/* enlightenment.menu */
-    _("Enlightenment"),
-    _("User menus"),
-    _("Settings"),
-    _("Desktop"),
-    _("Themes"),
-    _("Maintenance"),
-    _("Help"),
-    _("About Enlightenment"),
-    _("About this theme"),
-    _("Restart"),
-    _("Log out"),
 /* maintenance.menu */
     _("Maintenance"),
     _("Purge config file cache"),
@@ -112,7 +100,6 @@ const char     *txt[] = {
     _("Desktop"),
     _("Themes"),
     _("Maintenance"),
-    _("Help"),
     _("About Enlightenment"),
     _("About this theme"),
     _("Theme menu"),
@@ -195,4 +182,5 @@ const char     *txt[] = {
     _("Epplets"),
     _("Restart"),
     _("Log out"),
+    _("Help"),
 };

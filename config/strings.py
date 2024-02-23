@@ -74,7 +74,7 @@ def do_line_menu(line):
         print(f'    _("{txt}"),')
 
 
-# From e_gen_menu
+# From e_gen_menu + misc
 sl = [
     'User menus',
     'User application list',
@@ -82,6 +82,8 @@ sl = [
     'Epplets',
     'Restart',
     'Log out',
+
+    'Help',
 ]
 
 #
