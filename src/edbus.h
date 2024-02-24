@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007 Kim Woelders
+ * Copyright (C) 2007-2024 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -25,5 +25,8 @@
 
 void            DbusInit(void);
 void            DbusExit(void);
+
+int             DbusRequestLogout(void);
+int             DbusRequestShutdown(void);
 
 #endif                          /* _EDBUS_H_ */

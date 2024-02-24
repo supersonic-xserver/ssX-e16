@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2021 Kim Woelders
+ * Copyright (C) 2007-2024 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -332,3 +332,93 @@ DbusExit(void)
 {
 }
 #endif
+
+static int
+_DbusSendCommand(DBusBusType bus, const char *dest, const char *path,
+                 const char *meth, const char *args)
+{
+    int             err;
+    DBusError       dberr;
+    DBusConnection *conn;
+    DBusMessage    *msg, *rpl;
+    DBusMessageIter iter;
+    const char     *iface = dest;
+
+    err = -1;
+    msg = rpl = NULL;
+    dbus_error_init(&dberr);
+
+    conn = dbus_bus_get(bus, &dberr);
+    if (dbus_error_is_set(&dberr))
+        goto quit;
+
+    msg = dbus_message_new_method_call(dest, path, iface, meth);
+
+    if (args)
+    {
+        const char     *s = args;
+        int             nr, type, value;
+        dbus_message_iter_init_append(msg, &iter);
+        for (;;)
+        {
+            type = *s++;
+            if (type == '\0')
+                break;
+            if (type == ';')
+                continue;
+            if (*s++ != '=')
+                break;
+            nr = -1;
+            if (type == 'u')
+            {
+                sscanf(s, "%u%n", &value, &nr);
+                if (nr <= 0)
+                    goto quit;
+                s += nr;
+                if (!dbus_message_iter_append_basic(&iter,
+                                                    DBUS_TYPE_UINT32, &value))
+                    goto quit;
+            }
+            else
+            {
+                goto quit;      /* Unknown type */
+            }
+        }
+    }
+
+    rpl = dbus_connection_send_with_reply_and_block(conn, msg, 100, &dberr);
+    if (!rpl)
+        goto quit;
+
+    dbus_connection_flush(conn);
+
+    err = 0;
+
+  quit:
+    if (dbus_error_is_set(&dberr))
+    {
+        Eprintf("*** Dbus error: %s\n", dberr.message);
+        dbus_error_free(&dberr);
+    }
+
+    if (msg)
+        dbus_message_unref(msg);
+    if (rpl)
+        dbus_message_unref(rpl);
+
+    return err;
+}
+
+int
+DbusRequestLogout(void)
+{
+    return _DbusSendCommand(DBUS_BUS_SESSION, "org.gnome.SessionManager",
+                            "/org/gnome/SessionManager", "Logout", "u=0");
+}
+
+int
+DbusRequestShutdown(void)
+{
+    return _DbusSendCommand(DBUS_BUS_SESSION, "org.gnome.SessionManager",
+                            "/org/gnome/SessionManager", "Shutdown", NULL);
+}
