@@ -723,6 +723,15 @@ SessionExit(int mode, const char *param)
 #endif
             _SessionLogout();
         return;
+
+    case EEXIT_SHUTDOWN:
+#if ENABLE_DIALOGS
+        if (Conf.session.enable_logout_dialog)
+            _SessionLogoutConfirm();
+        else
+#endif
+            _SessionLogout();
+        return;
     }
 
   done:

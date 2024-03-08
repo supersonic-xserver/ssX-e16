@@ -8,3 +8,4 @@
 "Theme menu"		NULL menu theme.menu
 "Restart"		NULL "exit restart"
 "Log out"		NULL "exit logout"
+"Shut down"		NULL "exit shutdown"

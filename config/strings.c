@@ -105,6 +105,7 @@ const char     *txt[] = {
     _("Theme menu"),
     _("Restart"),
     _("Log out"),
+    _("Shut down"),
 /* winops.menu */
     _("Window Options"),
     _("Close"),

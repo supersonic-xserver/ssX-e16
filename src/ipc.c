@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2023 Kim Woelders
+ * Copyright (C) 2004-2024 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1105,6 +1105,8 @@ IPC_Exit(const char *params)
         SessionExit(EEXIT_THEME, p2);
     else if (!strcmp(param1, "exec"))
         SessionExit(EEXIT_EXEC, p2);
+    else if (!strcmp(param1, "shutdown"))
+        SessionExit(EEXIT_SHUTDOWN, NULL);
 }
 
 #if ENABLE_DIALOGS

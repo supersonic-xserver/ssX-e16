@@ -32,6 +32,7 @@
 #define EEXIT_RESTART   4
 #define EEXIT_THEME     5
 #define EEXIT_EXEC      6
+#define EEXIT_SHUTDOWN  7
 
 #define ESESSHLP_INIT   0
 #define ESESSHLP_START  1
