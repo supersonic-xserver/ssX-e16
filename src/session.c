@@ -31,6 +31,9 @@
 #include "snaps.h"
 #include "user.h"
 #include "xwin.h"
+#if USE_DBUS
+#include "edbus.h"
+#endif
 
 #ifdef USE_EXT_INIT_WIN
 static EX_Window new_init_win_ext = NoXID;
@@ -533,6 +536,31 @@ doSMExit(int mode, const char *params)
 #define LOGOUT_SUSPEND      5
 #define LOGOUT_HIBERNATE    6
 
+#if USE_DBUS
+static int
+_SessionExitDbus(int how)
+{
+    if (Mode.wm.window)
+        return -1;
+
+    switch (how)
+    {
+    default:
+    case LOGOUT_LOCK:
+    case LOGOUT_SUSPEND:
+    case LOGOUT_HIBERNATE:
+        return -1;
+
+    case LOGOUT_EXIT:
+        return DbusRequestLogout();
+
+    case LOGOUT_REBOOT:
+    case LOGOUT_HALT:
+        return DbusRequestShutdown();
+    }
+}
+#endif                          /* USE_DBUS */
+
 static void
 _SessionLogout(int how)
 {
@@ -551,6 +579,11 @@ _SessionLogout(int how)
         Eprintf("%s: how=%d\n", __func__, how);
 
 #endif                          /* USE_SM */
+
+#if USE_DBUS
+    if (_SessionExitDbus(how) == 0)
+        return;
+#endif
 
     switch (how)
     {
