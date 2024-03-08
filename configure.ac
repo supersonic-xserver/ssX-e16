@@ -377,8 +377,8 @@ fi
 AM_CONDITIONAL(ENABLE_ZOOM, test "x$enable_zoom" != "xno")
 
 AC_ARG_ENABLE(dbus,
-  AS_HELP_STRING([--enable-dbus], [compile with D-Bus support (experimental) @<:@default=no@:>@]),,
-  enable_dbus=no)
+  AS_HELP_STRING([--enable-dbus], [compile with D-Bus support @<:@default=yes@:>@]),,
+  enable_dbus=yes)
 if test "x$enable_dbus" = "xyes"; then
   PKG_CHECK_MODULES(DBUS, dbus-1, AC_DEFINE(USE_DBUS, 1, [dbus support]), enable_dbus=no)
 fi
@@ -556,6 +556,7 @@ echo "  Render ....................... $enable_xrender"
 echo "  Sync ......................... $enable_xsync"
 echo "  Composite .................... $enable_composite"
 echo "  GNOME session support ........ $with_gnome"
+echo "  D-Bus ........................ $enable_dbus"
 echo "  Window mode helper library ... $enable_libhack"
 echo "  Dialogs ...................... $enable_dialogs"
 echo
@@ -567,7 +568,6 @@ echo
 echo "Experimental options - DO NOT USE unless you know what you are doing"
 echo "  GLX .......................... $enable_glx"
 echo "  ScreenSaver .................. $enable_xscrnsaver"
-echo "  D-Bus ........................ $enable_dbus"
 echo "  XI2 .......................... $enable_xi2"
 echo "  Present....................... $enable_xpresent"
 echo "  Do not use container window .. $enable_containerless"
