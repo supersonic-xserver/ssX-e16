@@ -35,7 +35,7 @@ version.h: FORCE
 
 dist-hook: $(top_builddir)/$(PACKAGE).spec
 
-RPR_DEV = `echo -n "1.%(date '+%y%m%d').git"; git rev-parse --short=8 HEAD`
+RPR_DEV = `echo -n "99.%(date '+%y%m%d').git"; git rev-parse --short=8 HEAD`
 RPR_REL = 1
 SED_DEV = "s/\@PACKAGE\@/@PACKAGE@/;s/\@VERSION\@/@VERSION@/;s/\@RPM_RELEASE\@/$(RPR_DEV)/"
 SED_REL = "s/\@PACKAGE\@/@PACKAGE@/;s/\@VERSION\@/@VERSION@/;s/\@RPM_RELEASE\@/$(RPR_REL)/"
