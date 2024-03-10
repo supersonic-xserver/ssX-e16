@@ -520,7 +520,7 @@ doSMExit(int mode, const char *params)
 }
 
 static void
-SessionLogout(void)
+_SessionLogout(void)
 {
 #if USE_SM
     if (sm_conn)
@@ -545,14 +545,14 @@ SessionLogout(void)
 #define LOGOUT_HIBERNATE    6
 
 static void
-LogoutCB(Dialog *d, int val, void *data __UNUSED__)
+_SessionLogoutCB(Dialog *d, int val, void *data __UNUSED__)
 {
     DialogClose(d);
 
 #if USE_SM
     if (sm_conn)
     {
-        SessionLogout();
+        _SessionLogout();
     }
     else
 #endif                          /* USE_SM */
@@ -586,7 +586,7 @@ LogoutCB(Dialog *d, int val, void *data __UNUSED__)
 #define ISSET(s) ((s && *s != '\0') ? 1 : 0)
 
 static void
-SessionLogoutConfirm(void)
+_SessionLogoutConfirm(void)
 {
     Dialog         *d;
     DItem          *table, *di;
@@ -625,19 +625,19 @@ SessionLogoutConfirm(void)
             if (ISSET(Conf.session.cmd_hibernate))
             {
                 tcols += 1;
-                DialogItemAddButton(table, _("Hibernate"), LogoutCB,
+                DialogItemAddButton(table, _("Hibernate"), _SessionLogoutCB,
                                     LOGOUT_HIBERNATE, 1, DLG_BUTTON_OK);
             }
             if (ISSET(Conf.session.cmd_suspend))
             {
                 tcols += 1;
-                DialogItemAddButton(table, _("Suspend"), LogoutCB,
+                DialogItemAddButton(table, _("Suspend"), _SessionLogoutCB,
                                     LOGOUT_SUSPEND, 1, DLG_BUTTON_OK);
             }
             if (ISSET(Conf.session.cmd_lock))
             {
                 tcols += 1;
-                DialogItemAddButton(table, _("Lock"), LogoutCB,
+                DialogItemAddButton(table, _("Lock"), _SessionLogoutCB,
                                     LOGOUT_LOCK, 1, DLG_BUTTON_OK);
             }
             for (; tcols < ncols; tcols++)
@@ -648,13 +648,13 @@ SessionLogoutConfirm(void)
         if (Conf.session.enable_reboot_halt)
         {
             tcols += 2;
-            DialogItemAddButton(table, _("Yes, Shut Down"), LogoutCB,
+            DialogItemAddButton(table, _("Yes, Shut Down"), _SessionLogoutCB,
                                 LOGOUT_HALT, 1, DLG_BUTTON_OK);
-            DialogItemAddButton(table, _("Yes, Reboot"), LogoutCB,
+            DialogItemAddButton(table, _("Yes, Reboot"), _SessionLogoutCB,
                                 LOGOUT_REBOOT, 1, DLG_BUTTON_OK);
         }
         tcols += 1;
-        DialogItemAddButton(table, _("Yes, Log Out"), LogoutCB,
+        DialogItemAddButton(table, _("Yes, Log Out"), _SessionLogoutCB,
                             LOGOUT_EXIT, 1, DLG_BUTTON_OK);
         for (; tcols < ncols; tcols++)
             DialogAddItem(table, DITEM_NONE);
@@ -663,7 +663,7 @@ SessionLogoutConfirm(void)
         DialogItemSetColSpan(di, ncols);
 
         DialogBindKey(d, "Escape", DialogCallbackClose, 0, NULL);
-        DialogBindKey(d, "Return", LogoutCB, LOGOUT_EXIT, NULL);
+        DialogBindKey(d, "Return", _SessionLogoutCB, LOGOUT_EXIT, NULL);
     }
 
     DialogShowCentered(d);
@@ -711,10 +711,10 @@ SessionExit(int mode, const char *param)
     case EEXIT_LOGOUT:
 #if ENABLE_DIALOGS
         if (Conf.session.enable_logout_dialog)
-            SessionLogoutConfirm();
+            _SessionLogoutConfirm();
         else
 #endif
-            SessionLogout();
+            _SessionLogout();
         return;
     }
 
@@ -724,7 +724,7 @@ SessionExit(int mode, const char *param)
 }
 
 static void
-SessionRunProg(const char *prog, const char *params)
+_SessionRunProg(const char *prog, const char *params)
 {
     if (EDebug(EDBUG_TYPE_SESSION))
         Eprintf("%s: %s %s\n", __func__, prog, params);
@@ -738,15 +738,15 @@ SessionHelper(int when)
     {
     case ESESSION_INIT:
         if (Conf.session.enable_script && Conf.session.script)
-            SessionRunProg(Conf.session.script, "init");
+            _SessionRunProg(Conf.session.script, "init");
         break;
     case ESESSION_START:
         if (Conf.session.enable_script && Conf.session.script)
-            SessionRunProg(Conf.session.script, "start");
+            _SessionRunProg(Conf.session.script, "start");
         break;
     case ESESSION_STOP:
         if (Conf.session.enable_script && Conf.session.script)
-            SessionRunProg(Conf.session.script, "stop");
+            _SessionRunProg(Conf.session.script, "stop");
         break;
     }
 }
