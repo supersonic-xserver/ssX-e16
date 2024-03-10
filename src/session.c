@@ -414,20 +414,6 @@ SessionInit(void)
 #endif
 }
 
-static void
-SessionSave(int shutdown)
-{
-    if (EDebug(EDBUG_TYPE_SESSION))
-        Eprintf("%s: %d\n", __func__, shutdown);
-
-    SnapshotsSaveReal();
-
-#if USE_SM
-    if (shutdown && sm_conn)
-        ice_exit();
-#endif                          /* USE_SM */
-}
-
 /*
  * Normally, the SM will throw away all the session data for a client
  * that breaks its connection unexpectedly. In order to avoid this we 
@@ -449,7 +435,12 @@ doSMExit(int mode, const char *params)
 
     restarting = 1;
 
-    SessionSave(1);
+    SnapshotsSaveReal();
+
+#if USE_SM
+    if (sm_conn)
+        ice_exit();
+#endif
 
     if (mode != EEXIT_THEME && mode != EEXIT_RESTART)
         SessionHelper(ESESSION_STOP);
