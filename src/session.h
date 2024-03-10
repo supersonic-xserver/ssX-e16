@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2007 Kim Woelders
+ * Copyright (C) 2004-2024 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -40,6 +40,5 @@
 void            SessionInit(void);
 void            SessionExit(int mode, const char *params);
 void            SessionHelper(int when);
-void            SetSMID(const char *smid);
 
 #endif                          /* _SESSION_H_ */

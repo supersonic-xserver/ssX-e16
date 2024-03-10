@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2023 Kim Woelders
+ * Copyright (C) 2004-2024 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -49,7 +49,6 @@ static char     restarting = 0;
  */
 #define USE_DISCARD_PROPERTY 0
 
-static char    *sm_client_id = NULL;
 static SmcConn  sm_conn = NULL;
 
 static int      sm_efd = 0;
@@ -204,7 +203,7 @@ set_save_props(SmcConn smc_conn, int master_flag)
         restartVal[n++].value = (char *)"-Q";
         restartVal[n++].value = (char *)s;
     }
-    s = sm_client_id;
+    s = Mode.session.sm_client_id;
     restartVal[n++].value = (char *)"-S";
     restartVal[n++].value = (char *)s;
 
@@ -362,9 +361,10 @@ ice_init(void)
                           SmcSaveYourselfProcMask | SmcDieProcMask |
                           SmcSaveCompleteProcMask |
                           SmcShutdownCancelledProcMask, &callbacks,
-                          sm_client_id, &client_id, 4096, error_string_ret);
+                          Mode.session.sm_client_id, &client_id,
+                          4096, error_string_ret);
 
-    EFREE_SET(sm_client_id, client_id);
+    EFREE_SET(Mode.session.sm_client_id, client_id);
 
     if (error_string_ret[0])
         Eprintf("While connecting to session manager: %s.", error_string_ret);
@@ -413,19 +413,6 @@ SessionInit(void)
     ice_init();
 #endif
 }
-
-#if USE_SM
-void
-SetSMID(const char *smid)
-{
-    sm_client_id = Estrdup(smid);
-}
-#else
-void
-SetSMID(const char *smid __UNUSED__)
-{
-}
-#endif                          /* USE_SM */
 
 static void
 SessionSave(int shutdown)
@@ -518,8 +505,9 @@ doSMExit(int mode, const char *params)
             l += Esnprintf(s + l, sizeof(s) - l, " -w %dx%d",
                            WinGetW(VROOT), WinGetH(VROOT));
 #if USE_SM
-        if (sm_client_id)
-            l += Esnprintf(s + l, sizeof(s) - l, " -S %s", sm_client_id);
+        if (Mode.session.sm_client_id)
+            l += Esnprintf(s + l, sizeof(s) - l, " -S %s",
+                           Mode.session.sm_client_id);
 #endif
 #ifdef USE_EXT_INIT_WIN
         if (new_init_win_ext != NoXID)
