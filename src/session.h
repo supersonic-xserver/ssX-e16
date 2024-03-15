@@ -24,15 +24,15 @@
 #ifndef _SESSION_H_
 #define _SESSION_H_
 
-/* session.c */
 #define EEXIT_QUIT      0
 #define EEXIT_EXIT      1
 #define EEXIT_ERROR     2
-#define EEXIT_LOGOUT    3
-#define EEXIT_RESTART   4
-#define EEXIT_THEME     5
-#define EEXIT_EXEC      6
-#define EEXIT_SHUTDOWN  7
+#define EEXIT_RESTART   3
+#define EEXIT_THEME     4
+#define EEXIT_EXEC      5
+
+#define ESESSION_LOGOUT    0
+#define ESESSION_SHUTDOWN  1
 
 #define ESESSHLP_INIT   0
 #define ESESSHLP_START  1
@@ -40,6 +40,7 @@
 
 void            SessionInit(void);
 void            SessionExit(int mode, const char *params);
+void            SessionLogout(int mode);
 void            SessionHelper(int when);
 
 #endif                          /* _SESSION_H_ */

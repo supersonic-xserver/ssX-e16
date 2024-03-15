@@ -1097,16 +1097,16 @@ IPC_Exit(const char *params)
 
     if (!param1[0])
         SessionExit(EEXIT_EXIT, NULL);
-    else if (!strcmp(param1, "logout"))
-        SessionExit(EEXIT_LOGOUT, NULL);
     else if (!strcmp(param1, "restart"))
         SessionExit(EEXIT_RESTART, NULL);
     else if (!strcmp(param1, "theme"))
         SessionExit(EEXIT_THEME, p2);
     else if (!strcmp(param1, "exec"))
         SessionExit(EEXIT_EXEC, p2);
+    else if (!strcmp(param1, "logout"))
+        SessionLogout(ESESSION_LOGOUT);
     else if (!strcmp(param1, "shutdown"))
-        SessionExit(EEXIT_SHUTDOWN, NULL);
+        SessionLogout(ESESSION_SHUTDOWN);
 }
 
 #if ENABLE_DIALOGS

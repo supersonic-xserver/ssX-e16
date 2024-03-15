@@ -714,29 +714,39 @@ SessionExit(int mode, const char *param)
         Eprintf("%s: already in progress ... now exiting\n", __func__);
         exit(1);
         break;
-
-    case EEXIT_LOGOUT:
-#if ENABLE_DIALOGS
-        if (Conf.session.enable_logout_dialog)
-            _SessionLogoutConfirm();
-        else
-#endif
-            _SessionLogout();
-        return;
-
-    case EEXIT_SHUTDOWN:
-#if ENABLE_DIALOGS
-        if (Conf.session.enable_logout_dialog)
-            _SessionLogoutConfirm();
-        else
-#endif
-            _SessionLogout();
-        return;
     }
 
   done:
     Mode.wm.exiting++;
     doSMExit(mode, param);
+}
+
+void
+SessionLogout(int mode)
+{
+    switch (mode)
+    {
+    default:                   /* We should not go here - ignore */
+        break;
+
+    case ESESSION_LOGOUT:
+#if ENABLE_DIALOGS
+        if (Conf.session.enable_logout_dialog)
+            _SessionLogoutConfirm();
+        else
+#endif
+            _SessionLogout();
+        break;
+
+    case ESESSION_SHUTDOWN:
+#if ENABLE_DIALOGS
+        if (Conf.session.enable_logout_dialog)
+            _SessionLogoutConfirm();
+        else
+#endif
+            _SessionLogout();
+        break;
+    }
 }
 
 static void
