@@ -450,7 +450,7 @@ doSMExit(int mode, const char *params)
 #endif
 
     if (mode != EEXIT_THEME && mode != EEXIT_RESTART)
-        SessionHelper(ESESSION_STOP);
+        SessionHelper(ESESSHLP_STOP);
 
     LangExit();
 
@@ -743,15 +743,15 @@ SessionHelper(int when)
 {
     switch (when)
     {
-    case ESESSION_INIT:
+    case ESESSHLP_INIT:
         if (Conf.session.enable_script && Conf.session.script)
             _SessionRunProg(Conf.session.script, "init");
         break;
-    case ESESSION_START:
+    case ESESSHLP_START:
         if (Conf.session.enable_script && Conf.session.script)
             _SessionRunProg(Conf.session.script, "start");
         break;
-    case ESESSION_STOP:
+    case ESESSHLP_STOP:
         if (Conf.session.enable_script && Conf.session.script)
             _SessionRunProg(Conf.session.script, "stop");
         break;

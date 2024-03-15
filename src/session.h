@@ -33,9 +33,9 @@
 #define EEXIT_THEME     5
 #define EEXIT_EXEC      6
 
-#define ESESSION_INIT   0
-#define ESESSION_START  1
-#define ESESSION_STOP   2
+#define ESESSHLP_INIT   0
+#define ESESSHLP_START  1
+#define ESESSHLP_STOP   2
 
 void            SessionInit(void);
 void            SessionExit(int mode, const char *params);

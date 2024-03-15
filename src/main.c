@@ -472,9 +472,9 @@ static void
 RunInitPrograms(void)
 {
     if (Mode.wm.session_start)
-        SessionHelper(ESESSION_INIT);
+        SessionHelper(ESESSHLP_INIT);
 
-    SessionHelper(ESESSION_START);
+    SessionHelper(ESESSHLP_START);
 
     if (Mode.firsttime && Mode.wm.master)
     {
