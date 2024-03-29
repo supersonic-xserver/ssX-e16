@@ -534,18 +534,46 @@ doSMExit(int mode, const char *params)
 #define LOGOUT_HIBERNATE    6
 
 static void
-_SessionLogout(void)
+_SessionLogout(int how)
 {
 #if USE_SM
+    if (EDebug(EDBUG_TYPE_SESSION))
+        Eprintf("%s: how=%d smc=%p\n", __func__, how, sm_conn);
+
     if (sm_conn)
     {
         SmcRequestSaveYourself(sm_conn, SmSaveBoth, True, SmInteractStyleAny,
                                False, True);
+        return;
     }
-    else
+#else
+    if (EDebug(EDBUG_TYPE_SESSION))
+        Eprintf("%s: how=%d\n", __func__, how);
+
 #endif                          /* USE_SM */
+
+    switch (how)
     {
+    default:
+        break;
+    case LOGOUT_EXIT:
         SessionExit(EEXIT_EXIT, NULL);
+        break;
+    case LOGOUT_REBOOT:
+        SessionExit(EEXIT_EXEC, Conf.session.cmd_reboot);
+        break;
+    case LOGOUT_HALT:
+        SessionExit(EEXIT_EXEC, Conf.session.cmd_halt);
+        break;
+    case LOGOUT_LOCK:
+        Espawn("%s", Conf.session.cmd_lock);
+        break;
+    case LOGOUT_SUSPEND:
+        Espawn("%s", Conf.session.cmd_suspend);
+        break;
+    case LOGOUT_HIBERNATE:
+        Espawn("%s", Conf.session.cmd_hibernate);
+        break;
     }
 }
 
@@ -556,38 +584,7 @@ _SessionLogoutCB(Dialog *d, int val, void *data __UNUSED__)
 {
     DialogClose(d);
 
-#if USE_SM
-    if (sm_conn)
-    {
-        _SessionLogout();
-    }
-    else
-#endif                          /* USE_SM */
-    {
-        switch (val)
-        {
-        default:
-            break;
-        case LOGOUT_EXIT:
-            SessionExit(EEXIT_EXIT, NULL);
-            break;
-        case LOGOUT_REBOOT:
-            SessionExit(EEXIT_EXEC, Conf.session.cmd_reboot);
-            break;
-        case LOGOUT_HALT:
-            SessionExit(EEXIT_EXEC, Conf.session.cmd_halt);
-            break;
-        case LOGOUT_LOCK:
-            Espawn("%s", Conf.session.cmd_lock);
-            break;
-        case LOGOUT_SUSPEND:
-            Espawn("%s", Conf.session.cmd_suspend);
-            break;
-        case LOGOUT_HIBERNATE:
-            Espawn("%s", Conf.session.cmd_hibernate);
-            break;
-        }
-    }
+    _SessionLogout(val);
 }
 
 #define ISSET(s) ((s && *s != '\0') ? 1 : 0)
@@ -735,7 +732,7 @@ SessionLogout(int mode)
             _SessionLogoutConfirm();
         else
 #endif
-            _SessionLogout();
+            _SessionLogout(LOGOUT_EXIT);
         break;
 
     case ESESSION_SHUTDOWN:
@@ -744,7 +741,7 @@ SessionLogout(int mode)
             _SessionLogoutConfirm();
         else
 #endif
-            _SessionLogout();
+            _SessionLogout(LOGOUT_HALT);
         break;
     }
 }
