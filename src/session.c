@@ -367,7 +367,7 @@ ice_init(void)
     EFREE_SET(Mode.session.sm_client_id, client_id);
 
     if (error_string_ret[0])
-        Eprintf("While connecting to session manager: %s.", error_string_ret);
+        Eprintf("While connecting to session manager: %s\n", error_string_ret);
 
     if (!sm_conn)
         return;
