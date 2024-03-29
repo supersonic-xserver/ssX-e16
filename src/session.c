@@ -526,6 +526,13 @@ doSMExit(int mode, const char *params)
     EExit(0);
 }
 
+#define LOGOUT_EXIT         1
+#define LOGOUT_REBOOT       2
+#define LOGOUT_HALT         3
+#define LOGOUT_LOCK         4
+#define LOGOUT_SUSPEND      5
+#define LOGOUT_HIBERNATE    6
+
 static void
 _SessionLogout(void)
 {
@@ -543,13 +550,6 @@ _SessionLogout(void)
 }
 
 #if ENABLE_DIALOGS
-
-#define LOGOUT_EXIT         1
-#define LOGOUT_REBOOT       2
-#define LOGOUT_HALT         3
-#define LOGOUT_LOCK         4
-#define LOGOUT_SUSPEND      5
-#define LOGOUT_HIBERNATE    6
 
 static void
 _SessionLogoutCB(Dialog *d, int val, void *data __UNUSED__)
