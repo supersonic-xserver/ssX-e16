@@ -303,6 +303,9 @@ ice_io_error_handler(IceConn connection __UNUSED__)
 static void
 ice_exit(void)
 {
+    if (EDebug(EDBUG_TYPE_SESSION))
+        Eprintf("%s: smc=%p\n", __func__, sm_conn);
+
     SmcCloseConnection(sm_conn, 0, NULL);
     sm_conn = NULL;
     EventFdUnregister(sm_efd);
@@ -341,7 +344,7 @@ ice_init(void)
     int             sm_fd;
 
     if (!getenv("SESSION_MANAGER"))
-        return;
+        goto done;
 
     IceSetIOErrorHandler(ice_io_error_handler);
 
@@ -370,7 +373,7 @@ ice_init(void)
         Eprintf("While connecting to session manager: %s\n", error_string_ret);
 
     if (!sm_conn)
-        return;
+        goto done;
 
     style[0] = SmRestartIfRunning;
     style[1] = 0;
@@ -392,6 +395,10 @@ ice_init(void)
     fcntl(sm_fd, F_SETFD, fcntl(sm_fd, F_GETFD, 0) | FD_CLOEXEC);
 
     sm_efd = EventFdRegister(sm_fd, ice_msgs_process);
+
+  done:
+    if (EDebug(EDBUG_TYPE_SESSION))
+        Eprintf("%s: smc=%p\n", __func__, sm_conn);
 }
 
 #endif                          /* USE_SM */
