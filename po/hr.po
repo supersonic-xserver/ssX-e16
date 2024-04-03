@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2023-11-25 15:04+0100\n"
+"POT-Creation-Date: 2024-04-03 18:58+0200\n"
 "PO-Revision-Date: 2010-01-16 04:42+0000\n"
 "Last-Translator: Miro Glavić <glavicmiro@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
@@ -90,7 +90,7 @@ msgstr "Napusti Enlightenment"
 msgid "Attention !!!"
 msgstr "Pažnja !!!"
 
-#: src/alert.c:597 src/dialog.c:683 src/dialog.c:1821 src/events.c:108
+#: src/alert.c:597 src/dialog.c:683 src/dialog.c:1821 src/events.c:104
 #: src/setup.c:163 src/setup.c:176
 msgid "OK"
 msgstr "U redu"
@@ -323,7 +323,7 @@ msgstr "Postavke..."
 msgid "Create new iconbox"
 msgstr ""
 
-#: src/container.c:1491 src/container.c:1559 src/menus.c:1987
+#: src/container.c:1491 src/container.c:1559 src/menus.c:1988
 #, c-format
 msgid "Icon size: %2d"
 msgstr "Veličina ikone: %2d"
@@ -591,7 +591,7 @@ msgstr ""
 msgid "Apply"
 msgstr "Primijeni"
 
-#: src/dialog.c:694 src/pager.c:1052 config/strings.c:30 config/strings.c:123
+#: src/dialog.c:694 src/pager.c:1052 config/strings.c:30 config/strings.c:111
 msgid "Close"
 msgstr "Zatvori"
 
@@ -603,11 +603,11 @@ msgid ""
 "extensions are loaded."
 msgstr ""
 
-#: src/events.c:108
+#: src/events.c:104
 msgid "X server setup error"
 msgstr "Greška postavke X poslužitelja"
 
-#: src/events.c:109
+#: src/events.c:105
 msgid ""
 "FATAL ERROR:\n"
 "\n"
@@ -879,7 +879,7 @@ msgstr "Ovaj prozor ne pripada nijednoj grupi."
 msgid "Per-group settings:"
 msgstr "Grupne postavke:"
 
-#: src/groups.c:1086 src/menus-misc.c:625 config/strings.c:139
+#: src/groups.c:1086 src/menus-misc.c:625 config/strings.c:127
 msgid "Groups"
 msgstr "Grupe"
 
@@ -962,28 +962,28 @@ msgstr ""
 msgid "Iconbox Settings"
 msgstr ""
 
-#: src/ipc.c:219 src/ipc.c:1618 src/ipc.c:1625 src/theme.c:407
+#: src/ipc.c:219 src/ipc.c:1620 src/ipc.c:1627 src/theme.c:407
 msgid "Message"
 msgstr "Poruka"
 
-#: src/ipc.c:1618 src/ipc.c:1625
+#: src/ipc.c:1620 src/ipc.c:1627
 #, c-format
 msgid "e16 was built without %s support"
 msgstr "e16 je napravljen bez %s podrške"
 
-#: src/ipc.c:1619
+#: src/ipc.c:1621
 msgid "composite"
 msgstr "spregnut"
 
-#: src/ipc.c:1626
+#: src/ipc.c:1628
 msgid "sound"
 msgstr "zvuk"
 
-#: src/ipc.c:1994
+#: src/ipc.c:2000
 msgid "Enlightenment IPC Commands Help\n"
 msgstr "Pomoć za Enlightenment IPC Naredbe\n"
 
-#: src/ipc.c:1998
+#: src/ipc.c:2004
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
@@ -993,30 +993,30 @@ msgstr ""
 "Upotrijebi \"pomoć <naredba>\" za individualni opis\n"
 "\n"
 
-#: src/ipc.c:2000 src/ipc.c:2024 src/ipc.c:2036
+#: src/ipc.c:2006 src/ipc.c:2030 src/ipc.c:2042
 msgid "Commands currently available:\n"
 msgstr "Naredbe trenutno dostupne:\n"
 
-#: src/ipc.c:2022
+#: src/ipc.c:2028
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr "Upotrijebi \"cjelokupna pomoć\" za cjelokupan opis svake naredbe\n"
 
-#: src/ipc.c:2023
+#: src/ipc.c:2029
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr "Upotrijebi \"pomoć <naredba>\" za individualni opis\n"
 
-#: src/ipc.c:2025 src/ipc.c:2037
+#: src/ipc.c:2031 src/ipc.c:2043
 msgid "         <command>     : <description>\n"
 msgstr "         <naredba>     : <opis>\n"
 
-#: src/main.c:516
+#: src/main.c:518
 #, c-format
 msgid ""
 "%s must be a directory in which you have\n"
 "read, write, and execute permission.\n"
 msgstr ""
 
-#: src/main.c:617
+#: src/main.c:619
 #, c-format
 msgid ""
 "!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n"
@@ -1033,7 +1033,7 @@ msgid ""
 "an error in installing Enlightenment.\n"
 msgstr ""
 
-#: src/main.c:631
+#: src/main.c:633
 #, c-format
 msgid ""
 "!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n"
@@ -1054,7 +1054,7 @@ msgstr "Povećalo"
 msgid "Backgrounds"
 msgstr "Pozadine"
 
-#: src/menus-misc.c:448 config/strings.c:91 config/strings.c:113
+#: src/menus-misc.c:448 config/strings.c:101
 msgid "Themes"
 msgstr "Teme"
 
@@ -1088,33 +1088,33 @@ msgstr ""
 msgid "Group %i"
 msgstr "Grupa %i"
 
-#: src/menus.c:2007
+#: src/menus.c:2008
 msgid "Animated display of menus"
 msgstr "Animirani prikaz izbornika"
 
-#: src/menus.c:2012
+#: src/menus.c:2013
 msgid "Always pop up menus on screen"
 msgstr "Uvijek pop-up izbornike na zaslonu"
 
-#: src/menus.c:2017
+#: src/menus.c:2018
 msgid "Warp pointer after moving menus"
 msgstr ""
 
-#: src/menus.c:2022
+#: src/menus.c:2023
 #, fuzzy
 #| msgid "Show more buttons"
 msgid "Show menu icons"
 msgstr "Prikaži još dugmadi."
 
-#: src/menus.c:2038
+#: src/menus.c:2039
 msgid "Menus"
 msgstr "Izbornici"
 
-#: src/menus.c:2038
+#: src/menus.c:2039
 msgid "Menu Settings"
 msgstr "Postavke Izbornika"
 
-#: src/menus.c:2042
+#: src/menus.c:2043
 msgid ""
 "Enlightenment Menu\n"
 "Settings Dialog"
@@ -1122,15 +1122,15 @@ msgstr ""
 "Enlightenment Izbornik\n"
 "Dijalog Postavki"
 
-#: src/pager.c:1041 config/strings.c:49 config/strings.c:122
+#: src/pager.c:1041 config/strings.c:49 config/strings.c:110
 msgid "Window Options"
 msgstr "Opcije Prozora"
 
-#: src/pager.c:1048 config/strings.c:51 config/strings.c:125
+#: src/pager.c:1048 config/strings.c:51 config/strings.c:113
 msgid "Iconify"
 msgstr "Ikonizirati"
 
-#: src/pager.c:1056 config/strings.c:124
+#: src/pager.c:1056 config/strings.c:112
 msgid "Annihilate"
 msgstr ""
 
@@ -1244,7 +1244,7 @@ msgid ""
 "Pager Settings Dialog"
 msgstr ""
 
-#: src/session.c:321
+#: src/session.c:326
 msgid ""
 "ERROR!\n"
 "\n"
@@ -1259,65 +1259,65 @@ msgid ""
 "... I hope.\n"
 msgstr ""
 
-#: src/session.c:623
+#: src/session.c:639
 msgid "Are you sure?"
 msgstr "Jeste li sigurni?"
 
-#: src/session.c:626
+#: src/session.c:642
 msgid "Are you sure you wish to log out ?"
 msgstr "Jeste li sigurni da se želite odjaviti ?"
 
-#: src/session.c:649
+#: src/session.c:665
 msgid "Hibernate"
 msgstr ""
 
-#: src/session.c:655
+#: src/session.c:671
 #, fuzzy
 #| msgid "Yes, Shut Down"
 msgid "Suspend"
 msgstr "Da, Ugasi"
 
-#: src/session.c:661
+#: src/session.c:677
 msgid "Lock"
 msgstr ""
 
-#: src/session.c:672
+#: src/session.c:688
 msgid "Yes, Shut Down"
 msgstr "Da, Ugasi"
 
-#: src/session.c:674
+#: src/session.c:690
 msgid "Yes, Reboot"
 msgstr "Da, Prekini Rad Računala"
 
-#: src/session.c:678
+#: src/session.c:694
 msgid "Yes, Log Out"
 msgstr "Da, Odjavi Se"
 
-#: src/session.c:683
+#: src/session.c:699
 msgid "No"
 msgstr "Ne"
 
-#: src/session.c:806
+#: src/session.c:841
 msgid "Enable session script"
 msgstr ""
 
-#: src/session.c:811
+#: src/session.c:846
 msgid "Enable logout dialog"
 msgstr "Omogući Odjavni Dijalog"
 
-#: src/session.c:816
+#: src/session.c:851
 msgid "Enable reboot/halt on logout"
 msgstr ""
 
-#: src/session.c:822
+#: src/session.c:857
 msgid "Session"
 msgstr "Sesija"
 
-#: src/session.c:822
+#: src/session.c:857
 msgid "Session Settings"
 msgstr "Postavke Sesije"
 
-#: src/session.c:826
+#: src/session.c:861
 msgid ""
 "Enlightenment Session\n"
 "Settings Dialog"
@@ -1530,7 +1530,7 @@ msgstr ""
 msgid "Magwin zoom resolution"
 msgstr ""
 
-#: src/settings.c:560 config/strings.c:137 config/strings.c:154
+#: src/settings.c:560 config/strings.c:125 config/strings.c:142
 msgid "Miscellaneous"
 msgstr "Razno"
 
@@ -1689,11 +1689,11 @@ msgstr "Lokacija"
 msgid "Border style"
 msgstr "Vrsta Bordure"
 
-#: src/snaps.c:813 config/strings.c:178
+#: src/snaps.c:813 config/strings.c:166
 msgid "Size"
 msgstr "Veličina"
 
-#: src/snaps.c:818 config/strings.c:90 config/strings.c:112
+#: src/snaps.c:818 config/strings.c:100
 msgid "Desktop"
 msgstr "Radna površina"
 
@@ -1713,7 +1713,7 @@ msgstr ""
 msgid "Window List Skip"
 msgstr ""
 
-#: src/snaps.c:844 config/strings.c:136 config/strings.c:166
+#: src/snaps.c:844 config/strings.c:124 config/strings.c:154
 msgid "Opacity"
 msgstr "Neprozirnost"
 
@@ -2054,7 +2054,7 @@ msgstr ""
 msgid "This button does nothing interesting"
 msgstr "Ovo dugme ne čini ništa interesantnoga/"
 
-#: config/strings.c:47 config/strings.c:129
+#: config/strings.c:47 config/strings.c:117
 msgid "Shade/unshade"
 msgstr "Sjenčaj/Odsjenčaj"
 
@@ -2070,7 +2070,7 @@ msgstr "Još Dugmadi"
 msgid "Show more buttons"
 msgstr "Prikaži još dugmadi."
 
-#: config/strings.c:56 config/strings.c:127
+#: config/strings.c:56 config/strings.c:115
 msgid "Raise"
 msgstr "Digni"
 
@@ -2078,7 +2078,7 @@ msgstr "Digni"
 msgid "Raise this window to the top"
 msgstr "Uzdugni prozor na vrh."
 
-#: config/strings.c:58 config/strings.c:128
+#: config/strings.c:58 config/strings.c:116
 msgid "Lower"
 msgstr "Spusti"
 
@@ -2086,7 +2086,7 @@ msgstr "Spusti"
 msgid "Lower this window"
 msgstr "Spusti ovaj prozor."
 
-#: config/strings.c:60 config/strings.c:130
+#: config/strings.c:60 config/strings.c:118
 msgid "Stick/unstick"
 msgstr ""
 
@@ -2158,300 +2158,305 @@ msgstr ""
 msgid "Show magnifier"
 msgstr "Prikaži Povećalo"
 
-#: config/strings.c:87
-msgid "Enlightenment"
-msgstr "Enlightenment"
-
-#: config/strings.c:88 config/strings.c:192
-msgid "User menus"
-msgstr "Korisnički Izbornici"
-
-#: config/strings.c:89 config/strings.c:110 config/strings.c:111
-msgid "Settings"
-msgstr "Postavke"
-
-#: config/strings.c:92 config/strings.c:99 config/strings.c:114
+#: config/strings.c:87 config/strings.c:102
 msgid "Maintenance"
 msgstr "Održavanje"
 
-#: config/strings.c:93 config/strings.c:115
-msgid "Help"
-msgstr "Pomoć"
-
-#: config/strings.c:94 config/strings.c:116
-msgid "About Enlightenment"
-msgstr "O Enlightenment"
-
-#: config/strings.c:95 config/strings.c:117
-msgid "About this theme"
-msgstr "O ovoj temi"
-
-#: config/strings.c:96 config/strings.c:119 config/strings.c:196
-msgid "Restart"
-msgstr "Ponovo pokreni"
-
-#: config/strings.c:97 config/strings.c:120 config/strings.c:197
-msgid "Log out"
-msgstr "Odjava"
-
-#: config/strings.c:100
+#: config/strings.c:88
 msgid "Purge config file cache"
 msgstr ""
 
-#: config/strings.c:101
+#: config/strings.c:89
 msgid "Purge pager background cache"
 msgstr ""
 
-#: config/strings.c:102
+#: config/strings.c:90
 msgid "Purge background selector cache"
 msgstr ""
 
-#: config/strings.c:103
+#: config/strings.c:91
 msgid "Purge all caches"
 msgstr ""
 
-#: config/strings.c:104
+#: config/strings.c:92
 msgid "Query config file cache usage"
 msgstr ""
 
-#: config/strings.c:105
+#: config/strings.c:93
 msgid "Query pager background cache usage"
 msgstr ""
 
-#: config/strings.c:106
+#: config/strings.c:94
 msgid "Query background selector cache usage"
 msgstr ""
 
-#: config/strings.c:107
+#: config/strings.c:95
 msgid "Query all cache usage"
 msgstr ""
 
-#: config/strings.c:108
+#: config/strings.c:96
 msgid "Regenerate menus"
 msgstr "Regeneriraj Izbornike"
 
-#: config/strings.c:118
+#: config/strings.c:98 config/strings.c:99
+msgid "Settings"
+msgstr "Postavke"
+
+#: config/strings.c:103
+msgid "About Enlightenment"
+msgstr "O Enlightenment"
+
+#: config/strings.c:104
+msgid "About this theme"
+msgstr "O ovoj temi"
+
+#: config/strings.c:105
 #, fuzzy
 #| msgid "Theme Settings"
 msgid "Theme menu"
 msgstr "Postavke Tema"
 
-#: config/strings.c:126
+#: config/strings.c:106 config/strings.c:184
+msgid "Restart"
+msgstr "Ponovo pokreni"
+
+#: config/strings.c:107 config/strings.c:185
+msgid "Log out"
+msgstr "Odjava"
+
+#: config/strings.c:108
+#, fuzzy
+#| msgid "Yes, Shut Down"
+msgid "Shut down"
+msgstr "Da, Ugasi"
+
+#: config/strings.c:114
 msgid "Leave alone"
 msgstr "Ostavi Nasamo"
 
-#: config/strings.c:131
+#: config/strings.c:119
 msgid "Remember..."
 msgstr "Zapamti..."
 
-#: config/strings.c:132
+#: config/strings.c:120
 msgid "Window size"
 msgstr "Veličina Prozora"
 
-#: config/strings.c:133
+#: config/strings.c:121
 msgid "Set stacking"
 msgstr "Postavi Slaganje"
 
-#: config/strings.c:134
+#: config/strings.c:122
 msgid "Set border style"
 msgstr "Postavi Vrstu Bordure"
 
-#: config/strings.c:135
+#: config/strings.c:123
 msgid "Window groups"
 msgstr "Grupe Prozora"
 
-#: config/strings.c:140
+#: config/strings.c:128
 msgid "Configure this window's group(s)"
 msgstr "Konfiguriraj grupu(e) ovog prozora"
 
-#: config/strings.c:141
+#: config/strings.c:129
 msgid "Start a new group"
 msgstr "Pokreni novu grupu"
 
-#: config/strings.c:142
+#: config/strings.c:130
 msgid "Add this window to the current group"
 msgstr "Dodaj ovaj prozor u trenutnu grupu"
 
-#: config/strings.c:143
+#: config/strings.c:131
 msgid "Select group to add this window to"
 msgstr "Odaberi grupu u koju dodati ovaj prozor"
 
-#: config/strings.c:144
+#: config/strings.c:132
 msgid "Remove this window from a group"
 msgstr "Ukloni ovaj prozor iz grupe"
 
-#: config/strings.c:145
+#: config/strings.c:133
 msgid "Destroy a group this window belongs to"
 msgstr "Uništi grupu kojoj ovaj prozor pripada"
 
-#: config/strings.c:147
+#: config/strings.c:135
 msgid "Stacking"
 msgstr "Slaganje"
 
-#: config/strings.c:148
+#: config/strings.c:136
 #, fuzzy
 #| msgid "Lower"
 msgid "Lowest"
 msgstr "Spusti"
 
-#: config/strings.c:149
+#: config/strings.c:137
 msgid "Below"
 msgstr "Ispod"
 
-#: config/strings.c:150
+#: config/strings.c:138
 msgid "Normal"
 msgstr "Normalno"
 
-#: config/strings.c:151
+#: config/strings.c:139
 msgid "Above"
 msgstr "Iznad"
 
-#: config/strings.c:152
+#: config/strings.c:140
 msgid "Highest"
 msgstr "Na Vrhu"
 
-#: config/strings.c:155
+#: config/strings.c:143
 msgid "Toggle skip window lists"
 msgstr ""
 
-#: config/strings.c:156
+#: config/strings.c:144
 msgid "Toggle fixed position"
 msgstr "Mjenjaj Fiksnu Poziciju"
 
-#: config/strings.c:157
+#: config/strings.c:145
 msgid "Toggle fixed size"
 msgstr "Mjenjaj Fiksnu Veličinu"
 
-#: config/strings.c:158
+#: config/strings.c:146
 msgid "Toggle never focus"
 msgstr ""
 
-#: config/strings.c:159
+#: config/strings.c:147
 msgid "Toggle click to focus"
 msgstr ""
 
-#: config/strings.c:160
+#: config/strings.c:148
 msgid "Toggle never use area"
 msgstr ""
 
-#: config/strings.c:161
+#: config/strings.c:149
 msgid "Toggle ignore arrange"
 msgstr ""
 
-#: config/strings.c:162
+#: config/strings.c:150
 msgid "Toggle button grabs"
 msgstr ""
 
-#: config/strings.c:163
+#: config/strings.c:151
 msgid "Toggle autoshade"
 msgstr "Mjenjaj Autosjenke"
 
-#: config/strings.c:164
+#: config/strings.c:152
 #, fuzzy
 #| msgid "Toggle fixed position"
 msgid "Toggle pass pointer"
 msgstr "Mjenjaj Fiksnu Poziciju"
 
-#: config/strings.c:167
+#: config/strings.c:155
 msgid "Default"
 msgstr "Zadano"
 
-#: config/strings.c:168
+#: config/strings.c:156
 msgid "20%"
 msgstr "20%"
 
-#: config/strings.c:169
+#: config/strings.c:157
 msgid "40%"
 msgstr "40%"
 
-#: config/strings.c:170
+#: config/strings.c:158
 msgid "60%"
 msgstr "60%"
 
-#: config/strings.c:171
+#: config/strings.c:159
 msgid "80%"
 msgstr "80%"
 
-#: config/strings.c:172
+#: config/strings.c:160
 msgid "100%"
 msgstr "100%"
 
-#: config/strings.c:173
+#: config/strings.c:161
 msgid "Focused opacity 100%"
 msgstr "Fokusirana neprozirnost 100%"
 
-#: config/strings.c:174
+#: config/strings.c:162
 msgid "Focused opacity follows unfocused"
 msgstr "Fokusirana neprozirnost slijedi nefokusiranu"
 
-#: config/strings.c:175
+#: config/strings.c:163
 msgid "Toggle fading"
 msgstr ""
 
-#: config/strings.c:176
+#: config/strings.c:164
 msgid "Toggle shadows"
 msgstr "Mjenjaj Sjenke"
 
-#: config/strings.c:179
+#: config/strings.c:167
 msgid "Toggle max size"
 msgstr ""
 
-#: config/strings.c:180
+#: config/strings.c:168
 msgid "Toggle max size - available"
 msgstr ""
 
-#: config/strings.c:181
+#: config/strings.c:169
 msgid "Toggle max size - absolute"
 msgstr ""
 
-#: config/strings.c:182
+#: config/strings.c:170
 msgid "Span Xinerama screens"
 msgstr ""
 
-#: config/strings.c:183
+#: config/strings.c:171
 msgid "Toggle max height"
 msgstr ""
 
-#: config/strings.c:184
+#: config/strings.c:172
 msgid "Toggle max height available"
 msgstr ""
 
-#: config/strings.c:185
+#: config/strings.c:173
 msgid "Toggle max height absolute"
 msgstr ""
 
-#: config/strings.c:186
+#: config/strings.c:174
 msgid "Toggle max width"
 msgstr ""
 
-#: config/strings.c:187
+#: config/strings.c:175
 msgid "Toggle max width available"
 msgstr ""
 
-#: config/strings.c:188
+#: config/strings.c:176
 msgid "Toggle max width absolute"
 msgstr ""
 
-#: config/strings.c:189
+#: config/strings.c:177
 msgid "Toggle fullscreen"
 msgstr "Cijeli Zaslon/Normalan"
 
-#: config/strings.c:190
+#: config/strings.c:178
 msgid "Toggle zoom"
 msgstr ""
 
-#: config/strings.c:193
+#: config/strings.c:180
+msgid "User menus"
+msgstr "Korisnički Izbornici"
+
+#: config/strings.c:181
 msgid "User application list"
 msgstr "Lista Korisničkih Aplikacija"
 
-#: config/strings.c:194
+#: config/strings.c:182
 #, fuzzy
 msgid "Applications"
 msgstr "Lista Korisničkih Aplikacija"
 
-#: config/strings.c:195
+#: config/strings.c:183
 msgid "Epplets"
 msgstr "Epplets"
+
+#: config/strings.c:186
+msgid "Help"
+msgstr "Pomoć"
+
+#~ msgid "Enlightenment"
+#~ msgstr "Enlightenment"
 
 #~ msgid "Global settings:"
 #~ msgstr "Globalne postavke:"

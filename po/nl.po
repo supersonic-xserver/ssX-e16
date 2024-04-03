@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2023-11-25 15:04+0100\n"
+"POT-Creation-Date: 2024-04-03 18:58+0200\n"
 "PO-Revision-Date: 2009-11-09 14:39+0000\n"
 "Last-Translator: Yentl <y.v.t@scarlet.be>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -89,7 +89,7 @@ msgstr "Stop Enlightenment"
 msgid "Attention !!!"
 msgstr "Attentie !!!!"
 
-#: src/alert.c:597 src/dialog.c:683 src/dialog.c:1821 src/events.c:108
+#: src/alert.c:597 src/dialog.c:683 src/dialog.c:1821 src/events.c:104
 #: src/setup.c:163 src/setup.c:176
 msgid "OK"
 msgstr "OK"
@@ -339,7 +339,7 @@ msgstr "Instellingen..."
 msgid "Create new iconbox"
 msgstr "Maak een nieuwe Icoonbox"
 
-#: src/container.c:1491 src/container.c:1559 src/menus.c:1987
+#: src/container.c:1491 src/container.c:1559 src/menus.c:1988
 #, c-format
 msgid "Icon size: %2d"
 msgstr "Icoon grootte: %2d"
@@ -616,7 +616,7 @@ msgstr ""
 msgid "Apply"
 msgstr "Pas toe"
 
-#: src/dialog.c:694 src/pager.c:1052 config/strings.c:30 config/strings.c:123
+#: src/dialog.c:694 src/pager.c:1052 config/strings.c:30 config/strings.c:111
 msgid "Close"
 msgstr "Sluit"
 
@@ -632,11 +632,11 @@ msgstr ""
 "Composite, Damage, Fixes, en Render\n"
 "extensies geladen zijn."
 
-#: src/events.c:108
+#: src/events.c:104
 msgid "X server setup error"
 msgstr "X server instellingsfout"
 
-#: src/events.c:109
+#: src/events.c:105
 msgid ""
 "FATAL ERROR:\n"
 "\n"
@@ -928,7 +928,7 @@ msgstr "Dit venster behoort momenteel niet bij een groep."
 msgid "Per-group settings:"
 msgstr "Per-groep instellingen:"
 
-#: src/groups.c:1086 src/menus-misc.c:625 config/strings.c:139
+#: src/groups.c:1086 src/menus-misc.c:625 config/strings.c:127
 msgid "Groups"
 msgstr "Groepen"
 
@@ -1045,28 +1045,28 @@ msgstr "Icoonbox Opties"
 msgid "Iconbox Settings"
 msgstr "Icoonbox instellingen"
 
-#: src/ipc.c:219 src/ipc.c:1618 src/ipc.c:1625 src/theme.c:407
+#: src/ipc.c:219 src/ipc.c:1620 src/ipc.c:1627 src/theme.c:407
 msgid "Message"
 msgstr "Bericht"
 
-#: src/ipc.c:1618 src/ipc.c:1625
+#: src/ipc.c:1620 src/ipc.c:1627
 #, c-format
 msgid "e16 was built without %s support"
 msgstr "e16 is gebouwd zonder %s ondersteuning"
 
-#: src/ipc.c:1619
+#: src/ipc.c:1621
 msgid "composite"
 msgstr "composiet"
 
-#: src/ipc.c:1626
+#: src/ipc.c:1628
 msgid "sound"
 msgstr "geluid"
 
-#: src/ipc.c:1994
+#: src/ipc.c:2000
 msgid "Enlightenment IPC Commands Help\n"
 msgstr "Enlightenment IPC Commando's hulp\n"
 
-#: src/ipc.c:1998
+#: src/ipc.c:2004
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
@@ -1076,24 +1076,24 @@ msgstr ""
 "Gebruik \"help <commando>\" voor een individuele beschrijving\n"
 "\n"
 
-#: src/ipc.c:2000 src/ipc.c:2024 src/ipc.c:2036
+#: src/ipc.c:2006 src/ipc.c:2030 src/ipc.c:2042
 msgid "Commands currently available:\n"
 msgstr "Commando's momenteel beschikbaar:\n"
 
-#: src/ipc.c:2022
+#: src/ipc.c:2028
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr ""
 "Gebruik \"help full\" voor een volledige beschrijving van elk commando\n"
 
-#: src/ipc.c:2023
+#: src/ipc.c:2029
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr "Gebruik \"help <commando>\" voor een individuele beschrijving\n"
 
-#: src/ipc.c:2025 src/ipc.c:2037
+#: src/ipc.c:2031 src/ipc.c:2043
 msgid "         <command>     : <description>\n"
 msgstr "         <commando>     : <beschrijving>\n"
 
-#: src/main.c:516
+#: src/main.c:518
 #, c-format
 msgid ""
 "%s must be a directory in which you have\n"
@@ -1102,7 +1102,7 @@ msgstr ""
 "%s met een map zijn waarin je\n"
 "lees, schrijf en uitvoerrechten hebt.\n"
 
-#: src/main.c:617
+#: src/main.c:619
 #, c-format
 msgid ""
 "!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n"
@@ -1131,7 +1131,7 @@ msgstr ""
 "pakket, iemand heeft het programma manueel verwijderd\n"
 "of misschien een fout bij het installeren van Enlightenment.\n"
 
-#: src/main.c:631
+#: src/main.c:633
 #, c-format
 msgid ""
 "!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n"
@@ -1160,7 +1160,7 @@ msgstr "Vergrootglas"
 msgid "Backgrounds"
 msgstr "Achtergronden"
 
-#: src/menus-misc.c:448 config/strings.c:91 config/strings.c:113
+#: src/menus-misc.c:448 config/strings.c:101
 msgid "Themes"
 msgstr "Thema's"
 
@@ -1194,33 +1194,33 @@ msgstr "Minimaliseer deze groep"
 msgid "Group %i"
 msgstr "Groep %i"
 
-#: src/menus.c:2007
+#: src/menus.c:2008
 msgid "Animated display of menus"
 msgstr "Geanimeerd tonen van menus"
 
-#: src/menus.c:2012
+#: src/menus.c:2013
 msgid "Always pop up menus on screen"
 msgstr "Toon menus altijd op het scherm"
 
-#: src/menus.c:2017
+#: src/menus.c:2018
 msgid "Warp pointer after moving menus"
 msgstr "Pointer warpen na menu's te verplaatsen"
 
-#: src/menus.c:2022
+#: src/menus.c:2023
 #, fuzzy
 #| msgid "Show more buttons"
 msgid "Show menu icons"
 msgstr "Geef meer knoppen weer."
 
-#: src/menus.c:2038
+#: src/menus.c:2039
 msgid "Menus"
 msgstr "Menu's"
 
-#: src/menus.c:2038
+#: src/menus.c:2039
 msgid "Menu Settings"
 msgstr "Menu Instellingen"
 
-#: src/menus.c:2042
+#: src/menus.c:2043
 msgid ""
 "Enlightenment Menu\n"
 "Settings Dialog"
@@ -1228,15 +1228,15 @@ msgstr ""
 "Enlightenment Menu\n"
 "Instellingendialoog"
 
-#: src/pager.c:1041 config/strings.c:49 config/strings.c:122
+#: src/pager.c:1041 config/strings.c:49 config/strings.c:110
 msgid "Window Options"
 msgstr "Venster Opties"
 
-#: src/pager.c:1048 config/strings.c:51 config/strings.c:125
+#: src/pager.c:1048 config/strings.c:51 config/strings.c:113
 msgid "Iconify"
 msgstr "Minimaliseer"
 
-#: src/pager.c:1056 config/strings.c:124
+#: src/pager.c:1056 config/strings.c:112
 msgid "Annihilate"
 msgstr "Annihileer"
 
@@ -1352,7 +1352,7 @@ msgstr ""
 "Enlightenment Bureaublad & Gebied\n"
 "Pager Instellingendialoog"
 
-#: src/session.c:321
+#: src/session.c:326
 msgid ""
 "ERROR!\n"
 "\n"
@@ -1378,65 +1378,65 @@ msgstr ""
 "\n"
 "... Hoop ik.\n"
 
-#: src/session.c:623
+#: src/session.c:639
 msgid "Are you sure?"
 msgstr "Weet U het zeker?"
 
-#: src/session.c:626
+#: src/session.c:642
 msgid "Are you sure you wish to log out ?"
 msgstr "Weet U zeker dat U uit wil loggen ?"
 
-#: src/session.c:649
+#: src/session.c:665
 msgid "Hibernate"
 msgstr ""
 
-#: src/session.c:655
+#: src/session.c:671
 #, fuzzy
 #| msgid "Yes, Shut Down"
 msgid "Suspend"
 msgstr "Ja, Sluit Af"
 
-#: src/session.c:661
+#: src/session.c:677
 msgid "Lock"
 msgstr ""
 
-#: src/session.c:672
+#: src/session.c:688
 msgid "Yes, Shut Down"
 msgstr "Ja, Sluit Af"
 
-#: src/session.c:674
+#: src/session.c:690
 msgid "Yes, Reboot"
 msgstr "Ja, Herstarten"
 
-#: src/session.c:678
+#: src/session.c:694
 msgid "Yes, Log Out"
 msgstr "Ja, log uit"
 
-#: src/session.c:683
+#: src/session.c:699
 msgid "No"
 msgstr "Nee"
 
-#: src/session.c:806
+#: src/session.c:841
 msgid "Enable session script"
 msgstr "Sessiescript Inschakelen"
 
-#: src/session.c:811
+#: src/session.c:846
 msgid "Enable logout dialog"
 msgstr "Afmeldialoog Inschakelen"
 
-#: src/session.c:816
+#: src/session.c:851
 msgid "Enable reboot/halt on logout"
 msgstr "Herstarten Inschakelen/Stoppen bij Afmelden"
 
-#: src/session.c:822
+#: src/session.c:857
 msgid "Session"
 msgstr "Sessie"
 
-#: src/session.c:822
+#: src/session.c:857
 msgid "Session Settings"
 msgstr "Sessie Instellingen"
 
-#: src/session.c:826
+#: src/session.c:861
 msgid ""
 "Enlightenment Session\n"
 "Settings Dialog"
@@ -1649,7 +1649,7 @@ msgstr "Schuivende opstartvensters inschakelen"
 msgid "Magwin zoom resolution"
 msgstr ""
 
-#: src/settings.c:560 config/strings.c:137 config/strings.c:154
+#: src/settings.c:560 config/strings.c:125 config/strings.c:142
 msgid "Miscellaneous"
 msgstr "Allerlei"
 
@@ -1829,11 +1829,11 @@ msgstr "Locatie"
 msgid "Border style"
 msgstr "Rand stijl"
 
-#: src/snaps.c:813 config/strings.c:178
+#: src/snaps.c:813 config/strings.c:166
 msgid "Size"
 msgstr "Grootte"
 
-#: src/snaps.c:818 config/strings.c:90 config/strings.c:112
+#: src/snaps.c:818 config/strings.c:100
 msgid "Desktop"
 msgstr "Desktop"
 
@@ -1853,7 +1853,7 @@ msgstr "Laag van het venster"
 msgid "Window List Skip"
 msgstr "Vensterlijst Overslaan"
 
-#: src/snaps.c:844 config/strings.c:136 config/strings.c:166
+#: src/snaps.c:844 config/strings.c:124 config/strings.c:154
 msgid "Opacity"
 msgstr "Ondoorzichtigheid"
 
@@ -2210,7 +2210,7 @@ msgstr "Snapshot"
 msgid "This button does nothing interesting"
 msgstr "Deze knop doet niets interessants."
 
-#: config/strings.c:47 config/strings.c:129
+#: config/strings.c:47 config/strings.c:117
 msgid "Shade/unshade"
 msgstr "Schaduw/Ontschaduwen"
 
@@ -2226,7 +2226,7 @@ msgstr "Meer Knoppen"
 msgid "Show more buttons"
 msgstr "Geef meer knoppen weer."
 
-#: config/strings.c:56 config/strings.c:127
+#: config/strings.c:56 config/strings.c:115
 msgid "Raise"
 msgstr "Naar voorgrond"
 
@@ -2234,7 +2234,7 @@ msgstr "Naar voorgrond"
 msgid "Raise this window to the top"
 msgstr "Breng dit venster naar de voorgrond."
 
-#: config/strings.c:58 config/strings.c:128
+#: config/strings.c:58 config/strings.c:116
 msgid "Lower"
 msgstr "Naar achtergrond"
 
@@ -2242,7 +2242,7 @@ msgstr "Naar achtergrond"
 msgid "Lower this window"
 msgstr "Verlaag dit venster."
 
-#: config/strings.c:60 config/strings.c:130
+#: config/strings.c:60 config/strings.c:118
 msgid "Stick/unstick"
 msgstr "Plak/Ontplak"
 
@@ -2316,301 +2316,306 @@ msgstr "Systray aanmaken"
 msgid "Show magnifier"
 msgstr "Vergrootglas Weergeven"
 
-#: config/strings.c:87
-msgid "Enlightenment"
-msgstr "Enlightenment"
-
-#: config/strings.c:88 config/strings.c:192
-msgid "User menus"
-msgstr "Gebruiker Menu's"
-
-#: config/strings.c:89 config/strings.c:110 config/strings.c:111
-msgid "Settings"
-msgstr "Instellingen"
-
-#: config/strings.c:92 config/strings.c:99 config/strings.c:114
+#: config/strings.c:87 config/strings.c:102
 msgid "Maintenance"
 msgstr "Onderhoud"
 
-#: config/strings.c:93 config/strings.c:115
-msgid "Help"
-msgstr "Help"
-
-#: config/strings.c:94 config/strings.c:116
-msgid "About Enlightenment"
-msgstr "Over Enlightenment"
-
-#: config/strings.c:95 config/strings.c:117
-msgid "About this theme"
-msgstr "Over dit thema"
-
-#: config/strings.c:96 config/strings.c:119 config/strings.c:196
-msgid "Restart"
-msgstr "Herstarten"
-
-#: config/strings.c:97 config/strings.c:120 config/strings.c:197
-msgid "Log out"
-msgstr "Afmelden"
-
-#: config/strings.c:100
+#: config/strings.c:88
 msgid "Purge config file cache"
 msgstr "Configuratie bestand cache verwijderen"
 
-#: config/strings.c:101
+#: config/strings.c:89
 msgid "Purge pager background cache"
 msgstr "Pager achtergrond cache verwijderen"
 
-#: config/strings.c:102
+#: config/strings.c:90
 msgid "Purge background selector cache"
 msgstr "Achtergrond selector cache verwijderen"
 
-#: config/strings.c:103
+#: config/strings.c:91
 msgid "Purge all caches"
 msgstr "Alle caches verwijderen"
 
-#: config/strings.c:104
+#: config/strings.c:92
 msgid "Query config file cache usage"
 msgstr "Query configuratie bestand cache gebruik"
 
-#: config/strings.c:105
+#: config/strings.c:93
 msgid "Query pager background cache usage"
 msgstr "Query pager achtergrond cache gebruik"
 
-#: config/strings.c:106
+#: config/strings.c:94
 msgid "Query background selector cache usage"
 msgstr "Query achtergrond selector cache gebruik"
 
-#: config/strings.c:107
+#: config/strings.c:95
 msgid "Query all cache usage"
 msgstr "Query alle cache gebruik"
 
-#: config/strings.c:108
+#: config/strings.c:96
 msgid "Regenerate menus"
 msgstr "Menu's regenereren"
 
-#: config/strings.c:118
+#: config/strings.c:98 config/strings.c:99
+msgid "Settings"
+msgstr "Instellingen"
+
+#: config/strings.c:103
+msgid "About Enlightenment"
+msgstr "Over Enlightenment"
+
+#: config/strings.c:104
+msgid "About this theme"
+msgstr "Over dit thema"
+
+#: config/strings.c:105
 #, fuzzy
 #| msgid "Theme Settings"
 msgid "Theme menu"
 msgstr "Thema Instellingen"
 
-#: config/strings.c:126
+#: config/strings.c:106 config/strings.c:184
+msgid "Restart"
+msgstr "Herstarten"
+
+#: config/strings.c:107 config/strings.c:185
+msgid "Log out"
+msgstr "Afmelden"
+
+#: config/strings.c:108
+#, fuzzy
+#| msgid "Yes, Shut Down"
+msgid "Shut down"
+msgstr "Ja, Sluit Af"
+
+#: config/strings.c:114
 msgid "Leave alone"
 msgstr "Laat alleen"
 
-#: config/strings.c:131
+#: config/strings.c:119
 msgid "Remember..."
 msgstr "Onthouden..."
 
-#: config/strings.c:132
+#: config/strings.c:120
 msgid "Window size"
 msgstr "Venster Grootte"
 
-#: config/strings.c:133
+#: config/strings.c:121
 msgid "Set stacking"
 msgstr "Stacking Instellen"
 
-#: config/strings.c:134
+#: config/strings.c:122
 msgid "Set border style"
 msgstr "Stel Randstijl in"
 
-#: config/strings.c:135
+#: config/strings.c:123
 msgid "Window groups"
 msgstr "Venstergroepen"
 
-#: config/strings.c:140
+#: config/strings.c:128
 msgid "Configure this window's group(s)"
 msgstr "Configureer dit venster's groep(en)"
 
-#: config/strings.c:141
+#: config/strings.c:129
 msgid "Start a new group"
 msgstr "Start een nieuwe groep"
 
-#: config/strings.c:142
+#: config/strings.c:130
 msgid "Add this window to the current group"
 msgstr "Voeg dit venster toe aan de huidige groep"
 
-#: config/strings.c:143
+#: config/strings.c:131
 msgid "Select group to add this window to"
 msgstr "Selecteer de groep om dit venster aan toe te voegen"
 
-#: config/strings.c:144
+#: config/strings.c:132
 msgid "Remove this window from a group"
 msgstr "Verwijder dit venster van een groep"
 
-#: config/strings.c:145
+#: config/strings.c:133
 msgid "Destroy a group this window belongs to"
 msgstr "Vernietig de groep waar dit venster toe behoord"
 
-#: config/strings.c:147
+#: config/strings.c:135
 msgid "Stacking"
 msgstr "Stacking"
 
-#: config/strings.c:148
+#: config/strings.c:136
 #, fuzzy
 #| msgid "Lower"
 msgid "Lowest"
 msgstr "Naar achtergrond"
 
-#: config/strings.c:149
+#: config/strings.c:137
 msgid "Below"
 msgstr "Onder"
 
-#: config/strings.c:150
+#: config/strings.c:138
 msgid "Normal"
 msgstr "Normaal"
 
-#: config/strings.c:151
+#: config/strings.c:139
 msgid "Above"
 msgstr "Boven"
 
-#: config/strings.c:152
+#: config/strings.c:140
 msgid "Highest"
 msgstr "Bovenop"
 
-#: config/strings.c:155
+#: config/strings.c:143
 msgid "Toggle skip window lists"
 msgstr "Wissel tussen vensterlijst overslaan"
 
-#: config/strings.c:156
+#: config/strings.c:144
 msgid "Toggle fixed position"
 msgstr "Wissel tussen vaste positie"
 
-#: config/strings.c:157
+#: config/strings.c:145
 msgid "Toggle fixed size"
 msgstr "Wissel tussen vaste grootte"
 
-#: config/strings.c:158
+#: config/strings.c:146
 msgid "Toggle never focus"
 msgstr "Wissel tussen nooit focussen"
 
-#: config/strings.c:159
+#: config/strings.c:147
 msgid "Toggle click to focus"
 msgstr "Wissel tussen klikken om te focussen"
 
-#: config/strings.c:160
+#: config/strings.c:148
 msgid "Toggle never use area"
 msgstr "Wissel tussen Gebied nooit gebruiken"
 
-#: config/strings.c:161
+#: config/strings.c:149
 #, fuzzy
 msgid "Toggle ignore arrange"
 msgstr "Wissel tussen Gebied nooit gebruiken"
 
-#: config/strings.c:162
+#: config/strings.c:150
 msgid "Toggle button grabs"
 msgstr "Wissel tussen Knop Grepen"
 
-#: config/strings.c:163
+#: config/strings.c:151
 msgid "Toggle autoshade"
 msgstr "Wissel tussen Autoschaduw"
 
-#: config/strings.c:164
+#: config/strings.c:152
 #, fuzzy
 #| msgid "Toggle fading"
 msgid "Toggle pass pointer"
 msgstr "Wissel tussen Fading"
 
-#: config/strings.c:167
+#: config/strings.c:155
 msgid "Default"
 msgstr "Standaard"
 
-#: config/strings.c:168
+#: config/strings.c:156
 msgid "20%"
 msgstr "20%"
 
-#: config/strings.c:169
+#: config/strings.c:157
 msgid "40%"
 msgstr "40%"
 
-#: config/strings.c:170
+#: config/strings.c:158
 msgid "60%"
 msgstr "60%"
 
-#: config/strings.c:171
+#: config/strings.c:159
 msgid "80%"
 msgstr "80%"
 
-#: config/strings.c:172
+#: config/strings.c:160
 msgid "100%"
 msgstr "100%"
 
-#: config/strings.c:173
+#: config/strings.c:161
 msgid "Focused opacity 100%"
 msgstr "Focus opaciteit 100%"
 
-#: config/strings.c:174
+#: config/strings.c:162
 msgid "Focused opacity follows unfocused"
 msgstr "Focus opaciteit volgt ongefocust"
 
-#: config/strings.c:175
+#: config/strings.c:163
 msgid "Toggle fading"
 msgstr "Wissel tussen Fading"
 
-#: config/strings.c:176
+#: config/strings.c:164
 msgid "Toggle shadows"
 msgstr "Wissel tussen Schaduws"
 
-#: config/strings.c:179
+#: config/strings.c:167
 msgid "Toggle max size"
 msgstr "Wissel tussen maximale grootte"
 
-#: config/strings.c:180
+#: config/strings.c:168
 msgid "Toggle max size - available"
 msgstr "Wissel tussen Beschikbare maximale grootte"
 
-#: config/strings.c:181
+#: config/strings.c:169
 msgid "Toggle max size - absolute"
 msgstr "Wissel tussen Absolute maximale grootte"
 
-#: config/strings.c:182
+#: config/strings.c:170
 msgid "Span Xinerama screens"
 msgstr "Overlap Xinerama Schermen"
 
-#: config/strings.c:183
+#: config/strings.c:171
 msgid "Toggle max height"
 msgstr "Maximale Hoogte instellen"
 
-#: config/strings.c:184
+#: config/strings.c:172
 msgid "Toggle max height available"
 msgstr "Beschikbare Maximale hoogte instellen"
 
-#: config/strings.c:185
+#: config/strings.c:173
 msgid "Toggle max height absolute"
 msgstr "Absolute Maximale hoogte instellen"
 
-#: config/strings.c:186
+#: config/strings.c:174
 msgid "Toggle max width"
 msgstr "Maximale breedte instellen"
 
-#: config/strings.c:187
+#: config/strings.c:175
 msgid "Toggle max width available"
 msgstr "Beschikbare Maximale Breedte instellen"
 
-#: config/strings.c:188
+#: config/strings.c:176
 msgid "Toggle max width absolute"
 msgstr "Absolute Maximale Breedte instellen"
 
-#: config/strings.c:189
+#: config/strings.c:177
 msgid "Toggle fullscreen"
 msgstr "Volledig Scherm/Normaal"
 
-#: config/strings.c:190
+#: config/strings.c:178
 msgid "Toggle zoom"
 msgstr "Inzoomen/Uitzoomen"
 
-#: config/strings.c:193
+#: config/strings.c:180
+msgid "User menus"
+msgstr "Gebruiker Menu's"
+
+#: config/strings.c:181
 msgid "User application list"
 msgstr "Gebruiker Applicatielijst"
 
-#: config/strings.c:194
+#: config/strings.c:182
 #, fuzzy
 msgid "Applications"
 msgstr "Gebruiker Applicatielijst"
 
-#: config/strings.c:195
+#: config/strings.c:183
 msgid "Epplets"
 msgstr "Epplets"
+
+#: config/strings.c:186
+msgid "Help"
+msgstr "Help"
+
+#~ msgid "Enlightenment"
+#~ msgstr "Enlightenment"
 
 #~ msgid "Global settings:"
 #~ msgstr "Algemene instellingen:"

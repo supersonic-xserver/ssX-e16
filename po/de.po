@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2023-11-25 15:04+0100\n"
+"POT-Creation-Date: 2024-04-03 18:58+0200\n"
 "PO-Revision-Date: 2010-05-09 01:21+0000\n"
 "Last-Translator: Peter Wehrfritz <Unknown>\n"
 "Language-Team: Enlightenment l10n <enlightenment-intl@lists.sourceforge."
@@ -113,7 +113,7 @@ msgstr "Achtung!"
 # src/settings.c:1460 src/settings.c:1522 src/settings.c:1610
 # src/settings.c:2012 src/settings.c:3405 src/settings.c:3750
 # src/settings.c:4048 src/settings.c:4186 src/snaps.c:547 src/sound.c:262
-#: src/alert.c:597 src/dialog.c:683 src/dialog.c:1821 src/events.c:108
+#: src/alert.c:597 src/dialog.c:683 src/dialog.c:1821 src/events.c:104
 #: src/setup.c:163 src/setup.c:176
 msgid "OK"
 msgstr "OK"
@@ -411,7 +411,7 @@ msgid "Create new iconbox"
 msgstr "Neue Iconbox erzeugen"
 
 # src/settings.c:3643
-#: src/container.c:1491 src/container.c:1559 src/menus.c:1987
+#: src/container.c:1491 src/container.c:1559 src/menus.c:1988
 #, c-format
 msgid "Icon size: %2d"
 msgstr "Icongröße: %2d"
@@ -746,7 +746,7 @@ msgstr "Übernehmen"
 # src/settings.c:1524 src/settings.c:1612 src/settings.c:2014
 # src/settings.c:3407 src/settings.c:3752 src/settings.c:4050
 # src/settings.c:4188
-#: src/dialog.c:694 src/pager.c:1052 config/strings.c:30 config/strings.c:123
+#: src/dialog.c:694 src/pager.c:1052 config/strings.c:30 config/strings.c:111
 msgid "Close"
 msgstr "Schließen"
 
@@ -763,12 +763,12 @@ msgstr ""
 "Render-Erweiterungen geladen sind."
 
 # src/setup.c:294 src/setup.c:340
-#: src/events.c:108
+#: src/events.c:104
 msgid "X server setup error"
 msgstr "Einstellungsfehler im X-Server"
 
 # src/setup.c:296
-#: src/events.c:109
+#: src/events.c:105
 msgid ""
 "FATAL ERROR:\n"
 "\n"
@@ -1109,7 +1109,7 @@ msgid "Per-group settings:"
 msgstr "Gruppenspezifische Einstellungen:"
 
 # src/menus.c:2044
-#: src/groups.c:1086 src/menus-misc.c:625 config/strings.c:139
+#: src/groups.c:1086 src/menus-misc.c:625 config/strings.c:127
 msgid "Groups"
 msgstr "Gruppen"
 
@@ -1238,31 +1238,31 @@ msgstr "Iconbox-Optionen"
 msgid "Iconbox Settings"
 msgstr "Iconbox-Einstellungen"
 
-#: src/ipc.c:219 src/ipc.c:1618 src/ipc.c:1625 src/theme.c:407
+#: src/ipc.c:219 src/ipc.c:1620 src/ipc.c:1627 src/theme.c:407
 msgid "Message"
 msgstr "Mitteilung"
 
-#: src/ipc.c:1618 src/ipc.c:1625
+#: src/ipc.c:1620 src/ipc.c:1627
 #, c-format
 msgid "e16 was built without %s support"
 msgstr "e16 wurde ohne %s Unterstützung gebaut"
 
 # src/settings.c:1591
-#: src/ipc.c:1619
+#: src/ipc.c:1621
 msgid "composite"
 msgstr "Composite"
 
-#: src/ipc.c:1626
+#: src/ipc.c:1628
 msgid "sound"
 msgstr "Klänge"
 
 # src/ipc.c:4737
-#: src/ipc.c:1994
+#: src/ipc.c:2000
 msgid "Enlightenment IPC Commands Help\n"
 msgstr "Hilfe zu Enlightenment-IPC-Befehlen\n"
 
 # src/ipc.c:4743
-#: src/ipc.c:1998
+#: src/ipc.c:2004
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
@@ -1273,26 +1273,26 @@ msgstr ""
 "\n"
 
 # src/ipc.c:4741 src/ipc.c:4780
-#: src/ipc.c:2000 src/ipc.c:2024 src/ipc.c:2036
+#: src/ipc.c:2006 src/ipc.c:2030 src/ipc.c:2042
 msgid "Commands currently available:\n"
 msgstr "Momentan verfügbare Befehle:\n"
 
-#: src/ipc.c:2022
+#: src/ipc.c:2028
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr ""
 "Verwenden Sie \"help full\" für die ausführliche Beschreibung der Befehl\n"
 
 # src/ipc.c:4781
-#: src/ipc.c:2023
+#: src/ipc.c:2029
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr "Verwende \"help <befehl>\" für eine detailliertere Beschreibung\n"
 
 # src/ipc.c:4783
-#: src/ipc.c:2025 src/ipc.c:2037
+#: src/ipc.c:2031 src/ipc.c:2043
 msgid "         <command>     : <description>\n"
 msgstr "         <Befehl>      : <Beschreibung>\n"
 
-#: src/main.c:516
+#: src/main.c:518
 #, c-format
 msgid ""
 "%s must be a directory in which you have\n"
@@ -1302,7 +1302,7 @@ msgstr ""
 "Lese-, Schreib-, und Ausführberechtigung haben.\n"
 
 # src/misc.c:61
-#: src/main.c:617
+#: src/main.c:619
 #, c-format
 msgid ""
 "!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n"
@@ -1332,7 +1332,7 @@ msgstr ""
 "beim Installieren von Enlightenment.\n"
 
 # src/misc.c:77
-#: src/main.c:631
+#: src/main.c:633
 #, c-format
 msgid ""
 "!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n"
@@ -1363,7 +1363,7 @@ msgid "Backgrounds"
 msgstr "Hintergründe"
 
 # src/theme.c:354
-#: src/menus-misc.c:448 config/strings.c:91 config/strings.c:113
+#: src/menus-misc.c:448 config/strings.c:101
 msgid "Themes"
 msgstr "Themen"
 
@@ -1405,38 +1405,38 @@ msgid "Group %i"
 msgstr "Gruppe %i"
 
 # src/settings.c:1795
-#: src/menus.c:2007
+#: src/menus.c:2008
 msgid "Animated display of menus"
 msgstr "Animierte Menüdarstellung"
 
 # src/settings.c:1810
-#: src/menus.c:2012
+#: src/menus.c:2013
 msgid "Always pop up menus on screen"
 msgstr "Menüs immer auf dem Bildschirm erscheinen lassen"
 
 # src/settings.c:1826
-#: src/menus.c:2017
+#: src/menus.c:2018
 msgid "Warp pointer after moving menus"
 msgstr "Zeiger verschieben, wenn Menüs bewegt werden"
 
-#: src/menus.c:2022
+#: src/menus.c:2023
 #, fuzzy
 #| msgid "Show more buttons"
 msgid "Show menu icons"
 msgstr "Zeige weitere Buttons."
 
 # src/snaps.c:437
-#: src/menus.c:2038
+#: src/menus.c:2039
 msgid "Menus"
 msgstr "Menüs"
 
 # src/settings.c:393
-#: src/menus.c:2038
+#: src/menus.c:2039
 msgid "Menu Settings"
 msgstr "Menü-Einstellungen"
 
 # src/main.c:89
-#: src/menus.c:2042
+#: src/menus.c:2043
 msgid ""
 "Enlightenment Menu\n"
 "Settings Dialog"
@@ -1445,17 +1445,17 @@ msgstr ""
 "Einstellungsdialog"
 
 # src/pager.c:1268
-#: src/pager.c:1041 config/strings.c:49 config/strings.c:122
+#: src/pager.c:1041 config/strings.c:49 config/strings.c:110
 msgid "Window Options"
 msgstr "Fensteroptionen"
 
 # src/pager.c:1274
-#: src/pager.c:1048 config/strings.c:51 config/strings.c:125
+#: src/pager.c:1048 config/strings.c:51 config/strings.c:113
 msgid "Iconify"
 msgstr "Minimieren"
 
 # src/pager.c:1280
-#: src/pager.c:1056 config/strings.c:124
+#: src/pager.c:1056 config/strings.c:112
 msgid "Annihilate"
 msgstr "Zerstören"
 
@@ -1594,7 +1594,7 @@ msgstr ""
 "für den Pager"
 
 # src/session.c:1039
-#: src/session.c:321
+#: src/session.c:326
 msgid ""
 "ERROR!\n"
 "\n"
@@ -1621,74 +1621,74 @@ msgstr ""
 "... hoffentlich.\n"
 
 # src/handlers.c:235 src/session.c:1178
-#: src/session.c:623
+#: src/session.c:639
 msgid "Are you sure?"
 msgstr "Sind Sie sicher?"
 
 # src/session.c:1180
-#: src/session.c:626
+#: src/session.c:642
 msgid "Are you sure you wish to log out ?"
 msgstr "Sind Sie sicher, dass Sie sich abmelden wollen?"
 
-#: src/session.c:649
+#: src/session.c:665
 msgid "Hibernate"
 msgstr ""
 
 # src/session.c:1184
-#: src/session.c:655
+#: src/session.c:671
 #, fuzzy
 #| msgid "Yes, Shut Down"
 msgid "Suspend"
 msgstr "Ja, herunterfahren"
 
-#: src/session.c:661
+#: src/session.c:677
 msgid "Lock"
 msgstr ""
 
 # src/session.c:1184
-#: src/session.c:672
+#: src/session.c:688
 msgid "Yes, Shut Down"
 msgstr "Ja, herunterfahren"
 
 # src/session.c:1184
-#: src/session.c:674
+#: src/session.c:690
 msgid "Yes, Reboot"
 msgstr "Ja, neu starten"
 
 # src/session.c:1184
-#: src/session.c:678
+#: src/session.c:694
 msgid "Yes, Log Out"
 msgstr "Ja, abmelden"
 
 # src/settings.c:3740
-#: src/session.c:683
+#: src/session.c:699
 msgid "No"
 msgstr "Nein"
 
-#: src/session.c:806
+#: src/session.c:841
 msgid "Enable session script"
 msgstr "Verwende Sitzungsskript"
 
-#: src/session.c:811
+#: src/session.c:846
 msgid "Enable logout dialog"
 msgstr "Abmeldedialog aktivieren"
 
-#: src/session.c:816
+#: src/session.c:851
 msgid "Enable reboot/halt on logout"
 msgstr "Aktiviere Neustart/Ausschalten beim Abmelden"
 
 # src/settings.c:393
-#: src/session.c:822
+#: src/session.c:857
 msgid "Session"
 msgstr "Sitzung"
 
 # src/settings.c:393
-#: src/session.c:822
+#: src/session.c:857
 msgid "Session Settings"
 msgstr "Sitzungs-Einstellungen"
 
 # src/main.c:89
-#: src/session.c:826
+#: src/session.c:861
 msgid ""
 "Enlightenment Session\n"
 "Settings Dialog"
@@ -1928,7 +1928,7 @@ msgid "Magwin zoom resolution"
 msgstr ""
 
 # src/settings.c:393
-#: src/settings.c:560 config/strings.c:137 config/strings.c:154
+#: src/settings.c:560 config/strings.c:125 config/strings.c:142
 msgid "Miscellaneous"
 msgstr "Verschiedenes"
 
@@ -2127,12 +2127,12 @@ msgid "Border style"
 msgstr "Rahmenstil"
 
 # src/snaps.c:445
-#: src/snaps.c:813 config/strings.c:178
+#: src/snaps.c:813 config/strings.c:166
 msgid "Size"
 msgstr "Größe"
 
 # src/snaps.c:453
-#: src/snaps.c:818 config/strings.c:90 config/strings.c:112
+#: src/snaps.c:818 config/strings.c:100
 msgid "Desktop"
 msgstr "Desktop"
 
@@ -2156,7 +2156,7 @@ msgstr "Stapelschicht"
 msgid "Window List Skip"
 msgstr "In Fensterliste überspringen"
 
-#: src/snaps.c:844 config/strings.c:136 config/strings.c:166
+#: src/snaps.c:844 config/strings.c:124 config/strings.c:154
 msgid "Opacity"
 msgstr "Deckkraft"
 
@@ -2556,7 +2556,7 @@ msgid "This button does nothing interesting"
 msgstr "Dieser Button macht nichts besonderes."
 
 # src/snaps.c:461
-#: config/strings.c:47 config/strings.c:129
+#: config/strings.c:47 config/strings.c:117
 msgid "Shade/unshade"
 msgstr "Ein-/Ausrollen"
 
@@ -2573,7 +2573,7 @@ msgstr "Mehr Buttons"
 msgid "Show more buttons"
 msgstr "Zeige weitere Buttons."
 
-#: config/strings.c:56 config/strings.c:127
+#: config/strings.c:56 config/strings.c:115
 msgid "Raise"
 msgstr "Anheben"
 
@@ -2582,7 +2582,7 @@ msgstr "Anheben"
 msgid "Raise this window to the top"
 msgstr "Dieses Fenster in den Vordergrund heben."
 
-#: config/strings.c:58 config/strings.c:128
+#: config/strings.c:58 config/strings.c:116
 msgid "Lower"
 msgstr "Senken"
 
@@ -2591,7 +2591,7 @@ msgid "Lower this window"
 msgstr "Dieses Fenster senken"
 
 # src/pager.c:1283
-#: config/strings.c:60 config/strings.c:130
+#: config/strings.c:60 config/strings.c:118
 msgid "Stick/unstick"
 msgstr "Ankleben/Ablösen"
 
@@ -2674,331 +2674,337 @@ msgstr "Systray erzeugen"
 msgid "Show magnifier"
 msgstr "Zeige Lupe"
 
-# src/main.c:92 src/memory.c:197 src/memory.c:278 src/memory.c:298
-# src/memory.c:379 src/memory.c:396 src/setup.c:295 src/setup.c:329
-# src/setup.c:341 src/setup.c:403
-#: config/strings.c:87
-msgid "Enlightenment"
-msgstr "Enlightenment"
-
-# src/snaps.c:437
-#: config/strings.c:88 config/strings.c:192
-msgid "User menus"
-msgstr "Benutzer-Menüs"
-
-# src/settings.c:393
-#: config/strings.c:89 config/strings.c:110 config/strings.c:111
-msgid "Settings"
-msgstr "Einstellungen"
-
-#: config/strings.c:92 config/strings.c:99 config/strings.c:114
+#: config/strings.c:87 config/strings.c:102
 msgid "Maintenance"
 msgstr "Instandhaltung"
 
-#: config/strings.c:93 config/strings.c:115
-msgid "Help"
-msgstr "Hilfe"
-
-# src/actions.c:3282
-#: config/strings.c:94 config/strings.c:116
-msgid "About Enlightenment"
-msgstr "Über Enlightenment"
-
-#: config/strings.c:95 config/strings.c:117
-msgid "About this theme"
-msgstr "Über dieses Thema"
-
-# src/alert.c:182
-#: config/strings.c:96 config/strings.c:119 config/strings.c:196
-msgid "Restart"
-msgstr "Neu starten"
-
-# src/session.c:1184
-#: config/strings.c:97 config/strings.c:120 config/strings.c:197
-msgid "Log out"
-msgstr "Abmelden"
-
-#: config/strings.c:100
+#: config/strings.c:88
 msgid "Purge config file cache"
 msgstr "Konfigurationsdatei-Cache bereinigen"
 
 # src/settings.c:3123
-#: config/strings.c:101
+#: config/strings.c:89
 msgid "Purge pager background cache"
 msgstr "Pager-Cache bereinigen"
 
-#: config/strings.c:102
+#: config/strings.c:90
 msgid "Purge background selector cache"
 msgstr "Hintergrundbilder-Cache bereinigen"
 
-#: config/strings.c:103
+#: config/strings.c:91
 msgid "Purge all caches"
 msgstr "Alle Caches bereinigen"
 
-#: config/strings.c:104
+#: config/strings.c:92
 msgid "Query config file cache usage"
 msgstr "Cache-Nutzung der Konfigurationsdatei abfragen"
 
-#: config/strings.c:105
+#: config/strings.c:93
 msgid "Query pager background cache usage"
 msgstr "Cache-Nutzung des Pagers abfragen"
 
-#: config/strings.c:106
+#: config/strings.c:94
 msgid "Query background selector cache usage"
 msgstr "Cache-Nutzung der Hindergrundwahl abfragen"
 
-#: config/strings.c:107
+#: config/strings.c:95
 msgid "Query all cache usage"
 msgstr "Gesamte Cache-Nutzung abfragen"
 
-#: config/strings.c:108
+#: config/strings.c:96
 msgid "Regenerate menus"
 msgstr "Menü neu erstellen"
 
 # src/settings.c:393
-#: config/strings.c:118
+#: config/strings.c:98 config/strings.c:99
+msgid "Settings"
+msgstr "Einstellungen"
+
+# src/actions.c:3282
+#: config/strings.c:103
+msgid "About Enlightenment"
+msgstr "Über Enlightenment"
+
+#: config/strings.c:104
+msgid "About this theme"
+msgstr "Über dieses Thema"
+
+# src/settings.c:393
+#: config/strings.c:105
 #, fuzzy
 #| msgid "Theme Settings"
 msgid "Theme menu"
 msgstr "Thema-Einstellungen"
 
-#: config/strings.c:126
+# src/alert.c:182
+#: config/strings.c:106 config/strings.c:184
+msgid "Restart"
+msgstr "Neu starten"
+
+# src/session.c:1184
+#: config/strings.c:107 config/strings.c:185
+msgid "Log out"
+msgstr "Abmelden"
+
+# src/session.c:1184
+#: config/strings.c:108
+#, fuzzy
+#| msgid "Yes, Shut Down"
+msgid "Shut down"
+msgstr "Ja, herunterfahren"
+
+#: config/strings.c:114
 msgid "Leave alone"
 msgstr "Freistellen"
 
 # src/pager.c:1301
-#: config/strings.c:131
+#: config/strings.c:119
 msgid "Remember..."
 msgstr "Gespeicherte Einstellungen ..."
 
 # src/snaps.c:485
-#: config/strings.c:132
+#: config/strings.c:120
 msgid "Window size"
 msgstr "Fenstergröße"
 
 # src/settings.c:393
-#: config/strings.c:133
+#: config/strings.c:121
 msgid "Set stacking"
 msgstr "Stapelung"
 
 # src/snaps.c:437
-#: config/strings.c:134
+#: config/strings.c:122
 msgid "Set border style"
 msgstr "Rahmenstil"
 
 # src/groups.c:603 src/groups.c:612 src/groups.c:620 src/settings.c:3872
-#: config/strings.c:135
+#: config/strings.c:123
 msgid "Window groups"
 msgstr "Fenstergruppen"
 
 # src/snaps.c:536
-#: config/strings.c:140
+#: config/strings.c:128
 msgid "Configure this window's group(s)"
 msgstr "Gruppe(n) dieses Fensters einstellen"
 
-#: config/strings.c:141
+#: config/strings.c:129
 msgid "Start a new group"
 msgstr "Eine neue Gruppe eröffnen"
 
-#: config/strings.c:142
+#: config/strings.c:130
 msgid "Add this window to the current group"
 msgstr "Dieses Fenster zu der aktuellen Gruppe hinzufügen"
 
 # src/actions.c:3858
-#: config/strings.c:143
+#: config/strings.c:131
 msgid "Select group to add this window to"
 msgstr "Wählen Sie eine Gruppe für dieses Fenster"
 
 # src/snaps.c:536
-#: config/strings.c:144
+#: config/strings.c:132
 msgid "Remove this window from a group"
 msgstr "Dieses Fensters aus einer Gruppe entfernen"
 
 # src/actions.c:3474
-#: config/strings.c:145
+#: config/strings.c:133
 msgid "Destroy a group this window belongs to"
 msgstr "Eine Gruppe des Fensters löschen"
 
 # src/settings.c:4018 src/settings.c:4160
-#: config/strings.c:147
+#: config/strings.c:135
 msgid "Stacking"
 msgstr "Stapelung"
 
-#: config/strings.c:148
+#: config/strings.c:136
 #, fuzzy
 #| msgid "Lower"
 msgid "Lowest"
 msgstr "Senken"
 
-#: config/strings.c:149
+#: config/strings.c:137
 msgid "Below"
 msgstr "Im Hintergrund"
 
-#: config/strings.c:150
+#: config/strings.c:138
 msgid "Normal"
 msgstr "Normal"
 
-#: config/strings.c:151
+#: config/strings.c:139
 msgid "Above"
 msgstr "Im Vordergrund"
 
 # src/settings.c:1878
-#: config/strings.c:152
+#: config/strings.c:140
 msgid "Highest"
 msgstr "In den Vordergrund"
 
-#: config/strings.c:155
+#: config/strings.c:143
 msgid "Toggle skip window lists"
 msgstr "In der Fensterliste berücksichtigen/auslassen"
 
-#: config/strings.c:156
+#: config/strings.c:144
 msgid "Toggle fixed position"
 msgstr "Position fest/variable"
 
-#: config/strings.c:157
+#: config/strings.c:145
 msgid "Toggle fixed size"
 msgstr "Größe fest/variable"
 
 # src/snaps.c:494
-#: config/strings.c:158
+#: config/strings.c:146
 msgid "Toggle never focus"
 msgstr "Nie Fokussieren An/Aus"
 
-#: config/strings.c:159
+#: config/strings.c:147
 msgid "Toggle click to focus"
 msgstr "Fokussieren durch Klick An/Aus"
 
 # src/snaps.c:494
-#: config/strings.c:160
+#: config/strings.c:148
 msgid "Toggle never use area"
 msgstr "Erlaube/Verbiete das Bedecken dieses Fenster"
 
 # src/snaps.c:494
-#: config/strings.c:161
+#: config/strings.c:149
 #, fuzzy
 msgid "Toggle ignore arrange"
 msgstr "Erlaube/Verbiete das Bedecken dieses Fenster"
 
 # src/settings.c:1885
-#: config/strings.c:162
+#: config/strings.c:150
 msgid "Toggle button grabs"
 msgstr "Fange alle Mausklicks An/Aus"
 
 # src/settings.c:1885
-#: config/strings.c:163
+#: config/strings.c:151
 msgid "Toggle autoshade"
 msgstr "Automatisches Aufrollen Ein/Aus"
 
 # src/settings.c:1127
-#: config/strings.c:164
+#: config/strings.c:152
 #, fuzzy
 #| msgid "Toggle fading"
 msgid "Toggle pass pointer"
 msgstr "Ein-/Ausblenden"
 
 # src/settings.c:3100
-#: config/strings.c:167
+#: config/strings.c:155
 msgid "Default"
 msgstr "Standardwert"
 
-#: config/strings.c:168
+#: config/strings.c:156
 msgid "20%"
 msgstr "20%"
 
-#: config/strings.c:169
+#: config/strings.c:157
 msgid "40%"
 msgstr "40%"
 
-#: config/strings.c:170
+#: config/strings.c:158
 msgid "60%"
 msgstr "60%"
 
-#: config/strings.c:171
+#: config/strings.c:159
 msgid "80%"
 msgstr "80%"
 
-#: config/strings.c:172
+#: config/strings.c:160
 msgid "100%"
 msgstr "100%"
 
-#: config/strings.c:173
+#: config/strings.c:161
 msgid "Focused opacity 100%"
 msgstr "Fokussiert 100%"
 
 # src/settings.c:433
-#: config/strings.c:174
+#: config/strings.c:162
 msgid "Focused opacity follows unfocused"
 msgstr "Fokussiert wie unfokussiert"
 
 # src/settings.c:1127
-#: config/strings.c:175
+#: config/strings.c:163
 msgid "Toggle fading"
 msgstr "Ein-/Ausblenden"
 
-#: config/strings.c:176
+#: config/strings.c:164
 msgid "Toggle shadows"
 msgstr "Schatten An/Aus"
 
-#: config/strings.c:179
+#: config/strings.c:167
 msgid "Toggle max size"
 msgstr "Maximale Größe An/Aus"
 
-#: config/strings.c:180
+#: config/strings.c:168
 msgid "Toggle max size - available"
 msgstr "Verfügbare maximale Größe An/Aus"
 
-#: config/strings.c:181
+#: config/strings.c:169
 msgid "Toggle max size - absolute"
 msgstr "Volle maximale Größe An/Aus"
 
-#: config/strings.c:182
+#: config/strings.c:170
 msgid "Span Xinerama screens"
 msgstr "Spanne den Xineramaschirm"
 
-#: config/strings.c:183
+#: config/strings.c:171
 msgid "Toggle max height"
 msgstr "Maximale Höhe An/Aus"
 
-#: config/strings.c:184
+#: config/strings.c:172
 msgid "Toggle max height available"
 msgstr "Verfügbare maximale Höhe An/Aus"
 
-#: config/strings.c:185
+#: config/strings.c:173
 msgid "Toggle max height absolute"
 msgstr "Volle maximale Höhe An/Aus"
 
-#: config/strings.c:186
+#: config/strings.c:174
 msgid "Toggle max width"
 msgstr "Maximale Breite An/Aus"
 
-#: config/strings.c:187
+#: config/strings.c:175
 msgid "Toggle max width available"
 msgstr "Verfügbar maximale Breite An/Aus"
 
-#: config/strings.c:188
+#: config/strings.c:176
 msgid "Toggle max width absolute"
 msgstr "Volle maximale Breite An/Aus"
 
-#: config/strings.c:189
+#: config/strings.c:177
 msgid "Toggle fullscreen"
 msgstr "Vollbild/Normal"
 
-#: config/strings.c:190
+#: config/strings.c:178
 msgid "Toggle zoom"
 msgstr "Hinein-/Herauszoomen"
 
-#: config/strings.c:193
+# src/snaps.c:437
+#: config/strings.c:180
+msgid "User menus"
+msgstr "Benutzer-Menüs"
+
+#: config/strings.c:181
 msgid "User application list"
 msgstr "Benutzeranwendungsliste"
 
-#: config/strings.c:194
+#: config/strings.c:182
 #, fuzzy
 msgid "Applications"
 msgstr "Benutzeranwendungsliste"
 
-#: config/strings.c:195
+#: config/strings.c:183
 msgid "Epplets"
 msgstr "Epplets"
+
+#: config/strings.c:186
+msgid "Help"
+msgstr "Hilfe"
+
+# src/main.c:92 src/memory.c:197 src/memory.c:278 src/memory.c:298
+# src/memory.c:379 src/memory.c:396 src/setup.c:295 src/setup.c:329
+# src/setup.c:341 src/setup.c:403
+#~ msgid "Enlightenment"
+#~ msgstr "Enlightenment"
 
 #~ msgid "Global settings:"
 #~ msgstr "Globale Einstellungen:"

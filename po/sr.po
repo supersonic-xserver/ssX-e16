@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trunk\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2023-11-25 15:04+0100\n"
+"POT-Creation-Date: 2024-04-03 18:58+0200\n"
 "PO-Revision-Date: 2013-06-20 12:49+0000\n"
 "Last-Translator: Саша Петровић <salepetronije@gmail.com>\n"
 "Language-Team: српски <српски <xfce-i18n@xfce.org>>\n"
@@ -89,7 +89,7 @@ msgstr "Напусти Просвећење"
 msgid "Attention !!!"
 msgstr "Пажња !!!"
 
-#: src/alert.c:597 src/dialog.c:683 src/dialog.c:1821 src/events.c:108
+#: src/alert.c:597 src/dialog.c:683 src/dialog.c:1821 src/events.c:104
 #: src/setup.c:163 src/setup.c:176
 msgid "OK"
 msgstr "У реду"
@@ -337,7 +337,7 @@ msgstr "Поставке..."
 msgid "Create new iconbox"
 msgstr "Направи нову кућицу за иконицу"
 
-#: src/container.c:1491 src/container.c:1559 src/menus.c:1987
+#: src/container.c:1491 src/container.c:1559 src/menus.c:1988
 #, c-format
 msgid "Icon size: %2d"
 msgstr "Величина иконице: %2d"
@@ -615,7 +615,7 @@ msgstr ""
 msgid "Apply"
 msgstr "Примени"
 
-#: src/dialog.c:694 src/pager.c:1052 config/strings.c:30 config/strings.c:123
+#: src/dialog.c:694 src/pager.c:1052 config/strings.c:30 config/strings.c:111
 msgid "Close"
 msgstr "Затвори"
 
@@ -631,11 +631,11 @@ msgstr ""
 "да ли су учитана проширења\n"
 "Composite, Damage, Fixes, и Render."
 
-#: src/events.c:108
+#: src/events.c:104
 msgid "X server setup error"
 msgstr "Грешка подешавања Икс служитеља"
 
-#: src/events.c:109
+#: src/events.c:105
 msgid ""
 "FATAL ERROR:\n"
 "\n"
@@ -922,7 +922,7 @@ msgstr "Овај прозор тренутно не припада ни једн
 msgid "Per-group settings:"
 msgstr "Поставке по скуповима:"
 
-#: src/groups.c:1086 src/menus-misc.c:625 config/strings.c:139
+#: src/groups.c:1086 src/menus-misc.c:625 config/strings.c:127
 msgid "Groups"
 msgstr "Скупови"
 
@@ -1013,58 +1013,58 @@ msgstr "Могућности кућице иконица"
 msgid "Iconbox Settings"
 msgstr "Поставке кућице иконица"
 
-#: src/ipc.c:219 src/ipc.c:1618 src/ipc.c:1625 src/theme.c:407
+#: src/ipc.c:219 src/ipc.c:1620 src/ipc.c:1627 src/theme.c:407
 msgid "Message"
 msgstr "Порука"
 
-#: src/ipc.c:1618 src/ipc.c:1625
+#: src/ipc.c:1620 src/ipc.c:1627
 #, c-format
 msgid "e16 was built without %s support"
 msgstr "е16 је изграђен без подршке %s"
 
-#: src/ipc.c:1619
+#: src/ipc.c:1621
 msgid "composite"
 msgstr "слагање"
 
-#: src/ipc.c:1626
+#: src/ipc.c:1628
 msgid "sound"
 msgstr "звук"
 
-#: src/ipc.c:1994
+#: src/ipc.c:2000
 msgid "Enlightenment IPC Commands Help\n"
 msgstr ""
 
-#: src/ipc.c:1998
+#: src/ipc.c:2004
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
 "\n"
 msgstr ""
 
-#: src/ipc.c:2000 src/ipc.c:2024 src/ipc.c:2036
+#: src/ipc.c:2006 src/ipc.c:2030 src/ipc.c:2042
 msgid "Commands currently available:\n"
 msgstr "Тренутно расположиве наредбе\n"
 
-#: src/ipc.c:2022
+#: src/ipc.c:2028
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr ""
 
-#: src/ipc.c:2023
+#: src/ipc.c:2029
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr ""
 
-#: src/ipc.c:2025 src/ipc.c:2037
+#: src/ipc.c:2031 src/ipc.c:2043
 msgid "         <command>     : <description>\n"
 msgstr ""
 
-#: src/main.c:516
+#: src/main.c:518
 #, c-format
 msgid ""
 "%s must be a directory in which you have\n"
 "read, write, and execute permission.\n"
 msgstr ""
 
-#: src/main.c:617
+#: src/main.c:619
 #, c-format
 msgid ""
 "!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n"
@@ -1081,7 +1081,7 @@ msgid ""
 "an error in installing Enlightenment.\n"
 msgstr ""
 
-#: src/main.c:631
+#: src/main.c:633
 #, c-format
 msgid ""
 "!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n"
@@ -1102,7 +1102,7 @@ msgstr "Лупа"
 msgid "Backgrounds"
 msgstr "Позадине"
 
-#: src/menus-misc.c:448 config/strings.c:91 config/strings.c:113
+#: src/menus-misc.c:448 config/strings.c:101
 msgid "Themes"
 msgstr "Теме"
 
@@ -1136,33 +1136,33 @@ msgstr "Умањи овај скуп"
 msgid "Group %i"
 msgstr "Скуп %i"
 
-#: src/menus.c:2007
+#: src/menus.c:2008
 msgid "Animated display of menus"
 msgstr "Оживљени приказ изборника"
 
-#: src/menus.c:2012
+#: src/menus.c:2013
 msgid "Always pop up menus on screen"
 msgstr "Увек искочи изборницима на екран"
 
-#: src/menus.c:2017
+#: src/menus.c:2018
 msgid "Warp pointer after moving menus"
 msgstr "Преломи показивач после премештања изборника"
 
-#: src/menus.c:2022
+#: src/menus.c:2023
 #, fuzzy
 #| msgid "Show more buttons"
 msgid "Show menu icons"
 msgstr "Прикажи још дугмића"
 
-#: src/menus.c:2038
+#: src/menus.c:2039
 msgid "Menus"
 msgstr "Изборници"
 
-#: src/menus.c:2038
+#: src/menus.c:2039
 msgid "Menu Settings"
 msgstr "Поставке изборника"
 
-#: src/menus.c:2042
+#: src/menus.c:2043
 msgid ""
 "Enlightenment Menu\n"
 "Settings Dialog"
@@ -1170,15 +1170,15 @@ msgstr ""
 "Прозор поставки\n"
 "изборника Просвећења"
 
-#: src/pager.c:1041 config/strings.c:49 config/strings.c:122
+#: src/pager.c:1041 config/strings.c:49 config/strings.c:110
 msgid "Window Options"
 msgstr "Могућности прозора"
 
-#: src/pager.c:1048 config/strings.c:51 config/strings.c:125
+#: src/pager.c:1048 config/strings.c:51 config/strings.c:113
 msgid "Iconify"
 msgstr "Умањи"
 
-#: src/pager.c:1056 config/strings.c:124
+#: src/pager.c:1056 config/strings.c:112
 msgid "Annihilate"
 msgstr "Уништи"
 
@@ -1292,7 +1292,7 @@ msgid ""
 "Pager Settings Dialog"
 msgstr ""
 
-#: src/session.c:321
+#: src/session.c:326
 msgid ""
 "ERROR!\n"
 "\n"
@@ -1307,63 +1307,63 @@ msgid ""
 "... I hope.\n"
 msgstr ""
 
-#: src/session.c:623
+#: src/session.c:639
 msgid "Are you sure?"
 msgstr ""
 
-#: src/session.c:626
+#: src/session.c:642
 msgid "Are you sure you wish to log out ?"
 msgstr ""
 
-#: src/session.c:649
+#: src/session.c:665
 msgid "Hibernate"
 msgstr ""
 
-#: src/session.c:655
+#: src/session.c:671
 msgid "Suspend"
 msgstr ""
 
-#: src/session.c:661
+#: src/session.c:677
 msgid "Lock"
 msgstr ""
 
-#: src/session.c:672
+#: src/session.c:688
 msgid "Yes, Shut Down"
 msgstr ""
 
-#: src/session.c:674
+#: src/session.c:690
 msgid "Yes, Reboot"
 msgstr ""
 
-#: src/session.c:678
+#: src/session.c:694
 msgid "Yes, Log Out"
 msgstr ""
 
-#: src/session.c:683
+#: src/session.c:699
 msgid "No"
 msgstr ""
 
-#: src/session.c:806
+#: src/session.c:841
 msgid "Enable session script"
 msgstr ""
 
-#: src/session.c:811
+#: src/session.c:846
 msgid "Enable logout dialog"
 msgstr ""
 
-#: src/session.c:816
+#: src/session.c:851
 msgid "Enable reboot/halt on logout"
 msgstr ""
 
-#: src/session.c:822
+#: src/session.c:857
 msgid "Session"
 msgstr ""
 
-#: src/session.c:822
+#: src/session.c:857
 msgid "Session Settings"
 msgstr ""
 
-#: src/session.c:826
+#: src/session.c:861
 msgid ""
 "Enlightenment Session\n"
 "Settings Dialog"
@@ -1569,7 +1569,7 @@ msgstr ""
 msgid "Magwin zoom resolution"
 msgstr ""
 
-#: src/settings.c:560 config/strings.c:137 config/strings.c:154
+#: src/settings.c:560 config/strings.c:125 config/strings.c:142
 msgid "Miscellaneous"
 msgstr ""
 
@@ -1726,11 +1726,11 @@ msgstr "Место"
 msgid "Border style"
 msgstr "Начин оквира"
 
-#: src/snaps.c:813 config/strings.c:178
+#: src/snaps.c:813 config/strings.c:166
 msgid "Size"
 msgstr "Величина"
 
-#: src/snaps.c:818 config/strings.c:90 config/strings.c:112
+#: src/snaps.c:818 config/strings.c:100
 msgid "Desktop"
 msgstr "Површ"
 
@@ -1750,7 +1750,7 @@ msgstr "Слој слагања прозора"
 msgid "Window List Skip"
 msgstr "Прескакање списка прозора"
 
-#: src/snaps.c:844 config/strings.c:136 config/strings.c:166
+#: src/snaps.c:844 config/strings.c:124 config/strings.c:154
 msgid "Opacity"
 msgstr "Непрозирност"
 
@@ -2083,7 +2083,7 @@ msgstr ""
 msgid "This button does nothing interesting"
 msgstr ""
 
-#: config/strings.c:47 config/strings.c:129
+#: config/strings.c:47 config/strings.c:117
 msgid "Shade/unshade"
 msgstr "Смотај/Одмотај"
 
@@ -2099,7 +2099,7 @@ msgstr "Још дугмића"
 msgid "Show more buttons"
 msgstr "Прикажи још дугмића"
 
-#: config/strings.c:56 config/strings.c:127
+#: config/strings.c:56 config/strings.c:115
 msgid "Raise"
 msgstr "Издигни"
 
@@ -2107,7 +2107,7 @@ msgstr "Издигни"
 msgid "Raise this window to the top"
 msgstr "Издигни прозор на врх"
 
-#: config/strings.c:58 config/strings.c:128
+#: config/strings.c:58 config/strings.c:116
 msgid "Lower"
 msgstr "Спусти"
 
@@ -2115,7 +2115,7 @@ msgstr "Спусти"
 msgid "Lower this window"
 msgstr "Спусти овај прозор"
 
-#: config/strings.c:60 config/strings.c:130
+#: config/strings.c:60 config/strings.c:118
 msgid "Stick/unstick"
 msgstr "Залепи/Одлепи"
 
@@ -2188,299 +2188,302 @@ msgstr "Направи обавештајну област"
 msgid "Show magnifier"
 msgstr "Прикажи лупу"
 
-#: config/strings.c:87
-msgid "Enlightenment"
-msgstr "Просвећење"
-
-#: config/strings.c:88 config/strings.c:192
-msgid "User menus"
-msgstr "Корисников изборник"
-
-#: config/strings.c:89 config/strings.c:110 config/strings.c:111
-msgid "Settings"
-msgstr "Поставке"
-
-#: config/strings.c:92 config/strings.c:99 config/strings.c:114
+#: config/strings.c:87 config/strings.c:102
 msgid "Maintenance"
 msgstr "Одржавање"
 
-#: config/strings.c:93 config/strings.c:115
-msgid "Help"
-msgstr "Помоћ"
-
-#: config/strings.c:94 config/strings.c:116
-msgid "About Enlightenment"
-msgstr "О Просвећењу"
-
-#: config/strings.c:95 config/strings.c:117
-msgid "About this theme"
-msgstr "О овој теми"
-
-#: config/strings.c:96 config/strings.c:119 config/strings.c:196
-msgid "Restart"
-msgstr "Поново покрени"
-
-#: config/strings.c:97 config/strings.c:120 config/strings.c:197
-msgid "Log out"
-msgstr "Одјави ме"
-
-#: config/strings.c:100
+#: config/strings.c:88
 msgid "Purge config file cache"
 msgstr "Очисти оставу поставки датотека"
 
-#: config/strings.c:101
+#: config/strings.c:89
 msgid "Purge pager background cache"
 msgstr ""
 
-#: config/strings.c:102
+#: config/strings.c:90
 msgid "Purge background selector cache"
 msgstr ""
 
-#: config/strings.c:103
+#: config/strings.c:91
 msgid "Purge all caches"
 msgstr ""
 
-#: config/strings.c:104
+#: config/strings.c:92
 msgid "Query config file cache usage"
 msgstr ""
 
-#: config/strings.c:105
+#: config/strings.c:93
 msgid "Query pager background cache usage"
 msgstr ""
 
-#: config/strings.c:106
+#: config/strings.c:94
 msgid "Query background selector cache usage"
 msgstr ""
 
-#: config/strings.c:107
+#: config/strings.c:95
 msgid "Query all cache usage"
 msgstr ""
 
-#: config/strings.c:108
+#: config/strings.c:96
 msgid "Regenerate menus"
 msgstr "Образуј изнова изборнике"
 
-#: config/strings.c:118
+#: config/strings.c:98 config/strings.c:99
+msgid "Settings"
+msgstr "Поставке"
+
+#: config/strings.c:103
+msgid "About Enlightenment"
+msgstr "О Просвећењу"
+
+#: config/strings.c:104
+msgid "About this theme"
+msgstr "О овој теми"
+
+#: config/strings.c:105
 #, fuzzy
 #| msgid "Theme"
 msgid "Theme menu"
 msgstr "Тема"
 
-#: config/strings.c:126
+#: config/strings.c:106 config/strings.c:184
+msgid "Restart"
+msgstr "Поново покрени"
+
+#: config/strings.c:107 config/strings.c:185
+msgid "Log out"
+msgstr "Одјави ме"
+
+#: config/strings.c:108
+msgid "Shut down"
+msgstr ""
+
+#: config/strings.c:114
 msgid "Leave alone"
 msgstr "Остави како је"
 
-#: config/strings.c:131
+#: config/strings.c:119
 msgid "Remember..."
 msgstr "Запамти..."
 
-#: config/strings.c:132
+#: config/strings.c:120
 msgid "Window size"
 msgstr "Величину прозора"
 
-#: config/strings.c:133
+#: config/strings.c:121
 msgid "Set stacking"
 msgstr "Постави гомилање"
 
-#: config/strings.c:134
+#: config/strings.c:122
 msgid "Set border style"
 msgstr "Подеси изглед оквира"
 
-#: config/strings.c:135
+#: config/strings.c:123
 msgid "Window groups"
 msgstr "Скупови прозора"
 
-#: config/strings.c:140
+#: config/strings.c:128
 msgid "Configure this window's group(s)"
 msgstr "Подеси овај(е) скуп(ове) прозора"
 
-#: config/strings.c:141
+#: config/strings.c:129
 msgid "Start a new group"
 msgstr "Покрени нови скуп"
 
-#: config/strings.c:142
+#: config/strings.c:130
 msgid "Add this window to the current group"
 msgstr "Додај овај прозор тренутном скупу"
 
-#: config/strings.c:143
+#: config/strings.c:131
 msgid "Select group to add this window to"
 msgstr "Изаберите скуп коме се додаје овај прозор"
 
-#: config/strings.c:144
+#: config/strings.c:132
 msgid "Remove this window from a group"
 msgstr "Уклони овај прозор из скупа"
 
-#: config/strings.c:145
+#: config/strings.c:133
 msgid "Destroy a group this window belongs to"
 msgstr "Уништи скуп коме припада овај прозор"
 
-#: config/strings.c:147
+#: config/strings.c:135
 msgid "Stacking"
 msgstr "Гомилање"
 
-#: config/strings.c:148
+#: config/strings.c:136
 #, fuzzy
 #| msgid "Lower"
 msgid "Lowest"
 msgstr "Спусти"
 
-#: config/strings.c:149
+#: config/strings.c:137
 msgid "Below"
 msgstr "Испод"
 
-#: config/strings.c:150
+#: config/strings.c:138
 msgid "Normal"
 msgstr "Обично"
 
-#: config/strings.c:151
+#: config/strings.c:139
 msgid "Above"
 msgstr "Изнад"
 
-#: config/strings.c:152
+#: config/strings.c:140
 msgid "Highest"
 msgstr "Изнад осталих"
 
-#: config/strings.c:155
+#: config/strings.c:143
 msgid "Toggle skip window lists"
 msgstr "Прекидач прескакања списка прозора"
 
-#: config/strings.c:156
+#: config/strings.c:144
 msgid "Toggle fixed position"
 msgstr "Прекидач одређеног положаја"
 
-#: config/strings.c:157
+#: config/strings.c:145
 msgid "Toggle fixed size"
 msgstr "Прекидач одређене величине"
 
-#: config/strings.c:158
+#: config/strings.c:146
 msgid "Toggle never focus"
 msgstr "Прекидач за никад у жижи"
 
-#: config/strings.c:159
+#: config/strings.c:147
 msgid "Toggle click to focus"
 msgstr "Прекидач клика за жижу"
 
-#: config/strings.c:160
+#: config/strings.c:148
 msgid "Toggle never use area"
 msgstr "Прекидач некоришћене области"
 
-#: config/strings.c:161
+#: config/strings.c:149
 msgid "Toggle ignore arrange"
 msgstr "Прекидач занемаривања преуређења"
 
-#: config/strings.c:162
+#: config/strings.c:150
 msgid "Toggle button grabs"
 msgstr "Прекидач дугмета хватања"
 
-#: config/strings.c:163
+#: config/strings.c:151
 msgid "Toggle autoshade"
 msgstr "Прекидач самосмотавања"
 
-#: config/strings.c:164
+#: config/strings.c:152
 #, fuzzy
 #| msgid "Toggle fading"
 msgid "Toggle pass pointer"
 msgstr "Прекидач утапања"
 
-#: config/strings.c:167
+#: config/strings.c:155
 msgid "Default"
 msgstr "Подразумевано"
 
-#: config/strings.c:168
+#: config/strings.c:156
 msgid "20%"
 msgstr "20%"
 
-#: config/strings.c:169
+#: config/strings.c:157
 msgid "40%"
 msgstr "40%"
 
-#: config/strings.c:170
+#: config/strings.c:158
 msgid "60%"
 msgstr "60%"
 
-#: config/strings.c:171
+#: config/strings.c:159
 msgid "80%"
 msgstr "80%"
 
-#: config/strings.c:172
+#: config/strings.c:160
 msgid "100%"
 msgstr "100%"
 
-#: config/strings.c:173
+#: config/strings.c:161
 msgid "Focused opacity 100%"
 msgstr "Непровидност жиже 100%"
 
-#: config/strings.c:174
+#: config/strings.c:162
 msgid "Focused opacity follows unfocused"
 msgstr "Непровидност жиже прати непровидност ван жиже"
 
-#: config/strings.c:175
+#: config/strings.c:163
 msgid "Toggle fading"
 msgstr "Прекидач утапања"
 
-#: config/strings.c:176
+#: config/strings.c:164
 msgid "Toggle shadows"
 msgstr "Прекидач сена"
 
-#: config/strings.c:179
+#: config/strings.c:167
 msgid "Toggle max size"
 msgstr "Прекидач највеће величине"
 
-#: config/strings.c:180
+#: config/strings.c:168
 msgid "Toggle max size - available"
 msgstr "Прекидач највеће доступне величине"
 
-#: config/strings.c:181
+#: config/strings.c:169
 msgid "Toggle max size - absolute"
 msgstr "Прекидач највеће могуће величине"
 
-#: config/strings.c:182
+#: config/strings.c:170
 msgid "Span Xinerama screens"
 msgstr "Распростри ксинерама екране"
 
-#: config/strings.c:183
+#: config/strings.c:171
 msgid "Toggle max height"
 msgstr "Прекидач највеће доступне висине"
 
-#: config/strings.c:184
+#: config/strings.c:172
 msgid "Toggle max height available"
 msgstr "Прекидач највеће доступне висине"
 
-#: config/strings.c:185
+#: config/strings.c:173
 msgid "Toggle max height absolute"
 msgstr "Прекидач највеће висине"
 
-#: config/strings.c:186
+#: config/strings.c:174
 msgid "Toggle max width"
 msgstr "Прекидач највеће ширине"
 
-#: config/strings.c:187
+#: config/strings.c:175
 msgid "Toggle max width available"
 msgstr "Доступна највећа ширина"
 
-#: config/strings.c:188
+#: config/strings.c:176
 msgid "Toggle max width absolute"
 msgstr "Прекодач највеће ширине"
 
-#: config/strings.c:189
+#: config/strings.c:177
 msgid "Toggle fullscreen"
 msgstr "Преко целог екрана/уобичајено"
 
-#: config/strings.c:190
+#: config/strings.c:178
 msgid "Toggle zoom"
 msgstr "Увеличање/умањење"
 
-#: config/strings.c:193
+#: config/strings.c:180
+msgid "User menus"
+msgstr "Корисников изборник"
+
+#: config/strings.c:181
 msgid "User application list"
 msgstr "Списак корисникових програма"
 
-#: config/strings.c:194
+#: config/strings.c:182
 msgid "Applications"
 msgstr "Програми"
 
-#: config/strings.c:195
+#: config/strings.c:183
 msgid "Epplets"
 msgstr "Е-програмчићи"
+
+#: config/strings.c:186
+msgid "Help"
+msgstr "Помоћ"
+
+#~ msgid "Enlightenment"
+#~ msgstr "Просвећење"
 
 #~ msgid "Global settings:"
 #~ msgstr "Опште поставке:"

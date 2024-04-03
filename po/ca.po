@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enlightenment\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2023-11-25 15:04+0100\n"
+"POT-Creation-Date: 2024-04-03 18:58+0200\n"
 "PO-Revision-Date: 2015-03-29 14:25+0000\n"
 "Last-Translator: JoanColl <Unknown>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -90,7 +90,7 @@ msgstr "Surt d'Enlightenment"
 msgid "Attention !!!"
 msgstr "Atenció !!!"
 
-#: src/alert.c:597 src/dialog.c:683 src/dialog.c:1821 src/events.c:108
+#: src/alert.c:597 src/dialog.c:683 src/dialog.c:1821 src/events.c:104
 #: src/setup.c:163 src/setup.c:176
 msgid "OK"
 msgstr "Accepta"
@@ -339,7 +339,7 @@ msgstr "Configuració..."
 msgid "Create new iconbox"
 msgstr "Crea nova caixa d'icona"
 
-#: src/container.c:1491 src/container.c:1559 src/menus.c:1987
+#: src/container.c:1491 src/container.c:1559 src/menus.c:1988
 #, c-format
 msgid "Icon size: %2d"
 msgstr "Tamany icona: %2d"
@@ -618,7 +618,7 @@ msgstr ""
 msgid "Apply"
 msgstr "Aplica"
 
-#: src/dialog.c:694 src/pager.c:1052 config/strings.c:30 config/strings.c:123
+#: src/dialog.c:694 src/pager.c:1052 config/strings.c:30 config/strings.c:111
 msgid "Close"
 msgstr "Tanca"
 
@@ -634,11 +634,11 @@ msgstr ""
 "les extensions Composite, Damage, Fixes,\n"
 "i Render estiguin carregades."
 
-#: src/events.c:108
+#: src/events.c:104
 msgid "X server setup error"
 msgstr "Error de configuració del  Xserver"
 
-#: src/events.c:109
+#: src/events.c:105
 msgid ""
 "FATAL ERROR:\n"
 "\n"
@@ -926,7 +926,7 @@ msgstr "Actualment aquesta finestra no pertany a cap grup."
 msgid "Per-group settings:"
 msgstr "Configuració per grup:"
 
-#: src/groups.c:1086 src/menus-misc.c:625 config/strings.c:139
+#: src/groups.c:1086 src/menus-misc.c:625 config/strings.c:127
 msgid "Groups"
 msgstr "Grups"
 
@@ -1042,28 +1042,28 @@ msgstr "Opcions  de la caixa d'icones"
 msgid "Iconbox Settings"
 msgstr "Configuració de la caixa d'icones"
 
-#: src/ipc.c:219 src/ipc.c:1618 src/ipc.c:1625 src/theme.c:407
+#: src/ipc.c:219 src/ipc.c:1620 src/ipc.c:1627 src/theme.c:407
 msgid "Message"
 msgstr "Missatge"
 
-#: src/ipc.c:1618 src/ipc.c:1625
+#: src/ipc.c:1620 src/ipc.c:1627
 #, c-format
 msgid "e16 was built without %s support"
 msgstr "e16 s'ha muntat sense suport a %s"
 
-#: src/ipc.c:1619
+#: src/ipc.c:1621
 msgid "composite"
 msgstr "composició"
 
-#: src/ipc.c:1626
+#: src/ipc.c:1628
 msgid "sound"
 msgstr "so"
 
-#: src/ipc.c:1994
+#: src/ipc.c:2000
 msgid "Enlightenment IPC Commands Help\n"
 msgstr "Ajuda de les ordres IPC d'Enlightenment\n"
 
-#: src/ipc.c:1998
+#: src/ipc.c:2004
 msgid ""
 "Use \"help all\" for descriptions of each command\n"
 "Use \"help <command>\" for an individual description\n"
@@ -1074,23 +1074,23 @@ msgstr ""
 "Utilitzeu \"help <ordre>\" per a una descripció d'una ordre individual\n"
 "\n"
 
-#: src/ipc.c:2000 src/ipc.c:2024 src/ipc.c:2036
+#: src/ipc.c:2006 src/ipc.c:2030 src/ipc.c:2042
 msgid "Commands currently available:\n"
 msgstr "Ordres actualment disponibles:\n"
 
-#: src/ipc.c:2022
+#: src/ipc.c:2028
 msgid "Use \"help full\" for full descriptions of each command\n"
 msgstr "Utilitzeu \"help full\" per a descripcions completes de cada ordre\n"
 
-#: src/ipc.c:2023
+#: src/ipc.c:2029
 msgid "Use \"help <command>\" for an individual description\n"
 msgstr "Utilitzeu \"help <ordre>\" per a descripció individual\n"
 
-#: src/ipc.c:2025 src/ipc.c:2037
+#: src/ipc.c:2031 src/ipc.c:2043
 msgid "         <command>     : <description>\n"
 msgstr "         <ordre>     : <descripció>\n"
 
-#: src/main.c:516
+#: src/main.c:518
 #, c-format
 msgid ""
 "%s must be a directory in which you have\n"
@@ -1099,7 +1099,7 @@ msgstr ""
 "%s hauria de ser un directori on vostè tingués\n"
 "permisos de lectura, escriptura i execució.\n"
 
-#: src/main.c:617
+#: src/main.c:619
 #, c-format
 msgid ""
 "!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n"
@@ -1129,7 +1129,7 @@ msgstr ""
 "dels paquets, a que algú eliminés manualment el programa o potser\n"
 "un error a l'instal·lar Enlightenment.\n"
 
-#: src/main.c:631
+#: src/main.c:633
 #, c-format
 msgid ""
 "!!!!!!!! ERROR ERROR ERROR ERROR !!!!!!!!\n"
@@ -1158,7 +1158,7 @@ msgstr "Ampliador"
 msgid "Backgrounds"
 msgstr "Fons"
 
-#: src/menus-misc.c:448 config/strings.c:91 config/strings.c:113
+#: src/menus-misc.c:448 config/strings.c:101
 msgid "Themes"
 msgstr "Temes"
 
@@ -1192,33 +1192,33 @@ msgstr "Minimitza aquest grup"
 msgid "Group %i"
 msgstr "Grup %i"
 
-#: src/menus.c:2007
+#: src/menus.c:2008
 msgid "Animated display of menus"
 msgstr "Mostra animació dels menús"
 
-#: src/menus.c:2012
+#: src/menus.c:2013
 msgid "Always pop up menus on screen"
 msgstr "Mostra sempre els menús emergents a la pantalla"
 
-#: src/menus.c:2017
+#: src/menus.c:2018
 msgid "Warp pointer after moving menus"
 msgstr "Distorsiona el punter quan es moguin els menús"
 
-#: src/menus.c:2022
+#: src/menus.c:2023
 #, fuzzy
 #| msgid "Show more buttons"
 msgid "Show menu icons"
 msgstr "Mostra més botons."
 
-#: src/menus.c:2038
+#: src/menus.c:2039
 msgid "Menus"
 msgstr "Menús"
 
-#: src/menus.c:2038
+#: src/menus.c:2039
 msgid "Menu Settings"
 msgstr "Preferències del menú"
 
-#: src/menus.c:2042
+#: src/menus.c:2043
 msgid ""
 "Enlightenment Menu\n"
 "Settings Dialog"
@@ -1226,15 +1226,15 @@ msgstr ""
 "Menú d'Enlightenment\n"
 "Paràmetres de configuració"
 
-#: src/pager.c:1041 config/strings.c:49 config/strings.c:122
+#: src/pager.c:1041 config/strings.c:49 config/strings.c:110
 msgid "Window Options"
 msgstr "Opcions de la finestra"
 
-#: src/pager.c:1048 config/strings.c:51 config/strings.c:125
+#: src/pager.c:1048 config/strings.c:51 config/strings.c:113
 msgid "Iconify"
 msgstr "Minimitza"
 
-#: src/pager.c:1056 config/strings.c:124
+#: src/pager.c:1056 config/strings.c:112
 msgid "Annihilate"
 msgstr "Aniquila"
 
@@ -1351,7 +1351,7 @@ msgstr ""
 "Escriptori i àrea d'Enlightenment\n"
 "Diàleg dels paràmetres del paginador"
 
-#: src/session.c:321
+#: src/session.c:326
 msgid ""
 "ERROR!\n"
 "\n"
@@ -1378,65 +1378,65 @@ msgstr ""
 "\n"
 "... com a mínim això espero.\n"
 
-#: src/session.c:623
+#: src/session.c:639
 msgid "Are you sure?"
 msgstr "N'esteu segur?"
 
-#: src/session.c:626
+#: src/session.c:642
 msgid "Are you sure you wish to log out ?"
 msgstr "Esteu segur que voleu tancar la sessió?"
 
-#: src/session.c:649
+#: src/session.c:665
 msgid "Hibernate"
 msgstr ""
 
-#: src/session.c:655
+#: src/session.c:671
 #, fuzzy
 #| msgid "Yes, Shut Down"
 msgid "Suspend"
 msgstr "Sí, apaga"
 
-#: src/session.c:661
+#: src/session.c:677
 msgid "Lock"
 msgstr ""
 
-#: src/session.c:672
+#: src/session.c:688
 msgid "Yes, Shut Down"
 msgstr "Sí, apaga"
 
-#: src/session.c:674
+#: src/session.c:690
 msgid "Yes, Reboot"
 msgstr "Sí, reinicia"
 
-#: src/session.c:678
+#: src/session.c:694
 msgid "Yes, Log Out"
 msgstr "Sí, tanca la sessió"
 
-#: src/session.c:683
+#: src/session.c:699
 msgid "No"
 msgstr "No"
 
-#: src/session.c:806
+#: src/session.c:841
 msgid "Enable session script"
 msgstr "Activa l'script de sessió"
 
-#: src/session.c:811
+#: src/session.c:846
 msgid "Enable logout dialog"
 msgstr "Activa el diàleg de sortida"
 
-#: src/session.c:816
+#: src/session.c:851
 msgid "Enable reboot/halt on logout"
 msgstr "Activa Reinicia/Atura al sortir"
 
-#: src/session.c:822
+#: src/session.c:857
 msgid "Session"
 msgstr "Sessió"
 
-#: src/session.c:822
+#: src/session.c:857
 msgid "Session Settings"
 msgstr "Paràmetres de sessió"
 
-#: src/session.c:826
+#: src/session.c:861
 msgid ""
 "Enlightenment Session\n"
 "Settings Dialog"
@@ -1651,7 +1651,7 @@ msgstr "Activa desplaçament finestres d'inici"
 msgid "Magwin zoom resolution"
 msgstr "Resolució ampliació finestra"
 
-#: src/settings.c:560 config/strings.c:137 config/strings.c:154
+#: src/settings.c:560 config/strings.c:125 config/strings.c:142
 msgid "Miscellaneous"
 msgstr "Miscel·lània"
 
@@ -1832,11 +1832,11 @@ msgstr "Ubicació"
 msgid "Border style"
 msgstr "Estil de vora"
 
-#: src/snaps.c:813 config/strings.c:178
+#: src/snaps.c:813 config/strings.c:166
 msgid "Size"
 msgstr "Mida"
 
-#: src/snaps.c:818 config/strings.c:90 config/strings.c:112
+#: src/snaps.c:818 config/strings.c:100
 msgid "Desktop"
 msgstr "Escriptori"
 
@@ -1856,7 +1856,7 @@ msgstr "Capa d'apilament"
 msgid "Window List Skip"
 msgstr "Salta llista de finestres"
 
-#: src/snaps.c:844 config/strings.c:136 config/strings.c:166
+#: src/snaps.c:844 config/strings.c:124 config/strings.c:154
 msgid "Opacity"
 msgstr "Opacitat"
 
@@ -2214,7 +2214,7 @@ msgstr "Instantània"
 msgid "This button does nothing interesting"
 msgstr "Aquest botó no fa res interessant."
 
-#: config/strings.c:47 config/strings.c:129
+#: config/strings.c:47 config/strings.c:117
 msgid "Shade/unshade"
 msgstr "Plega/Desplega"
 
@@ -2230,7 +2230,7 @@ msgstr "Més botons"
 msgid "Show more buttons"
 msgstr "Mostra més botons."
 
-#: config/strings.c:56 config/strings.c:127
+#: config/strings.c:56 config/strings.c:115
 msgid "Raise"
 msgstr "Puja"
 
@@ -2238,7 +2238,7 @@ msgstr "Puja"
 msgid "Raise this window to the top"
 msgstr "Puja aquesta finestra a dalt de tot."
 
-#: config/strings.c:58 config/strings.c:128
+#: config/strings.c:58 config/strings.c:116
 msgid "Lower"
 msgstr "Baixa"
 
@@ -2246,7 +2246,7 @@ msgstr "Baixa"
 msgid "Lower this window"
 msgstr "Abaixa aquesta finestra"
 
-#: config/strings.c:60 config/strings.c:130
+#: config/strings.c:60 config/strings.c:118
 msgid "Stick/unstick"
 msgstr "Enganxa/Desengantxa"
 
@@ -2320,299 +2320,304 @@ msgstr "Crea safata de sistema"
 msgid "Show magnifier"
 msgstr "Mostra ampliador"
 
-#: config/strings.c:87
-msgid "Enlightenment"
-msgstr "Enlightenment"
-
-#: config/strings.c:88 config/strings.c:192
-msgid "User menus"
-msgstr "Menús d'usuari"
-
-#: config/strings.c:89 config/strings.c:110 config/strings.c:111
-msgid "Settings"
-msgstr "Paràmetres"
-
-#: config/strings.c:92 config/strings.c:99 config/strings.c:114
+#: config/strings.c:87 config/strings.c:102
 msgid "Maintenance"
 msgstr "Manteniment"
 
-#: config/strings.c:93 config/strings.c:115
-msgid "Help"
-msgstr "Ajuda"
-
-#: config/strings.c:94 config/strings.c:116
-msgid "About Enlightenment"
-msgstr "Quant a Enlightenment"
-
-#: config/strings.c:95 config/strings.c:117
-msgid "About this theme"
-msgstr "Quant a aquest tema"
-
-#: config/strings.c:96 config/strings.c:119 config/strings.c:196
-msgid "Restart"
-msgstr "Reinicia"
-
-#: config/strings.c:97 config/strings.c:120 config/strings.c:197
-msgid "Log out"
-msgstr "Finalitza sessió"
-
-#: config/strings.c:100
+#: config/strings.c:88
 msgid "Purge config file cache"
 msgstr "Neteja la memòria cau dels fitxers de configuració"
 
-#: config/strings.c:101
+#: config/strings.c:89
 msgid "Purge pager background cache"
 msgstr "Neteja la memòria cau del fons del paginador"
 
-#: config/strings.c:102
+#: config/strings.c:90
 msgid "Purge background selector cache"
 msgstr "Neteja la memòria cau del selector de fons"
 
-#: config/strings.c:103
+#: config/strings.c:91
 msgid "Purge all caches"
 msgstr "Neteja totes les memòries cau"
 
-#: config/strings.c:104
+#: config/strings.c:92
 msgid "Query config file cache usage"
 msgstr "Pregunta l'ús de la memòria cau del fitxer de configuracions"
 
-#: config/strings.c:105
+#: config/strings.c:93
 msgid "Query pager background cache usage"
 msgstr "Pregunta l'ús de la memòria cau del fons del paginador"
 
-#: config/strings.c:106
+#: config/strings.c:94
 msgid "Query background selector cache usage"
 msgstr "Pregunta l'ús de la memòria cau del selector de fons"
 
-#: config/strings.c:107
+#: config/strings.c:95
 msgid "Query all cache usage"
 msgstr "Pregunta l'ús de tota memòria cau"
 
-#: config/strings.c:108
+#: config/strings.c:96
 msgid "Regenerate menus"
 msgstr "Regenera menus"
 
-#: config/strings.c:118
+#: config/strings.c:98 config/strings.c:99
+msgid "Settings"
+msgstr "Paràmetres"
+
+#: config/strings.c:103
+msgid "About Enlightenment"
+msgstr "Quant a Enlightenment"
+
+#: config/strings.c:104
+msgid "About this theme"
+msgstr "Quant a aquest tema"
+
+#: config/strings.c:105
 #, fuzzy
 #| msgid "Theme Settings"
 msgid "Theme menu"
 msgstr "Configuració tema"
 
-#: config/strings.c:126
+#: config/strings.c:106 config/strings.c:184
+msgid "Restart"
+msgstr "Reinicia"
+
+#: config/strings.c:107 config/strings.c:185
+msgid "Log out"
+msgstr "Finalitza sessió"
+
+#: config/strings.c:108
+#, fuzzy
+#| msgid "Yes, Shut Down"
+msgid "Shut down"
+msgstr "Sí, apaga"
+
+#: config/strings.c:114
 msgid "Leave alone"
 msgstr "Deixa sol"
 
-#: config/strings.c:131
+#: config/strings.c:119
 msgid "Remember..."
 msgstr "Memoritza..."
 
-#: config/strings.c:132
+#: config/strings.c:120
 msgid "Window size"
 msgstr "Mida finestra"
 
-#: config/strings.c:133
+#: config/strings.c:121
 msgid "Set stacking"
 msgstr "Estableix apilament"
 
-#: config/strings.c:134
+#: config/strings.c:122
 msgid "Set border style"
 msgstr "Estableix estil de vora"
 
-#: config/strings.c:135
+#: config/strings.c:123
 msgid "Window groups"
 msgstr "Grups de finestra"
 
-#: config/strings.c:140
+#: config/strings.c:128
 msgid "Configure this window's group(s)"
 msgstr "Configura aquest/s grup/s de finestra"
 
-#: config/strings.c:141
+#: config/strings.c:129
 msgid "Start a new group"
 msgstr "Crea un nou grup"
 
-#: config/strings.c:142
+#: config/strings.c:130
 msgid "Add this window to the current group"
 msgstr "Afegeix aquesta finestra al grup actual"
 
-#: config/strings.c:143
+#: config/strings.c:131
 msgid "Select group to add this window to"
 msgstr "Selecciona el grup a on s'afegirà aquesta finestra"
 
-#: config/strings.c:144
+#: config/strings.c:132
 msgid "Remove this window from a group"
 msgstr "Elimina aquesta finestra d'un grup"
 
-#: config/strings.c:145
+#: config/strings.c:133
 msgid "Destroy a group this window belongs to"
 msgstr "Destrueix el grup a on pertany aquesta finestra"
 
-#: config/strings.c:147
+#: config/strings.c:135
 msgid "Stacking"
 msgstr "Apilament"
 
-#: config/strings.c:148
+#: config/strings.c:136
 #, fuzzy
 #| msgid "Lower"
 msgid "Lowest"
 msgstr "Baixa"
 
-#: config/strings.c:149
+#: config/strings.c:137
 msgid "Below"
 msgstr "A sota"
 
-#: config/strings.c:150
+#: config/strings.c:138
 msgid "Normal"
 msgstr "Normal"
 
-#: config/strings.c:151
+#: config/strings.c:139
 msgid "Above"
 msgstr "A sobre"
 
-#: config/strings.c:152
+#: config/strings.c:140
 msgid "Highest"
 msgstr "A dalt"
 
-#: config/strings.c:155
+#: config/strings.c:143
 msgid "Toggle skip window lists"
 msgstr "Commuta Llista de salt a finestra"
 
-#: config/strings.c:156
+#: config/strings.c:144
 msgid "Toggle fixed position"
 msgstr "Commuta Posició fixa"
 
-#: config/strings.c:157
+#: config/strings.c:145
 msgid "Toggle fixed size"
 msgstr "Commuta Mida fixa"
 
-#: config/strings.c:158
+#: config/strings.c:146
 msgid "Toggle never focus"
 msgstr "Commuta Mai focus"
 
-#: config/strings.c:159
+#: config/strings.c:147
 msgid "Toggle click to focus"
 msgstr "Commuta Clic per enfocar"
 
-#: config/strings.c:160
+#: config/strings.c:148
 msgid "Toggle never use area"
 msgstr "Commuta Mai utilitzis àrea"
 
-#: config/strings.c:161
+#: config/strings.c:149
 msgid "Toggle ignore arrange"
 msgstr "Commuta Ignora organització"
 
-#: config/strings.c:162
+#: config/strings.c:150
 msgid "Toggle button grabs"
 msgstr "Commuta captures botó"
 
-#: config/strings.c:163
+#: config/strings.c:151
 msgid "Toggle autoshade"
 msgstr "Commuta Amaga automàticament"
 
-#: config/strings.c:164
+#: config/strings.c:152
 #, fuzzy
 #| msgid "Toggle fading"
 msgid "Toggle pass pointer"
 msgstr "Commuta esvaïment"
 
-#: config/strings.c:167
+#: config/strings.c:155
 msgid "Default"
 msgstr "Predeterminat"
 
-#: config/strings.c:168
+#: config/strings.c:156
 msgid "20%"
 msgstr "20%"
 
-#: config/strings.c:169
+#: config/strings.c:157
 msgid "40%"
 msgstr "40%"
 
-#: config/strings.c:170
+#: config/strings.c:158
 msgid "60%"
 msgstr "60%"
 
-#: config/strings.c:171
+#: config/strings.c:159
 msgid "80%"
 msgstr "80%"
 
-#: config/strings.c:172
+#: config/strings.c:160
 msgid "100%"
 msgstr "100%"
 
-#: config/strings.c:173
+#: config/strings.c:161
 msgid "Focused opacity 100%"
 msgstr "Opacitat enfoc 100%"
 
-#: config/strings.c:174
+#: config/strings.c:162
 msgid "Focused opacity follows unfocused"
 msgstr "Opacitat enfoc segueix desenfocat"
 
-#: config/strings.c:175
+#: config/strings.c:163
 msgid "Toggle fading"
 msgstr "Commuta esvaïment"
 
-#: config/strings.c:176
+#: config/strings.c:164
 msgid "Toggle shadows"
 msgstr "Commuta ombrejat"
 
-#: config/strings.c:179
+#: config/strings.c:167
 msgid "Toggle max size"
 msgstr "Commuta Mida màxima"
 
-#: config/strings.c:180
+#: config/strings.c:168
 msgid "Toggle max size - available"
 msgstr "Commuta Mides màximes disponibles"
 
-#: config/strings.c:181
+#: config/strings.c:169
 msgid "Toggle max size - absolute"
 msgstr "Commuta Mida màxima absoluta"
 
-#: config/strings.c:182
+#: config/strings.c:170
 msgid "Span Xinerama screens"
 msgstr "Interval de finestres Xinerama"
 
-#: config/strings.c:183
+#: config/strings.c:171
 msgid "Toggle max height"
 msgstr "Commuta Alçada màxima"
 
-#: config/strings.c:184
+#: config/strings.c:172
 msgid "Toggle max height available"
 msgstr "Commuta Alçades màximes disponibles"
 
-#: config/strings.c:185
+#: config/strings.c:173
 msgid "Toggle max height absolute"
 msgstr "Commuta Alçada màxima absoluta"
 
-#: config/strings.c:186
+#: config/strings.c:174
 msgid "Toggle max width"
 msgstr "Commuta Amplada màxima"
 
-#: config/strings.c:187
+#: config/strings.c:175
 msgid "Toggle max width available"
 msgstr "Commuta Amplades màximes disponibles"
 
-#: config/strings.c:188
+#: config/strings.c:176
 msgid "Toggle max width absolute"
 msgstr "Commuta Amplada màxima absoluta"
 
-#: config/strings.c:189
+#: config/strings.c:177
 msgid "Toggle fullscreen"
 msgstr "Pantalla completa/Normal"
 
-#: config/strings.c:190
+#: config/strings.c:178
 msgid "Toggle zoom"
 msgstr "Amplia/Redueix"
 
-#: config/strings.c:193
+#: config/strings.c:180
+msgid "User menus"
+msgstr "Menús d'usuari"
+
+#: config/strings.c:181
 msgid "User application list"
 msgstr "Llista d'aplicacions d'usuari"
 
-#: config/strings.c:194
+#: config/strings.c:182
 msgid "Applications"
 msgstr "Aplicacions"
 
-#: config/strings.c:195
+#: config/strings.c:183
 msgid "Epplets"
 msgstr "Epplets"
+
+#: config/strings.c:186
+msgid "Help"
+msgstr "Ajuda"
+
+#~ msgid "Enlightenment"
+#~ msgstr "Enlightenment"
 
 #~ msgid "Global settings:"
 #~ msgstr "Configuració global:"
