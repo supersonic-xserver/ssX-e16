@@ -17,7 +17,10 @@ XSESSION_DESKTOPS = $(XSESSION_MISC) $(XSESSION_GNOME2) $(XSESSION_GNOME3)
 DESKTOPS = $(DESKTOPS_APP) $(XSESSION_DESKTOPS)
 
 miscdir = $(pkgdatadir)/misc
-misc_SCRIPTS = $(XCLIENTS) starte16 e16-dbus-cmd
+misc_SCRIPTS = $(XCLIENTS) starte16
+if ENABLE_DBUS
+misc_SCRIPTS += e16-dbus-cmd
+endif
 
 applicationdir = $(datadir)/applications
 application_DATA = $(DESKTOPS_APP)
