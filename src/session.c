@@ -564,25 +564,26 @@ _SessionExitDbus(int how)
 static void
 _SessionLogout(int how)
 {
-#if USE_SM
+#ifdef USE_SM
     if (EDebug(EDBUG_TYPE_SESSION))
         Eprintf("%s: how=%d smc=%p\n", __func__, how, sm_conn);
+#else
+    if (EDebug(EDBUG_TYPE_SESSION))
+        Eprintf("%s: how=%d\n", __func__, how);
+#endif
 
+#if USE_DBUS
+    if (_SessionExitDbus(how) == 0)
+        return;
+#endif
+
+#if USE_SM
     if (sm_conn)
     {
         SmcRequestSaveYourself(sm_conn, SmSaveBoth, True, SmInteractStyleAny,
                                False, True);
         return;
     }
-#else
-    if (EDebug(EDBUG_TYPE_SESSION))
-        Eprintf("%s: how=%d\n", __func__, how);
-
-#endif                          /* USE_SM */
-
-#if USE_DBUS
-    if (_SessionExitDbus(how) == 0)
-        return;
 #endif
 
     switch (how)
