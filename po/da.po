@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
 "POT-Creation-Date: 2024-04-03 18:58+0200\n"
-"PO-Revision-Date: 2023-10-20 17:16+0200\n"
+"PO-Revision-Date: 2024-04-06 08:12+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
 "Language: da\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: src/about.c:35
 #, c-format
@@ -2313,10 +2313,8 @@ msgid "Log out"
 msgstr "Log ud"
 
 #: config/strings.c:108
-#, fuzzy
-#| msgid "Yes, Shut Down"
 msgid "Shut down"
-msgstr "Ja, luk ned"
+msgstr "Luk ned"
 
 #: config/strings.c:114
 msgid "Leave alone"
