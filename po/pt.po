@@ -3,14 +3,14 @@
 # Pedro Alexandre <miguel@linuxfreak.com>, 1999, 2000.
 # Daniel Vieira Pereira <gunsmithcat@ip.pt>, 1999, 2000.
 # Sérgio Marques <smarquespt@gmail.com>, 2010, 2011.
-# Hugo Carvalho <hugokarvalho@hotmail.com>, 2020, 2021, 2022, 2023.
+# Hugo Carvalho <hugokarvalho@hotmail.com>, 2020, 2021, 2022, 2023, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
 "POT-Creation-Date: 2024-04-03 18:58+0200\n"
-"PO-Revision-Date: 2023-10-19 11:49+0100\n"
+"PO-Revision-Date: 2024-04-14 23:53+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language: pt\n"
@@ -19,12 +19,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Launchpad-Export-Date: 2010-05-09 01:32+0000\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: src/about.c:35
 #, c-format
 msgid "About Enlightenment e16 version %s"
-msgstr "Sobre a versão %s do Enlightenment e16"
+msgstr "Acerca da versão %s do Enlightenment e16"
 
 #: src/about.c:46
 #, c-format
@@ -39,11 +39,11 @@ msgid ""
 "Mandrake - mandrake@mandrake.net\n"
 "Kim Woelders - kim@woelders.dk\n"
 msgstr ""
-"Bem vindo ao Enlightenment e16\n"
+"Bem-vindo ao Enlightenment e16\n"
 "versão %s.\n"
-"Se encontrar erros, não hesite\n"
-"em nos enviar um relatório de erros.\n"
-"Esperamos que aprecie o software.\n"
+"Se encontrar um erro, não hesite\n"
+"em enviar um relatório de erro.\n"
+"Esperamos que goste do software.\n"
 "\n"
 "The Rasterman - raster@rasterman.com\n"
 "Mandrake - mandrake@mandrake.net\n"
@@ -73,7 +73,7 @@ msgstr "Erro no Enlightenment"
 
 #: src/alert.c:586
 msgid "Enlightenment Message Dialog"
-msgstr "Caixa de diálogo do Enlightement"
+msgstr "Janela de mensagem do Enlightement"
 
 #: src/alert.c:586
 msgid "Ignore this"
@@ -192,7 +192,7 @@ msgstr "Ordenar por ficheiro"
 
 #: src/backgrounds.c:2169
 msgid "Sort by attr."
-msgstr "Ordenar por atributos"
+msgstr "Ordenar por atributo"
 
 #: src/backgrounds.c:2175
 msgid "Sort by image"
@@ -884,7 +884,7 @@ msgstr "Minimizar"
 
 #: src/groups.c:969 src/groups.c:1060
 msgid "Killing"
-msgstr "Matar"
+msgstr "Aniquilar"
 
 #: src/groups.c:974 src/groups.c:1065
 msgid "Moving"
@@ -892,7 +892,7 @@ msgstr "Mover"
 
 #: src/groups.c:979 src/groups.c:1070
 msgid "Raising/lowering"
-msgstr "Elevar/Baixar"
+msgstr "Elevar/baixar"
 
 #: src/groups.c:984 src/groups.c:1075
 msgid "Sticking"
@@ -1006,7 +1006,7 @@ msgstr ""
 "que reinicie agora. Se deseja ajudar a corrigir isto, por favor compile\n"
 "o Enlightenment com símbolos de depuração e funcionamento Enlightenment\n"
 "sob gdb para que possa retroceder para onde falhou e enviar um\n"
-"relatório de erros útil com informação e variável de rasto\n"
+"relatório de erro útil com informação e variável de rasto\n"
 "dumps, etc.\n"
 
 #: src/handlers.c:102
@@ -1019,9 +1019,9 @@ msgid ""
 msgstr ""
 "O Enlightenment causou um erro no Bus.\n"
 "\n"
-"Sugere-se que verifique o seu equipamento e instalação do.\n"
-"sistemas operativo. É altamente invulgar causar erros de Bus\n"
-"em hardware funcional.\n"
+"Sugerimos que verifique o seu hardware e a instalação do\n"
+"sistema operativo. É muito invulgar causar erros de Bus\n"
+"em hardware operacional.\n"
 
 #: src/hints.c:588
 msgid "Selection Error!"
@@ -1047,7 +1047,7 @@ msgstr "Mensagem"
 #: src/ipc.c:1620 src/ipc.c:1627
 #, c-format
 msgid "e16 was built without %s support"
-msgstr "e16 foi compilado sem suporte a %s"
+msgstr "O e16 foi compilado sem suporte a %s"
 
 #: src/ipc.c:1621
 msgid "composite"
@@ -2341,7 +2341,7 @@ msgstr "Verificar o tamanho de todas as caches"
 
 #: config/strings.c:96
 msgid "Regenerate menus"
-msgstr "Regenerar os menus"
+msgstr "Regenerar menus"
 
 #: config/strings.c:98 config/strings.c:99
 msgid "Settings"
@@ -2349,7 +2349,7 @@ msgstr "Definições"
 
 #: config/strings.c:103
 msgid "About Enlightenment"
-msgstr "Sobre o Enlightenment"
+msgstr "Acerca do Enlightenment"
 
 #: config/strings.c:104
 msgid "About this theme"
@@ -2365,13 +2365,11 @@ msgstr "Reiniciar"
 
 #: config/strings.c:107 config/strings.c:185
 msgid "Log out"
-msgstr "Sair"
+msgstr "Terminar sessão"
 
 #: config/strings.c:108
-#, fuzzy
-#| msgid "Yes, Shut Down"
 msgid "Shut down"
-msgstr "Sim, desligar"
+msgstr "Encerrar"
 
 #: config/strings.c:114
 msgid "Leave alone"
