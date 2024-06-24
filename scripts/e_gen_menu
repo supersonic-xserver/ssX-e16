@@ -38,11 +38,11 @@ def D3(str):
         print(str)
 
 
-def getenv(env):
+def getenv(env, dflt=''):
     if env in os.environ:
         return os.environ[env]
     else:
-        return ''
+        return dflt
 
 
 def FileExt(file):
@@ -365,20 +365,24 @@ for opt, val in opts:
 Prefixes  = ['/usr/local', '/usr', '/opt']
 Prefixes += ['/opt/kde', '/opt/kde3', getenv('KDEDIR')]
 Prefixes += ['/opt/gnome']                    # SUSE
-Prefixes += [getenv('HOME') + '/.local']
+Prefixes = MkDirList(Prefixes, ['/share'])
+XdgHome = getenv('XDG_DATA_HOME', getenv('HOME') + '/.local/share')
+Prefixes += [XdgHome]
+XdgDirs = getenv('XDG_DATA_DIRS')
+Prefixes += XdgDirs.split(':')
 D(f'Prefixes = "{Prefixes}"')
 Prefixes = RemoveDuplicates(Prefixes)
 D(f'Prefixes = "{Prefixes}"')
 
-SufDirs = ['/share/applications', '/share/applications/kde', '/share/applications/kde4']
+SufDirs = ['/applications', '/applications/kde', '/applications/kde4']
 
 # Where to look for GNOME/KDE stuff
 AppDirs = MkDirList(Prefixes, SufDirs)
 
 D(f'AppDirs  = "{AppDirs}"')
 
-IconDirs  = MkDirList(Prefixes, ['/share/pixmaps', '/share/icons'])
-IconDirs2 = MkDirList(Prefixes, ['/share/icons'])
+IconDirs  = MkDirList(Prefixes, ['/pixmaps', '/icons'])
+IconDirs2 = MkDirList(Prefixes, ['/icons'])
 Themes    = ['default.kde', 'gnome', 'hicolor', 'mate', 'Adwaita']
 #Themes   += ['HighContrast']
 IconDirs2 = MkDirList(IconDirs2, Themes, sep='/')
