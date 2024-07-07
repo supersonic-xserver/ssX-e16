@@ -3,14 +3,14 @@
 # Sylvain GIL <tootella@tootella.com>, 1999-2000.
 # Ludwig Noujarret <ludwig@noujarret.com>, 2004, 2005.
 # Tristan D. <trinine@free.fr>, 2007-2012.
-# similar <similar@orange.fr>, 2020, 2021, 2022, 2023.
+# similar <similar@orange.fr>, 2020, 2021, 2022, 2023, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
 "POT-Creation-Date: 2024-04-03 18:58+0200\n"
-"PO-Revision-Date: 2023-10-18 13:20+0200\n"
+"PO-Revision-Date: 2024-07-07 14:40+0200\n"
 "Last-Translator: Philippe Jean Guillaumie <similar@orange.fr>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.4.3\n"
 
 #: src/about.c:35
 #, c-format
@@ -1412,7 +1412,7 @@ msgstr "Activer le dialogue de fermeture de session"
 
 #: src/session.c:851
 msgid "Enable reboot/halt on logout"
-msgstr "Activer Éteindre / Redémarrer à la fermeture de session"
+msgstr "Activer Redémarrer / Éteindre à la fermeture de session"
 
 #: src/session.c:857
 msgid "Session"
@@ -2366,10 +2366,8 @@ msgid "Log out"
 msgstr "Déconnexion"
 
 #: config/strings.c:108
-#, fuzzy
-#| msgid "Yes, Shut Down"
 msgid "Shut down"
-msgstr "Oui, Éteindre"
+msgstr "Éteindre"
 
 #: config/strings.c:114
 msgid "Leave alone"
@@ -2600,7 +2598,6 @@ msgstr "Aide"
 #~ msgid "Swap Window Locations"
 #~ msgstr "Mettre en cache la position des fenêtres"
 
-#, c-format
 #~ msgid ""
 #~ "There was an error running the program:\n"
 #~ "%s\n"
@@ -2612,7 +2609,6 @@ msgstr "Aide"
 #~ "Ce programme ne peut être exécuté.\n"
 #~ "Le fichier n'existe pas.\n"
 
-#, c-format
 #~ msgid ""
 #~ "There was an error running the program:\n"
 #~ "%s\n"
@@ -2630,7 +2626,6 @@ msgstr "Aide"
 #~ "de votre shell afin de trouver comment modifier votre chemin\n"
 #~ "d'exécution.\n"
 
-#, c-format
 #~ msgid ""
 #~ "There was an error running the program:\n"
 #~ "%s\n"
@@ -2646,7 +2641,6 @@ msgstr "Aide"
 #~ "fichier, et vous en avez les droits d'exécution. Je vous suggère\n"
 #~ "d'examiner ce problème.\n"
 
-#, c-format
 #~ msgid ""
 #~ "There was an error running the program:\n"
 #~ "%s\n"
@@ -2660,7 +2654,6 @@ msgstr "Aide"
 #~ "Le fichier existe, est bien de type fichier, mais vous ne pouvez pas\n"
 #~ "l'exécuter car vous n'avez pas les droits suffisants.\n"
 
-#, c-format
 #~ msgid ""
 #~ "There was an error running the program:\n"
 #~ "%s\n"
@@ -2672,7 +2665,6 @@ msgstr "Aide"
 #~ "Ce programme ne peut être exécuté.\n"
 #~ "Le fichier est en fait un répertoire.\n"
 
-#, c-format
 #~ msgid ""
 #~ "There was an error running the program:\n"
 #~ "%s\n"
