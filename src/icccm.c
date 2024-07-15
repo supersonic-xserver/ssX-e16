@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2021 Kim Woelders
+ * Copyright (C) 2004-2024 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -570,20 +570,21 @@ ICCCM_GetWmClass(EWin *ewin)
 static void
 ICCCM_GetWmCommand(EWin *ewin)
 {
-    int             argc;
+    int             argc, ok;
     char          **argv, s[4096], *ss;
 
     EFREE_NULL(ewin->icccm.wm_command);
 
-    argc = ex_window_prop_string_list_get(EwinGetClientXwin(ewin),
-                                          ea_i.WM_COMMAND, &argv);
-    if ((argc < 0) && TryGroup(ewin))
-        argc = ex_window_prop_string_list_get(ewin->icccm.group,
-                                              ea_i.WM_COMMAND, &argv);
+    argc = -1;
+    argv = NULL;
+    ok = XGetCommand(disp, EwinGetClientXwin(ewin), &argv, &argc);
+    if (!ok && TryGroup(ewin))
+        ok = XGetCommand(disp, ewin->icccm.group, &argv, &argc);
 
     ss = StrlistEncodeEscaped(s, sizeof(s), argv, argc);
     ewin->icccm.wm_command = Estrdup(ss);
-    StrlistFree(argv, argc);
+
+    XFreeStringList(argv);
 }
 
 static void
