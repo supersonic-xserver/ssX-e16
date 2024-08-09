@@ -1,4 +1,51 @@
 
+e16 v1.0.30 - 2024-08-09
+------------------------
+- 1.0.30
+- Update po
+- icccm: Fix WM_COMMAND encoding handling
+- French translation update (Philippe J. Guillaumie)
+- e_gen_menu: Search XDG_DATA_HOME and XDG_DATA_DIRS too
+- Portuguese translation update
+- session: Try dbus before SM/ICE on logout/shutdown
+- dbus: Only install e16-dbus-cmd if dbus support is enabled
+- Danish translation update
+- Update po
+- session: Optionally do logout/shutdown via dbus commands
+- edbus: Add functions to request logout and shutdown via dbus
+- dbus: Enable by default
+- session: Rearrange logout functions
+- session: Move some #defines
+- session: Introduce SessionLogout()
+- session: Add shutdown command
+- session: Rename some macros
+- session: Add some SM connection debug messages
+- session: Add missing newline in error message
+- session: Mark some private functions as such
+- session: Eliminate SessionSave()
+- session: Eliminate SetSMID()
+- Spec file: Set high rpm release number for non-release rpms
+- menus: Eliminate enlightenment.menu
+- strings.py: Fixup according to formatting change
+- eesh: Fix prompt when command has no reply
+- eesh: Add possibility to use editline (--with-editline, default off)
+- eesh: Add prompt if interactive
+- eesh: Move some code around
+- ipc: Ignore whitespace only command lines
+- events: Drop select() based event loop
+- eesh: Switch to poll() instead of select()
+- eesh: Eliminate need for non-blocking stdin
+- eesh: Some mostly trivial changes
+- eesh: Simplify comms window creation
+- scripts: Remove all use of the eesh -e option
+- Unifdef HAVE_FREE_NULL_BUG
+- Update po
+- Remove "Close" option from iconbox/systray menus
+- Pass screen geometry around in Area struct
+- desktops: Maintain separate workareas for each desktop
+- Change formatting style
+- docs: Add forgotten misc.session.cmd_lock
+
 e16 v1.0.29 - 2023-10-28
 ------------------------
 - 1.0.29
