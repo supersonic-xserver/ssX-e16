@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enlightenment\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2024-04-03 18:58+0200\n"
+"POT-Creation-Date: 2024-08-09 17:43+0200\n"
 "PO-Revision-Date: 2015-03-29 14:25+0000\n"
 "Last-Translator: JoanColl <Unknown>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -1378,65 +1378,65 @@ msgstr ""
 "\n"
 "... com a mínim això espero.\n"
 
-#: src/session.c:639
+#: src/session.c:640
 msgid "Are you sure?"
 msgstr "N'esteu segur?"
 
-#: src/session.c:642
+#: src/session.c:643
 msgid "Are you sure you wish to log out ?"
 msgstr "Esteu segur que voleu tancar la sessió?"
 
-#: src/session.c:665
+#: src/session.c:666
 msgid "Hibernate"
 msgstr ""
 
-#: src/session.c:671
+#: src/session.c:672
 #, fuzzy
 #| msgid "Yes, Shut Down"
 msgid "Suspend"
 msgstr "Sí, apaga"
 
-#: src/session.c:677
+#: src/session.c:678
 msgid "Lock"
 msgstr ""
 
-#: src/session.c:688
+#: src/session.c:689
 msgid "Yes, Shut Down"
 msgstr "Sí, apaga"
 
-#: src/session.c:690
+#: src/session.c:691
 msgid "Yes, Reboot"
 msgstr "Sí, reinicia"
 
-#: src/session.c:694
+#: src/session.c:695
 msgid "Yes, Log Out"
 msgstr "Sí, tanca la sessió"
 
-#: src/session.c:699
+#: src/session.c:700
 msgid "No"
 msgstr "No"
 
-#: src/session.c:841
+#: src/session.c:842
 msgid "Enable session script"
 msgstr "Activa l'script de sessió"
 
-#: src/session.c:846
+#: src/session.c:847
 msgid "Enable logout dialog"
 msgstr "Activa el diàleg de sortida"
 
-#: src/session.c:851
+#: src/session.c:852
 msgid "Enable reboot/halt on logout"
 msgstr "Activa Reinicia/Atura al sortir"
 
-#: src/session.c:857
+#: src/session.c:858
 msgid "Session"
 msgstr "Sessió"
 
-#: src/session.c:857
+#: src/session.c:858
 msgid "Session Settings"
 msgstr "Paràmetres de sessió"
 
-#: src/session.c:861
+#: src/session.c:862
 msgid ""
 "Enlightenment Session\n"
 "Settings Dialog"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2024-04-03 18:58+0200\n"
+"POT-Creation-Date: 2024-08-09 17:43+0200\n"
 "PO-Revision-Date: 2010-03-11 06:45+0000\n"
 "Last-Translator: milboy <Unknown>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -1236,63 +1236,63 @@ msgid ""
 "... I hope.\n"
 msgstr ""
 
-#: src/session.c:639
+#: src/session.c:640
 msgid "Are you sure?"
 msgstr ""
 
-#: src/session.c:642
+#: src/session.c:643
 msgid "Are you sure you wish to log out ?"
 msgstr ""
 
-#: src/session.c:665
+#: src/session.c:666
 msgid "Hibernate"
 msgstr ""
 
-#: src/session.c:671
+#: src/session.c:672
 msgid "Suspend"
 msgstr ""
 
-#: src/session.c:677
+#: src/session.c:678
 msgid "Lock"
 msgstr ""
 
-#: src/session.c:688
+#: src/session.c:689
 msgid "Yes, Shut Down"
 msgstr ""
 
-#: src/session.c:690
+#: src/session.c:691
 msgid "Yes, Reboot"
 msgstr ""
 
-#: src/session.c:694
+#: src/session.c:695
 msgid "Yes, Log Out"
 msgstr ""
 
-#: src/session.c:699
+#: src/session.c:700
 msgid "No"
 msgstr ""
 
-#: src/session.c:841
+#: src/session.c:842
 msgid "Enable session script"
 msgstr ""
 
-#: src/session.c:846
+#: src/session.c:847
 msgid "Enable logout dialog"
 msgstr ""
 
-#: src/session.c:851
+#: src/session.c:852
 msgid "Enable reboot/halt on logout"
 msgstr ""
 
-#: src/session.c:857
+#: src/session.c:858
 msgid "Session"
 msgstr ""
 
-#: src/session.c:857
+#: src/session.c:858
 msgid "Session Settings"
 msgstr ""
 
-#: src/session.c:861
+#: src/session.c:862
 msgid ""
 "Enlightenment Session\n"
 "Settings Dialog"

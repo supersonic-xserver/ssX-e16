@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16 0.99.99.003\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2024-04-03 18:58+0200\n"
+"POT-Creation-Date: 2024-08-09 17:43+0200\n"
 "PO-Revision-Date: 2014-01-03 14:12+0000\n"
 "Last-Translator: Eliovir <Unknown>\n"
 "Language-Team: Esperanto <translation-team-eo@lists.sourceforge.net>\n"
@@ -1277,65 +1277,65 @@ msgid ""
 "... I hope.\n"
 msgstr ""
 
-#: src/session.c:639
+#: src/session.c:640
 msgid "Are you sure?"
 msgstr "Ĉu vi certas?"
 
-#: src/session.c:642
+#: src/session.c:643
 msgid "Are you sure you wish to log out ?"
 msgstr "Ĉu vi certe volas elsaluti?"
 
-#: src/session.c:665
+#: src/session.c:666
 msgid "Hibernate"
 msgstr ""
 
-#: src/session.c:671
+#: src/session.c:672
 #, fuzzy
 #| msgid "Yes, Shut Down"
 msgid "Suspend"
 msgstr "Jes, elŝalti"
 
-#: src/session.c:677
+#: src/session.c:678
 msgid "Lock"
 msgstr ""
 
-#: src/session.c:688
+#: src/session.c:689
 msgid "Yes, Shut Down"
 msgstr "Jes, elŝalti"
 
-#: src/session.c:690
+#: src/session.c:691
 msgid "Yes, Reboot"
 msgstr "Jes, restartigi"
 
-#: src/session.c:694
+#: src/session.c:695
 msgid "Yes, Log Out"
 msgstr "Jes, elsaluti"
 
-#: src/session.c:699
+#: src/session.c:700
 msgid "No"
 msgstr "Ne"
 
-#: src/session.c:841
+#: src/session.c:842
 msgid "Enable session script"
 msgstr "Enŝalti skriptojn de seanco"
 
-#: src/session.c:846
+#: src/session.c:847
 msgid "Enable logout dialog"
 msgstr "Enŝalti dialogon de elsaluto"
 
-#: src/session.c:851
+#: src/session.c:852
 msgid "Enable reboot/halt on logout"
 msgstr "Enŝalti restartigon/halton je elsaluto"
 
-#: src/session.c:857
+#: src/session.c:858
 msgid "Session"
 msgstr "Seanco"
 
-#: src/session.c:857
+#: src/session.c:858
 msgid "Session Settings"
 msgstr "Agordoj pri seanco"
 
-#: src/session.c:861
+#: src/session.c:862
 msgid ""
 "Enlightenment Session\n"
 "Settings Dialog"
