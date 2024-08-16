@@ -68,7 +68,9 @@ struct _background {
 static          LIST_HEAD(bg_list);
 
 static Timer   *bg_timer = NULL;
+static Timer   *bg_tsave = NULL;
 static unsigned int bg_seq_no = 0;
+static bool     bg_cfg_dirty = false;
 
 #define N_BG_ASSIGNED 32
 static Background *bg_assigned[N_BG_ASSIGNED];
@@ -1021,7 +1023,12 @@ BackgroundSetForDesk(Background *bg, unsigned int desk)
     if (desk >= N_BG_ASSIGNED)
         return;
 
+    if (bg_assigned[desk] == bg)
+        return;
+
     bg_assigned[desk] = bg;
+
+    bg_cfg_dirty = true;
 }
 
 Background     *
@@ -1212,6 +1219,9 @@ _BackgroundsConfigLoadUser(void)
         if (!exists(s))
             return;
     }
+
+    bg_cfg_dirty = false;
+
     ConfigFileLoad(s, NULL, ConfigFileRead, 0);
 }
 
@@ -1223,6 +1233,9 @@ _BackgroundsConfigSave(void)
     Background     *bg;
     unsigned int    j;
     int             r, g, b;
+
+    if (!bg_cfg_dirty)
+        return;
 
     Etmp(st);
     fs = fopen(st, "w");
@@ -1279,6 +1292,22 @@ _BackgroundsConfigSave(void)
 
     Esnprintf(s, sizeof(s), "%s.bg", EGetSavePrefix());
     E_mv(st, s);
+
+    bg_cfg_dirty = false;
+}
+
+static int
+_BackgroundsConfigSaveReal(void *data __UNUSED__)
+{
+    _BackgroundsConfigSave();
+    return 0;
+}
+
+static void
+_BackgroundsConfigSaveDeferred(void)
+{
+    TIMER_DEL(bg_tsave);
+    TIMER_ADD(bg_tsave, 500, _BackgroundsConfigSaveReal, NULL);
 }
 
 /*
@@ -1459,6 +1488,8 @@ _DlgExitBackground(Dialog *d)
 
     if (dd->bg != dd->bg_set)
         DeskBackgroundSet(DesksGetCurrent(), dd->bg_set);
+
+    _BackgroundsConfigSaveDeferred();
 
     _BackgroundImagesKeep(dd->bg, 0);
 }
@@ -1882,6 +1913,8 @@ _CB_BGSortFile(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
     Efree(bglist);
 
     _BgDlgGoToBg(d, dd->bg);
+
+    bg_cfg_dirty = true;
 }
 
 static void
@@ -1919,6 +1952,8 @@ _CB_BGSortAttrib(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
     Efree(bglist);
 
     _BgDlgGoToBg(d, dd->bg);
+
+    bg_cfg_dirty = true;
 }
 
 #if 0                           /* Doesn't do anything useful */
@@ -2332,6 +2367,8 @@ _BgIpcBackgroundChange1(const char *name, const char *params)
     {
         IpcPrintf("Error: unknown background value type '%s'\n", type);
     }
+
+    bg_cfg_dirty = true;
 }
 
 static void
@@ -2370,6 +2407,8 @@ _BgIpcBackgroundChange2(const char *name, const char *params)
                           yjust, xperc, yperc, topf, tkeep_aspect,
                           txjust, tyjust, txperc, typerc);
     }
+
+    bg_cfg_dirty = true;
 }
 
 static void
@@ -2421,6 +2460,7 @@ _BackgroundsIpc(const char *params)
     else if (!strncmp(cmd, "del", 2))
     {
         BackgroundDestroyByName(prm);
+        bg_cfg_dirty = true;
     }
     else if (!strncmp(cmd, "list", 2))
     {
@@ -2436,6 +2476,7 @@ _BackgroundsIpc(const char *params)
         else
         {
             BrackgroundCreateFromImage(prm, p, NULL, 0);
+            bg_cfg_dirty = true;
         }
     }
     else if (!strncmp(cmd, "set", 2))
@@ -2470,8 +2511,6 @@ _BackgroundsIpc(const char *params)
                 break;
             DeskBackgroundSet(DeskGet(num), bg);
         }
-
-        _BackgroundsConfigSave();
     }
     else if (!strncmp(cmd, "xget", 2))
     {
@@ -2494,6 +2533,9 @@ _BackgroundsIpc(const char *params)
         /* Compatibility with pre- 0.16.8 clients */
         _BgIpcBackgroundChange1(cmd, params + len2);
     }
+
+    if (bg_cfg_dirty)
+        _BackgroundsConfigSaveDeferred();
 }
 
 static const IpcItem BackgroundsIpcArray[] = {
