@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2023 Kim Woelders
+ * Copyright (C) 2004-2024 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -74,7 +74,7 @@ static unsigned int bg_seq_no = 0;
 static Background *bg_assigned[N_BG_ASSIGNED];
 
 static char    *
-_BackgroundGetFile(char **ptr)
+_BackgroundFindFile(char **ptr)
 {
     char           *path = *ptr;
 
@@ -90,19 +90,19 @@ _BackgroundGetFile(char **ptr)
 }
 
 static char    *
-_BackgroundGetBgFile(Background *bg)
+_BackgroundFindBgFile(Background *bg)
 {
     if (!bg || !bg->bg.file)
         return NULL;
-    return _BackgroundGetFile(&bg->bg.file);
+    return _BackgroundFindFile(&bg->bg.file);
 }
 
 static char    *
-_BackgroundGetFgFile(Background *bg)
+_BackgroundFindFgFile(Background *bg)
 {
     if (!bg || !bg->top.file)
         return NULL;
-    return _BackgroundGetFile(&bg->top.file);
+    return _BackgroundFindFile(&bg->top.file);
 }
 
 char           *
@@ -128,14 +128,14 @@ BackgroundGetUniqueString(Background *bg)
     f5 = 0;
     f6 = 0;
 
-    f = _BackgroundGetBgFile(bg);
+    f = _BackgroundFindBgFile(bg);
     if (f)
     {
         f1 = fileinode(f);
         f2 = filedev(f);
         f3 = (int)moddate(f);
     }
-    f = _BackgroundGetFgFile(bg);
+    f = _BackgroundFindFgFile(bg);
     if (f)
     {
         f4 = fileinode(f);
@@ -193,7 +193,7 @@ BackgroundPixmapSet(Background *bg, EX_Pixmap pmap)
 }
 
 static void
-BackgroundPixmapFree(Background *bg)
+_BackgroundPixmapFree(Background *bg)
 {
     if (bg->pmap)
     {
@@ -203,7 +203,7 @@ BackgroundPixmapFree(Background *bg)
 }
 
 static void
-BackgroundImagesFree(Background *bg)
+_BackgroundImagesFree(Background *bg)
 {
     if (bg->bg.im)
     {
@@ -219,7 +219,7 @@ BackgroundImagesFree(Background *bg)
 
 #if ENABLE_DIALOGS
 static void
-BackgroundImagesKeep(Background *bg, int onoff)
+_BackgroundImagesKeep(Background *bg, int onoff)
 {
     if (onoff)
     {
@@ -228,24 +228,24 @@ BackgroundImagesKeep(Background *bg, int onoff)
     else
     {
         bg->keepim = 0;
-        BackgroundImagesFree(bg);
+        _BackgroundImagesFree(bg);
     }
 }
 #endif                          /* ENABLE_DIALOGS */
 
 static void
-BackgroundFilesRemove(Background *bg)
+_BackgroundFilesRemove(Background *bg)
 {
     EFREE_NULL(bg->bg.file);
     EFREE_NULL(bg->top.file);
 
-    BackgroundImagesFree(bg);
+    _BackgroundImagesFree(bg);
 
     bg->keepim = 0;
 }
 
 static int
-BackgroundDestroy(Background *bg)
+_BackgroundDestroy(Background *bg)
 {
     if (!bg)
         return -1;
@@ -260,8 +260,8 @@ BackgroundDestroy(Background *bg)
 
     LIST_REMOVE(Background, &bg_list, bg);
 
-    BackgroundFilesRemove(bg);
-    BackgroundPixmapFree(bg);
+    _BackgroundFilesRemove(bg);
+    _BackgroundPixmapFree(bg);
 
     Efree(bg->name);
 
@@ -272,7 +272,7 @@ BackgroundDestroy(Background *bg)
 
 #if ENABLE_DIALOGS
 static int
-BackgroundDelete(Background *bg)
+_BackgroundDelete(Background *bg)
 {
     char           *f;
 
@@ -288,22 +288,22 @@ BackgroundDelete(Background *bg)
     }
 
     /* And delete the actual image files */
-    f = _BackgroundGetBgFile(bg);
+    f = _BackgroundFindBgFile(bg);
     if (f)
         E_rm(f);
-    f = _BackgroundGetFgFile(bg);
+    f = _BackgroundFindFgFile(bg);
     if (f)
         E_rm(f);
 
-    return BackgroundDestroy(bg);
+    return _BackgroundDestroy(bg);
 }
 #endif                          /* ENABLE_DIALOGS */
 
 static Background *
-BackgroundCreate(const char *name, unsigned int solid, const char *bgn,
-                 char tile, char keep_aspect, int xjust, int yjust, int xperc,
-                 int yperc, const char *top, char tkeep_aspect, int txjust,
-                 int tyjust, int txperc, int typerc)
+_BackgroundCreate(const char *name, unsigned int solid, const char *bgn,
+                  char tile, char keep_aspect, int xjust, int yjust, int xperc,
+                  int yperc, const char *top, char tkeep_aspect, int txjust,
+                  int tyjust, int txperc, int typerc)
 {
     Background     *bg;
 
@@ -345,7 +345,7 @@ BackgroundCreate(const char *name, unsigned int solid, const char *bgn,
 }
 
 static int
-BackgroundCmp(const Background *bg, const Background *bgx)
+_BackgroundCmp(const Background *bg, const Background *bgx)
 {
     if (*bgx->name != '.')      /* Discard only generated backgrounds */
         return 1;
@@ -396,7 +396,7 @@ BackgroundFind(const char *name)
 }
 
 static Background *
-BackgroundCheck(Background *bg)
+_BackgroundCheck(Background *bg)
 {
     return LIST_CHECK(Background, &bg_list, bg);
 }
@@ -404,23 +404,23 @@ BackgroundCheck(Background *bg)
 void
 BackgroundDestroyByName(const char *name)
 {
-    BackgroundDestroy(BackgroundFind(name));
+    _BackgroundDestroy(BackgroundFind(name));
 }
 
 static void
-BackgroundInvalidate(Background *bg, int refresh)
+_BackgroundInvalidate(Background *bg, int refresh)
 {
-    BackgroundPixmapFree(bg);
+    _BackgroundPixmapFree(bg);
     bg->seq_no = ++bg_seq_no;
     if (bg->ref_count && refresh)
         DesksBackgroundRefresh(bg, DESK_BG_REFRESH);
 }
 
 static int
-BackgroundModify(Background *bg, unsigned int solid, const char *bgn,
-                 char tile, char keep_aspect, int xjust, int yjust, int xperc,
-                 int yperc, const char *top, char tkeep_aspect, int txjust,
-                 int tyjust, int txperc, int typerc)
+_BackgroundModify(Background *bg, unsigned int solid, const char *bgn,
+                  char tile, char keep_aspect, int xjust, int yjust, int xperc,
+                  int yperc, const char *top, char tkeep_aspect, int txjust,
+                  int tyjust, int txperc, int typerc)
 {
     int             updated = 0;
 
@@ -480,14 +480,14 @@ BackgroundModify(Background *bg, unsigned int solid, const char *bgn,
     bg->top.yperc = typerc;
 
     if (updated)
-        BackgroundInvalidate(bg, 1);
+        _BackgroundInvalidate(bg, 1);
 
     return updated;
 }
 
 static void
-BgFindImageSize(BgPart *bgp, unsigned int rw, unsigned int rh,
-                unsigned int *pw, unsigned int *ph)
+_BgPartFindImageSize(BgPart *bgp, unsigned int rw, unsigned int rh,
+                     unsigned int *pw, unsigned int *ph)
 {
     int             w, h, iw, ih;
 
@@ -532,7 +532,7 @@ BgFindImageSize(BgPart *bgp, unsigned int rw, unsigned int rh,
 }
 
 static          EX_Pixmap
-BackgroundCreatePixmap(Win win, unsigned int w, unsigned int h)
+_BackgroundCreatePixmap(Win win, unsigned int w, unsigned int h)
 {
     EX_Pixmap       pmap;
 
@@ -564,14 +564,14 @@ BackgroundRealize(Background *bg, Win win, EX_Drawable draw,
 
     if (!bg->bg.im)
     {
-        file = _BackgroundGetBgFile(bg);
+        file = _BackgroundFindBgFile(bg);
         if (file)
             bg->bg.im = EImageLoad(file);
     }
 
     if (!bg->top.im)
     {
-        file = _BackgroundGetFgFile(bg);
+        file = _BackgroundFindFgFile(bg);
         if (file)
             bg->top.im = EImageLoad(bg->top.file);
     }
@@ -605,7 +605,7 @@ BackgroundRealize(Background *bg, Win win, EX_Drawable draw,
 
     if (hasbg)
     {
-        BgFindImageSize(&(bg->bg), rw, rh, &w, &h);
+        _BgPartFindImageSize(&(bg->bg), rw, rh, &w, &h);
         x = ((int)(rw - w) * bg->bg.xjust) >> 10;
         y = ((int)(rh - h) * bg->bg.yjust) >> 10;
     }
@@ -614,7 +614,7 @@ BackgroundRealize(Background *bg, Win win, EX_Drawable draw,
         ((w == rw && h == rh) || (bg->bg_tile && !ECompMgrIsActive())))
     {
         /* Window, no fg, no offset, and scale to 100%, or tiled, no trans */
-        pmap = BackgroundCreatePixmap(win, w, h);
+        pmap = _BackgroundCreatePixmap(win, w, h);
         EImageRenderOnDrawable(bg->bg.im, win, pmap, EIMAGE_ANTI_ALIAS,
                                0, 0, w, h);
         goto done;
@@ -622,7 +622,7 @@ BackgroundRealize(Background *bg, Win win, EX_Drawable draw,
 
     /* The rest that require some more work */
     if (is_win)
-        pmap = BackgroundCreatePixmap(win, rw, rh);
+        pmap = _BackgroundCreatePixmap(win, rw, rh);
     else
         pmap = draw;
 
@@ -659,7 +659,7 @@ BackgroundRealize(Background *bg, Win win, EX_Drawable draw,
     {
         EImageGetSize(bg->top.im, &ww, &hh);
 
-        BgFindImageSize(&(bg->top), rw, rh, &w, &h);
+        _BgPartFindImageSize(&(bg->top), rw, rh, &w, &h);
         x = ((rw - w) * bg->top.xjust) >> 10;
         y = ((rh - h) * bg->top.yjust) >> 10;
 
@@ -673,7 +673,7 @@ BackgroundRealize(Background *bg, Win win, EX_Drawable draw,
 
   done:
     if (!bg->keepim)
-        BackgroundImagesFree(bg);
+        _BackgroundImagesFree(bg);
 
     if (ppmap)
         *ppmap = pmap;
@@ -689,7 +689,7 @@ BackgroundApplyPmap(Background *bg, Win win, EX_Drawable draw,
 }
 
 static void
-BackgroundApplyWin(Background *bg, Win win)
+_BackgroundApplyWin(Background *bg, Win win)
 {
     EX_Pixmap       pmap;
     unsigned int    pixel;
@@ -839,9 +839,9 @@ BrackgroundCreateFromImage(const char *bgid, const char *file,
 
     COLOR32_FROM_RGB(color, 0, 0, 0);
 
-    bg = BackgroundCreate(bgid, color, file, tile,
-                          keep_asp, justx, justy,
-                          scalex, scaley, NULL, 0, 0, 0, 0, 0);
+    bg = _BackgroundCreate(bgid, color, file, tile,
+                           keep_asp, justx, justy,
+                           scalex, scaley, NULL, 0, 0, 0, 0, 0);
 
     return bg;
 }
@@ -880,13 +880,13 @@ BackgroundGetName(const Background *bg)
 
 #if ENABLE_DIALOGS
 static const char *
-BackgroundGetBgFile(const Background *bg)
+_BackgroundGetBgFile(const Background *bg)
 {
     return bg->bg.file;
 }
 
 static const char *
-BackgroundGetFgFile(const Background *bg)
+_BackgroundGetFgFile(const Background *bg)
 {
     return bg->top.file;
 }
@@ -912,7 +912,7 @@ BackgroundIsNone(const Background *bg)
 
 #if ENABLE_DIALOGS
 static EImage  *
-BackgroundCacheMini(Background *bg, int keep, int nuke)
+_BackgroundCacheMini(Background *bg, int keep, int nuke)
 {
     char            s[4096];
     EImage         *im;
@@ -949,7 +949,7 @@ BackgroundCacheMini(Background *bg, int keep, int nuke)
 
 #define S(str) ((str) ? str : "(null)")
 static void
-BackgroundGetInfoString1(const Background *bg, char *buf, int len)
+_BackgroundGetInfoString1(const Background *bg, char *buf, int len)
 {
     int             r, g, b;
 
@@ -974,7 +974,7 @@ BackgroundGetInfoString1(const Background *bg, char *buf, int len)
 }
 
 static void
-BackgroundGetInfoString2(const Background *bg, char *buf, int len)
+_BackgroundGetInfoString2(const Background *bg, char *buf, int len)
 {
     int             r, g, b;
 
@@ -993,11 +993,11 @@ BackgroundsInvalidate(int refresh)
 {
     Background     *bg;
 
-    LIST_FOR_EACH(Background, &bg_list, bg) BackgroundInvalidate(bg, refresh);
+    LIST_FOR_EACH(Background, &bg_list, bg) _BackgroundInvalidate(bg, refresh);
 }
 
 static Background *
-BackgroundGetRandom(void)
+_BackgroundGetRandom(void)
 {
     Background     *bg;
     int             num;
@@ -1034,9 +1034,9 @@ BackgroundGetForDesk(unsigned int desk)
 
     bg = bg_assigned[desk];
     if (bg)
-        bg = BackgroundCheck(bg);
+        bg = _BackgroundCheck(bg);
     if (!bg)
-        bg = BackgroundGetRandom();
+        bg = _BackgroundGetRandom();
 
     return bg;
 }
@@ -1098,9 +1098,9 @@ BackgroundsConfigLoad(FILE *fs)
             bg = BackgroundFind(s2);
             if (!bg)
             {
-                bg = BackgroundCreate(s2, color,
-                                      bg1, i1, i2, i3, i4, i5, i6,
-                                      bg2, j1, j2, j3, j4, j5);
+                bg = _BackgroundCreate(s2, color,
+                                       bg1, i1, i2, i3, i4, i5, i6,
+                                       bg2, j1, j2, j3, j4, j5);
             }
             else
             {
@@ -1200,7 +1200,7 @@ BackgroundsConfigLoad(FILE *fs)
 }
 
 static void
-BackgroundsConfigLoadUser(void)
+_BackgroundsConfigLoadUser(void)
 {
     char            s[4096];
 
@@ -1216,7 +1216,7 @@ BackgroundsConfigLoadUser(void)
 }
 
 static void
-BackgroundsConfigSave(void)
+_BackgroundsConfigSave(void)
 {
     char            s[FILEPATH_LEN_MAX], st[FILEPATH_LEN_MAX];
     FILE           *fs;
@@ -1233,8 +1233,8 @@ BackgroundsConfigSave(void)
     LIST_FOR_EACH_REV(Background, &bg_list, bg)
     {
         /* Get full path to files */
-        _BackgroundGetBgFile(bg);
-        _BackgroundGetFgFile(bg);
+        _BackgroundFindBgFile(bg);
+        _BackgroundFindFgFile(bg);
         /* Discard if bg file is given but cannot be found (ignore bad fg) */
         if (bg->bg.file && !exists(bg->bg.file))
         {
@@ -1286,7 +1286,7 @@ BackgroundsConfigSave(void)
  */
 
 static void
-BackgroundsCheckDups(void)
+_BackgroundsCheckDups(void)
 {
     Background     *bg, *bgx, *btmp;
 
@@ -1299,21 +1299,21 @@ BackgroundsCheckDups(void)
 
             if (bgx->ref_count > 0 || bgx->referenced)
                 continue;
-            if (BackgroundCmp(bg, bgx))
+            if (_BackgroundCmp(bg, bgx))
                 continue;
 #if 0
             Eprintf("Remove duplicate background %s (==%s)\n", bgx->name,
                     bg->name);
 #endif
 #ifndef __clang_analyzer__
-            BackgroundDestroy(bgx);
+            _BackgroundDestroy(bgx);
 #endif
         }
     }
 }
 
 static void
-BackgroundsAccounting(void)
+_BackgroundsAccounting(void)
 {
     Background     *bg;
     time_t          now;
@@ -1329,17 +1329,17 @@ BackgroundsAccounting(void)
             continue;
 
         DesksBackgroundRefresh(bg, DESK_BG_FREE);
-        BackgroundPixmapFree(bg);
+        _BackgroundPixmapFree(bg);
     }
 }
 
 static int
-BackgroundsTimeout(void *data __UNUSED__)
+_BackgroundsTimeout(void *data __UNUSED__)
 {
     if (Conf.backgrounds.timeout <= 0)
         Conf.backgrounds.timeout = 1;
 
-    BackgroundsAccounting();
+    _BackgroundsAccounting();
 
     TimerSetInterval(bg_timer, 1000 * Conf.backgrounds.timeout);
 
@@ -1347,28 +1347,28 @@ BackgroundsTimeout(void *data __UNUSED__)
 }
 
 static void
-BackgroundsSighan(int sig, void *prm __UNUSED__)
+_BackgroundsSighan(int sig, void *prm __UNUSED__)
 {
     switch (sig)
     {
     case ESIGNAL_INIT:
         /* Create the "None" background */
-        BackgroundCreate(NULL, 0, NULL, 0, 0, 0, 0, 0, 0, NULL, 0, 0, 0, 0, 0);
+        _BackgroundCreate(NULL, 0, NULL, 0, 0, 0, 0, 0, 0, NULL, 0, 0, 0, 0, 0);
         break;
 
     case ESIGNAL_CONFIGURE:
-        BackgroundsConfigLoadUser();
-        BackgroundsCheckDups();
+        _BackgroundsConfigLoadUser();
+        _BackgroundsCheckDups();
         StartupBackgroundsDestroy();
         break;
 
     case ESIGNAL_START:
-        TIMER_ADD(bg_timer, 30000, BackgroundsTimeout, NULL);
+        TIMER_ADD(bg_timer, 30000, _BackgroundsTimeout, NULL);
         break;
 
     case ESIGNAL_EXIT:
         if (Mode.wm.save_ok)
-            BackgroundsConfigSave();
+            _BackgroundsConfigSave();
         break;
     }
 }
@@ -1405,8 +1405,8 @@ typedef struct {
     int             bg_timeout;
 } BgDlgData;
 
-static void     BG_RedrawView(Dialog * d);
-static void     BGSettingsGoTo(Dialog * d, Background * bg);
+static void     _BgDlgRedrawView(Dialog * d);
+static void     _BgDlgGoToBg(Dialog * d, Background * bg);
 
 static void
 _BackgroundsClean(void)
@@ -1416,16 +1416,16 @@ _BackgroundsClean(void)
     LIST_FOR_EACH_SAFE(Background, &bg_list, bg, tmp)
     {
         /* Get full path to files */
-        _BackgroundGetBgFile(bg);
+        _BackgroundFindBgFile(bg);
 
         /* Discard if bg file is given but cannot be found (ignore bad fg) */
         if (bg->bg.file && !exists(bg->bg.file))
-            BackgroundDestroy(bg);
+            _BackgroundDestroy(bg);
     }
 }
 
 static void
-_DlgApplyBG(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
+_DlgApplyBackground(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 {
     BgDlgData      *dd = DLG_DATA_GET(d, BgDlgData);
 
@@ -1442,12 +1442,12 @@ _DlgApplyBG(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
     dd->bg->bg.xperc = dd->bg_xperc;
     dd->bg->bg.yperc = dd->bg_yperc;
     if (!dd->bg_image)
-        BackgroundFilesRemove(dd->bg);
+        _BackgroundFilesRemove(dd->bg);
 
-    BackgroundInvalidate(dd->bg, 1);
+    _BackgroundInvalidate(dd->bg, 1);
 
-    BackgroundCacheMini(dd->bg, 0, 1);
-    BG_RedrawView(d);
+    _BackgroundCacheMini(dd->bg, 0, 1);
+    _BgDlgRedrawView(d);
 
     dd->bg_set = dd->bg;
 
@@ -1455,20 +1455,20 @@ _DlgApplyBG(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 }
 
 static void
-_DlgBGExit(Dialog *d)
+_DlgExitBackground(Dialog *d)
 {
     BgDlgData      *dd = DLG_DATA_GET(d, BgDlgData);
 
     if (dd->bg != dd->bg_set)
         DeskBackgroundSet(DesksGetCurrent(), dd->bg_set);
 
-    BackgroundImagesKeep(dd->bg, 0);
+    _BackgroundImagesKeep(dd->bg, 0);
 }
 
 /* Draw the background preview image */
 static void
-CB_DesktopMiniDisplayRedraw(Dialog *d,
-                            int val __UNUSED__, void *data __UNUSED__)
+_CB_DesktopMiniDisplayRedraw(Dialog *d,
+                             int val __UNUSED__, void *data __UNUSED__)
 {
     BgDlgData      *dd = DLG_DATA_GET(d, BgDlgData);
     Background     *bg;
@@ -1485,31 +1485,31 @@ CB_DesktopMiniDisplayRedraw(Dialog *d,
     DialogItemAreaGetSize(dd->bg_mini_disp, &w, &h);
 
     pmap = EGetWindowBackgroundPixmap(win);
-    fbg = (dd->bg_image) ? BackgroundGetBgFile(dd->bg) : NULL;
-    ffg = (dd->bg_image) ? BackgroundGetFgFile(dd->bg) : NULL;
+    fbg = (dd->bg_image) ? _BackgroundGetBgFile(dd->bg) : NULL;
+    ffg = (dd->bg_image) ? _BackgroundGetFgFile(dd->bg) : NULL;
     COLOR32_FROM_RGB(color, dd->bg_r, dd->bg_g, dd->bg_b);
-    bg = BackgroundCreate("TEMP", color,
-                          fbg, dd->bg_tile, dd->bg_keep_aspect,
-                          dd->bg_xjust, dd->bg_yjust,
-                          dd->bg_xperc, dd->bg_yperc,
-                          ffg, dd->bg->top.keep_aspect,
-                          dd->bg->top.xjust, dd->bg->top.yjust,
-                          dd->bg->top.xperc, dd->bg->top.yperc);
+    bg = _BackgroundCreate("TEMP", color,
+                           fbg, dd->bg_tile, dd->bg_keep_aspect,
+                           dd->bg_xjust, dd->bg_yjust,
+                           dd->bg_xperc, dd->bg_yperc,
+                           ffg, dd->bg->top.keep_aspect,
+                           dd->bg->top.xjust, dd->bg->top.yjust,
+                           dd->bg->top.xperc, dd->bg->top.yperc);
 
     BackgroundApplyPmap(bg, win, pmap, w, h);
-    BackgroundDestroy(bg);
+    _BackgroundDestroy(bg);
     EClearWindow(win);
 }
 
 static void
-BG_DialogSetFileName(DItem *di)
+_BgDlgSetFileName(DItem *di)
 {
     Dialog         *d = DialogItemGetDialog(di);
     BgDlgData      *dd = DLG_DATA_GET(d, BgDlgData);
     const char     *stmp;
     char            s[1024];
 
-    stmp = fullfileof(BackgroundGetBgFile(dd->bg));
+    stmp = fullfileof(_BackgroundGetBgFile(dd->bg));
     Esnprintf(s, sizeof(s),
               _("Background definition information:\nName: %s\nFile: %s"),
               BackgroundGetName(dd->bg), (stmp) ? stmp : _("-NONE-"));
@@ -1517,18 +1517,18 @@ BG_DialogSetFileName(DItem *di)
 }
 
 static void
-BgDialogSetNewCurrent(Dialog *d, Background *bg)
+_BgDlgSetNewCurrent(Dialog *d, Background *bg)
 {
     BgDlgData      *dd = DLG_DATA_GET(d, BgDlgData);
     int             r, g, b;
 
     if (dd->bg && dd->bg != bg)
-        BackgroundImagesKeep(dd->bg, 0);
+        _BackgroundImagesKeep(dd->bg, 0);
     dd->bg = bg;
-    BackgroundImagesKeep(dd->bg, 1);
+    _BackgroundImagesKeep(dd->bg, 1);
 
     /* Update dialog items */
-    BG_DialogSetFileName(dd->bg_filename);
+    _BgDlgSetFileName(dd->bg_filename);
 
     COLOR32_TO_RGB(bg->bg_solid, r, g, b);
 
@@ -1544,15 +1544,15 @@ BgDialogSetNewCurrent(Dialog *d, Background *bg)
     DialogItemSliderSetVal(dd->di[9], bg->bg.xperc);
 
     /* Redraw mini BG display */
-    CB_DesktopMiniDisplayRedraw(d, 0, NULL);
+    _CB_DesktopMiniDisplayRedraw(d, 0, NULL);
 
     /* Redraw scrolling BG list */
-    BG_RedrawView(d);
+    _BgDlgRedrawView(d);
 }
 
 /* Duplicate current (dd->bg) to new */
 static void
-CB_ConfigureNewBG(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
+_CB_ConfigureNewBG(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 {
     BgDlgData      *dd = DLG_DATA_GET(d, BgDlgData);
     char            s[1024];
@@ -1563,13 +1563,13 @@ CB_ConfigureNewBG(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 
     COLOR32_FROM_RGB(color, dd->bg_r, dd->bg_g, dd->bg_b);
 
-    dd->bg = BackgroundCreate(s, color,
-                              dd->bg->bg.file, dd->bg_tile, dd->bg_keep_aspect,
-                              dd->bg_xjust, dd->bg_yjust,
-                              dd->bg_xperc, dd->bg_yperc,
-                              dd->bg->top.file, dd->bg->top.keep_aspect,
-                              dd->bg->top.xjust, dd->bg->top.yjust,
-                              dd->bg->top.xperc, dd->bg->top.yperc);
+    dd->bg = _BackgroundCreate(s, color,
+                               dd->bg->bg.file, dd->bg_tile, dd->bg_keep_aspect,
+                               dd->bg_xjust, dd->bg_yjust,
+                               dd->bg_xperc, dd->bg_yperc,
+                               dd->bg->top.file, dd->bg->top.keep_aspect,
+                               dd->bg->top.xjust, dd->bg->top.yjust,
+                               dd->bg->top.xperc, dd->bg->top.yperc);
 
     DialogItemSliderGetBounds(dd->bg_sel_slider, &lower, &upper);
     upper += 4;
@@ -1579,11 +1579,11 @@ CB_ConfigureNewBG(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 
     DeskBackgroundSet(DesksGetCurrent(), dd->bg);
 
-    BG_RedrawView(d);
+    _BgDlgRedrawView(d);
 }
 
 static void
-CB_ConfigureDelBG(Dialog *d, int val, void *data __UNUSED__)
+_CB_ConfigureDelBG(Dialog *d, int val, void *data __UNUSED__)
 {
     BgDlgData      *dd = DLG_DATA_GET(d, BgDlgData);
     Background     *bg, *bgn;
@@ -1602,9 +1602,9 @@ CB_ConfigureDelBG(Dialog *d, int val, void *data __UNUSED__)
     DeskBackgroundSet(DesksGetCurrent(), bgn);
 
     if (val == 0)
-        err = BackgroundDestroy(bg);
+        err = _BackgroundDestroy(bg);
     else
-        err = BackgroundDelete(bg);
+        err = _BackgroundDelete(bg);
 
     if (!err)
     {
@@ -1616,12 +1616,12 @@ CB_ConfigureDelBG(Dialog *d, int val, void *data __UNUSED__)
     }
 
     dd->bg = NULL;
-    BgDialogSetNewCurrent(d, bgn);
+    _BgDlgSetNewCurrent(d, bgn);
 }
 
 /* Move current background to first position in list */
 static void
-CB_ConfigureFrontBG(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
+_CB_ConfigureFrontBG(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 {
     BgDlgData      *dd = DLG_DATA_GET(d, BgDlgData);
     Background     *bg;
@@ -1631,13 +1631,13 @@ CB_ConfigureFrontBG(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 
     bg = LIST_REMOVE(Background, &bg_list, dd->bg);
     LIST_PREPEND(Background, &bg_list, bg);
-    BGSettingsGoTo(d, bg);
-    BG_RedrawView(d);
+    _BgDlgGoToBg(d, bg);
+    _BgDlgRedrawView(d);
 }
 
 /* Draw the scrolling background image window */
 static void
-BG_RedrawView(Dialog *d)
+_BgDlgRedrawView(Dialog *d)
 {
     BgDlgData      *dd = DLG_DATA_GET(d, BgDlgData);
     Background     *bg;
@@ -1693,7 +1693,7 @@ BG_RedrawView(Dialog *d)
             }
             else
             {
-                im = BackgroundCacheMini(bg, 1, 0);
+                im = _BackgroundCacheMini(bg, 1, 0);
                 if (im)
                 {
                     EImageRenderOnDrawable(im, win, pmap, 0, x + 4, 4,
@@ -1709,18 +1709,18 @@ BG_RedrawView(Dialog *d)
 }
 
 static void
-CB_BGAreaSlide(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
+_CB_BGAreaSlide(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 {
     BgDlgData      *dd = DLG_DATA_GET(d, BgDlgData);
 
     if (dd->bg_sel_sliderval == dd->bg_sel_sliderval_old)
         return;
-    BG_RedrawView(d);
+    _BgDlgRedrawView(d);
     dd->bg_sel_sliderval_old = dd->bg_sel_sliderval;
 }
 
 static void
-CB_BGScan(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
+_CB_BGScan(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 {
     BgDlgData      *dd = DLG_DATA_GET(d, BgDlgData);
     int             num;
@@ -1738,7 +1738,7 @@ CB_BGScan(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 }
 
 static void
-CB_BGAreaEvent(DItem *di, int val __UNUSED__, void *data)
+_CB_BGAreaEvent(DItem *di, int val __UNUSED__, void *data)
 {
     Dialog         *d = DialogItemGetDialog(di);
     BgDlgData      *dd = DLG_DATA_GET(d, BgDlgData);
@@ -1762,7 +1762,7 @@ CB_BGAreaEvent(DItem *di, int val __UNUSED__, void *data)
             bg = LIST_GET_BY_INDEX(Background, &bg_list, x);
             if (!bg || bg == DeskBackgroundGet(DesksGetCurrent()))
                 break;
-            BgDialogSetNewCurrent(d, bg);
+            _BgDlgSetNewCurrent(d, bg);
             DeskBackgroundSet(DesksGetCurrent(), bg);
             break;
         case 4:
@@ -1773,14 +1773,14 @@ CB_BGAreaEvent(DItem *di, int val __UNUSED__, void *data)
             goto do_slide;
           do_slide:
             DialogItemSliderSetVal(dd->bg_sel_slider, dd->bg_sel_sliderval);
-            CB_BGAreaSlide(d, 0, NULL);
+            _CB_BGAreaSlide(d, 0, NULL);
             break;
         }
     }
 }
 
 static void
-CB_DesktopTimeout(Dialog *d, int val __UNUSED__, void *data)
+_CB_DesktopTimeout(Dialog *d, int val __UNUSED__, void *data)
 {
     BgDlgData      *dd = DLG_DATA_GET(d, BgDlgData);
     DItem          *di = (DItem *) data;
@@ -1794,7 +1794,7 @@ CB_DesktopTimeout(Dialog *d, int val __UNUSED__, void *data)
 }
 
 static void
-BGSettingsGoTo(Dialog *d, Background *bg)
+_BgDlgGoToBg(Dialog *d, Background *bg)
 {
     BgDlgData      *dd = DLG_DATA_GET(d, BgDlgData);
     int             i, num;
@@ -1814,11 +1814,11 @@ BGSettingsGoTo(Dialog *d, Background *bg)
     else if (i > 4 * num)
         i = 4 * num;
     DialogItemSliderSetVal(dd->bg_sel_slider, i);
-    BgDialogSetNewCurrent(d, bg);
+    _BgDlgSetNewCurrent(d, bg);
 }
 
 static void
-CB_BGNext(Dialog *d, int val, void *data __UNUSED__)
+_CB_BGNext(Dialog *d, int val, void *data __UNUSED__)
 {
     BgDlgData      *dd = DLG_DATA_GET(d, BgDlgData);
     Background     *bg;
@@ -1838,12 +1838,12 @@ CB_BGNext(Dialog *d, int val, void *data __UNUSED__)
     if (!bg)
         return;
 
-    BGSettingsGoTo(d, bg);
+    _BgDlgGoToBg(d, bg);
     DeskBackgroundSet(DesksGetCurrent(), bg);
 }
 
 static int
-BG_SortFileCompare(const void *_bg1, const void *_bg2)
+_BgDlgSortCompareBgNames(const void *_bg1, const void *_bg2)
 {
     const Background *bg1 = *(const Background **)_bg1;
     const Background *bg2 = *(const Background **)_bg2;
@@ -1853,8 +1853,8 @@ BG_SortFileCompare(const void *_bg1, const void *_bg2)
     /* return > 0 is b1 >  b2 */
     /* return   0 is b1 == b2 */
 
-    name1 = BackgroundGetBgFile(bg1);
-    name2 = BackgroundGetBgFile(bg2);
+    name1 = _BackgroundGetBgFile(bg1);
+    name2 = _BackgroundGetBgFile(bg2);
     if (name1 && name2)
         return strcmp(name1, name2);
     if (name1)
@@ -1865,7 +1865,7 @@ BG_SortFileCompare(const void *_bg1, const void *_bg2)
 }
 
 static void
-CB_BGSortFile(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
+_CB_BGSortFile(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 {
     BgDlgData      *dd = DLG_DATA_GET(d, BgDlgData);
     Background    **bglist;
@@ -1877,17 +1877,17 @@ CB_BGSortFile(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 
     /* remove them all from the list */
     LIST_INIT(Background, &bg_list);
-    qsort(bglist, num - 1, sizeof(Background *), BG_SortFileCompare);
+    qsort(bglist, num - 1, sizeof(Background *), _BgDlgSortCompareBgNames);
     for (i = 0; i < num; i++)
         LIST_APPEND(Background, &bg_list, bglist[i]);
 
     Efree(bglist);
 
-    BGSettingsGoTo(d, dd->bg);
+    _BgDlgGoToBg(d, dd->bg);
 }
 
 static void
-CB_BGSortAttrib(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
+_CB_BGSortAttrib(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 {
     BgDlgData      *dd = DLG_DATA_GET(d, BgDlgData);
     Background    **bglist, *bg;
@@ -1920,13 +1920,13 @@ CB_BGSortAttrib(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
 
     Efree(bglist);
 
-    BGSettingsGoTo(d, dd->bg);
+    _BgDlgGoToBg(d, dd->bg);
 }
 
 #if 0                           /* Doesn't do anything useful */
 static void
-CB_BGSortContent(Dialog *d __UNUSED__, int val __UNUSED__,
-                 void *data __UNUSED__)
+_CB_BGSortContent(Dialog *d __UNUSED__, int val __UNUSED__,
+                  void *data __UNUSED__)
 {
     Background    **bglist;
     int             i, num;
@@ -1945,13 +1945,13 @@ CB_BGSortContent(Dialog *d __UNUSED__, int val __UNUSED__,
 #endif
 
 static void
-CB_InitView(DItem *di, int val __UNUSED__, void *data __UNUSED__)
+_CB_InitView(DItem *di, int val __UNUSED__, void *data __UNUSED__)
 {
     Dialog         *d = DialogItemGetDialog(di);
     BgDlgData      *dd = DLG_DATA_GET(d, BgDlgData);
 
     dd->bg_sel_sliderval_old = dd->bg_sel_sliderval = -1;
-    BGSettingsGoTo(d, dd->bg);
+    _BgDlgGoToBg(d, dd->bg);
 }
 
 static void
@@ -1997,7 +1997,7 @@ _DlgFillBackground(Dialog *d, DItem *table, void *data)
     DialogItemTableSetOptions(table2, 2, 0, 1, 0);
 
     dd->bg_filename = DialogAddItem(table2, DITEM_TEXT);
-    BG_DialogSetFileName(dd->bg_filename);
+    _BgDlgSetFileName(dd->bg_filename);
 
     table3 = DialogAddItem(table2, DITEM_TABLE);
 
@@ -2020,22 +2020,22 @@ _DlgFillBackground(Dialog *d, DItem *table, void *data)
 
     di = DialogAddItem(table2, DITEM_BUTTON);
     DialogItemSetText(di, _("Move to front"));
-    DialogItemSetCallback(di, CB_ConfigureFrontBG, 0, NULL);
-    DialogBindKey(d, "F", CB_ConfigureFrontBG, 0, NULL);
+    DialogItemSetCallback(di, _CB_ConfigureFrontBG, 0, NULL);
+    DialogBindKey(d, "F", _CB_ConfigureFrontBG, 0, NULL);
 
     di = DialogAddItem(table2, DITEM_BUTTON);
     DialogItemSetText(di, _("Duplicate"));
-    DialogItemSetCallback(di, CB_ConfigureNewBG, 0, NULL);
+    DialogItemSetCallback(di, _CB_ConfigureNewBG, 0, NULL);
 
     di = DialogAddItem(table2, DITEM_BUTTON);
     DialogItemSetText(di, _("Unlist"));
-    DialogItemSetCallback(di, CB_ConfigureDelBG, 0, NULL);
-    DialogBindKey(d, "D", CB_ConfigureDelBG, 0, NULL);
+    DialogItemSetCallback(di, _CB_ConfigureDelBG, 0, NULL);
+    DialogBindKey(d, "D", _CB_ConfigureDelBG, 0, NULL);
 
     di = DialogAddItem(table2, DITEM_BUTTON);
     DialogItemSetText(di, _("Delete file"));
-    DialogItemSetCallback(di, CB_ConfigureDelBG, 1, NULL);
-    DialogBindKey(d, "Delete", CB_ConfigureDelBG, 1, NULL);
+    DialogItemSetCallback(di, _CB_ConfigureDelBG, 1, NULL);
+    DialogBindKey(d, "Delete", _CB_ConfigureDelBG, 1, NULL);
 
     table2 = DialogAddItem(table, DITEM_TABLE);
     DialogItemTableSetOptions(table2, 3, 0, 1, 0);
@@ -2129,7 +2129,7 @@ _DlgFillBackground(Dialog *d, DItem *table, void *data)
     DialogItemSliderSetValPtr(di, &dd->bg_b);
 
     for (i = 0; i < 10; i++)
-        DialogItemSetCallback(dd->di[i], CB_DesktopMiniDisplayRedraw, 0, NULL);
+        DialogItemSetCallback(dd->di[i], _CB_DesktopMiniDisplayRedraw, 0, NULL);
 
     DialogAddItem(table, DITEM_SEPARATOR);
 
@@ -2142,19 +2142,19 @@ _DlgFillBackground(Dialog *d, DItem *table, void *data)
     di = DialogAddItem(table3, DITEM_BUTTON);
     DialogItemSetFill(di, 0, 0);
     DialogItemSetText(di, "<-");
-    DialogItemSetCallback(di, CB_BGNext, -1, NULL);
-    DialogBindKey(d, "Left", CB_BGNext, -1, NULL);
+    DialogItemSetCallback(di, _CB_BGNext, -1, NULL);
+    DialogBindKey(d, "Left", _CB_BGNext, -1, NULL);
 
     di = DialogAddItem(table3, DITEM_BUTTON);
     DialogItemSetFill(di, 0, 0);
     DialogItemSetText(di, "->");
-    DialogItemSetCallback(di, CB_BGNext, 1, NULL);
-    DialogBindKey(d, "Right", CB_BGNext, 1, NULL);
+    DialogItemSetCallback(di, _CB_BGNext, 1, NULL);
+    DialogBindKey(d, "Right", _CB_BGNext, 1, NULL);
 
     di = DialogAddItem(table2, DITEM_BUTTON);
     DialogItemSetFill(di, 0, 0);
     DialogItemSetText(di, _("Pre-scan BG's"));
-    DialogItemSetCallback(di, CB_BGScan, 0, NULL);
+    DialogItemSetCallback(di, _CB_BGScan, 0, NULL);
 
     table3 = DialogAddItem(table2, DITEM_TABLE);
     DialogItemTableSetOptions(table3, 3, 0, 0, 0);
@@ -2162,24 +2162,24 @@ _DlgFillBackground(Dialog *d, DItem *table, void *data)
     di = DialogAddItem(table3, DITEM_BUTTON);
     DialogItemSetFill(di, 0, 0);
     DialogItemSetText(di, _("Sort by file"));
-    DialogItemSetCallback(di, CB_BGSortFile, 0, NULL);
+    DialogItemSetCallback(di, _CB_BGSortFile, 0, NULL);
 
     di = DialogAddItem(table3, DITEM_BUTTON);
     DialogItemSetFill(di, 0, 0);
     DialogItemSetText(di, _("Sort by attr."));
-    DialogItemSetCallback(di, CB_BGSortAttrib, 0, NULL);
+    DialogItemSetCallback(di, _CB_BGSortAttrib, 0, NULL);
 
 #if 0                           /* Doesn't do anything useful */
     di = DialogAddItem(table3, DITEM_BUTTON);
     DialogItemSetFill(di, 0, 0);
     DialogItemSetText(di, _("Sort by image"));
-    DialogItemSetCallback(di, CB_BGSortContent, 0, NULL);
+    DialogItemSetCallback(di, _CB_BGSortContent, 0, NULL);
 #endif
 
     di = dd->bg_sel = DialogAddItem(table, DITEM_AREA);
     DialogItemAreaSetSize(di, 160, 8 + Mode.backgrounds.mini_h);
-    DialogItemAreaSetEventFunc(di, CB_BGAreaEvent);
-    DialogItemAreaSetInitFunc(di, CB_InitView);
+    DialogItemAreaSetEventFunc(di, _CB_BGAreaEvent);
+    DialogItemAreaSetInitFunc(di, _CB_InitView);
 
     num = LIST_GET_COUNT(&bg_list);
     di = dd->bg_sel_slider = DialogAddItem(table, DITEM_SLIDER);
@@ -2187,7 +2187,7 @@ _DlgFillBackground(Dialog *d, DItem *table, void *data)
     DialogItemSliderSetUnits(di, 1);
     DialogItemSliderSetJump(di, 9);
     DialogItemSliderSetValPtr(di, &dd->bg_sel_sliderval);
-    DialogItemSetCallback(dd->bg_sel_slider, CB_BGAreaSlide, 0, NULL);
+    DialogItemSetCallback(dd->bg_sel_slider, _CB_BGAreaSlide, 0, NULL);
 
     DialogAddItem(table, DITEM_SEPARATOR);
 
@@ -2219,7 +2219,7 @@ _DlgFillBackground(Dialog *d, DItem *table, void *data)
     DialogItemSliderSetUnits(di, 30);
     DialogItemSliderSetJump(di, 60);
     DialogItemSliderSetValPtr(di, &dd->bg_timeout);
-    DialogItemSetCallback(di, CB_DesktopTimeout, 0, label);
+    DialogItemSetCallback(di, _CB_DesktopTimeout, 0, label);
 }
 
 const DialogDef DlgBackground = {
@@ -2230,7 +2230,7 @@ const DialogDef DlgBackground = {
     "pix/bg.png",
     N_("Enlightenment Desktop\n" "Background Settings Dialog"),
     _DlgFillBackground,
-    DLG_OAC, _DlgApplyBG, _DlgBGExit
+    DLG_OAC, _DlgApplyBackground, _DlgExitBackground
 };
 
 #endif                          /* ENABLE_DIALOGS */
@@ -2240,7 +2240,7 @@ const DialogDef DlgBackground = {
  */
 
 static void
-BackgroundSet1(const char *name, const char *params)
+_BgIpcBackgroundChange1(const char *name, const char *params)
 {
     const char     *p = params;
     char            type[FILEPATH_LEN_MAX];
@@ -2255,8 +2255,8 @@ BackgroundSet1(const char *name, const char *params)
     if (!bg)
     {
         COLOR32_FROM_RGB(color, 0, 0, 0);
-        bg = BackgroundCreate(name, color, NULL, 0, 0, 0,
-                              0, 0, 0, NULL, 0, 0, 0, 0, 0);
+        bg = _BackgroundCreate(name, color, NULL, 0, 0, 0,
+                               0, 0, 0, NULL, 0, 0, 0, 0, 0);
         if (!bg)
         {
             IpcPrintf("Error: could not create background '%s'\n", name);
@@ -2337,7 +2337,7 @@ BackgroundSet1(const char *name, const char *params)
 }
 
 static void
-BackgroundSet2(const char *name, const char *params)
+_BgIpcBackgroundChange2(const char *name, const char *params)
 {
     Background     *bg;
     unsigned int    color;
@@ -2362,20 +2362,20 @@ BackgroundSet2(const char *name, const char *params)
     bg = BackgroundFind(name);
     if (bg)
     {
-        BackgroundModify(bg, color, bgf, tile, keep_aspect, xjust,
-                         yjust, xperc, yperc, topf, tkeep_aspect,
-                         txjust, tyjust, txperc, typerc);
+        _BackgroundModify(bg, color, bgf, tile, keep_aspect, xjust,
+                          yjust, xperc, yperc, topf, tkeep_aspect,
+                          txjust, tyjust, txperc, typerc);
     }
     else
     {
-        BackgroundCreate(name, color, bgf, tile, keep_aspect, xjust,
-                         yjust, xperc, yperc, topf, tkeep_aspect,
-                         txjust, tyjust, txperc, typerc);
+        _BackgroundCreate(name, color, bgf, tile, keep_aspect, xjust,
+                          yjust, xperc, yperc, topf, tkeep_aspect,
+                          txjust, tyjust, txperc, typerc);
     }
 }
 
 static void
-BackgroundsIpc(const char *params)
+_BackgroundsIpc(const char *params)
 {
     const char     *p;
     char            cmd[128], prm[128], buf[4096];
@@ -2417,7 +2417,7 @@ BackgroundsIpc(const char *params)
         win = ECreateWinFromXwin(xwin);
         if (!win)
             return;
-        BackgroundApplyWin(bg, win);
+        _BackgroundApplyWin(bg, win);
         EDestroyWin(win);
     }
     else if (!strncmp(cmd, "del", 2))
@@ -2442,7 +2442,7 @@ BackgroundsIpc(const char *params)
     }
     else if (!strncmp(cmd, "set", 2))
     {
-        BackgroundSet1(prm, p);
+        _BgIpcBackgroundChange1(prm, p);
     }
     else if (!strncmp(cmd, "show", 2))
     {
@@ -2450,7 +2450,7 @@ BackgroundsIpc(const char *params)
 
         if (bg)
         {
-            BackgroundGetInfoString1(bg, buf, sizeof(buf));
+            _BackgroundGetInfoString1(bg, buf, sizeof(buf));
             IpcPrintf("%s\n", buf);
         }
         else
@@ -2473,7 +2473,7 @@ BackgroundsIpc(const char *params)
             DeskBackgroundSet(DeskGet(num), bg);
         }
 
-        BackgroundsConfigSave();
+        _BackgroundsConfigSave();
     }
     else if (!strncmp(cmd, "xget", 2))
     {
@@ -2481,7 +2481,7 @@ BackgroundsIpc(const char *params)
 
         if (bg)
         {
-            BackgroundGetInfoString2(bg, buf, sizeof(buf));
+            _BackgroundGetInfoString2(bg, buf, sizeof(buf));
             IpcPrintf("%s\n", buf);
         }
         else
@@ -2489,18 +2489,18 @@ BackgroundsIpc(const char *params)
     }
     else if (!strncmp(cmd, "xset", 2))
     {
-        BackgroundSet2(prm, p);
+        _BgIpcBackgroundChange2(prm, p);
     }
     else
     {
         /* Compatibility with pre- 0.16.8 clients */
-        BackgroundSet1(cmd, params + len2);
+        _BgIpcBackgroundChange1(cmd, params + len2);
     }
 }
 
 static const IpcItem BackgroundsIpcArray[] = {
     {
-     BackgroundsIpc,
+     _BackgroundsIpc,
      "background", "bg",
      "Background commands",
      "  background                       Show current background\n"
@@ -2532,7 +2532,7 @@ extern const EModule ModBackgrounds;
 
 const EModule   ModBackgrounds = {
     "backgrounds", "bg",
-    BackgroundsSighan,
+    _BackgroundsSighan,
     MOD_ITEMS(BackgroundsIpcArray),
     MOD_ITEMS(BackgroundsCfgItems)
 };
