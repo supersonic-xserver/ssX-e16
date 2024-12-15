@@ -159,8 +159,7 @@ AC_ARG_ENABLE(sound_player,
   enable_sound_player="yes")
 AC_ARG_WITH(sound_player,
   AS_HELP_STRING([--with-sound-player],
-                 [Audio player @<:@default="/usr/bin/aplay -q %s"@:>@]),
-  with_sound_player="$enableval",
+                 [Audio player @<:@default="/usr/bin/aplay -q %s"@:>@]),,
   with_sound_player="/usr/bin/aplay -q %s")
 if test "x$enable_sound_player" = "xyes"; then
   AC_DEFINE(USE_SOUND_PLAYER, 1, [Play sounds using audio player])
