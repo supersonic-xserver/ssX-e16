@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2023 Kim Woelders
+ * Copyright (C) 2004-2025 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -237,9 +237,9 @@ static void
 TextstateTextFit1(TextState *ts, char **ptext, int *pw, int textwidth_limit)
 {
     char           *text = *ptext;
-    int             width, hh, ascent;
+    int             width, hh, ascent, dw;
     char           *new_line;
-    int             nuke_count, nc2, len_n, cw;
+    int             i, nuke_count, nc2;
     int             len;
 
     len = strlen(text);
@@ -251,11 +251,9 @@ TextstateTextFit1(TextState *ts, char **ptext, int *pw, int textwidth_limit)
         return;
 
     width = *pw;
-    nuke_count = ((width - textwidth_limit) * len) / width;
-    if (nuke_count < 2)
-        nuke_count = 2;
+    nuke_count = ((width - textwidth_limit) * len) / width + 3;
 
-    for (;;)
+    for (i = 0; i < 10; i++, nuke_count++)
     {
         if (nuke_count >= len - 1)
         {
@@ -269,20 +267,13 @@ TextstateTextFit1(TextState *ts, char **ptext, int *pw, int textwidth_limit)
         memcpy(new_line, text, nc2);
         memcpy(new_line + nc2, "...", 3);
         strcpy(new_line + nc2 + 3, text + nc2 + nuke_count);
-        len_n = len - nuke_count + 3;
 
         ts->ops->TextSize(ts, new_line, 0, pw, &hh, &ascent);
 
         width = *pw;
-        nc2 = textwidth_limit - width;
-        cw = width / len_n;
-
-        if (nc2 >= 0 && nc2 < 3 * cw)
+        dw = textwidth_limit - width;
+        if (dw >= 0)
             break;
-        if (nc2 > 0)
-            nuke_count -= (nc2 <= 2 * cw) ? 1 : (nc2 + cw / 2) / cw;
-        else
-            nuke_count += (-nc2 <= 2 * cw) ? 1 : (-nc2 + cw / 2) / cw;
     }
 
     Efree(text);
@@ -293,12 +284,12 @@ static void
 TextstateTextFitMB(TextState *ts, char **ptext, int *pw, int textwidth_limit)
 {
     char           *text = *ptext;
-    int             width, hh, ascent, cw;
+    int             width, hh, ascent, dw;
     char           *new_line;
-    int             nuke_count, nc2;
+    int             i, nuke_count, nc2;
     int             len, len_mb;
     wchar_t        *wc_line = NULL;
-    int             wc_len, len_n;
+    int             wc_len;
 
     if (EwcOpen(ts->need_utf8 || Mode.locale.utf8_int))
         return;
@@ -320,11 +311,9 @@ TextstateTextFitMB(TextState *ts, char **ptext, int *pw, int textwidth_limit)
         goto done;
 
     width = *pw;
-    nuke_count = ((width - textwidth_limit) * wc_len) / width;
-    if (nuke_count < 2)
-        nuke_count = 2;
+    nuke_count = ((width - textwidth_limit) * wc_len) / width + 3;
 
-    for (;;)
+    for (i = 0; i < 10; i++, nuke_count++)
     {
         if (nuke_count >= wc_len - 1)
         {
@@ -345,20 +334,13 @@ TextstateTextFitMB(TextState *ts, char **ptext, int *pw, int textwidth_limit)
                               wc_len - nc2 - nuke_count,
                               new_line + len_mb, len + 10 - len_mb);
         new_line[len_mb] = '\0';
-        len_n = wc_len - nuke_count + 3;
 
         ts->ops->TextSize(ts, new_line, 0, pw, &hh, &ascent);
 
         width = *pw;
-        nc2 = textwidth_limit - width;
-        cw = width / len_n;
-
-        if (nc2 >= 0 && nc2 < 3 * cw)
+        dw = textwidth_limit - width;
+        if (dw >= 0)
             break;
-        if (nc2 > 0)
-            nuke_count -= (nc2 <= 2 * cw) ? 1 : (nc2 + cw / 2) / cw;
-        else
-            nuke_count += (-nc2 <= 2 * cw) ? 1 : (-nc2 + cw / 2) / cw;
     }
 
     Efree(text);
