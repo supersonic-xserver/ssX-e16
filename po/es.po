@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2024-08-09 17:43+0200\n"
+"POT-Creation-Date: 2024-09-07 08:54+0200\n"
 "PO-Revision-Date: 2010-04-23 21:20+0000\n"
 "Last-Translator: Fernando Muñoz <munozferna@gmail.com>\n"
 "Language-Team: \n"
@@ -46,7 +46,7 @@ msgstr ""
 "Mandrake - mandrake@mandrake.net\n"
 "Kim Woelders - kim@woelders.dk\n"
 
-#: src/aclass.c:222 src/backgrounds.c:257 src/backgrounds.c:286
+#: src/aclass.c:222 src/backgrounds.c:259 src/backgrounds.c:288
 #: src/borders.c:789 src/buttons.c:190 src/cursors.c:174 src/iclass.c:287
 #: src/tclass.c:119 src/tooltips.c:135
 #, c-format
@@ -95,7 +95,7 @@ msgstr "Atención !!!"
 msgid "OK"
 msgstr "OK"
 
-#: src/backgrounds.c:1514
+#: src/backgrounds.c:1543
 #, c-format
 msgid ""
 "Background definition information:\n"
@@ -106,11 +106,11 @@ msgstr ""
 "Nombre:  %s\n"
 "Archivo: %s"
 
-#: src/backgrounds.c:1515
+#: src/backgrounds.c:1544
 msgid "-NONE-"
 msgstr "-NINGUNA-"
 
-#: src/backgrounds.c:1688 src/backgrounds.c:1690
+#: src/backgrounds.c:1717 src/backgrounds.c:1719
 msgid ""
 "No\n"
 "Background"
@@ -118,40 +118,40 @@ msgstr ""
 "No usar\n"
 "Fondo"
 
-#: src/backgrounds.c:1789 src/backgrounds.c:2210
+#: src/backgrounds.c:1818 src/backgrounds.c:2243
 #, c-format
 msgid "Unused backgrounds freed after %2i:%02i:%02i"
 msgstr "Fondos no utilizados son liberados después de %2i:%02i:%02i"
 
-#: src/backgrounds.c:2005
+#: src/backgrounds.c:2038
 msgid "Use background image"
 msgstr "Usar imagen de fondo"
 
-#: src/backgrounds.c:2009
+#: src/backgrounds.c:2042
 msgid "Keep aspect on scale"
 msgstr "Mantener el aspecto al escalar"
 
-#: src/backgrounds.c:2013
+#: src/backgrounds.c:2046
 msgid "Tile image across background"
 msgstr "Aplicar imagen como losetas sobre el fondo"
 
-#: src/backgrounds.c:2022
+#: src/backgrounds.c:2055
 msgid "Move to front"
 msgstr "Mover al frente"
 
-#: src/backgrounds.c:2027
+#: src/backgrounds.c:2060
 msgid "Duplicate"
 msgstr "Duplicar"
 
-#: src/backgrounds.c:2031
+#: src/backgrounds.c:2064
 msgid "Unlist"
 msgstr "Retirar de lista"
 
-#: src/backgrounds.c:2036
+#: src/backgrounds.c:2069
 msgid "Delete file"
 msgstr "Eliminar Archivo"
 
-#: src/backgrounds.c:2046
+#: src/backgrounds.c:2079
 msgid ""
 "Background\n"
 "image\n"
@@ -165,59 +165,59 @@ msgstr ""
 "imagen\n"
 "de Fondo\n"
 
-#: src/backgrounds.c:2099
+#: src/backgrounds.c:2132
 msgid "BG colour"
 msgstr "Color del Fondo"
 
-#: src/backgrounds.c:2103
+#: src/backgrounds.c:2136
 msgid "Red:"
 msgstr "Rojo:"
 
-#: src/backgrounds.c:2113
+#: src/backgrounds.c:2146
 msgid "Green:"
 msgstr "Verde:"
 
-#: src/backgrounds.c:2123
+#: src/backgrounds.c:2156
 msgid "Blue:"
 msgstr "Azul:"
 
-#: src/backgrounds.c:2156
+#: src/backgrounds.c:2189
 msgid "Pre-scan BG's"
 msgstr "Pre-barrido de Fondos"
 
-#: src/backgrounds.c:2164
+#: src/backgrounds.c:2197
 msgid "Sort by file"
 msgstr "Ordenar por Nombre"
 
-#: src/backgrounds.c:2169
+#: src/backgrounds.c:2202
 msgid "Sort by attr."
 msgstr "Ordenar por Atrib."
 
-#: src/backgrounds.c:2175
+#: src/backgrounds.c:2208
 msgid "Sort by image"
 msgstr "Ordenar por Imagen"
 
-#: src/backgrounds.c:2195
+#: src/backgrounds.c:2228
 msgid "Use dithering in Hi-Colour"
 msgstr "Usar difuminado en Hi-Colour"
 
-#: src/backgrounds.c:2199
+#: src/backgrounds.c:2232
 msgid "Background overrides theme"
 msgstr "El Fondo reemplaza al del tema"
 
-#: src/backgrounds.c:2204
+#: src/backgrounds.c:2237
 msgid "Enable background transparency compatibility mode"
 msgstr "Habilitar el modo de compatibilidad de transparencia de fondo"
 
-#: src/backgrounds.c:2227
+#: src/backgrounds.c:2260
 msgid "Background"
 msgstr "Fondo de pantalla"
 
-#: src/backgrounds.c:2227
+#: src/backgrounds.c:2260
 msgid "Desktop Background Settings"
 msgstr "Configuración del fondo del escritorio"
 
-#: src/backgrounds.c:2231
+#: src/backgrounds.c:2264
 msgid ""
 "Enlightenment Desktop\n"
 "Background Settings Dialog"

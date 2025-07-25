@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: e16\n"
 "Report-Msgid-Bugs-To: enlightenment-intl@lists.sourceforge.net\n"
-"POT-Creation-Date: 2024-08-09 17:43+0200\n"
+"POT-Creation-Date: 2024-09-07 08:54+0200\n"
 "PO-Revision-Date: 2009-09-28 17:09+0000\n"
 "Last-Translator: Aron Xu <Unknown>\n"
 "Language-Team: Arabic <ar@li.org>\n"
@@ -44,7 +44,7 @@ msgstr ""
 "Mandrake - mandrake@mandrake.net\n"
 "Kim Woelders - kim@woelders.dk\n"
 
-#: src/aclass.c:222 src/backgrounds.c:257 src/backgrounds.c:286
+#: src/aclass.c:222 src/backgrounds.c:259 src/backgrounds.c:288
 #: src/borders.c:789 src/buttons.c:190 src/cursors.c:174 src/iclass.c:287
 #: src/tclass.c:119 src/tooltips.c:135
 #, c-format
@@ -93,7 +93,7 @@ msgstr "إهتمام !!!"
 msgid "OK"
 msgstr "حسنا"
 
-#: src/backgrounds.c:1514
+#: src/backgrounds.c:1543
 #, c-format
 msgid ""
 "Background definition information:\n"
@@ -104,11 +104,11 @@ msgstr ""
 "الاسم: %s\n"
 "الملف: %s"
 
-#: src/backgrounds.c:1515
+#: src/backgrounds.c:1544
 msgid "-NONE-"
 msgstr "-بدون-"
 
-#: src/backgrounds.c:1688 src/backgrounds.c:1690
+#: src/backgrounds.c:1717 src/backgrounds.c:1719
 msgid ""
 "No\n"
 "Background"
@@ -116,40 +116,40 @@ msgstr ""
 "لا\n"
 "خلفية"
 
-#: src/backgrounds.c:1789 src/backgrounds.c:2210
+#: src/backgrounds.c:1818 src/backgrounds.c:2243
 #, c-format
 msgid "Unused backgrounds freed after %2i:%02i:%02i"
 msgstr "الخلفيات غير المستخدمة سيفرج عنها بعد %2i:%02i:%02i"
 
-#: src/backgrounds.c:2005
+#: src/backgrounds.c:2038
 msgid "Use background image"
 msgstr "إستخدم صورة خلفية"
 
-#: src/backgrounds.c:2009
+#: src/backgrounds.c:2042
 msgid "Keep aspect on scale"
 msgstr "إبق الجانب على المسطرة"
 
-#: src/backgrounds.c:2013
+#: src/backgrounds.c:2046
 msgid "Tile image across background"
 msgstr ""
 
-#: src/backgrounds.c:2022
+#: src/backgrounds.c:2055
 msgid "Move to front"
 msgstr "حرك للأمام"
 
-#: src/backgrounds.c:2027
+#: src/backgrounds.c:2060
 msgid "Duplicate"
 msgstr "ازدوجاية"
 
-#: src/backgrounds.c:2031
+#: src/backgrounds.c:2064
 msgid "Unlist"
 msgstr ""
 
-#: src/backgrounds.c:2036
+#: src/backgrounds.c:2069
 msgid "Delete file"
 msgstr "حذف الملف"
 
-#: src/backgrounds.c:2046
+#: src/backgrounds.c:2079
 msgid ""
 "Background\n"
 "image\n"
@@ -163,59 +163,59 @@ msgstr ""
 "و\n"
 "الإنحياز\n"
 
-#: src/backgrounds.c:2099
+#: src/backgrounds.c:2132
 msgid "BG colour"
 msgstr "لون الخلفية"
 
-#: src/backgrounds.c:2103
+#: src/backgrounds.c:2136
 msgid "Red:"
 msgstr "أحمر:"
 
-#: src/backgrounds.c:2113
+#: src/backgrounds.c:2146
 msgid "Green:"
 msgstr "أخضر:"
 
-#: src/backgrounds.c:2123
+#: src/backgrounds.c:2156
 msgid "Blue:"
 msgstr "أزرق:"
 
-#: src/backgrounds.c:2156
+#: src/backgrounds.c:2189
 msgid "Pre-scan BG's"
 msgstr ""
 
-#: src/backgrounds.c:2164
+#: src/backgrounds.c:2197
 msgid "Sort by file"
 msgstr "فرز حسب الملف"
 
-#: src/backgrounds.c:2169
+#: src/backgrounds.c:2202
 msgid "Sort by attr."
 msgstr "فرز حسب الخاصية"
 
-#: src/backgrounds.c:2175
+#: src/backgrounds.c:2208
 msgid "Sort by image"
 msgstr "فرز حسب الصورة"
 
-#: src/backgrounds.c:2195
+#: src/backgrounds.c:2228
 msgid "Use dithering in Hi-Colour"
 msgstr ""
 
-#: src/backgrounds.c:2199
+#: src/backgrounds.c:2232
 msgid "Background overrides theme"
 msgstr ""
 
-#: src/backgrounds.c:2204
+#: src/backgrounds.c:2237
 msgid "Enable background transparency compatibility mode"
 msgstr ""
 
-#: src/backgrounds.c:2227
+#: src/backgrounds.c:2260
 msgid "Background"
 msgstr "الخلفيّة"
 
-#: src/backgrounds.c:2227
+#: src/backgrounds.c:2260
 msgid "Desktop Background Settings"
 msgstr "إعدادات خلفية سطح المكتب"
 
-#: src/backgrounds.c:2231
+#: src/backgrounds.c:2264
 msgid ""
 "Enlightenment Desktop\n"
 "Background Settings Dialog"
