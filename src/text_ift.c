@@ -188,7 +188,7 @@ _ift_FdcSetColor(TextState *ts, unsigned int color)
 }
 
 const FontOps   FontOps_ift = {
-    _ift_Load, _ift_Unload, _ift_TextSize, TextstateTextFit, _ift_TextDraw,
+    _ift_Load, _ift_Unload, _ift_TextSize, _ift_TextDraw,
     _ift_FdcInit, NULL, _ift_FdcSetDrawable, _ift_FdcSetColor
 };
 

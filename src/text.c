@@ -534,7 +534,7 @@ TextSize(TextClass *tclass, int active, int sticky, int state,
     StrlistFree(lines, num_lines);
 }
 
-__EXPORT__ void
+static void
 TextstateTextFit(TextState *ts, char **ptext, int *pw, int textwidth_limit)
 {
     if (ts->need_utf8 || MB_CUR_MAX > 1)
@@ -617,7 +617,7 @@ TextstateTextDraw(TextState *ts, Win win, EX_Drawable draw,
 
             ts->ops->TextSize(ts, lines[i], 0, &ww, &hh, &ascent);
             if (ww > textwidth_limit)
-                ts->ops->TextFit(ts, &lines[i], &ww, textwidth_limit);
+                TextstateTextFit(ts, &lines[i], &ww, textwidth_limit);
 
             if (justv && num_lines == 1 && textheight_limit > 0)
                 yy += (textheight_limit - hh) / 2;
@@ -650,7 +650,7 @@ TextstateTextDraw(TextState *ts, Win win, EX_Drawable draw,
         {
             ts->ops->TextSize(ts, lines[i], 0, &ww, &hh, &ascent);
             if (ww > textwidth_limit)
-                ts->ops->TextFit(ts, &lines[i], &ww, textwidth_limit);
+                TextstateTextFit(ts, &lines[i], &ww, textwidth_limit);
 
             if (justv && num_lines == 1 && textheight_limit > 0)
                 yy += (textheight_limit - hh) / 2;

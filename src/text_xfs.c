@@ -163,7 +163,7 @@ _xfs_FdcSetColor(TextState *ts, unsigned int color)
 }
 
 const FontOps   FontOps_xfs = {
-    _xfs_Load, _xfs_Unload, _xfs_TextSize, TextstateTextFit, _xfs_TextDraw,
+    _xfs_Load, _xfs_Unload, _xfs_TextSize, _xfs_TextDraw,
     _xfs_FdcInit, NULL, _xfs_FdcSetDrawable, _xfs_FdcSetColor
 };
 

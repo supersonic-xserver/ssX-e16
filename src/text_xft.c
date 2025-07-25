@@ -163,6 +163,6 @@ _xft_FdcSetColor(TextState *ts, unsigned int color)
 }
 
 const FontOps   FontOps_xft = {
-    _xft_Load, _xft_Unload, _xft_TextSize, TextstateTextFit, _xft_TextDraw,
+    _xft_Load, _xft_Unload, _xft_TextSize, _xft_TextDraw,
     _xft_FdcInit, _xft_FdcFini, _xft_FdcSetDrawable, _xft_FdcSetColor
 };

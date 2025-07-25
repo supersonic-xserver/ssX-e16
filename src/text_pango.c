@@ -131,6 +131,6 @@ _pango_xft_TextDraw(TextState *ts, int x, int y, const char *text,
 
 const FontOps   FontOps_pango = {
     _pango_xft_Load, _pango_xft_Unload,
-    _pango_xft_TextSize, TextstateTextFit, _pango_xft_TextDraw,
+    _pango_xft_TextSize, _pango_xft_TextDraw,
     _xft_FdcInit, _xft_FdcFini, _xft_FdcSetDrawable, _xft_FdcSetColor
 };
