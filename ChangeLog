@@ -1,4 +1,15 @@
 
+e16 v1.0.31 - 2025-08-08
+------------------------
+- 1.0.31
+- Update po
+- text: Eliminate obsolete FontOps:TextFit function
+- text: Avoid lockup (endless loop) in TextFit functions
+- Sound: Make with-sound-player option work
+- backgrounds: Save configuration when changed from configuration dialog
+- backgrounds: Remove pointless call to autosave()
+- backgrounds: Some cosmetic function name changes
+
 e16 v1.0.30 - 2024-08-09
 ------------------------
 - 1.0.30
