@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2023 Kim Woelders
+ * Copyright (C) 2004-2025 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1322,7 +1322,7 @@ EwinEventConfigureRequest(EWin *ewin, XEvent *ev)
         /* This is shady - some clients send root coords, some use the
          * ICCCM ones sent by us */
         if ((ev->xconfigurerequest.value_mask & (CWX | CWY)) &&
-            !EwinInhGetApp(ewin, move))
+            !ewin->state.fullscreen && !EwinInhGetApp(ewin, move))
         {
 #if 0                           /* FIXME - ??? */
             if (ev->xconfigurerequest.value_mask & CWX)
@@ -1341,7 +1341,7 @@ EwinEventConfigureRequest(EWin *ewin, XEvent *ev)
             EwinGetPosition(ewin, x, y, 0, &x, &y);
         }
         if ((ev->xconfigurerequest.value_mask & (CWWidth | CWHeight)) &&
-            !EwinInhGetApp(ewin, size))
+            !ewin->state.fullscreen && !EwinInhGetApp(ewin, size))
         {
             if (ev->xconfigurerequest.value_mask & CWWidth)
                 w = ev->xconfigurerequest.width;
