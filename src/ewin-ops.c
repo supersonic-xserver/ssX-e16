@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2023 Kim Woelders
+ * Copyright (C) 2004-2025 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -151,12 +151,12 @@ EwinDetermineArea(EWin *ewin)
     }
 }
 
-#define MRF_DESK    (1<<0)
-#define MRF_MOVE    (1<<1)
-#define MRF_RESIZE  (1<<2)
-#define MRF_RAISE   (1<<3)
-#define MRF_FLOAT   (1<<4)
-#define MRF_UNFLOAT (1<<5)
+#define MRF_DESK    (1 << 0)    /* 0x01 */
+#define MRF_MOVE    (1 << 1)    /* 0x02 */
+#define MRF_RESIZE  (1 << 2)    /* 0x04 */
+#define MRF_RAISE   (1 << 3)    /* 0x08 */
+#define MRF_FLOAT   (1 << 4)    /* 0x10 */
+#define MRF_UNFLOAT (1 << 5)    /* 0x20 */
 
 static void
 doEwinMoveResize(EWin *ewin, Desk *dsk, int x, int y, int w, int h, int flags)
