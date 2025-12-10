@@ -1479,6 +1479,8 @@ _DlgApplyBackground(Dialog *d, int val __UNUSED__, void *data __UNUSED__)
     _BgDlgRedrawView(d);
 
     dd->bg_set = dd->bg;
+
+    bg_cfg_dirty = true;
 }
 
 static void
