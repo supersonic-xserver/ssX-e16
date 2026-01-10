@@ -171,7 +171,7 @@ MagwinRedraw(MagWindow *mw, int paint)
 
     /* Show magnified area coordinates */
     len = Esnprintf(buf, sizeof(buf), "x%.2f: %d,%d %dx%d",
-                    scale, sx, sy, sw, sh);
+                    (double)scale, sx, sy, sw, sh);
 
     if (out)
         goto done;

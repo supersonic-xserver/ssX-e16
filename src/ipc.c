@@ -1286,7 +1286,7 @@ EwinShowInfo(const EWin *ewin)
               ewin->icccm.width_min, ewin->icccm.height_min,
               ewin->icccm.width_max, ewin->icccm.height_max,
               ewin->icccm.w_inc, ewin->icccm.h_inc,
-              ewin->icccm.aspect_min, ewin->icccm.aspect_max,
+              (double)ewin->icccm.aspect_min, (double)ewin->icccm.aspect_max,
               ewin->strut.left, ewin->strut.right,
               ewin->strut.top, ewin->strut.bottom,
               ewin->mwm.decor_border, ewin->mwm.decor_resizeh,
