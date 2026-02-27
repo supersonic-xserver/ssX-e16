@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2026 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -494,6 +494,9 @@ void            MoveResizeResizeStart(EWin * ewin, int kbd, int hv);
 void            MoveResizeSuspend(void);
 void            MoveResizeResume(void);
 void            MoveResizeEnd(EWin * ewin);
+
+/* pagers.c */
+void            PagersHandleAttention(EWin * ewin);
 
 /* size.c */
 void            MaxSizeHV(EWin * ewin, const char *resize_type,

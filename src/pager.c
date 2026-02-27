@@ -113,6 +113,10 @@ typedef struct {
     char            do_update;
     int             x1, y1, x2, y2;
     float           scale;
+
+    /* Demands attention */
+    int             flash_count;
+    Timer          *flash_timer;
 } Pager;
 
 static void     PagerScanCancel(Pager * p);
@@ -122,6 +126,7 @@ static void     PagerUpdateEwinsFromPager(Pager * p);
 static void     PagerHiwinHide(void);
 static void     PagerEvent(Win win, XEvent * ev, void *prm);
 static void     PagerHiwinEvent(Win win, XEvent * ev, void *prm);
+static int      PagerFlashTimer(void *data);
 
 static          LIST_HEAD(pager_list);
 
@@ -215,6 +220,8 @@ PagerDestroy(Pager *p)
 {
     LIST_REMOVE(Pager, &pager_list, p);
 
+    if (p->flash_timer)
+        TimerDel(p->flash_timer);
     PagerScanCancel(p);
     PagerHiwinHide();
     _PagerBgBufferInit(p, NULL);
@@ -403,6 +410,7 @@ doPagerUpdate(Pager *p)
     EWin           *const *lst;
     int             i, num, update_screen_included, update_screen_only;
     int             pager_mode = PagersGetMode();
+    int             any_urgent;
 
     p->update_phase = 0;
     DeskGetArea(p->dsk, &cx, &cy);
@@ -428,6 +436,29 @@ doPagerUpdate(Pager *p)
 
     if (p->pmap == NoXID)
         _PagerCanvasInit(p, true);
+
+    /* Check if we need the flash timer */
+    any_urgent = 0;
+    lst = EwinListGetForDesk(&num, p->dsk);
+    for (i = 0; i < num; i++)
+    {
+        if (lst[i]->state.attention)
+        {
+            any_urgent = 1;
+            break;
+        }
+    }
+
+    if (any_urgent)
+    {
+        if (!p->flash_timer)
+            p->flash_timer = TimerAdd(500, PagerFlashTimer, p);
+    }
+    else if (p->flash_timer)
+    {
+        TimerDel(p->flash_timer);
+        p->flash_timer = NULL;
+    }
 
     if (update_screen_only)
         goto do_screen_update;
@@ -465,6 +496,9 @@ doPagerUpdate(Pager *p)
 
         ewin = lst[i];
         if (!EoIsShown(ewin))
+            continue;
+
+        if (ewin->state.attention && p->flash_count)
             continue;
 
         wx = (EwinGetVX(ewin) * p->dw) / WinGetW(VROOT);
@@ -549,6 +583,18 @@ PagerUpdate(Pager *p, int why, int x1, int y1, int x2, int y2)
 
     p->do_update = 1;
     Mode_pagers.update_pending |= 1 << why;
+}
+
+static int
+PagerFlashTimer(void *data)
+{
+    Pager          *p = data;
+
+    p->flash_count = !p->flash_count;
+
+    PagerUpdate(p, PAGER_UPD_EWIN_GEOM, 0, 0, 99999, 99999);
+
+    return 1;
 }
 
 static void
@@ -987,6 +1033,12 @@ PagersUpdateEwin(EWin *ewin, int why)
     dsk = (EoIsFloating(ewin)) ? DesksGetCurrent() : EoGetDesk(ewin);
     PagersUpdate(dsk, why, EwinGetVX(ewin), EwinGetVY(ewin),
                  EwinGetVX2(ewin), EwinGetVY2(ewin));
+}
+
+void
+PagersHandleAttention(EWin *ewin)
+{
+    PagersUpdateEwin(ewin, PAGER_UPD_EWIN_GEOM);
 }
 
 static EWin    *

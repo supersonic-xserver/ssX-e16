@@ -2171,6 +2171,7 @@ EwinChangesProcess(EWin *ewin)
     if (EWinChanges.flags & EWIN_CHANGE_ATTENTION)
     {
         HintsSetWindowState(ewin);
+        PagersHandleAttention(ewin);
     }
 
     EWinChanges.flags = 0;
