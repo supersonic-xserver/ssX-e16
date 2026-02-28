@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2026 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -48,6 +48,7 @@ struct _eobj {
     unsigned        fade:1;     /* Enable fading */
     unsigned        fading:1;   /* Is fading */
     unsigned        ghost:1;    /* Ghost window */
+    unsigned        damaged:1;  /* Used by pagers */
     struct {
         char           *wm_name;
         char           *wm_res_name;
@@ -123,6 +124,8 @@ struct _eobj {
 #define EoSetNoRedirect(eo, _x) EoObj(eo)->noredir = (_x)
 #define EoSetOpacity(eo, _o)    EoObj(eo)->opacity = (_o)
 #define EoSetShadow(eo, _x)     EoObj(eo)->shadow = (_x)
+#define EoIsDamaged(eo)         (EoObj(eo)->damaged)
+#define EoClrDamaged(eo)        EoObj(eo)->damaged = 0
 #if USE_COMPOSITE
 #define EoGetOpacity(eo)        (EoObj(eo)->opacity)
 #define EoGetFade(eo)           (EoObj(eo)->fade)

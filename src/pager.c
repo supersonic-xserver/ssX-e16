@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2026 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -113,8 +113,6 @@ typedef struct {
     char            do_update;
     int             x1, y1, x2, y2;
     float           scale;
-    unsigned int    serial;
-    int             serdif;
 } Pager;
 
 static void     PagerScanCancel(Pager * p);
@@ -332,7 +330,7 @@ PagerHiwinUpdate(Hiwin *phi, Pager *p __UNUSED__, EWin *ewin)
 static void
 PagerEwinUpdateMini(Pager *p, EWin *ewin)
 {
-    int             w, h, update, use_iclass, serdif;
+    int             w, h, update, use_iclass;
     EX_Drawable     draw;
     int             pager_mode = PagersGetMode();
 
@@ -344,26 +342,24 @@ PagerEwinUpdateMini(Pager *p, EWin *ewin)
     if (h < 1)
         h = 1;
 
-    serdif = EoGetSerial(ewin) - p->serial;
-
     update = 0;
     if (!ewin->mini_pmm.pmap)
         update = 1;
     if (ewin->mini_pmm.w != w || ewin->mini_pmm.h != h)
         update = 1;
 
-    if (serdif > 0 && ewin->type != EWIN_TYPE_PAGER &&
+    if (EoIsDamaged(ewin) && ewin->type != EWIN_TYPE_PAGER &&
         pager_mode == PAGER_MODE_LIVE && Mode.mode == 0)
         update = 1;
-    if (serdif > p->serdif)
-        p->serdif = serdif;
 
     if (!update)
         return;
 
-    Dprintf("%s %#x/%#x wxh=%dx%d ser=%#x/%#x dif=%d: %s\n", __func__,
+    Dprintf("%s %#x/%#x wxh=%dx%d ser=%#x dmg=%d: %s\n", __func__,
             EwinGetClientXwin(ewin), EoGetXwin(ewin), w, h,
-            EoGetSerial(ewin), p->serial, serdif, EwinGetTitle(ewin));
+            EoGetSerial(ewin), EoIsDamaged(ewin), EwinGetTitle(ewin));
+
+    EoClrDamaged(ewin);
 
     p->do_update = 1;
 
@@ -447,9 +443,6 @@ doPagerUpdate(Pager *p)
 
         PagerEwinUpdateMini(p, ewin);
     }
-    if (p->serdif > 0)
-        p->serial += p->serdif;
-    p->serdif = 0;
 
     if (!p->do_update)
         return;

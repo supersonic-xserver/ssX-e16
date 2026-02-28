@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2023 Kim Woelders
+ * Copyright (C) 2004-2026 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -1548,6 +1548,7 @@ ECompMgrWinDamage(EObj *eo, XEvent *ev)
                          EobjGetY(eo) + EobjGetBW(eo));
     }
     eo->serial = ev->xany.serial;
+    eo->damaged = 1;
     ECompMgrDamageMergeObject(eo, parts);
 
     if (eo->type == EOBJ_TYPE_EWIN)
