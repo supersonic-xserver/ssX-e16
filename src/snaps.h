@@ -29,7 +29,6 @@
 #define SNAP_MATCH_NAME         (1 << 1)
 #define SNAP_MATCH_CLASS        (1 << 2)
 #define SNAP_MATCH_ROLE         (1 << 3)
-#define SNAP_MATCH_MULTIPLE     (1 << 8)
 
 #define SNAP_MATCH_DEFAULT      (SNAP_MATCH_NAME | SNAP_MATCH_CLASS | SNAP_MATCH_ROLE)
 

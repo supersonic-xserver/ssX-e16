@@ -229,7 +229,7 @@ _SnapEwinFind(EWin *ewin)
     if (!sn)
         sn = LIST_FIND(Snapshot, &ss_list, _SnapEwinFindMatch, ewin);
 
-    if (sn && !(sn->match_flags & SNAP_MATCH_MULTIPLE))
+    if (sn)
     {
         sn->used = ewin;
         ewin->snap = sn;
@@ -297,11 +297,8 @@ _SnapEwinGet(EWin *ewin, unsigned int match_flags)
         Esnprintf(buf, sizeof(buf), "TITLE.%s", EwinGetIcccmName(ewin));
     sn->name = Estrdup(buf);
 
-    if (!(sn->match_flags & SNAP_MATCH_MULTIPLE))
-    {
-        sn->used = ewin;
-        ewin->snap = sn;
-    }
+    sn->used = ewin;
+    ewin->snap = sn;
 
     return sn;
 }
@@ -1170,8 +1167,7 @@ SnapshotsSpawn(void)
 
     LIST_FOR_EACH(Snapshot, &ss_list, sn)
     {
-        if ((sn->use_flags & SNAP_USE_COMMAND) && (sn->cmd) &&
-            !sn->used && !(sn->match_flags & SNAP_MATCH_MULTIPLE))
+        if ((sn->use_flags & SNAP_USE_COMMAND) && (sn->cmd) && !sn->used)
         {
             sn->startup_id = ++Mode.apps.startup_id;
             Espawn("%s", sn->cmd);
