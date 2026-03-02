@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2026 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -162,16 +162,16 @@ _SnapEwinMatch(const Snapshot *sn, const EWin *ewin)
     if (sn->startup_id && !sn->cmd)
         return 0;
 
-    if (sn->match_flags & SNAP_MATCH_TITLE
-        && !SEQ(sn->win_title, EwinGetIcccmName(ewin)))
+    if ((sn->match_flags & SNAP_MATCH_TITLE) &&
+        !SEQ(sn->win_title, EwinGetIcccmName(ewin)))
         return 0;
 
-    if (sn->match_flags & SNAP_MATCH_NAME
-        && !SEQ(sn->win_name, EwinGetIcccmCName(ewin)))
+    if ((sn->match_flags & SNAP_MATCH_NAME) &&
+        !SEQ(sn->win_name, EwinGetIcccmCName(ewin)))
         return 0;
 
-    if (sn->match_flags & SNAP_MATCH_CLASS
-        && !SEQ(sn->win_class, EwinGetIcccmClass(ewin)))
+    if ((sn->match_flags & SNAP_MATCH_CLASS) &&
+        !SEQ(sn->win_class, EwinGetIcccmClass(ewin)))
         return 0;
 
     if (sn->match_flags & SNAP_MATCH_ROLE)

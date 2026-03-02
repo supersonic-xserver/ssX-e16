@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2012 Kim Woelders
+ * Copyright (C) 2005-2026 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -28,7 +28,6 @@
 #define SNAP_MATCH_TITLE        (1 << 0)
 #define SNAP_MATCH_NAME         (1 << 1)
 #define SNAP_MATCH_CLASS        (1 << 2)
-#define SNAP_MATCH_ROLE         (1 << 3)
 #define SNAP_MATCH_ROLE         (1 << 3)
 #define SNAP_MATCH_MULTIPLE     (1 << 8)
 
