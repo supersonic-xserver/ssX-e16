@@ -54,7 +54,7 @@ void            SnapshotsLoad(void);
 void            SnapshotsSave(void);
 void            SnapshotsSpawn(void);
 
-void            SnapshotEwinApply(EWin * ewin);
+void            SnapshotEwinApply(EWin * ewin, int now);
 void            SnapshotEwinUnmatch(EWin * ewin);
 void            SnapshotEwinUpdate(const EWin * ewin, unsigned int flags);
 void            SnapshotEwinParse(EWin * ewin, const char *params);

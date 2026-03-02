@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2025 Kim Woelders
+ * Copyright (C) 2004-2026 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -337,7 +337,7 @@ EwinConfigure(EWin *ewin)
     if (!EwinIsInternal(ewin) && Mode.wm.startup)
         EHintsGetInfo(ewin);    /* E restart hints */
     EwinHintsInferProps(ewin);
-    SnapshotEwinApply(ewin);    /* Apply saved settings */
+    SnapshotEwinApply(ewin, 0); /* Apply saved settings */
 
     if (ewin->save_fs.layer < 0)
         ewin->save_fs.layer = EoGetLayer(ewin);
@@ -2138,6 +2138,7 @@ EwinChangesProcess(EWin *ewin)
 
     if (EWinChanges.flags & EWIN_CHANGE_NAME)
     {
+        SnapshotEwinApply(ewin, 1);
         EwinBorderUpdateInfo(ewin);
         EwinBorderCalcSizes(ewin, 1);
     }

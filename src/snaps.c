@@ -1414,7 +1414,7 @@ SnapshotsLoad(void)
 
 /* make a client window conform to snapshot info */
 void
-SnapshotEwinApply(EWin *ewin)
+SnapshotEwinApply(EWin *ewin, int now)
 {
     Snapshot       *sn;
     int             ax, ay;
@@ -1446,9 +1446,6 @@ SnapshotEwinApply(EWin *ewin)
         ewin->num_pinned = sn->num_pinned;
         ewin->pinned = EMEMDUP(DeskArea, sn->pinned, sn->num_pinned);
     }
-
-    if (use_flags & SNAP_USE_DESK)
-        EoSetDesk(ewin, DeskGetValid(sn->desktop));
 
     if (use_flags & SNAP_USE_SIZE)
     {
@@ -1482,8 +1479,24 @@ SnapshotEwinApply(EWin *ewin)
         }
     }
 
+    if (now && (use_flags & (SNAP_USE_POS | SNAP_USE_SIZE)))
+        EwinMoveResize(ewin, ewin->client.x, ewin->client.y,
+                       ewin->client.w, ewin->client.h, 0);
+
+    if (use_flags & SNAP_USE_DESK)
+    {
+        if (now)
+            EwinMoveToDesktop(ewin, DeskGetValid(sn->desktop));
+        else
+            EoSetDesk(ewin, DeskGetValid(sn->desktop));
+    }
+
     if (use_flags & SNAP_USE_LAYER)
+    {
         EoSetLayer(ewin, sn->layer);
+        if (now)
+            EwinRaise(ewin);
+    }
 
     if (use_flags & SNAP_USE_SKIP_LISTS)
     {
