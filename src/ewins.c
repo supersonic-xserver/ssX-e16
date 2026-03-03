@@ -2638,7 +2638,10 @@ EwinHandleEventsClient(Win win __UNUSED__, XEvent *ev, void *prm)
         break;
 
     case ClientMessage:
+        EwinChangesStart(ewin);
         HintsProcessClientClientMessage(ewin, &(ev->xclient));
+        EwinStateUpdate(ewin);
+        EwinChangesProcess(ewin);
         break;
 
     case EX_EVENT_SHAPE_NOTIFY:

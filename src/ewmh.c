@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2023 Kim Woelders
+ * Copyright (C) 2003-2026 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -991,8 +991,9 @@ EWMH_ProcessClientClientMessage(EWin *ewin, XClientMessageEvent *ev)
         else if (atom == ea_n._NET_WM_STATE_DEMANDS_ATTENTION)
         {
             action = do_set(ewin->state.attention, action);
+            if (!ewin->state.attention && action)
+                EwinChange(ewin, EWIN_CHANGE_ATTENTION);
             ewin->state.attention = action;
-            EWMH_SetWindowState(ewin);
         }
         return 1;
     }
