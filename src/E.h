@@ -3,7 +3,7 @@
 /*****************************************************************************/
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2024 Kim Woelders
+ * Copyright (C) 2004-2026 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -49,10 +49,6 @@
 #ifndef MIN
 #define MIN(a,b)  ((a)<(b)?(a):(b))
 #endif
-
-#define IN_RANGE(a, b, range) \
-   ((((a) >  (b)) && ((a) - (b) <= (range))) || \
-   (((a) <= (b)) && ((b) - (a) <= (range))))
 
 #define IN_ABOVE(a, b, range) \
    (((a) >=  (b)) && ((a) - (b) <= (range)))

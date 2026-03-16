@@ -794,10 +794,13 @@ BrackgroundCreateFromImage(const char *bgid, const char *file,
     if (bg)
         return bg;
 
-    scr_asp = (WinGetW(VROOT) << 16) / WinGetH(VROOT);
-    im_asp = (width << 16) / height;
-    if (width == height)
+    /* Screen aspect ratio */
+    scr_asp = (1.f * WinGetW(VROOT)) / WinGetH(VROOT);
+    /* Image aspect ratio */
+    im_asp = (1.f * width) / height;
+    if (width <= 512 && height <= 512)
     {
+        /* Tile */
         justx = 0;
         justy = 0;
         scalex = 0;
@@ -805,18 +808,9 @@ BrackgroundCreateFromImage(const char *bgid, const char *file,
         tile = 1;
         keep_asp = 0;
     }
-    else if ((!(IN_RANGE(scr_asp, im_asp, 16000)))
-             && ((width < 480) && (height < 360)))
+    else if (width == height)
     {
-        justx = 0;
-        justy = 0;
-        scalex = 0;
-        scaley = 0;
-        tile = 1;
-        keep_asp = 0;
-    }
-    else if (IN_RANGE(scr_asp, im_asp, 16000))
-    {
+        /* Stretch to fill screen */
         justx = 0;
         justy = 0;
         scalex = 1024;
@@ -826,6 +820,7 @@ BrackgroundCreateFromImage(const char *bgid, const char *file,
     }
     else if (im_asp > scr_asp)
     {
+        /* Keep aspect, stretch to fill hor */
         justx = 512;
         justy = 512;
         scalex = 1024;
@@ -835,6 +830,7 @@ BrackgroundCreateFromImage(const char *bgid, const char *file,
     }
     else
     {
+        /* Keep aspect, stretch to fill ver */
         justx = 512;
         justy = 512;
         scalex = 0;
