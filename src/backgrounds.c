@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2024 Kim Woelders
+ * Copyright (C) 2004-2026 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -55,9 +55,9 @@ struct _background {
     EX_Pixmap       pmap;
     time_t          last_viewed;
     unsigned int    bg_solid;
-    char            bg_tile;
     BgPart          bg;
     BgPart          top;
+    char            bg_tile;
     char            external;
     char            keepim;
     char            referenced;
@@ -733,23 +733,43 @@ BackgroundSet(Background *bg, Win win, unsigned int w, unsigned int h)
     EClearWindow(win);
 }
 
+static void
+_BackgroundCreateThumb(const char *thumb, EImage *im, int width, int height)
+{
+    int             maxw = Mode.backgrounds.mini_w;
+    int             maxh = Mode.backgrounds.mini_h;
+    int             w2, h2;
+    EImage         *im2;
+
+    h2 = maxh;
+    w2 = (width * h2) / height;
+    if (w2 > maxw)
+    {
+        w2 = maxw;
+        h2 = (height * w2) / width;
+    }
+
+    im2 = EImageCreateScaled(im, 0, 0, width, height, w2, h2);
+
+    EImageSave(im2, thumb);
+    EImageDecache(im2);
+}
+
 Background     *
 BrackgroundCreateFromImage(const char *bgid, const char *file,
                            char *thumb, int thlen)
 {
     Background     *bg;
-    EImage         *im, *im2;
+    EImage         *im;
     unsigned int    color;
-    char            tile = 1, keep_asp = 0;
     int             width, height;
-    int             scalex = 0, scaley = 0;
-    int             scr_asp, im_asp;
-    int             w2, h2;
-    int             maxw = Mode.backgrounds.mini_w;
-    int             maxh = Mode.backgrounds.mini_h;
-    int             justx = 512, justy = 512;
+    int             tile, keep_asp, justx, justy, scalex, scaley;
+    float           scr_asp, im_asp;
 
     bg = BackgroundFind(bgid);
+
+    if (bg && !thumb)
+        return bg;
 
     if (thumb)
     {
@@ -757,11 +777,6 @@ BrackgroundCreateFromImage(const char *bgid, const char *file,
         if (bg && exists(thumb) && moddate(thumb) > moddate(file))
             return bg;
         /* The thumbnail is gone or outdated - regererate */
-    }
-    else
-    {
-        if (bg)
-            return bg;
     }
 
     im = EImageLoad(file);
@@ -771,18 +786,7 @@ BrackgroundCreateFromImage(const char *bgid, const char *file,
     EImageGetSize(im, &width, &height);
 
     if (thumb)
-    {
-        h2 = maxh;
-        w2 = (width * h2) / height;
-        if (w2 > maxw)
-        {
-            w2 = maxw;
-            h2 = (height * w2) / width;
-        }
-        im2 = EImageCreateScaled(im, 0, 0, width, height, w2, h2);
-        EImageSave(im2, thumb);
-        EImageDecache(im2);
-    }
+        _BackgroundCreateThumb(thumb, im, width, height);
 
     EImageDecache(im);
 
