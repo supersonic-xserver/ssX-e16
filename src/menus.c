@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2024 Kim Woelders
+ * Copyright (C) 2004-2026 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -72,7 +72,6 @@ struct _menustyle {
     ImageClass     *sub_iclass;
     char            use_item_bg;
     char            iconpos;
-    int             maxx;
     int             maxy;
     char           *border_name;
     unsigned int    ref_count;
@@ -868,33 +867,17 @@ MenuRealize(Menu *m)
             mmw = x + maxw;
         if (y + maxh > mmh)
             mmh = y + maxh;
-        if ((m->style->maxx) || (nmaxy))
+        y += maxh;
+        if (nmaxy)
         {
-            if (nmaxy)
+            r++;
+            if (r >= nmaxy)
             {
-                y += maxh;
-                r++;
-                if (r >= nmaxy)
-                {
-                    r = 0;
-                    x += maxw;
-                    y = 0;
-                }
-            }
-            else
-            {
+                r = 0;
                 x += maxw;
-                r++;
-                if (r >= m->style->maxx)
-                {
-                    r = 0;
-                    y += maxh;
-                    x = 0;
-                }
+                y = 0;
             }
         }
-        else
-            y += maxh;
     }
 
     if ((m->style->bg_iclass) && (!m->style->use_item_bg))
@@ -1748,8 +1731,6 @@ MenuStyleConfigLoad(FILE *fs)
             }
             break;
         case MENU_MAX_COLUMNS:
-            ms->maxx = atoi(s2);
-            break;
         case MENU_MAX_ROWS:
             ms->maxy = atoi(s2);
             break;
