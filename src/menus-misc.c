@@ -167,7 +167,10 @@ MenuLoadFromDirectory(Menu *m)
     for (i = 0; i < num; i++)
     {
         if (p)
+        {
             ProgressbarSet(p, (i * 100) / num);
+            EobjsRepaint();
+        }
         Esnprintf(ss, sizeof(ss), "%s/%s", dir, list[i]);
         /* skip "dot" files and dirs - senisble */
         if ((*(list[i]) == '.') || (stat(ss, &st) < 0))
