@@ -347,7 +347,6 @@
 #define __ITEM_ICLASS 701
 #define __SUBMENU_ICLASS 702
 #define __USE_ITEM_BACKGROUNDS 703
-#define __MAXIMUM_NUMBER_OF_COLUMNS 704
 #define __MAXIMUM_NUMBER_OF_ROWS 705
 #define __STYLE 706
 #define __MENU_ITEM 707
@@ -654,18 +653,6 @@ __MENU_STYLE __BGN;\
   __MAXIMUM_NUMBER_OF_ROWS max_items;\
 __END
 
-#define NORMAL_MENU_STYLE_HORIZONTAL(name, border, tclass, bg_iclass, item_iclass, submenu_iclass, max_items) \
-__MENU_STYLE __BGN;\
-  __NAME name;\
-  __BORDER border;\
-  __TCLASS tclass;\
-  __BG_ICLASS bg_iclass;\
-  __ITEM_ICLASS item_iclass;\
-  __SUBMENU_ICLASS submenu_iclass;\
-  __USE_ITEM_BACKGROUNDS __OFF;\
-  __MAXIMUM_NUMBER_OF_COLUMNS max_items;\
-__END
-
 #define NEXTSTEP_MENU_STYLE_VERTICAL(name, border, tclass, item_iclass, submenu_iclass, max_items) \
 __MENU_STYLE __BGN;\
   __NAME name;\
@@ -675,17 +662,6 @@ __MENU_STYLE __BGN;\
   __SUBMENU_ICLASS submenu_iclass;\
   __USE_ITEM_BACKGROUNDS __ON;\
   __MAXIMUM_NUMBER_OF_ROWS max_items;\
-__END
-
-#define NEXTSTEP_MENU_STYLE_HORIZONTAL(name, border, tclass, item_iclass, submenu_iclass, max_items) \
-__MENU_STYLE __BGN;\
-  __NAME name;\
-  __BORDER border;\
-  __TCLASS tclass;\
-  __ITEM_ICLASS item_iclass;\
-  __SUBMENU_ICLASS submenu_iclass;\
-  __USE_ITEM_BACKGROUNDS __ON;\
-  __MAXIMUM_NUMBER_OF_COLUMNS max_items;\
 __END
 
 #define BEGIN_NEW_MENU(name, style) \

@@ -1730,7 +1730,6 @@ MenuStyleConfigLoad(FILE *fs)
                 }
             }
             break;
-        case MENU_MAX_COLUMNS:
         case MENU_MAX_ROWS:
             ms->maxy = atoi(s2);
             break;

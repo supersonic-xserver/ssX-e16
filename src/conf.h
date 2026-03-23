@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2020 Kim Woelders
+ * Copyright (C) 2004-2026 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -165,7 +165,6 @@
 #define MENU_ITEM_ICLASS 701
 #define MENU_SUBMENU_ICLASS 702
 #define MENU_USE_ITEM_BACKGROUND 703
-#define MENU_MAX_COLUMNS 704
 #define MENU_MAX_ROWS 705
 #define MENU_USE_STYLE 706
 #define MENU_ITEM 707
