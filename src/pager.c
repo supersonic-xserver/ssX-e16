@@ -588,7 +588,7 @@ PagerUpdate(Pager *p, int why, int x1, int y1, int x2, int y2)
 static int
 PagerFlashTimer(void *data)
 {
-    Pager          *p = data;
+    Pager          *p = (Pager *) data;
 
     p->flash_count = !p->flash_count;
 
