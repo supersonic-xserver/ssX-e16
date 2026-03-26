@@ -47,10 +47,8 @@ AC_CHECK_FUNCS(buttox)
 AM_ICONV
 
 AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION([0.19])
-m4_ifdef([AM_GNU_GETTEXT_REQUIRE_VERSION], [
-AM_GNU_GETTEXT_REQUIRE_VERSION([0.19])
-])
+AM_GNU_GETTEXT_VERSION([0.19.6])
+AM_GNU_GETTEXT_REQUIRE_VERSION([0.19.6])
 
 AC_CHECK_FUNCS([clock_gettime], [have_clock_gettime=yes],
   [AC_CHECK_LIB([rt], [clock_gettime], [have_clock_gettime=-lrt],
