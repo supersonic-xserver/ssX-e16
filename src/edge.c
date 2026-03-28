@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2000-2007 Carsten Haitzler, Geoff Harrison and various contributors
- * Copyright (C) 2004-2022 Kim Woelders
+ * Copyright (C) 2004-2026 Kim Woelders
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -192,8 +192,9 @@ EdgeWindowCreate(int which, int x, int y, int w, int h)
 
     eo = EobjWindowCreate(EOBJ_TYPE_EVENT, x, y, w, h, 0, names[which & 3]);
     ESelectInput(EobjGetWin(eo), EnterWindowMask | LeaveWindowMask);
-    att.do_not_propagate_mask =
-        ButtonPressMask | ButtonReleaseMask | PointerMotionMask;
+    att.do_not_propagate_mask = PointerMotionMask;
+    if (which == EW_L || which == EW_R)
+        att.do_not_propagate_mask |= ButtonPressMask | ButtonReleaseMask;
     EChangeWindowAttributes(EobjGetWin(eo), CWDontPropagate, &att);
     EventCallbackRegister(EobjGetWin(eo), EdgeHandleEvents, INT2PTR(which));
 
