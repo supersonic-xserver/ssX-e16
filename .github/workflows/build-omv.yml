@@ -20,7 +20,8 @@ jobs:
       - name: Install Dependencies
         run: |
           dnf --refresh --nodocs install -y \
-            clang lld meson ninja pkgconf \
+            clang lld binutils glibc-devel kernel-headers \
+            meson ninja pkgconf \
             lib64x11-devel lib64xext-devel lib64xi-devel \
             lib64xrandr-devel lib64xrender-devel lib64xinerama-devel \
             lib64xdamage-devel lib64xfixes-devel lib64xcomposite-devel \
@@ -29,10 +30,10 @@ jobs:
 
       - name: Configure Meson
         run: |
-          # Matches your local setup: using Clang/LLD
           export CC=clang
-          export LDFLAGS="-fuse-ld=lld"
+          # Move the linker flag into the meson setup command for better stability
           meson setup build \
+            -Dc_link_args="-fuse-ld=lld" \
             -Denable-sound=true \
             -Denable-xpresent=true \
             -Denable-screensaver=true \
