@@ -1,0 +1,11 @@
+# Meson build options for ssX-e16
+
+option('enable-sound', type: 'boolean', value: true, description: 'Enable audio support (ESOUND/Pulse)')
+option('enable-zoom', type: 'boolean', value: true, description: 'Enable zoom functionality')
+option('enable-glx', type: 'boolean', value: false, description: 'Enable OpenGL/GLX support')
+option('enable-composite', type: 'boolean', value: true, description: 'Enable XComposite support')
+option('enable-xpresent', type: 'boolean', value: true, description: 'Enable XPresent support')
+option('enable-screensaver', type: 'boolean', value: true, description: 'Enable XScreenSaver support')
+option('enable-dbus', type: 'boolean', value: true, description: 'Enable D-Bus support')
+option('enable-xft', type: 'boolean', value: true, description: 'Enable Xft (X FreeType) support')
+option('build-modules', type: 'boolean', value: true, description: 'Build modules')

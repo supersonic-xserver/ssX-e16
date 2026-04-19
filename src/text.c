@@ -233,122 +233,6 @@ TextclassGetTextState(TextClass *tclass, int state, int active, int sticky)
     return NULL;
 }
 
-static void
-TextstateTextFit1(TextState *ts, char **ptext, int *pw, int textwidth_limit)
-{
-    char           *text = *ptext;
-    int             width, hh, ascent, dw;
-    char           *new_line;
-    int             i, nuke_count, nc2;
-    int             len;
-
-    len = strlen(text);
-    if (len <= 1)
-        return;
-
-    new_line = EMALLOC(char, len + 10);
-    if (!new_line)
-        return;
-
-    width = *pw;
-    nuke_count = ((width - textwidth_limit) * len) / width + 3;
-
-    for (i = 0; i < 10; i++, nuke_count++)
-    {
-        if (nuke_count >= len - 1)
-        {
-            new_line[0] = text[0];
-            memcpy(new_line + 1, "...", 4);
-            break;
-        }
-
-        nc2 = (len - nuke_count) / 2;
-
-        memcpy(new_line, text, nc2);
-        memcpy(new_line + nc2, "...", 3);
-        strcpy(new_line + nc2 + 3, text + nc2 + nuke_count);
-
-        ts->ops->TextSize(ts, new_line, 0, pw, &hh, &ascent);
-
-        width = *pw;
-        dw = textwidth_limit - width;
-        if (dw >= 0)
-            break;
-    }
-
-    Efree(text);
-    *ptext = new_line;
-}
-
-static void
-TextstateTextFitMB(TextState *ts, char **ptext, int *pw, int textwidth_limit)
-{
-    char           *text = *ptext;
-    int             width, hh, ascent, dw;
-    char           *new_line;
-    int             i, nuke_count, nc2;
-    int             len, len_mb;
-    wchar_t        *wc_line = NULL;
-    int             wc_len;
-
-    if (EwcOpen(ts->need_utf8 || Mode.locale.utf8_int))
-        return;
-
-    len = strlen(text);
-    wc_len = EwcStrToWcs(text, len, NULL, 0);
-    if (wc_len <= 1)
-        goto done;
-
-    wc_line = EMALLOC(wchar_t, wc_len + 1);
-    if (!wc_line)
-        goto done;
-
-    if (EwcStrToWcs(text, len, wc_line, wc_len) <= 0)
-        goto done;
-
-    new_line = EMALLOC(char, len + 10);
-    if (!new_line)
-        goto done;
-
-    width = *pw;
-    nuke_count = ((width - textwidth_limit) * wc_len) / width + 3;
-
-    for (i = 0; i < 10; i++, nuke_count++)
-    {
-        if (nuke_count >= wc_len - 1)
-        {
-            len_mb = EwcWcsToStr(wc_line, 1, new_line, MB_CUR_MAX);
-            if (len_mb < 0)
-                len_mb = 1;
-
-            strcpy(new_line + len_mb, "...");
-            break;
-        }
-
-        nc2 = (wc_len - nuke_count) / 2;
-
-        len_mb = EwcWcsToStr(wc_line, nc2, new_line, len + 10);
-        memcpy(new_line + len_mb, "...", 3);
-        len_mb += 3;
-        len_mb += EwcWcsToStr(wc_line + nc2 + nuke_count,
-                              wc_len - nc2 - nuke_count,
-                              new_line + len_mb, len + 10 - len_mb);
-        new_line[len_mb] = '\0';
-
-        ts->ops->TextSize(ts, new_line, 0, pw, &hh, &ascent);
-
-        width = *pw;
-        dw = textwidth_limit - width;
-        if (dw >= 0)
-            break;
-    }
-
-    Efree(text);
-    *ptext = new_line;
-  done:
-    Efree(wc_line);
-    EwcClose();
-}
 
 static void
 TsTextDraw(TextState *ts, int x, int y, const char *text, int len)
@@ -534,15 +418,6 @@ TextSize(TextClass *tclass, int active, int sticky, int state,
     StrlistFree(lines, num_lines);
 }
 
-static void
-TextstateTextFit(TextState *ts, char **ptext, int *pw, int textwidth_limit)
-{
-    if (ts->need_utf8 || MB_CUR_MAX > 1)
-        TextstateTextFitMB(ts, ptext, pw, textwidth_limit);
-    else
-        TextstateTextFit1(ts, ptext, pw, textwidth_limit);
-}
-
 void
 TextstateTextDraw(TextState *ts, Win win, EX_Drawable draw,
                   const char *text, int x, int y, int w, int h,
@@ -616,8 +491,6 @@ TextstateTextDraw(TextState *ts, Win win, EX_Drawable draw,
             EImage         *im;
 
             ts->ops->TextSize(ts, lines[i], 0, &ww, &hh, &ascent);
-            if (ww > textwidth_limit)
-                TextstateTextFit(ts, &lines[i], &ww, textwidth_limit);
 
             if (justv && num_lines == 1 && textheight_limit > 0)
                 yy += (textheight_limit - hh) / 2;
@@ -649,8 +522,6 @@ TextstateTextDraw(TextState *ts, Win win, EX_Drawable draw,
         for (i = 0; i < num_lines; i++)
         {
             ts->ops->TextSize(ts, lines[i], 0, &ww, &hh, &ascent);
-            if (ww > textwidth_limit)
-                TextstateTextFit(ts, &lines[i], &ww, textwidth_limit);
 
             if (justv && num_lines == 1 && textheight_limit > 0)
                 yy += (textheight_limit - hh) / 2;
