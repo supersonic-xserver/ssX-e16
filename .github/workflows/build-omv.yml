@@ -1,0 +1,48 @@
+name: ssX-e16 OpenMandriva Build
+
+on:
+  push:
+    branches: [ main, ssx-integration ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # Using OpenMandriva's rolling container to match your dev environment
+    container:
+      image: openmandriva/rolling:latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: |
+          dnf --refresh install -y \
+            clang lld meson ninja pkgconf \
+            lib64x11-devel lib64xext-devel lib64xi-devel \
+            lib64xrandr-devel lib64xrender-devel lib64xinerama-devel \
+            lib64xdamage-devel lib64xfixes-devel lib64xcomposite-devel \
+            lib64xpresent-devel lib64xscrnsaver-devel lib64imlib2-devel \
+            lib64dbus-devel lib64xft-devel
+
+      - name: Configure Meson
+        run: |
+          # Matches your local setup: using Clang/LLD
+          export CC=clang
+          export LDFLAGS="-fuse-ld=lld"
+          meson setup build \
+            -Denable-sound=true \
+            -Denable-xpresent=true \
+            -Denable-screensaver=true \
+            --buildtype=release
+
+      - name: Compile ssX-e16
+        run: ninja -C build
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ssX-e16-binary
+          path: build/e16
