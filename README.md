@@ -69,8 +69,9 @@ Drifting to a new dimension
 Ineffable, I show you my way
 You finally understand what fear is
 
-https://www.youtube.com/watch?v=BWSpOhCikJY song used to channel the stillness and void needed to code this major revision in a single night.
+https://www.loopyoutube.com/watch?v=BWSpOhCikJY song used to channel the stillness and void needed to code this major revision in a single night.
 
+new song heard as I see the sun come up at 6:11 am https://www.loopyoutube.com/watch?v=WZC5n_HeXgQ
 
 
 *WE ARE SPARTACUS. WE ARE LAIN. We are the builders of the tools we need to stand up for what's right.*
