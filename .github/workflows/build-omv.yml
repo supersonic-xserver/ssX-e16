@@ -19,13 +19,13 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          dnf --refresh install -y \
+          dnf --refresh --nodocs install -y \
             clang lld meson ninja pkgconf \
             lib64x11-devel lib64xext-devel lib64xi-devel \
             lib64xrandr-devel lib64xrender-devel lib64xinerama-devel \
             lib64xdamage-devel lib64xfixes-devel lib64xcomposite-devel \
             lib64xpresent-devel lib64xscrnsaver-devel lib64imlib2-devel \
-            lib64dbus-devel lib64xft-devel
+            lib64dbus-1-devel lib64xft-devel
 
       - name: Configure Meson
         run: |
