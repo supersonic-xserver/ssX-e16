@@ -33,8 +33,6 @@ Most projects are built and tested on:
 - **Compiler:** Clang / LLVM / LLD
 - **Hardware:** AMD Ryzen 5800X3D / OpenMandriva environments
 
-*WE ARE SPARTACUS. WE ARE LAIN. We are the builders of the tools we need to stand up for what's right.*
-
 ---
 
 Don't try to escape
