@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     # Using OpenMandriva's rolling container to match your dev environment
     container:
-      image: openmandriva/rolling:latest
+      image: openmandriva/cooker:latest
 
     steps:
       - name: Checkout Code
