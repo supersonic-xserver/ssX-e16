@@ -29,8 +29,10 @@ jobs:
             lib64xpresent-devel lib64xscrnsaver-devel lib64imlib2-devel \
             lib64dbus-1-devel lib64xft-devel lib64fontconfig-devel \
             lib64sm-devel lib64ice-devel \
-            lib64alsa-devel lib64pulseaudio-devel \
-            lib64sndio-devel lib64pango-devel
+            lib64asound-devel \
+            lib64pulseaudio-devel \
+            lib64sndio-devel \
+            lib64pango1.0-devel
 
       - name: Configure Meson
         run: |
