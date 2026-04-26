@@ -1,11 +1,44 @@
 # Meson build options for ssX-e16
 
-option('enable-sound', type: 'boolean', value: true, description: 'Enable audio support (ESOUND/Pulse)')
+# Core options
+option('enable-visibility-hiding', type: 'boolean', value: false, description: 'Enable symbol visibility hiding (for modules)')
+option('enable-sound', type: 'boolean', value: true, description: 'Enable audio support')
 option('enable-zoom', type: 'boolean', value: true, description: 'Enable zoom functionality')
-option('enable-glx', type: 'boolean', value: false, description: 'Enable OpenGL/GLX support')
+option('enable-glx', type: 'boolean', value: false, description: 'Enable OpenGL/GLX support (experimental)')
 option('enable-composite', type: 'boolean', value: true, description: 'Enable XComposite support')
-option('enable-xpresent', type: 'boolean', value: true, description: 'Enable XPresent support')
-option('enable-screensaver', type: 'boolean', value: true, description: 'Enable XScreenSaver support')
+option('enable-xpresent', type: 'boolean', value: false, description: 'Enable XPresent support (experimental)')
+option('enable-screensaver', type: 'boolean', value: false, description: 'Enable XScreenSaver support (experimental)')
 option('enable-dbus', type: 'boolean', value: true, description: 'Enable D-Bus support')
 option('enable-xft', type: 'boolean', value: true, description: 'Enable Xft (X FreeType) support')
-option('build-modules', type: 'boolean', value: true, description: 'Build modules')
+option('build-modules', type: 'boolean', value: false, description: 'Enable loadable modules support')
+
+# X extensions
+option('enable-xinerama', type: 'boolean', value: true, description: 'Enable Xinerama support')
+option('enable-xrandr', type: 'boolean', value: true, description: 'Enable RandR support')
+option('enable-xrender', type: 'boolean', value: true, description: 'Enable XRender support')
+option('enable-xsync', type: 'boolean', value: true, description: 'Enable SYNC support')
+option('enable-xi2', type: 'boolean', value: false, description: 'Enable XI2 support (experimental)')
+
+# Sound backends
+option('enable-sound-pulse', type: 'boolean', value: false, description: 'Enable PulseAudio sound support')
+option('enable-sound-esound', type: 'boolean', value: false, description: 'Enable EsounD sound support')
+option('enable-sound-alsa', type: 'boolean', value: false, description: 'Enable ALSA sound support')
+option('enable-sound-sndio', type: 'boolean', value: false, description: 'Enable Sndio sound support')
+option('enable-sound-player', type: 'boolean', value: true, description: 'Enable audio player sound support')
+
+# Sound loader
+option('sndldr', type: 'combo', value: 'sndfile', choices: ['sndfile', 'audiofile', 'none'], description: 'Select sound loader')
+
+# Other features
+option('enable-sm', type: 'boolean', value: true, description: 'Enable session management support')
+option('enable-pango', type: 'boolean', value: true, description: 'Enable Pango-XFT support')
+option('enable-libhack', type: 'boolean', value: true, description: 'Build window mode helper library')
+option('enable-libtrip', type: 'boolean', value: false, description: 'Build debug library')
+option('enable-dialogs', type: 'boolean', value: true, description: 'Enable configuration dialogs support')
+option('enable-containerless', type: 'boolean', value: false, description: 'Do not use container window (experimental)')
+
+# Line editing for eesh
+option('lineedit', type: 'combo', value: 'no', choices: ['no', 'editline', 'readline'], description: 'Line editing support for eesh')
+
+# GNOME support
+option('with-gnome', type: 'combo', value: 'no', choices: ['no', 'auto', 'gnome2', 'gnome3'], description: 'GNOME session support')
