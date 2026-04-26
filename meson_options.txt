@@ -31,7 +31,7 @@ option('sndldr', type: 'combo', value: 'sndfile', choices: ['sndfile', 'audiofil
 
 # Other features
 option('enable-sm', type: 'boolean', value: true, description: 'Enable session management support')
-option('enable-pango', type: 'boolean', value: true, description: 'Enable Pango-XFT support')
+option('enable-pango', type: 'boolean', value: false, description: 'Enable Pango-XFT support (currently broken)')
 option('enable-libhack', type: 'boolean', value: true, description: 'Build window mode helper library')
 option('enable-libtrip', type: 'boolean', value: false, description: 'Build debug library')
 option('enable-dialogs', type: 'boolean', value: true, description: 'Enable configuration dialogs support')

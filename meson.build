@@ -453,7 +453,7 @@ conf_data.set_quoted('VERSION', '1.0.31')
 # Generate version.h (similar to Makefile.am)
 # Uses git describe if .git-src exists, otherwise uses project version
 # Check for .git-src file existence using run_command
-git_src_check = run_command('test', '-f', '.git-src').returncode()
+git_src_check = run_command('test', '-f', '.git-src', check: false).returncode()
 if git_src_check == 0
   # Try to get git describe output
   git_version = run_command('git', 'describe', '--dirty', check: false).stdout().strip()
