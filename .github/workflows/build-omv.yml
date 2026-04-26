@@ -21,12 +21,15 @@ jobs:
         run: |
           dnf --refresh --nodocs install -y \
             clang lld binutils glibc-devel kernel-headers \
-            meson ninja pkgconf \
+            meson ninja pkgconf gettext \
             lib64x11-devel lib64xext-devel lib64xi-devel \
             lib64xrandr-devel lib64xrender-devel lib64xinerama-devel \
             lib64xdamage-devel lib64xfixes-devel lib64xcomposite-devel \
             lib64xpresent-devel lib64xscrnsaver-devel lib64imlib2-devel \
-            lib64dbus-1-devel lib64xft-devel
+            lib64dbus-1-devel lib64xft-devel lib64fontconfig-devel \
+            lib64sm-devel lib64ice-devel \
+            lib64alsa-devel lib64pulseaudio-devel \
+            lib64sndio-devel lib64pango-devel
 
       - name: Configure Meson
         run: |
