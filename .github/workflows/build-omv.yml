@@ -20,6 +20,7 @@ jobs:
       - name: Install Dependencies
         run: |
           dnf --refresh --nodocs install -y \
+            git \
             clang lld binutils glibc-devel kernel-headers \
             meson ninja pkgconf gettext \
             lib64x11-devel lib64xext-devel lib64xi-devel \
