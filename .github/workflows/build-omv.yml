@@ -32,7 +32,8 @@ jobs:
             lib64asound-devel \
             lib64pulseaudio-devel \
             lib64sndio-devel \
-            lib64pango1.0-devel
+            lib64pango1.0-devel \
+            git
 
       - name: Configure Meson
         run: |
